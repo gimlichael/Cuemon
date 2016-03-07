@@ -1,0 +1,281 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.IO", "src\Cuemon.IO\Cuemon.IO.xproj", "{4077BC80-32D6-4CCC-87B1-97DCDCB3894A}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Reflection", "src\Cuemon.Reflection\Cuemon.Reflection.xproj", "{400A8B90-69D3-473D-B025-CB6B977A78FF}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Threading", "src\Cuemon.Threading\Cuemon.Threading.xproj", "{D44ED185-14A8-4C50-877A-869337B8D077}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Runtime", "src\Cuemon.Runtime\Cuemon.Runtime.xproj", "{DDF69535-62F4-450D-9E51-8C84604BC141}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Runtime.Caching", "src\Cuemon.Runtime.Caching\Cuemon.Runtime.Caching.xproj", "{31A36935-DCC9-43D5-9478-580B8ECC672D}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon", "src\Cuemon.Core\Cuemon.xproj", "{989939CF-CEF2-4E23-8BCE-725255E35CE6}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Extensions", "src\Cuemon.Core.Extensions\Cuemon.Extensions.xproj", "{E56AA581-7860-4153-9EBA-E4EC1F4A174C}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.IO.Extensions", "src\Cuemon.IO.Extensions\Cuemon.IO.Extensions.xproj", "{5EECDD14-A24F-4A3E-A673-3E1D0D2E2503}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Security", "src\Cuemon.Security\Cuemon.Security.xproj", "{4028A482-40F9-489B-A9B9-93364072F678}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Integrity", "src\Cuemon.Integrity\Cuemon.Integrity.xproj", "{9F90AE49-0D4A-45F0-B70B-422B59CB4C77}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Reflection.Extensions", "src\Cuemon.Reflection.Extensions\Cuemon.Reflection.Extensions.xproj", "{DDFD99C2-B824-4590-8847-5FAA70F3DB9C}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Security.Extensions", "src\Cuemon.Security.Extensions\Cuemon.Security.Extensions.xproj", "{F6580B1E-246F-4447-A22E-E17A3F596CA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E05CD0E-4177-4FD5-A1FF-8F49BBA2930A}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Net", "src\Cuemon.Net\Cuemon.Net.xproj", "{67976FE9-081D-46E7-8272-3AFE85ECEF09}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Net.Extensions", "src\Cuemon.Net.Extensions\Cuemon.Net.Extensions.xproj", "{D8F70F12-7AAF-4098-9D48-159358423B47}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Integrity.Extensions", "src\Cuemon.Integrity.Extensions\Cuemon.Integrity.Extensions.xproj", "{C7224D4A-4BC6-48C4-BA05-000F3E46F80F}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Xml", "src\Cuemon.Xml\Cuemon.Xml.xproj", "{A08A6112-AD0A-4767-B354-777EC2679ACC}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Data", "src\Cuemon.Data\Cuemon.Data.xproj", "{AC9D3996-D8C8-436E-B01F-77A03F792A78}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Data.XmlClient", "src\Cuemon.Data.XmlClient\Cuemon.Data.XmlClient.xproj", "{34931D1F-06BD-4156-A6E2-38512B491B38}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Web", "src\Cuemon.Web\Cuemon.Web.xproj", "{FE4CD252-48AA-40B7-9389-A448CD522EDD}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Collections.Specialized", "src\Cuemon.Collections.Specialized\Cuemon.Collections.Specialized.xproj", "{DB7945F1-4C3B-4AA2-BB99-6D67E651618B}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Collections.Specialized.Extensions", "src\Cuemon.Collections.Specialized.Extensions\Cuemon.Collections.Specialized.Extensions.xproj", "{491E6A38-13A2-4EC9-AFF7-914B1FA42DA4}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Web.Extensions", "src\Cuemon.Web.Extensions\Cuemon.Web.Extensions.xproj", "{374E4B2B-1DAF-456F-9048-3BB15193DE6A}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Web.Security", "src\Cuemon.Web.Security\Cuemon.Web.Security.xproj", "{83F47B5A-11C6-4851-B397-9F512016F887}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4077BC80-32D6-4CCC-87B1-97DCDCB3894A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4077BC80-32D6-4CCC-87B1-97DCDCB3894A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4077BC80-32D6-4CCC-87B1-97DCDCB3894A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4077BC80-32D6-4CCC-87B1-97DCDCB3894A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{400A8B90-69D3-473D-B025-CB6B977A78FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{400A8B90-69D3-473D-B025-CB6B977A78FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{400A8B90-69D3-473D-B025-CB6B977A78FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{400A8B90-69D3-473D-B025-CB6B977A78FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D44ED185-14A8-4C50-877A-869337B8D077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D44ED185-14A8-4C50-877A-869337B8D077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D44ED185-14A8-4C50-877A-869337B8D077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D44ED185-14A8-4C50-877A-869337B8D077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDF69535-62F4-450D-9E51-8C84604BC141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF69535-62F4-450D-9E51-8C84604BC141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF69535-62F4-450D-9E51-8C84604BC141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF69535-62F4-450D-9E51-8C84604BC141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31A36935-DCC9-43D5-9478-580B8ECC672D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A36935-DCC9-43D5-9478-580B8ECC672D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A36935-DCC9-43D5-9478-580B8ECC672D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A36935-DCC9-43D5-9478-580B8ECC672D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{989939CF-CEF2-4E23-8BCE-725255E35CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{989939CF-CEF2-4E23-8BCE-725255E35CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{989939CF-CEF2-4E23-8BCE-725255E35CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{989939CF-CEF2-4E23-8BCE-725255E35CE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E56AA581-7860-4153-9EBA-E4EC1F4A174C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E56AA581-7860-4153-9EBA-E4EC1F4A174C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E56AA581-7860-4153-9EBA-E4EC1F4A174C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E56AA581-7860-4153-9EBA-E4EC1F4A174C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EECDD14-A24F-4A3E-A673-3E1D0D2E2503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EECDD14-A24F-4A3E-A673-3E1D0D2E2503}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EECDD14-A24F-4A3E-A673-3E1D0D2E2503}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EECDD14-A24F-4A3E-A673-3E1D0D2E2503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4028A482-40F9-489B-A9B9-93364072F678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4028A482-40F9-489B-A9B9-93364072F678}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4028A482-40F9-489B-A9B9-93364072F678}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4028A482-40F9-489B-A9B9-93364072F678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F90AE49-0D4A-45F0-B70B-422B59CB4C77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F90AE49-0D4A-45F0-B70B-422B59CB4C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F90AE49-0D4A-45F0-B70B-422B59CB4C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F90AE49-0D4A-45F0-B70B-422B59CB4C77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDFD99C2-B824-4590-8847-5FAA70F3DB9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDFD99C2-B824-4590-8847-5FAA70F3DB9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDFD99C2-B824-4590-8847-5FAA70F3DB9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDFD99C2-B824-4590-8847-5FAA70F3DB9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6580B1E-246F-4447-A22E-E17A3F596CA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6580B1E-246F-4447-A22E-E17A3F596CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6580B1E-246F-4447-A22E-E17A3F596CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6580B1E-246F-4447-A22E-E17A3F596CA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67976FE9-081D-46E7-8272-3AFE85ECEF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67976FE9-081D-46E7-8272-3AFE85ECEF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67976FE9-081D-46E7-8272-3AFE85ECEF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67976FE9-081D-46E7-8272-3AFE85ECEF09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8F70F12-7AAF-4098-9D48-159358423B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8F70F12-7AAF-4098-9D48-159358423B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8F70F12-7AAF-4098-9D48-159358423B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8F70F12-7AAF-4098-9D48-159358423B47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7224D4A-4BC6-48C4-BA05-000F3E46F80F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7224D4A-4BC6-48C4-BA05-000F3E46F80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7224D4A-4BC6-48C4-BA05-000F3E46F80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7224D4A-4BC6-48C4-BA05-000F3E46F80F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A08A6112-AD0A-4767-B354-777EC2679ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A08A6112-AD0A-4767-B354-777EC2679ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A08A6112-AD0A-4767-B354-777EC2679ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A08A6112-AD0A-4767-B354-777EC2679ACC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC9D3996-D8C8-436E-B01F-77A03F792A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC9D3996-D8C8-436E-B01F-77A03F792A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC9D3996-D8C8-436E-B01F-77A03F792A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC9D3996-D8C8-436E-B01F-77A03F792A78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34931D1F-06BD-4156-A6E2-38512B491B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34931D1F-06BD-4156-A6E2-38512B491B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34931D1F-06BD-4156-A6E2-38512B491B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34931D1F-06BD-4156-A6E2-38512B491B38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE4CD252-48AA-40B7-9389-A448CD522EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE4CD252-48AA-40B7-9389-A448CD522EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE4CD252-48AA-40B7-9389-A448CD522EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE4CD252-48AA-40B7-9389-A448CD522EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB7945F1-4C3B-4AA2-BB99-6D67E651618B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB7945F1-4C3B-4AA2-BB99-6D67E651618B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB7945F1-4C3B-4AA2-BB99-6D67E651618B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB7945F1-4C3B-4AA2-BB99-6D67E651618B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{491E6A38-13A2-4EC9-AFF7-914B1FA42DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{491E6A38-13A2-4EC9-AFF7-914B1FA42DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{491E6A38-13A2-4EC9-AFF7-914B1FA42DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{491E6A38-13A2-4EC9-AFF7-914B1FA42DA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{374E4B2B-1DAF-456F-9048-3BB15193DE6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{374E4B2B-1DAF-456F-9048-3BB15193DE6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{374E4B2B-1DAF-456F-9048-3BB15193DE6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{374E4B2B-1DAF-456F-9048-3BB15193DE6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83F47B5A-11C6-4851-B397-9F512016F887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83F47B5A-11C6-4851-B397-9F512016F887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83F47B5A-11C6-4851-B397-9F512016F887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83F47B5A-11C6-4851-B397-9F512016F887}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4077BC80-32D6-4CCC-87B1-97DCDCB3894A} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{400A8B90-69D3-473D-B025-CB6B977A78FF} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{D44ED185-14A8-4C50-877A-869337B8D077} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{DDF69535-62F4-450D-9E51-8C84604BC141} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{31A36935-DCC9-43D5-9478-580B8ECC672D} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{989939CF-CEF2-4E23-8BCE-725255E35CE6} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{E56AA581-7860-4153-9EBA-E4EC1F4A174C} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{5EECDD14-A24F-4A3E-A673-3E1D0D2E2503} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{4028A482-40F9-489B-A9B9-93364072F678} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{9F90AE49-0D4A-45F0-B70B-422B59CB4C77} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{DDFD99C2-B824-4590-8847-5FAA70F3DB9C} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{F6580B1E-246F-4447-A22E-E17A3F596CA1} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{67976FE9-081D-46E7-8272-3AFE85ECEF09} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{D8F70F12-7AAF-4098-9D48-159358423B47} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{C7224D4A-4BC6-48C4-BA05-000F3E46F80F} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{A08A6112-AD0A-4767-B354-777EC2679ACC} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{AC9D3996-D8C8-436E-B01F-77A03F792A78} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{34931D1F-06BD-4156-A6E2-38512B491B38} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{FE4CD252-48AA-40B7-9389-A448CD522EDD} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{DB7945F1-4C3B-4AA2-BB99-6D67E651618B} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{491E6A38-13A2-4EC9-AFF7-914B1FA42DA4} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{374E4B2B-1DAF-456F-9048-3BB15193DE6A} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{83F47B5A-11C6-4851-B397-9F512016F887} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 24
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://quagmire.cuemon.dk:8080/tfs/muchmorecollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = src\\Cuemon.Runtime\\Cuemon.Runtime.xproj
+		SccProjectTopLevelParentUniqueName1 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName1 = src/Cuemon.Runtime
+		SccLocalPath1 = src\\Cuemon.Runtime
+		SccProjectUniqueName2 = src\\Cuemon.Runtime.Caching\\Cuemon.Runtime.Caching.xproj
+		SccProjectTopLevelParentUniqueName2 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName2 = src/Cuemon.Runtime.Caching
+		SccLocalPath2 = src\\Cuemon.Runtime.Caching
+		SccProjectUniqueName3 = src\\Cuemon.IO\\Cuemon.IO.xproj
+		SccProjectTopLevelParentUniqueName3 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName3 = src/Cuemon.IO
+		SccLocalPath3 = src\\Cuemon.IO
+		SccProjectUniqueName4 = src\\Cuemon.Reflection\\Cuemon.Reflection.xproj
+		SccProjectTopLevelParentUniqueName4 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName4 = src/Cuemon.Reflection
+		SccLocalPath4 = src\\Cuemon.Reflection
+		SccProjectUniqueName5 = src\\Cuemon.Threading\\Cuemon.Threading.xproj
+		SccProjectTopLevelParentUniqueName5 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName5 = src/Cuemon.Threading
+		SccLocalPath5 = src\\Cuemon.Threading
+		SccProjectUniqueName6 = src\\Cuemon.Core\\Cuemon.xproj
+		SccProjectTopLevelParentUniqueName6 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName6 = src/Cuemon.Core
+		SccLocalPath6 = src\\Cuemon.Core
+		SccProjectUniqueName7 = src\\Cuemon.Core.Extensions\\Cuemon.Extensions.xproj
+		SccProjectTopLevelParentUniqueName7 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName7 = src/Cuemon.Core.Extensions
+		SccLocalPath7 = src\\Cuemon.Core.Extensions
+		SccProjectUniqueName8 = src\\Cuemon.IO.Extensions\\Cuemon.IO.Extensions.xproj
+		SccProjectTopLevelParentUniqueName8 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName8 = src/Cuemon.IO.Extensions
+		SccLocalPath8 = src\\Cuemon.IO.Extensions
+		SccProjectUniqueName9 = src\\Cuemon.Security\\Cuemon.Security.xproj
+		SccProjectTopLevelParentUniqueName9 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName9 = src/Cuemon.Security
+		SccLocalPath9 = src\\Cuemon.Security
+		SccProjectUniqueName10 = src\\Cuemon.Integrity\\Cuemon.Integrity.xproj
+		SccProjectTopLevelParentUniqueName10 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName10 = src/Cuemon.Integrity
+		SccLocalPath10 = src\\Cuemon.Integrity
+		SccProjectUniqueName11 = src\\Cuemon.Reflection.Extensions\\Cuemon.Reflection.Extensions.xproj
+		SccProjectTopLevelParentUniqueName11 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName11 = src/Cuemon.Reflection.Extensions
+		SccLocalPath11 = src\\Cuemon.Reflection.Extensions
+		SccProjectUniqueName12 = src\\Cuemon.Security.Extensions\\Cuemon.Security.Extensions.xproj
+		SccProjectTopLevelParentUniqueName12 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName12 = src/Cuemon.Security.Extensions
+		SccLocalPath12 = src\\Cuemon.Security.Extensions
+		SccProjectUniqueName13 = src\\Cuemon.Net\\Cuemon.Net.xproj
+		SccProjectTopLevelParentUniqueName13 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName13 = src/Cuemon.Net
+		SccLocalPath13 = src\\Cuemon.Net
+		SccProjectUniqueName14 = src\\Cuemon.Net.Extensions\\Cuemon.Net.Extensions.xproj
+		SccProjectTopLevelParentUniqueName14 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName14 = src/Cuemon.Net.Extensions
+		SccLocalPath14 = src\\Cuemon.Net.Extensions
+		SccProjectUniqueName15 = src\\Cuemon.Integrity.Extensions\\Cuemon.Integrity.Extensions.xproj
+		SccProjectTopLevelParentUniqueName15 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName15 = src/Cuemon.Integrity.Extensions
+		SccLocalPath15 = src\\Cuemon.Integrity.Extensions
+		SccProjectUniqueName16 = src\\Cuemon.Xml\\Cuemon.Xml.xproj
+		SccProjectTopLevelParentUniqueName16 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName16 = src/Cuemon.Xml
+		SccLocalPath16 = src\\Cuemon.Xml
+		SccProjectUniqueName17 = src\\Cuemon.Data\\Cuemon.Data.xproj
+		SccProjectTopLevelParentUniqueName17 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName17 = src/Cuemon.Data
+		SccLocalPath17 = src\\Cuemon.Data
+		SccProjectUniqueName18 = src\\Cuemon.Data.XmlClient\\Cuemon.Data.XmlClient.xproj
+		SccProjectTopLevelParentUniqueName18 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName18 = src/Cuemon.Data.XmlClient
+		SccLocalPath18 = src\\Cuemon.Data.XmlClient
+		SccProjectUniqueName19 = src\\Cuemon.Web\\Cuemon.Web.xproj
+		SccProjectTopLevelParentUniqueName19 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName19 = src/Cuemon.Web
+		SccLocalPath19 = src\\Cuemon.Web
+		SccProjectUniqueName20 = src\\Cuemon.Collections.Specialized\\Cuemon.Collections.Specialized.xproj
+		SccProjectTopLevelParentUniqueName20 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName20 = src/Cuemon.Collections.Specialized
+		SccLocalPath20 = src\\Cuemon.Collections.Specialized
+		SccProjectUniqueName21 = src\\Cuemon.Collections.Specialized.Extensions\\Cuemon.Collections.Specialized.Extensions.xproj
+		SccProjectTopLevelParentUniqueName21 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName21 = src/Cuemon.Collections.Specialized.Extensions
+		SccLocalPath21 = src\\Cuemon.Collections.Specialized.Extensions
+		SccProjectUniqueName22 = src\\Cuemon.Web.Extensions\\Cuemon.Web.Extensions.xproj
+		SccProjectTopLevelParentUniqueName22 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName22 = src/Cuemon.Web.Extensions
+		SccLocalPath22 = src\\Cuemon.Web.Extensions
+		SccProjectUniqueName23 = src\\Cuemon.Web.Security\\Cuemon.Web.Security.xproj
+		SccProjectTopLevelParentUniqueName23 = Cuemon\u0020Framework\u0020Core.sln
+		SccProjectName23 = src/Cuemon.Web.Security
+		SccLocalPath23 = src\\Cuemon.Web.Security
+	EndGlobalSection
+EndGlobal
