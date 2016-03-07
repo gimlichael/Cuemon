@@ -1,0 +1,27 @@
+﻿{
+  "version": "4.0.2016.601",
+  "title": "Cuemon.Web.Extensions",
+  "description": "The Cuemon.Web.Extensions assembly provides method extensions to the Cuemon.Web assembly.",
+  "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
+  "tags": [ "" ],
+  "releaseNotes": "The initial release of the ported Cuemon .NET Framework.",
+  "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
+  "language": "en-US",
+  "authors": [ "Michael Mortensen" ],
+  "owners": [ "Weubphoria" ],
+  "projectUrl": "http://www.cuemon.net/",
+  "licenseUrl": "http://opensource.org/licenses/MIT",
+  "iconUrl": "http://cdn.nblapi.net/themes/cuemon.net/img/core/128x128x.png",
+  "frameworks": {
+    "dotnet5.4": {
+      "dependencies": { }
+    }
+  },
+  "dependencies": {
+    "Cuemon.Web": "4.0.2016.601"
+  },
+  "compilationOptions": {
+    "keyFile": "..\\..\\MuchMoreKeyPair.snk",
+    "optimize": true
+  }
+}

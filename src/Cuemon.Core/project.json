@@ -1,0 +1,38 @@
+﻿{
+  "version": "4.0.2016.601",
+  "title": "Cuemon",
+  "description": "The Cuemon.Core assembly is the patriach of the Cuemon .NET Core family and provides fundamental-, utility- and base-classes that define commonly-used value and reference data types, events and event handlers, interfaces, attribute, and feature rich delegates to greatly support functional programming.\n\nA great addition to the well established System namespace to make your daily operations easier to work with.",
+  "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
+  "tags": [ "" ],
+  "releaseNotes": "The initial release of the ported Cuemon .NET Framework.",
+  "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
+  "language": "en-US",
+  "authors": [ "Michael Mortensen" ],
+  "owners": [ "Weubphoria" ],
+  "projectUrl": "http://www.cuemon.net/",
+  "licenseUrl": "http://opensource.org/licenses/MIT",
+  "iconUrl": "http://cdn.nblapi.net/themes/cuemon.net/img/core/128x128x.png",
+  "frameworks": {
+    "dotnet5.4": {
+      "dependencies": {
+        "System.ComponentModel.TypeConverter": "4.0.0",
+        "System.Linq": "4.0.0",
+        "System.Linq.Expressions": "4.0.0",
+        "System.ObjectModel": "4.0.10",
+        "System.Reflection": "4.0.10",
+        "System.Reflection.Extensions": "4.0.0",
+        "System.Reflection.TypeExtensions": "4.0.0",
+        "System.Runtime": "4.0.20",
+        "System.Runtime.Extensions": "4.0.10",
+        "System.Runtime.InteropServices": "4.0.20",
+        "System.Text.Encoding": "4.0.0",
+        "System.Text.Encoding.Extensions": "4.0.0",
+        "System.Text.RegularExpressions": "4.0.10"
+      }
+    }
+  },
+  "compilationOptions": {
+    "keyFile": "..\\..\\MuchMoreKeyPair.snk",
+    "optimize": true
+  }
+}
