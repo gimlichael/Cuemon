@@ -23,7 +23,7 @@ namespace Cuemon.Collections
         /// <param name="value">The value of the data pair.</param>
         public void Add<T>(string name, T value)
         {
-            this.Add(name, value, typeof(T));
+            Add(name, value, typeof(T));
         }
 
         /// <summary>

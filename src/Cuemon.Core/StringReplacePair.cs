@@ -18,8 +18,8 @@ namespace Cuemon
         /// <param name="newValue">The <see cref="string"/> value to replace all occurrences of <paramref name="oldValue"/>.</param>
         public StringReplacePair(string oldValue, string newValue) : this()
         {
-            this.NewValue = newValue;
-            this.OldValue = oldValue;
+            NewValue = newValue;
+            OldValue = oldValue;
         }
         #endregion
 
@@ -54,7 +54,7 @@ namespace Cuemon
         /// </returns>
         public override int GetHashCode()
         {
-            return this.OldValue.GetHashCode() ^ this.NewValue.GetHashCode();
+            return OldValue.GetHashCode() ^ NewValue.GetHashCode();
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Cuemon
         public override bool Equals(object obj)
         {
             if (!(obj is StringReplacePair)) { return false; }
-            return this.Equals((StringReplacePair)obj); 
+            return Equals((StringReplacePair)obj); 
         }
 
         /// <summary>
@@ -77,8 +77,8 @@ namespace Cuemon
         /// <returns><c>true</c> if the current object is equal to the other parameter; otherwise, <c>false</c>. </returns>
         public bool Equals(StringReplacePair other)
         {
-            if ((this.OldValue != other.OldValue)) { return false; }
-            return (this.NewValue == other.NewValue);
+            if ((OldValue != other.OldValue)) { return false; }
+            return (NewValue == other.NewValue);
         }
 
         /// <summary>
@@ -112,14 +112,14 @@ namespace Cuemon
         {
             StringBuilder builder = new StringBuilder();
             builder.Append('[');
-            if (this.OldValue != null)
+            if (OldValue != null)
             {
-                builder.Append(this.OldValue);
+                builder.Append(OldValue);
             }
             builder.Append(", ");
-            if (this.NewValue != null)
+            if (NewValue != null)
             {
-                builder.Append(this.NewValue);
+                builder.Append(NewValue);
             }
             builder.Append(']');
             return builder.ToString();

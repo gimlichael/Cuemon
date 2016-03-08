@@ -24,7 +24,7 @@ namespace Cuemon
         /// </summary>
         public Hierarchy()
         {
-            this.IsNew = true;
+            IsNew = true;
         }
         #endregion
 
@@ -57,7 +57,7 @@ namespace Cuemon
         /// <value><c>true</c> if this instance has a parent; otherwise, <c>false</c>.</value>
         public bool HasParent
         {
-            get { return (this.Parent != null); }
+            get { return (Parent != null); }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Cuemon
         /// <value><c>true</c> if this instance has any children; otherwise, <c>false</c>.</value>
         public bool HasChildren
         {
-            get { return (this.Children.Count > 0); }
+            get { return (Children.Count > 0); }
         }
 
         private SortedList<int, IHierarchy<T>> Children
@@ -99,7 +99,7 @@ namespace Cuemon
         public IHierarchy<T> Add(T instance)
         {
             Type instanceType = instance.GetType();
-            return this.Add(instance, instanceType);
+            return Add(instance, instanceType);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Cuemon
         /// </exception>
         public IHierarchy<T> Add(T instance, Type instanceType)
         {
-            return this.Add(instance, instanceType, null);
+            return Add(instance, instanceType, null);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Cuemon
         /// <returns>A reference to the newly added hierarchical node.</returns>
         public IHierarchy<T> Add(T instance, MemberInfo member)
         {
-            return this.Add(instance, instance.GetType(), member);
+            return Add(instance, instance.GetType(), member);
         }
 
         /// <summary>
@@ -140,14 +140,14 @@ namespace Cuemon
         public IHierarchy<T> Add(T instance, Type instanceType, MemberInfo member)
         {
             if (instanceType == null) { throw new ArgumentNullException(nameof(instanceType)); }
-            if (this.IsNew)
+            if (IsNew)
             {
-                this.Depth = 0;
-                this.Instance = instance;
-                this.InstanceType = instanceType;
-                this.IsNew = false;
-                this.Index = 0;
-                this.MemberReference = member;
+                Depth = 0;
+                Instance = instance;
+                InstanceType = instanceType;
+                IsNew = false;
+                Index = 0;
+                MemberReference = member;
                 return this;
             }
 
@@ -155,11 +155,11 @@ namespace Cuemon
             child.Instance = instance;
             child.InstanceType = instanceType;
             child.Parent = this;
-            child.Depth = this.Depth + 1;
+            child.Depth = Depth + 1;
             child.Index = CalculateIndex(this);
             child.IsNew = false;
             child.MemberReference = member;
-            this.Children.Add(this.Children.Count, child);
+            Children.Add(Children.Count, child);
             return child;
         }
 
@@ -193,7 +193,7 @@ namespace Cuemon
         /// <returns>An <see cref="IEnumerable{T}"/> sequence that represents all the child nodes of the current hierarchical node.</returns>
         public IEnumerable<IHierarchy<T>> GetChildren()
         {
-            return this.Children.Values;
+            return Children.Values;
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Cuemon
         /// <returns>The parent node of the current node in the hierarchical structure.</returns>
         public IHierarchy<T> GetParent()
         {
-            return this.Parent;
+            return Parent;
         }
         #endregion
     }

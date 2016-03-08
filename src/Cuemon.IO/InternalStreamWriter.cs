@@ -12,9 +12,9 @@ namespace Cuemon.IO
         internal InternalStreamWriter(Stream output, StreamWriterSettings settings) : base(output, settings.Encoding, settings.BufferSize)
         {
             _provider = settings.FormatProvider;
-            this.AutoFlush = settings.AutoFlush;
-            this.NewLine = settings.NewLine;
-            this.TryLeaveStreamOpen();
+            AutoFlush = settings.AutoFlush;
+            NewLine = settings.NewLine;
+            TryLeaveStreamOpen();
         }
 
         public override IFormatProvider FormatProvider
@@ -28,7 +28,7 @@ namespace Cuemon.IO
 
         private void TryLeaveStreamOpen()
         {
-            FieldInfo closable = ReflectionUtility.GetField(this.GetType(), "closable", ReflectionUtility.BindingInstancePublicAndPrivate);
+            FieldInfo closable = ReflectionUtility.GetField(GetType(), "closable", ReflectionUtility.BindingInstancePublicAndPrivate);
             if (closable != null)
             {
                 closable.SetValue(this, false);

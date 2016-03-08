@@ -35,7 +35,7 @@ namespace Cuemon.Data.SqlClient
         /// <returns>An <see cref="DbParameter"/> representing the value of the <paramref name="expression"/>.</returns>
         protected override DbParameter ParametersSelector(T expression, int index)
         {
-            return new SqlParameter(string.Concat(this.ParameterName, index), expression);
+            return new SqlParameter(string.Concat(ParameterName, index), expression);
         }
     }
 }

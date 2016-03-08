@@ -73,9 +73,9 @@ namespace Cuemon.Data.CsvClient
             Validator.ThrowIfNullOrEmpty(delimiter, nameof(delimiter));
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
             
-            this.Reader = reader;
-            this.Header = StringUtility.Split(header, delimiter);
-            this.Delimiter = delimiter;
+            Reader = reader;
+            Header = StringUtility.Split(header, delimiter);
+            Delimiter = delimiter;
         }
         #endregion
 
@@ -102,35 +102,35 @@ namespace Cuemon.Data.CsvClient
         /// <returns><c>true</c> if there are more lines; otherwise, <c>false</c>.</returns>
         protected override bool ReadNext()
         {
-            return this.ReadNextCore(this.Reader.ReadLine());
+            return ReadNextCore(Reader.ReadLine());
         }
 
         private bool ReadNextCore(string currentLine)
         {
             if (currentLine == null) { return false; }
-            string[] columns = StringUtility.Split(currentLine, this.Delimiter);
-            if (columns.Length != this.Header.Length)
+            string[] columns = StringUtility.Split(currentLine, Delimiter);
+            if (columns.Length != Header.Length)
             {
                 InvalidOperationException invalidOperation = new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "The current line does not match the expected numbers of columns. Actual columns: {0}. Expected: {1}.", columns.Length, Header.Length));
-                invalidOperation.Data.Add("CsvDataReader.Header", String.Join(this.Delimiter, this.Header));
+                invalidOperation.Data.Add("CsvDataReader.Header", String.Join(Delimiter, Header));
                 invalidOperation.Data.Add("CsvDataReader.Columns", currentLine);
-                invalidOperation.Data.Add("CsvDataReader.LineNumber", this.RowCount + 1);
+                invalidOperation.Data.Add("CsvDataReader.LineNumber", RowCount + 1);
                 throw invalidOperation;
             }
 
             OrderedDictionary fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
             for (int i = 0; i < columns.Length; i++)
             {
-                if (fields.Contains(this.Header[i]))
+                if (fields.Contains(Header[i]))
                 {
-                    fields[this.Header[i]] = StringParser(columns[i]);
+                    fields[Header[i]] = StringParser(columns[i]);
                 }
                 else
                 {
-                    fields.Add(this.Header[i], StringParser(columns[i]));
+                    fields.Add(Header[i], StringParser(columns[i]));
                 }
             }
-            this.SetFields(fields);
+            SetFields(fields);
             return (fields.Count > 0);
         }
 
@@ -140,10 +140,10 @@ namespace Cuemon.Data.CsvClient
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
-            if (this.IsDisposed) { return; }
+            if (IsDisposed) { return; }
             if (disposing)
             {
-                if (this.Reader != null) { this.Reader.Dispose(); }
+                if (Reader != null) { Reader.Dispose(); }
             }
             base.Dispose(disposing);
         }

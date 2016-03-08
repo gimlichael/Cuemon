@@ -4,9 +4,9 @@
     {
         internal StringReplaceCoordinate(int startIndex, int length, string value)
         {
-            this.StartIndex = startIndex;
-            this.Length = length;
-            this.Value = value;
+            StartIndex = startIndex;
+            Length = length;
+            Value = value;
         }
 
         internal int StartIndex { get; set; }

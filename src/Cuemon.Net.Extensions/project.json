@@ -16,7 +16,7 @@
     "dotnet5.4": { }
   },
   "compilationOptions": {
-    "keyFile": "..\\..\\MuchMoreKeyPair.snk",
+
     "optimize": true
   },
   "dependencies": {

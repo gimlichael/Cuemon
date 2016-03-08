@@ -21,7 +21,7 @@
     "Cuemon.Reflection": "4.0.2016.601"
   },
   "compilationOptions": {
-    "keyFile": "..\\..\\MuchMoreKeyPair.snk",
+
     "optimize": true
   }
 }
