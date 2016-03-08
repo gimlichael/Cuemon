@@ -25,7 +25,7 @@ namespace Cuemon.Collections.Generic
         /// <typeparam name="TSource">The type of the array of <paramref name="values"/>.</typeparam>
         /// <param name="values">The values to create the <see cref="Array"/> from.</param>
         /// <returns>A one-dimensional <see cref="Array"/> of the specified <see typeparamref="TSource"/> with a length equal to the values specified.</returns>
-        public static TSource[] ToArray<TSource>(params TSource[] values)
+        public static TSource[] AsArray<TSource>(params TSource[] values)
         {
             return values;
         }
