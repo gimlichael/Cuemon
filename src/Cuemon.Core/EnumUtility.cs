@@ -121,7 +121,10 @@ namespace Cuemon
         {
             Validator.ThrowIfNotEnumType<TEnum>("TEnum");
             Validator.ThrowIfNullOrEmpty(value, nameof(value));
+            Type enumType = typeof(TEnum);
+            bool hasFlags = enumType.GetTypeInfo().IsDefined(typeof(FlagsAttribute), false);
             TEnum result = (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
+            if (hasFlags && value.IndexOf(',') > 0) { return result; }
             if (Enum.IsDefined(typeof(TEnum), result)) { return result; }
             throw new ArgumentException("Value does not represents an enumeration.");
         }
