@@ -1087,7 +1087,7 @@ namespace Cuemon
             List<Exception> aggregatedExceptions = new List<Exception>();
             var task = Task.Run(async () =>
             {
-                for (int attempts = 0;;)
+                for (int attempts = 0; ;)
                 {
                     TimeSpan waitTime = recoveryWaitTimeCallback(attempts);
                     try
@@ -1101,10 +1101,10 @@ namespace Cuemon
                         {
                             lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
                             isTransientFault = isTransientFaultCallback(ex);
-                            lastWaitTime = waitTime;
-                            totalWaitTime = totalWaitTime.Add(waitTime);
                             if (attempts >= retryAttempts) { throw; }
                             if (!isTransientFault) { throw; }
+                            lastWaitTime = waitTime;
+                            totalWaitTime = totalWaitTime.Add(waitTime);
                             attempts++;
                             await Task.Delay(waitTime).ConfigureAwait(false);
                         }
@@ -1130,7 +1130,7 @@ namespace Cuemon
             List<Exception> aggregatedExceptions = new List<Exception>();
             var task = Task.Run(async () =>
             {
-                for (int attempts = 0;;)
+                for (int attempts = 0; ;)
                 {
                     bool exceptionThrown = false;
                     TResult result = default(TResult);
@@ -1146,10 +1146,10 @@ namespace Cuemon
                         {
                             lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
                             isTransientFault = isTransientFaultCallback(ex);
-                            lastWaitTime = waitTime;
-                            totalWaitTime = totalWaitTime.Add(waitTime);
                             if (attempts >= retryAttempts) { throw; }
                             if (!isTransientFault) { throw; }
+                            lastWaitTime = waitTime;
+                            totalWaitTime = totalWaitTime.Add(waitTime);
                             attempts++;
                             await Task.Delay(waitTime).ConfigureAwait(false);
                         }
@@ -1185,7 +1185,7 @@ namespace Cuemon
             List<Exception> aggregatedExceptions = new List<Exception>();
             var task = Task.Run(async () =>
             {
-                for (int attempts = 0;;)
+                for (int attempts = 0; ;)
                 {
                     var taskSuccess = default(TSuccess);
                     var taskResult = default(TResult);
@@ -1202,10 +1202,10 @@ namespace Cuemon
                         {
                             lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
                             isTransientFault = isTransientFaultCallback(ex);
-                            lastWaitTime = waitTime;
-                            totalWaitTime = totalWaitTime.Add(waitTime);
                             if (attempts >= retryAttempts) { throw; }
                             if (!isTransientFault) { throw; }
+                            lastWaitTime = waitTime;
+                            totalWaitTime = totalWaitTime.Add(waitTime);
                             attempts++;
                             await Task.Delay(waitTime).ConfigureAwait(false);
                         }
