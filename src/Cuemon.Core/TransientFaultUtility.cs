@@ -1083,41 +1083,37 @@ namespace Cuemon
             TimeSpan totalWaitTime = TimeSpan.Zero;
             TimeSpan lastWaitTime = TimeSpan.Zero;
             bool isTransientFault = false;
-            bool throwExceptions = false;
+            bool throwExceptions;
             List<Exception> aggregatedExceptions = new List<Exception>();
-            var task = Task.Run(async () =>
+            for (int attempts = 0; ;)
             {
-                for (int attempts = 0; ;)
+                TimeSpan waitTime = recoveryWaitTimeCallback(attempts);
+                try
                 {
-                    TimeSpan waitTime = recoveryWaitTimeCallback(attempts);
+                    factory.ExecuteMethod();
+                    return;
+                }
+                catch (Exception ex)
+                {
                     try
                     {
-                        factory.ExecuteMethod();
-                        return;
+                        lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
+                        isTransientFault = isTransientFaultCallback(ex);
+                        if (attempts >= retryAttempts) { throw; }
+                        if (!isTransientFault) { throw; }
+                        lastWaitTime = waitTime;
+                        totalWaitTime = totalWaitTime.Add(waitTime);
+                        attempts++;
+                        Task.Delay(waitTime).ConfigureAwait(false);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        try
-                        {
-                            lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
-                            isTransientFault = isTransientFaultCallback(ex);
-                            if (attempts >= retryAttempts) { throw; }
-                            if (!isTransientFault) { throw; }
-                            lastWaitTime = waitTime;
-                            totalWaitTime = totalWaitTime.Add(waitTime);
-                            attempts++;
-                            await Task.Delay(waitTime).ConfigureAwait(false);
-                        }
-                        catch (Exception)
-                        {
-                            throwExceptions = true;
-                            if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(ex, attempts, retryAttempts, lastWaitTime, totalWaitTime); }
-                            return;
-                        }
+                        throwExceptions = true;
+                        if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(ex, attempts, retryAttempts, lastWaitTime, totalWaitTime); }
+                        break;
                     }
                 }
-            });
-            task.Wait();
+            }
             if (throwExceptions) { throw new AggregateException(aggregatedExceptions); }
         }
 
@@ -1126,111 +1122,99 @@ namespace Cuemon
             TimeSpan totalWaitTime = TimeSpan.Zero;
             TimeSpan lastWaitTime = TimeSpan.Zero;
             bool isTransientFault = false;
-            bool throwExceptions = false;
+            bool throwExceptions;
             List<Exception> aggregatedExceptions = new List<Exception>();
-            var task = Task.Run(async () =>
+            TResult result = default(TResult);
+            for (int attempts = 0; ;)
             {
-                for (int attempts = 0; ;)
+                bool exceptionThrown = false;
+                TimeSpan waitTime = recoveryWaitTimeCallback(attempts);
+                try
                 {
-                    bool exceptionThrown = false;
-                    TResult result = default(TResult);
-                    TimeSpan waitTime = recoveryWaitTimeCallback(attempts);
+                    return factory.ExecuteMethod();
+                }
+                catch (Exception ex)
+                {
                     try
                     {
-                        result = factory.ExecuteMethod();
-                        return result;
+                        lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
+                        isTransientFault = isTransientFaultCallback(ex);
+                        if (attempts >= retryAttempts) { throw; }
+                        if (!isTransientFault) { throw; }
+                        lastWaitTime = waitTime;
+                        totalWaitTime = totalWaitTime.Add(waitTime);
+                        attempts++;
+                        Task.Delay(waitTime).ConfigureAwait(false);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        try
-                        {
-                            lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
-                            isTransientFault = isTransientFaultCallback(ex);
-                            if (attempts >= retryAttempts) { throw; }
-                            if (!isTransientFault) { throw; }
-                            lastWaitTime = waitTime;
-                            totalWaitTime = totalWaitTime.Add(waitTime);
-                            attempts++;
-                            await Task.Delay(waitTime).ConfigureAwait(false);
-                        }
-                        catch (Exception)
-                        {
-                            throwExceptions = true;
-                            exceptionThrown = true;
-                            if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(ex, attempts, retryAttempts, lastWaitTime, totalWaitTime); }
-                            return result;
-                        }
-                    }
-                    finally
-                    {
-                        if (exceptionThrown)
-                        {
-                            IDisposable disposable = result as IDisposable;
-                            if (disposable != null) { disposable.Dispose(); }
-                        }
+                        throwExceptions = true;
+                        exceptionThrown = true;
+                        if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(ex, attempts, retryAttempts, lastWaitTime, totalWaitTime); }
+                        break;
                     }
                 }
-            });
-            task.Wait();
+                finally
+                {
+                    if (exceptionThrown)
+                    {
+                        IDisposable disposable = result as IDisposable;
+                        disposable?.Dispose();
+                    }
+                }
+            }
             if (throwExceptions) { throw new AggregateException(aggregatedExceptions); }
-            return task.Result;
+            return result;
         }
 
         private static TSuccess TryExecuteFunctionCore<TTuple, TSuccess, TResult>(TesterDoerFactory<TTuple, TResult, TSuccess> factory, out TResult result, int retryAttempts, Doer<int, TimeSpan> recoveryWaitTimeCallback, Doer<Exception, bool> isTransientFaultCallback) where TTuple : Template
         {
+            result = default(TResult);
             TimeSpan totalWaitTime = TimeSpan.Zero;
             TimeSpan lastWaitTime = TimeSpan.Zero;
-            bool throwExceptions = false;
+            bool throwExceptions;
             bool isTransientFault = false;
             List<Exception> aggregatedExceptions = new List<Exception>();
-            var task = Task.Run(async () =>
+            for (int attempts = 0; ;)
             {
-                for (int attempts = 0; ;)
+                bool exceptionThrown = false;
+                TimeSpan waitTime = recoveryWaitTimeCallback(attempts);
+                try
                 {
-                    var taskSuccess = default(TSuccess);
-                    var taskResult = default(TResult);
-                    bool exceptionThrown = false;
-                    TimeSpan waitTime = recoveryWaitTimeCallback(attempts);
+                    return factory.ExecuteMethod(out result);
+                }
+                catch (Exception ex)
+                {
                     try
                     {
-                        taskSuccess = factory.ExecuteMethod(out taskResult);
-                        return TupleUtility.CreateTwo(taskSuccess, taskResult);
+                        lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
+                        isTransientFault = isTransientFaultCallback(ex);
+                        if (attempts >= retryAttempts) { throw; }
+                        if (!isTransientFault) { throw; }
+                        lastWaitTime = waitTime;
+                        totalWaitTime = totalWaitTime.Add(waitTime);
+                        attempts++;
+                        Task.Delay(waitTime).ConfigureAwait(false);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        try
-                        {
-                            lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
-                            isTransientFault = isTransientFaultCallback(ex);
-                            if (attempts >= retryAttempts) { throw; }
-                            if (!isTransientFault) { throw; }
-                            lastWaitTime = waitTime;
-                            totalWaitTime = totalWaitTime.Add(waitTime);
-                            attempts++;
-                            await Task.Delay(waitTime).ConfigureAwait(false);
-                        }
-                        catch (Exception)
-                        {
-                            throwExceptions = true;
-                            exceptionThrown = true;
-                            if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(ex, attempts, retryAttempts, lastWaitTime, totalWaitTime); }
-                            return TupleUtility.CreateTwo(taskSuccess, taskResult);
-                        }
-                    }
-                    finally
-                    {
-                        if (exceptionThrown)
-                        {
-                            IDisposable disposable = taskResult as IDisposable;
-                            if (disposable != null) { disposable.Dispose(); }
-                        }
+                        throwExceptions = true;
+                        exceptionThrown = true;
+                        if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(ex, attempts, retryAttempts, lastWaitTime, totalWaitTime); }
+                        break;
                     }
                 }
-            });
-            task.Wait();
+                finally
+                {
+                    if (exceptionThrown)
+                    {
+                        IDisposable disposable = result as IDisposable;
+                        disposable?.Dispose();
+                    }
+                }
+            }
             if (throwExceptions) { throw new AggregateException(aggregatedExceptions); }
-            result = task.Result.Arg2;
-            return task.Result.Arg1;
+            return default(TSuccess);
         }
 
         private static void InsertTransientFaultException(this IList<Exception> aggregatedExceptions, Exception ex, int attempts, int retryAttempts, TimeSpan lastWaitTime, TimeSpan totalWaitTime)
