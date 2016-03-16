@@ -150,7 +150,7 @@ namespace Cuemon.Security
         /// <remarks>Do override this method if you prefer another hashing than SHA-1.</remarks>
         protected virtual string ComputeHash(string value)
         {
-            return HashUtility.ComputeHash(value, HashAlgorithmType.SHA1, Encoding);
+            return HashUtility.ComputeHash(value, HashAlgorithmType.SHA1, Encoding).ToHexadecimal();
         }
         
         private string GeneratePermutationValue()

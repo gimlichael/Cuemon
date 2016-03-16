@@ -350,7 +350,7 @@ namespace Cuemon.Integrity
         /// <value>A <see cref="String"/> containing a computed hash value  (<see cref="AlgorithmType"/>) of the data this instance represents.</value>
         public string Checksum
         {
-            get { return ComputedChecksum ?? (ComputedChecksum = HashUtility.ComputeHash(Bytes.ToArray(), AlgorithmType)); }
+            get { return ComputedChecksum ?? (ComputedChecksum = HashUtility.ComputeHash(Bytes.ToArray(), AlgorithmType).ToHexadecimal()); }
         }
 
         private string ComputedChecksum { get; set; }

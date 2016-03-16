@@ -307,7 +307,7 @@ namespace Cuemon.Web.Security
 				Uri originalUriWithRemovedChecksum = new Uri(originalUriString);
 
                 string urlToCompute = string.Format(CultureInfo.InvariantCulture, "{0}{1}", new Uri(originalUriWithRemovedChecksum, originalUriWithRemovedChecksum.AbsolutePath), querystring);
-				string computedChecksum = HashUtility.ComputeHash(urlToCompute + salt + securityToken.Token, algorithmType, Encoding.UTF8);
+				string computedChecksum = HashUtility.ComputeHash(urlToCompute + salt + securityToken.Token, algorithmType, Encoding.UTF8).ToHexadecimal();
 				if (!string.Equals(hash, computedChecksum)) { throw new SecurityException("Security checksum is invalid."); }
 				if (securityToken.HasExpired) { throw new SecurityException("Security token is expired."); }
 			}
