@@ -13,6 +13,35 @@ namespace Cuemon
     public static class ByteConverter
     {
         /// <summary>
+        /// Decodes a URL string token to its equivalent byte array using base 64 digits.
+        /// </summary>
+        /// <param name="value">The URL string token to decode.</param>
+        /// <returns>The byte array containing the decoded URL string token.</returns>
+        /// <remarks>
+        /// Source: http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-08#appendix-C
+        /// </remarks>
+        public static byte[] FromUrlEncodedBase64(string value)
+        {
+            Validator.ThrowIfNullOrEmpty(value, nameof(value));
+            value = value.Replace('-', '+');
+            value = value.Replace('_', '/');
+            switch (value.Length % 4)
+            {
+                case 0:
+                    break;
+                case 2:
+                    value += "==";
+                    break;
+                case 3:
+                    value += "=";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(value), "Illegal Base64 URL string.");
+            }
+            return Convert.FromBase64String(value);
+        }
+
+        /// <summary>
         /// Converts the string representation of a Base64 to its equivalent <see cref="T:byte[]"/> array.
         /// </summary>
         /// <param name="value">The Base64 to convert.</param>

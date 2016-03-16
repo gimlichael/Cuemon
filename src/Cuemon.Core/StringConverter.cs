@@ -19,6 +19,38 @@ namespace Cuemon
         internal static readonly IDictionary<UriScheme, string> UriSchemeToStringLookupTable = UriSchemeConverter.StringToUriSchemeLookupTable.ToDictionary(pair => pair.Value, pair => pair.Key);
 
         /// <summary>
+        /// Converts the specified <paramref name="value"/> to its equivalent binary representation.
+        /// </summary>
+        /// <param name="value">The byte array to be converted.</param>
+        /// <returns>A binary <see cref="string"/> representation of the elements in <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
+        /// </exception>
+        public static string ToBinary(byte[] value)
+        {
+            Validator.ThrowIfNull(value, nameof(value));
+            return string.Concat(value.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
+        }
+
+        /// <summary>
+        /// Encodes a byte array into its equivalent string representation using base 64 digits, which is usable for transmission on the URL.
+        /// </summary>
+        /// <param name="value">The byte array to encode.</param>
+        /// <returns>The string containing the encoded token if the byte array length is greater than one; otherwise, an empty string ("").</returns>
+        /// <remarks>
+        /// Source: http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-08#appendix-C
+        /// </remarks>
+        public static string ToUrlEncodedBase64(byte[] value)
+        {
+            Validator.ThrowIfNull(value, nameof(value));
+            string base64 = Convert.ToBase64String(value);
+            base64 = base64.Split('=')[0];
+            base64 = base64.Replace('+', '-');
+            base64 = base64.Replace('/', '_');
+            return base64;
+        }
+
+        /// <summary>
         /// Converts the specified string representation of an URI scheme to its <see cref="UriScheme"/> equivalent.
         /// </summary>
         /// <param name="uriScheme">A string containing an URI scheme to convert.</param>

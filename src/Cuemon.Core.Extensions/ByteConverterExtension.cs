@@ -11,6 +11,16 @@ namespace Cuemon
     public static class ByteConverterExtension
     {
         /// <summary>
+        /// Decodes a URL string token to its equivalent byte array using base 64 digits.
+        /// </summary>
+        /// <param name="value">The URL string token to decode.</param>
+        /// <returns>The byte array containing the decoded URL string token.</returns>
+        public static byte[] FromUrlEncodedBase64(this string value)
+        {
+            return ByteConverter.FromUrlEncodedBase64(value);
+        }
+
+        /// <summary>
         /// Converts the specified <paramref name="value"/> to a byte array always starting from position 0 (when supported).
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> value to be converted.</param>

@@ -11,6 +11,29 @@ namespace Cuemon
     public static class StringConverterExtension
     {
         /// <summary>
+        /// Converts the specified <paramref name="value"/> to its equivalent binary representation.
+        /// </summary>
+        /// <param name="value">The byte array to be converted.</param>
+        /// <returns>A binary <see cref="string"/> representation of the elements in <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
+        /// </exception>
+        public static string ToBinary(this byte[] value)
+        {
+            return StringConverter.ToBinary(value);
+        }
+
+        /// <summary>
+        /// Encodes a byte array into its equivalent string representation using base 64 digits, which is usable for transmission on the URL.
+        /// </summary>
+        /// <param name="value">The byte array to encode.</param>
+        /// <returns>The string containing the encoded token if the byte array length is greater than one; otherwise, an empty string ("").</returns>
+        public static string ToUrlEncodedBase64(this byte[] value)
+        {
+            return StringConverter.ToUrlEncodedBase64(value);
+        }
+
+        /// <summary>
         /// Converts the specified <paramref name="value"/> to a string using the provided preferred encoding.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to be converted.</param>
