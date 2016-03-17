@@ -16,8 +16,8 @@ namespace Cuemon.Security.Cryptography
         /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> object to compute a hash code for.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed MD5 hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(Stream value)
+        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(Stream value)
         {
             return ComputeHash(value, HashAlgorithmType.MD5);
         }
@@ -27,8 +27,8 @@ namespace Cuemon.Security.Cryptography
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> object to compute a hash code for.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(Stream value, HashAlgorithmType algorithmType)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(Stream value, HashAlgorithmType algorithmType)
         {
             return ComputeHash(value, algorithmType, false);
         }
@@ -39,8 +39,8 @@ namespace Cuemon.Security.Cryptography
         /// <param name="value">The <see cref="Stream"/> object to compute a hash code for.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(Stream value, HashAlgorithmType algorithmType, bool leaveStreamOpen)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(Stream value, HashAlgorithmType algorithmType, bool leaveStreamOpen)
         {
             return ComputeHashCore(value, null, algorithmType, leaveStreamOpen);
         }
@@ -49,8 +49,8 @@ namespace Cuemon.Security.Cryptography
         /// Computes a MD5 hash value of the specified <see cref="byte"/> sequence, <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed MD5 hash value of the specified <see cref="byte"/> sequence <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(byte[] value)
+        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <see cref="byte"/> sequence <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(byte[] value)
         {
             return ComputeHash(value, HashAlgorithmType.MD5);
         }
@@ -60,8 +60,8 @@ namespace Cuemon.Security.Cryptography
         /// </summary>
         /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed hash value of the specified <see cref="byte"/> sequence <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(byte[] value, HashAlgorithmType algorithmType)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="byte"/> sequence <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(byte[] value, HashAlgorithmType algorithmType)
         {
             return ComputeHashCore(null, value, algorithmType, false);
         }
@@ -70,8 +70,8 @@ namespace Cuemon.Security.Cryptography
         /// Computes a MD5 hash value of the specified <see cref="string"/> <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> value to compute a hash code for.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed MD5 hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(string value)
+        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(string value)
         {
             return ComputeHash(value, HashAlgorithmType.MD5);
         }
@@ -81,8 +81,8 @@ namespace Cuemon.Security.Cryptography
         /// </summary>
         /// <param name="value">The <see cref="string"/> value to compute a hash code for.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(string value, HashAlgorithmType algorithmType)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(string value, HashAlgorithmType algorithmType)
         {
             return ComputeHash(value, algorithmType, Encoding.Unicode);
         }
@@ -93,8 +93,8 @@ namespace Cuemon.Security.Cryptography
         /// <param name="value">The <see cref="string"/> value to compute a hash code for.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <param name="encoding">The encoding to use when computing the <paramref name="value"/>.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(string value, HashAlgorithmType algorithmType, Encoding encoding)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(string value, HashAlgorithmType algorithmType, Encoding encoding)
         {
             return ComputeHash(ByteConverter.FromString(value, PreambleSequence.Remove, encoding), algorithmType);
         }
@@ -103,8 +103,8 @@ namespace Cuemon.Security.Cryptography
         /// Computes a MD5 hash value of the specified <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The object to compute a hash code for.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed MD5 hash value of the specified <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(object value)
+        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(object value)
         {
             return ComputeHash(value, HashAlgorithmType.MD5);
         }
@@ -114,8 +114,8 @@ namespace Cuemon.Security.Cryptography
         /// </summary>
         /// <param name="value">The object to compute a hash code for.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
-        public static HashValue ComputeHash(object value, HashAlgorithmType algorithmType)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(object value, HashAlgorithmType algorithmType)
         {
             return ComputeHash(EnumerableConverter.AsArray(value), algorithmType);
         }
@@ -124,8 +124,8 @@ namespace Cuemon.Security.Cryptography
         /// Combines a sequence of objects into one object, and computes a MD5 hash value of the specified sequence, <paramref name="values"/>.
         /// </summary>
         /// <param name="values">The objects to compute a hash code for.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed MD5 hash value of the specified object sequence <paramref name="values"/>.</returns>
-        public static HashValue ComputeHash(object[] values)
+        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified object sequence <paramref name="values"/>.</returns>
+        public static HashResult ComputeHash(object[] values)
         {
             return ComputeHash(values, HashAlgorithmType.MD5);
         }
@@ -135,8 +135,8 @@ namespace Cuemon.Security.Cryptography
         /// </summary>
         /// <param name="values">The objects to compute a hash code for.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed hash value of the specified object sequence <paramref name="values"/>.</returns>
-        public static HashValue ComputeHash(object[] values, HashAlgorithmType algorithmType)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified object sequence <paramref name="values"/>.</returns>
+        public static HashResult ComputeHash(object[] values, HashAlgorithmType algorithmType)
         {
             Validator.ThrowIfNull(values, nameof(values));
             long signature = StructUtility.GetHashCode64(EnumerableConverter.Parse(values, o => o.GetHashCode()));
@@ -147,8 +147,8 @@ namespace Cuemon.Security.Cryptography
         /// Computes a MD5 hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.
         /// </summary>
         /// <param name="values">The <see cref="string"/> sequence to compute a hash code for.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed MD5 hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
-        public static HashValue ComputeHash(string[] values)
+        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
+        public static HashResult ComputeHash(string[] values)
         {
             return ComputeHash(values, HashAlgorithmType.MD5);
         }
@@ -158,8 +158,8 @@ namespace Cuemon.Security.Cryptography
         /// </summary>
         /// <param name="values">The <see cref="string"/> sequence to compute a hash code for.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
-        public static HashValue ComputeHash(string[] values, HashAlgorithmType algorithmType)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
+        public static HashResult ComputeHash(string[] values, HashAlgorithmType algorithmType)
         {
             return ComputeHash(values, algorithmType, Encoding.Unicode);
         }
@@ -170,8 +170,8 @@ namespace Cuemon.Security.Cryptography
         /// <param name="values">The <see cref="string"/> sequence to compute a hash code for.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <param name="encoding">The encoding to use when computing the <paramref name="values"/> sequence.</param>
-        /// <returns>A <see cref="HashValue"/> containing the computed hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
-        public static HashValue ComputeHash(string[] values, HashAlgorithmType algorithmType, Encoding encoding)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
+        public static HashResult ComputeHash(string[] values, HashAlgorithmType algorithmType, Encoding encoding)
         {
             Validator.ThrowIfNull(values, nameof(values));
             Validator.ThrowIfNull(encoding, nameof(encoding));
@@ -199,7 +199,7 @@ namespace Cuemon.Security.Cryptography
             }
         }
 
-        private static HashValue ComputeHashCore(Stream value, byte[] hash, HashAlgorithmType algorithmType, bool leaveStreamOpen)
+        private static HashResult ComputeHashCore(Stream value, byte[] hash, HashAlgorithmType algorithmType, bool leaveStreamOpen)
         {
             if (algorithmType > HashAlgorithmType.CRC32 || algorithmType < HashAlgorithmType.MD5) { throw new ArgumentOutOfRangeException(nameof(algorithmType), "Specified argument was out of the range of valid values."); }
 
@@ -231,7 +231,7 @@ namespace Cuemon.Security.Cryptography
             return ComputeHashCore(value, hash, leaveStreamOpen, algorithm);
         }
 
-        internal static HashValue ComputeHashCore(Stream value, byte[] hash, bool leaveStreamOpen, HashAlgorithm algorithm)
+        internal static HashResult ComputeHashCore(Stream value, byte[] hash, bool leaveStreamOpen, HashAlgorithm algorithm)
         {
             using (algorithm)
             {
@@ -253,7 +253,7 @@ namespace Cuemon.Security.Cryptography
                     hash = algorithm.ComputeHash(hash); // convert original byte value to hash value
                 }
             }
-            return new HashValue(hash);
+            return new HashResult(hash);
         }
     }
 }
