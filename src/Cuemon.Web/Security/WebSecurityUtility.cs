@@ -170,7 +170,7 @@ namespace Cuemon.Web.Security
 			querystring = QueryStringUtility.RemoveDublets(secureQuerystring, formatedQuerytring.AllKeys);
 
 			string secureUri = string.Format(CultureInfo.InvariantCulture, "{0}{1}", uriLocation, QueryStringConverter.FromNameValueCollection(querystring));
-			secureUri += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", querystringParameterHashName, HashUtility.ComputeHash(secureUri + salt + securityToken.Token, algorithmType, Encoding.UTF8));
+			secureUri += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", querystringParameterHashName, HashUtility.ComputeHash(secureUri + salt + securityToken.Token, algorithmType, Encoding.UTF8).ToHexadecimal());
 			return new Uri(secureUri);
 		}
 
