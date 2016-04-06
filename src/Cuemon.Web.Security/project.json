@@ -21,9 +21,13 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.601",
-    "Cuemon.Core.Extensions": "4.0.2016.601",
-    "Cuemon.Web": "4.0.2016.601"
+    "Cuemon.Core": "4.0.2016.850",
+    "Cuemon.Core.Extensions": "4.0.2016.850",
+    "Cuemon.Runtime": "4.0.2016.850",
+    "Cuemon.Security": "4.0.2016.850",
+    "Cuemon.Security.Extensions": "4.0.2016.850",
+    "Cuemon.Web": "4.0.2016.850",
+    "Cuemon.Web.Extensions": "4.0.2016.850"
   },
   "compilationOptions": {
 

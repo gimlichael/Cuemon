@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 
 namespace Cuemon.Runtime.Serialization
 {
@@ -14,24 +15,92 @@ namespace Cuemon.Runtime.Serialization
         public static readonly string NullValue = "null";
 
         /// <summary>
+        /// The function delegate that will handle JSON ASCII conversions.
+        /// </summary>
+        public static Func<int, string> JsonAsciiConverter = JsonEscape;
+
+        /// <summary>
+        /// The function delegate that will handle JSON Unicode conversions.
+        /// </summary>
+        public static Func<int, string> JsonUnicodeConverter = UnicodeEscape;
+
+        /// <summary>
+        /// JSON escapes the specified <paramref name="value"/> using the two function delegates; <see cref="JsonAsciiConverter"/> and <see cref="JsonUnicodeConverter"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> to escape.</param>
+        /// <returns>A JSON escaped <see cref="string"/> that is equivalent to <paramref name="value"/>.</returns>
+        public static string Escape(string value)
+        {
+            if (value == null) { return NullValue; }
+            StringBuilder builder = new StringBuilder(value.Length);
+            foreach (char character in value)
+            {
+                if (ShouldEscape(character))
+                {
+                    builder.Append(character < byte.MaxValue ? JsonAsciiConverter(character) : JsonUnicodeConverter(character));
+                }
+                else
+                {
+                    builder.Append(character);
+                }
+            }
+            return builder.ToString();
+        }
+
+        private static string JsonEscape(int c)
+        {
+            switch (c)
+            {
+                case 34:
+                    return @"\""";
+                case 92:
+                    return @"\\";
+                case 47:
+                    return @"\/";
+                case 8:
+                    return @"\b";
+                case 12:
+                    return @"\f";
+                case 10:
+                    return @"\n";
+                case 13:
+                    return @"\r";
+                case 9:
+                    return @"\t";
+                default:
+                    return Convert.ToChar(c).ToString();
+            }
+        }
+
+        private static string UnicodeEscape(int c)
+        {
+            return string.Format(CultureInfo.InvariantCulture, "%u{0:x4}", c);
+        }
+
+        private static bool ShouldEscape(int c)
+        {
+            return (c == 34 || c == 92 || c == 47 || c == 8 || c == 12 || c == 10 || c == 13 || c == 9) || (c > 126);
+        }
+
+        /// <summary>
         /// Returns the string value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
                 return NullValue;
             }
-            return string.Concat("\"", StringUtility.Escape(value), "\"");
+            return string.Concat("\"", Escape(value), "\"");
         }
 
         /// <summary>
         /// Returns the boolean value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(bool value)
         {
             return value.ToString().ToLowerInvariant();
@@ -41,7 +110,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(byte value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -52,7 +121,7 @@ namespace Cuemon.Runtime.Serialization
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
         /// <remarks><paramref name="value"/> is converted to a Base64 encoded string.</remarks>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(byte[] value)
         {
             return Convert.ToBase64String(value);
@@ -62,7 +131,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the string value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(char value)
         {
             return value.ToString();
@@ -72,7 +141,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the string value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(DateTime value)
         {
             return StringFormatter.FromDateTime(value, StandardizedDateTimeFormatPattern.Iso8601CompleteDateTimeBasic, 2);
@@ -82,7 +151,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(decimal value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -92,7 +161,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(double value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -102,7 +171,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(float value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -112,7 +181,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the string value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(Guid value)
         {
             return value.ToString();
@@ -122,7 +191,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(int value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -132,7 +201,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(long value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -142,7 +211,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(sbyte value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -152,7 +221,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(short value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -162,7 +231,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(uint value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -172,7 +241,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(ulong value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -182,7 +251,7 @@ namespace Cuemon.Runtime.Serialization
         /// Returns the numeric value of a JSON object as defined in RFC 4627.
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(ushort value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
@@ -193,7 +262,7 @@ namespace Cuemon.Runtime.Serialization
         /// </summary>
         /// <param name="value">The value of the JSON object.</param>
         /// <remarks><paramref name="value"/> is checked and written accordingly by the <see cref="IConvertible"/> interface.</remarks>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(object value)
         {
             return ToString(value, value == null ? null : value.GetType());
@@ -205,7 +274,7 @@ namespace Cuemon.Runtime.Serialization
         /// <param name="value">The value of the JSON object.</param>
         /// <param name="valueType">The type of the <paramref name="value"/>.</param>
         /// <remarks><paramref name="value"/> is checked and written accordingly by the <see cref="IConvertible"/> interface.</remarks>
-        /// <returns>A <see cref="string" /> respresentation of <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="string" /> representation of <paramref name="value"/>.</returns>
         public static string ToString(object value, Type valueType)
         {
             if (valueType != null)
