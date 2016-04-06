@@ -24,10 +24,18 @@ namespace Cuemon.Runtime.Caching
         #region Constructors
         private CacheCollection()
         {
+            EnableExpirationTimer = true;
+            ExpirationTimer = new Timer(ExpirationTimerInvoking, null, TimeSpan.FromSeconds(5), TimeSpan.FromMinutes(20));
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets or sets a value indicating whether a timer regularly should clean up expired cache items.
+        /// </summary>
+        /// <value><c>true</c> if a timer regularly should clean up expired cache items; otherwise, <c>false</c>.</value>
+        public bool EnableExpirationTimer { get; set; }
+
         /// <summary>
         /// Gets the cached item with the specified <paramref name="key"/>.
         /// </summary>
@@ -338,34 +346,16 @@ namespace Cuemon.Runtime.Caching
 
         private void HandleExpiration()
         {
-            bool isTimerRequired = false;
+            if (!EnableExpirationTimer) { return; }
             DateTime current = DateTime.UtcNow;
-            IList<Cache> groupCaches = GetCaches();
-
-            if (groupCaches.Count > 0)
+            List<Cache> snapshot = new List<Cache>(_innerCaches.Values);
+            if (snapshot.Count > 0)
             {
-                foreach (Cache cache in groupCaches)
+                foreach (Cache cache in snapshot)
                 {
                     if (cache == null) { continue; }
-                    if (cache.CanExpire)
-                    {
-                        if (cache.HasExpired(current))
-                        {
-                            RemoveExpired(cache.Key, cache.Group);
-                        }
-                        else
-                        {
-                            isTimerRequired = true;
-                        }
-                    }
+                    if (cache.CanExpire && cache.HasExpired(current)) { RemoveExpired(cache.Key, cache.Group); }
                 }
-            }
-
-            if (isTimerRequired) { return; }
-            if (ExpirationTimer != null)
-            {
-                ExpirationTimer.Dispose();
-                ExpirationTimer = null;
             }
         }
 
@@ -373,11 +363,6 @@ namespace Cuemon.Runtime.Caching
         {
             RemoveExpired(e.Cache.Key, e.Cache.Group);
             e.Cache.Expired -= CacheExpired;
-        }
-
-        private IList<Cache> GetCaches()
-        {
-            return GetCaches(NoGroup);
         }
 
         private IList<Cache> GetCaches(string group)

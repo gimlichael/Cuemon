@@ -2172,14 +2172,9 @@ namespace Cuemon.Runtime.Caching
         private Cache GetOrAddCore<TTuple, TResult>(Doer<TResult> value, string key, string group, Doer<DateTime> absoluteExpiration = null, Doer<TimeSpan> slidingExpiration = null, DoerFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
             where TTuple : Template
         {
-            Validator.ThrowIfNull(key, nameof(key));
-            if (slidingExpiration != null)
-            {
-                Validator.ThrowIfLowerThan(slidingExpiration().Ticks, TimeSpan.Zero.Ticks, nameof(slidingExpiration), "The specified sliding expiration cannot be less than TimeSpan.Zero.");
-                Validator.ThrowIfGreaterThan(slidingExpiration().Ticks, TimeSpan.FromDays(365).Ticks, nameof(slidingExpiration), "The specified sliding expiration cannot exceed one year.");
-            }
-            long groupKey = GenerateGroupKey(key, group);
-            return _innerCaches.GetOrAdd(groupKey, gk => WrapCacheInThreadSafeDelegate(value, key, @group, absoluteExpiration, slidingExpiration, dependenciesFactory).Value);
+            Cache result;
+            TryGetOrAddCore(value, key, group, out result, absoluteExpiration, slidingExpiration, dependenciesFactory);
+            return result;
         }
 
         private bool TryGetOrAddCore<TResult>(Doer<TResult> value, string key, string group, out TResult result, Doer<DateTime> absoluteExpiration = null, Doer<TimeSpan> slidingExpiration = null)
@@ -2205,18 +2200,15 @@ namespace Cuemon.Runtime.Caching
                 Validator.ThrowIfLowerThan(slidingExpiration().Ticks, TimeSpan.Zero.Ticks, nameof(slidingExpiration), "The specified sliding expiration cannot be less than TimeSpan.Zero.");
                 Validator.ThrowIfGreaterThan(slidingExpiration().Ticks, TimeSpan.FromDays(365).Ticks, nameof(slidingExpiration), "The specified sliding expiration cannot exceed one year.");
             }
-            result = null;
+
             long groupKey = GenerateGroupKey(key, group);
-            bool success = _innerCaches.TryAdd(groupKey, WrapCacheInThreadSafeDelegate(value, key, group, absoluteExpiration, slidingExpiration, dependenciesFactory).Value);
-            if (!success)
+            if (!TryGetCache(key, group, out result))
             {
-                Cache lazyResult;
-                if (_innerCaches.TryGetValue(groupKey, out lazyResult))
-                {
-                    result = lazyResult;
-                }
+                result = WrapCacheInThreadSafeDelegate(value, key, group, absoluteExpiration, slidingExpiration, dependenciesFactory).Value;
+                return _innerCaches.TryAdd(groupKey, result);
             }
-            return success;
+            result =_innerCaches.GetOrAdd(groupKey, gk => WrapCacheInThreadSafeDelegate(value, key, group, absoluteExpiration, slidingExpiration, dependenciesFactory).Value);
+            return false;
         }
 
         private Lazy<Cache> WrapCacheInThreadSafeDelegate<TTuple, TResult>(Doer<TResult> value, string key, string group, Doer<DateTime> absoluteExpiration = null, Doer<TimeSpan> slidingExpiration = null, DoerFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
@@ -2224,10 +2216,9 @@ namespace Cuemon.Runtime.Caching
         {
             return new Lazy<Cache>(() =>
             {
-                Cache cache = new Cache(key, value(), @group, dependenciesFactory == null ? null : dependenciesFactory.ExecuteMethod(), absoluteExpiration == null ? DateTime.MaxValue : absoluteExpiration(), slidingExpiration == null ? TimeSpan.Zero : slidingExpiration());
+                Cache cache = new Cache(key, value(), group, dependenciesFactory == null ? null : dependenciesFactory.ExecuteMethod(), absoluteExpiration == null ? DateTime.MaxValue : absoluteExpiration(), slidingExpiration == null ? TimeSpan.Zero : slidingExpiration());
                 cache.Expired += CacheExpired;
                 cache.StartDependencies();
-                if (cache.CanExpire && ExpirationTimer == null) { ExpirationTimer = new Timer(ExpirationTimerInvoking, null, TimeSpan.Zero, TimeSpan.FromMinutes(30)); }
                 return cache;
             }, LazyThreadSafetyMode.ExecutionAndPublication);
         }
