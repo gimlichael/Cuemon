@@ -27,7 +27,7 @@ namespace Cuemon.Security.Cryptography
         /// Computes a by parameter defined <see cref="HmacAlgorithmType"/> hash value of the specified <see cref="Stream"/> <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> object to compute a hash code for.</param>
-        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size dependes on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
+        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size depends on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(Stream value, byte[] sharedKey, HmacAlgorithmType algorithmType)
@@ -39,7 +39,7 @@ namespace Cuemon.Security.Cryptography
         /// Computes a by parameter defined <see cref="HmacAlgorithmType"/> hash value of the specified <see cref="Stream"/> <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> object to compute a hash code for.</param>
-        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size dependes on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
+        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size depends on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
@@ -63,7 +63,7 @@ namespace Cuemon.Security.Cryptography
         /// Computes a by parameter defined <see cref="HmacAlgorithmType"/> hash value of the specified <see cref="byte"/> sequence, <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
-        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size dependes on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
+        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size depends on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="byte"/> sequence <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(byte[] value, byte[] sharedKey, HmacAlgorithmType algorithmType)
@@ -86,7 +86,7 @@ namespace Cuemon.Security.Cryptography
         /// Computes a by parameter defined <see cref="HmacAlgorithmType"/> hash value of the specified <see cref="string"/> <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> value to compute a hash code for.</param>
-        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size dependes on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
+        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size depends on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(string value, byte[] sharedKey, HmacAlgorithmType algorithmType)
@@ -98,7 +98,7 @@ namespace Cuemon.Security.Cryptography
         /// Computes a by parameter defined <see cref="HmacAlgorithmType"/> hash value of the specified <see cref="string"/> <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> value to compute a hash code for.</param>
-        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size dependes on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
+        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size depends on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <param name="encoding">The encoding to use when computing the <paramref name="value"/>.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
@@ -122,7 +122,7 @@ namespace Cuemon.Security.Cryptography
         /// Computes a by parameter defined <see cref="HmacAlgorithmType"/> hash value of the specified <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The object to compute a hash code for.</param>
-        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size dependes on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
+        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size depends on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(object value, byte[] sharedKey, HmacAlgorithmType algorithmType)
@@ -145,7 +145,7 @@ namespace Cuemon.Security.Cryptography
         /// Combines a sequence of objects into one object, and computes a by parameter defined <see cref="HmacAlgorithmType"/> hash value of the specified sequence, <paramref name="values"/>.
         /// </summary>
         /// <param name="values">The objects to compute a hash code for.</param>
-        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size dependes on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
+        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size depends on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified object sequence <paramref name="values"/>.</returns>
         public static HashResult ComputeKeyedHash(object[] values, byte[] sharedKey, HmacAlgorithmType algorithmType)
@@ -170,7 +170,7 @@ namespace Cuemon.Security.Cryptography
         /// Computes a by parameter defined <see cref="HmacAlgorithmType"/> hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.
         /// </summary>
         /// <param name="values">The <see cref="string"/> sequence to compute a hash code for.</param>
-        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size dependes on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
+        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size depends on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
         public static HashResult ComputeKeyedHash(string[] values, byte[] sharedKey, HmacAlgorithmType algorithmType)
@@ -182,7 +182,7 @@ namespace Cuemon.Security.Cryptography
         /// Computes a by parameter defined <see cref="HmacAlgorithmType"/> hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.
         /// </summary>
         /// <param name="values">The <see cref="string"/> sequence to compute a hash code for.</param>
-        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size dependes on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
+        /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length. However, the recommended size depends on the desired <paramref name="algorithmType"/>. If the key is more than the recommended length, it is hashed using the specified <paramref name="algorithmType"/>.</param>
         /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
         /// <param name="encoding">The encoding to use when computing the <paramref name="values"/> sequence.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
