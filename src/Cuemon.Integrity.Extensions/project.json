@@ -1,5 +1,5 @@
 ﻿{
-  "version": "4.0.2016.601",
+  "version": "4.0.2016.950",
   "title": "Cuemon.Integrity.Extensions",
   "description": "The Cuemon.Integrity.Extensions assembly provides method extensions to the Cuemon.Integrity assembly.",
   "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
@@ -18,7 +18,7 @@
     }
   },
   "dependencies": {
-    "Cuemon.Integrity": "4.0.2016.601"
+    "Cuemon.Integrity": "4.0.2016.950"
   },
   "compilationOptions": {
 

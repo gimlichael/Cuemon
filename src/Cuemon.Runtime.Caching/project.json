@@ -1,5 +1,5 @@
 ﻿{
-  "version": "4.0.2016.601",
+  "version": "4.0.2016.950",
   "title": "Cuemon.Runtime.Caching",
   "description": "The Cuemon.Runtime.Caching assembly is a member of the Cuemon .NET Core family and provides a versatile way to gain access to caching in an application.",
   "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
@@ -21,8 +21,8 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.601",
-    "Cuemon.Runtime": "4.0.2016.601"
+    "Cuemon.Core": "4.0.2016.950",
+    "Cuemon.Runtime": "4.0.2016.950"
   },
   "compilationOptions": {
 

@@ -1,5 +1,5 @@
 {
-  "version": "4.0.2016.601",
+  "version": "4.0.2016.950",
   "title": "Cuemon.Integrity",
   "description": "The Cuemon.Integrity assembly is a member of the Cuemon .NET Core family and provides a way to represent cacheable data-centric content that can be validated by cache-aware applications.",
   "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
@@ -18,9 +18,9 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.601",
-    "Cuemon.Reflection": "4.0.2016.601",
-    "Cuemon.Security": "4.0.2016.601"
+    "Cuemon.Core": "4.0.2016.950",
+    "Cuemon.Reflection": "4.0.2016.950",
+    "Cuemon.Security": "4.0.2016.950"
   },
   "compilationOptions": {
 

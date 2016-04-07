@@ -1,5 +1,5 @@
 {
-  "version": "4.0.2016.601",
+  "version": "4.0.2016.950",
   "title": "Cuemon.Web",
   "description": "The Cuemon.Web assembly is a member of the Cuemon .NET Core family and provides enhancements to the now deprecated System.Web namespace.",
   "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
@@ -21,11 +21,11 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.601",
-    "Cuemon.Collections.Specialized": "4.0.2016.601",
-    "Cuemon.Collections.Specialized.Extensions": "4.0.2016.601",
-    "Cuemon.Security": "4.0.2016.601",
-    "Cuemon.Core.Extensions": "4.0.2016.601"
+    "Cuemon.Core": "4.0.2016.950",
+    "Cuemon.Collections.Specialized": "4.0.2016.950",
+    "Cuemon.Collections.Specialized.Extensions": "4.0.2016.950",
+    "Cuemon.Security": "4.0.2016.950",
+    "Cuemon.Core.Extensions": "4.0.2016.950"
   },
   "compilationOptions": {
 

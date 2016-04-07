@@ -1,5 +1,5 @@
 {
-  "version": "4.0.2016.601",
+  "version": "4.0.2016.950",
   "title": "Cuemon.Threading",
   "description": "The Cuemon.Threading assembly is a member of the Cuemon .NET Core family and provides enhancements to the System.Threading namespace.",
   "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
@@ -20,7 +20,7 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.601"
+    "Cuemon.Core": "4.0.2016.950"
   },
   "compilationOptions": {
 
