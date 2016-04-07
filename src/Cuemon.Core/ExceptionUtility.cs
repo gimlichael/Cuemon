@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
+using System.Linq;
 
 namespace Cuemon
 {
@@ -93,6 +95,22 @@ namespace Cuemon
             Type innerSourceType = exception.InnerException.GetType();
             if (TypeUtility.ContainsType(innerSourceType, resultType)) { return exception.InnerException as TResult; }
             return null;
+        }
+
+        /// <summary>
+        /// Parses the specified <paramref name="exceptions"/> for a match on <typeparamref name="TResult"/>.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the <see cref="Exception"/> to find a match within <paramref name="exceptions"/>.</typeparam>
+        /// <param name="exceptions">A sequence of exceptions to parse for a match on <typeparamref name="TResult"/>.</param>
+        /// <returns>The first matched <see cref="Exception"/> of <typeparamref name="TResult"/> from the sequence of <paramref name="exceptions"/> or <c>null</c> if no match could be resolved.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="exceptions"/> is null.
+        /// </exception>
+        public static TResult Parse<TResult>(IEnumerable<Exception> exceptions) where TResult : Exception
+        {
+            Validator.ThrowIfNull(exceptions, nameof(exceptions));
+            var matches = EnumerableUtility.FindAll(exceptions, e => e is TResult);
+            return matches.FirstOrDefault() as TResult;
         }
 
         /// <summary>
