@@ -21,6 +21,11 @@ namespace Cuemon.Web.Security
         public const char DigestAuthenticationCredentialSeparator = ',';
 
         /// <summary>
+        /// The value of the header credential separator of a HTTP JSON Web Token authentication.
+        /// </summary>
+        public const char JwtAuthenticationCredentialSeparator = '.';
+
+        /// <summary>
         /// The value of the ETag header for an HTTP response.
         /// </summary>
         public const string HttpEtagHeader = "Etag";
@@ -96,7 +101,7 @@ namespace Cuemon.Web.Security
         {
             principal = null;
             string authorizationHeader = context.Request.Headers[HttpAuthorizationHeader];
-            if (String.IsNullOrEmpty(authorizationHeader)) { return false; }
+            if (string.IsNullOrEmpty(authorizationHeader)) { return false; }
             T credentials = authorizationParser(authorizationHeader);
             if (credentials != null && principalParser(context, credentials, out principal)) { return true; }
             return false;
@@ -104,7 +109,7 @@ namespace Cuemon.Web.Security
 
         internal static bool IsAuthenticationSchemeValid(string authorizationHeader, string authenticationSchemeName)
         {
-            return (!String.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith(authenticationSchemeName, StringComparison.Ordinal));
+            return (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith(authenticationSchemeName, StringComparison.Ordinal));
         }
     }
 }

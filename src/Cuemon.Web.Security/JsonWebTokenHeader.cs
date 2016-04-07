@@ -46,7 +46,7 @@ namespace Cuemon.Web.Security
         public override string ToString()
         {
             List<string> header = new List<string>();
-            header.Add("\"alg\": {0}".FormatWith(JsonConverter.ToString(JsonWebTokenConverter.FromJsonWebTokenHashAlgorithm(Algorithm))));
+            header.Add("\"alg\": {0}".FormatWith(JsonConverter.ToString(JsonWebTokenHashAlgorithmConverter.ToString(Algorithm))));
             header.Add("\"typ\": {0}".FormatWith(JsonConverter.ToString(Type)));
             return "{{ {0} }}".FormatWith(header.ToDelimitedString(", "));
         }

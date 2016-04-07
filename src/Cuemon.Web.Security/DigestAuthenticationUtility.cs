@@ -11,7 +11,7 @@ namespace Cuemon.Web.Security
     /// </summary>
     public static class DigestAuthenticationUtility
     {
-        private static byte[] _defaultPrivateKey = Convert.FromBase64String("ZHBGWDRrVGVxbFlhVEpWQ3hoYUc5VUlZM05penNOaUk=");
+        private static readonly byte[] _defaultPrivateKey = Convert.FromBase64String("ZHBGWDRrVGVxbFlhVEpWQ3hoYUc5VUlZM05penNOaUk=");
 
         /// <summary>
         /// The value of the header credential user name of a HTTP Digest access authentication.
