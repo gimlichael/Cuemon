@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.950",
+    "Cuemon.Core": "4.0.2016.951",
     "Cuemon.Collections.Specialized": "4.0.2016.950",
     "Cuemon.Collections.Specialized.Extensions": "4.0.2016.950",
     "Cuemon.Security": "4.0.2016.950",

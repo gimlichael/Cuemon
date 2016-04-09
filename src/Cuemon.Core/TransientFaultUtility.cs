@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Cuemon
 {
@@ -1104,7 +1104,7 @@ namespace Cuemon
                         lastWaitTime = waitTime;
                         totalWaitTime = totalWaitTime.Add(waitTime);
                         attempts++;
-                        Task.Delay(waitTime).ConfigureAwait(false);
+                        Sleep(waitTime);
                     }
                     catch (Exception)
                     {
@@ -1144,7 +1144,7 @@ namespace Cuemon
                         lastWaitTime = waitTime;
                         totalWaitTime = totalWaitTime.Add(waitTime);
                         attempts++;
-                        Task.Delay(waitTime).ConfigureAwait(false);
+                        Sleep(waitTime);
                     }
                     catch (Exception)
                     {
@@ -1194,7 +1194,7 @@ namespace Cuemon
                         lastWaitTime = waitTime;
                         totalWaitTime = totalWaitTime.Add(waitTime);
                         attempts++;
-                        Task.Delay(waitTime).ConfigureAwait(false);
+                        Sleep(waitTime);
                     }
                     catch (Exception)
                     {
@@ -1215,6 +1215,11 @@ namespace Cuemon
             }
             if (throwExceptions) { throw new AggregateException(aggregatedExceptions); }
             return default(TSuccess);
+        }
+
+        private static void Sleep(TimeSpan sleep)
+        {
+            new ManualResetEvent(false).WaitOne(sleep);
         }
 
         private static void InsertTransientFaultException(this IList<Exception> aggregatedExceptions, Exception ex, int attempts, int retryAttempts, TimeSpan lastWaitTime, TimeSpan totalWaitTime)

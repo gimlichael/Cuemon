@@ -18,8 +18,8 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.950",
-    "Cuemon.Data": "4.0.2016.950",
+    "Cuemon.Core": "4.0.2016.951",
+    "Cuemon.Data": "4.0.2016.951",
     "Cuemon.Xml": "4.0.2016.950"
   },
   "compilationOptions": {

@@ -16,7 +16,7 @@
     "dotnet5.4": { }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.950"
+    "Cuemon.Core": "4.0.2016.951"
   },
   "compilationOptions": {
 
