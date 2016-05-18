@@ -1109,7 +1109,7 @@ namespace Cuemon
                     catch (Exception)
                     {
                         throwExceptions = true;
-                        if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(ex, attempts, retryAttempts, lastWaitTime, totalWaitTime); }
+                        if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(attempts, retryAttempts, lastWaitTime, totalWaitTime); }
                         break;
                     }
                 }
@@ -1150,7 +1150,7 @@ namespace Cuemon
                     {
                         throwExceptions = true;
                         exceptionThrown = true;
-                        if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(ex, attempts, retryAttempts, lastWaitTime, totalWaitTime); }
+                        if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(attempts, retryAttempts, lastWaitTime, totalWaitTime); }
                         break;
                     }
                 }
@@ -1200,7 +1200,7 @@ namespace Cuemon
                     {
                         throwExceptions = true;
                         exceptionThrown = true;
-                        if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(ex, attempts, retryAttempts, lastWaitTime, totalWaitTime); }
+                        if (isTransientFault) { aggregatedExceptions.InsertTransientFaultException(attempts, retryAttempts, lastWaitTime, totalWaitTime); }
                         break;
                     }
                 }
@@ -1222,9 +1222,9 @@ namespace Cuemon
             new ManualResetEvent(false).WaitOne(sleep);
         }
 
-        private static void InsertTransientFaultException(this IList<Exception> aggregatedExceptions, Exception ex, int attempts, int retryAttempts, TimeSpan lastWaitTime, TimeSpan totalWaitTime)
+        private static void InsertTransientFaultException(this IList<Exception> aggregatedExceptions, int attempts, int retryAttempts, TimeSpan lastWaitTime, TimeSpan totalWaitTime)
         {
-            TransientFaultException transientException = new TransientFaultException(attempts >= retryAttempts ? "The amount of retry attempts has been reached." : "An unhandled exception occurred during the execution of the current operation.", ex);
+            TransientFaultException transientException = new TransientFaultException(attempts >= retryAttempts ? "The amount of retry attempts has been reached." : "An unhandled exception occurred during the execution of the current operation.");
             transientException.Data.Add("Attempts", (attempts).ToString(CultureInfo.InvariantCulture));
             transientException.Data.Add("RecoveryWaitTimeInSeconds", lastWaitTime.TotalSeconds.ToString(CultureInfo.InvariantCulture));
             transientException.Data.Add("TotalRecoveryWaitTimeInSeconds", totalWaitTime.TotalSeconds.ToString(CultureInfo.InvariantCulture));

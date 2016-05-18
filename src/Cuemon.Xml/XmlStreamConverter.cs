@@ -47,7 +47,7 @@ namespace Cuemon.IO
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
             if (encoding == null) { throw new ArgumentNullException(nameof(encoding)); }
             MemoryStream tempOutput = null;
-            MemoryStream output = null;
+            MemoryStream output;
             try
             {
                 tempOutput = new MemoryStream();
@@ -74,23 +74,6 @@ namespace Cuemon.IO
             writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.Name));
             writer.WriteAttributeString("namespace", exceptionType.Namespace);
             WriteExceptionCore(writer, exception, includeStackTrace);
-
-            IEnumerable<Exception> innerExceptions = ExceptionUtility.Flatten(exception);
-            if (innerExceptions != null)
-            {
-                int endElementsToWrite = 0;
-                foreach (Exception inner in innerExceptions)
-                {
-                    exceptionType = inner.GetType();
-                    writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.Name));
-                    writer.WriteAttributeString("namespace", exceptionType.Namespace);
-                    WriteExceptionCore(writer, inner, includeStackTrace);
-                    endElementsToWrite++;
-                }
-
-                LoopUtility.For(endElementsToWrite, WriteEndElement, writer);
-            }
-
             writer.WriteEndElement();
         }
 
@@ -101,12 +84,12 @@ namespace Cuemon.IO
 
         private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
-            if (!String.IsNullOrEmpty(exception.Source))
+            if (!string.IsNullOrEmpty(exception.Source))
             {
                 writer.WriteElementString("Source", exception.Source);
             }
 
-            if (!String.IsNullOrEmpty(exception.Message))
+            if (!string.IsNullOrEmpty(exception.Message))
             {
                 writer.WriteElementString("Message", exception.Message);
             }
@@ -114,7 +97,7 @@ namespace Cuemon.IO
             if (exception.StackTrace != null && includeStackTrace)
             {
                 writer.WriteStartElement("StackTrace");
-                string[] lines = exception.StackTrace.Split(new string[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                string[] lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string line in lines)
                 {
                     writer.WriteElementString("Frame", line.Trim());
@@ -122,7 +105,7 @@ namespace Cuemon.IO
                 writer.WriteEndElement();
             }
 
-            if (exception.Data.Count > 0 && includeStackTrace)
+            if (exception.Data.Count > 0)
             {
                 writer.WriteStartElement("Data");
                 foreach (DictionaryEntry entry in exception.Data)
@@ -132,6 +115,26 @@ namespace Cuemon.IO
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
+            }
+
+            WriteInnerExceptions(writer, exception, includeStackTrace);
+        }
+
+        private static void WriteInnerExceptions(XmlWriter writer, Exception exception, bool includeStackTrace)
+        {
+            var innerExceptions = new List<Exception>(ExceptionUtility.Flatten(exception));
+            if (innerExceptions.Count > 0)
+            {
+                int endElementsToWrite = 0;
+                foreach (var inner in innerExceptions)
+                {
+                    Type exceptionType = inner.GetType();
+                    writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.Name));
+                    writer.WriteAttributeString("namespace", exceptionType.Namespace);
+                    WriteExceptionCore(writer, inner, includeStackTrace);
+                    endElementsToWrite++;
+                }
+                LoopUtility.For(endElementsToWrite, WriteEndElement, writer);
             }
         }
 

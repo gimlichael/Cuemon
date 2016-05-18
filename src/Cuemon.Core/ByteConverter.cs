@@ -53,7 +53,7 @@ namespace Cuemon
         /// </remarks>
         public static bool TryFromBase64String(string value, out byte[] result)
         {
-            return TryFromBase64String(value, StringUtility.SkipIfKnownChecksumLength, out result);
+            return TryFromBase64String(value, StringUtility.IsValueWithValidBase64ChecksumLength, out result);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Cuemon
             try
             {
                 Validator.ThrowIfNullOrEmpty(value, nameof(value));
-                if (predicate != null && predicate(value)) { throw new FormatException(); }
+                if (predicate != null && !predicate(value)) { throw new FormatException(); }
                 result = Convert.FromBase64String(value);
                 return true;
             }

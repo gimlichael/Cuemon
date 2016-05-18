@@ -551,55 +551,44 @@ namespace Cuemon
 
         private static void WriteException(TextWriter writer, Exception exception, bool includeStackTrace)
         {
-            WriteException(writer, exception, null, 3, includeStackTrace);
-            IEnumerable<Exception> innerExceptions = ExceptionUtility.Flatten(exception);
-            if (innerExceptions != null)
-            {
-                foreach (Exception inner in innerExceptions)
-                {
-                    WriteException(writer, inner, exception, 3, includeStackTrace);
-                    exception = inner;
-                }
-            }
+            Type exceptionType = exception.GetType();
+            writer.WriteLine("{0}.{1}{2}: {3}", exceptionType.Namespace, exceptionType.Name, string.IsNullOrEmpty(exception.Source) ? "" : " in " + exception.Source, exception.Message);
+            WriteExceptionCore(writer, exception, includeStackTrace);
         }
 
-        private static void WriteException(TextWriter writer, Exception exception, Exception parentException, byte indentTabSize, bool includeStackTrace)
+        private static void WriteExceptionCore(TextWriter writer, Exception exception, bool includeStackTrace)
         {
-            Type exceptionType = exception.GetType();
-
-            string smallIndent = StringUtility.CreateFixedString('\x20', indentTabSize);
-            string largeIndent = StringUtility.CreateFixedString('\x20', indentTabSize * 2);
-
-            if (parentException != null)
-            {
-                writer.WriteLine("InnerException [of {0}]:", parentException.GetType().Name);
-            }
-            writer.WriteLine("{0}{1} ({2})", parentException != null ? smallIndent : "", exceptionType.Name, exceptionType.Namespace);
-            if (!string.IsNullOrEmpty(exception.Source))
-            {
-                writer.WriteLine("{0}Source:", parentException != null ? smallIndent : "");
-                writer.WriteLine("{0}{1}", parentException != null ? largeIndent : smallIndent, exception.Source);
-            }
-            if (!string.IsNullOrEmpty(exception.Message))
-            {
-                string[] message = exception.Message.Split(StringUtility.Linefeed.ToCharArray());
-                writer.WriteLine("{0}Message:", parentException != null ? smallIndent : "");
-                writer.WriteLine("{0}{1}", parentException != null ? largeIndent : smallIndent, string.Join(string.Format(CultureInfo.InvariantCulture, "{0}{1}", StringUtility.Linefeed, parentException != null ? largeIndent : smallIndent), message));
-            }
-
             if (exception.StackTrace != null && includeStackTrace)
             {
-                writer.WriteLine("{0}StackTrace:", parentException != null ? smallIndent : "");
-                writer.WriteLine("{0}{1}", parentException != null ? smallIndent : "", exception.StackTrace);
+                string[] lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string line in lines)
+                {
+                    writer.WriteLine("   {0}", line.Trim());
+                }
             }
 
-            if (exception.Data.Count > 0 && includeStackTrace)
+            if (exception.Data.Count > 0)
             {
-                writer.WriteLine("{0}Data:", parentException != null ? smallIndent : "");
+                writer.WriteLine("   Data");
                 foreach (DictionaryEntry entry in exception.Data)
                 {
-                    writer.WriteLine("{0}Key: {1}", parentException != null ? largeIndent : smallIndent, entry.Key);
-                    writer.WriteLine("{0}Value: {1}", parentException != null ? largeIndent : smallIndent, entry.Value);
+                    writer.WriteLine("      {0}: {1}", entry.Key, entry.Value);
+                }
+            }
+
+            WriteInnerExceptions(writer, exception, includeStackTrace);
+        }
+
+        private static void WriteInnerExceptions(TextWriter writer, Exception exception, bool includeStackTrace)
+        {
+            var innerExceptions = new List<Exception>(ExceptionUtility.Flatten(exception));
+            if (innerExceptions.Count > 0)
+            {
+                foreach (var inner in innerExceptions)
+                {
+                    Type exceptionType = inner.GetType();
+                    writer.WriteLine("{0}.{1}{2}: {3}", exceptionType.Namespace, exceptionType.Name, string.IsNullOrEmpty(inner.Source) ? "" : " in " + inner.Source, inner.Message);
+                    WriteExceptionCore(writer, inner, includeStackTrace);
                 }
             }
         }

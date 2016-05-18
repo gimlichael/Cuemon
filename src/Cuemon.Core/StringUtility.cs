@@ -88,7 +88,7 @@ namespace Cuemon
         /// <remarks>This method will skip common Base64 structures typically used as checksums. This includes 32, 128, 160, 256, 384 and 512 bit checksums.</remarks>
         public static bool IsBase64(string value)
         {
-            return IsBase64(value, SkipIfKnownChecksumLength);
+            return IsBase64(value, IsValueWithValidBase64ChecksumLength);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Cuemon
             return ByteConverter.TryFromBase64String(value, predicate, out result);
         }
 
-        internal static bool SkipIfKnownChecksumLength(string value)
+        internal static bool IsValueWithValidBase64ChecksumLength(string value)
         {
             if (string.IsNullOrEmpty(value)) { return false; }
             if (NumberUtility.IsEven(value.Length))
