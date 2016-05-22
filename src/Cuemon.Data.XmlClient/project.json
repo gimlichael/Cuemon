@@ -1,29 +1,31 @@
 ﻿{
-  "version": "4.0.2016.1360",
+  "version": "4.0.2016.1380-rc2",
   "title": "Cuemon.Data.XmlClient",
   "description": "The Cuemon.Data.XmlClient assembly is a member of the Cuemon .NET Core family and provides enhancements to the Cuemon.Data namespace.",
-  "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
-  "tags": [ "" ],
-  "releaseNotes": "The initial release of the ported Cuemon .NET Framework.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
-  "owners": [ "Weubphoria" ],
-  "projectUrl": "http://www.cuemon.net/",
-  "licenseUrl": "http://opensource.org/licenses/MIT",
-  "iconUrl": "http://cdn.nblapi.net/themes/cuemon.net/img/core/128x128x.png",
   "frameworks": {
-    "dotnet5.4": {
+    "netstandard1.4": {
       "dependencies": { }
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.1360",
-    "Cuemon.Data": "4.0.2016.1360",
-    "Cuemon.Xml": "4.0.2016.1360"
+    "Cuemon.Core": "4.0.2016.1380-rc2",
+    "Cuemon.Data": "4.0.2016.1380-rc2",
+    "Cuemon.Xml": "4.0.2016.1380-rc2"
   },
-  "compilationOptions": {
-
-    "optimize": true
+  "buildOptions": {
+    "optimize": true,
+    "xmlDoc": true
+  },
+  "packOptions": {
+    "owners": [ "Weubphoria" ],
+    "projectUrl": "http://www.cuemon.net/",
+    "licenseUrl": "http://opensource.org/licenses/MIT",
+    "iconUrl": "http://cdn.nblapi.net/themes/cuemon.net/img/core/128x128x.png",
+    "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
+    "tags": [ "" ],
+    "releaseNotes": "The initial release of the ported Cuemon .NET Framework."
   }
 }

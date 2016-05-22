@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}"
 EndProject
@@ -50,6 +50,11 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Web.Extensions", "src\Cuemon.Web.Extensions\Cuemon.Web.Extensions.xproj", "{374E4B2B-1DAF-456F-9048-3BB15193DE6A}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cuemon.Web.Security", "src\Cuemon.Web.Security\Cuemon.Web.Security.xproj", "{83F47B5A-11C6-4851-B397-9F512016F887}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C19AC96-F543-45D9-A4FE-9C6065A858A3}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

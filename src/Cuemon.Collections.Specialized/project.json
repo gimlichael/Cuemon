@@ -1,29 +1,31 @@
 ﻿{
-  "version": "4.0.2016.1360",
+  "version": "4.0.2016.1380-rc2",
   "title": "Cuemon.Collections.Specialized",
   "description": "The Cuemon.Collections.Specialized assembly is a member of the Cuemon .NET Core family and provides enhancements to the System.Collections.Specialized assembly.",
-  "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
-  "tags": [ "" ],
-  "releaseNotes": "The initial release of the ported Cuemon .NET Framework.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
-  "owners": [ "Weubphoria" ],
-  "projectUrl": "http://www.cuemon.net/",
-  "licenseUrl": "http://opensource.org/licenses/MIT",
-  "iconUrl": "http://cdn.nblapi.net/themes/cuemon.net/img/core/128x128x.png",
   "frameworks": {
-    "dotnet5.4": {
+    "netstandard1.4": {
       "dependencies": {
-        "System.Collections.Specialized": "4.0.1-beta-23516"
+        "System.Collections.Specialized": "4.0.1-rc2-24027"
       }
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.1360"
+    "Cuemon.Core": "4.0.2016.1380-rc2"
   },
-  "compilationOptions": {
-
-    "optimize": true
+  "buildOptions": {
+    "optimize": true,
+    "xmlDoc": true
+  },
+  "packOptions": {
+    "owners": [ "Weubphoria" ],
+    "projectUrl": "http://www.cuemon.net/",
+    "licenseUrl": "http://opensource.org/licenses/MIT",
+    "iconUrl": "http://cdn.nblapi.net/themes/cuemon.net/img/core/128x128x.png",
+    "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
+    "tags": [ "" ],
+    "releaseNotes": "The initial release of the ported Cuemon .NET Framework."
   }
 }

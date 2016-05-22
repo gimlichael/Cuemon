@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security;
 using System.Security.Claims;
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.Web.Security
 {
