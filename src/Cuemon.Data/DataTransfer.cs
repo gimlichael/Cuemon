@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
+using System.Data;
 using Cuemon.Collections.Generic;
 
 namespace Cuemon.Data
 {
     /// <summary>
-    /// Provides a way to convert an <see cref="DbDataReader"/> implementation to a table-like data transfer object.
+    /// Provides a way to convert an <see cref="IDataReader"/> implementation to a table-like data transfer object.
     /// </summary>
     public static class DataTransfer
     {
@@ -15,13 +15,13 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="reader">The reader to be converted.</param>
         /// <returns>A <see cref="DataTransferRowCollection"/> that is the result of the specified <paramref name="reader"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="reader"/> is closed.
         /// </exception>
-        public static DataTransferRowCollection GetRows(DbDataReader reader)
+        public static DataTransferRowCollection GetRows(IDataReader reader)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
@@ -45,21 +45,20 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="reader">The read-initialized reader to be converted.</param>
         /// <returns>A <see cref="DataTransferColumnCollection"/> that is the result of the specified and read-initialized <paramref name="reader"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="reader"/> is closed.
         /// </exception>
         /// <exception cref="InvalidOperationException">
         /// Invalid attempt to read from <paramref name="reader"/> when no data is present.
         /// </exception>
-        public static DataTransferColumnCollection GetColumns(DbDataReader reader)
+        public static DataTransferColumnCollection GetColumns(IDataReader reader)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
-            IList<KeyValuePair<string, Type>> columns = null;
-            return new DataTransferColumnCollection(reader, ref columns);
+            return new DataTransferColumnCollection(reader);
         }
     }
 }

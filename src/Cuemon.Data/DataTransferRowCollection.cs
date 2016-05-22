@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
+using System.Data;
 using System.Linq;
 
 namespace Cuemon.Data
@@ -12,31 +12,37 @@ namespace Cuemon.Data
     /// </summary>
     public sealed class DataTransferRowCollection : IEnumerable<DataTransferRow>
     {
-        private readonly Collection<DataTransferRow> _dataTransferRows = new Collection<DataTransferRow>();
-
-        private string ColumnNamesSelector(KeyValuePair<string, Type> keyValuePair)
-        {
-            return keyValuePair.Key;
-        }
+        private IEnumerable<string> _columnNames;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataTransferRowCollection"/> class.
         /// </summary>
         /// <param name="reader">The reader to convert.</param>
-        internal DataTransferRowCollection(DbDataReader reader)
+        internal DataTransferRowCollection(IDataReader reader)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
 
             int rowNumber = 1;
-            IList<KeyValuePair<string, Type>> columns = null;
             while (reader.Read())
             {
-                DataTransferRows.Add(new DataTransferRow(reader, rowNumber, ref columns));
+                if (Columns == null) { Columns = new DataTransferColumnCollection(reader); }
+                DataTransferRows.Add(new DataTransferRow(this, rowNumber));
+                int fieldCount = reader.FieldCount;
+                var values = new object[fieldCount];
+                reader.GetValues(values);
+                for (int i = 0; i < fieldCount; i++)
+                {
+                    Type columnType = reader[i].GetType();
+                    Data.Add(values[i] == null ? TypeUtility.GetDefaultValue(columnType) : DBNull.Value.Equals(values[i]) ? null : values[i]);
+                }
                 rowNumber++;
             }
-            ColumnNames = columns.Select(ColumnNamesSelector);
         }
+
+        internal DataTransferColumnCollection Columns { get; }
+
+        internal List<object> Data { get; } = new List<object>();
 
         /// <summary>
         /// Gets the column names that is present in this <see cref="DataTransferRow"/>.
@@ -44,14 +50,13 @@ namespace Cuemon.Data
         /// <value>The column names of a table-row in a database.</value>
         public IEnumerable<string> ColumnNames
         {
-            get;
-            private set;
+            get
+            {
+                return _columnNames ?? (_columnNames = Columns.Select(column => column.Name));
+            }
         }
 
-        private Collection<DataTransferRow> DataTransferRows
-        {
-            get { return _dataTransferRows; }
-        }
+        private Collection<DataTransferRow> DataTransferRows { get; } = new Collection<DataTransferRow>();
 
         /// <summary>
         /// Gets the <see cref="DataTransferRow"/> at the specified index.

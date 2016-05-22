@@ -1,9 +1,8 @@
 ﻿using System;
-
 namespace Cuemon.Data
 {
     /// <summary>
-    /// Represents the column of a table-row in a database. This class cannot be inherited.
+    /// Represents the column meta information of a table-row in a database. This class cannot be inherited.
     /// </summary>
     public sealed class DataTransferColumn
     {
@@ -12,13 +11,11 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="ordinal">The ordinal position of the column.</param>
         /// <param name="name">The name of the column.</param>
-        /// <param name="value">The value of the column.</param>
         /// <param name="dataType">The type of data stored in the column.</param>
-        internal DataTransferColumn(int ordinal, string name, object value, Type dataType)
+        internal DataTransferColumn(int ordinal, string name, Type dataType)
         {
             Ordinal = ordinal;
             Name = name;
-            Value = value;
             DataType = dataType;
         }
 
@@ -33,12 +30,6 @@ namespace Cuemon.Data
         /// </summary>
         /// <value>The name of the column.</value>
         public string Name { get; private set; }
-
-        /// <summary>
-        /// Gets the value of the column.
-        /// </summary>
-        /// <value>The value of the column.</value>
-        public object Value { get; private set; }
 
         /// <summary>
         /// Gets the type of data stored in the column.

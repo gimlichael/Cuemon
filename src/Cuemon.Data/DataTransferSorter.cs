@@ -50,12 +50,12 @@ namespace Cuemon.Data
 
         private Type TypeSelector(DataTransferRow row)
         {
-            return row.Columns.Get(OrderByColumn).DataType;
+            return row.Columns[OrderByColumn].DataType;
         }
 
         private object ValueSelector(DataTransferRow row)
         {
-            return row.Columns.Get(OrderByColumn).Value;
+            return row[OrderByColumn];
         }
     }
 }
