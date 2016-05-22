@@ -752,10 +752,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate
             {
+                TResult result;
                 string key = CalculateCompositeKey(method);
-                var f1 = DoerFactory.Create(method);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -763,10 +768,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T arg)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg);
-                var f1 = DoerFactory.Create(method, arg);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -774,10 +784,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T1 arg1, T2 arg2)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg1, arg2);
-                var f1 = DoerFactory.Create(method, arg1, arg2);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg1, arg2);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -785,10 +800,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T1 arg1, T2 arg2, T3 arg3)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg1, arg2, arg3);
-                var f1 = DoerFactory.Create(method, arg1, arg2, arg3);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg1, arg2, arg3);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -796,10 +816,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T1 arg1, T2 arg2, T3 arg3, T4 arg4)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg1, arg2, arg3, arg4);
-                var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -807,10 +832,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg1, arg2, arg3, arg4, arg5);
-                var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -818,10 +848,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg1, arg2, arg3, arg4, arg5, arg6);
-                var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -829,10 +864,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-                var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -840,10 +880,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-                var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -851,10 +896,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-                var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
@@ -862,10 +912,15 @@ namespace Cuemon.Runtime.Caching
         {
             return delegate (T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
             {
+                TResult result;
                 string key = CalculateCompositeKey(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-                var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-                var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-                return (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                if (!TryGetValue(key, MemoizationGroup, out result))
+                {
+                    var f1 = DoerFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+                    var f2 = dependencyResolver == null ? null : DoerFactory.Create(dependencyResolver, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+                    result = (TResult)GetOrAddCore(f1, key, MemoizationGroup, () => absoluteExpiration, () => slidingExpiration, f2).Value;
+                }
+                return result;
             };
         }
 
