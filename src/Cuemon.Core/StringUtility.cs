@@ -108,19 +108,7 @@ namespace Cuemon
             if (string.IsNullOrEmpty(value)) { return false; }
             if (NumberUtility.IsEven(value.Length))
             {
-                int commonChecksumLengths = value.Length / 4;
-                switch (commonChecksumLengths)
-                {
-                    case 8:
-                    case 32:
-                    case 40:
-                    case 64:
-                    case 96:
-                    case 128:
-                        return true;
-                    default:
-                        return false;
-                }
+                return (value.Length % 4 == 0);
             }
             return false;
         }
