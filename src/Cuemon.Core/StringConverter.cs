@@ -19,6 +19,31 @@ namespace Cuemon
         internal static readonly IDictionary<UriScheme, string> UriSchemeToStringLookupTable = UriSchemeConverter.StringToUriSchemeLookupTable.ToDictionary(pair => pair.Value, pair => pair.Key);
 
         /// <summary>
+        /// Converts the specified <paramref name="value"/> of an <see cref="Uri"/> to its equivalent protocol-relative <see cref="string"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="Uri"/> to be converted.</param>
+        /// <returns>A <see cref="string"/> that is a protocol-relative equivalent to <paramref name="value"/>.</returns>
+        public static string ToProtocolRelativeUri(Uri value)
+        {
+            return ToProtocolRelativeUri(value, StringUtility.NetworkPathReference);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> of an <see cref="Uri"/> to its equivalent protocol-relative <see cref="string"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="Uri"/> to be converted.</param>
+        /// <param name="relativeReference">The relative reference to prefix the result with. Default is <see cref="StringUtility.NetworkPathReference"/>.</param>
+        /// <returns>A <see cref="string"/> that is a protocol-relative equivalent to <paramref name="value"/>.</returns>
+        public static string ToProtocolRelativeUri(Uri value, string relativeReference)
+        {
+            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfFalse(value.IsAbsoluteUri, nameof(value), "Uri must be absolute.");
+            Validator.ThrowIfNullOrEmpty(relativeReference, nameof(relativeReference));
+            var schemeLength = value.GetComponents(UriComponents.Scheme, UriFormat.Unescaped).Length;
+            return string.Format(CultureInfo.InvariantCulture, "{0}{1}", relativeReference, value.OriginalString.Remove(0, schemeLength));
+        }
+
+        /// <summary>
         /// Converts the specified <paramref name="value"/> to its equivalent binary representation.
         /// </summary>
         /// <param name="value">The byte array to be converted.</param>

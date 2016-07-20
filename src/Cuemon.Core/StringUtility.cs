@@ -19,6 +19,11 @@ namespace Cuemon
 
         #region Constants
         /// <summary>
+        /// A network-path reference, eg. two forward slashes (//).
+        /// </summary>
+        public const string NetworkPathReference = "//";
+
+        /// <summary>
         /// Carriage-return/linefeed character combination.
         /// </summary>
         public const string NewLine = CarriageReturn + Linefeed;

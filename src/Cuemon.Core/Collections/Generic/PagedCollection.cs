@@ -63,7 +63,7 @@ namespace Cuemon.Collections.Generic
             Validator.ThrowIfNull(settings, nameof(settings));
 
             PagedCollection<T> pagedSource = source as PagedCollection<T>;
-            return  new PagedCollection<T>(sorter(pagedSource == null ? source : pagedSource.OriginalSource, settings), settings);
+            return new PagedCollection<T>(sorter(pagedSource == null ? source : pagedSource.OriginalSource, settings), settings);
         }
     }
 
@@ -81,7 +81,7 @@ namespace Cuemon.Collections.Generic
         /// Initializes a new instance of the <see cref="PagedCollection{T}"/> class.
         /// </summary>
         /// <param name="source">The source of the sequence.</param>
-        /// <remarks>This will do a <see cref="EnumerableUtility.Count"/> on <paramref name="source"/>; so if your source is fragile consider providing this information in the overloaded constructor.</remarks>
+        /// <remarks>This will do a <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> on <paramref name="source"/>; so if your source is fragile consider providing this information in the overloaded constructor.</remarks>
         public PagedCollection(IEnumerable<T> source)
             : this(source, new PagedSettings())
         {
@@ -202,7 +202,7 @@ namespace Cuemon.Collections.Generic
         /// </summary>
         /// <value>The total number of elements in the sequence before paging is applied.</value>
         public int TotalElementCount { get; private set; }
-        
+
         /// <summary>
         /// Gets a value indicating whether this instance has a next paged data sequence.
         /// </summary>
@@ -296,7 +296,7 @@ namespace Cuemon.Collections.Generic
         /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the paged collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator(); 
+            return GetEnumerator();
         }
 
         /// <summary>
