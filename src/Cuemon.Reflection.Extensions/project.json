@@ -1,5 +1,5 @@
 ﻿{
-  "version": "4.0.2016.1380-rc2",
+  "version": "4.0.2016.1880",
   "title": "Cuemon.Reflection.Extensions",
   "description": "The Cuemon.Reflection.Extensions assembly provides method extensions to the Cuemon.Reflection assembly.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
@@ -7,11 +7,11 @@
   "authors": [ "Michael Mortensen" ],
   "frameworks": {
     "netstandard1.4": {
-      "dependencies": { }
+      "dependencies": {}
     }
   },
   "dependencies": {
-    "Cuemon.Reflection": "4.0.2016.1380-rc2"
+    "Cuemon.Reflection": "4.0.2016.1880"
   },
   "buildOptions": {
     "optimize": true,
@@ -24,6 +24,9 @@
     "iconUrl": "http://cdn.nblapi.net/themes/cuemon.net/img/core/128x128x.png",
     "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
     "tags": [ "" ],
-    "releaseNotes": "The initial release of the ported Cuemon .NET Framework."
+    "releaseNotes": "The .NET Platform Standard release of the ported Cuemon .NET Framework."
+  },
+  "scripts": {
+    "postcompile": "dotnet pack --no-build -c Release"
   }
 }
