@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cuemon.Threading
 {
     /// <summary>
-    /// Provide ways to work more efficient with <see cref="ThreadPool"/> related tasks.
+    /// Provide ways to work more efficient with <see cref="TaskFactory.StartNew(System.Action)"/> related tasks.
     /// </summary>
     public static class ThreadPoolUtility
     {

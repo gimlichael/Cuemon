@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Cuemon.Threading
 {
     /// <summary>
-    /// Provides ways to encapsulate and re-use existing code while adding support for parallel loops and regions using <see cref="ThreadPool"/> backing strategy.
+    /// Provides ways to encapsulate and re-use existing code while adding support for parallel loops and regions.
     /// </summary>
     public static partial class ParallelTasks
     {
@@ -2159,7 +2159,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfGreaterThan(timeout.Milliseconds, int.MaxValue, nameof(timeout));
         }
 
-        private static void ForCore<TTuple, TSource>(ActionFactory<TTuple> factory, Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, int partitionSize, TimeSpan timeout) 
+        private static void ForCore<TTuple, TSource>(ActionFactory<TTuple> factory, Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, int partitionSize, TimeSpan timeout)
             where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
             where TTuple : Template<TSource>
         {

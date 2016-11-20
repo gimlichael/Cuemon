@@ -22,7 +22,7 @@ namespace Cuemon.Threading
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
         /// <remarks>
-        /// The following table shows the initial overloaded arguments for <see cref="ForEach{TSource}(System.Collections.Generic.IEnumerable{TSource},Cuemon.Action{TSource})"/>.
+        /// The following table shows the initial overloaded arguments for <see cref="ForEachTask{TSource,TResult}(System.Collections.Generic.IEnumerable{TSource},System.Func{TSource,TResult})"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Argument</term>

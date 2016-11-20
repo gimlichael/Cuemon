@@ -906,7 +906,7 @@ namespace Cuemon.Threading
                                 aggregatedExceptions.Add(te);
                             }
                         }
-                        
+
                     }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Current));
                 }
                 Task.WaitAll(queue.ToArray());

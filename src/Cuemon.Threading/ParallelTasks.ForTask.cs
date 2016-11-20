@@ -18,7 +18,7 @@ namespace Cuemon.Threading
         /// <param name="repeats">The amount of repeats to do.</param>
         /// <param name="body">The delegate that is invoked once per iteration.</param>
         /// <remarks>
-        /// The following table shows the initial overloaded arguments for <see cref="For{TSource}(TSource,TSource,Cuemon.Action{TSource})"/>.
+        /// The following table shows the initial overloaded arguments for <see cref="For{TSource}(TSource,TSource,Action{TSource})"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Argument</term>
@@ -2280,8 +2280,8 @@ namespace Cuemon.Threading
             Validator.ThrowIfGreaterThan(timeout.Milliseconds, int.MaxValue, nameof(timeout));
         }
 
-        private static IReadOnlyCollection<TResult> ForTaskCore<TTuple, TSource, TResult>(FuncFactory<TTuple, TResult> factory, Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, int partitionSize, TimeSpan timeout) 
-            where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible 
+        private static IReadOnlyCollection<TResult> ForTaskCore<TTuple, TSource, TResult>(FuncFactory<TTuple, TResult> factory, Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, int partitionSize, TimeSpan timeout)
+            where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
             where TTuple : Template<TSource>
         {
             SortedDictionary<TSource, TResult> result = new SortedDictionary<TSource, TResult>();

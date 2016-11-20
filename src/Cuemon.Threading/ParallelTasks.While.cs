@@ -18,7 +18,7 @@ namespace Cuemon.Threading
         /// <param name="source">The object being iterated in the encapsulated while-loop by the <paramref name="condition"/> delegate.</param>
         /// <param name="body">The delegate that is invoked once per iteration.</param>
         /// <remarks>
-        /// The following table shows the initial overloaded arguments for <see cref="While{TSource,TResult}(TesterFunc{T,TResult,TSuccess},TSource,Action{TResult})"/>.
+        /// The following table shows the initial overloaded arguments for <see cref="While{TSource,TResult}(Cuemon.TesterFunc{TSource,TResult,bool},TSource,System.Action{TResult})"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Argument</term>
