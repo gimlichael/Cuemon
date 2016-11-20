@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
 
@@ -541,6 +542,17 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(source, nameof(source));
             return (!source.GetTypeInfo().IsValueType || source.GetConstructor(Type.EmptyTypes) == null);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="source"/> is an anonymous method (be that in a form of a delegate or lambda expression).
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to determine is an anonymous method.</param>
+        /// <returns><c>true</c> if the specified <paramref name="source"/> is an anonymous method; otherwise, <c>false</c>.</returns>
+        public static bool IsAnonymousMethod(Type source)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            return (source.HasAttributes(typeof(CompilerGeneratedAttribute)) && source.Name.StartsWith("<>"));
         }
 
         /// <summary>
