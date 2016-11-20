@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Cuemon.AspNetCore.Mvc")]
-[assembly: AssemblyDescription("The Cuemon.AspNetCore.Mvc assembly is a supplement to the Microsoft ASP.NET Core MVC.")]
+[assembly: AssemblyTitle("Cuemon.AspNetCore.Authentication")]
+[assembly: AssemblyDescription("The Cuemon.AspNetCore.Authentication assembly is a supplement to the Microsoft ASP.NET Core Authentication.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Weubphoria")]
 [assembly: AssemblyProduct("Cuemon .NET Core")]
@@ -10,6 +10,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
-[assembly: Guid("29f776b0-32fc-4663-8ff9-75c48de3e506")]
+[assembly: Guid("dea47af1-6f1c-4036-baa1-8677ccd7f96b")]
 [assembly: AssemblyFileVersion("4.0.2016.3250")]
 [assembly: AssemblyVersion("4.0.2016.0")]

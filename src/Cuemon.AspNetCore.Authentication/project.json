@@ -1,18 +1,12 @@
 ﻿{
   "version": "4.0.2016.3250",
-  "title": "Cuemon.AspNetCore.Mvc",
-  "description": "The Cuemon.AspNetCore.Mvc assembly is a supplement to the Microsoft ASP.NET Core MVC.",
+  "title": "Cuemon.AspNetCore.Authentication",
+  "description": "The Cuemon.AspNetCore.Authentication assembly is a supplement to the Microsoft ASP.NET Core Authentication.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
   "dependencies": {
-    "Microsoft.AspNetCore.Mvc": "1.0.1",
-    "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
-    "Microsoft.AspNetCore.Mvc.Formatters.Xml": "1.0.1",
-    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
     "Cuemon.Core": "4.0.2016.3250",
-    "Cuemon.Integrity": "4.0.2016.3250",
-    "Cuemon.Xml": "4.0.2016.3250",
     "Cuemon.AspNetCore": "4.0.2016.3250"
   },
   "frameworks": {
