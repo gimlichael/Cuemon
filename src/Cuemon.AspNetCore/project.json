@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "4.0.2016.3250",
   "title": "Cuemon.AspNetCore",
   "description": "The Cuemon.AspNetCore assembly is a supplement to the Microsoft ASP.NET Core.",
@@ -6,12 +6,12 @@
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
   "dependencies": {
-    "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
-    "Microsoft.AspNetCore.Http.Extensions": "1.0.0",
-    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
     "Cuemon.Core": "4.0.2016.3250",
     "Cuemon.Integrity": "4.0.2016.3250",
-    "Cuemon.Xml": "4.0.2016.3250"
+    "Cuemon.Xml": "4.0.2016.3250",
+    "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
+    "Microsoft.AspNetCore.Http.Extensions": "1.1.0",
+    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.0"
   },
   "frameworks": {
     "netstandard1.6": {},

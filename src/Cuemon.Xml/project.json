@@ -19,7 +19,7 @@
     "System.Xml.XmlDocument": "4.3.0",
     "System.Xml.XmlSerializer": "4.3.0",
     "System.Xml.XPath": "4.3.0",
-    "System.Reflection.Emit.Lightweight": "4.0.1"
+    "System.Reflection.Emit.Lightweight": "4.3.0"
   },
   "buildOptions": {
     "optimize": true,
