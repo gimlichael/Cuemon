@@ -14,6 +14,7 @@
   "dependencies": {
     "Cuemon.Core": "4.0.2016.3250",
     "Cuemon.IO": "4.0.2016.3250",
+    "Cuemon.Runtime": "4.0.2016.3250",
     "System.Security.Cryptography.Algorithms": "4.3.0"
   },
   "buildOptions": {
