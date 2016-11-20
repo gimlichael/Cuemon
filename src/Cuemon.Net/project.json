@@ -15,8 +15,8 @@
     "Cuemon.Core": "4.0.2016.1880",
     "Cuemon.Runtime": "4.0.2016.1880",
     "Cuemon.Security": "4.0.2016.1880",
-    "System.Net.Requests": "4.0.11",
-    "System.Threading.Tasks.Parallel": "4.0.1"
+    "System.Net.Requests": "4.3.0",
+    "System.Threading.Tasks.Parallel": "4.3.0"
   },
   "buildOptions": {
     "optimize": true,

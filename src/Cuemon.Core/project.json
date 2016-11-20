@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "4.0.2016.1880",
   "title": "Cuemon",
   "description": "The Cuemon.Core assembly is the patriarch of the Cuemon .NET Core family and provides fundamental-, utility- and base-classes that define commonly-used value and reference data types, events and event handlers, interfaces, attribute, and feature rich delegates to greatly support functional programming.\n\nA great addition to the well established System namespace to make your daily operations easier to work with.",
@@ -7,12 +7,7 @@
   "authors": [ "Michael Mortensen" ],
   "frameworks": {
     "netstandard1.4": {
-      "dependencies": {
-        "NETStandard.Library": "1.6.0",
-        "System.ComponentModel.TypeConverter": "4.1.0",
-        "System.Reflection.TypeExtensions": "4.1.0",
-        "System.Linq.Expressions": "4.1.0"
-      }
+      "dependencies": {      }
     }
   },
   "buildOptions": {
@@ -30,5 +25,11 @@
   },
   "scripts": {
     "postcompile": "dotnet pack --no-build -c Release"
+  },
+  "dependencies": {
+    "NETStandard.Library": "1.6.1",
+    "System.ComponentModel.TypeConverter": "4.3.0",
+    "System.Linq.Expressions": "4.3.0",
+    "System.Reflection.TypeExtensions": "4.3.0"
   }
 }

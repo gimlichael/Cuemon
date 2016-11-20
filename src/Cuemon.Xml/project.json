@@ -16,9 +16,9 @@
     "Cuemon.Security": "4.0.2016.1880",
     "Cuemon.Runtime": "4.0.2016.1880",
     "Cuemon.Runtime.Caching": "4.0.2016.1880",
-    "System.Xml.XmlDocument": "4.0.1",
-    "System.Xml.XmlSerializer": "4.0.11",
-    "System.Xml.XPath": "4.0.1"
+    "System.Xml.XmlDocument": "4.3.0",
+    "System.Xml.XmlSerializer": "4.3.0",
+    "System.Xml.XPath": "4.3.0"
   },
   "buildOptions": {
     "optimize": true,

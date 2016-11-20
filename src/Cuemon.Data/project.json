@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "4.0.2016.1880",
   "title": "Cuemon.Data",
   "description": "The Cuemon.Data assembly is a member of the Cuemon .NET Core family and provides enhancements to the System.Data namespace.",
@@ -15,8 +15,8 @@
     "Cuemon.Collections.Specialized": "4.0.2016.1880",
     "Cuemon.Core": "4.0.2016.1880",
     "Cuemon.Runtime": "4.0.2016.1880",
-    "System.Data.Common": "4.1.0",
-    "System.Data.SqlClient": "4.1.0"
+    "System.Data.Common": "4.3.0",
+    "System.Data.SqlClient": "4.3.0"
   },
   "buildOptions": {
     "optimize": true,
