@@ -8,9 +8,7 @@ namespace Cuemon.Runtime.Serialization
 	/// </summary>
 	public sealed class XmlJsonInstance : JsonInstance
 	{
-		private XPathNodeType _nodeType;
-
-		/// <summary>
+	    /// <summary>
 		/// Initializes a new instance of the <see cref="XmlJsonInstance"/> class.
 		/// </summary>
 		/// <param name="name">The name of the JSON object.</param>
@@ -29,19 +27,16 @@ namespace Cuemon.Runtime.Serialization
 		/// <param name="nodeType">The node type of the XML document to convert into a JSON representation.</param>
 		public XmlJsonInstance(string name, object value, int nodeNumber, XPathNodeType nodeType) : base(name, value, nodeNumber)
 		{
-			_nodeType = nodeType;
+			NodeType = nodeType;
 		}
 
 		/// <summary>
 		/// Gets the originating node type of the XML document.
 		/// </summary>
 		/// <value>The originating node type of the XML document.</value>
-		public XPathNodeType NodeType
-		{
-			get { return _nodeType; }
-		}
+		public XPathNodeType NodeType { get; }
 
-		/// <summary>
+	    /// <summary>
 		/// Computes and returns a MD5 signature of the following properties: <see cref="P:Cuemon.IO.JsonInstance.Name"/>, <see cref="P:Cuemon.IO.JsonInstance.Value"/>, <see cref="P:Cuemon.IO.JsonInstance.NodeNumber"/> and <see cref="NodeType"/>.
 		/// </summary>
 		/// <returns>

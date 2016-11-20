@@ -170,45 +170,6 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
-        /// Gets a specific property of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a property from.</param>
-        /// <param name="propertyName">The name of the property to return.</param>
-        /// <returns>An object representing the property with the specified name, if found; otherwise, null.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static PropertyInfo GetProperty(this Type source, string propertyName)
-        {
-            return ReflectionUtility.GetProperty(source, propertyName);
-        }
-
-        /// <summary>
-        /// Gets a specific property of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a property from.</param>
-        /// <param name="propertyName">The name of the property to return.</param>
-        /// <param name="propertyReturnSignature">The return <see cref="Type"/> of the property.</param>
-        /// <returns>An object representing the property that matches the specified requirements, if found; otherwise, null.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static PropertyInfo GetProperty(this Type source, string propertyName, Type propertyReturnSignature)
-        {
-            return ReflectionUtility.GetProperty(source, propertyName, propertyReturnSignature);
-        }
-
-        /// <summary>
-        /// Gets a specific property of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a property from.</param>
-        /// <param name="propertyName">The name of the property to return.</param>
-        /// <param name="propertyReturnSignature">The return <see cref="Type"/> of the property.</param>
-        /// <param name="propertySignature">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the indexed property to get.</param>
-        /// <returns>An object representing the property that matches the specified requirements, if found; otherwise, null.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static PropertyInfo GetProperty(this Type source, string propertyName, Type propertyReturnSignature, Type[] propertySignature)
-        {
-            return ReflectionUtility.GetProperty(source, propertyName, propertyReturnSignature, propertySignature);
-        }
-
-        /// <summary>
         /// Returns all the properties of the specified <paramref name="source"/>.
         /// </summary>
         /// <param name="source">The source to return properties from.</param>
