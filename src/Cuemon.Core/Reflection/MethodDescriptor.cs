@@ -8,31 +8,31 @@ using System.Text;
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Represent the signature of a method.
+    /// Provides information about a method, such as its name, parameters and wether its a property or method.
     /// </summary>
-    public sealed class MethodSignature
+    public sealed class MethodDescriptor
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="MethodSignature" /> class.
+        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
         /// </summary>
         /// <param name="method">The method to extract a signature for.</param>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public MethodSignature(MethodBase method) : this(method == null ? null : method.DeclaringType, method)
+        public MethodDescriptor(MethodBase method) : this(method == null ? null : method.DeclaringType, method)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MethodSignature" /> class.
+        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
         /// </summary>
         /// <param name="caller">The class on which the <paramref name="method"/> resides.</param>
         /// <param name="method">The method to extract a signature for.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public MethodSignature(Type caller, MethodBase method)
+        public MethodDescriptor(Type caller, MethodBase method)
         {
             if (method == null) { throw new ArgumentNullException(nameof(method)); }
             string methodName = string.IsNullOrEmpty(method.Name) ? "NotAvailable" : method.Name;
@@ -46,39 +46,39 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MethodSignature" /> class.
+        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
         /// </summary>
         /// <param name="className">The name of the class where the method is located.</param>
         /// <param name="methodName">The name of the method.</param>
         /// <remarks>This represents a method with no parameters.</remarks>
-        public MethodSignature(string className, string methodName) : this(className, methodName, new ParameterSignature[0])
+        public MethodDescriptor(string className, string methodName) : this(className, methodName, new ParameterSignature[0])
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MethodSignature" /> class.
+        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
         /// </summary>
         /// <param name="className">The name of the class where the method is located.</param>
         /// <param name="methodName">The name of the method.</param>
         /// <param name="isProperty">A value indicating whether the method is a property. Default is <c>false</c>.</param>
         /// <remarks>This represents a method with no parameters or a normal property.</remarks>
-        public MethodSignature(string className, string methodName, bool isProperty) : this(className, methodName, isProperty, new ParameterSignature[0])
+        public MethodDescriptor(string className, string methodName, bool isProperty) : this(className, methodName, isProperty, new ParameterSignature[0])
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MethodSignature" /> class.
+        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
         /// </summary>
         /// <param name="className">The name of the class where the method is located.</param>
         /// <param name="methodName">The name of the method.</param>
         /// <param name="parameters">A sequence of <see cref="ParameterSignature"/> that represent the parameter signature of the method.</param>
         /// <remarks>This represents a method with one or more parameters.</remarks>
-        public MethodSignature(string className, string methodName, params ParameterSignature[] parameters) : this(className, methodName, false, parameters)
+        public MethodDescriptor(string className, string methodName, params ParameterSignature[] parameters) : this(className, methodName, false, parameters)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MethodSignature" /> class.
+        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
         /// </summary>
         /// <param name="className">The name of the class where the method is located.</param>
         /// <param name="methodName">The name of the method.</param>
@@ -93,7 +93,7 @@ namespace Cuemon.Reflection
         /// <paramref name="methodName"/> is empty.
         /// </exception>
         /// <remarks>This represents a method with one or more parameters or a property indexer.</remarks>
-        public MethodSignature(string className, string methodName, bool isProperty, params ParameterSignature[] parameters)
+        public MethodDescriptor(string className, string methodName, bool isProperty, params ParameterSignature[] parameters)
         {
             if (className == null) { throw new ArgumentNullException(nameof(className)); }
             if (className.Length == 0) { throw new ArgumentEmptyException(nameof(className)); }
@@ -143,62 +143,62 @@ namespace Cuemon.Reflection
 
         #region Methods
         /// <summary>
-        /// Creates and returns a <see cref="MethodSignature"/> object and automatically determines the type of the signature (be that method or property).
+        /// Creates and returns a <see cref="MethodDescriptor"/> object and automatically determines the type of the signature (be that method or property).
         /// </summary>
         /// <param name="method">The method to extract a signature for.</param>
-        /// <returns>A <see cref="MethodSignature"/> object.</returns>
+        /// <returns>A <see cref="MethodDescriptor"/> object.</returns>
         /// <remarks>Although confusing a property is to be thought of as a method with either one or two methods (Get, Set) contained inside the property declaration.</remarks>
-        public static MethodSignature Create(MethodBase method)
+        public static MethodDescriptor Create(MethodBase method)
         {
-            return new MethodSignature(method);
+            return new MethodDescriptor(method);
         }
 
         /// <summary>
-        /// Creates and returns a <see cref="MethodSignature"/> object.
+        /// Creates and returns a <see cref="MethodDescriptor"/> object.
         /// </summary>
         /// <param name="className">The name of the class where the method is located.</param>
         /// <param name="methodName">The name of the method.</param>
-        /// <returns>A <see cref="MethodSignature"/> object.</returns>
-        public static MethodSignature CreateMethod(string className, string methodName)
+        /// <returns>A <see cref="MethodDescriptor"/> object.</returns>
+        public static MethodDescriptor CreateMethod(string className, string methodName)
         {
-            return new MethodSignature(className, methodName);
+            return new MethodDescriptor(className, methodName);
         }
 
         /// <summary>
-        /// Creates and returns a <see cref="MethodSignature"/> object.
+        /// Creates and returns a <see cref="MethodDescriptor"/> object.
         /// </summary>
         /// <param name="className">The name of the class where the method is located.</param>
         /// <param name="methodName">The name of the method.</param>
         /// <param name="parameters">A sequence of <see cref="ParameterSignature" /> that represent the parameter signature of the method.</param>
-        /// <returns>A <see cref="MethodSignature"/> object.</returns>
-        public static MethodSignature CreateMethod(string className, string methodName, params ParameterSignature[] parameters)
+        /// <returns>A <see cref="MethodDescriptor"/> object.</returns>
+        public static MethodDescriptor CreateMethod(string className, string methodName, params ParameterSignature[] parameters)
         {
-            return new MethodSignature(className, methodName, parameters);
+            return new MethodDescriptor(className, methodName, parameters);
         }
 
         /// <summary>
-        /// Creates and returns a <see cref="MethodSignature"/> object.
+        /// Creates and returns a <see cref="MethodDescriptor"/> object.
         /// </summary>
         /// <param name="className">The name of the class where the method is located.</param>
         /// <param name="propertyName">The name of the property.</param>
-        /// <returns>A <see cref="MethodSignature"/> object with <see cref="IsProperty"/> initialized to <c>true</c>.</returns>
+        /// <returns>A <see cref="MethodDescriptor"/> object with <see cref="IsProperty"/> initialized to <c>true</c>.</returns>
         /// <remarks>Although confusing a property is to be thought of as a method with either one or two methods (Get, Set) contained inside the property declaration.</remarks>
-        public static MethodSignature CreateProperty(string className, string propertyName)
+        public static MethodDescriptor CreateProperty(string className, string propertyName)
         {
-            return new MethodSignature(className, propertyName, true);
+            return new MethodDescriptor(className, propertyName, true);
         }
 
         /// <summary>
-        /// Creates and returns a <see cref="MethodSignature"/> object.
+        /// Creates and returns a <see cref="MethodDescriptor"/> object.
         /// </summary>
         /// <param name="className">The name of the class where the method is located.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <param name="parameters">A sequence of <see cref="ParameterSignature" /> that represent the parameter signature of the method.</param>
-        /// <returns>A <see cref="MethodSignature"/> object with <see cref="IsProperty"/> initialized to <c>true</c>.</returns>
+        /// <returns>A <see cref="MethodDescriptor"/> object with <see cref="IsProperty"/> initialized to <c>true</c>.</returns>
         /// <remarks>Although confusing a property is to be thought of as a method with either one or two methods (Get, Set) contained inside the property declaration.</remarks>
-        public static MethodSignature CreateProperty(string className, string propertyName, params ParameterSignature[] parameters)
+        public static MethodDescriptor CreateProperty(string className, string propertyName, params ParameterSignature[] parameters)
         {
-            return new MethodSignature(className, propertyName, true, parameters);
+            return new MethodDescriptor(className, propertyName, true, parameters);
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace Cuemon.Reflection
         /// <param name="method">The method holding the parameter signature to merge with the runtime parameter values.</param>
         /// <param name="runtimeParameterValues">The runtime parameter values.</param>
         /// <returns>An <see cref="IDictionary{TKey,TValue}"/> containing the merged result of the <paramref name="method"/> parameter signature and <paramref name="runtimeParameterValues"/>.</returns>
-        public static IDictionary<string, object> MergeParameters(MethodSignature method, params object[] runtimeParameterValues)
+        public static IDictionary<string, object> MergeParameters(MethodDescriptor method, params object[] runtimeParameterValues)
         {
             Validator.ThrowIfNull(method, nameof(method));
             return MergeParameters(method.Parameters, runtimeParameterValues);

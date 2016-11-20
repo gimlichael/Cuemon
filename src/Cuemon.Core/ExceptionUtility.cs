@@ -42,7 +42,7 @@ namespace Cuemon
         public static T Refine<T>(T exception, MethodBase method, params object[] parameters) where T : Exception
         {
             Validator.ThrowIfNull(method, nameof(method));
-            return Refine(exception, MethodSignature.Create(method), parameters);
+            return Refine(exception, MethodDescriptor.Create(method), parameters);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Cuemon
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
-        public static T Refine<T>(T exception, MethodSignature method, params object[] parameters) where T : Exception
+        public static T Refine<T>(T exception, MethodDescriptor method, params object[] parameters) where T : Exception
 	    {
             Validator.ThrowIfNull(exception, nameof(exception));
             Validator.ThrowIfNull(method, nameof(method));

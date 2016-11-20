@@ -52,7 +52,7 @@ namespace Cuemon
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
-        public static T Refine<T>(this T exception, MethodSignature method, params object[] parameters) where T : Exception
+        public static T Refine<T>(this T exception, MethodDescriptor method, params object[] parameters) where T : Exception
         {
             return ExceptionUtility.Refine(exception, method, parameters);
         }

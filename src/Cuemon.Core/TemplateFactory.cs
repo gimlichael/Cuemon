@@ -49,7 +49,7 @@ namespace Cuemon
         {
             if (HasDelegate)
             {
-                MethodSignature signature = new MethodSignature(DelegateInfo);
+                MethodDescriptor signature = new MethodDescriptor(DelegateInfo);
                 return signature.ToString();
             }
             return base.ToString();
