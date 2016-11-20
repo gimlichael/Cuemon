@@ -3,8 +3,9 @@
 namespace Cuemon.Diagnostics
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="TimeMeasureProfiler"/> operations.
+    /// Specifies options that is related to <see cref="TimeMeasureProfiler" /> operations.
     /// </summary>
+    /// <seealso cref="Cuemon.Diagnostics.ProfilerOptions" />
     public sealed class TimeMeasureOptions : ProfilerOptions
     {
         /// <summary>
@@ -25,7 +26,7 @@ namespace Cuemon.Diagnostics
         /// </remarks>
         public TimeMeasureOptions()
         {
-            TimeMeasureCompletedThreshold = TimeSpan.Zero;
+            TimeMeasureCompletedThreshold = DefaultTimeMeasureCompletedThreshold;
         }
 
         /// <summary>
@@ -33,5 +34,11 @@ namespace Cuemon.Diagnostics
         /// </summary>
         /// <value>The time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompletedCallback"/> is invoked.</value>
         public TimeSpan TimeMeasureCompletedThreshold { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompletedCallback"/> is invoked,
+        /// </summary>
+        /// <value>The default time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompletedCallback"/> is invoked.</value>
+        public static TimeSpan DefaultTimeMeasureCompletedThreshold { get; set; } = TimeSpan.Zero;
     }
 }

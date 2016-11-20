@@ -38,13 +38,13 @@ namespace Cuemon.Diagnostics
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder("{0} took {1}:{2}:{3}.{4}{5}{6} to execute.".FormatWith(Member,
-                Elapsed.Hours.ToString("D2"),
-                Elapsed.Minutes.ToString("D2"),
-                Elapsed.Seconds.ToString("D2"),
-                Elapsed.Milliseconds.ToString("D3"),
-                Elapsed.GetMicroseconds().ToString("D3"),
-                Elapsed.GetNanoseconds().ToString("D3")));
+            StringBuilder result = new StringBuilder("{0} took {1:D2}:{2:D2}:{3:D2}.{4:D3}{5:D3}{6:D3} to execute.".FormatWith(Member,
+                Elapsed.Hours,
+                Elapsed.Minutes,
+                Elapsed.Seconds,
+                Elapsed.Milliseconds,
+                Elapsed.GetMicroseconds(),
+                Elapsed.GetNanoseconds()));
             if (Data.Count > 0)
             {
                 result.Append(" Parameters: { ");
