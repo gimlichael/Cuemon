@@ -22,6 +22,7 @@ namespace Cuemon
         /// </exception>
         public static TimeSpan FromDouble(double value, TimeUnit timeUnit)
         {
+            if (value == 0.0) { return TimeSpan.Zero; }
             switch (timeUnit)
             {
                 case TimeUnit.Days:
