@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "Cuemon.Core": "4.0.2016.1880",
-    "Cuemon.Core.Extensions": "4.0.2016.1880",
     "Cuemon.Reflection": "4.0.2016.1880"
   },
   "buildOptions": {
