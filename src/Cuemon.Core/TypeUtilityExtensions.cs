@@ -125,6 +125,16 @@ namespace Cuemon
         public static bool IsNullable<T>(this T? source) where T : struct { return TypeUtility.IsNullable(source); }
 
         /// <summary>
+        /// Determines whether the specified <paramref name="source"/> is an anonymous method (be that in a form of a delegate or lambda expression).
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to determine is an anonymous method.</param>
+        /// <returns><c>true</c> if the specified <paramref name="source"/> is an anonymous method; otherwise, <c>false</c>.</returns>
+        public static bool IsAnonymousMethod(this Type source)
+        {
+            return TypeUtility.IsAnonymousMethod(source);
+        }
+
+        /// <summary>
         /// Gets a sequence of derived types from the <paramref name="source"/> an it's associated <see cref="Assembly"/>.
         /// </summary>
         /// <param name="source">The source type to locate derived types from.</param>
@@ -305,6 +315,6 @@ namespace Cuemon
         public static object GetDefaultValue(this Type type)
         {
             return TypeUtility.GetDefaultValue(type);
-        } 
+        }
     }
 }
