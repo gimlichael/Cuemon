@@ -32,7 +32,11 @@ namespace Cuemon.Xml.XPath
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(encoding, nameof(encoding));
-            using (Stream stream = StreamConverter.FromString(value, PreambleSequence.Keep, encoding))
+            using (Stream stream = StreamConverter.FromString(value, options =>
+            {
+                options.Encoding = encoding;
+                options.Preamble = PreambleSequence.Keep;
+            }))
             {
                 return FromStream(stream);
             }

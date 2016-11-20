@@ -96,7 +96,11 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
         public static HashResult ComputeHash(string value, HashAlgorithmType algorithmType, Encoding encoding)
         {
-            return ComputeHash(ByteConverter.FromString(value, PreambleSequence.Remove, encoding), algorithmType);
+            return ComputeHash(ByteConverter.FromString(value, options =>
+            {
+                options.Encoding = encoding;
+                options.Preamble = PreambleSequence.Remove;
+            }), algorithmType);
         }
 
         /// <summary>

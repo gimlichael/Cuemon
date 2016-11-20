@@ -6,7 +6,7 @@ using System.Text;
 namespace Cuemon.IO
 {
     /// <summary>
-    /// Specifies a set of features to support on the <see cref="StreamWriter"/> object created by the <see cref="StreamWriterUtility.CreateStream(Cuemon.Action{System.IO.StreamWriter})"/> method. This class cannot be inherited.
+    /// Specifies a set of features to support on the <see cref="StreamWriter"/> object created by the <see cref="StreamWriterUtility.CreateStream(System.Action{System.IO.StreamWriter}))"/> method. This class cannot be inherited.
     /// </summary>
     public sealed class StreamWriterSettings
     {

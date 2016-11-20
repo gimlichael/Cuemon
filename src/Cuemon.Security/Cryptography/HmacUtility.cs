@@ -104,7 +104,11 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(string value, byte[] sharedKey, HmacAlgorithmType algorithmType, Encoding encoding)
         {
-            return ComputeKeyedHash(ByteConverter.FromString(value, PreambleSequence.Remove, encoding), sharedKey, algorithmType);
+            return ComputeKeyedHash(ByteConverter.FromString(value, options =>
+            {
+                options.Encoding = encoding;
+                options.Preamble = PreambleSequence.Remove;
+            }), sharedKey, algorithmType);
         }
 
         /// <summary>

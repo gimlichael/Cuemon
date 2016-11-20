@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
+using Cuemon.Text;
 
 namespace Cuemon.IO
 {
@@ -40,26 +42,14 @@ namespace Cuemon.IO
         }
 
         /// <summary>
-        /// Converts specified <paramref name="value"/> to a <see cref="Stream"/> using UTF-16 for the encoding.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
-        public static Stream ToStream(this string value, PreambleSequence sequence)
-        {
-            return StreamConverter.FromString(value, sequence);
-        }
-
-        /// <summary>
         /// Converts the specified <paramref name="value"/> to a <see cref="Stream"/>.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
-        public static Stream ToStream(this string value, PreambleSequence sequence, Encoding encoding)
+        public static Stream ToStream(this string value, Action<EncodingOptions> setup)
         {
-            return StreamConverter.FromString(value, sequence, encoding);
+            return StreamConverter.FromString(value, setup);
         }
     }
 }

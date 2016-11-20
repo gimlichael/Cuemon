@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Cuemon.IO;
+using Cuemon.Text;
 
 namespace Cuemon
 {
@@ -120,46 +121,38 @@ namespace Cuemon
         /// Converts the specified <paramref name="value"/> to a byte array using UTF-16 for the encoding preserving any preamble sequences.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
-        /// <returns>A <b>byte array</b> containing the results of encoding the specified set of characters.</returns>
+        /// <returns>A <b>byte array</b> which is encoded in <see cref="Encoding.Unicode"/> and preserving any preamble sequences.</returns>
         public static byte[] FromString(string value)
         {
-            return FromString(value, PreambleSequence.Keep);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="value"/> to a byte array using UTF-16 for the encoding.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <returns>A <b>byte array</b> containing the results of encoding the specified set of characters.</returns>
-        public static byte[] FromString(string value, PreambleSequence sequence)
-        {
-            return FromString(value, sequence, Encoding.Unicode);
+            return FromString(value, options =>
+            {
+                options.Encoding = Encoding.Unicode;
+                options.Preamble = PreambleSequence.Keep;
+            });
         }
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a byte array using the provided preferred encoding.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
-        /// <returns>A <b>byte array</b> containing the results of encoding the specified set of characters.</returns>
-        public static byte[] FromString(string value, PreambleSequence sequence, Encoding encoding)
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A <b>byte array</b> which is the result of the specified delegate <paramref name="setup"/>.</returns>
+        public static byte[] FromString(string value, Action<EncodingOptions> setup)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(encoding, nameof(encoding));
+            var options = DelegateUtility.ConfigureAction(setup);
 
             byte[] valueInBytes;
-            switch (sequence)
+            switch (options.Preamble)
             {
                 case PreambleSequence.Keep:
-                    valueInBytes = ByteUtility.CombineByteArrays(encoding.GetPreamble(), encoding.GetBytes(value));
+                    valueInBytes = ByteUtility.CombineByteArrays(options.Encoding.GetPreamble(), options.Encoding.GetBytes(value));
                     break;
                 case PreambleSequence.Remove:
-                    valueInBytes = encoding.GetBytes(value);
+                    valueInBytes = options.Encoding.GetBytes(value);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(sequence));
+                    throw new ArgumentOutOfRangeException(nameof(setup));
             }
             return valueInBytes;
         }

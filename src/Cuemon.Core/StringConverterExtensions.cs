@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Cuemon.Text;
 
 namespace Cuemon
 {
@@ -36,26 +37,24 @@ namespace Cuemon
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a string using the provided preferred encoding.
         /// </summary>
-        /// <param name="value">The <see cref="Stream"/> to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
-        /// <returns>A <see cref="System.String"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
-        public static string ToString(this Stream value, PreambleSequence sequence, Encoding encoding)
+        /// <param name="value">The <see cref="System.IO.Stream"/> to be converted.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
+        public static string ToString(this Stream value, Action<EncodingOptions> setup)
         {
-            return StringConverter.FromStream(value, sequence, encoding);
+            return StringConverter.FromStream(value, setup);
         }
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a string using the provided preferred encoding.
         /// </summary>
-        /// <param name="value">The <see cref="Stream"/> to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
+        /// <param name="value">The <see cref="System.IO.Stream"/> to be converted.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
-        /// <returns>A <see cref="System.String"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
-        public static string ToString(this Stream value, PreambleSequence sequence, Encoding encoding, bool leaveStreamOpen)
+        /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
+        public static string ToString(this Stream value, Action<EncodingOptions> setup, bool leaveStreamOpen)
         {
-            return StringConverter.FromStream(value, sequence, encoding, leaveStreamOpen);
+            return StringConverter.FromStream(value, setup, leaveStreamOpen);
         }
 
         /// <summary>
@@ -69,45 +68,30 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Converts the specified hexadecimal <paramref name="hexadecimalValue"/> to its equivalent <see cref="String"/> representation.
+        /// Converts the specified hexadecimal <paramref name="value"/> to its equivalent <see cref="String"/> representation.
         /// </summary>
-        /// <param name="hexadecimalValue">The hexadecimal string to be converted.</param>
-        /// <returns>A <see cref="String"/> representation of the hexadecimal characters in <paramref name="hexadecimalValue"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="hexadecimalValue"/> is null.
+        /// <param name="value">The hexadecimal string to be converted.</param>
+        /// <returns>A <see cref="String"/> representation of the hexadecimal characters in <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
         /// </exception>
-        public static string FromHexadecimal(this string hexadecimalValue)
+        public static string FromHexadecimal(this string value)
         {
-            return StringConverter.FromHexadecimal(hexadecimalValue);
+            return StringConverter.FromHexadecimal(value);
         }
 
         /// <summary>
-        /// Converts the specified hexadecimal <paramref name="hexadecimalValue"/> to its equivalent <see cref="String"/> representation.
+        /// Converts the specified hexadecimal <paramref name="value"/> to its equivalent <see cref="String"/> representation.
         /// </summary>
-        /// <param name="hexadecimalValue">The hexadecimal string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <returns>A <see cref="String"/> representation of the hexadecimal characters in <paramref name="hexadecimalValue"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="hexadecimalValue"/> is null.
+        /// <param name="value">The hexadecimal string to be converted.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="String"/> representation of the hexadecimal characters in <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
         /// </exception>
-        public static string FromHexadecimal(this string hexadecimalValue, PreambleSequence sequence)
+        public static string FromHexadecimal(this string value, Action<EncodingOptions> setup)
         {
-            return StringConverter.FromHexadecimal(hexadecimalValue, sequence);
-        }
-
-        /// <summary>
-        /// Converts the specified hexadecimal <paramref name="hexadecimalValue"/> to its equivalent <see cref="String"/> representation.
-        /// </summary>
-        /// <param name="hexadecimalValue">The hexadecimal string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
-        /// <returns>A <see cref="String"/> representation of the hexadecimal characters in <paramref name="hexadecimalValue"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="hexadecimalValue"/> is null - or - <paramref name="encoding"/> is null.
-        /// </exception>
-        public static string FromHexadecimal(this string hexadecimalValue, PreambleSequence sequence, Encoding encoding)
-        {
-            return StringConverter.FromHexadecimal(hexadecimalValue, sequence, encoding);
+            return StringConverter.FromHexadecimal(value, setup);
         }
 
         /// <summary>
@@ -140,29 +124,14 @@ namespace Cuemon
         /// Converts the specified <paramref name="value"/> to its equivalent hexadecimal representation.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <returns>A hexadecimal <see cref="string"/> representation of the characters in <paramref name="value"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A hexadecimal <see cref="String"/> representation of the characters in <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null.
         /// </exception>
-        public static string ToHexadecimal(this string value, PreambleSequence sequence)
+        public static string ToHexadecimal(this string value, Action<EncodingOptions> setup)
         {
-            return StringConverter.ToHexadecimal(value, sequence);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="value"/> to its equivalent hexadecimal representation.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
-        /// <returns>A hexadecimal <see cref="string"/> representation of the characters in <paramref name="value"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="encoding"/> is null.
-        /// </exception>
-        public static string ToHexadecimal(this string value, PreambleSequence sequence, Encoding encoding)
-        {
-            return StringConverter.ToHexadecimal(value, sequence, encoding);
+            return StringConverter.ToHexadecimal(value, setup);
         }
 
         /// <summary>
@@ -192,12 +161,11 @@ namespace Cuemon
         /// Converts the specified <paramref name="value"/> to a string using the provided preferred encoding.
         /// </summary>
         /// <param name="value">The byte array to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
-        /// <returns>A <see cref="System.String"/> containing the results of decoding the specified sequence of bytes.</returns>
-        public static string ToString(this byte[] value, PreambleSequence sequence, Encoding encoding)
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="string"/> containing the results of decoding the specified sequence of bytes.</returns>
+        public static string ToString(this byte[] value, Action<EncodingOptions> setup)
         {
-            return StringConverter.FromBytes(value, sequence, encoding);
+            return StringConverter.FromBytes(value, setup);
         }
 
         /// <summary>

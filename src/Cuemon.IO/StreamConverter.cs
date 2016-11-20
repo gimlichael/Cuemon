@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Cuemon.Text;
 
 namespace Cuemon.IO
 {
@@ -73,46 +74,28 @@ namespace Cuemon.IO
         /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
         public static Stream FromString(string value)
         {
-            return FromString(value, PreambleSequence.Keep);
-        }
-
-        /// <summary>
-        /// Converts specified <paramref name="value"/> to a <see cref="Stream"/> using UTF-16 for the encoding.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
-        public static Stream FromString(string value, PreambleSequence sequence)
-        {
-            return FromString(value, sequence, Encoding.Unicode);
+            return FromString(value, options =>
+            {
+                options.Encoding = Encoding.Unicode;
+                options.Preamble = PreambleSequence.Keep;
+            });
         }
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a <see cref="Stream"/>.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
-        public static Stream FromString(string value, PreambleSequence sequence, Encoding encoding)
+        public static Stream FromString(string value, Action<EncodingOptions> setup)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(encoding, nameof(encoding));
-
-            MemoryStream output;
-            MemoryStream tempOutput = null;
-            try
+            MemoryStream output = DelegateUtility.SafeInvokeDisposable(() =>
             {
-                tempOutput = new MemoryStream(ByteConverter.FromString(value, sequence, encoding));
-                tempOutput.Position = 0;
-                output = tempOutput;
-                tempOutput = null;
-            }
-            finally
-            {
-                if (tempOutput != null) { tempOutput.Dispose(); }
-            }
-            output.Position = 0;
+                var m = new MemoryStream(ByteConverter.FromString(value, setup));
+                m.Position = 0;
+                return m;
+            });
             return output;
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Cuemon.Text;
 
 namespace Cuemon
 {
@@ -83,26 +84,14 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="value"/> to a byte array using UTF-16 for the encoding.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <returns>A <b>byte array</b> containing the results of encoding the specified set of characters.</returns>
-        public static byte[] ToByteArray(this string value, PreambleSequence sequence)
-        {
-            return ByteConverter.FromString(value, sequence);
-        }
-
-        /// <summary>
         /// Converts the specified <paramref name="value"/> to a byte array using the provided preferred encoding.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <b>byte array</b> containing the results of encoding the specified set of characters.</returns>
-        public static byte[] ToByteArray(this string value, PreambleSequence sequence, Encoding encoding)
+        public static byte[] ToByteArray(this string value, Action<EncodingOptions> setup)
         {
-            return ByteConverter.FromString(value, sequence, encoding);
+            return ByteConverter.FromString(value, setup);
         }
     }
 }

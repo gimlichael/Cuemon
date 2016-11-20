@@ -120,7 +120,11 @@ namespace Cuemon.Web.Security
             byte[] rawNonce;
             if (ByteConverter.TryFromBase64String(nonce, out rawNonce))
             {
-                string nonceProtocol = StringConverter.FromBytes(rawNonce, PreambleSequence.Remove, Encoding.UTF8);
+                string nonceProtocol = StringConverter.FromBytes(rawNonce, options =>
+                {
+                    options.Encoding = Encoding.UTF8;
+                    options.Preamble = PreambleSequence.Remove;
+                });
                 DateTime nonceTimestamp = DateTime.ParseExact(nonceProtocol.Substring(0, nonceProtocol.LastIndexOf(':')), "u", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
                 TimeSpan difference = (DateTime.UtcNow - nonceTimestamp);
                 return (difference > timeToLive);
@@ -141,7 +145,11 @@ namespace Cuemon.Web.Security
             Validator.ThrowIfNull(privateKey, nameof(privateKey));
             string nonceHash = ComputeNonceHash(timestamp, entityTag, privateKey);
             string nonceProtocol = string.Format(CultureInfo.InvariantCulture, "{0}:{1}", timestamp.ToString("u", CultureInfo.InvariantCulture), nonceHash);
-            return Convert.ToBase64String(ByteConverter.FromString(nonceProtocol, PreambleSequence.Remove, Encoding.UTF8));
+            return Convert.ToBase64String(ByteConverter.FromString(nonceProtocol, options =>
+            {
+                options.Encoding = Encoding.UTF8;
+                options.Preamble = PreambleSequence.Remove;
+            }));
         }
 
         /// <summary>
