@@ -1,5 +1,5 @@
 {
-  "version": "4.0.2016.1880",
+  "version": "4.0.2016.3250",
   "title": "Cuemon.Security",
   "description": "The Cuemon.Security assembly is a member of the Cuemon .NET Core family and provides enhancements to the System.Security namespace.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
@@ -12,8 +12,8 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.1880",
-    "Cuemon.IO": "4.0.2016.1880",
+    "Cuemon.Core": "4.0.2016.3250",
+    "Cuemon.IO": "4.0.2016.3250",
     "System.Security.Cryptography.Algorithms": "4.3.0"
   },
   "buildOptions": {

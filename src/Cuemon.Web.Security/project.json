@@ -1,5 +1,5 @@
 {
-  "version": "4.0.2016.1880",
+  "version": "4.0.2016.3250",
   "title": "Cuemon.Web.Security",
   "description": "The Cuemon.Web.Security assembly is a member of the Cuemon .NET Core family and provides different classes that are used to implement security in Web server applications.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
@@ -12,10 +12,10 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.1880",
-    "Cuemon.Runtime": "4.0.2016.1880",
-    "Cuemon.Security": "4.0.2016.1880",
-    "Cuemon.Web": "4.0.2016.1880",
+    "Cuemon.Core": "4.0.2016.3250",
+    "Cuemon.Runtime": "4.0.2016.3250",
+    "Cuemon.Security": "4.0.2016.3250",
+    "Cuemon.Web": "4.0.2016.3250",
     "Microsoft.AspNetCore.Http.Abstractions": "1.1.0"
   },
   "buildOptions": {

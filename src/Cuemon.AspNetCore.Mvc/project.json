@@ -1,23 +1,30 @@
 ﻿{
   "version": "4.0.2016.3250",
-  "title": "Cuemon.Data.XmlClient",
-  "description": "The Cuemon.Data.XmlClient assembly is a member of the Cuemon .NET Core family and provides enhancements to the Cuemon.Data namespace.",
+  "title": "Cuemon.AspNetCore.Mvc",
+  "description": "The Cuemon.AspNetCore.Mvc assembly is a supplement to the Microsoft ASP.NET Core MVC.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
-  "frameworks": {
-    "netstandard1.4": {
-      "dependencies": {}
-    }
-  },
   "dependencies": {
+    "Microsoft.AspNetCore.Mvc": "1.0.1",
+    "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
+    "Microsoft.AspNetCore.Mvc.Formatters.Xml": "1.0.1",
+    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
     "Cuemon.Core": "4.0.2016.3250",
-    "Cuemon.Data": "4.0.2016.3250",
+    "Cuemon.Integrity": "4.0.2016.3250",
+    "Cuemon.Web": "4.0.2016.3250",
     "Cuemon.Xml": "4.0.2016.3250"
+  },
+  "frameworks": {
+    "netstandard1.6": {},
+    "net461": {}
   },
   "buildOptions": {
     "optimize": true,
     "xmlDoc": true
+  },
+  "scripts": {
+    "postcompile": "dotnet pack --no-build -c Release"
   },
   "packOptions": {
     "owners": [ "Weubphoria" ],
@@ -27,8 +34,5 @@
     "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
     "tags": [ "" ],
     "releaseNotes": "The .NET Platform Standard release of the ported Cuemon .NET Framework."
-  },
-  "scripts": {
-    "postcompile": "dotnet pack --no-build -c Release"
   }
 }
