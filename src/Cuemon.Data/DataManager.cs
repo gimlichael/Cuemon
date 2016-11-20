@@ -13,9 +13,6 @@ namespace Cuemon.Data
     /// </summary>
     public abstract class DataManager
     {
-        private bool _enableTransientFaultRecovery = true;
-        private byte _transientFaultRetryAttempts = TransientFaultUtility.DefaultRetryAttempts;
-
         #region Constructors
 
         #endregion
@@ -28,37 +25,16 @@ namespace Cuemon.Data
         public abstract string ConnectionString { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether transient faults should be attempted gracefully recovered. Default is <c>true</c>.
-        /// </summary>
-        /// <value><c>true</c> if transient faults should be attempted gracefully recovered; otherwise, <c>false</c>.</value>
-        public bool EnableTransientFaultRecovery
-        {
-            get { return _enableTransientFaultRecovery; }
-            set { _enableTransientFaultRecovery = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the amount of retry attempts for transient faults. Default value is specified by <see cref="TransientFaultUtility.DefaultRetryAttempts"/>.
-        /// </summary>
-        /// <value>The amount of retry attempts for transient faults.</value>
-        /// <exception cref="System.ArgumentException">
-        /// <paramref name="value"/> is zero.
-        /// </exception>
-	    public byte RetryAttempts
-        {
-            get { return _transientFaultRetryAttempts; }
-            set
-            {
-                if (value == 0) { throw new ArgumentException("Value must be greater than zero.", nameof(value)); }
-                _transientFaultRetryAttempts = value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the default connection string.
         /// </summary>
         /// <value>The default connection string.</value>
         public static string DefaultConnectionString { get; set; }
+
+        /// <summary>
+        /// Gets or sets the callback delegate that will provide options for transient fault handling.
+        /// </summary>
+        /// <value>An <see cref="Action{T}"/> with the options for transient fault handling.</value>
+        public abstract Action<TransientFaultHandlingOptions> TransientFaultHandlingOptionsCallback { get; set; }
         #endregion
 
         #region Methods
@@ -585,9 +561,7 @@ namespace Cuemon.Data
         /// <returns>A value of <typeparamref name="T"/> that is equal to the invoked method of the <see cref="DbCommand"/> object.</returns>
         protected virtual T ExecuteCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> commandInvoker)
         {
-            return EnableTransientFaultRecovery
-                ? TransientFaultUtility.ExecuteFunction(RetryAttempts, TransientFaultRecoveryWaitTime, IsTransientFault, () => InvokeCommandCore(dataCommand, parameters, commandInvoker))
-                : InvokeCommandCore(dataCommand, parameters, commandInvoker);
+            return TransientFaultHandling.WithFunc(() => InvokeCommandCore(dataCommand, parameters, commandInvoker), TransientFaultHandlingOptionsCallback);
         }
 
         private T InvokeCommandCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> sqlInvoker)
@@ -615,10 +589,10 @@ namespace Cuemon.Data
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>System.Data.Common.DbCommand</returns>
         /// <remarks>
-        /// If <see cref="EnableTransientFaultRecovery"/> is set to <c>true</c>, this method will with it's default implementation try to gracefully recover from transient faults when the following condition is met:<br/>
-        /// <see cref="RetryAttempts"/> is less than the current attempt starting from 1 with a maximum of <see cref="Byte.MaxValue"/> retries<br/>
-        /// <see cref="IsTransientFault"/> must evaluate to <c>true</c><br/>
-        /// In case of a transient failure the default implementation will use <see cref="TransientFaultRecoveryWaitTime"/>.<br/>
+        /// If <see cref="TransientFaultHandlingOptionsCallback"/> has the <see cref="TransientFaultHandlingOptions.EnableTransientFaultRecovery"/> set to <c>true</c>, this method will with it's default implementation try to gracefully recover from transient faults when the following condition is met:<br/>
+        /// <see cref="TransientFaultHandlingOptions.RetryAttempts"/> is less than the current attempt starting from 1 with a maximum of <see cref="Byte.MaxValue"/> retries<br/>
+        /// <see cref="TransientFaultHandlingOptions.TransientFaultParserCallback"/> must evaluate to <c>true</c><br/>
+        /// In case of a transient failure the default implementation will use <see cref="TransientFaultHandlingOptions.RecoveryWaitTimeCallback"/>.<br/>
         /// In any other case the originating exception is thrown.
         /// </remarks>
         protected virtual DbCommand ExecuteCommandCore(IDataCommand dataCommand, params DbParameter[] parameters)
@@ -646,27 +620,6 @@ namespace Cuemon.Data
             if (command.Connection.State != ConnectionState.Open) { command.Connection.Open(); }
         }
 
-        /// <summary>
-        /// Specifies the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.
-        /// </summary>
-        /// <param name="currentAttempt">The current attempt.</param>
-        /// <returns>A <see cref="TimeSpan"/> that defines the amount of time to wait for a transient fault to recover gracefully.</returns>
-        /// <remarks>Default implementation is <paramref name="currentAttempt"/> + 2^ to a maximum of 5; eg. 1, 2, 4, 8, 16 to a total of 32 seconds.</remarks>
-        protected virtual TimeSpan TransientFaultRecoveryWaitTime(int currentAttempt)
-        {
-            return TransientFaultUtility.RecoveryWaitTime(currentAttempt);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="exception"/> contains clues that would suggest a transient fault.
-        /// </summary>
-        /// <param name="exception">The <see cref="Exception"/> to parse for clues that would suggest a transient fault that should be retried.</param>
-        /// <returns><c>true</c> if the specified <paramref name="exception"/> contains clues that would suggest a transient fault; otherwise, <c>false</c>.</returns>
-        /// <remarks>This method must be overridden as the default implementation on this base class always returns false.</remarks>
-        protected virtual bool IsTransientFault(Exception exception)
-        {
-            return false;
-        }
         /// <summary>
         /// Gets the command object to be used by all execute related methods.
         /// </summary>

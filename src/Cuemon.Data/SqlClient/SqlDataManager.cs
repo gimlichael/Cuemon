@@ -14,8 +14,6 @@ namespace Cuemon.Data.SqlClient
     /// </summary>
     public class SqlDataManager : DataManager
     {
-        private string _connectionString;
-
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlDataManager"/> class.
@@ -31,7 +29,7 @@ namespace Cuemon.Data.SqlClient
         /// <param name="connectionString">The connection string used to establish the connection.</param>
         public SqlDataManager(string connectionString)
         {
-            _connectionString = connectionString;
+            ConnectionString = connectionString;
         }
         #endregion
 
@@ -40,10 +38,62 @@ namespace Cuemon.Data.SqlClient
         /// Gets the string used to open a SQL Server database.
         /// </summary>
         /// <value>The connection string that includes the source database name, and other parameters needed to establish the initial connection.</value>
-        public override string ConnectionString
+        public override string ConnectionString { get; }
+
+        /// <summary>
+        /// Gets or sets the callback delegate that will provide options for transient fault handling.
+        /// </summary>
+        /// <value>An <see cref="Action{T}" /> with the options for transient fault handling.</value>
+        /// <remarks>
+        /// This implementation is compatible with transient related faults on Microsoft SQL Azure including the latest addition of error code 10928 and 10929.<br/>
+        /// Microsoft SQL Server is supported as well.
+        /// </remarks>
+        public override Action<TransientFaultHandlingOptions> TransientFaultHandlingOptionsCallback { get; set; } = options =>
         {
-            get { return _connectionString; }
-        }
+            options.EnableTransientFaultRecovery = true;
+            options.TransientFaultParserCallback = exception =>
+            {
+                if (exception == null) { return false; }
+
+                SqlException sqlException = ParseException(exception);
+                if (sqlException != null)
+                {
+                    switch (sqlException.Number)
+                    {
+                        case -2:
+                        case 20:
+                        case 64:
+                        case 233:
+                        case 10053:
+                        case 10054:
+                        case 10060:
+                        case 10928:
+                        case 10929:
+                        case 40001:
+                        case 40143:
+                        case 40166:
+                        case 40174:
+                        case 40197:
+                        case 40501:
+                        case 40544:
+                        case 40549:
+                        case 40550:
+                        case 40551:
+                        case 40552:
+                        case 40553:
+                        case 40613:
+                        case 40615:
+                            return true;
+                    }
+                }
+
+                bool fault = exception.Message.StartsWith("Timeout expired.", StringComparison.OrdinalIgnoreCase);
+                fault |= StringUtility.Contains(exception.Message, "The wait operation timed out", StringComparison.OrdinalIgnoreCase);
+                fault |= StringUtility.Contains(exception.Message, "The semaphore timeout period has expired", StringComparison.OrdinalIgnoreCase);
+
+                return fault;
+            };
+        };
         #endregion
 
         #region Methods
@@ -157,57 +207,6 @@ namespace Cuemon.Data.SqlClient
                 if (tempCommand != null) { tempCommand.Dispose(); }
             }
             return command;
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="exception" /> contains clues that would suggest a transient failure.
-        /// </summary>
-        /// <param name="exception">The <see cref="Exception" /> to parse for clues that would suggest a transient failure that should be retried.</param>
-        /// <returns><c>true</c> if the specified <paramref name="exception" /> contains clues that would suggest a transient failure; otherwise, <c>false</c>.</returns>
-        /// <remarks>
-        /// This implementation is compatible with transient related faults on Microsoft SQL Azure including the latest addition of error code 10928 and 10929.<br/>
-        /// Microsoft SQL Server is supported as well.</remarks>
-        protected override bool IsTransientFault(Exception exception)
-        {
-            if (exception == null) { return false; }
-
-            SqlException sqlException = ParseException(exception);
-            if (sqlException != null)
-            {
-                switch (sqlException.Number)
-                {
-                    case -2:
-                    case 20:
-                    case 64:
-                    case 233:
-                    case 10053:
-                    case 10054:
-                    case 10060:
-                    case 10928:
-                    case 10929:
-                    case 40001:
-                    case 40143:
-                    case 40166:
-                    case 40174:
-                    case 40197:
-                    case 40501:
-                    case 40544:
-                    case 40549:
-                    case 40550:
-                    case 40551:
-                    case 40552:
-                    case 40553:
-                    case 40613:
-                    case 40615:
-                        return true;
-                }
-            }
-
-            bool fault = exception.Message.StartsWith("Timeout expired.", StringComparison.OrdinalIgnoreCase);
-            fault |= StringUtility.Contains(exception.Message, "The wait operation timed out", StringComparison.OrdinalIgnoreCase);
-            fault |= StringUtility.Contains(exception.Message, "The semaphore timeout period has expired", StringComparison.OrdinalIgnoreCase);
-
-            return fault;
         }
 
         private static SqlException ParseException(Exception exception)
