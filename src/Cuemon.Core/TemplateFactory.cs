@@ -49,8 +49,8 @@ namespace Cuemon
         {
             if (HasDelegate)
             {
-                MethodDescriptor signature = new MethodDescriptor(DelegateInfo);
-                return signature.ToString();
+                MethodDescriptor descriptor = new MethodDescriptor(DelegateInfo);
+                return descriptor.ToString();
             }
             return base.ToString();
         }
