@@ -1,4 +1,6 @@
-﻿namespace Cuemon
+﻿using System;
+
+namespace Cuemon
 {
     /// <summary>
     /// This is an extension implementation of the most common methods on the <see cref="DelegateUtility"/> class.
@@ -6,7 +8,7 @@
     public static class DelegateUtilityExtensions
     {
         /// <summary>
-        /// Provides an easy and reflection less way to get a value from a property that is delegate compatible (such as <see cref="Doer{TResult}"/> and the likes thereof).
+        /// Provides an easy and reflection less way to get a value from a property that is delegate compatible (such as <see cref="Func{TResult}"/> and the likes thereof).
         /// </summary>
         /// <typeparam name="TResult">The type of the return value of <paramref name="output"/>.</typeparam>
         /// <param name="output">The return value of a member to be routed as output through this Wrap{TResult} method.</param>
@@ -22,7 +24,7 @@
         /// <typeparam name="TResult">The type of the return value of <paramref name="output" />.</typeparam>
         /// <param name="output">The value to dynamically wrap as a return value (typically from a property of field) inside an anonymous method.</param>
         /// <returns>An anonymous method that returns the value of <paramref name="output" />.</returns>
-        public static Doer<TResult> DynamicWrap<TResult>(this TResult output)
+        public static Func<TResult> DynamicWrap<TResult>(this TResult output)
         {
             return DelegateUtility.DynamicWrap(output);
         }

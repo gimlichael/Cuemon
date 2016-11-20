@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Cuemon.Collections.Generic
 {
@@ -15,7 +16,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="equalityComparer">The function delegate that determines whether the specified objects are equal. This delegate is invoked second if qualified.</param>
         /// <returns>A dynamic instance of <see cref="IEqualityComparer{T}"/> for type <typeparamref name="T"/>.</returns>
         /// <remarks>The function delegate, <paramref name="hashCalculator"/> (<see cref="IEqualityComparer{T}.GetHashCode(T)"/>), is evaluated with a conditional-AND before the second function delegate, <paramref name="equalityComparer"/> (<see cref="IEqualityComparer{T}.Equals(T,T)"/>), is ivoked.</remarks>
-        public static IEqualityComparer<T> Create<T>(Doer<T, int> hashCalculator, Doer<T, T, bool> equalityComparer)
+        public static IEqualityComparer<T> Create<T>(Func<T, int> hashCalculator, Func<T, T, bool> equalityComparer)
         {
             return new DynamicEqualityComparer<T>(hashCalculator, equalityComparer);
         }
@@ -23,7 +24,7 @@ namespace Cuemon.Collections.Generic
 
     internal class DynamicEqualityComparer<T> : EqualityComparer<T>
     {
-        internal DynamicEqualityComparer(Doer<T, int> hashCalculator, Doer<T, T, bool> equalityComparer)
+        internal DynamicEqualityComparer(Func<T, int> hashCalculator, Func<T, T, bool> equalityComparer)
         {
             Validator.ThrowIfNull(equalityComparer, nameof(equalityComparer));
             Validator.ThrowIfNull(hashCalculator, nameof(hashCalculator));
@@ -32,9 +33,9 @@ namespace Cuemon.Collections.Generic
             HashCalculator = hashCalculator;
         }
 
-        private Doer<T, T, bool> EqualityComparer { get; set; }
+        private Func<T, T, bool> EqualityComparer { get; set; }
 
-        private Doer<T, int> HashCalculator { get; set; }
+        private Func<T, int> HashCalculator { get; set; }
 
         public override bool Equals(T x, T y)
         {

@@ -17,7 +17,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="typeSelector">The function delegate that is used to select the <see cref="Type"/> of the objects to compare.</param>
         /// <param name="valueSelector">The function delegate that is used to select the value of <paramref name="x"/> and <paramref name="y"/>.</param>
         /// <returns>A signed integer that indicates the relative values of <paramref name="x"/> and <paramref name="y"/>.</returns>
-        public static int Default<T>(T x, T y, Doer<T, Type> typeSelector, Doer<T, object> valueSelector)
+        public static int Default<T>(T x, T y, Func<T, Type> typeSelector, Func<T, object> valueSelector)
         {
             Validator.ThrowIfNull(typeSelector, nameof(typeSelector));
             Validator.ThrowIfNull(valueSelector, nameof(valueSelector));

@@ -26,7 +26,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="settings">The settings that specifies the conditions of the <paramref name="match"/> before applying paging to this instance.</param>
         /// <returns>A <see cref="PagedCollection{T}"/> that is the result of <paramref name="match"/>.</returns>
         /// <remarks>This search is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
-        public static PagedCollection<T> Search<T>(IEnumerable<T> source, Doer<T, PagedSettings, StringComparison, bool> match, PagedSettings settings)
+        public static PagedCollection<T> Search<T>(IEnumerable<T> source, Func<T, PagedSettings, StringComparison, bool> match, PagedSettings settings)
         {
             return Search(source, match, settings, StringComparison.OrdinalIgnoreCase);
         }
@@ -39,7 +39,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="settings">The settings that specifies the conditions of the <paramref name="match"/> before applying paging to this instance.</param>
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <returns>A <see cref="PagedCollection{T}"/> that is the result of <paramref name="match"/>.</returns>
-        public static PagedCollection<T> Search<T>(IEnumerable<T> source, Doer<T, PagedSettings, StringComparison, bool> match, PagedSettings settings, StringComparison comparison)
+        public static PagedCollection<T> Search<T>(IEnumerable<T> source, Func<T, PagedSettings, StringComparison, bool> match, PagedSettings settings, StringComparison comparison)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(match, nameof(match));
@@ -56,7 +56,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="sorter">The function delegate that defines how the sorting is applied to the elements in <paramref name="source"/>.</param>
         /// <param name="settings">The settings that specifies the conditions of the <paramref name="sorter"/> before applying paging to this instance.</param>
         /// <returns>A <see cref="PagedCollection{T}"/> that is sorted by the specified <paramref name="sorter"/>.</returns>
-        public static PagedCollection<T> Sort<T>(IEnumerable<T> source, Doer<IEnumerable<T>, PagedSettings, IEnumerable<T>> sorter, PagedSettings settings)
+        public static PagedCollection<T> Sort<T>(IEnumerable<T> source, Func<IEnumerable<T>, PagedSettings, IEnumerable<T>> sorter, PagedSettings settings)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(sorter, nameof(sorter));
@@ -103,7 +103,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="selector">The function delegate that will define the <see cref="IEnumerable{T}"/> source sequence of this instance.</param>
         /// <param name="settings">The <see cref="PagedSettings"/> that will be applied to this instance.</param>
         /// <param name="counter">The function delegate that will define the <see cref="TotalElementCount"/> of this instance.</param>
-        public PagedCollection(Doer<PagedSettings, IEnumerable<T>> selector, PagedSettings settings, Doer<PagedSettings, int> counter)
+        public PagedCollection(Func<PagedSettings, IEnumerable<T>> selector, PagedSettings settings, Func<PagedSettings, int> counter)
             : this(ValidateSelector(selector, settings), settings, ValidateCounter(counter, settings))
         {
         }
@@ -124,14 +124,14 @@ namespace Cuemon.Collections.Generic
             TotalElementCount = totalElementCount;
         }
 
-        private static IEnumerable<T> ValidateSelector(Doer<PagedSettings, IEnumerable<T>> selector, PagedSettings settings)
+        private static IEnumerable<T> ValidateSelector(Func<PagedSettings, IEnumerable<T>> selector, PagedSettings settings)
         {
             Validator.ThrowIfNull(selector, nameof(selector));
             Validator.ThrowIfNull(settings, nameof(settings));
             return selector(settings);
         }
 
-        private static int ValidateCounter(Doer<PagedSettings, int> counter, PagedSettings settings)
+        private static int ValidateCounter(Func<PagedSettings, int> counter, PagedSettings settings)
         {
             Validator.ThrowIfNull(counter, nameof(counter));
             Validator.ThrowIfNull(settings, nameof(settings));

@@ -102,7 +102,7 @@ namespace Cuemon
         /// <param name="value">The value to test for a Base64 structure.</param>
         /// <param name="predicate">A function delegate that provides custom rules for bypassing the Base64 structure check.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> matches a Base64 structure; otherwise, <c>false</c>.</returns>
-        public static bool IsBase64(string value, Doer<string, bool> predicate)
+        public static bool IsBase64(string value, Func<string, bool> predicate)
         {
             byte[] result;
             return ByteConverter.TryFromBase64String(value, predicate, out result);
@@ -925,7 +925,7 @@ namespace Cuemon
         /// <param name="source">A sequence in which to evaluate if a string value is equivalent to the specified <typeparamref name="T"/>.</param>
         /// <param name="parser">The function delegate that evaluates if the elements  of <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.</param>
         /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(IEnumerable<string> source, Doer<string, CultureInfo, bool> parser)
+        public static bool IsSequenceOf<T>(IEnumerable<string> source, Func<string, CultureInfo, bool> parser)
         {
             return IsSequenceOf<T>(source, CultureInfo.InvariantCulture, parser);
         }
@@ -938,13 +938,13 @@ namespace Cuemon
         /// <param name="culture">The culture-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
         /// <param name="parser">The function delegate that evaluates if the elements  of <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.</param>
         /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(IEnumerable<string> source, CultureInfo culture, Doer<string, CultureInfo, bool> parser)
+        public static bool IsSequenceOf<T>(IEnumerable<string> source, CultureInfo culture, Func<string, CultureInfo, bool> parser)
         {
             Validator.ThrowIfNull(parser, nameof(parser));
             return IsSequenceOfCore<T>(source, culture, null, parser);
         }
 
-        private static bool IsSequenceOfCore<T>(IEnumerable<string> source, CultureInfo culture, ITypeDescriptorContext context, Doer<string, CultureInfo, bool> parser)
+        private static bool IsSequenceOfCore<T>(IEnumerable<string> source, CultureInfo culture, ITypeDescriptorContext context, Func<string, CultureInfo, bool> parser)
         {
             Validator.ThrowIfNull(source, nameof(source));
             bool converterHasValue = (parser != null);

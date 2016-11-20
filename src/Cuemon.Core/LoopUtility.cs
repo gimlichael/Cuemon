@@ -24,7 +24,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource>(TSource repeats, Act<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(TSource repeats, Action<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, (TSource)ObjectConverter.ChangeType(0, typeof(TSource)), RelationalOperator.LessThan, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method);
         }
@@ -46,7 +46,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource>(TSource initial, RelationalOperator relational, TSource repeats, Act<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method);
         }
@@ -70,7 +70,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, assignment, step, method);
         }
@@ -92,7 +92,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T>(TSource repeats, Act<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(TSource repeats, Action<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, (TSource)ObjectConverter.ChangeType(0, typeof(TSource)), RelationalOperator.LessThan, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg);
         }
@@ -116,7 +116,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T>(TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg);
         }
@@ -142,7 +142,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, assignment, step, method, arg);
         }
@@ -166,7 +166,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2>(TSource repeats, Act<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(TSource repeats, Action<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, (TSource)ObjectConverter.ChangeType(0, typeof(TSource)), RelationalOperator.LessThan, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg1, arg2);
         }
@@ -192,7 +192,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2>(TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg1, arg2);
         }
@@ -220,7 +220,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, assignment, step, method, arg1, arg2);
         }
@@ -246,7 +246,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3>(TSource repeats, Act<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(TSource repeats, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, (TSource)ObjectConverter.ChangeType(0, typeof(TSource)), RelationalOperator.LessThan, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg1, arg2, arg3);
         }
@@ -274,7 +274,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3>(TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg1, arg2, arg3);
         }
@@ -304,7 +304,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, assignment, step, method, arg1, arg2, arg3);
         }
@@ -332,7 +332,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3, T4>(TSource repeats, Act<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(TSource repeats, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, (TSource)ObjectConverter.ChangeType(0, typeof(TSource)), RelationalOperator.LessThan, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg1, arg2, arg3, arg4);
         }
@@ -362,7 +362,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3, T4>(TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg1, arg2, arg3, arg4);
         }
@@ -394,7 +394,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3, T4>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, assignment, step, method, arg1, arg2, arg3, arg4);
         }
@@ -424,7 +424,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3, T4, T5>(TSource repeats, Act<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(TSource repeats, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, (TSource)ObjectConverter.ChangeType(0, typeof(TSource)), RelationalOperator.LessThan, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg1, arg2, arg3, arg4, arg5);
         }
@@ -456,7 +456,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3, T4, T5>(TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, AssignmentOperator.Addition, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), method, arg1, arg2, arg3, arg4, arg5);
         }
@@ -490,7 +490,7 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3, T4, T5>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(Condition, initial, relational, repeats, Iterator, assignment, step, method, arg1, arg2, arg3, arg4, arg5);
         }
@@ -515,10 +515,10 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource>(Doer<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Act<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(condition, iterator, method);
-            var factory = ActFactory.Create(method, default(TSource));
+            var factory = ActionFactory.Create(method, default(TSource));
             ForCore(factory, condition, initial, relational, repeats, iterator, assignment, step);
         }
 
@@ -544,10 +544,10 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T>(Doer<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Act<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(condition, iterator, method);
-            var factory = ActFactory.Create(method, default(TSource), arg);
+            var factory = ActionFactory.Create(method, default(TSource), arg);
             ForCore(factory, condition, initial, relational, repeats, iterator, assignment, step);
         }
 
@@ -575,11 +575,11 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2>(Doer<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(condition, iterator, method);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(method, default(TSource), arg1, arg2);
+            var factory = ActionFactory.Create(method, default(TSource), arg1, arg2);
             ForCore(factory, condition, initial, relational, repeats, iterator, assignment, step);
         }
 
@@ -609,10 +609,10 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3>(Doer<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(condition, iterator, method);
-            var factory = ActFactory.Create(method, default(TSource), arg1, arg2, arg3);
+            var factory = ActionFactory.Create(method, default(TSource), arg1, arg2, arg3);
             ForCore(factory, condition, initial, relational, repeats, iterator, assignment, step);
         }
 
@@ -644,10 +644,10 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3, T4>(Doer<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(condition, iterator, method);
-            var factory = ActFactory.Create(method, default(TSource), arg1, arg2, arg3, arg4);
+            var factory = ActionFactory.Create(method, default(TSource), arg1, arg2, arg3, arg4);
             ForCore(factory, condition, initial, relational, repeats, iterator, assignment, step);
         }
 
@@ -681,14 +681,14 @@ namespace Cuemon
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
-        public static void For<TSource, T1, T2, T3, T4, T5>(Doer<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(condition, iterator, method);
-            var factory = ActFactory.Create(method, default(TSource), arg1, arg2, arg3, arg4, arg5);
+            var factory = ActionFactory.Create(method, default(TSource), arg1, arg2, arg3, arg4, arg5);
             ForCore(factory, condition, initial, relational, repeats, iterator, assignment, step);
         }
 
-        private static void ValidateFor<TSource>(Doer<TSource, RelationalOperator, TSource, bool> condition, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, object method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        private static void ValidateFor<TSource>(Func<TSource, RelationalOperator, TSource, bool> condition, Func<TSource, AssignmentOperator, TSource, TSource> iterator, object method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             Validator.ThrowIfNull(iterator, nameof(iterator));
@@ -696,7 +696,7 @@ namespace Cuemon
             AssignmentUtility.ValidAsNumericOperand<TSource>();
         }
 
-        private static void ForCore<TTuple, TSource>(ActFactory<TTuple> factory, Doer<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step) 
+        private static void ForCore<TTuple, TSource>(ActionFactory<TTuple> factory, Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step) 
             where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
             where TTuple : Template<TSource>
         {
@@ -716,10 +716,10 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null -or- <paramref name="source"/> is null.
         /// </exception>
-        public static void ForEach<TSource>(IEnumerable<TSource> source, Act<TSource> method)
+        public static void ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> method)
         {
             ValidateForEach(source, method);
-            var factory = ActFactory.Create(method, default(TSource));
+            var factory = ActionFactory.Create(method, default(TSource));
             ForEachCore(factory, source);
         }
 
@@ -734,10 +734,10 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null -or- <paramref name="source"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T>(IEnumerable<TSource> source, Act<TSource, T> method, T arg)
+        public static void ForEach<TSource, T>(IEnumerable<TSource> source, Action<TSource, T> method, T arg)
         {
             ValidateForEach(source, method);
-            var factory = ActFactory.Create(method, default(TSource), arg);
+            var factory = ActionFactory.Create(method, default(TSource), arg);
             ForEachCore(factory, source);
         }
 
@@ -754,10 +754,10 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null -or- <paramref name="source"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2>(IEnumerable<TSource> source, Act<TSource, T1, T2> method, T1 arg1, T2 arg2)
+        public static void ForEach<TSource, T1, T2>(IEnumerable<TSource> source, Action<TSource, T1, T2> method, T1 arg1, T2 arg2)
         {
             ValidateForEach(source, method);
-            var factory = ActFactory.Create(method, default(TSource), arg1, arg2);
+            var factory = ActionFactory.Create(method, default(TSource), arg1, arg2);
             ForEachCore(factory, source);
         }
 
@@ -776,10 +776,10 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null -or- <paramref name="source"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3)
+        public static void ForEach<TSource, T1, T2, T3>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3)
         {
             ValidateForEach(source, method);
-            var factory = ActFactory.Create(method, default(TSource), arg1, arg2, arg3);
+            var factory = ActionFactory.Create(method, default(TSource), arg1, arg2, arg3);
             ForEachCore(factory, source);
         }
 
@@ -800,10 +800,10 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null -or- <paramref name="source"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void ForEach<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             ValidateForEach(source, method);
-            var factory = ActFactory.Create(method, default(TSource), arg1, arg2, arg3, arg4);
+            var factory = ActionFactory.Create(method, default(TSource), arg1, arg2, arg3, arg4);
             ForEachCore(factory, source);
         }
 
@@ -826,10 +826,10 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null -or- <paramref name="source"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             ValidateForEach(source, method);
-            var factory = ActFactory.Create(method, default(TSource), arg1, arg2, arg3, arg4, arg5);
+            var factory = ActionFactory.Create(method, default(TSource), arg1, arg2, arg3, arg4, arg5);
             ForEachCore(factory, source);
         }
 
@@ -839,7 +839,7 @@ namespace Cuemon
             Validator.ThrowIfNull(method, nameof(method));
         }
 
-        private static void ForEachCore<TTuple, TSource>(ActFactory<TTuple> factory, IEnumerable<TSource> elements) where TTuple : Template<TSource>
+        private static void ForEachCore<TTuple, TSource>(ActionFactory<TTuple> factory, IEnumerable<TSource> elements) where TTuple : Template<TSource>
         {
             foreach (TSource element in elements)
             {
@@ -862,11 +862,11 @@ namespace Cuemon
         /// <exception cref="TypeArgumentException">
         /// <paramref name="source"/> does not match the source of the <paramref name="condition"/> delegate target.
         /// </exception>
-        public static void While<TSource>(TSource source, Doer<bool> condition, Act<TSource> method) where TSource : class 
+        public static void While<TSource>(TSource source, Func<bool> condition, Action<TSource> method) where TSource : class 
         {
             ValidateWhile(source, condition, method);
             ValidateWhileReference(source, condition);
-            var factory = ActFactory.Create(method, source);
+            var factory = ActionFactory.Create(method, source);
             WhileCore(factory, condition);
         }
 
@@ -886,11 +886,11 @@ namespace Cuemon
         /// <exception cref="TypeArgumentException">
         /// <paramref name="source"/> does not match the source of the <paramref name="condition"/> delegate target.
         /// </exception>
-        public static void While<TSource, T>(TSource source, Doer<bool> condition, Act<TSource, T> method, T arg) where TSource : class
+        public static void While<TSource, T>(TSource source, Func<bool> condition, Action<TSource, T> method, T arg) where TSource : class
         {
             ValidateWhile(source, condition, method);
             ValidateWhileReference(source, condition);
-            var factory = ActFactory.Create(method, source, arg);
+            var factory = ActionFactory.Create(method, source, arg);
             WhileCore(factory, condition);
         }
 
@@ -912,11 +912,11 @@ namespace Cuemon
         /// <exception cref="TypeArgumentException">
         /// <paramref name="source"/> does not match the source of the <paramref name="condition"/> delegate target.
         /// </exception>
-        public static void While<TSource, T1, T2>(TSource source, Doer<bool> condition, Act<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : class 
+        public static void While<TSource, T1, T2>(TSource source, Func<bool> condition, Action<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : class 
         {
             ValidateWhile(source, condition, method);
             ValidateWhileReference(source, condition);
-            var factory = ActFactory.Create(method, source, arg1, arg2);
+            var factory = ActionFactory.Create(method, source, arg1, arg2);
             WhileCore(factory, condition);
         }
 
@@ -940,11 +940,11 @@ namespace Cuemon
         /// <exception cref="TypeArgumentException">
         /// <paramref name="source"/> does not match the source of the <paramref name="condition"/> delegate target.
         /// </exception>
-        public static void While<TSource, T1, T2, T3>(TSource source, Doer<bool> condition, Act<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : class
+        public static void While<TSource, T1, T2, T3>(TSource source, Func<bool> condition, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : class
         {
             ValidateWhile(source, condition, method);
             ValidateWhileReference(source, condition);
-            var factory = ActFactory.Create(method, source, arg1, arg2, arg3);
+            var factory = ActionFactory.Create(method, source, arg1, arg2, arg3);
             WhileCore(factory, condition);
         }
 
@@ -970,11 +970,11 @@ namespace Cuemon
         /// <exception cref="TypeArgumentException">
         /// <paramref name="source"/> does not match the source of the <paramref name="condition"/> delegate target.
         /// </exception>
-        public static void While<TSource, T1, T2, T3, T4>(TSource source, Doer<bool> condition, Act<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : class 
+        public static void While<TSource, T1, T2, T3, T4>(TSource source, Func<bool> condition, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : class 
         {
             ValidateWhile(source, condition, method);
             ValidateWhileReference(source, condition);
-            var factory = ActFactory.Create(method, source, arg1, arg2, arg3, arg4);
+            var factory = ActionFactory.Create(method, source, arg1, arg2, arg3, arg4);
             WhileCore(factory, condition);
         }
 
@@ -1002,29 +1002,29 @@ namespace Cuemon
         /// <exception cref="TypeArgumentException">
         /// <paramref name="source"/> does not match the source of the <paramref name="condition"/> delegate target.
         /// </exception>
-        public static void While<TSource, T1, T2, T3, T4, T5>(TSource source, Doer<bool> condition, Act<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : class
+        public static void While<TSource, T1, T2, T3, T4, T5>(TSource source, Func<bool> condition, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : class
         {
             ValidateWhile(source, condition, method);
             ValidateWhileReference(source, condition);
-            var factory = ActFactory.Create(method, source, arg1, arg2, arg3, arg4, arg5);
+            var factory = ActionFactory.Create(method, source, arg1, arg2, arg3, arg4, arg5);
             WhileCore(factory, condition);
         }
 
-        private static void ValidateWhile<TSource>(TSource source, Doer<bool> condition, object method) where TSource : class
+        private static void ValidateWhile<TSource>(TSource source, Func<bool> condition, object method) where TSource : class
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(condition.Target, nameof(condition), "The specified condition delegate must target an instance method on the provided TSource.");
             Validator.ThrowIfNull(method, nameof(method));
         }
 
-        internal static void ValidateWhileReference<TSource>(TSource source, Doer<bool> condition)
+        internal static void ValidateWhileReference<TSource>(TSource source, Func<bool> condition)
         {
             Type conditionType = condition.Target.GetType();
             Type sourceType = source.GetType();
             if (!conditionType.FullName.Equals(sourceType.FullName, StringComparison.OrdinalIgnoreCase)) { throw new TypeArgumentException("source", string.Format(CultureInfo.InvariantCulture, "The specified TSource, {0}, does not match the source of the condition delegate target, {1}.", sourceType.FullName, conditionType.FullName)); }            
         }
 
-        private static void WhileCore<TTuple>(ActFactory<TTuple> factory, Doer<bool> condition) where TTuple : Template
+        private static void WhileCore<TTuple>(ActionFactory<TTuple> factory, Func<bool> condition) where TTuple : Template
         {
             while (condition())
             {

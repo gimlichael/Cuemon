@@ -16,10 +16,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork(Act method)
+        public static void QueueWork(Action method)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method);
+            var factory = ActionFactory.Create(method);
             QueueUserWorkItemCore(factory);
         }
 
@@ -32,10 +32,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T>(Act<T> method, T arg)
+        public static void QueueWork<T>(Action<T> method, T arg)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg);
+            var factory = ActionFactory.Create(method, arg);
             QueueUserWorkItemCore(factory);
         }
 
@@ -50,10 +50,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T1, T2>(Act<T1, T2> method, T1 arg1, T2 arg2)
+        public static void QueueWork<T1, T2>(Action<T1, T2> method, T1 arg1, T2 arg2)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg1, arg2);
+            var factory = ActionFactory.Create(method, arg1, arg2);
             QueueUserWorkItemCore(factory);
         }
 
@@ -70,10 +70,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T1, T2, T3>(Act<T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3)
+        public static void QueueWork<T1, T2, T3>(Action<T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg1, arg2, arg3);
+            var factory = ActionFactory.Create(method, arg1, arg2, arg3);
             QueueUserWorkItemCore(factory);
         }
 
@@ -92,10 +92,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T1, T2, T3, T4>(Act<T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void QueueWork<T1, T2, T3, T4>(Action<T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg1, arg2, arg3, arg4);
+            var factory = ActionFactory.Create(method, arg1, arg2, arg3, arg4);
             QueueUserWorkItemCore(factory);
         }
 
@@ -116,10 +116,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T1, T2, T3, T4, T5>(Act<T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static void QueueWork<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg1, arg2, arg3, arg4, arg5);
+            var factory = ActionFactory.Create(method, arg1, arg2, arg3, arg4, arg5);
             QueueUserWorkItemCore(factory);
         }
 
@@ -142,10 +142,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T1, T2, T3, T4, T5, T6>(Act<T1, T2, T3, T4, T5, T6> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static void QueueWork<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = ActionFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6);
             QueueUserWorkItemCore(factory);
         }
 
@@ -170,10 +170,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T1, T2, T3, T4, T5, T6, T7>(Act<T1, T2, T3, T4, T5, T6, T7> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static void QueueWork<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = ActionFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             QueueUserWorkItemCore(factory);
         }
 
@@ -200,10 +200,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T1, T2, T3, T4, T5, T6, T7, T8>(Act<T1, T2, T3, T4, T5, T6, T7, T8> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static void QueueWork<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = ActionFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             QueueUserWorkItemCore(factory);
         }
 
@@ -232,10 +232,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Act<T1, T2, T3, T4, T5, T6, T7, T8, T9> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static void QueueWork<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = ActionFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             QueueUserWorkItemCore(factory);
         }
 
@@ -266,14 +266,14 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public static void QueueWork<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Act<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
+        public static void QueueWork<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
             Validator.ThrowIfNull(method, nameof(method));
-            var factory = ActFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+            var factory = ActionFactory.Create(method, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             QueueUserWorkItemCore(factory);
         }
 
-        private static void QueueUserWorkItemCore<TTuple>(ActFactory<TTuple> factory) where TTuple : Template
+        private static void QueueUserWorkItemCore<TTuple>(ActionFactory<TTuple> factory) where TTuple : Template
         {
             if (factory == null) { return; }
             Task.Factory.StartNew(factory.ExecuteMethod);

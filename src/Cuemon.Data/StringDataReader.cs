@@ -25,7 +25,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value.</param>
         /// <remarks>The default implementation uses <see cref="ObjectConverter.FromString(System.String)"/> as <paramref name="parser"/>.</remarks>
-        protected StringDataReader(Doer<string, object> parser)
+        protected StringDataReader(Func<string, object> parser)
         {
             Validator.ThrowIfNull(parser, nameof(parser));
             StringParser = parser;
@@ -91,7 +91,7 @@ namespace Cuemon.Data
         /// Gets a reference to the function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value.
         /// </summary>
         /// <value>A reference to the function delegate that this instance was constructed with.</value>
-        protected Doer<string, object> StringParser { get; private set; }
+        protected Func<string, object> StringParser { get; private set; }
 
         /// <summary>
         /// Gets the currently processed row count of this instance.

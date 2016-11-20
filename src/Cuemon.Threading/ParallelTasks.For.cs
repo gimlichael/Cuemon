@@ -18,7 +18,7 @@ namespace Cuemon.Threading
         /// <param name="repeats">The amount of repeats to do.</param>
         /// <param name="body">The delegate that is invoked once per iteration.</param>
         /// <remarks>
-        /// The following table shows the initial overloaded arguments for <see cref="For{TSource}(TSource,TSource,Act{TSource})"/>.
+        /// The following table shows the initial overloaded arguments for <see cref="For{TSource}(TSource,TSource,Action{TSource})"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Argument</term>
@@ -53,7 +53,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource>(TSource initial, TSource repeats, Act<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(TSource initial, TSource repeats, Action<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body);
         }
@@ -73,7 +73,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource>(int partitionSize, TSource initial, TSource repeats, Act<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(int partitionSize, TSource initial, TSource repeats, Action<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body);
         }
@@ -94,7 +94,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body);
         }
@@ -116,7 +116,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body);
         }
@@ -139,7 +139,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body);
         }
@@ -163,11 +163,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource));
+            var factory = ActionFactory.Create(body, default(TSource));
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -187,7 +187,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T>(TSource initial, TSource repeats, Act<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(TSource initial, TSource repeats, Action<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg);
         }
@@ -209,7 +209,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg);
         }
@@ -232,7 +232,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg);
         }
@@ -256,7 +256,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg);
         }
@@ -281,7 +281,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg);
         }
@@ -307,11 +307,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg);
+            var factory = ActionFactory.Create(body, default(TSource), arg);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -333,7 +333,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2>(TSource initial, TSource repeats, Act<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(TSource initial, TSource repeats, Action<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2);
         }
@@ -357,7 +357,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2);
         }
@@ -382,7 +382,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2);
         }
@@ -408,7 +408,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2);
         }
@@ -435,7 +435,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2);
         }
@@ -463,11 +463,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -491,7 +491,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3>(TSource initial, TSource repeats, Act<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(TSource initial, TSource repeats, Action<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3);
         }
@@ -517,7 +517,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3);
         }
@@ -544,7 +544,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3);
         }
@@ -572,7 +572,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3);
         }
@@ -601,7 +601,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3);
         }
@@ -631,11 +631,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -661,7 +661,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4>(TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4);
         }
@@ -689,7 +689,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4);
         }
@@ -718,7 +718,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4);
         }
@@ -748,7 +748,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4);
         }
@@ -779,7 +779,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4);
         }
@@ -811,11 +811,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -843,7 +843,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5>(TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -873,7 +873,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -904,7 +904,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -936,7 +936,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -969,7 +969,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -1003,11 +1003,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -1037,7 +1037,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6>(TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6>(TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1069,7 +1069,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1102,7 +1102,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1136,7 +1136,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1171,7 +1171,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1207,11 +1207,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -1243,7 +1243,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1277,7 +1277,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1312,7 +1312,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1348,7 +1348,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1385,7 +1385,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1423,11 +1423,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -1461,7 +1461,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1497,7 +1497,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1534,7 +1534,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1572,7 +1572,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1611,7 +1611,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1651,11 +1651,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -1691,7 +1691,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -1729,7 +1729,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -1768,7 +1768,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -1808,7 +1808,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -1849,7 +1849,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -1891,11 +1891,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -1933,7 +1933,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -1973,7 +1973,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -2014,7 +2014,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -2056,7 +2056,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -2099,7 +2099,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             For(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -2143,11 +2143,11 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static void For<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateFor(body, timeout);
             AssignmentUtility.ValidAsNumericOperand<TSource>();
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             ForCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -2159,7 +2159,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfGreaterThan(timeout.Milliseconds, int.MaxValue, nameof(timeout));
         }
 
-        private static void ForCore<TTuple, TSource>(ActFactory<TTuple> factory, Doer<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, int partitionSize, TimeSpan timeout) 
+        private static void ForCore<TTuple, TSource>(ActionFactory<TTuple> factory, Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, int partitionSize, TimeSpan timeout) 
             where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
             where TTuple : Template<TSource>
         {

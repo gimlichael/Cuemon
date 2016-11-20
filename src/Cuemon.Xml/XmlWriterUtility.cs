@@ -63,7 +63,7 @@ namespace Cuemon.Xml
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream Copy(XmlReader reader, Act<XmlWriter, XmlReader> copier)
+        public static Stream Copy(XmlReader reader, Action<XmlWriter, XmlReader> copier)
         {
             return Copy(reader, CreateSettings(), copier);
         }
@@ -78,7 +78,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy(XmlReader reader, XmlWriterSettings settings, Act<XmlWriter, XmlReader> copier)
+        public static Stream Copy(XmlReader reader, XmlWriterSettings settings, Action<XmlWriter, XmlReader> copier)
         {
             return Copy(reader, settings, false, copier);
         }
@@ -94,7 +94,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Act<XmlWriter, XmlReader> copier)
+        public static Stream Copy(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Action<XmlWriter, XmlReader> copier)
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (settings == null) { throw new ArgumentNullException(nameof(settings)); }
@@ -121,7 +121,7 @@ namespace Cuemon.Xml
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream Copy<T>(XmlReader reader, Act<XmlWriter, XmlReader, T> copier, T arg)
+        public static Stream Copy<T>(XmlReader reader, Action<XmlWriter, XmlReader, T> copier, T arg)
         {
             return Copy(reader, CreateSettings(), copier, arg);
         }
@@ -138,7 +138,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T>(XmlReader reader, XmlWriterSettings settings, Act<XmlWriter, XmlReader, T> copier, T arg)
+        public static Stream Copy<T>(XmlReader reader, XmlWriterSettings settings, Action<XmlWriter, XmlReader, T> copier, T arg)
         {
             return Copy(reader, settings, false, copier, arg);
         }
@@ -156,7 +156,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Act<XmlWriter, XmlReader, T> copier, T arg)
+        public static Stream Copy<T>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Action<XmlWriter, XmlReader, T> copier, T arg)
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (settings == null) { throw new ArgumentNullException(nameof(settings)); }
@@ -185,7 +185,7 @@ namespace Cuemon.Xml
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream Copy<T1, T2>(XmlReader reader, Act<XmlWriter, XmlReader, T1, T2> copier, T1 arg1, T2 arg2)
+        public static Stream Copy<T1, T2>(XmlReader reader, Action<XmlWriter, XmlReader, T1, T2> copier, T1 arg1, T2 arg2)
         {
             return Copy(reader, CreateSettings(), copier, arg1, arg2);
         }
@@ -204,7 +204,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T1, T2>(XmlReader reader, XmlWriterSettings settings, Act<XmlWriter, XmlReader, T1, T2> copier, T1 arg1, T2 arg2)
+        public static Stream Copy<T1, T2>(XmlReader reader, XmlWriterSettings settings, Action<XmlWriter, XmlReader, T1, T2> copier, T1 arg1, T2 arg2)
         {
             return Copy(reader, settings, false, copier, arg1, arg2);
         }
@@ -224,7 +224,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T1, T2>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Act<XmlWriter, XmlReader, T1, T2> copier, T1 arg1, T2 arg2)
+        public static Stream Copy<T1, T2>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Action<XmlWriter, XmlReader, T1, T2> copier, T1 arg1, T2 arg2)
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (settings == null) { throw new ArgumentNullException(nameof(settings)); }
@@ -255,7 +255,7 @@ namespace Cuemon.Xml
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream Copy<T1, T2, T3>(XmlReader reader, Act<XmlWriter, XmlReader, T1, T2, T3> copier, T1 arg1, T2 arg2, T3 arg3)
+        public static Stream Copy<T1, T2, T3>(XmlReader reader, Action<XmlWriter, XmlReader, T1, T2, T3> copier, T1 arg1, T2 arg2, T3 arg3)
         {
             return Copy(reader, CreateSettings(), copier, arg1, arg2, arg3);
         }
@@ -276,7 +276,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T1, T2, T3>(XmlReader reader, XmlWriterSettings settings, Act<XmlWriter, XmlReader, T1, T2, T3> copier, T1 arg1, T2 arg2, T3 arg3)
+        public static Stream Copy<T1, T2, T3>(XmlReader reader, XmlWriterSettings settings, Action<XmlWriter, XmlReader, T1, T2, T3> copier, T1 arg1, T2 arg2, T3 arg3)
         {
             return Copy(reader, settings, false, copier, arg1, arg2, arg3);
         }
@@ -298,7 +298,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T1, T2, T3>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Act<XmlWriter, XmlReader, T1, T2, T3> copier, T1 arg1, T2 arg2, T3 arg3)
+        public static Stream Copy<T1, T2, T3>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Action<XmlWriter, XmlReader, T1, T2, T3> copier, T1 arg1, T2 arg2, T3 arg3)
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (settings == null) { throw new ArgumentNullException(nameof(settings)); }
@@ -331,7 +331,7 @@ namespace Cuemon.Xml
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream Copy<T1, T2, T3, T4>(XmlReader reader, Act<XmlWriter, XmlReader, T1, T2, T3, T4> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static Stream Copy<T1, T2, T3, T4>(XmlReader reader, Action<XmlWriter, XmlReader, T1, T2, T3, T4> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return Copy(reader, CreateSettings(), copier, arg1, arg2, arg3, arg4);
         }
@@ -354,7 +354,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T1, T2, T3, T4>(XmlReader reader, XmlWriterSettings settings, Act<XmlWriter, XmlReader, T1, T2, T3, T4> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static Stream Copy<T1, T2, T3, T4>(XmlReader reader, XmlWriterSettings settings, Action<XmlWriter, XmlReader, T1, T2, T3, T4> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return Copy(reader, settings, false, copier, arg1, arg2, arg3, arg4);
         }
@@ -378,7 +378,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T1, T2, T3, T4>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Act<XmlWriter, XmlReader, T1, T2, T3, T4> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static Stream Copy<T1, T2, T3, T4>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Action<XmlWriter, XmlReader, T1, T2, T3, T4> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (settings == null) { throw new ArgumentNullException(nameof(settings)); }
@@ -413,7 +413,7 @@ namespace Cuemon.Xml
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream Copy<T1, T2, T3, T4, T5>(XmlReader reader, Act<XmlWriter, XmlReader, T1, T2, T3, T4, T5> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static Stream Copy<T1, T2, T3, T4, T5>(XmlReader reader, Action<XmlWriter, XmlReader, T1, T2, T3, T4, T5> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             return Copy(reader, CreateSettings(), copier, arg1, arg2, arg3, arg4, arg5);
         }
@@ -438,7 +438,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T1, T2, T3, T4, T5>(XmlReader reader, XmlWriterSettings settings, Act<XmlWriter, XmlReader, T1, T2, T3, T4, T5> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static Stream Copy<T1, T2, T3, T4, T5>(XmlReader reader, XmlWriterSettings settings, Action<XmlWriter, XmlReader, T1, T2, T3, T4, T5> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             return Copy(reader, settings, false, copier, arg1, arg2, arg3, arg4, arg5);
         }
@@ -464,7 +464,7 @@ namespace Cuemon.Xml
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
-        public static Stream Copy<T1, T2, T3, T4, T5>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Act<XmlWriter, XmlReader, T1, T2, T3, T4, T5> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static Stream Copy<T1, T2, T3, T4, T5>(XmlReader reader, XmlWriterSettings settings, bool leaveStreamOpen, Action<XmlWriter, XmlReader, T1, T2, T3, T4, T5> copier, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (settings == null) { throw new ArgumentNullException(nameof(settings)); }
@@ -718,7 +718,7 @@ namespace Cuemon.Xml
         /// <param name="writer">The delegate that will create an in-memory XML stream.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml(Act<XmlWriter> writer)
+        public static Stream CreateXml(Action<XmlWriter> writer)
         {
             return CreateXml(writer, CreateSettings());
         }
@@ -729,9 +729,9 @@ namespace Cuemon.Xml
         /// <param name="writer">The delegate that will create an in-memory XML stream.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml(Act<XmlWriter> writer, XmlWriterSettings settings)
+        public static Stream CreateXml(Action<XmlWriter> writer, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null);
+            var factory = ActionFactory.Create(writer, null);
             return CreateXmlCore(factory, settings);
         }
 
@@ -743,7 +743,7 @@ namespace Cuemon.Xml
         /// <param name="arg">The parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T>(Act<XmlWriter, T> writer, T arg)
+        public static Stream CreateXml<T>(Action<XmlWriter, T> writer, T arg)
         {
             return CreateXml(writer, arg, CreateSettings());
         }
@@ -756,9 +756,9 @@ namespace Cuemon.Xml
         /// <param name="arg">The parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T>(Act<XmlWriter, T> writer, T arg, XmlWriterSettings settings)
+        public static Stream CreateXml<T>(Action<XmlWriter, T> writer, T arg, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg);
+            var factory = ActionFactory.Create(writer, null, arg);
             return CreateXmlCore(factory, settings);
         }
 
@@ -772,7 +772,7 @@ namespace Cuemon.Xml
         /// <param name="arg2">The second parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T1, T2>(Act<XmlWriter, T1, T2> writer, T1 arg1, T2 arg2)
+        public static Stream CreateXml<T1, T2>(Action<XmlWriter, T1, T2> writer, T1 arg1, T2 arg2)
         {
             return CreateXml(writer, arg1, arg2, CreateSettings());
         }
@@ -787,9 +787,9 @@ namespace Cuemon.Xml
         /// <param name="arg2">The second parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T1, T2>(Act<XmlWriter, T1, T2> writer, T1 arg1, T2 arg2, XmlWriterSettings settings)
+        public static Stream CreateXml<T1, T2>(Action<XmlWriter, T1, T2> writer, T1 arg1, T2 arg2, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg1, arg2);
+            var factory = ActionFactory.Create(writer, null, arg1, arg2);
             return CreateXmlCore(factory, settings);
         }
 
@@ -805,7 +805,7 @@ namespace Cuemon.Xml
         /// <param name="arg3">The third parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T1, T2, T3>(Act<XmlWriter, T1, T2, T3> writer, T1 arg1, T2 arg2, T3 arg3)
+        public static Stream CreateXml<T1, T2, T3>(Action<XmlWriter, T1, T2, T3> writer, T1 arg1, T2 arg2, T3 arg3)
         {
             return CreateXml(writer, arg1, arg2, arg3, CreateSettings());
         }
@@ -822,9 +822,9 @@ namespace Cuemon.Xml
         /// <param name="arg3">The third parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T1, T2, T3>(Act<XmlWriter, T1, T2, T3> writer, T1 arg1, T2 arg2, T3 arg3, XmlWriterSettings settings)
+        public static Stream CreateXml<T1, T2, T3>(Action<XmlWriter, T1, T2, T3> writer, T1 arg1, T2 arg2, T3 arg3, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg1, arg2, arg3);
+            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3);
             return CreateXmlCore(factory, settings);
         }
 
@@ -842,7 +842,7 @@ namespace Cuemon.Xml
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T1, T2, T3, T4>(Act<XmlWriter, T1, T2, T3, T4> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static Stream CreateXml<T1, T2, T3, T4>(Action<XmlWriter, T1, T2, T3, T4> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return CreateXml(writer, arg1, arg2, arg3, arg4, CreateSettings());
         }
@@ -861,9 +861,9 @@ namespace Cuemon.Xml
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T1, T2, T3, T4>(Act<XmlWriter, T1, T2, T3, T4> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, XmlWriterSettings settings)
+        public static Stream CreateXml<T1, T2, T3, T4>(Action<XmlWriter, T1, T2, T3, T4> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg1, arg2, arg3, arg4);
+            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4);
             return CreateXmlCore(factory, settings);
         }
 
@@ -883,7 +883,7 @@ namespace Cuemon.Xml
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T1, T2, T3, T4, T5>(Act<XmlWriter, T1, T2, T3, T4, T5> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static Stream CreateXml<T1, T2, T3, T4, T5>(Action<XmlWriter, T1, T2, T3, T4, T5> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             return CreateXml(writer, arg1, arg2, arg3, arg4, arg5, CreateSettings());
         }
@@ -904,9 +904,9 @@ namespace Cuemon.Xml
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T1, T2, T3, T4, T5>(Act<XmlWriter, T1, T2, T3, T4, T5> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, XmlWriterSettings settings)
+        public static Stream CreateXml<T1, T2, T3, T4, T5>(Action<XmlWriter, T1, T2, T3, T4, T5> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5);
+            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5);
             return CreateXmlCore(factory, settings);
         }
 
@@ -928,7 +928,7 @@ namespace Cuemon.Xml
         /// <param name="arg6">The sixth parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6>(Act<XmlWriter, T1, T2, T3, T4, T5, T6> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6>(Action<XmlWriter, T1, T2, T3, T4, T5, T6> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             return CreateXml(writer, arg1, arg2, arg3, arg4, arg5, arg6, CreateSettings());
         }
@@ -951,9 +951,9 @@ namespace Cuemon.Xml
         /// <param name="arg6">The sixth parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6>(Act<XmlWriter, T1, T2, T3, T4, T5, T6> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, XmlWriterSettings settings)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6>(Action<XmlWriter, T1, T2, T3, T4, T5, T6> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6);
             return CreateXmlCore(factory, settings);
         }
 
@@ -977,7 +977,7 @@ namespace Cuemon.Xml
         /// <param name="arg7">The seventh parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7>(Act<XmlWriter, T1, T2, T3, T4, T5, T6, T7> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7>(Action<XmlWriter, T1, T2, T3, T4, T5, T6, T7> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             return CreateXml(writer, arg1, arg2, arg3, arg4, arg5, arg6, arg7, CreateSettings());
         }
@@ -1002,9 +1002,9 @@ namespace Cuemon.Xml
         /// <param name="arg7">The seventh parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7>(Act<XmlWriter, T1, T2, T3, T4, T5, T6, T7> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, XmlWriterSettings settings)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7>(Action<XmlWriter, T1, T2, T3, T4, T5, T6, T7> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             return CreateXmlCore(factory, settings);
         }
 
@@ -1030,7 +1030,7 @@ namespace Cuemon.Xml
         /// <param name="arg8">The eighth parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8>(Act<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8>(Action<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             return CreateXml(writer, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, CreateSettings());
         }
@@ -1057,9 +1057,9 @@ namespace Cuemon.Xml
         /// <param name="arg8">The eighth parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8>(Act<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, XmlWriterSettings settings)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8>(Action<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             return CreateXmlCore(factory, settings);
         }
 
@@ -1087,7 +1087,7 @@ namespace Cuemon.Xml
         /// <param name="arg9">The ninth parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Act<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8, T9> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8, T9> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             return CreateXml(writer, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, CreateSettings());
         }
@@ -1116,9 +1116,9 @@ namespace Cuemon.Xml
         /// <param name="arg9">The ninth parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Act<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8, T9> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, XmlWriterSettings settings)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8, T9> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             return CreateXmlCore(factory, settings);
         }
 
@@ -1148,7 +1148,7 @@ namespace Cuemon.Xml
         /// <param name="arg10">The tenth parameter of the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings()"/>.</remarks>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Act<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
             return CreateXml(writer, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, CreateSettings());
         }
@@ -1179,13 +1179,13 @@ namespace Cuemon.Xml
         /// <param name="arg10">The tenth parameter of the delegate <paramref name="writer"/>.</param>
         /// <param name="settings">The XML settings that will be applied to the delegate <paramref name="writer"/>.</param>
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
-        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Act<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, XmlWriterSettings settings)
+        public static Stream CreateXml<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<XmlWriter, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> writer, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, XmlWriterSettings settings)
         {
-            var factory = ActFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+            var factory = ActionFactory.Create(writer, null, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             return CreateXmlCore(factory, settings);
         }
 
-        private static Stream CreateXmlCore<TTuple>(ActFactory<TTuple> factory, XmlWriterSettings settings) where TTuple : Template<XmlWriter>
+        private static Stream CreateXmlCore<TTuple>(ActionFactory<TTuple> factory, XmlWriterSettings settings) where TTuple : Template<XmlWriter>
         {
             if (settings == null) { throw new ArgumentNullException(nameof(settings)); }
             Stream output;

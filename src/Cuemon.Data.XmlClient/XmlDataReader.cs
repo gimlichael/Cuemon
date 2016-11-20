@@ -31,7 +31,7 @@ namespace Cuemon.Data.XmlClient
         /// <paramref name="reader"/> is null -or- <paramref name="parser"/> is null.
         /// </exception>
         /// <remarks>The default implementation uses <see cref="ObjectConverter.FromString(System.String)"/> as <paramref name="parser"/>.</remarks>
-        public XmlDataReader(XmlReader reader, Doer<string, object> parser)
+        public XmlDataReader(XmlReader reader, Func<string, object> parser)
             : base(parser)
         {
             Validator.ThrowIfNull(reader, nameof(reader));

@@ -31,7 +31,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="source">The <see cref="IEnumerable{T}"/> that contains the elements to be cast to type <typeparamref name="TResult"/>.</param>
         /// <param name="converter">The function delegate that converts <typeparamref name="TSource"/> to a <typeparamref name="TResult"/> representation once per iteration.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains each element of the <paramref name="source"/> sequence converted to the specified <typeparamref name="TResult"/>.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, TResult>(this IEnumerable<TSource> source, Doer<TSource, TResult> converter)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> converter)
         {
             return EnumerableConverter.Parse(source, converter);
         }
@@ -46,7 +46,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="converter">The function delegate that converts <typeparamref name="TSource" /> to a <typeparamref name="TResult" /> representation once per iteration.</param>
         /// <param name="arg">The parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains each element of the <paramref name="source" /> sequence converted to the specified <typeparamref name="TResult" />.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, T, TResult>(this IEnumerable<TSource> source, Doer<TSource, T, TResult> converter, T arg)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, T, TResult>(this IEnumerable<TSource> source, Func<TSource, T, TResult> converter, T arg)
         {
             return EnumerableConverter.Parse(source, converter, arg);
         }
@@ -63,7 +63,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg1">The first parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains each element of the <paramref name="source" /> sequence converted to the specified <typeparamref name="TResult" />.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, TResult>(this IEnumerable<TSource> source, Doer<TSource, T1, T2, TResult> converter, T1 arg1, T2 arg2)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, TResult>(this IEnumerable<TSource> source, Func<TSource, T1, T2, TResult> converter, T1 arg1, T2 arg2)
         {
             return EnumerableConverter.Parse(source, converter, arg1, arg2);
         }
@@ -82,7 +82,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg2">The second parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains each element of the <paramref name="source" /> sequence converted to the specified <typeparamref name="TResult" />.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, TResult>(this IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, TResult> converter, T1 arg1, T2 arg2, T3 arg3)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, TResult>(this IEnumerable<TSource> source, Func<TSource, T1, T2, T3, TResult> converter, T1 arg1, T2 arg2, T3 arg3)
         {
             return EnumerableConverter.Parse(source, converter, arg1, arg2, arg3);
         }
@@ -103,7 +103,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg3">The third parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains each element of the <paramref name="source" /> sequence converted to the specified <typeparamref name="TResult" />.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, TResult>(this IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, TResult>(this IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return EnumerableConverter.Parse(source, converter, arg1, arg2, arg3, arg4);
         }
@@ -126,7 +126,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains each element of the <paramref name="source" /> sequence converted to the specified <typeparamref name="TResult" />.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, TResult>(this IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, TResult>(this IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             return EnumerableConverter.Parse(source, converter, arg1, arg2, arg3, arg4, arg5);
         }
@@ -151,7 +151,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg6">The sixth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains each element of the <paramref name="source" /> sequence converted to the specified <typeparamref name="TResult" />.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, T6, TResult>(this IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, T6, TResult>(this IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             return EnumerableConverter.Parse(source, converter, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -178,7 +178,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg6">The sixth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg7">The seventh parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains each element of the <paramref name="source" /> sequence converted to the specified <typeparamref name="TResult" />.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(this IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(this IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             return EnumerableConverter.Parse(source, converter, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -207,7 +207,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg7">The seventh parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg8">The eighth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains each element of the <paramref name="source" /> sequence converted to the specified <typeparamref name="TResult" />.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             return EnumerableConverter.Parse(source, converter, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -238,7 +238,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg8">The eighth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg9">The ninth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains each element of the <paramref name="source" /> sequence converted to the specified <typeparamref name="TResult" />.</returns>
-        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(this IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static IEnumerable<TResult> ParseSequenceWith<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(this IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             return EnumerableConverter.Parse(source, converter, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }

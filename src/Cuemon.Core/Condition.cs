@@ -376,7 +376,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="firstExpression">The function delegate that is invoked when <paramref name="condition"/> is <c>true</c>.</param>
         /// <param name="secondExpression">The function delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
-        public static TResult TernaryIf<TResult>(bool condition, Doer<TResult> firstExpression, Doer<TResult> secondExpression)
+        public static TResult TernaryIf<TResult>(bool condition, Func<TResult> firstExpression, Func<TResult> secondExpression)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -393,7 +393,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="secondExpression">The function delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
         /// <param name="arg">The parameter of the function delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
-        public static TResult TernaryIf<T, TResult>(bool condition, Doer<T, TResult> firstExpression, Doer<T, TResult> secondExpression, T arg)
+        public static TResult TernaryIf<T, TResult>(bool condition, Func<T, TResult> firstExpression, Func<T, TResult> secondExpression, T arg)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -412,7 +412,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="arg1">The first parameter of the function delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg2">The second parameter of the function delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
-        public static TResult TernaryIf<T1, T2, TResult>(bool condition, Doer<T1, T2, TResult> firstExpression, Doer<T1, T2, TResult> secondExpression, T1 arg1, T2 arg2)
+        public static TResult TernaryIf<T1, T2, TResult>(bool condition, Func<T1, T2, TResult> firstExpression, Func<T1, T2, TResult> secondExpression, T1 arg1, T2 arg2)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -433,7 +433,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="arg2">The second parameter of the function delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg3">The third parameter of the function delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
-        public static TResult TernaryIf<T1, T2, T3, TResult>(bool condition, Doer<T1, T2, T3, TResult> firstExpression, Doer<T1, T2, T3, TResult> secondExpression, T1 arg1, T2 arg2, T3 arg3)
+        public static TResult TernaryIf<T1, T2, T3, TResult>(bool condition, Func<T1, T2, T3, TResult> firstExpression, Func<T1, T2, T3, TResult> secondExpression, T1 arg1, T2 arg2, T3 arg3)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -456,7 +456,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="arg3">The third parameter of the function delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
-        public static TResult TernaryIf<T1, T2, T3, T4, TResult>(bool condition, Doer<T1, T2, T3, T4, TResult> firstExpression, Doer<T1, T2, T3, T4, TResult> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static TResult TernaryIf<T1, T2, T3, T4, TResult>(bool condition, Func<T1, T2, T3, T4, TResult> firstExpression, Func<T1, T2, T3, T4, TResult> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -481,7 +481,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="arg4">The fourth parameter of the function delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg5">The fifth parameter of the function delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
-        public static TResult TernaryIf<T1, T2, T3, T4, T5, TResult>(bool condition, Doer<T1, T2, T3, T4, T5, TResult> firstExpression, Doer<T1, T2, T3, T4, T5, TResult> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static TResult TernaryIf<T1, T2, T3, T4, T5, TResult>(bool condition, Func<T1, T2, T3, T4, T5, TResult> firstExpression, Func<T1, T2, T3, T4, T5, TResult> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -494,7 +494,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="condition">When <c>true</c>, the <paramref name="firstExpression"/> is invoked; when <c>false</c>, the <paramref name="secondExpression"/> is invoked.</param>
         /// <param name="firstExpression">The delegate that is invoked when <paramref name="condition"/> is <c>true</c>.</param>
         /// <param name="secondExpression">The delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
-        public static void FlipFlop(bool condition, Act firstExpression, Act secondExpression)
+        public static void FlipFlop(bool condition, Action firstExpression, Action secondExpression)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -510,7 +510,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="firstExpression">The delegate that is invoked when <paramref name="condition"/> is <c>true</c>.</param>
         /// <param name="secondExpression">The delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
         /// <param name="arg">The parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
-        public static void FlipFlop<T>(bool condition, Act<T> firstExpression, Act<T> secondExpression, T arg)
+        public static void FlipFlop<T>(bool condition, Action<T> firstExpression, Action<T> secondExpression, T arg)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -528,7 +528,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="secondExpression">The delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
         /// <param name="arg1">The first parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg2">The second parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
-        public static void FlipFlop<T1, T2>(bool condition, Act<T1, T2> firstExpression, Act<T1, T2> secondExpression, T1 arg1, T2 arg2)
+        public static void FlipFlop<T1, T2>(bool condition, Action<T1, T2> firstExpression, Action<T1, T2> secondExpression, T1 arg1, T2 arg2)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -548,7 +548,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="arg1">The first parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg2">The second parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg3">The third parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
-        public static void FlipFlop<T1, T2, T3>(bool condition, Act<T1, T2, T3> firstExpression, Act<T1, T2, T3> secondExpression, T1 arg1, T2 arg2, T3 arg3)
+        public static void FlipFlop<T1, T2, T3>(bool condition, Action<T1, T2, T3> firstExpression, Action<T1, T2, T3> secondExpression, T1 arg1, T2 arg2, T3 arg3)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -570,7 +570,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="arg2">The second parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg3">The third parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
-        public static void FlipFlop<T1, T2, T3, T4>(bool condition, Act<T1, T2, T3, T4> firstExpression, Act<T1, T2, T3, T4> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void FlipFlop<T1, T2, T3, T4>(bool condition, Action<T1, T2, T3, T4> firstExpression, Action<T1, T2, T3, T4> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -594,7 +594,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="arg3">The third parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         /// <param name="arg5">The fifth parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
-        public static void FlipFlop<T1, T2, T3, T4, T5>(bool condition, Act<T1, T2, T3, T4, T5> firstExpression, Act<T1, T2, T3, T4, T5> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static void FlipFlop<T1, T2, T3, T4, T5>(bool condition, Action<T1, T2, T3, T4, T5> firstExpression, Action<T1, T2, T3, T4, T5> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
@@ -611,7 +611,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="condition">The delegate that will evaluate <paramref name="value"/>.</param>
         /// <param name="tuple">The argument for the invoker methods of <see cref="ConditionBuilder{TTuple}"/>.</param>
         /// <returns>A new instance of the <see cref="ConditionBuilder{TTuple}" /> initialized with the specified argument <paramref name="tuple" /> and the result of the starting <paramref name="condition"/>.</returns>
-        public static ConditionBuilder<TTuple> Initialize<TTuple, TValue>(TTuple tuple, TValue value, Doer<TValue, bool> condition) where TTuple : Template
+        public static ConditionBuilder<TTuple> Initialize<TTuple, TValue>(TTuple tuple, TValue value, Func<TValue, bool> condition) where TTuple : Template
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             return Initialize(tuple, condition(value));

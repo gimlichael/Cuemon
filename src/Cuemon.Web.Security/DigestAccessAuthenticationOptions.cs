@@ -26,7 +26,7 @@ namespace Cuemon.Web.Security
         /// Gets or sets the function delegate for credentials validation.
         /// </summary>
         /// <value>The function delegate for credentials validation.</value>
-        public TesterDoer<string, string, ClaimsPrincipal> CredentialsValidator { get; set; }
+        public TesterFunc<string, string, ClaimsPrincipal> CredentialsValidator { get; set; }
 
         /// <summary>
         /// Gets or sets the algorithm of the HTTP Digest Access Authentication. Default is <see cref="HashAlgorithmType.MD5"/>.
@@ -39,24 +39,24 @@ namespace Cuemon.Web.Security
         /// Gets or sets the function delegate for generating opaque string values.
         /// </summary>
         /// <value>The function delegate for generating opaque string values.</value>
-        public Doer<string> OpaqueGenerator { get; set; }
+        public Func<string> OpaqueGenerator { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate for retrieving the cryptographic secret used in nonce string values.
         /// </summary>
         /// <value>The function delegate for retrieving the cryptographic secret used in nonce string values.</value>
-        public Doer<byte[]> NonceSecret { get; set; }
+        public Func<byte[]> NonceSecret { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate for generating nonce string values.
         /// </summary>
         /// <value>The function delegate for generating nonce string values.</value>
-        public Doer<DateTime, string, byte[], string> NonceGenerator { get; set; }
+        public Func<DateTime, string, byte[], string> NonceGenerator { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate for parsing nonce string values for expiration.
         /// </summary>
         /// <value>The function delegate for parsing nonce string values for expiration.</value>
-        public Doer<string, TimeSpan, bool> NonceExpiredParser { get; set; }
+        public Func<string, TimeSpan, bool> NonceExpiredParser { get; set; }
     }
 }

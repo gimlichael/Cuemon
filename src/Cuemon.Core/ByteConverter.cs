@@ -67,7 +67,7 @@ namespace Cuemon
         /// This method returns <c>false</c> if <paramref name="value"/> is <c>null</c>, <c>empty</c> or not in a recognized format, and does not throw an exception.<br/>
         /// <paramref name="result"/> will have a default value of <c>null</c>.
         /// </remarks>
-        public static bool TryFromBase64String(string value, Doer<string, bool> predicate, out byte[] result)
+        public static bool TryFromBase64String(string value, Func<string, bool> predicate, out byte[] result)
         {
             try
             {

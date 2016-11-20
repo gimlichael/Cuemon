@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 
 namespace Cuemon.Web.Security
 {
@@ -12,6 +13,6 @@ namespace Cuemon.Web.Security
         /// Gets the function delegate callback for credentials validation.
         /// </summary>
         /// <value>The function delegate callback for credentials validation.</value>
-        public Doer<string, string, ClaimsPrincipal> CredentialsValidator { get; set; }
+        public Func<string, string, ClaimsPrincipal> CredentialsValidator { get; set; }
     }
 }

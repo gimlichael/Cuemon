@@ -27,7 +27,7 @@ namespace Cuemon
         /// <param name="value">The value to test for a Base64 structure.</param>
         /// <param name="predicate">A function delegate that provides custom rules for bypassing the Base64 structure check.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> matches a Base64 structure; otherwise, <c>false</c>.</returns>
-        public static bool IsBase64(this string value, Doer<string, bool> predicate)
+        public static bool IsBase64(this string value, Func<string, bool> predicate)
         {
             return StringUtility.IsBase64(value, predicate);
         }
@@ -586,7 +586,7 @@ namespace Cuemon
         /// <param name="source">A sequence in which to evaluate if a string value is equivalent to the specified <typeparamref name="T"/>.</param>
         /// <param name="parser">The function delegate that evaluates if the elements  of <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.</param>
         /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(this IEnumerable<string> source, Doer<string, CultureInfo, bool> parser)
+        public static bool IsSequenceOf<T>(this IEnumerable<string> source, Func<string, CultureInfo, bool> parser)
         {
             return StringUtility.IsSequenceOf<T>(source, parser);
         }
@@ -599,7 +599,7 @@ namespace Cuemon
         /// <param name="culture">The culture-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
         /// <param name="parser">The function delegate that evaluates if the elements  of <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.</param>
         /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(this IEnumerable<string> source, CultureInfo culture, Doer<string, CultureInfo, bool> parser)
+        public static bool IsSequenceOf<T>(this IEnumerable<string> source, CultureInfo culture, Func<string, CultureInfo, bool> parser)
         {
             return StringUtility.IsSequenceOf<T>(source, culture, parser);
         }

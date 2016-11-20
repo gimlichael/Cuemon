@@ -59,7 +59,7 @@ namespace Cuemon.Web.Security
         /// <param name="authorizationParser">The function delegate that will parse the authorization header of a web request and return the credentials of <typeparamref name="T"/>.</param>
         /// <param name="principalParser">The function delegate that will parse the credentials of <typeparamref name="T"/> returned from <paramref name="authorizationParser"/> and if successful returns a <see cref="ClaimsPrincipal"/> object.</param>
         /// <returns><c>true</c> if the specified parameters triggers a successful authentication; otherwise, <c>false</c>.</returns>
-        public static bool TryAuthenticate<T>(HttpContext context, bool requireSecureConnection, Doer<string, T> authorizationParser, TesterDoer<HttpContext, T, ClaimsPrincipal, bool> principalParser)
+        public static bool TryAuthenticate<T>(HttpContext context, bool requireSecureConnection, Func<string, T> authorizationParser, TesterFunc<HttpContext, T, ClaimsPrincipal, bool> principalParser)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace Cuemon.Web.Security
         /// <exception cref="SecurityException">
         /// Authorized failed for the request.
         /// </exception>
-        public static void Authenticate<T>(HttpContext context, bool requireSecureConnection, Doer<string, T> authorizationParser, TesterDoer<HttpContext, T, ClaimsPrincipal, bool> principalParser)
+        public static void Authenticate<T>(HttpContext context, bool requireSecureConnection, Func<string, T> authorizationParser, TesterFunc<HttpContext, T, ClaimsPrincipal, bool> principalParser)
         {
             Validator.ThrowIfNull(context, nameof(context));
             if (requireSecureConnection &&
@@ -97,7 +97,7 @@ namespace Cuemon.Web.Security
             throw new SecurityException("Authorized failed for the request.");
         }
 
-        private static bool TryGetPrincipal<T>(HttpContext context, Doer<string, T> authorizationParser, TesterDoer<HttpContext, T, ClaimsPrincipal, bool> principalParser, out ClaimsPrincipal principal)
+        private static bool TryGetPrincipal<T>(HttpContext context, Func<string, T> authorizationParser, TesterFunc<HttpContext, T, ClaimsPrincipal, bool> principalParser, out ClaimsPrincipal principal)
         {
             principal = null;
             string authorizationHeader = context.Request.Headers[HttpAuthorizationHeader];

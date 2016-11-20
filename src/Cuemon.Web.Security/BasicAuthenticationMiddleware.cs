@@ -19,7 +19,7 @@ namespace Cuemon.Web.Security
         /// </summary>
         /// <param name="next">The delegate of the request pipeline to invoke.</param>
         /// <param name="options">The HTTP Basic Authentication middleware options.</param>
-        public BasicAuthenticationMiddleware(RequestDelegate next, Doer<BasicAuthenticationOptions> options)
+        public BasicAuthenticationMiddleware(RequestDelegate next, Func<BasicAuthenticationOptions> options)
         {
             Validator.ThrowIfNull(options, nameof(options));
             Options = options();
@@ -90,7 +90,7 @@ namespace Cuemon.Web.Security
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="options">The HTTP Basic Authentication middleware options.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder builder, Doer<BasicAuthenticationOptions> options)
+        public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder builder, Func<BasicAuthenticationOptions> options)
         {
             return builder.UseMiddleware<BasicAuthenticationMiddleware>(options);
         }

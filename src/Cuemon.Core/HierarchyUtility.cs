@@ -18,7 +18,7 @@ namespace Cuemon
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> -or- <paramref name="traversal"/> is null.
         /// </exception>
-        public static IEnumerable<TSource> WhileSourceTraversalIsNotNull<TSource>(TSource source, Doer<TSource, TSource> traversal) where TSource : class
+        public static IEnumerable<TSource> WhileSourceTraversalIsNotNull<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             if (traversal == null) { throw new ArgumentNullException(nameof(traversal)); }
@@ -43,7 +43,7 @@ namespace Cuemon
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> -or- <paramref name="traversal"/> is null.
         /// </exception>
-        public static IEnumerable<TSource> WhileSourceTraversalHasElements<TSource>(TSource source, Doer<TSource, IEnumerable<TSource>> traversal) where TSource : class
+        public static IEnumerable<TSource> WhileSourceTraversalHasElements<TSource>(TSource source, Func<TSource, IEnumerable<TSource>> traversal) where TSource : class
         {
             Stack<TSource> stack = new Stack<TSource>();
             stack.Push(source);

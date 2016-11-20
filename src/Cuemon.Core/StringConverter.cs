@@ -708,7 +708,7 @@ namespace Cuemon
         /// 3: any public properties is appended to the result if <see cref="object.ToString"/> has not been overridden.<br/><br/>
         /// Note: do not call this method from an overridden ToString(..) method without setting <paramref name="bypassOverrideCheck"/> to <c>true</c>; otherwise a stackoverflow exception will occur.
         /// </remarks>
-        public static string FromObject(object instance, bool bypassOverrideCheck, IFormatProvider provider, string delimiter, Doer<PropertyInfo, object, IFormatProvider, string> propertyConverter)
+        public static string FromObject(object instance, bool bypassOverrideCheck, IFormatProvider provider, string delimiter, Func<PropertyInfo, object, IFormatProvider, string> propertyConverter)
         {
             return FromObject(instance, bypassOverrideCheck, provider, delimiter, propertyConverter, ReflectionUtility.GetProperties, BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance);
         }
@@ -731,7 +731,7 @@ namespace Cuemon
         /// 3: any public properties is appended to the result if <see cref="object.ToString"/> has not been overridden.<br/><br/>
         /// Note: do not call this method from an overridden ToString(..) method without setting <paramref name="bypassOverrideCheck"/> to <c>true</c>; otherwise a stackoverflow exception will occur.
         /// </remarks>
-        public static string FromObject(object instance, bool bypassOverrideCheck, IFormatProvider provider, string delimiter, Doer<PropertyInfo, object, IFormatProvider, string> propertyConverter, Doer<Type, BindingFlags, IEnumerable<PropertyInfo>> propertiesReader, BindingFlags propertiesReaderBindingAttr)
+        public static string FromObject(object instance, bool bypassOverrideCheck, IFormatProvider provider, string delimiter, Func<PropertyInfo, object, IFormatProvider, string> propertyConverter, Func<Type, BindingFlags, IEnumerable<PropertyInfo>> propertiesReader, BindingFlags propertiesReaderBindingAttr)
         {
             Validator.ThrowIfNull(propertyConverter, nameof(propertyConverter));
             Validator.ThrowIfNull(propertiesReader, nameof(propertiesReader));
@@ -740,7 +740,7 @@ namespace Cuemon
 
             if (!bypassOverrideCheck)
             {
-                Doer<string> toString = instance.ToString;
+                Func<string> toString = instance.ToString;
                 if (ReflectionUtility.IsOverride(toString.GetMethodInfo()))
                 {
                     return toString();
@@ -878,7 +878,7 @@ namespace Cuemon
         /// <param name="delimiter">The delimiter specification.</param>
         /// <param name="converter">The function delegate that converts <typeparamref name="TSource"/> to a string representation once per iteration.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource>(IEnumerable<TSource> source, string delimiter, Doer<TSource, string> converter)
+        public static string ToDelimitedString<TSource>(IEnumerable<TSource> source, string delimiter, Func<TSource, string> converter)
         {
             return ToDelimitedString(source, delimiter, (string)null, converter);
         }
@@ -893,7 +893,7 @@ namespace Cuemon
         /// <param name="converter">The function delegate that converts <typeparamref name="TSource"/> to a string representation once per iteration.</param>
         /// <param name="arg">The parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T>(IEnumerable<TSource> source, string delimiter, Doer<TSource, T, string> converter, T arg)
+        public static string ToDelimitedString<TSource, T>(IEnumerable<TSource> source, string delimiter, Func<TSource, T, string> converter, T arg)
         {
             return ToDelimitedString(source, delimiter, (string)null, converter, arg);
         }
@@ -910,7 +910,7 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T1, T2>(IEnumerable<TSource> source, string delimiter, Doer<TSource, T1, T2, string> converter, T1 arg1, T2 arg2)
+        public static string ToDelimitedString<TSource, T1, T2>(IEnumerable<TSource> source, string delimiter, Func<TSource, T1, T2, string> converter, T1 arg1, T2 arg2)
         {
             return ToDelimitedString(source, delimiter, (string)null, converter, arg1, arg2);
         }
@@ -929,7 +929,7 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T1, T2, T3>(IEnumerable<TSource> source, string delimiter, Doer<TSource, T1, T2, T3, string> converter, T1 arg1, T2 arg2, T3 arg3)
+        public static string ToDelimitedString<TSource, T1, T2, T3>(IEnumerable<TSource> source, string delimiter, Func<TSource, T1, T2, T3, string> converter, T1 arg1, T2 arg2, T3 arg3)
         {
             return ToDelimitedString(source, delimiter, (string)null, converter, arg1, arg2, arg3);
         }
@@ -950,7 +950,7 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, string delimiter, Doer<TSource, T1, T2, T3, T4, string> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static string ToDelimitedString<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, string delimiter, Func<TSource, T1, T2, T3, T4, string> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return ToDelimitedString(source, delimiter, (string)null, converter, arg1, arg2, arg3, arg4);
         }
@@ -973,7 +973,7 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, string delimiter, Doer<TSource, T1, T2, T3, T4, T5, string> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static string ToDelimitedString<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, string delimiter, Func<TSource, T1, T2, T3, T4, T5, string> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             return ToDelimitedString(source, delimiter, null, converter, arg1, arg2, arg3, arg4, arg5);
         }
@@ -1000,10 +1000,10 @@ namespace Cuemon
         /// <param name="format">The desired format of the converted values.</param>
         /// <param name="converter">The function delegate that converts <typeparamref name="TSource"/> to a string representation once per iteration.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource>(IEnumerable<TSource> source, string delimiter, string format, Doer<TSource, string> converter)
+        public static string ToDelimitedString<TSource>(IEnumerable<TSource> source, string delimiter, string format, Func<TSource, string> converter)
         {
             ValidateToDelimitedString(source, delimiter);
-            var factory = DoerFactory.Create(converter, default(TSource));
+            var factory = FuncFactory.Create(converter, default(TSource));
             return ToDelimitedStringCore(factory, source, delimiter, format);
         }
 
@@ -1018,10 +1018,10 @@ namespace Cuemon
         /// <param name="converter">The function delegate that converts <typeparamref name="TSource"/> to a string representation once per iteration.</param>
         /// <param name="arg">The parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T>(IEnumerable<TSource> source, string delimiter, string format, Doer<TSource, T, string> converter, T arg)
+        public static string ToDelimitedString<TSource, T>(IEnumerable<TSource> source, string delimiter, string format, Func<TSource, T, string> converter, T arg)
         {
             ValidateToDelimitedString(source, delimiter);
-            var factory = DoerFactory.Create(converter, default(TSource), arg);
+            var factory = FuncFactory.Create(converter, default(TSource), arg);
             return ToDelimitedStringCore(factory, source, delimiter, format);
         }
 
@@ -1038,10 +1038,10 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T1, T2>(IEnumerable<TSource> source, string delimiter, string format, Doer<TSource, T1, T2, string> converter, T1 arg1, T2 arg2)
+        public static string ToDelimitedString<TSource, T1, T2>(IEnumerable<TSource> source, string delimiter, string format, Func<TSource, T1, T2, string> converter, T1 arg1, T2 arg2)
         {
             ValidateToDelimitedString(source, delimiter);
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2);
             return ToDelimitedStringCore(factory, source, delimiter, format);
         }
 
@@ -1060,10 +1060,10 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T1, T2, T3>(IEnumerable<TSource> source, string delimiter, string format, Doer<TSource, T1, T2, T3, string> converter, T1 arg1, T2 arg2, T3 arg3)
+        public static string ToDelimitedString<TSource, T1, T2, T3>(IEnumerable<TSource> source, string delimiter, string format, Func<TSource, T1, T2, T3, string> converter, T1 arg1, T2 arg2, T3 arg3)
         {
             ValidateToDelimitedString(source, delimiter);
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3);
             return ToDelimitedStringCore(factory, source, delimiter, format);
         }
 
@@ -1084,10 +1084,10 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, string delimiter, string format, Doer<TSource, T1, T2, T3, T4, string> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static string ToDelimitedString<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, string delimiter, string format, Func<TSource, T1, T2, T3, T4, string> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             ValidateToDelimitedString(source, delimiter);
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4);
             return ToDelimitedStringCore(factory, source, delimiter, format);
         }
 
@@ -1110,10 +1110,10 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
-        public static string ToDelimitedString<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, string delimiter, string format, Doer<TSource, T1, T2, T3, T4, T5, string> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static string ToDelimitedString<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, string delimiter, string format, Func<TSource, T1, T2, T3, T4, T5, string> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             ValidateToDelimitedString(source, delimiter);
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5);
             return ToDelimitedStringCore(factory, source, delimiter, format);
         }
 
@@ -1123,7 +1123,7 @@ namespace Cuemon
             Validator.ThrowIfNullOrEmpty(delimiter, nameof(delimiter));
         }
 
-        private static string ToDelimitedStringCore<TTuple, TSource>(DoerFactory<TTuple, string> factory, IEnumerable<TSource> source, string delimiter, string format) where TTuple : Template<TSource>
+        private static string ToDelimitedStringCore<TTuple, TSource>(FuncFactory<TTuple, string> factory, IEnumerable<TSource> source, string delimiter, string format) where TTuple : Template<TSource>
         {
             bool hasCustomFormat = !string.IsNullOrEmpty(format);
             if (hasCustomFormat)

@@ -12,14 +12,14 @@ namespace Cuemon.Runtime.Caching
             Group = group;
         }
 
-        public CacheAsyncState<TResult> With<TTuple>(DoerFactory<TTuple, TResult> method)
+        public CacheAsyncState<TResult> With<TTuple>(FuncFactory<TTuple, TResult> method)
             where TTuple : Template
         {
             EndInvoke = method.EndExecuteMethod;
             return this;
         }
 
-        public Doer<IAsyncResult, TResult> EndInvoke;
+        public Func<IAsyncResult, TResult> EndInvoke;
 
         public string Key { get; set; }
 

@@ -18,7 +18,7 @@ namespace Cuemon.Threading
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
         /// <remarks>
-        /// The following table shows the initial overloaded arguments for <see cref="ForEach{TSource}(IEnumerable{TSource},Act{TSource})"/>.
+        /// The following table shows the initial overloaded arguments for <see cref="ForEach{TSource}(IEnumerable{TSource},Action{TSource})"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Argument</term>
@@ -34,7 +34,7 @@ namespace Cuemon.Threading
         ///     </item>
         /// </list>
         /// </remarks>
-        public static void ForEach<TSource>(IEnumerable<TSource> source, Act<TSource> body)
+        public static void ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body);
         }
@@ -49,7 +49,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource>(int partitionSize, IEnumerable<TSource> source, Act<TSource> body)
+        public static void ForEach<TSource>(int partitionSize, IEnumerable<TSource> source, Action<TSource> body)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body);
         }
@@ -65,10 +65,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource> body)
+        public static void ForEach<TSource>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource> body)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource));
+            var factory = ActionFactory.Create(body, default(TSource));
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -83,7 +83,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T>(IEnumerable<TSource> source, Act<TSource, T> body, T arg)
+        public static void ForEach<TSource, T>(IEnumerable<TSource> source, Action<TSource, T> body, T arg)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg);
         }
@@ -100,7 +100,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T> body, T arg)
+        public static void ForEach<TSource, T>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T> body, T arg)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg);
         }
@@ -118,10 +118,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T> body, T arg)
+        public static void ForEach<TSource, T>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T> body, T arg)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg);
+            var factory = ActionFactory.Create(body, default(TSource), arg);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -138,7 +138,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2>(IEnumerable<TSource> source, Act<TSource, T1, T2> body, T1 arg1, T2 arg2)
+        public static void ForEach<TSource, T1, T2>(IEnumerable<TSource> source, Action<TSource, T1, T2> body, T1 arg1, T2 arg2)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2);
         }
@@ -157,7 +157,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T1, T2> body, T1 arg1, T2 arg2)
+        public static void ForEach<TSource, T1, T2>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T1, T2> body, T1 arg1, T2 arg2)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2);
         }
@@ -177,10 +177,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T1, T2> body, T1 arg1, T2 arg2)
+        public static void ForEach<TSource, T1, T2>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T1, T2> body, T1 arg1, T2 arg2)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -199,7 +199,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3)
+        public static void ForEach<TSource, T1, T2, T3>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3);
         }
@@ -220,7 +220,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3)
+        public static void ForEach<TSource, T1, T2, T3>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3);
         }
@@ -242,10 +242,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3)
+        public static void ForEach<TSource, T1, T2, T3>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T1, T2, T3> body, T1 arg1, T2 arg2, T3 arg3)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -266,7 +266,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void ForEach<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4);
         }
@@ -289,7 +289,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void ForEach<TSource, T1, T2, T3, T4>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4);
         }
@@ -313,10 +313,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void ForEach<TSource, T1, T2, T3, T4>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -339,7 +339,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -364,7 +364,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -390,10 +390,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -418,7 +418,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -445,7 +445,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -473,10 +473,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -503,7 +503,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -532,7 +532,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -562,10 +562,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -594,7 +594,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -625,7 +625,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -657,10 +657,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -691,7 +691,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -724,7 +724,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -758,10 +758,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -794,7 +794,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
             ForEach(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -829,7 +829,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
             ForEach(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -865,10 +865,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Act<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
+        public static void ForEach<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
             ValidateForEach(source, body, timeout);
-            var factory = ActFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+            var factory = ActionFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             ForEachCore(factory, source, partitionSize, timeout);
         }
 
@@ -881,7 +881,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfGreaterThan(timeout.Milliseconds, int.MaxValue, nameof(timeout));
         }
 
-        private static void ForEachCore<TTuple, TSource>(ActFactory<TTuple> factory, IEnumerable<TSource> source, int partitionSize, TimeSpan timeout) where TTuple : Template<TSource>
+        private static void ForEachCore<TTuple, TSource>(ActionFactory<TTuple> factory, IEnumerable<TSource> source, int partitionSize, TimeSpan timeout) where TTuple : Template<TSource>
         {
             PartitionCollection<TSource> partition = new PartitionCollection<TSource>(source, partitionSize);
             CancellationTokenSource cts = new CancellationTokenSource(timeout);

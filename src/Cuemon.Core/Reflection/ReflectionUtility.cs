@@ -122,7 +122,7 @@ namespace Cuemon.Reflection
         /// <param name="maxDepth">The maximum depth to traverse of <paramref name="source"/>.</param>
         /// <param name="propertyIndexParametersResolver">The function delegate that is invoked if a property has one or more index parameters.</param>
         /// <returns><c>true</c> if the specified <paramref name="source"/> has a circular reference; otherwise, <c>false</c>.</returns>
-        public static bool HasCircularReference<T>(T source, int maxDepth, Doer<ParameterInfo[], object[]> propertyIndexParametersResolver) where T : class
+        public static bool HasCircularReference<T>(T source, int maxDepth, Func<ParameterInfo[], object[]> propertyIndexParametersResolver) where T : class
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             if (maxDepth <= 0) { throw new ArgumentOutOfRangeException(nameof(maxDepth)); }
@@ -172,7 +172,7 @@ namespace Cuemon.Reflection
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="property"/> is null - or - <paramref name="propertyIndexParametersResolver"/> is null.
         /// </exception>
-        public static object GetPropertyValue(object source, PropertyInfo property, Doer<ParameterInfo[], object[]> propertyIndexParametersResolver)
+        public static object GetPropertyValue(object source, PropertyInfo property, Func<ParameterInfo[], object[]> propertyIndexParametersResolver)
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             if (property == null) { throw new ArgumentNullException(nameof(property)); }
@@ -306,7 +306,7 @@ namespace Cuemon.Reflection
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="maxDepth"/> is less than zero.
         /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Doer<Type, bool> skipProperties)
+        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Func<Type, bool> skipProperties)
         {
             return GetObjectHierarchy(source, maxDepth, skipProperties, DefaultSkipPropertyCallback);
         }
@@ -325,7 +325,7 @@ namespace Cuemon.Reflection
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="maxDepth"/> is less than zero.
         /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Doer<Type, bool> skipProperties, Doer<PropertyInfo, bool> skipProperty)
+        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Func<Type, bool> skipProperties, Func<PropertyInfo, bool> skipProperty)
         {
             return GetObjectHierarchy(source, maxDepth, skipProperties, skipProperty, HasCircularReference);
         }
@@ -345,7 +345,7 @@ namespace Cuemon.Reflection
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="maxDepth"/> is less than zero.
         /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Doer<Type, bool> skipProperties, Doer<PropertyInfo, bool> skipProperty, Doer<object, bool> hasCircularReference)
+        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Func<Type, bool> skipProperties, Func<PropertyInfo, bool> skipProperty, Func<object, bool> hasCircularReference)
         {
             return GetObjectHierarchy(source, maxDepth, skipProperties, skipProperty, hasCircularReference, DefaultPropertyIndexParametersResolver);
         }
@@ -366,7 +366,7 @@ namespace Cuemon.Reflection
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="maxDepth"/> is less than zero.
         /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Doer<Type, bool> skipProperties, Doer<PropertyInfo, bool> skipProperty, Doer<object, bool> hasCircularReference, Doer<ParameterInfo[], object[]> propertyIndexParametersResolver)
+        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Func<Type, bool> skipProperties, Func<PropertyInfo, bool> skipProperty, Func<object, bool> hasCircularReference, Func<ParameterInfo[], object[]> propertyIndexParametersResolver)
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             if (maxDepth < 0) { throw new ArgumentOutOfRangeException(nameof(maxDepth)); }

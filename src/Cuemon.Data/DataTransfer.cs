@@ -35,7 +35,7 @@ namespace Cuemon.Data
         /// <param name="selector">The function delegate that will determine the <see cref="PagedCollection{DataTransferRow}"/> result of this method.</param>
         /// <param name="counter">The function delegate that will determine the total number of rows in a data-source from the specified <paramref name="settings"/>.</param>
         /// <returns>A <see cref="PagedCollection{DataTransferRow}"/> that is the result of the specified <paramref name="selector"/> with associated <paramref name="settings"/>.</returns>
-        public static PagedCollection<DataTransferRow> GetPagedRows(PagedSettings settings, Doer<PagedSettings, IEnumerable<DataTransferRow>> selector, Doer<PagedSettings, int> counter)
+        public static PagedCollection<DataTransferRow> GetPagedRows(PagedSettings settings, Func<PagedSettings, IEnumerable<DataTransferRow>> selector, Func<PagedSettings, int> counter)
         {
             return new PagedCollection<DataTransferRow>(selector, settings, counter);
         }

@@ -20,7 +20,7 @@ namespace Cuemon.Web.Security
         /// </summary>
         /// <param name="next">The delegate of the request pipeline to invoke.</param>
         /// <param name="options">The HTTP Digest Access Authentication middleware options.</param>
-        public DigestAccessAuthenticationMiddleware(RequestDelegate next, Doer<DigestAccessAuthenticationOptions> options)
+        public DigestAccessAuthenticationMiddleware(RequestDelegate next, Func<DigestAccessAuthenticationOptions> options)
         {
             Validator.ThrowIfNull(options, nameof(options));
             Options = options();
@@ -40,9 +40,9 @@ namespace Cuemon.Web.Security
                 context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
                 string etag = context.Response.Headers[AuthenticationUtility.HttpEtagHeader];
                 if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
-                Doer<string> opaqueGenerator = Options.OpaqueGenerator;
-                Doer<byte[]> nonceSecret = Options.NonceSecret;
-                Doer<DateTime, string, byte[], string> nonceGenerator = Options.NonceGenerator;
+                Func<string> opaqueGenerator = Options.OpaqueGenerator;
+                Func<byte[]> nonceSecret = Options.NonceSecret;
+                Func<DateTime, string, byte[], string> nonceGenerator = Options.NonceGenerator;
                 string staleNonce = context.Items["staleNonce"] as string ?? "FALSE";
                 context.Response.Headers.Add(AuthenticationUtility.HttpWwwAuthenticateHeader, "{0} realm=\"{1}\", qop=\"{2}\", nonce=\"{3}\", opaque=\"{4}\", stale=\"{5}\", algorithm=\"{6}\"".FormatWith(
                     AuthenticationSchemeName,
@@ -79,7 +79,7 @@ namespace Cuemon.Web.Security
             if (credentials.TryGetValue(DigestAuthenticationUtility.CredentialNonce, out nonce))
             {
                 result = null;
-                Doer<string, TimeSpan, bool> nonceExpiredParser = Options.NonceExpiredParser;
+                Func<string, TimeSpan, bool> nonceExpiredParser = Options.NonceExpiredParser;
                 bool staleNonce = nonceExpiredParser(nonce, TimeSpan.FromSeconds(30));
                 context.Items["staleNonce"] = staleNonce.ToString().ToUpperInvariant();
                 if (staleNonce) { return false; }
@@ -166,7 +166,7 @@ namespace Cuemon.Web.Security
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="options">The HTTP Digest Access Authentication middleware options.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Doer<DigestAccessAuthenticationOptions> options)
+        public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Func<DigestAccessAuthenticationOptions> options)
         {
             return builder.UseMiddleware<DigestAccessAuthenticationMiddleware>(options);
         }

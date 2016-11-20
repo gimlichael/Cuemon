@@ -22,7 +22,7 @@ namespace Cuemon.Threading
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
         /// <remarks>
-        /// The following table shows the initial overloaded arguments for <see cref="ForEach{TSource}(System.Collections.Generic.IEnumerable{TSource},Cuemon.Act{TSource})"/>.
+        /// The following table shows the initial overloaded arguments for <see cref="ForEach{TSource}(System.Collections.Generic.IEnumerable{TSource},Cuemon.Action{TSource})"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Argument</term>
@@ -38,7 +38,7 @@ namespace Cuemon.Threading
         ///     </item>
         /// </list>
         /// </remarks>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, TResult>(IEnumerable<TSource> source, Doer<TSource, TResult> body)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, TResult>(IEnumerable<TSource> source, Func<TSource, TResult> body)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body);
         }
@@ -55,7 +55,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, TResult> body)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, TResult> body)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body);
         }
@@ -73,10 +73,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, TResult> body)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, TResult> body)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource));
+            var factory = FuncFactory.Create(body, default(TSource));
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -93,7 +93,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T, TResult>(IEnumerable<TSource> source, Doer<TSource, T, TResult> body, T arg)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T, TResult>(IEnumerable<TSource> source, Func<TSource, T, TResult> body, T arg)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg);
         }
@@ -112,7 +112,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T, TResult> body, T arg)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T, TResult> body, T arg)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg);
         }
@@ -132,10 +132,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T, TResult> body, T arg)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T, TResult> body, T arg)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg);
+            var factory = FuncFactory.Create(body, default(TSource), arg);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -154,7 +154,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2);
         }
@@ -175,7 +175,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2);
         }
@@ -197,10 +197,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -221,7 +221,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3);
         }
@@ -244,7 +244,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3);
         }
@@ -268,10 +268,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -294,7 +294,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4);
         }
@@ -319,7 +319,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4);
         }
@@ -345,10 +345,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -373,7 +373,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -400,7 +400,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -428,10 +428,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -458,7 +458,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -487,7 +487,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -517,10 +517,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -549,7 +549,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -580,7 +580,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -612,10 +612,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -646,7 +646,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -679,7 +679,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -713,10 +713,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -749,7 +749,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -784,7 +784,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -820,10 +820,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -858,7 +858,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
             return ForEachTask(DefaultNumberOfConcurrentWorkerThreads, source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -895,7 +895,7 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
             return ForEachTask(partitionSize, TimeSpan.FromMinutes(2), source, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -933,10 +933,10 @@ namespace Cuemon.Threading
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
+        public static IReadOnlyCollection<TResult> ForEachTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
             ValidateForEachTask(source, body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             return ForEachTaskCore(factory, source, partitionSize, timeout);
         }
 
@@ -949,7 +949,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfGreaterThan(timeout.Milliseconds, int.MaxValue, nameof(timeout));
         }
 
-        private static IReadOnlyCollection<TResult> ForEachTaskCore<TTuple, TSource, TResult>(DoerFactory<TTuple, TResult> factory, IEnumerable<TSource> source, int partitionSize, TimeSpan timeout) where TTuple : Template<TSource>
+        private static IReadOnlyCollection<TResult> ForEachTaskCore<TTuple, TSource, TResult>(FuncFactory<TTuple, TResult> factory, IEnumerable<TSource> source, int partitionSize, TimeSpan timeout) where TTuple : Template<TSource>
         {
             long sorter = 0;
             SortedDictionary<long, TResult> result = new SortedDictionary<long, TResult>();

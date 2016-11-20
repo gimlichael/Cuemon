@@ -28,7 +28,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="source">The <see cref="IEnumerable{T}"/> to return a random element of.</param>
         /// <param name="randomizer">The function delegate that will select a random element of <paramref name="source"/>.</param>
         /// <returns>default(TSource) if source is empty; otherwise, a random element of <paramref name="source"/>.</returns>
-        public static TSource RandomOrDefault<TSource>(IEnumerable<TSource> source, Doer<IEnumerable<TSource>, TSource> randomizer)
+        public static TSource RandomOrDefault<TSource>(IEnumerable<TSource> source, Func<IEnumerable<TSource>, TSource> randomizer)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(randomizer, nameof(randomizer));
@@ -52,7 +52,7 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="count"/> is less than 0.
         /// </exception>
-	    public static IEnumerable<T> RangeOf<T>(int count, Doer<int, T> resolver)
+	    public static IEnumerable<T> RangeOf<T>(int count, Func<int, T> resolver)
         {
             if (count < 0) { throw new ArgumentOutOfRangeException(nameof(count)); }
             for (int i = 0; i < count; i++) { yield return resolver(i); }
@@ -119,7 +119,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="source">The sequence to search.</param>
         /// <param name="selector">The function delegate that defines the condition of the element to retrieve.</param>
         /// <returns>A <typeparamref name="TSource"/> element that matched the conditions defined by the specified <paramref name="selector"/>.</returns>
-        public static TSource SelectOne<TSource>(IEnumerable<TSource> source, Doer<IEnumerable<TSource>, TSource> selector)
+        public static TSource SelectOne<TSource>(IEnumerable<TSource> source, Func<IEnumerable<TSource>, TSource> selector)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(selector, nameof(selector));
@@ -135,7 +135,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="selector">The function delegate that defines the condition of the element to retrieve.</param>
         /// <param name="arg">The parameter of the function delegate <paramref name="selector"/>.</param>
         /// <returns>A <typeparamref name="TSource"/> element that matched the conditions defined by the specified <paramref name="selector"/>.</returns>
-        public static TSource SelectOne<TSource, T>(IEnumerable<TSource> source, Doer<IEnumerable<TSource>, T, TSource> selector, T arg)
+        public static TSource SelectOne<TSource, T>(IEnumerable<TSource> source, Func<IEnumerable<TSource>, T, TSource> selector, T arg)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(selector, nameof(selector));
@@ -153,7 +153,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg1">The first parameter of the function delegate <paramref name="selector"/>.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="selector"/>.</param>
         /// <returns>A <typeparamref name="TSource"/> element that matched the conditions defined by the specified <paramref name="selector"/>.</returns>
-        public static TSource SelectOne<TSource, T1, T2>(IEnumerable<TSource> source, Doer<IEnumerable<TSource>, T1, T2, TSource> selector, T1 arg1, T2 arg2)
+        public static TSource SelectOne<TSource, T1, T2>(IEnumerable<TSource> source, Func<IEnumerable<TSource>, T1, T2, TSource> selector, T1 arg1, T2 arg2)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(selector, nameof(selector));
@@ -173,7 +173,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg2">The second parameter of the function delegate <paramref name="selector"/>.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="selector"/>.</param>
         /// <returns>A <typeparamref name="TSource"/> element that matched the conditions defined by the specified <paramref name="selector"/>.</returns>
-        public static TSource SelectOne<TSource, T1, T2, T3>(IEnumerable<TSource> source, Doer<IEnumerable<TSource>, T1, T2, T3, TSource> selector, T1 arg1, T2 arg2, T3 arg3)
+        public static TSource SelectOne<TSource, T1, T2, T3>(IEnumerable<TSource> source, Func<IEnumerable<TSource>, T1, T2, T3, TSource> selector, T1 arg1, T2 arg2, T3 arg3)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(selector, nameof(selector));
@@ -195,7 +195,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg3">The third parameter of the function delegate <paramref name="selector"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="selector"/>.</param>
         /// <returns>A <typeparamref name="TSource"/> element that matched the conditions defined by the specified <paramref name="selector"/>.</returns>
-        public static TSource SelectOne<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Doer<IEnumerable<TSource>, T1, T2, T3, T4, TSource> selector, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static TSource SelectOne<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Func<IEnumerable<TSource>, T1, T2, T3, T4, TSource> selector, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(selector, nameof(selector));
@@ -219,7 +219,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="selector"/>.</param>
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="selector"/>.</param>
         /// <returns>A <typeparamref name="TSource"/> element that matched the conditions defined by the specified <paramref name="selector"/>.</returns>
-        public static TSource SelectOne<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Doer<IEnumerable<TSource>, T1, T2, T3, T4, T5, TSource> selector, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static TSource SelectOne<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Func<IEnumerable<TSource>, T1, T2, T3, T4, T5, TSource> selector, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(selector, nameof(selector));
@@ -233,7 +233,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="source">The sequence to search.</param>
         /// <param name="match">The function delegate that defines the conditions of the elements to search for.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource>(IEnumerable<TSource> source, Doer<TSource, bool> match)
+        public static IEnumerable<TSource> FindAll<TSource>(IEnumerable<TSource> source, Func<TSource, bool> match)
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             if (match == null) { throw new ArgumentNullException(nameof(match)); }
@@ -259,9 +259,9 @@ namespace Cuemon.Collections.Generic
         /// <param name="match">The function delegate that defines the conditions of the elements to search for.</param>
         /// <param name="arg">The first parameter of the function delegate <paramref name="match"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource, T>(IEnumerable<TSource> source, Doer<TSource, T, bool> match, T arg)
+        public static IEnumerable<TSource> FindAll<TSource, T>(IEnumerable<TSource> source, Func<TSource, T, bool> match, T arg)
         {
-            var factory = DoerFactory.Create(match, default(TSource), arg);
+            var factory = FuncFactory.Create(match, default(TSource), arg);
             return FindAllCore(factory, source);
         }
 
@@ -276,9 +276,9 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg1">The first parameter of the function delegate <paramref name="match"/>.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="match"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource, T1, T2>(IEnumerable<TSource> source, Doer<TSource, T1, T2, bool> match, T1 arg1, T2 arg2)
+        public static IEnumerable<TSource> FindAll<TSource, T1, T2>(IEnumerable<TSource> source, Func<TSource, T1, T2, bool> match, T1 arg1, T2 arg2)
         {
-            var factory = DoerFactory.Create(match, default(TSource), arg1, arg2);
+            var factory = FuncFactory.Create(match, default(TSource), arg1, arg2);
             return FindAllCore(factory, source);
         }
 
@@ -295,9 +295,9 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg2">The second parameter of the function delegate <paramref name="match"/>.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="match"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, bool> match, T1 arg1, T2 arg2, T3 arg3)
+        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, bool> match, T1 arg1, T2 arg2, T3 arg3)
         {
-            var factory = DoerFactory.Create(match, default(TSource), arg1, arg2, arg3);
+            var factory = FuncFactory.Create(match, default(TSource), arg1, arg2, arg3);
             return FindAllCore(factory, source);
         }
 
@@ -316,9 +316,9 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg3">The third parameter of the function delegate <paramref name="match"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="match"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            var factory = DoerFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4);
+            var factory = FuncFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4);
             return FindAllCore(factory, source);
         }
 
@@ -339,9 +339,9 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="match"/>.</param>
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="match"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
-            var factory = DoerFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5);
+            var factory = FuncFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5);
             return FindAllCore(factory, source);
         }
 
@@ -364,9 +364,9 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="match"/>.</param>
         /// <param name="arg6">The sixth parameter of the function delegate <paramref name="match"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5, T6>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5, T6>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
-            var factory = DoerFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = FuncFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
             return FindAllCore(factory, source);
         }
 
@@ -391,9 +391,9 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg6">The sixth parameter of the function delegate <paramref name="match"/>.</param>
         /// <param name="arg7">The seventh parameter of the function delegate <paramref name="match"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5, T6, T7>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5, T6, T7>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
-            var factory = DoerFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = FuncFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             return FindAllCore(factory, source);
         }
 
@@ -420,9 +420,9 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg7">The seventh parameter of the function delegate <paramref name="match"/>.</param>
         /// <param name="arg8">The eighth parameter of the function delegate <paramref name="match"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5, T6, T7, T8>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
-            var factory = DoerFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = FuncFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             return FindAllCore(factory, source);
         }
 
@@ -451,13 +451,13 @@ namespace Cuemon.Collections.Generic
         /// <param name="arg8">The eighth parameter of the function delegate <paramref name="match"/>.</param>
         /// <param name="arg9">The ninth parameter of the function delegate <paramref name="match"/>.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all the elements that match the conditions defined by the specified predicate, if found; otherwise, an empty <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static IEnumerable<TSource> FindAll<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, bool> match, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
-            var factory = DoerFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = FuncFactory.Create(match, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             return FindAllCore(factory, source);
         }
 
-        private static IEnumerable<TSource> FindAllCore<TTuple, TSource>(DoerFactory<TTuple, bool> factory, IEnumerable<TSource> source) where TTuple : Template<TSource>
+        private static IEnumerable<TSource> FindAllCore<TTuple, TSource>(FuncFactory<TTuple, bool> factory, IEnumerable<TSource> source) where TTuple : Template<TSource>
         {
             List<TSource> temp = new List<TSource>();
             using (IEnumerator<TSource> enumerator = source.GetEnumerator())
@@ -592,7 +592,7 @@ namespace Cuemon.Collections.Generic
         /// <returns>
         /// 	<c>true</c> if the source sequence contains an element that has the specified value; otherwise, <c>false</c>.
         /// </returns>
-        public static bool Contains<TSource>(IEnumerable<TSource> source, TSource value, Doer<TSource, TSource, bool> condition)
+        public static bool Contains<TSource>(IEnumerable<TSource> source, TSource value, Func<TSource, TSource, bool> condition)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(condition, nameof(condition));

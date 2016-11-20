@@ -1,4 +1,6 @@
-﻿namespace Cuemon
+﻿using System;
+
+namespace Cuemon
 {
     /// <summary>
     /// Supports the <see cref="Condition"/> in building custom scenarios using true/false propositions.
@@ -27,7 +29,7 @@
         /// <param name="value">The argument for <paramref name="condition"/>.</param>
         /// <param name="condition">The delegate that will evaluate <paramref name="value"/>.</param>
         /// <returns>This instance with the result of <see cref="ConditionResult"/> AND <paramref name="condition"/>.</returns>
-        public ConditionBuilder<TTuple> And<TValue>(TValue value, Doer<TValue, bool> condition)
+        public ConditionBuilder<TTuple> And<TValue>(TValue value, Func<TValue, bool> condition)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             return And(condition(value));
@@ -51,7 +53,7 @@
         /// <param name="value">The argument for <paramref name="condition"/>.</param>
         /// <param name="condition">The delegate that will evaluate <paramref name="value"/>.</param>
         /// <returns>This instance with the result of <see cref="ConditionResult"/> OR <paramref name="condition"/>.</returns>
-        public ConditionBuilder<TTuple> Or<TValue>(TValue value, Doer<TValue, bool> condition)
+        public ConditionBuilder<TTuple> Or<TValue>(TValue value, Func<TValue, bool> condition)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             return Or(condition(value));
@@ -76,7 +78,7 @@
         /// <param name="firstExpression">The delegate that is invoked when <see cref="ConditionResult"/> is <c>true</c>.</param>
         /// <param name="secondExpression">The delegate that is invoked when <see cref="ConditionResult"/> is <c>false</c>.</param>
         /// <returns>ConditionBuilder&lt;TTuple&gt;.</returns>
-        public void Invoke(Act<TTuple> firstExpression, Act<TTuple> secondExpression)
+        public void Invoke(Action<TTuple> firstExpression, Action<TTuple> secondExpression)
         {
             Condition.FlipFlop(ConditionResult, firstExpression, secondExpression, Tuple);
         }
@@ -85,18 +87,18 @@
         /// Invokes the expressions when <see cref="ConditionResult"/> is <c>true</c>.
         /// </summary>
         /// <param name="expression">The delegate that is invoked when <see cref="ConditionResult"/> is <c>true</c>.</param>
-        public void InvokeWhenTrue(Act<TTuple> expression)
+        public void InvokeWhenTrue(Action<TTuple> expression)
         {
-            if (ConditionResult) { ActFactory.Invoke(expression, Tuple); }
+            if (ConditionResult) { ActionFactory.Invoke(expression, Tuple); }
         }
 
         /// <summary>
         /// Invokes the expressions when <see cref="ConditionResult"/> is <c>false</c>.
         /// </summary>
         /// <param name="expression">The delegate that is invoked when <see cref="ConditionResult"/> is <c>false</c>.</param>
-        public void InvokeWhenFalse(Act<TTuple> expression)
+        public void InvokeWhenFalse(Action<TTuple> expression)
         {
-            if (!ConditionResult) { ActFactory.Invoke(expression, Tuple); }
+            if (!ConditionResult) { ActionFactory.Invoke(expression, Tuple); }
         }
         #endregion
 

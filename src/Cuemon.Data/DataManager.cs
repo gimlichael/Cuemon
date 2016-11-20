@@ -583,14 +583,14 @@ namespace Cuemon.Data
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <param name="commandInvoker">The function delegate that will invoke a method on the resolved <see cref="DbCommand"/> from the virtual <see cref="ExecuteCommandCore"/> method.</param>
         /// <returns>A value of <typeparamref name="T"/> that is equal to the invoked method of the <see cref="DbCommand"/> object.</returns>
-        protected virtual T ExecuteCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Doer<DbCommand, T> commandInvoker)
+        protected virtual T ExecuteCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> commandInvoker)
         {
             return EnableTransientFaultRecovery
                 ? TransientFaultUtility.ExecuteFunction(RetryAttempts, TransientFaultRecoveryWaitTime, IsTransientFault, () => InvokeCommandCore(dataCommand, parameters, commandInvoker))
                 : InvokeCommandCore(dataCommand, parameters, commandInvoker);
         }
 
-        private T InvokeCommandCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Doer<DbCommand, T> sqlInvoker)
+        private T InvokeCommandCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> sqlInvoker)
         {
             T result;
             DbCommand command = null;

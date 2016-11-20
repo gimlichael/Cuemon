@@ -21,7 +21,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIf(Doer<bool> condition, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIf(Func<bool> condition, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -41,7 +41,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIf<TValue>(TValue value, Doer<TValue, bool> condition, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIf<TValue>(TValue value, Func<TValue, bool> condition, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -63,7 +63,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIf<TValue, T>(TValue value, Doer<TValue, T, bool> condition, T arg, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIf<TValue, T>(TValue value, Func<TValue, T, bool> condition, T arg, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -87,7 +87,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIf<TValue, T1, T2>(TValue value, Doer<TValue, T1, T2, bool> condition, T1 arg1, T2 arg2, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIf<TValue, T1, T2>(TValue value, Func<TValue, T1, T2, bool> condition, T1 arg1, T2 arg2, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -113,7 +113,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIf<TValue, T1, T2, T3>(TValue value, Doer<TValue, T1, T2, T3, bool> condition, T1 arg1, T2 arg2, T3 arg3, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIf<TValue, T1, T2, T3>(TValue value, Func<TValue, T1, T2, T3, bool> condition, T1 arg1, T2 arg2, T3 arg3, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -141,7 +141,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIf<TValue, T1, T2, T3, T4>(TValue value, Doer<TValue, T1, T2, T3, T4, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIf<TValue, T1, T2, T3, T4>(TValue value, Func<TValue, T1, T2, T3, T4, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -171,7 +171,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIf<TValue, T1, T2, T3, T4, T5>(TValue value, Doer<TValue, T1, T2, T3, T4, T5, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIf<TValue, T1, T2, T3, T4, T5>(TValue value, Func<TValue, T1, T2, T3, T4, T5, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -189,7 +189,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIfNot(Doer<bool> condition, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIfNot(Func<bool> condition, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -209,7 +209,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIfNot<TValue>(TValue value, Doer<TValue, bool> condition, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIfNot<TValue>(TValue value, Func<TValue, bool> condition, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -231,7 +231,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIfNot<TValue, T>(TValue value, Doer<TValue, T, bool> condition, T arg, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIfNot<TValue, T>(TValue value, Func<TValue, T, bool> condition, T arg, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -255,7 +255,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIfNot<TValue, T1, T2>(TValue value, Doer<TValue, T1, T2, bool> condition, T1 arg1, T2 arg2, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIfNot<TValue, T1, T2>(TValue value, Func<TValue, T1, T2, bool> condition, T1 arg1, T2 arg2, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -281,7 +281,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIfNot<TValue, T1, T2, T3>(TValue value, Doer<TValue, T1, T2, T3, bool> condition, T1 arg1, T2 arg2, T3 arg3, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIfNot<TValue, T1, T2, T3>(TValue value, Func<TValue, T1, T2, T3, bool> condition, T1 arg1, T2 arg2, T3 arg3, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -309,7 +309,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIfNot<TValue, T1, T2, T3, T4>(TValue value, Doer<TValue, T1, T2, T3, T4, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIfNot<TValue, T1, T2, T3, T4>(TValue value, Func<TValue, T1, T2, T3, T4, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
@@ -339,7 +339,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
         /// </exception>
-        public static void ThrowIfNot<TValue, T1, T2, T3, T4, T5>(TValue value, Doer<TValue, T1, T2, T3, T4, T5, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Doer<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIfNot<TValue, T1, T2, T3, T4, T5>(TValue value, Func<TValue, T1, T2, T3, T4, T5, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Func<string, string, Exception> exception, string paramName, string message)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }

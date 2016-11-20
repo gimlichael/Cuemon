@@ -60,11 +60,11 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, TResult>(IEnumerable<TSource> source, Doer<TSource, TResult> converter)
+        public static IEnumerable<TResult> Parse<TSource, TResult>(IEnumerable<TSource> source, Func<TSource, TResult> converter)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource));
+            var factory = FuncFactory.Create(converter, default(TSource));
             return ParseCore(factory, source);
         }
 
@@ -81,11 +81,11 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, T, TResult>(IEnumerable<TSource> source, Doer<TSource, T, TResult> converter, T arg)
+        public static IEnumerable<TResult> Parse<TSource, T, TResult>(IEnumerable<TSource> source, Func<TSource, T, TResult> converter, T arg)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource), arg);
+            var factory = FuncFactory.Create(converter, default(TSource), arg);
             return ParseCore(factory, source);
         }
 
@@ -104,11 +104,11 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, T1, T2, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, TResult> converter, T1 arg1, T2 arg2)
+        public static IEnumerable<TResult> Parse<TSource, T1, T2, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, TResult> converter, T1 arg1, T2 arg2)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2);
             return ParseCore(factory, source);
         }
 
@@ -129,11 +129,11 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, TResult> converter, T1 arg1, T2 arg2, T3 arg3)
+        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, TResult> converter, T1 arg1, T2 arg2, T3 arg3)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3);
             return ParseCore(factory, source);
         }
 
@@ -156,11 +156,11 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4);
             return ParseCore(factory, source);
         }
 
@@ -185,11 +185,11 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5);
             return ParseCore(factory, source);
         }
 
@@ -216,11 +216,11 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, T6, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, T6, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
             return ParseCore(factory, source);
         }
 
@@ -249,11 +249,11 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             return ParseCore(factory, source);
         }
 
@@ -284,11 +284,11 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             return ParseCore(factory, source);
         }
 
@@ -321,15 +321,15 @@ namespace Cuemon.Collections.Generic
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="converter"/> is null.
         /// </exception>
-        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(IEnumerable<TSource> source, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public static IEnumerable<TResult> Parse<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(converter, nameof(converter));
-            var factory = DoerFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = FuncFactory.Create(converter, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             return ParseCore(factory, source);
         }
 
-        private static IEnumerable<TResult> ParseCore<TTuple, TSource, TResult>(DoerFactory<TTuple, TResult> factory, IEnumerable<TSource> source) where TTuple : Template<TSource>
+        private static IEnumerable<TResult> ParseCore<TTuple, TSource, TResult>(FuncFactory<TTuple, TResult> factory, IEnumerable<TSource> source) where TTuple : Template<TSource>
         {
             foreach (TSource obj in source)
             {

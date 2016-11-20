@@ -37,7 +37,7 @@ namespace Cuemon
         /// <param name="faultSensitiveMethod">The fault sensitive function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<TResult>(Doer<Exception, bool> isTransientFault, Doer<TResult> faultSensitiveMethod)
+        public static TResult ExecuteFunction<TResult>(Func<Exception, bool> isTransientFault, Func<TResult> faultSensitiveMethod)
         {
             return ExecuteFunction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod);
         }
@@ -51,7 +51,7 @@ namespace Cuemon
         /// <param name="faultSensitiveMethod">The fault sensitive function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<TResult>(int retryAttempts, Doer<Exception, bool> isTransientFault, Doer<TResult> faultSensitiveMethod)
+        public static TResult ExecuteFunction<TResult>(int retryAttempts, Func<Exception, bool> isTransientFault, Func<TResult> faultSensitiveMethod)
         {
             return ExecuteFunction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod);
         }
@@ -66,7 +66,7 @@ namespace Cuemon
         /// <param name="arg">The parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T, TResult>(Doer<Exception, bool> isTransientFault, Doer<T, TResult> faultSensitiveMethod, T arg)
+        public static TResult ExecuteFunction<T, TResult>(Func<Exception, bool> isTransientFault, Func<T, TResult> faultSensitiveMethod, T arg)
         {
             return ExecuteFunction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg);
         }
@@ -82,7 +82,7 @@ namespace Cuemon
         /// <param name="arg">The parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T, TResult>(int retryAttempts, Doer<Exception, bool> isTransientFault, Doer<T, TResult> faultSensitiveMethod, T arg)
+        public static TResult ExecuteFunction<T, TResult>(int retryAttempts, Func<Exception, bool> isTransientFault, Func<T, TResult> faultSensitiveMethod, T arg)
         {
             return ExecuteFunction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg);
         }
@@ -99,7 +99,7 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T1, T2, TResult>(Doer<Exception, bool> isTransientFault, Doer<T1, T2, TResult> faultSensitiveMethod, T1 arg1, T2 arg2)
+        public static TResult ExecuteFunction<T1, T2, TResult>(Func<Exception, bool> isTransientFault, Func<T1, T2, TResult> faultSensitiveMethod, T1 arg1, T2 arg2)
         {
             return ExecuteFunction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2);
         }
@@ -117,7 +117,7 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T1, T2, TResult>(int retryAttempts, Doer<Exception, bool> isTransientFault, Doer<T1, T2, TResult> faultSensitiveMethod, T1 arg1, T2 arg2)
+        public static TResult ExecuteFunction<T1, T2, TResult>(int retryAttempts, Func<Exception, bool> isTransientFault, Func<T1, T2, TResult> faultSensitiveMethod, T1 arg1, T2 arg2)
         {
             return ExecuteFunction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2);
         }
@@ -136,7 +136,7 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T1, T2, T3, TResult>(Doer<Exception, bool> isTransientFault, Doer<T1, T2, T3, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
+        public static TResult ExecuteFunction<T1, T2, T3, TResult>(Func<Exception, bool> isTransientFault, Func<T1, T2, T3, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
         {
             return ExecuteFunction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3);
         }
@@ -156,7 +156,7 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T1, T2, T3, TResult>(int retryAttempts, Doer<Exception, bool> isTransientFault, Doer<T1, T2, T3, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
+        public static TResult ExecuteFunction<T1, T2, T3, TResult>(int retryAttempts, Func<Exception, bool> isTransientFault, Func<T1, T2, T3, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
         {
             return ExecuteFunction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3);
         }
@@ -177,7 +177,7 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T1, T2, T3, T4, TResult>(Doer<Exception, bool> isTransientFault, Doer<T1, T2, T3, T4, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static TResult ExecuteFunction<T1, T2, T3, T4, TResult>(Func<Exception, bool> isTransientFault, Func<T1, T2, T3, T4, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return ExecuteFunction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3, arg4);
         }
@@ -199,7 +199,7 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T1, T2, T3, T4, TResult>(int retryAttempts, Doer<Exception, bool> isTransientFault, Doer<T1, T2, T3, T4, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static TResult ExecuteFunction<T1, T2, T3, T4, TResult>(int retryAttempts, Func<Exception, bool> isTransientFault, Func<T1, T2, T3, T4, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return ExecuteFunction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3, arg4);
         }
@@ -222,7 +222,7 @@ namespace Cuemon
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T1, T2, T3, T4, T5, TResult>(Doer<Exception, bool> isTransientFault, Doer<T1, T2, T3, T4, T5, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static TResult ExecuteFunction<T1, T2, T3, T4, T5, TResult>(Func<Exception, bool> isTransientFault, Func<T1, T2, T3, T4, T5, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             return ExecuteFunction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
         }
@@ -246,7 +246,7 @@ namespace Cuemon
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TResult ExecuteFunction<T1, T2, T3, T4, T5, TResult>(int retryAttempts, Doer<Exception, bool> isTransientFault, Doer<T1, T2, T3, T4, T5, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static TResult ExecuteFunction<T1, T2, T3, T4, T5, TResult>(int retryAttempts, Func<Exception, bool> isTransientFault, Func<T1, T2, T3, T4, T5, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             return ExecuteFunction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
         }
@@ -261,9 +261,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<TResult, TSuccess>(Doer<Exception, bool> isTransientFault, TesterDoer<TResult, TSuccess> faultSensitiveMethod, out TResult result)
+        public static TSuccess TryExecuteFunction<TResult, TSuccess>(Func<Exception, bool> isTransientFault, TesterFunc<TResult, TSuccess> faultSensitiveMethod, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod);
             return TryExecuteFunctionCore(factory, out result, DefaultRetryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -279,9 +279,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T, TResult, TSuccess>(Doer<Exception, bool> isTransientFault, TesterDoer<T, TResult, TSuccess> faultSensitiveMethod, T arg, out TResult result)
+        public static TSuccess TryExecuteFunction<T, TResult, TSuccess>(Func<Exception, bool> isTransientFault, TesterFunc<T, TResult, TSuccess> faultSensitiveMethod, T arg, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg);
             return TryExecuteFunctionCore(factory, out result, DefaultRetryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -299,9 +299,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T1, T2, TResult, TSuccess>(Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, TResult, TSuccess>(Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2);
             return TryExecuteFunctionCore(factory, out result, DefaultRetryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -321,9 +321,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T1, T2, T3, TResult, TSuccess>(Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, T3, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, T3, TResult, TSuccess>(Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, T3, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
             return TryExecuteFunctionCore(factory, out result, DefaultRetryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -345,9 +345,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, TResult, TSuccess>(Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, T3, T4, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, TResult, TSuccess>(Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, T3, T4, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
             return TryExecuteFunctionCore(factory, out result, DefaultRetryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -371,9 +371,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, T5, TResult, TSuccess>(Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, T3, T4, T5, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, T5, TResult, TSuccess>(Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, T3, T4, T5, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
             return TryExecuteFunctionCore(factory, out result, DefaultRetryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -388,9 +388,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<TResult, TSuccess>(int retryAttempts, Doer<Exception, bool> isTransientFault, TesterDoer<TResult, TSuccess> faultSensitiveMethod, out TResult result)
+        public static TSuccess TryExecuteFunction<TResult, TSuccess>(int retryAttempts, Func<Exception, bool> isTransientFault, TesterFunc<TResult, TSuccess> faultSensitiveMethod, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -407,9 +407,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T, TResult, TSuccess>(int retryAttempts, Doer<Exception, bool> isTransientFault, TesterDoer<T, TResult, TSuccess> faultSensitiveMethod, T arg, out TResult result)
+        public static TSuccess TryExecuteFunction<T, TResult, TSuccess>(int retryAttempts, Func<Exception, bool> isTransientFault, TesterFunc<T, TResult, TSuccess> faultSensitiveMethod, T arg, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -428,9 +428,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T1, T2, TResult, TSuccess>(int retryAttempts, Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, TResult, TSuccess>(int retryAttempts, Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -451,9 +451,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T1, T2, T3, TResult, TSuccess>(int retryAttempts, Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, T3, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, T3, TResult, TSuccess>(int retryAttempts, Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, T3, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -476,9 +476,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, TResult, TSuccess>(int retryAttempts, Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, T3, T4, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, TResult, TSuccess>(int retryAttempts, Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, T3, T4, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -503,9 +503,9 @@ namespace Cuemon
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, T5, TResult, TSuccess>(int retryAttempts, Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, T3, T4, T5, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, T5, TResult, TSuccess>(int retryAttempts, Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, T3, T4, T5, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, RecoveryWaitTime, isTransientFault);
         }
 
@@ -518,9 +518,9 @@ namespace Cuemon
         /// <param name="isTransientFault">The function delegate that returns <c>true</c> if the failed operations contains clues that would suggest a transient fault; otherwise, <c>false</c>.</param>
         /// <param name="faultSensitiveMethod">The fault sensitive function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TResult ExecuteFunction<TResult>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Doer<TResult> faultSensitiveMethod)
+        public static TResult ExecuteFunction<TResult>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Func<TResult> faultSensitiveMethod)
         {
-            var factory = DoerFactory.Create(faultSensitiveMethod);
+            var factory = FuncFactory.Create(faultSensitiveMethod);
             return ExecuteFunctionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -535,9 +535,9 @@ namespace Cuemon
         /// <param name="faultSensitiveMethod">The fault sensitive function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="arg">The parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TResult ExecuteFunction<T, TResult>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Doer<T, TResult> faultSensitiveMethod, T arg)
+        public static TResult ExecuteFunction<T, TResult>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Func<T, TResult> faultSensitiveMethod, T arg)
         {
-            var factory = DoerFactory.Create(faultSensitiveMethod, arg);
+            var factory = FuncFactory.Create(faultSensitiveMethod, arg);
             return ExecuteFunctionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -554,9 +554,9 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TResult ExecuteFunction<T1, T2, TResult>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Doer<T1, T2, TResult> faultSensitiveMethod, T1 arg1, T2 arg2)
+        public static TResult ExecuteFunction<T1, T2, TResult>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Func<T1, T2, TResult> faultSensitiveMethod, T1 arg1, T2 arg2)
         {
-            var factory = DoerFactory.Create(faultSensitiveMethod, arg1, arg2);
+            var factory = FuncFactory.Create(faultSensitiveMethod, arg1, arg2);
             return ExecuteFunctionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -575,9 +575,9 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TResult ExecuteFunction<T1, T2, T3, TResult>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Doer<T1, T2, T3, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
+        public static TResult ExecuteFunction<T1, T2, T3, TResult>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Func<T1, T2, T3, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
         {
-            var factory = DoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
+            var factory = FuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
             return ExecuteFunctionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -598,9 +598,9 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TResult ExecuteFunction<T1, T2, T3, T4, TResult>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Doer<T1, T2, T3, T4, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static TResult ExecuteFunction<T1, T2, T3, T4, TResult>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Func<T1, T2, T3, T4, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            var factory = DoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
+            var factory = FuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
             return ExecuteFunctionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -623,9 +623,9 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TResult ExecuteFunction<T1, T2, T3, T4, T5, TResult>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Doer<T1, T2, T3, T4, T5, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static TResult ExecuteFunction<T1, T2, T3, T4, T5, TResult>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Func<T1, T2, T3, T4, T5, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
-            var factory = DoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
+            var factory = FuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
             return ExecuteFunctionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -640,9 +640,9 @@ namespace Cuemon
         /// <param name="faultSensitiveMethod">The fault sensitive function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TSuccess TryExecuteFunction<TResult, TSuccess>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, TesterDoer<TResult, TSuccess> faultSensitiveMethod, out TResult result)
+        public static TSuccess TryExecuteFunction<TResult, TSuccess>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, TesterFunc<TResult, TSuccess> faultSensitiveMethod, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -659,9 +659,9 @@ namespace Cuemon
         /// <param name="arg">The parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TSuccess TryExecuteFunction<T, TResult, TSuccess>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, TesterDoer<T, TResult, TSuccess> faultSensitiveMethod, T arg, out TResult result)
+        public static TSuccess TryExecuteFunction<T, TResult, TSuccess>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, TesterFunc<T, TResult, TSuccess> faultSensitiveMethod, T arg, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -680,9 +680,9 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TSuccess TryExecuteFunction<T1, T2, TResult, TSuccess>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, TResult, TSuccess>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -703,9 +703,9 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TSuccess TryExecuteFunction<T1, T2, T3, TResult, TSuccess>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, T3, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, T3, TResult, TSuccess>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, T3, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -728,9 +728,9 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, TResult, TSuccess>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, T3, T4, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, TResult, TSuccess>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, T3, T4, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -755,9 +755,9 @@ namespace Cuemon
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="result">The result of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <returns>The return value that indicates success of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
-        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, T5, TResult, TSuccess>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, TesterDoer<T1, T2, T3, T4, T5, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, out TResult result)
+        public static TSuccess TryExecuteFunction<T1, T2, T3, T4, T5, TResult, TSuccess>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, TesterFunc<T1, T2, T3, T4, T5, TResult, TSuccess> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, out TResult result)
         {
-            var factory = TesterDoerFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
+            var factory = TesterFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
             return TryExecuteFunctionCore(factory, out result, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -768,9 +768,9 @@ namespace Cuemon
         /// <param name="recoveryWaitTime">The function delegate that returns a <see cref="TimeSpan"/> specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</param>
         /// <param name="isTransientFault">The function delegate that returns <c>true</c> if the failed operations contains clues that would suggest a transient fault; otherwise, <c>false</c>.</param>
         /// <param name="faultSensitiveMethod">The fault sensitive delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
-        public static void ExecuteAction(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Act faultSensitiveMethod)
+        public static void ExecuteAction(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Action faultSensitiveMethod)
         {
-            var factory = ActFactory.Create(faultSensitiveMethod);
+            var factory = ActionFactory.Create(faultSensitiveMethod);
             ExecuteActionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -783,9 +783,9 @@ namespace Cuemon
         /// <param name="isTransientFault">The function delegate that returns <c>true</c> if the failed operations contains clues that would suggest a transient fault; otherwise, <c>false</c>.</param>
         /// <param name="faultSensitiveMethod">The fault sensitive delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="arg">The parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        public static void ExecuteAction<T>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Act<T> faultSensitiveMethod, T arg)
+        public static void ExecuteAction<T>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Action<T> faultSensitiveMethod, T arg)
         {
-            var factory = ActFactory.Create(faultSensitiveMethod, arg);
+            var factory = ActionFactory.Create(faultSensitiveMethod, arg);
             ExecuteActionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -800,9 +800,9 @@ namespace Cuemon
         /// <param name="faultSensitiveMethod">The fault sensitive delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="arg1">The first parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        public static void ExecuteAction<T1, T2>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Act<T1, T2> faultSensitiveMethod, T1 arg1, T2 arg2)
+        public static void ExecuteAction<T1, T2>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Action<T1, T2> faultSensitiveMethod, T1 arg1, T2 arg2)
         {
-            var factory = ActFactory.Create(faultSensitiveMethod, arg1, arg2);
+            var factory = ActionFactory.Create(faultSensitiveMethod, arg1, arg2);
             ExecuteActionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -819,9 +819,9 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        public static void ExecuteAction<T1, T2, T3>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Act<T1, T2, T3> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
+        public static void ExecuteAction<T1, T2, T3>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Action<T1, T2, T3> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
         {
-            var factory = ActFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
+            var factory = ActionFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
             ExecuteActionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -840,9 +840,9 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        public static void ExecuteAction<T1, T2, T3, T4>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Act<T1, T2, T3, T4> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void ExecuteAction<T1, T2, T3, T4>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Action<T1, T2, T3, T4> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            var factory = ActFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
+            var factory = ActionFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
             ExecuteActionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -863,9 +863,9 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        public static void ExecuteAction<T1, T2, T3, T4, T5>(int retryAttempts, Doer<int, TimeSpan> recoveryWaitTime, Doer<Exception, bool> isTransientFault, Act<T1, T2, T3, T4, T5> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static void ExecuteAction<T1, T2, T3, T4, T5>(int retryAttempts, Func<int, TimeSpan> recoveryWaitTime, Func<Exception, bool> isTransientFault, Action<T1, T2, T3, T4, T5> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
-            var factory = ActFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
+            var factory = ActionFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
             ExecuteActionCore(factory, retryAttempts, recoveryWaitTime, isTransientFault);
         }
 
@@ -875,7 +875,7 @@ namespace Cuemon
         /// <param name="isTransientFault">The function delegate that returns <c>true</c> if the failed operations contains clues that would suggest a transient fault; otherwise, <c>false</c>.</param>
         /// <param name="faultSensitiveMethod">The fault sensitive delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction(Doer<Exception, bool> isTransientFault, Act faultSensitiveMethod)
+        public static void ExecuteAction(Func<Exception, bool> isTransientFault, Action faultSensitiveMethod)
         {
             ExecuteAction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod);
         }
@@ -887,7 +887,7 @@ namespace Cuemon
         /// <param name="isTransientFault">The function delegate that returns <c>true</c> if the failed operations contains clues that would suggest a transient fault; otherwise, <c>false</c>.</param>
         /// <param name="faultSensitiveMethod">The fault sensitive delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction(int retryAttempts, Doer<Exception, bool> isTransientFault, Act faultSensitiveMethod)
+        public static void ExecuteAction(int retryAttempts, Func<Exception, bool> isTransientFault, Action faultSensitiveMethod)
         {
             ExecuteAction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod);
         }
@@ -900,7 +900,7 @@ namespace Cuemon
         /// <param name="faultSensitiveMethod">The fault sensitive delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="arg">The parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T>(Doer<Exception, bool> isTransientFault, Act<T> faultSensitiveMethod, T arg)
+        public static void ExecuteAction<T>(Func<Exception, bool> isTransientFault, Action<T> faultSensitiveMethod, T arg)
         {
             ExecuteAction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg);
         }
@@ -914,7 +914,7 @@ namespace Cuemon
         /// <param name="faultSensitiveMethod">The fault sensitive delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="arg">The parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T>(int retryAttempts, Doer<Exception, bool> isTransientFault, Act<T> faultSensitiveMethod, T arg)
+        public static void ExecuteAction<T>(int retryAttempts, Func<Exception, bool> isTransientFault, Action<T> faultSensitiveMethod, T arg)
         {
             ExecuteAction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg);
         }
@@ -929,7 +929,7 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T1, T2>(Doer<Exception, bool> isTransientFault, Act<T1, T2> faultSensitiveMethod, T1 arg1, T2 arg2)
+        public static void ExecuteAction<T1, T2>(Func<Exception, bool> isTransientFault, Action<T1, T2> faultSensitiveMethod, T1 arg1, T2 arg2)
         {
             ExecuteAction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2);
         }
@@ -945,7 +945,7 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T1, T2>(int retryAttempts, Doer<Exception, bool> isTransientFault, Act<T1, T2> faultSensitiveMethod, T1 arg1, T2 arg2)
+        public static void ExecuteAction<T1, T2>(int retryAttempts, Func<Exception, bool> isTransientFault, Action<T1, T2> faultSensitiveMethod, T1 arg1, T2 arg2)
         {
             ExecuteAction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2);
         }
@@ -962,7 +962,7 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T1, T2, T3>(Doer<Exception, bool> isTransientFault, Act<T1, T2, T3> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
+        public static void ExecuteAction<T1, T2, T3>(Func<Exception, bool> isTransientFault, Action<T1, T2, T3> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
         {
             ExecuteAction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3);
         }
@@ -980,7 +980,7 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T1, T2, T3>(int retryAttempts, Doer<Exception, bool> isTransientFault, Act<T1, T2, T3> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
+        public static void ExecuteAction<T1, T2, T3>(int retryAttempts, Func<Exception, bool> isTransientFault, Action<T1, T2, T3> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3)
         {
             ExecuteAction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3);
         }
@@ -999,7 +999,7 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T1, T2, T3, T4>(Doer<Exception, bool> isTransientFault, Act<T1, T2, T3, T4> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void ExecuteAction<T1, T2, T3, T4>(Func<Exception, bool> isTransientFault, Action<T1, T2, T3, T4> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             ExecuteAction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3, arg4);
         }
@@ -1019,7 +1019,7 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T1, T2, T3, T4>(int retryAttempts, Doer<Exception, bool> isTransientFault, Act<T1, T2, T3, T4> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void ExecuteAction<T1, T2, T3, T4>(int retryAttempts, Func<Exception, bool> isTransientFault, Action<T1, T2, T3, T4> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             ExecuteAction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3, arg4);
         }
@@ -1040,7 +1040,7 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using <see cref="DefaultRetryAttempts"/> for specifying the amount of retry attempts and the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T1, T2, T3, T4, T5>(Doer<Exception, bool> isTransientFault, Act<T1, T2, T3, T4, T5> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static void ExecuteAction<T1, T2, T3, T4, T5>(Func<Exception, bool> isTransientFault, Action<T1, T2, T3, T4, T5> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             ExecuteAction(DefaultRetryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
         }
@@ -1062,7 +1062,7 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <remarks>Defaults to using the <see cref="RecoveryWaitTime"/> function implementation for specifying the amount of time to wait for a transient fault to recover gracefully before trying a new attempt.</remarks>
-        public static void ExecuteAction<T1, T2, T3, T4, T5>(int retryAttempts, Doer<Exception, bool> isTransientFault, Act<T1, T2, T3, T4, T5> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        public static void ExecuteAction<T1, T2, T3, T4, T5>(int retryAttempts, Func<Exception, bool> isTransientFault, Action<T1, T2, T3, T4, T5> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             ExecuteAction(retryAttempts, RecoveryWaitTime, isTransientFault, faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
         }
@@ -1078,7 +1078,7 @@ namespace Cuemon
             return TimeSpan.FromSeconds(Math.Pow(2, currentAttempt > 5 ? 5 : currentAttempt));
         }
 
-        private static void ExecuteActionCore<TTuple>(ActFactory<TTuple> factory, int retryAttempts, Doer<int, TimeSpan> recoveryWaitTimeCallback, Doer<Exception, bool> isTransientFaultCallback) where TTuple : Template
+        private static void ExecuteActionCore<TTuple>(ActionFactory<TTuple> factory, int retryAttempts, Func<int, TimeSpan> recoveryWaitTimeCallback, Func<Exception, bool> isTransientFaultCallback) where TTuple : Template
         {
             TimeSpan totalWaitTime = TimeSpan.Zero;
             TimeSpan lastWaitTime = TimeSpan.Zero;
@@ -1117,7 +1117,7 @@ namespace Cuemon
             if (throwExceptions) { throw new AggregateException(aggregatedExceptions); }
         }
 
-        private static TResult ExecuteFunctionCore<TTuple, TResult>(DoerFactory<TTuple, TResult> factory, int retryAttempts, Doer<int, TimeSpan> recoveryWaitTimeCallback, Doer<Exception, bool> isTransientFaultCallback) where TTuple : Template
+        private static TResult ExecuteFunctionCore<TTuple, TResult>(FuncFactory<TTuple, TResult> factory, int retryAttempts, Func<int, TimeSpan> recoveryWaitTimeCallback, Func<Exception, bool> isTransientFaultCallback) where TTuple : Template
         {
             TimeSpan totalWaitTime = TimeSpan.Zero;
             TimeSpan lastWaitTime = TimeSpan.Zero;
@@ -1167,7 +1167,7 @@ namespace Cuemon
             return result;
         }
 
-        private static TSuccess TryExecuteFunctionCore<TTuple, TSuccess, TResult>(TesterDoerFactory<TTuple, TResult, TSuccess> factory, out TResult result, int retryAttempts, Doer<int, TimeSpan> recoveryWaitTimeCallback, Doer<Exception, bool> isTransientFaultCallback) where TTuple : Template
+        private static TSuccess TryExecuteFunctionCore<TTuple, TSuccess, TResult>(TesterFuncFactory<TTuple, TResult, TSuccess> factory, out TResult result, int retryAttempts, Func<int, TimeSpan> recoveryWaitTimeCallback, Func<Exception, bool> isTransientFaultCallback) where TTuple : Template
         {
             result = default(TResult);
             TimeSpan totalWaitTime = TimeSpan.Zero;

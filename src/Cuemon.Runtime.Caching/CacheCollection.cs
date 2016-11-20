@@ -329,8 +329,8 @@ namespace Cuemon.Runtime.Caching
 
         private void AddCore(string key, object value, string group, DateTime absoluteExpiration, TimeSpan slidingExpiration, IEnumerable<IDependency> dependencies)
         {
-            var f1 = DoerFactory.Create(() => value);
-            var f2 = DoerFactory.Create(() => dependencies);
+            var f1 = FuncFactory.Create(() => value);
+            var f2 = FuncFactory.Create(() => dependencies);
             GetOrAddCore(f1, key, group, () => absoluteExpiration, () => slidingExpiration, f2);
         }
 

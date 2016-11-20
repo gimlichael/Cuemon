@@ -95,7 +95,7 @@ namespace Cuemon
             Validator.ThrowIfNullOrEmpty(value, nameof(value));
             Validator.ThrowIfNullOrEmpty(relativeReference, nameof(relativeReference));
             Uri ignoreUri;
-            return TesterDoerUtility.TryExecuteFunction(() => UriConverter.FromProtocolRelativeUri(value, UriScheme.Https, relativeReference), out ignoreUri);
+            return TesterFuncUtility.TryExecuteFunction(() => UriConverter.FromProtocolRelativeUri(value, UriScheme.Https, relativeReference), out ignoreUri);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Cuemon
         /// </remarks>
         public static bool TryParse(string uriString, UriKind uriKind, IEnumerable<UriScheme> uriSchemes, out Uri result)
         {
-            return TesterDoerUtility.TryExecuteFunction(Parse, uriString, uriKind, uriSchemes, out result);
+            return TesterFuncUtility.TryExecuteFunction(Parse, uriString, uriKind, uriSchemes, out result);
         }
 
         /// <summary>

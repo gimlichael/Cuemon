@@ -18,7 +18,7 @@ namespace Cuemon.Threading
         /// <param name="repeats">The amount of repeats to do.</param>
         /// <param name="body">The delegate that is invoked once per iteration.</param>
         /// <remarks>
-        /// The following table shows the initial overloaded arguments for <see cref="For{TSource}(TSource,TSource,Cuemon.Act{TSource})"/>.
+        /// The following table shows the initial overloaded arguments for <see cref="For{TSource}(TSource,TSource,Cuemon.Action{TSource})"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Argument</term>
@@ -54,7 +54,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(TSource initial, TSource repeats, Doer<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(TSource initial, TSource repeats, Func<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body);
         }
@@ -76,7 +76,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body);
         }
@@ -99,7 +99,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body);
         }
@@ -123,7 +123,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body);
         }
@@ -148,7 +148,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body);
         }
@@ -174,10 +174,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, TResult> body) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource));
+            var factory = FuncFactory.Create(body, default(TSource));
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -199,7 +199,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(TSource initial, TSource repeats, Doer<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(TSource initial, TSource repeats, Func<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg);
         }
@@ -223,7 +223,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg);
         }
@@ -248,7 +248,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg);
         }
@@ -274,7 +274,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg);
         }
@@ -301,7 +301,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg);
         }
@@ -329,10 +329,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T, TResult> body, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg);
+            var factory = FuncFactory.Create(body, default(TSource), arg);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -356,7 +356,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(TSource initial, TSource repeats, Doer<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(TSource initial, TSource repeats, Func<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2);
         }
@@ -382,7 +382,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2);
         }
@@ -409,7 +409,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2);
         }
@@ -437,7 +437,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2);
         }
@@ -466,7 +466,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2);
         }
@@ -496,10 +496,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T1, T2, TResult> body, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -525,7 +525,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(TSource initial, TSource repeats, Func<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3);
         }
@@ -553,7 +553,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3);
         }
@@ -582,7 +582,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3);
         }
@@ -612,7 +612,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3);
         }
@@ -643,7 +643,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3);
         }
@@ -675,10 +675,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T1, T2, T3, TResult> body, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -706,7 +706,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4);
         }
@@ -736,7 +736,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4);
         }
@@ -767,7 +767,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4);
         }
@@ -799,7 +799,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4);
         }
@@ -832,7 +832,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4);
         }
@@ -866,10 +866,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T1, T2, T3, T4, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -899,7 +899,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -931,7 +931,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -964,7 +964,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -998,7 +998,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -1033,7 +1033,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5);
         }
@@ -1069,10 +1069,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T1, T2, T3, T4, T5, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -1104,7 +1104,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1138,7 +1138,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1173,7 +1173,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1209,7 +1209,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1246,7 +1246,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6);
         }
@@ -1284,10 +1284,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -1321,7 +1321,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1357,7 +1357,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1394,7 +1394,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1432,7 +1432,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1471,7 +1471,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
@@ -1511,10 +1511,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -1550,7 +1550,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1588,7 +1588,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1627,7 +1627,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1667,7 +1667,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1708,7 +1708,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
@@ -1750,10 +1750,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -1791,7 +1791,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -1831,7 +1831,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -1872,7 +1872,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -1914,7 +1914,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -1957,7 +1957,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
@@ -2001,10 +2001,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -2044,7 +2044,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(DefaultNumberOfConcurrentWorkerThreads, initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -2086,7 +2086,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, TimeSpan.FromMinutes(2), initial, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -2129,7 +2129,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, TSource initial, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, RelationalOperator.LessThan, repeats, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -2173,7 +2173,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, AssignmentOperator.Addition, body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -2218,7 +2218,7 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             return ForTask(partitionSize, timeout, initial, relational, repeats, assignment, (TSource)ObjectConverter.ChangeType(1, typeof(TSource)), body, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
@@ -2264,10 +2264,10 @@ namespace Cuemon.Threading
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
         /// </exception>
-        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Doer<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+        public static IReadOnlyCollection<TResult> ForTask<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(int partitionSize, TimeSpan timeout, TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> body, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
         {
             ValidateForTask<TSource>(body, timeout);
-            var factory = DoerFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+            var factory = FuncFactory.Create(body, default(TSource), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             return ForTaskCore(factory, LoopUtility.Condition, initial, relational, repeats, LoopUtility.Iterator, assignment, step, partitionSize, timeout);
         }
 
@@ -2280,7 +2280,7 @@ namespace Cuemon.Threading
             Validator.ThrowIfGreaterThan(timeout.Milliseconds, int.MaxValue, nameof(timeout));
         }
 
-        private static IReadOnlyCollection<TResult> ForTaskCore<TTuple, TSource, TResult>(DoerFactory<TTuple, TResult> factory, Doer<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Doer<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, int partitionSize, TimeSpan timeout) 
+        private static IReadOnlyCollection<TResult> ForTaskCore<TTuple, TSource, TResult>(FuncFactory<TTuple, TResult> factory, Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, int partitionSize, TimeSpan timeout) 
             where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible 
             where TTuple : Template<TSource>
         {

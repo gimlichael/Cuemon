@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Cuemon.Collections.Generic
 {
@@ -13,7 +14,7 @@ namespace Cuemon.Collections.Generic
         /// <typeparam name="T">The type of objects to compare.</typeparam>
         /// <param name="comparer">The function delegate that performs a comparison of two objects of the same type and returns a value indicating whether one object is less than, equal to, or greater than the other.</param>
         /// <returns>A dynamic instance of <see cref="IComparer{T}"/> that serves as a sort order comparer for type <typeparamref name="T"/>.</returns>
-        public static IComparer<T> Create<T>(Doer<T, T, int> comparer)
+        public static IComparer<T> Create<T>(Func<T, T, int> comparer)
         {
             return new DynamicComparer<T>(comparer);
         }
@@ -21,14 +22,14 @@ namespace Cuemon.Collections.Generic
 
     internal class DynamicComparer<T> : Comparer<T>
     {
-        internal DynamicComparer(Doer<T, T, int> comparer)
+        internal DynamicComparer(Func<T, T, int> comparer)
         {
             Validator.ThrowIfNull(comparer, nameof(comparer));
 
             Comparer = comparer;
         }
 
-        private Doer<T, T, int> Comparer { get; set; }
+        private Func<T, T, int> Comparer { get; set; }
 
         public override int Compare(T x, T y)
         {
