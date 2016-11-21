@@ -48,10 +48,10 @@ namespace Cuemon.Data.SqlClient
         /// This implementation is compatible with transient related faults on Microsoft SQL Azure including the latest addition of error code 10928 and 10929.<br/>
         /// Microsoft SQL Server is supported as well.
         /// </remarks>
-        public override Action<TransientFaultHandlingOptions> TransientFaultHandlingOptionsCallback { get; set; } = options =>
+        public override Action<TransientOperationOptions> TransientFaultHandlingOptionsCallback { get; set; } = options =>
         {
-            options.EnableTransientFaultRecovery = true;
-            options.TransientFaultParserCallback = exception =>
+            options.EnableRecovery = true;
+            options.DetectionStrategyCallback = exception =>
             {
                 if (exception == null) { return false; }
 
