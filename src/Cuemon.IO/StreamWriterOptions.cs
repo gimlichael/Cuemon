@@ -6,14 +6,43 @@ using System.Text;
 namespace Cuemon.IO
 {
     /// <summary>
-    /// Specifies a set of features to support on the <see cref="StreamWriter"/> object created by the <see cref="StreamWriterUtility.CreateStream(System.Action{System.IO.StreamWriter}))"/> method. This class cannot be inherited.
+    /// Specifies options that is related to <see cref="StreamWriter" /> operations. This class cannot be inherited.
     /// </summary>
-    public sealed class StreamWriterSettings
+    public sealed class StreamWriterOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="StreamWriterSettings"/> class.
+        /// Initializes a new instance of the <see cref="StreamWriterOptions"/> class.
         /// </summary>
-        public StreamWriterSettings()
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="StreamWriterOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="AutoFlush"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="BufferSize"/></term>
+        ///         <description><c>1024</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="Encoding"/></term>
+        ///         <description><see cref="System.Text.Encoding.UTF8"/></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="FormatProvider"/></term>
+        ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="NewLine"/></term>
+        ///         <description><c>\r\n</c></description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
+        public StreamWriterOptions()
         {
             AutoFlush = false;
             BufferSize = 1024;

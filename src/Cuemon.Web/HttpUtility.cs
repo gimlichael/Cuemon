@@ -68,7 +68,8 @@ namespace Cuemon.Web
                         WriteCharBytes(bytes, (char)xchar, e);
                         i += 2;
                     }
-                    else {
+                    else
+                    {
                         WriteCharBytes(bytes, '%', e);
                     }
                     continue;
@@ -105,7 +106,7 @@ namespace Cuemon.Web
             if (c >= 'A' && c <= 'F') { return c - 'A' + 10; }
             return -1;
         }
-        
+
         private static int GetChar(string str, int offset, int length)
         {
             int val = 0;
@@ -197,12 +198,12 @@ namespace Cuemon.Web
             if (bytes == null) { throw new ArgumentNullException(nameof(bytes)); }
 
             int blen = bytes.Length;
-            if (blen == 0) { return new byte[0]; } 
+            if (blen == 0) { return new byte[0]; }
 
             if (offset < 0 || offset >= blen) { throw new ArgumentOutOfRangeException(nameof(offset)); }
             if (count < 0 || count > blen - offset) { throw new ArgumentOutOfRangeException(nameof(count)); }
 
-            using (Stream result = StreamWriterUtility.CreateStream(UrlEncodeCharWriter, bytes, offset, count, preferUppercaseHexadecimalEncoding ? HexadecimalCharactersUpperCase : HexadecimalCharactersLowerCase, StreamWriterUtility.CreateSettings(encoding ?? new UTF8Encoding())))
+            using (Stream result = StreamWriterUtility.CreateStream(UrlEncodeCharWriter, bytes, offset, count, preferUppercaseHexadecimalEncoding ? HexadecimalCharactersUpperCase : HexadecimalCharactersLowerCase, options => options.Encoding = encoding ?? new UTF8Encoding()))
             {
                 return result.ToByteArray();
             }

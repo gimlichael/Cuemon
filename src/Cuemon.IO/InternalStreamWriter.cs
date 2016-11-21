@@ -9,7 +9,7 @@ namespace Cuemon.IO
     {
         private readonly IFormatProvider _provider;
 
-        internal InternalStreamWriter(Stream output, StreamWriterSettings settings) : base(output, settings.Encoding, settings.BufferSize)
+        internal InternalStreamWriter(Stream output, StreamWriterOptions settings) : base(output, settings.Encoding, settings.BufferSize)
         {
             _provider = settings.FormatProvider;
             AutoFlush = settings.AutoFlush;
