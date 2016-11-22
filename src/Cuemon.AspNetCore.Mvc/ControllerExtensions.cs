@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Net;
-using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
 using Cuemon.Integrity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,28 +22,24 @@ namespace Cuemon.AspNetCore.Mvc
         /// <param name="value">The content to format into the entity body.</param>
         /// <param name="parser">The function delegate that will retrieve a <see cref="CacheValidator" /> and thereby determines the <see cref="IActionResult" /> of this method.</param>
         /// <returns>An <see cref="IActionResult" /> object that is either created from <see cref="NoContentResult" /> or <see cref="OkObjectResult" />.</returns>
-        public static IActionResult OkOrNotModified<T>(this Controller controller, T value, Func<T, CacheValidator> parser = null)
+        public static IActionResult OkOrNotModified<T>(Controller controller, T value, Func<T, CacheValidator> parser = null)
         {
             var validator = parser?.Invoke(value) ?? CacheValidator.ReferencePoint;
-            var statusCodeNotModified = (int)HttpStatusCode.NotModified;
+            int statusCodeNotModified = 304;
             if (validator.Strength != ChecksumStrength.None)
             {
-                controller.Response.OnStarting(() =>
+                DateTime utcNow = DateTime.UtcNow;
+                if (controller.Request.IsClientSideResourceCached(validator))
                 {
-                    DateTime utcNow = DateTime.UtcNow;
-                    if (controller.Request.IsClientSideResourceCached(validator))
-                    {
-                        controller.Response.StatusCode = statusCodeNotModified;
-                    }
-                    else
-                    {
-                        controller.Response.Headers.Add(HeaderNames.LastModified, new StringValues(EnumerableConverter.FromArray(utcNow, validator.GetMostSignificant()).Min().ToString("R", DateTimeFormatInfo.InvariantInfo)));
-                    }
-                    controller.Response.Headers.Add(HeaderNames.ETag, new StringValues(string.Concat("\"", validator.Checksum, "\"")));
-                    return Task.CompletedTask;
-                });
+                    controller.Response.StatusCode = statusCodeNotModified;
+                }
+                else
+                {
+                    controller.Response.Headers.Add(HeaderNames.LastModified, new StringValues(EnumerableConverter.FromArray(utcNow, validator.GetMostSignificant()).Min().ToString("R", DateTimeFormatInfo.InvariantInfo)));
+                }
+                controller.Response.Headers.Add(HeaderNames.ETag, new StringValues(string.Concat("\"", validator.Checksum, "\"")));
             }
-            return controller.Response.StatusCode == statusCodeNotModified  ? (IActionResult) new NoContentResult() : new OkObjectResult(value);
+            return controller.Response.StatusCode == statusCodeNotModified ? (IActionResult)new EmptyResult() : new OkObjectResult(value);
         }
     }
 }
