@@ -1,5 +1,5 @@
 ﻿{
-  "version": "4.0.2016.3250",
+  "version": "4.0.2016.3270",
   "title": "Cuemon.IO",
   "description": "The Cuemon.IO assembly is a member of the Cuemon .NET Core family and provides enhancements to the System.IO namespace.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
@@ -11,7 +11,7 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.0.2016.3250"
+    "Cuemon.Core": "4.0.2016.3270"
   },
   "buildOptions": {
     "optimize": true,
