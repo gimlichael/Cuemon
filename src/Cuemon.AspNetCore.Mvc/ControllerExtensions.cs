@@ -5,6 +5,7 @@ using Cuemon.Integrity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Linq;
+using System.Net;
 using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Mvc
@@ -25,7 +26,7 @@ namespace Cuemon.AspNetCore.Mvc
         public static IActionResult OkOrNotModified<T>(this Controller controller, T value, Func<T, CacheValidator> parser = null)
         {
             var validator = parser?.Invoke(value) ?? CacheValidator.ReferencePoint;
-            int statusCodeNotModified = 304;
+            int statusCodeNotModified = (int)HttpStatusCode.NotModified;
             if (validator.Strength != ChecksumStrength.None)
             {
                 DateTime utcNow = DateTime.UtcNow;
