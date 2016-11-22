@@ -22,7 +22,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// <param name="value">The content to format into the entity body.</param>
         /// <param name="parser">The function delegate that will retrieve a <see cref="CacheValidator" /> and thereby determines the <see cref="IActionResult" /> of this method.</param>
         /// <returns>An <see cref="IActionResult" /> object that is either created from <see cref="NoContentResult" /> or <see cref="OkObjectResult" />.</returns>
-        public static IActionResult OkOrNotModified<T>(Controller controller, T value, Func<T, CacheValidator> parser = null)
+        public static IActionResult OkOrNotModified<T>(this Controller controller, T value, Func<T, CacheValidator> parser = null)
         {
             var validator = parser?.Invoke(value) ?? CacheValidator.ReferencePoint;
             int statusCodeNotModified = 304;
