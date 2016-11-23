@@ -49,6 +49,7 @@ namespace Cuemon.AspNetCore.Authentication
                     opaqueGenerator(),
                     staleNonce,
                     DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)));
+                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody);
                 return;
             }
 

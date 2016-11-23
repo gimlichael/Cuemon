@@ -33,6 +33,7 @@ namespace Cuemon.AspNetCore.Authentication
             {
                 context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
                 context.Response.Headers.Add(AuthenticationUtility.HttpWwwAuthenticateHeader, "{0} realm=\"{1}\"".FormatWith(AuthenticationSchemeName, Options.Realm));
+                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody);
                 return;
             }
 

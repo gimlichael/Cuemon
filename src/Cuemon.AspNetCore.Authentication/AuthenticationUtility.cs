@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.AspNetCore.Authentication
@@ -110,6 +111,15 @@ namespace Cuemon.AspNetCore.Authentication
         internal static bool IsAuthenticationSchemeValid(string authorizationHeader, string authenticationSchemeName)
         {
             return (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith(authenticationSchemeName, StringComparison.Ordinal));
+        }
+
+        internal static async Task WriteHttpNotAuthorizedBody(this HttpContext context, Func<byte[]> httpNotAuthorizedBody)
+        {
+            var bodyContent = httpNotAuthorizedBody?.Invoke();
+            if (bodyContent != null)
+            {
+                await context.Response.Body.WriteAsync(bodyContent, 0, bodyContent.Length);
+            }
         }
     }
 }
