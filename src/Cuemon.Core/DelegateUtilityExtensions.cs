@@ -38,7 +38,6 @@ namespace Cuemon
         public static TOptions ConfigureOptions<TOptions>(this Action<TOptions> setup)
         {
             return DelegateUtility.ConfigureAction(setup);
-
         }
     }
 }

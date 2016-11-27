@@ -14,10 +14,6 @@ namespace Cuemon.Xml.Serialization
 {
     public static partial class XmlSerializationUtility
     {
-        private static Func<PropertyInfo, bool> _skipPropertyCallback = DefaultXmlSkipPropertyCallback;
-        private static Func<Type, bool> _skipPropertiesCallback = DefaultXmlSkipPropertiesCallback;
-        private static int _maxSerializationDepth = 10;
-
         /// <summary>
         /// Creates and returns a XML stream representation of the specified <paramref name="serializable"/> object.
         /// </summary>
@@ -944,38 +940,31 @@ namespace Cuemon.Xml.Serialization
         /// </summary>
         /// <value>The maximum serialization object depth.</value>
         /// <remarks>This is an experimental property.</remarks>
-        public static int MaxSerializationDepth
-        {
-            get { return _maxSerializationDepth; }
-            set { _maxSerializationDepth = value; }
-        }
+        public static int MaxSerializationDepth { get; set; } = 10;
 
         /// <summary>
         /// Gets or sets the callback implementation that evaluates which public properties of an object should be skipped from either of the Serialize methods on this <see cref="XmlSerializationUtility"/> class.
         /// </summary>
         /// <value>The callback method that evaluates which public properties of an object should be skipped.</value>
-        public static Func<Type, bool> SkipPropertiesCallback
-        {
-            get { return _skipPropertiesCallback; }
-            set { _skipPropertiesCallback = value; }
-        }
+        public static Func<Type, bool> SkipPropertyType { get; set; } = DefaultXmlSkipPropertiesCallback;
 
         /// <summary>
         /// Gets or sets the callback implementation that evaluates if a given property from either of the Serialize methods on this <see cref="XmlSerializationUtility"/> class should be skipped for further processing.
         /// </summary>
         /// <value>The callback method that evaluates if a given property of an object should be skipped.</value>
-        public static Func<PropertyInfo, bool> SkipPropertyCallback
-        {
-            get { return _skipPropertyCallback; }
-            set { _skipPropertyCallback = value; }
-        }
+        public static Func<PropertyInfo, bool> SkipProperty { get; set; } = DefaultXmlSkipPropertyCallback;
 
         private static Stream SerializeCore<TTuple>(ActionFactory<TTuple> factory, object serializable, SerializableOrder order, bool omitXmlDeclaration, XmlQualifiedEntity qualifiedRootEntity) where TTuple : Template<XmlWriter>
         {
             Validator.ThrowIfNull(serializable, nameof(serializable));
             Stream output = null;
             MemoryStream tempOutput = null;
-            IHierarchy<object> serializableNode = ReflectionUtility.GetObjectHierarchy(serializable, MaxSerializationDepth, SkipPropertiesCallback, SkipPropertyCallback);
+            IHierarchy<object> serializableNode = ReflectionUtility.GetObjectHierarchy(serializable, options =>
+            {
+                options.MaxDepth = MaxSerializationDepth;
+                options.SkipPropertyType = SkipPropertyType;
+                options.SkipProperty = SkipProperty;
+            });
             bool useFactory = factory.HasDelegate;
             try
             {

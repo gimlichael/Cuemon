@@ -258,9 +258,9 @@ namespace Cuemon.Xml.Serialization
                             PropertyInfo valueProperty = valueType.GetProperty("Value");
                             object keyValue = keyProperty.GetValue(value, null) ?? "null";
                             object valueValue = valueProperty.GetValue(value, null) ?? "null";
-                            IHierarchy<object> keyValueNode = ReflectionUtility.GetObjectHierarchy(keyValue, 0);
+                            IHierarchy<object> keyValueNode = ReflectionUtility.GetObjectHierarchy(keyValue, options => options.MaxDepth = 0);
                             keyValueNode.MemberReference = new DynamicMethod("Key", keyValueNode.InstanceType, null);
-                            IHierarchy<object> valueValueNode = ReflectionUtility.GetObjectHierarchy(valueValue, 0);
+                            IHierarchy<object> valueValueNode = ReflectionUtility.GetObjectHierarchy(valueValue, options => options.MaxDepth = 0);
                             valueValueNode.MemberReference = new DynamicMethod("Value", valueValueNode.InstanceType, null);
                             WriteXml(writer, keyValueNode, true);
                             WriteXml(writer, valueValueNode, true);
@@ -268,7 +268,7 @@ namespace Cuemon.Xml.Serialization
                         }
                         else
                         {
-                            IHierarchy<object> itemNode = ReflectionUtility.GetObjectHierarchy(value, 0);
+                            IHierarchy<object> itemNode = ReflectionUtility.GetObjectHierarchy(value, options => options.MaxDepth = 0);
                             XmlQualifiedEntity qualifiedEntity = null;
 
                             if (currentType.GetTypeInfo().IsGenericType && !hasWrapperAttribute)

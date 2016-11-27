@@ -15,6 +15,9 @@ namespace Cuemon.Reflection
     /// </summary>
     public static class ReflectionUtility
     {
+        private static readonly string CircularReferenceKey = "circularReference";
+        private static readonly string IndexKey = "index";
+
         /// <summary>
         /// Specifies that public instance members are to be included in the search.
         /// </summary>
@@ -252,7 +255,13 @@ namespace Cuemon.Reflection
             if (property == null) { throw new ArgumentNullException(nameof(property)); }
             return (property.PropertyType.GetTypeInfo().IsMarshalByRef ||
                 property.PropertyType.GetTypeInfo().IsSubclassOf(typeof(Delegate)) ||
-                property.Name.Equals("SyncRoot", StringComparison.Ordinal));
+                property.Name.Equals("SyncRoot", StringComparison.Ordinal) ||
+                property.Name.Equals("IsReadOnly", StringComparison.Ordinal) ||
+                property.Name.Equals("IsFixedSize", StringComparison.Ordinal) ||
+                property.Name.Equals("IsSynchronized", StringComparison.Ordinal) ||
+                property.Name.Equals("Count", StringComparison.Ordinal) ||
+                property.Name.Equals("HResult", StringComparison.Ordinal) ||
+                property.Name.Equals("TargetSite", StringComparison.Ordinal));
         }
 
         private static object[] DefaultPropertyIndexParametersResolver(ParameterInfo[] infos)
@@ -276,113 +285,23 @@ namespace Cuemon.Reflection
         /// Gets the tree structure of the specified <paramref name="source"/> wrapped in an <see cref="IHierarchy{T}"/> node representing a hierarchical structure.
         /// </summary>
         /// <param name="source">The source whose properties will be traversed while building the hierarchical structure.</param>
+        /// <param name="setup">The <see cref="ObjectHierarchyOptions"/> which need to be configured.</param>
         /// <returns>An <see cref="IHierarchy{T}"/> node representing the entirety of a hierarchical structure from the specified <paramref name="source"/>.</returns>
-        public static IHierarchy<object> GetObjectHierarchy(object source)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> is null.
+        /// </exception>
+        public static IHierarchy<object> GetObjectHierarchy(object source, Action<ObjectHierarchyOptions> setup = null)
         {
-            return GetObjectHierarchy(source, 10);
-        }
-
-        /// <summary>
-        /// Gets the tree structure of the specified <paramref name="source"/> wrapped in an <see cref="IHierarchy{T}"/> node representing a hierarchical structure.
-        /// </summary>
-        /// <param name="source">The source whose properties will be traversed while building the hierarchical structure.</param>
-        /// <param name="maxDepth">The maximum depth to safely traverse <paramref name="source"/>. Default is 10.</param>
-        /// <returns>An <see cref="IHierarchy{T}"/> node representing the entirety of a hierarchical structure from the specified <paramref name="source"/>.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="maxDepth"/> is less than zero.
-        /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth)
-        {
-            return GetObjectHierarchy(source, maxDepth, DefaultSkipPropertiesCallback);
-        }
-
-        /// <summary>
-        /// Gets the tree structure of the specified <paramref name="source"/> wrapped in an <see cref="IHierarchy{T}"/> node representing a hierarchical structure.
-        /// </summary>
-        /// <param name="source">The source whose properties will be traversed while building the hierarchical structure.</param>
-        /// <param name="maxDepth">The maximum depth to safely traverse <paramref name="source"/>. Default is 10.</param>
-        /// <param name="skipProperties">The function delegate that is invoked just before public properties is being iterated and whose return value determine if the properties should be skipped or not.</param>
-        /// <returns>An <see cref="IHierarchy{T}"/> node representing the entirety of a hierarchical structure from the specified <paramref name="source"/>.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="maxDepth"/> is less than zero.
-        /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Func<Type, bool> skipProperties)
-        {
-            return GetObjectHierarchy(source, maxDepth, skipProperties, DefaultSkipPropertyCallback);
-        }
-
-        /// <summary>
-        /// Gets the tree structure of the specified <paramref name="source"/> wrapped in an <see cref="IHierarchy{T}"/> node representing a hierarchical structure.
-        /// </summary>
-        /// <param name="source">The source whose properties will be traversed while building the hierarchical structure.</param>
-        /// <param name="maxDepth">The maximum depth to safely traverse <paramref name="source"/>. Default is 10.</param>
-        /// <param name="skipProperties">The function delegate that is invoked just before public properties is being iterated and whose return value determine if the properties should be skipped or not.</param>
-        /// <param name="skipProperty">The function delegate that is invoked every time a public property is iterated and whose return value determine if that property should be skipped or not.</param>
-        /// <returns>An <see cref="IHierarchy{T}"/> node representing the entirety of a hierarchical structure from the specified <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="skipProperty"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="maxDepth"/> is less than zero.
-        /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Func<Type, bool> skipProperties, Func<PropertyInfo, bool> skipProperty)
-        {
-            return GetObjectHierarchy(source, maxDepth, skipProperties, skipProperty, HasCircularReference);
-        }
-
-        /// <summary>
-        /// Gets the tree structure of the specified <paramref name="source"/> wrapped in an <see cref="IHierarchy{T}"/> node representing a hierarchical structure.
-        /// </summary>
-        /// <param name="source">The source whose properties will be traversed while building the hierarchical structure.</param>
-        /// <param name="maxDepth">The maximum depth to safely traverse <paramref name="source"/>. Default is 10.</param>
-        /// <param name="skipProperties">The function delegate that is invoked just before public properties is being iterated and whose return value determine if the properties should be skipped or not.</param>
-        /// <param name="skipProperty">The function delegate that is invoked every time a public property is iterated and whose return value determine if that property should be skipped or not.</param>
-        /// <param name="hasCircularReference">The function delegate that is invoked when a property has a value and whose return value suggest a circular reference or not.</param>
-        /// <returns>An <see cref="IHierarchy{T}"/> node representing the entirety of a hierarchical structure from the specified <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="skipProperty"/> is null - or - <paramref name="hasCircularReference"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="maxDepth"/> is less than zero.
-        /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Func<Type, bool> skipProperties, Func<PropertyInfo, bool> skipProperty, Func<object, bool> hasCircularReference)
-        {
-            return GetObjectHierarchy(source, maxDepth, skipProperties, skipProperty, hasCircularReference, DefaultPropertyIndexParametersResolver);
-        }
-
-        /// <summary>
-        /// Gets the tree structure of the specified <paramref name="source"/> wrapped in an <see cref="IHierarchy{T}"/> node representing a hierarchical structure.
-        /// </summary>
-        /// <param name="source">The source whose properties will be traversed while building the hierarchical structure.</param>
-        /// <param name="maxDepth">The maximum depth to safely traverse <paramref name="source"/>. Default is 10.</param>
-        /// <param name="skipProperties">The function delegate that is invoked just before public properties is being iterated and whose return value determine if the properties should be skipped or not.</param>
-        /// <param name="skipProperty">The function delegate that is invoked every time a public property is iterated and whose return value determine if that property should be skipped or not.</param>
-        /// <param name="hasCircularReference">The function delegate that is invoked when a property has a value and whose return value suggest a circular reference or not.</param>
-        /// <param name="propertyIndexParametersResolver">The function delegate that is invoked if a property has one or more index parameters.</param>
-        /// <returns>An <see cref="IHierarchy{T}"/> node representing the entirety of a hierarchical structure from the specified <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="source"/> is null - or - <paramref name="skipProperty"/> is null - or - <paramref name="hasCircularReference"/> is null - or - <paramref name="propertyIndexParametersResolver"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="maxDepth"/> is less than zero.
-        /// </exception>
-        public static IHierarchy<object> GetObjectHierarchy(object source, int maxDepth, Func<Type, bool> skipProperties, Func<PropertyInfo, bool> skipProperty, Func<object, bool> hasCircularReference, Func<ParameterInfo[], object[]> propertyIndexParametersResolver)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (maxDepth < 0) { throw new ArgumentOutOfRangeException(nameof(maxDepth)); }
-            if (skipProperties == null) { throw new ArgumentNullException(nameof(skipProperties)); }
-            if (skipProperty == null) { throw new ArgumentNullException(nameof(skipProperty)); }
-            if (hasCircularReference == null) { throw new ArgumentNullException(nameof(hasCircularReference)); }
-            if (propertyIndexParametersResolver == null) { throw new ArgumentNullException(nameof(propertyIndexParametersResolver)); }
-
+            Validator.ThrowIfNull(source, nameof(source));
+            var options = setup.ConfigureOptions();
             IDictionary<int, int> referenceSafeguards = new Dictionary<int, int>();
             Stack<Wrapper<object>> stack = new Stack<Wrapper<object>>();
 
             int index = 0;
-            int maxCircularCalls = 2;
+            int maxCircularCalls = options.MaxCircularCalls;
 
             Wrapper<object> current = new Wrapper<object>(source);
-            current.Data.Add("index", index);
+            current.Data.Add(IndexKey, index);
             stack.Push(current);
 
             Hierarchy<object> result = new Hierarchy<object>();
@@ -392,17 +311,17 @@ namespace Cuemon.Reflection
             {
                 current = stack.Pop();
                 Type currentType = current.Instance.GetType();
-                if (skipProperties(currentType))
+                if (options.SkipPropertyType(currentType))
                 {
                     if (index == 0) { continue; }
                     index++;
-                    result[(int)current.Data["index"]].Add(current.Instance, current.MemberReference);
+                    result[(int)current.Data[IndexKey]].Add(current.Instance, current.MemberReference);
                     continue;
                 }
 
                 foreach (PropertyInfo property in currentType.GetProperties(BindingInstancePublic))
                 {
-                    if (skipProperty(property)) { continue; }
+                    if (options.SkipProperty(property)) { continue; }
                     if (!property.CanRead) { continue; }
                     if (TypeUtility.IsEnumerable(currentType))
                     {
@@ -413,28 +332,28 @@ namespace Cuemon.Reflection
                         }
                     }
 
-                    object propertyValue = GetPropertyValue(current.Instance, property, propertyIndexParametersResolver);
+                    object propertyValue = GetPropertyValue(current.Instance, property, options.PropertyIndexParametersResolver);
                     if (propertyValue == null) { continue; }
-                    if (!hasCircularReference(propertyValue))
+                    if (!options.HasCircularReference(propertyValue))
                     {
                         index++;
-                        result[(int)current.Data["index"]].Add(propertyValue, property);
+                        result[(int)current.Data[IndexKey]].Add(propertyValue, property);
                         if (TypeUtility.IsComplex(property.PropertyType))
                         {
                             int circularCalls = 0;
-                            if (current.Data.ContainsKey("circularReference"))
+                            if (current.Data.ContainsKey(CircularReferenceKey))
                             {
-                                circularCalls = (int)current.Data["circularReference"];
+                                circularCalls = (int)current.Data[CircularReferenceKey];
                             }
                             int safetyHashCode = propertyValue.GetHashCode();
                             int calls;
                             if (!referenceSafeguards.TryGetValue(safetyHashCode, out calls)) { referenceSafeguards.Add(safetyHashCode, 0); }
-                            if (calls <= maxCircularCalls && result[index].Depth < maxDepth)
+                            if (calls <= maxCircularCalls && result[index].Depth < options.MaxDepth)
                             {
                                 referenceSafeguards[safetyHashCode]++;
                                 Wrapper<object> wrapper = new Wrapper<object>(propertyValue);
-                                wrapper.Data.Add("index", index);
-                                wrapper.Data.Add("circularReference", circularCalls + 1);
+                                wrapper.Data.Add(IndexKey, index);
+                                wrapper.Data.Add(CircularReferenceKey, circularCalls + 1);
                                 stack.Push(wrapper);
                             }
                         }
