@@ -336,7 +336,7 @@ namespace Cuemon
 
         private static void WithActionCore<TTuple>(ActionFactory<TTuple> factory, Action<TransientOperationOptions> setup = null) where TTuple : Template
         {
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = setup.ConfigureOptions();
             if (!options.EnableRecovery)
             {
                 factory.ExecuteMethod();
@@ -381,7 +381,7 @@ namespace Cuemon
 
         private static TResult WithFuncCore<TTuple, TResult>(FuncFactory<TTuple, TResult> factory, Action<TransientOperationOptions> setup) where TTuple : Template
         {
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = setup.ConfigureOptions();
             if (!options.EnableRecovery) { return factory.ExecuteMethod(); }
             TimeSpan totalWaitTime = TimeSpan.Zero;
             TimeSpan lastWaitTime = TimeSpan.Zero;
@@ -434,7 +434,7 @@ namespace Cuemon
         private static TSuccess TryWithFuncCore<TTuple, TSuccess, TResult>(TesterFuncFactory<TTuple, TResult, TSuccess> factory, out TResult result, Action<TransientOperationOptions> setup) where TTuple : Template
         {
             result = default(TResult);
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = setup.ConfigureOptions();
             if (!options.EnableRecovery) { return factory.ExecuteMethod(out result); }
             TimeSpan totalWaitTime = TimeSpan.Zero;
             TimeSpan lastWaitTime = TimeSpan.Zero;

@@ -48,7 +48,7 @@ namespace Cuemon.AspNetCore
         protected Middleware(RequestDelegate next, Action<TOptions> setup)
             : base(next)
         {
-            Options = DelegateUtility.ConfigureAction(setup);
+            Options = setup.ConfigureOptions();
         }
 
         /// <summary>

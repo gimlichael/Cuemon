@@ -191,7 +191,7 @@ namespace Cuemon
         public static string FromBytes(byte[] value, Action<EncodingOptions> setup)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = setup.ConfigureOptions();
             switch (options.Preamble)
             {
                 case PreambleSequence.Keep:
@@ -829,7 +829,7 @@ namespace Cuemon
         public static string FromStream(Stream value, Action<EncodingOptions> setup, bool leaveStreamOpen)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = setup.ConfigureOptions();
             if (options.Preamble < PreambleSequence.Keep || options.Preamble > PreambleSequence.Remove) { throw new ArgumentOutOfRangeException(nameof(setup), "The specified argument was out of the range of valid values."); }
             return FromBytes(ByteConverter.FromStream(value, leaveStreamOpen), setup);
         }

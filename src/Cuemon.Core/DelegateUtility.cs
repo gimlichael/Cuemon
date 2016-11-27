@@ -298,10 +298,12 @@ namespace Cuemon
         /// </summary>
         /// <typeparam name="TOptions">The type of the custom options class.</typeparam>
         /// <param name="setup">The delegate that will configure the public read-write properties of <typeparamref name="TOptions"/>.</param>
+        /// <param name="initializer">The function delegate that will initialize the default, parameterless constructed instance of <typeparamref name="TOptions"/>.</param>
         /// <returns>A default constructed instance of <typeparamref name="TOptions"/> initialized with the options of <paramref name="setup"/>.</returns>
-        public static TOptions ConfigureAction<TOptions>(Action<TOptions> setup)
+        public static TOptions ConfigureAction<TOptions>(Action<TOptions> setup, Action<TOptions> initializer = null)
         {
             TOptions options = Activator.CreateInstance<TOptions>();
+            initializer?.Invoke(options);
             setup?.Invoke(options);
             return options;
         }

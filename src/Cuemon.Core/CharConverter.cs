@@ -33,7 +33,7 @@ namespace Cuemon
         public static char[] FromStream(Stream value, Action<EncodingOptions> setup)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = setup.ConfigureOptions();
 
             byte[] valueInBytes = ByteConverter.FromStream(value);
             switch (options.Preamble)
@@ -72,7 +72,7 @@ namespace Cuemon
         public static char[] FromString(string value, Action<EncodingOptions> setup)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = setup.ConfigureOptions();
             return options.Encoding.GetChars(ByteConverter.FromString(value, setup));
         }
     }

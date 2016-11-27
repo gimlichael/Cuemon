@@ -12,7 +12,7 @@ namespace Cuemon.AspNetCore.Mvc
     {
         internal static void InterceptControllerWithProfiler(ActionExecutingContext context, Action<TimeMeasureOptions> setup)
         {
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = setup.ConfigureOptions();
             var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
             if (descriptor != null)
             {
@@ -24,7 +24,7 @@ namespace Cuemon.AspNetCore.Mvc
                 context.Result = TimeMeasure.WithFunc(descriptor.MethodInfo.Invoke, context.Controller, objects.ToArray(), o =>
                 {
                     o.RuntimeParameters = options.RuntimeParameters ?? objects.ToArray();
-                    o.MethodDescriptorCallback = options.MethodDescriptorCallback ?? (() => new MethodDescriptor(descriptor.MethodInfo));
+                    o.MethodDescriptor = options.MethodDescriptor ?? (() => new MethodDescriptor(descriptor.MethodInfo));
                     o.TimeMeasureCompletedThreshold = options.TimeMeasureCompletedThreshold;
                 }).Result as IActionResult;
             }

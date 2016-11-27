@@ -253,7 +253,7 @@ namespace Cuemon.IO
 
         private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : Template<StreamWriter>
         {
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = setup.ConfigureOptions();
             Stream output;
             MemoryStream tempOutput = null;
             try

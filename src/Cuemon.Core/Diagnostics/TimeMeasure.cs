@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Cuemon.Reflection;
 
 namespace Cuemon.Diagnostics
@@ -12,7 +13,7 @@ namespace Cuemon.Diagnostics
         /// Gets or sets the callback that is invoked when a time measuring operation is completed.
         /// </summary>
         /// <value>A <see cref="Action{T}"/>. The default value is <c>null</c>.</value>
-        public static Action<TimeMeasureProfiler> TimeMeasureCompletedCallback { get; set; }
+        public static Action<TimeMeasureProfiler> TimeMeasureCompleted { get; set; }
 
         /// <summary>
         /// Profile and time measure the specified <paramref name="action"/> delegate.
@@ -265,19 +266,6 @@ namespace Cuemon.Diagnostics
             Validator.ThrowIfNull(action, nameof(action));
             var factory = ActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             return RunActionCore(factory, setup);
-        }
-
-        private static TimeMeasureProfiler RunActionCore<TTuple>(ActionFactory<TTuple> factory, Action<TimeMeasureOptions> setup) where TTuple : Template
-        {
-            var options = DelegateUtility.ConfigureAction(setup);
-            var descriptor = options.MethodDescriptorCallback?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
-            var profiler = new TimeMeasureProfiler()
-            {
-                Member = descriptor.ToString(),
-                Data = descriptor.MergeParameters(options.RuntimeParameters ?? factory.GenericArguments.ToArray())
-            };
-            PerformTimeMeasuring(profiler, options, p => factory.ExecuteMethod());
-            return profiler;
         }
 
         /// <summary>
@@ -544,10 +532,23 @@ namespace Cuemon.Diagnostics
             return RunFunctionCore(factory, setup);
         }
 
+        private static TimeMeasureProfiler RunActionCore<TTuple>(ActionFactory<TTuple> factory, Action<TimeMeasureOptions> setup) where TTuple : Template
+        {
+            var options = setup.ConfigureOptions();
+            var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
+            var profiler = new TimeMeasureProfiler()
+            {
+                Member = descriptor.ToString(),
+                Data = descriptor.MergeParameters(options.RuntimeParameters ?? factory.GenericArguments.ToArray())
+            };
+            PerformTimeMeasuring(profiler, options, p => factory.ExecuteMethod());
+            return profiler;
+        }
+
         private static TimeMeasureProfiler<TResult> RunFunctionCore<TTuple, TResult>(FuncFactory<TTuple, TResult> factory, Action<TimeMeasureOptions> setup) where TTuple : Template
         {
-            var options = DelegateUtility.ConfigureAction(setup);
-            var descriptor = options.MethodDescriptorCallback?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
+            var options = setup.ConfigureOptions();
+            var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
             var profiler = new TimeMeasureProfiler<TResult>()
             {
                 Member = descriptor.ToString(),
@@ -559,12 +560,22 @@ namespace Cuemon.Diagnostics
 
         private static void PerformTimeMeasuring<T>(T profiler, TimeMeasureOptions options, Action<T> handler) where T : TimeMeasureProfiler
         {
-            profiler.Timer.Start();
-            handler(profiler);
-            profiler.Timer.Stop();
-            if (options.TimeMeasureCompletedThreshold == TimeSpan.Zero || profiler.Elapsed > options.TimeMeasureCompletedThreshold)
+            try
             {
-                TimeMeasureCompletedCallback?.Invoke(profiler);
+                profiler.Timer.Start();
+                handler(profiler);
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException; // don't confuse the end-user with reflection related details; return the originating exception
+            }
+            finally
+            {
+                profiler.Timer.Stop();
+                if (options.TimeMeasureCompletedThreshold == TimeSpan.Zero || profiler.Elapsed > options.TimeMeasureCompletedThreshold)
+                {
+                    TimeMeasureCompleted?.Invoke(profiler);
+                }
             }
         }
     }

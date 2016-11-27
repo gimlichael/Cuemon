@@ -30,15 +30,15 @@ namespace Cuemon.Diagnostics
         }
 
         /// <summary>
-        /// Gets or sets the time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompletedCallback"/> is invoked.
+        /// Gets or sets the time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompleted"/> is invoked.
         /// </summary>
-        /// <value>The time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompletedCallback"/> is invoked.</value>
+        /// <value>The time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompleted"/> is invoked.</value>
         public TimeSpan TimeMeasureCompletedThreshold { get; set; }
 
         /// <summary>
-        /// Gets or sets the time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompletedCallback"/> is invoked,
+        /// Gets or sets the time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompleted"/> is invoked,
         /// </summary>
-        /// <value>The default time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompletedCallback"/> is invoked.</value>
+        /// <value>The default time measuring threshold before the <see cref="TimeMeasure.TimeMeasureCompleted"/> is invoked.</value>
         public static TimeSpan DefaultTimeMeasureCompletedThreshold { get; set; } = TimeSpan.Zero;
     }
 }
