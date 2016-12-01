@@ -53,7 +53,7 @@ namespace Cuemon
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "Name: {0}, Value: {1}, Type: {2}", Name, Value, Type.Name);
+            return "Name: {0}, Value: {1}, Type: {2}".FormatWith(Name, Value ?? "<null>", Type.Name);
         }
     }
 
