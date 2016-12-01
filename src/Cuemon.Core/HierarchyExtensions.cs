@@ -156,7 +156,7 @@ namespace Cuemon
         public static IEnumerable<IHierarchy<T>> DescendantsAndSelf<T>(this IHierarchy<T> node)
         {
             Validator.ThrowIfNull(node, nameof(node));
-            return HierarchyUtility.WhileSourceTraversalHasElements(node, HierarchyUtility.DescendantsAndSelf);
+            return HierarchyUtility.WhileSourceTraversalHasElements(node, HierarchyUtility.DescendantsAndSelf).Reverse(); ;
         }
 
         /// <summary>
