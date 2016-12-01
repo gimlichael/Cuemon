@@ -73,9 +73,9 @@ namespace Cuemon
             if (Int32.TryParse(value, NumberStyles.None, provider, out intValue)) { return intValue; }
             if (Int64.TryParse(value, NumberStyles.None, provider, out longValue)) { return longValue; }
             if (Double.TryParse(value, NumberStyles.Number, provider, out doubleValue)) { return doubleValue; }
-            if (DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out dateTimeValue)) { return dateTimeValue; }
-            if (GuidUtility.TryParse(value, out guidValue)) { return guidValue; }
-            if (UriUtility.TryParse(value, UriKind.Absolute, out uriValue)) { return uriValue; }
+            if (value.Length > 6 && DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out dateTimeValue)) { return dateTimeValue; }
+            if (value.Length > 31 && GuidUtility.TryParse(value, out guidValue)) { return guidValue; }
+            if (value.Length > 11 && UriUtility.TryParse(value, UriKind.Absolute, out uriValue)) { return uriValue; }
 
             return value;
         }
