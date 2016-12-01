@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Cuemon
@@ -58,6 +59,12 @@ namespace Cuemon
         IHierarchy<T> Add(T instance, MemberInfo member);
 
         /// <summary>
+        /// Allows for the instance on the current node to be replaced with a new <paramref name="instance"/>.
+        /// </summary>
+        /// <param name="instance">The new instance to replace the original with.</param>
+        void Replace(T instance);
+
+        /// <summary>
         /// Gets the parent node of the current node in the hierarchical structure.
         /// </summary>
         /// <returns>The parent node of the current node in the hierarchical structure.</returns>
@@ -66,8 +73,15 @@ namespace Cuemon
         /// <summary>
         /// Gets the hierarchical path of the node in the hierarchical structure.
         /// </summary>
-        /// <value>A <see cref="string"/> that identifies the hierarchical path relative to the current node.</value>
+        /// <returns>A <see cref="string"/> that identifies the hierarchical path relative to the current node.</returns>
         string GetPath();
+
+        /// <summary>
+        /// Gets the hierarchical path of the node in the hierarchical structure.
+        /// </summary>
+        /// <param name="pathResolver">The function delegate that resolves the hierarchical path of the node in the hierarchical structure.</param>
+        /// <returns>A <see cref="string" /> that identifies the hierarchical path relative to the current node.</returns>
+        string GetPath(Func<IHierarchy<T>, string> pathResolver);
 
         /// <summary>
         /// Gets an <see cref="IEnumerable{T}"/> sequence that represents all the child nodes of the current hierarchical node.

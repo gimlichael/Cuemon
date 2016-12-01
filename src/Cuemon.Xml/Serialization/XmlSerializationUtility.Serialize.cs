@@ -972,7 +972,7 @@ namespace Cuemon.Xml.Serialization
                 using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(Encoding.Unicode, omitXmlDeclaration)))
                 {
                     if (useFactory) { factory.GenericArguments.Arg1 = writer; }
-                    IEnumerable<IHierarchy<object>> ancestorAndSelf = Hierarchy.AncestorsAndSelf(serializableNode);
+                    IEnumerable<IHierarchy<object>> ancestorAndSelf = serializableNode.AncestorsAndSelf();
                     IHierarchy<object> rootNode = ancestorAndSelf.FirstOrDefault();
                     MethodInfo writeXmlMethod = rootNode.InstanceType.GetMethod("WriteXml", ReflectionUtility.BindingInstancePublicAndPrivate);
                     bool useXmlWriter = (writeXmlMethod != null) && TypeUtility.ContainsInterface(rootNode.InstanceType, typeof(IXmlSerializable));
@@ -1077,7 +1077,7 @@ namespace Cuemon.Xml.Serialization
 
         private static bool IsEnumerable(IHierarchy<object> hierarchy)
         {
-            bool hasWrapperAttribute = TypeUtility.ContainsAttributeType(Hierarchy.Root(hierarchy).InstanceType, true, typeof(XmlWrapperAttribute));
+            bool hasWrapperAttribute = TypeUtility.ContainsAttributeType(hierarchy.Root().InstanceType, true, typeof(XmlWrapperAttribute));
             if (hasWrapperAttribute)
             {
                 XmlWrapper wrapper = hierarchy.Instance as XmlWrapper;

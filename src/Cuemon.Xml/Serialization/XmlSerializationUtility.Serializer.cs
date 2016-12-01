@@ -97,7 +97,7 @@ namespace Cuemon.Xml.Serialization
             if (qualifiedRootEntity != null && !string.IsNullOrEmpty(qualifiedRootEntity.LocalName)) { return qualifiedRootEntity; }
             bool hasRootAttribute = TypeUtility.ContainsAttributeType(node.InstanceType, true, typeof(XmlRootAttribute));
             bool hasElementAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlElementAttribute));
-            bool hasWrapperAttribute = TypeUtility.ContainsAttributeType(Hierarchy.Root(node).InstanceType, true, typeof(XmlWrapperAttribute));
+            bool hasWrapperAttribute = TypeUtility.ContainsAttributeType(node.Root().InstanceType, true, typeof(XmlWrapperAttribute));
             string rootOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : StringConverter.FromType(node.InstanceType, false, true));
             string ns = null;
 
@@ -157,7 +157,7 @@ namespace Cuemon.Xml.Serialization
             bool hasAttributeAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlAttributeAttribute));
             bool hasElementAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlElementAttribute));
             bool hasTextAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlTextAttribute));
-            bool hasWrapperAttribute = TypeUtility.ContainsAttributeType(Hierarchy.Root(node).InstanceType, true, typeof(XmlWrapperAttribute));
+            bool hasWrapperAttribute = TypeUtility.ContainsAttributeType(node.Root().InstanceType, true, typeof(XmlWrapperAttribute));
 
             bool isType = node.Instance is Type;
             Type nodeType = isType ? (Type)node.Instance : node.InstanceType;
@@ -225,7 +225,7 @@ namespace Cuemon.Xml.Serialization
             Type currentType = current.Instance.GetType();
             if (TypeUtility.IsEnumerable(currentType) && currentType != typeof(string))
             {
-                bool hasWrapperAttribute = TypeUtility.ContainsAttributeType(Hierarchy.Root(current).InstanceType, true, typeof(XmlWrapperAttribute));
+                bool hasWrapperAttribute = TypeUtility.ContainsAttributeType(current.Root().InstanceType, true, typeof(XmlWrapperAttribute));
                 if (hasWrapperAttribute && current.HasMemberReference && current.MemberReference.Name == "Data") { return; }
 
                 bool isDictionary = TypeUtility.IsDictionary(currentType);

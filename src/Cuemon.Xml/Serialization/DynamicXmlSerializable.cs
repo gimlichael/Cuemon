@@ -14,12 +14,12 @@ namespace Cuemon.Xml.Serialization
         /// Creates a dynamic instance of an <see cref="IXmlSerializable"/> implementation wrapping <see cref="IXmlSerializable.WriteXml"/> through <paramref name="writer"/>, <see cref="IXmlSerializable.ReadXml"/> through <paramref name="reader"/> and <see cref="IXmlSerializable.GetSchema"/> through <paramref name="schema"/>.
         /// </summary>
         /// <typeparam name="T">The type of the <paramref name="source"/> to implement an <see cref="IXmlSerializable"/>.</typeparam>
-        /// <param name="source">.</param>
+        /// <param name="source">The object that needs support for an <see cref="IXmlSerializable"/> implementation.</param>
         /// <param name="writer">The delegate that converts <paramref name="source"/> to its XML representation.</param>
         /// <param name="reader">The delegate that generates <paramref name="source"/> from its XML representation.</param>
         /// <param name="schema">The function delegate that can provide a schema of the <paramref name="source"/>.</param>
         /// <returns>An <see cref="IXmlSerializable"/> implementation of <paramref name="source"/>.</returns>
-        public static IXmlSerializable Create<T>(T source, Action<XmlWriter, T> writer, Action<XmlReader, T> reader = null, Func<XmlSchema> schema = null)
+        public static IXmlSerializable Create<T>(T source, Action<XmlWriter, T> writer, Action<XmlReader> reader = null, Func<XmlSchema> schema = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
             return new DynamicXmlSerializable<T>(source, writer, reader, schema);
@@ -28,7 +28,7 @@ namespace Cuemon.Xml.Serialization
 
     internal class DynamicXmlSerializable<T> : IXmlSerializable
     {
-        internal DynamicXmlSerializable(T source, Action<XmlWriter, T> writer, Action<XmlReader, T> reader = null, Func<XmlSchema> schema = null)
+        internal DynamicXmlSerializable(T source, Action<XmlWriter, T> writer, Action<XmlReader> reader, Func<XmlSchema> schema)
         {
             Writer = writer;
             Reader = reader;
@@ -40,7 +40,7 @@ namespace Cuemon.Xml.Serialization
 
         private Func<XmlSchema> Schema { get; }
 
-        private Action<XmlReader, T> Reader { get; }
+        private Action<XmlReader> Reader { get; }
 
         private Action<XmlWriter, T> Writer { get; }
 
@@ -61,7 +61,7 @@ namespace Cuemon.Xml.Serialization
         public void ReadXml(XmlReader reader)
         {
             if (Reader == null) { throw new NotImplementedException(); }
-            Reader(reader, Source);
+            Reader(reader);
         }
 
         /// <summary>
