@@ -16,7 +16,19 @@ namespace Cuemon
         /// <returns>A copy of <paramref name="format"/> in which the format items have been replaced by the string representation of the corresponding objects in <paramref name="args"/>.</returns>
         public static string FormatWith(this string format, params object[] args)
         {
-            return string.Format(CultureInfo.InvariantCulture, format, args);
+            return FormatWith(format, CultureInfo.InvariantCulture, args);
+        }
+
+        /// <summary>
+        /// Replaces the <paramref name="format"/> item in a specified string with the string representation of a corresponding object in a specified array.
+        /// </summary>
+        /// <param name="format">A composite format string.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <param name="args">An object array that contains zero or more objects to format.</param>
+        /// <returns>A copy of <paramref name="format"/> in which the format items have been replaced by the string representation of the corresponding objects in <paramref name="args"/>.</returns>
+        public static string FormatWith(this string format, IFormatProvider provider, params object[] args)
+        {
+            return string.Format(provider, format, args);
         }
 
         /// <summary>
