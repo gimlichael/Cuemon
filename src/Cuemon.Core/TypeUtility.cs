@@ -422,7 +422,7 @@ namespace Cuemon
             if (targets == null) throw new ArgumentNullException(nameof(targets));
             foreach (Type targetType in targets)
             {
-                if (source.GetCustomAttributes(targetType, inherit).Any()) { return true; }
+                if (source.GetCustomAttributes(targetType, inherit)?.Any() ?? false) { return true; }
             }
             return false;
         }
