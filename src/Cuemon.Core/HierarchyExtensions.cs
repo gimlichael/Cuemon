@@ -119,7 +119,7 @@ namespace Cuemon
         /// <typeparam name="T">The type of the instance represented by the specified <paramref name="node"/> in the hierarchical structure.</typeparam>
         /// <param name="node">The node that the hierarchical structure represents.</param>
         /// <returns>An <see cref="IHierarchy{T}"/> node that represents the root of the specified <paramref name="node"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
         public static IHierarchy<T> Root<T>(this IHierarchy<T> node)
@@ -134,7 +134,7 @@ namespace Cuemon
         /// <typeparam name="T">The type of the instance represented by the specified <paramref name="node"/> in the hierarchical structure.</typeparam>
         /// <param name="node">The node that the hierarchical structure represents.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to ancestors and self of the specified <paramref name="node"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
         public static IEnumerable<IHierarchy<T>> AncestorsAndSelf<T>(this IHierarchy<T> node)
@@ -150,7 +150,7 @@ namespace Cuemon
         /// <typeparam name="T">The type of the instance represented by the specified <paramref name="node"/> in the hierarchical structure.</typeparam>
         /// <param name="node">The node that the hierarchical structure represents.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to the descendants and self of the specified <paramref name="node"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
         public static IEnumerable<IHierarchy<T>> DescendantsAndSelf<T>(this IHierarchy<T> node)
@@ -165,7 +165,7 @@ namespace Cuemon
         /// <typeparam name="T">The type of the instance represented by the specified <paramref name="node"/> in the hierarchical structure.</typeparam>
         /// <param name="node">The node that the hierarchical structure represents.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to the siblings and self of the specified <paramref name="node"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
         public static IEnumerable<IHierarchy<T>> SiblingsAndSelf<T>(this IHierarchy<T> node)
@@ -181,7 +181,7 @@ namespace Cuemon
         /// <param name="node">The node that the hierarchical structure represents.</param>
         /// <param name="depth">The depth in the hierarchical structure from where to locate the siblings and self nodes.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to the siblings and self of the specified <paramref name="node"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
@@ -206,7 +206,7 @@ namespace Cuemon
         /// <param name="node">The node from which the flattening will begin.</param>
         /// <param name="index">The zero-based index at which a node should be retrieved in the hierarchical structure.</param>
         /// <returns>The node at the specified <paramref name="index"/> in the hierarchical structure.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
@@ -231,7 +231,7 @@ namespace Cuemon
         /// <typeparam name="T">The type of the instance represented by the specified <paramref name="node"/> in the hierarchical structure.</typeparam>
         /// <param name="node">The node from which the flattening will begin.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence of <see cref="IHierarchy{T}"/> all nodes represented by the hierarchical structure.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
         public static IEnumerable<IHierarchy<T>> FlattenAll<T>(this IHierarchy<T> node)
