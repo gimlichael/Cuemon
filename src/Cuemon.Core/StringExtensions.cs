@@ -9,6 +9,29 @@ namespace Cuemon
     public static class StringExtensions
     {
         /// <summary>
+        /// Converts the specified absolute <paramref name="uriString"/> to its equivalent <see cref="Uri"/> representation.
+        /// </summary>
+        /// <param name="uriString">A string that identifies the resource to be represented by the <see cref="Uri"/> instance.</param>
+        /// <returns>A <see cref="Uri"/> that corresponds to <paramref name="uriString"/>.</returns>
+        /// <remarks>This method uses the <see cref="UriKind.Absolute"/> when converting the <paramref name="uriString"/>.</remarks>
+        public static Uri ToUri(this string uriString)
+        {
+            return ToUri(uriString, UriKind.Absolute);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="uriString"/> to its equivalent <see cref="Uri"/> representation.
+        /// </summary>
+        /// <param name="uriString">A string that identifies the resource to be represented by the <see cref="Uri"/> instance.</param>
+        /// <param name="uriKind">Specifies whether the URI string is a relative URI, absolute URI, or is indeterminate.</param>
+        /// <returns>A <see cref="Uri"/> that corresponds to <paramref name="uriString"/> and <paramref name="uriKind"/>.</returns>
+        public static Uri ToUri(this string uriString, UriKind uriKind)
+        {
+            Validator.ThrowIfNullOrEmpty(uriString, nameof(uriString));
+            return new Uri(uriString, uriKind);
+        }
+
+        /// <summary>
         /// Replaces the <paramref name="format"/> item in a specified string with the string representation of a corresponding object in a specified array.
         /// </summary>
         /// <param name="format">A composite format string.</param>
