@@ -349,7 +349,7 @@ namespace Cuemon
             List<Exception> aggregatedExceptions = new List<Exception>();
             for (int attempts = 0; ;)
             {
-                TimeSpan waitTime = options.RetryStrategyCallback(attempts);
+                TimeSpan waitTime = options.RetryStrategy(attempts);
                 try
                 {
                     factory.ExecuteMethod();
@@ -360,7 +360,7 @@ namespace Cuemon
                     try
                     {
                         lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
-                        isTransientFault = options.DetectionStrategyCallback(ex);
+                        isTransientFault = options.DetectionStrategy(ex);
                         if (attempts >= options.RetryAttempts) { throw; }
                         if (!isTransientFault) { throw; }
                         lastWaitTime = waitTime;
@@ -392,7 +392,7 @@ namespace Cuemon
             for (int attempts = 0; ;)
             {
                 bool exceptionThrown = false;
-                TimeSpan waitTime = options.RetryStrategyCallback(attempts);
+                TimeSpan waitTime = options.RetryStrategy(attempts);
                 try
                 {
                     return factory.ExecuteMethod();
@@ -402,7 +402,7 @@ namespace Cuemon
                     try
                     {
                         lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
-                        isTransientFault = options.DetectionStrategyCallback(ex);
+                        isTransientFault = options.DetectionStrategy(ex);
                         if (attempts >= options.RetryAttempts) { throw; }
                         if (!isTransientFault) { throw; }
                         lastWaitTime = waitTime;
@@ -444,7 +444,7 @@ namespace Cuemon
             for (int attempts = 0; ;)
             {
                 bool exceptionThrown = false;
-                TimeSpan waitTime = options.RetryStrategyCallback(attempts);
+                TimeSpan waitTime = options.RetryStrategy(attempts);
                 try
                 {
                     return factory.ExecuteMethod(out result);
@@ -454,7 +454,7 @@ namespace Cuemon
                     try
                     {
                         lock (aggregatedExceptions) { aggregatedExceptions.Insert(0, ex); }
-                        isTransientFault = options.DetectionStrategyCallback(ex);
+                        isTransientFault = options.DetectionStrategy(ex);
                         if (attempts >= options.RetryAttempts) { throw; }
                         if (!isTransientFault) { throw; }
                         lastWaitTime = waitTime;

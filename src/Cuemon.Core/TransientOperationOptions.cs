@@ -15,8 +15,8 @@ namespace Cuemon
         {
             RetryAttempts = DefaultRetryAttempts;
             EnableRecovery = RetryAttempts > 0;
-            RetryStrategyCallback = currentAttempt => TimeSpan.FromSeconds(Math.Pow(2, currentAttempt > 5 ? 5 : currentAttempt));
-            DetectionStrategyCallback = exception => false;
+            RetryStrategy = currentAttempt => TimeSpan.FromSeconds(Math.Pow(2, currentAttempt > 5 ? 5 : currentAttempt));
+            DetectionStrategy = exception => false;
         }
 
         /// <summary>
@@ -37,14 +37,14 @@ namespace Cuemon
         /// </summary>
         /// <returns>A <see cref="Func{TResult}"/> that determines the amount of time to wait for a transient fault to recover gracefully.</returns>
         /// <remarks>Default implementation is <see cref="int"/> + 2^ to a maximum of 5; eg. 1, 2, 4, 8, 16 to a total of 32 seconds.</remarks>
-        public Func<int, TimeSpan> RetryStrategyCallback { get; set; }
+        public Func<int, TimeSpan> RetryStrategy { get; set; }
 
         /// <summary>
         /// Gets or sets the callback function delegate that determines if an <see cref="Exception"/> contains clues that would suggest a transient fault.
         /// </summary>
         /// <value>A <see cref="Func{TResult}"/> that determines if an <see cref="Exception"/> contains clues that would suggest a transient fault.</value>
         /// <remarks>Default implementation is fixed to none-transient failure.</remarks>
-        public Func<Exception, bool> DetectionStrategyCallback { get; set; }
+        public Func<Exception, bool> DetectionStrategy { get; set; }
 
         /// <summary>
         /// Gets or sets the default amount of retry attempts for transient faults. Default is 5 attempts.

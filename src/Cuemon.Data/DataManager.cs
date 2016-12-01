@@ -591,8 +591,8 @@ namespace Cuemon.Data
         /// <remarks>
         /// If <see cref="TransientFaultHandlingOptionsCallback"/> has the <see cref="TransientOperationOptions.EnableRecovery"/> set to <c>true</c>, this method will with it's default implementation try to gracefully recover from transient faults when the following condition is met:<br/>
         /// <see cref="TransientOperationOptions.RetryAttempts"/> is less than the current attempt starting from 1 with a maximum of <see cref="Byte.MaxValue"/> retries<br/>
-        /// <see cref="TransientOperationOptions.DetectionStrategyCallback"/> must evaluate to <c>true</c><br/>
-        /// In case of a transient failure the default implementation will use <see cref="TransientOperationOptions.RetryStrategyCallback"/>.<br/>
+        /// <see cref="TransientOperationOptions.DetectionStrategy"/> must evaluate to <c>true</c><br/>
+        /// In case of a transient failure the default implementation will use <see cref="TransientOperationOptions.RetryStrategy"/>.<br/>
         /// In any other case the originating exception is thrown.
         /// </remarks>
         protected virtual DbCommand ExecuteCommandCore(IDataCommand dataCommand, params DbParameter[] parameters)
