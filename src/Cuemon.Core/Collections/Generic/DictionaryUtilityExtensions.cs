@@ -21,5 +21,39 @@ namespace Cuemon.Collections.Generic
         {
             return DictionaryUtility.FirstMatchOrDefault(source, keys);
         }
+
+        /// <summary>
+        /// Adds an element with the provided <paramref name="key"/> and <paramref name="value"/> to the <see cref="IDictionary{TKey,TValue}"/>, if the <paramref name="key"/> is not contained within the <paramref name="source"/>.
+        /// </summary>
+        /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
+        /// <param name="source">The <see cref="IDictionary{TKey, TValue}"/> to perform the operation.</param>
+        /// <param name="key">The object to use as the key of the element to add.</param>
+        /// <param name="value">The object to use as the value of the element to add.</param>
+        public static void AddIfNotContainsKey<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, TValue value)
+        {
+            if (source.ContainsKey(key)) { return; }
+            source.Add(key, value);
+        }
+
+        /// <summary>
+        /// Adds or updates an existing element with the provided <paramref name="key"/> in the <see cref="IDictionary{TKey,TValue}"/> with the specified <paramref name="value"/>.
+        /// </summary>
+        /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
+        /// <param name="source">The <see cref="IDictionary{TKey, TValue}"/> to perform the operation.</param>
+        /// <param name="key">The object to use as the key of the element to add.</param>
+        /// <param name="value">The object to use as the value of the element to add or update.</param>
+        public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, TValue value)
+        {
+            if (source.ContainsKey(key))
+            {
+                source[key] = value;
+            }
+            else
+            {
+                source.Add(key, value);
+            }
+        }
     }
 }
