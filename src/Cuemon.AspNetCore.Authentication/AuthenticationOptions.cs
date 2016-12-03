@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Cuemon.AspNetCore.Authentication
 {
@@ -7,6 +8,21 @@ namespace Cuemon.AspNetCore.Authentication
     /// </summary>
     public abstract class AuthenticationOptions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthenticationOptions"/> class.
+        /// </summary>
+        protected AuthenticationOptions()
+        {
+            HttpNotAuthorizedBody = () =>
+            {
+                return "401 Unauthorized".ToByteArray(o =>
+                {
+                    o.Encoding = Encoding.UTF8;
+                    o.Preamble = PreambleSequence.Remove;
+                });
+            };
+        }
+
         /// <summary>
         /// Gets the realm that defines the protection space.
         /// </summary>
