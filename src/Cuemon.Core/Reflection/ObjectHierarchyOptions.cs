@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="ReflectionUtility.GetObjectHierarchy(object)"/> operations.
+    /// Specifies options that is related to <see cref="ReflectionUtility.GetObjectHierarchy"/> operations.
     /// </summary>
     public class ObjectHierarchyOptions
     {
