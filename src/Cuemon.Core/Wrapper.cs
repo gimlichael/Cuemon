@@ -39,7 +39,7 @@ namespace Cuemon
                 case TypeCode.Double:
                     return wrapper.InstanceAs<IConvertible>().ToString(CultureInfo.InvariantCulture);
                 case TypeCode.DateTime:
-                    return wrapper.InstanceAs<DateTime>().ToString("s", CultureInfo.InvariantCulture);
+                    return wrapper.InstanceAs<DateTime>().ToString("O", CultureInfo.InvariantCulture);
                 case TypeCode.String:
                     return wrapper.Instance.ToString();
                 default:
@@ -66,6 +66,8 @@ namespace Cuemon
                             return wrapper.InstanceAs<Guid>(CultureInfo.InvariantCulture).ToString("D");
                         case "RUNTIMETYPE":
                             return StringConverter.FromType(wrapper.InstanceAs<Type>());
+                        case "URI":
+                            return wrapper.InstanceAs<Uri>().OriginalString;
                         default:
                             return wrapper.Instance.ToString();
                     }
@@ -107,7 +109,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="instance">The instance that this wrapper object represents.</param>
         /// <param name="memberReference">The member from where <paramref name="instance"/> was referenced.</param>
-        public Wrapper(T instance, MemberInfo memberReference) 
+        public Wrapper(T instance, MemberInfo memberReference)
         {
             if (memberReference == null) { throw new ArgumentNullException(nameof(memberReference)); }
             _instance = instance;
