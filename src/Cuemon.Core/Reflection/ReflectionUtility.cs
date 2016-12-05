@@ -334,28 +334,25 @@ namespace Cuemon.Reflection
 
                     object propertyValue = GetPropertyValue(current.Instance, property, options.PropertyIndexParametersResolver);
                     if (propertyValue == null) { continue; }
-                    if (!options.HasCircularReference(propertyValue))
+                    index++;
+                    result[(int)current.Data[IndexKey]].Add(propertyValue, property);
+                    if (TypeUtility.IsComplex(property.PropertyType))
                     {
-                        index++;
-                        result[(int)current.Data[IndexKey]].Add(propertyValue, property);
-                        if (TypeUtility.IsComplex(property.PropertyType))
+                        int circularCalls = 0;
+                        if (current.Data.ContainsKey(CircularReferenceKey))
                         {
-                            int circularCalls = 0;
-                            if (current.Data.ContainsKey(CircularReferenceKey))
-                            {
-                                circularCalls = (int)current.Data[CircularReferenceKey];
-                            }
-                            int safetyHashCode = propertyValue.GetHashCode();
-                            int calls;
-                            if (!referenceSafeguards.TryGetValue(safetyHashCode, out calls)) { referenceSafeguards.Add(safetyHashCode, 0); }
-                            if (calls <= maxCircularCalls && result[index].Depth < options.MaxDepth)
-                            {
-                                referenceSafeguards[safetyHashCode]++;
-                                Wrapper<object> wrapper = new Wrapper<object>(propertyValue);
-                                wrapper.Data.Add(IndexKey, index);
-                                wrapper.Data.Add(CircularReferenceKey, circularCalls + 1);
-                                stack.Push(wrapper);
-                            }
+                            circularCalls = (int)current.Data[CircularReferenceKey];
+                        }
+                        int safetyHashCode = propertyValue.GetHashCode();
+                        int calls;
+                        if (!referenceSafeguards.TryGetValue(safetyHashCode, out calls)) { referenceSafeguards.Add(safetyHashCode, 0); }
+                        if (calls <= maxCircularCalls && result[index].Depth < options.MaxDepth)
+                        {
+                            referenceSafeguards[safetyHashCode]++;
+                            Wrapper<object> wrapper = new Wrapper<object>(propertyValue);
+                            wrapper.Data.Add(IndexKey, index);
+                            wrapper.Data.Add(CircularReferenceKey, circularCalls + 1);
+                            stack.Push(wrapper);
                         }
                     }
                 }
