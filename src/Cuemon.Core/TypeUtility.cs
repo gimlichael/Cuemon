@@ -14,6 +14,8 @@ namespace Cuemon
     /// </summary>
     public static class TypeUtility
     {
+        private static Dictionary<string, bool> ComplexValueTypeLookup { get; } = new Dictionary<string, bool>();
+
         /// <summary>
         /// Determines whether the specified <paramref name="source"/> is of <typeparamref name="T"/>.
         /// </summary>
@@ -505,22 +507,80 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="source"/> is a complex <see cref="Type"/>.
+        /// Determines whether the specified <paramref name="sources"/>, as a whole, is determined a complex <see cref="Type"/>.
         /// </summary>
-        /// <param name="source">The <see cref="Type"/> to determine complexity for.</param>
-        /// <returns><c>true</c> if specified <paramref name="source"/> is a complex <see cref="Type"/>; otherwise, <c>false</c>.</returns>
+        /// <param name="sources">The <see cref="Type"/> (or types) to determine complexity for.</param>
+        /// <returns><c>true</c> if specified <paramref name="sources"/>, as a whole, is a complex <see cref="Type"/>; otherwise, <c>false</c>.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null.
+        /// <paramref name="sources"/> is null.
         /// </exception>
-	    public static bool IsComplex(Type source)
+	    public static bool IsComplex(params Type[] sources)
         {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            TypeInfo sourceInfo = source.GetTypeInfo();
-            return !((sourceInfo.IsClass && source == typeof(string)) ||
-                     (sourceInfo.IsClass && source == typeof(object)) ||
-                     (sourceInfo.IsValueType ||
-                      sourceInfo.IsPrimitive ||
-                      sourceInfo.IsEnum));
+            Validator.ThrowIfNull(sources, nameof(sources));
+            bool result = true;
+            foreach (var source in sources)
+            {
+                bool isPrimitive;
+                if (!ComplexValueTypeLookup.TryGetValue(source.AssemblyQualifiedName, out isPrimitive))
+                {
+                    TypeInfo sourceInfo = source.GetTypeInfo();
+                    if (sourceInfo.IsGenericType)
+                    {
+                        var generics = source.GetGenericArguments().ToList();
+                        if (sourceInfo.GetGenericTypeDefinition() == typeof(Nullable<>))
+                        {
+                            return IsComplex(generics[0]);
+                        }
+                        return IsComplex(generics.ToArray());
+                    }
+                    isPrimitive = sourceInfo.IsPrimitive;
+                    isPrimitive |= sourceInfo.IsEnum;
+                    isPrimitive |= sourceInfo.IsValueType && IsSimpleValueType(source);
+                    isPrimitive |= source == typeof(string);
+                    isPrimitive |= source == typeof(decimal);
+                    ComplexValueTypeLookup.AddIfNotContainsKey(source.AssemblyQualifiedName, isPrimitive);
+                }
+                result &= isPrimitive;
+            }
+            return !result;
+        }
+
+        private static bool IsSimpleValueType(Type source)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            bool simple = source.GetTypeInfo().IsPrimitive;
+            if (!simple)
+            {
+                var constructors = source.GetConstructors(ReflectionUtility.BindingInstancePublic);
+                var propertyNames = source.GetProperties(ReflectionUtility.BindingInstancePublic).Where(p => p.CanRead && !p.IsSpecialName).Select(p => p.Name).ToList();
+                foreach (var constructor in constructors)
+                {
+                    var arguments = constructor.GetParameters()?.Select(p => p.Name).ToList();
+                    if (arguments != null)
+                    {
+                        var match = arguments.Intersect(propertyNames, StringComparer.OrdinalIgnoreCase).ToList();
+                        if (arguments.Count == match.Count)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                var staticMethods = source.GetMethods(ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic).Where(info => info.ReturnType == source && info.IsStatic).ToList();
+                foreach (var staticMethod in staticMethods)
+                {
+                    var parameters = staticMethod.GetParameters()?.Select(p => p.Name).ToList();
+                    if (parameters != null)
+                    {
+                        var match = parameters.Intersect(propertyNames, StringComparer.OrdinalIgnoreCase).ToList();
+                        if (parameters.Count == match.Count)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return simple;
         }
 
         /// <summary>
@@ -560,7 +620,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="type">The <see cref="Type"/> to retrieve its default value from.</param>
         /// <returns>The default value of <paramref name="type"/>.</returns>
-	    public static object GetDefaultValue(Type type)
+        public static object GetDefaultValue(Type type)
         {
             Validator.ThrowIfNull(type, nameof(type));
             if (type.GetTypeInfo().IsValueType && Nullable.GetUnderlyingType(type) == null) { return Activator.CreateInstance(type); }
