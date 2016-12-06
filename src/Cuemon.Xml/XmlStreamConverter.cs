@@ -68,7 +68,7 @@ namespace Cuemon.IO
             return output;
         }
 
-        private static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
+        internal static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
             Type exceptionType = exception.GetType();
             writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.Name));
