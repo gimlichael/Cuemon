@@ -10,6 +10,17 @@ namespace Cuemon
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionDescriptor"/> class.
         /// </summary>
+        protected ExceptionDescriptor()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExceptionDescriptor" /> class.
+        /// </summary>
+        /// <param name="failure">The <see cref="Exception"/> that caused the current failure.</param>
+        /// <param name="code">The number that identifies the type of failure.</param>
+        /// <param name="message">The message that explains the reason for the failure.</param>
+        /// <param name="helpLink">The optional link to a help page associated with this failure.</param>
         public ExceptionDescriptor(Exception failure, int code, string message, Uri helpLink = null)
         {
             Validator.ThrowIfNull(failure, nameof(failure));
@@ -19,6 +30,12 @@ namespace Cuemon
             HelpLink = helpLink;
             Failure = failure;
         }
+
+        /// <summary>
+        /// Gets or sets the request identifier that uniquely identifies the service request the caller made.
+        /// </summary>
+        /// <value>An identifier that uniquely identifies the service request the caller made.</value>
+        public string RequestId { get; set; }
 
         /// <summary>
         /// Gets a number that identifies the type of failure.
