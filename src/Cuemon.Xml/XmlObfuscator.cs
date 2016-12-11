@@ -81,7 +81,7 @@ namespace Cuemon.Security
             try
             {
                 tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(Encoding)))
+                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
                 {
                     writer.WriteStartDocument();
                     writer.WriteComment(string.Format(CultureInfo.InvariantCulture, " Legend: {0}=Obfuscated, {1}=Value, {2}=mapsTo ", MappingRootElement, MappingValueElement, MappingMapsToAttribute));
@@ -100,7 +100,7 @@ namespace Cuemon.Security
                 output = tempOutput;
                 tempOutput = null;
             }
-            finally 
+            finally
             {
                 if (tempOutput != null) { tempOutput.Dispose(); }
             }
@@ -124,7 +124,7 @@ namespace Cuemon.Security
             try
             {
                 tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(Encoding)))
+                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
                 {
                     using (XmlReader reader = XmlReader.Create(value))
                     {
@@ -188,11 +188,11 @@ namespace Cuemon.Security
                 output = tempOutput;
                 tempOutput = null;
             }
-            finally 
+            finally
             {
                 if (tempOutput != null) { tempOutput.Dispose(); }
             }
-            
+
             if (value.CanSeek) { value.Seek(startingPosition, SeekOrigin.Begin); } // reset to original position
             return output;
         }
@@ -230,7 +230,7 @@ namespace Cuemon.Security
             try
             {
                 tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(Encoding)))
+                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
                 {
                     using (XmlReader reader = XmlReader.Create(value))
                     {
@@ -290,7 +290,7 @@ namespace Cuemon.Security
             }
             finally
             {
-               if (tempOutput != null) { tempOutput.Dispose(); }
+                if (tempOutput != null) { tempOutput.Dispose(); }
             }
 
             if (value.CanSeek) { value.Seek(obfustatedStartingPosition, SeekOrigin.Begin); }
@@ -341,7 +341,7 @@ namespace Cuemon.Security
                     }
                 }
             }
-            if (existing) { Mappings[nodeValueHash].IncrementCount(); }            
+            if (existing) { Mappings[nodeValueHash].IncrementCount(); }
             return Mappings[nodeValueHash];
         }
 
@@ -363,7 +363,7 @@ namespace Cuemon.Security
             ObfuscatorMapping mapping = ManageDataMappings(reader.Value, reader.NodeType);
             writer.WriteCData(Exclusions.Contains(mapping.Original) ? mapping.Original : mapping.Obfuscated);
         }
-        
+
         private void WriteString(XmlWriter writer, XmlReader reader)
         {
             ObfuscatorMapping mapping = ManageDataMappings(reader.Value, reader.NodeType);

@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Cuemon.AspNetCore.Authentication")]
-[assembly: AssemblyDescription("The Cuemon.AspNetCore.Authentication assembly is a supplement to the Microsoft ASP.NET Core Authentication.")]
+[assembly: AssemblyTitle("Cuemon.Serialization.Xml")]
+[assembly: AssemblyDescription("The Cuemon.Serialization.Xml assembly is a member of the Cuemon .NET Core family and provides XML serialization.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Weubphoria")]
 [assembly: AssemblyProduct("Cuemon .NET Core")]
@@ -10,6 +10,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
-[assembly: Guid("dea47af1-6f1c-4036-baa1-8677ccd7f96b")]
+[assembly: Guid("fbf00ee5-ba0b-41a6-9a45-b87452ff237f")]
 [assembly: AssemblyFileVersion("4.1.2016.3450")]
 [assembly: AssemblyVersion("4.0.2016.0")]

@@ -111,7 +111,7 @@ namespace Cuemon.Security
                 }
 
                 tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(Encoding)))
+                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
                 {
                     document.WriteTo(writer);
                 }
@@ -150,7 +150,7 @@ namespace Cuemon.Security
                 mappingNode.InnerXml = "";
                 mappingNode.AppendChild(encryptedNode);
                 tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(Encoding)))
+                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
                 {
                     document.WriteTo(writer);
                 }

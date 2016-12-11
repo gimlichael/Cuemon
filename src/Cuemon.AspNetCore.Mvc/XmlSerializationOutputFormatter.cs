@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.IO;
+using Cuemon.Serialization.Xml.Formatters;
 using Cuemon.Xml.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
@@ -38,7 +39,8 @@ namespace Cuemon.AspNetCore.Mvc
             var value = context.Object;
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {
-                var raw = XmlStreamConverter.ChangeEncoding(XmlSerializationUtility.Serialize(value), selectedEncoding);
+                var formatter = new XmlFormatter(value);
+                var raw = XmlStreamConverter.ChangeEncoding(formatter.Serialize(), selectedEncoding);
                 using (var streamReader = new StreamReader(raw, selectedEncoding))
                 {
                     int bytesRead;

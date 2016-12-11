@@ -1,20 +1,19 @@
-{
+﻿{
   "version": "4.1.2016.3450",
-  "title": "Cuemon.Web",
-  "description": "The Cuemon.Web assembly is a member of the Cuemon .NET Core family and provides enhancements to the now deprecated System.Web namespace.",
+  "title": "Cuemon.Serialization.Xml",
+  "description": "The Cuemon.Serialization.Xml assembly is a member of the Cuemon .NET Core family and provides XML serialization.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
   "frameworks": {
     "netstandard1.4": {
-      "dependencies": {
-      }
+      "dependencies": {}
     }
   },
   "dependencies": {
     "Cuemon.Core": "4.1.2016.3450",
-    "Cuemon.Collections.Specialized": "4.1.2016.3450",
-    "Cuemon.Integrity": "4.1.2016.3450"
+    "Cuemon.Xml": "4.1.2016.3450",
+    "Cuemon.Serialization": "4.1.2016.3450"
   },
   "buildOptions": {
     "optimize": true,
@@ -27,6 +26,9 @@
     "iconUrl": "http://cdn.nblapi.net/themes/cuemon.net/img/core/128x128x.png",
     "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
     "tags": [ "" ],
-    "releaseNotes": "The initial release of the ported Cuemon .NET Framework."
+    "releaseNotes": "The .NET Platform Standard release of the ported Cuemon .NET Framework."
+  },
+  "scripts": {
+    "postcompile": "dotnet pack --no-build -c Release"
   }
 }
