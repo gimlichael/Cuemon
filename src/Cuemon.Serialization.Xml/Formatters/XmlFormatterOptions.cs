@@ -11,7 +11,7 @@ using Cuemon.Xml.Serialization;
 namespace Cuemon.Serialization.Xml.Formatters
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="XmlFormatterOptions"/> operations.
+    /// Specifies options that is related to <see cref="XmlFormatter"/> operations.
     /// </summary>
     /// <seealso cref="FormatterOptions{TReader,TWriter,TConverter}" />
     public class XmlFormatterOptions : FormatterOptions<XmlReader, XmlWriter, XmlConverter>
@@ -29,6 +29,10 @@ namespace Cuemon.Serialization.Xml.Formatters
         ///     <item>
         ///         <term><see cref="FormatterOptions{TReader,TWriter,TConverter}.Converter"/></term>
         ///         <description><c>null</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="ReaderSettings"/></term>
+        ///         <description><see cref="XmlReaderUtility.CreateSettings"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="WriterSettings"/></term>
@@ -55,7 +59,7 @@ namespace Cuemon.Serialization.Xml.Formatters
         public XmlReaderSettings ReaderSettings { get; set; }
 
         /// <summary>
-        /// Gets or sets the settings to support the <see cref="XmlFormatter"/>.
+        /// Gets or sets the <see cref="XmlWriter"/> settings to support the <see cref="XmlFormatter"/>.
         /// </summary>
         /// <returns>A <see cref="XmlWriterSettings"/> instance that specifies a set of features to support the <see cref="XmlFormatter"/> object.</returns>
         public XmlWriterSettings WriterSettings { get; set; }

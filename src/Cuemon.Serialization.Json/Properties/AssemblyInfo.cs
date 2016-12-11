@@ -1,19 +1,15 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
+[assembly: AssemblyTitle("Cuemon.Serialization.Json")]
+[assembly: AssemblyDescription("The Cuemon.Serialization.Json assembly is a member of the Cuemon .NET Core family and provides JSON serialization using the highly acclaimed Newtonsoft.Json package.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Cuemon.Serialization.Json")]
+[assembly: AssemblyCompany("Weubphoria")]
+[assembly: AssemblyProduct("Cuemon .NET Core")]
+[assembly: AssemblyCopyright("Copyright © Weubphoria 2009-2016. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
-
-// Setting ComVisible to false makes the types in this assembly not visible
-// to COM components.  If you need to access a type in this assembly from
-// COM, set the ComVisible attribute to true on that type.
+[assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("77589ded-7835-4f5b-88db-93bb090f3583")]
+[assembly: Guid("e3d2572e-8d77-47fe-9cf3-dba77c55f95a")]
+[assembly: AssemblyFileVersion("4.1.2016.3450")]
+[assembly: AssemblyVersion("4.0.2016.0")]
