@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
@@ -86,7 +87,35 @@ namespace Cuemon.Serialization.Xml.Formatters
         /// Gets the, by <see cref="Type"/>, specialized delegate that converts an object into its XML representation.
         /// </summary>
         /// <value>A specialized delegate, by <see cref="Type"/>, that converts an object into its XML representation.</value>
-        public override IDictionary<Type, Action<XmlWriter, object>> WriterFormatters { get; } = new Dictionary<Type, Action<XmlWriter, object>>();
+        public override IDictionary<Type, Action<XmlWriter, object>> WriterFormatters { get; } = new Dictionary<Type, Action<XmlWriter, object>>()
+        {
+            {
+                typeof(ExceptionDescriptor), (writer, o) =>
+                {
+                    ExceptionDescriptor descriptor = (ExceptionDescriptor) o;
+                    writer.WriteStartElement("ExceptionDescriptor");
+                    if (!descriptor.RequestId.IsNullOrWhiteSpace()) { writer.WriteElementString("RequestId", descriptor.RequestId); }
+                    writer.WriteElementString("Code", descriptor.Code.ToString(CultureInfo.InvariantCulture));
+                    writer.WriteElementString("Message", descriptor.Message);
+                    writer.WriteStartElement("Failure");
+                    writer.WriteAttributeString("type", descriptor.Failure.GetType().FullName);
+                    writer.WriteElementString("Message", descriptor.Message);
+                    if (descriptor.Failure.Data.Count > 0)
+                    {
+                        writer.WriteStartElement("Data");
+                        foreach (DictionaryEntry entry in descriptor.Failure.Data)
+                        {
+                            writer.WriteStartElement(XmlUtility.SanitizeElementName(entry.Key.ToString()));
+                            writer.WriteString(XmlUtility.SanitizeElementText(entry.Value.ToString()));
+                            writer.WriteEndElement();
+                        }
+                        writer.WriteEndElement();
+                    }
+                    writer.WriteEndElement();
+                    writer.WriteEndElement();
+                }
+            }
+        };
 
         /// <summary>
         /// Gets the, by <see cref="Type"/>, specialized function delegate that generates an object from its XML representation.
