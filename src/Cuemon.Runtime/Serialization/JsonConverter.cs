@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace Cuemon.Runtime.Serialization
@@ -332,6 +334,18 @@ namespace Cuemon.Runtime.Serialization
                         return ToString(Convert.ToInt64(value));
                     case TypeCode.UInt64:
                         return ToString(Convert.ToUInt64(value));
+                }
+
+                if (valueType.IsEnumerable())
+                {
+                    var enumerableValue = (value as IEnumerable)?.Cast<object>();
+                    if (enumerableValue != null)
+                    {
+                        StringBuilder jsonArray = new StringBuilder("[");
+                        jsonArray.Append(enumerableValue.ToDelimitedString(",", ToString));
+                        jsonArray.Append("]");
+                        return jsonArray.ToString();
+                    }
                 }
             }
             return value == null ? NullValue : ToString(value.ToString());
