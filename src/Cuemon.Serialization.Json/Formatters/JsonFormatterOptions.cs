@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Cuemon.Serialization.Formatters;
+using Cuemon.Serialization.Json.Converters;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Cuemon.Serialization.Json.Formatters
 {
@@ -30,11 +34,19 @@ namespace Cuemon.Serialization.Json.Formatters
         ///         <description><see cref="JsonSerializerSettings"/></description>
         ///     </item>
         /// </list>
+        /// A default initialization of <see cref="JsonSerializerSettings"/> is performed while adding a <see cref="CamelCasePropertyNamesContractResolver"/> to
+        /// <see cref="JsonSerializerSettings.ContractResolver"/>, adding a <see cref="StringFlagsEnumConverter"/> to <see cref="JsonSerializerSettings.Converters"/> and 
+        /// setting <see cref="JsonSerializerSettings.NullValueHandling"/> to <see cref="NullValueHandling.Ignore"/>.
         /// </remarks>
         public JsonFormatterOptions()
         {
             Converter = null;
-            Settings = new JsonSerializerSettings();
+            Settings = new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            Settings.Converters.Add(new StringFlagsEnumConverter());
         }
 
         /// <summary>
@@ -66,26 +78,61 @@ namespace Cuemon.Serialization.Json.Formatters
                 {
                     var span = (TimeSpan)o;
                     writer.WriteStartObject();
-                    writer.WritePropertyName("Ticks");
+                    writer.WritePropertyName("ticks");
                     writer.WriteValue(span.Ticks);
-                    writer.WritePropertyName("Days");
+                    writer.WritePropertyName("days");
                     writer.WriteValue(span.Days);
-                    writer.WritePropertyName("Hours");
+                    writer.WritePropertyName("hours");
                     writer.WriteValue(span.Hours);
-                    writer.WritePropertyName("Minutes");
+                    writer.WritePropertyName("minutes");
                     writer.WriteValue(span.Minutes);
-                    writer.WritePropertyName("Seconds");
+                    writer.WritePropertyName("seconds");
                     writer.WriteValue(span.Seconds);
-                    writer.WritePropertyName("TotalDays");
+                    writer.WritePropertyName("totalDays");
                     writer.WriteValue(span.TotalDays);
-                    writer.WritePropertyName("TotalHours");
+                    writer.WritePropertyName("totalHours");
                     writer.WriteValue(span.TotalHours);
-                    writer.WritePropertyName("TotalMilliseconds");
+                    writer.WritePropertyName("totalMilliseconds");
                     writer.WriteValue(span.TotalMilliseconds);
-                    writer.WritePropertyName("TotalMinutes");
+                    writer.WritePropertyName("totalMinutes");
                     writer.WriteValue(span.TotalMinutes);
-                    writer.WritePropertyName("TotalSeconds");
+                    writer.WritePropertyName("totalSeconds");
                     writer.WriteValue(span.TotalSeconds);
+                    writer.WriteEndObject();
+                }
+            },
+            {
+                typeof(ExceptionDescriptor), (writer, o) =>
+                {
+                    ExceptionDescriptor descriptor = (ExceptionDescriptor) o;
+                    writer.WriteStartObject();
+                    if (!descriptor.RequestId.IsNullOrWhiteSpace())
+                    {
+                        writer.WritePropertyName("requestId");
+                        writer.WriteValue(descriptor.RequestId);
+                    }
+                    writer.WritePropertyName("code");
+                    writer.WriteValue(descriptor.Code.ToString(CultureInfo.InvariantCulture));
+                    writer.WritePropertyName("message");
+                    writer.WriteValue(descriptor.Message);
+                    writer.WritePropertyName("failure");
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("type");
+                    writer.WriteValue(descriptor.Failure.GetType().FullName);
+                    writer.WritePropertyName("message");
+                    writer.WriteValue(descriptor.Message);
+                    if (descriptor.Failure.Data.Count > 0)
+                    {
+                        writer.WritePropertyName("data");
+                        writer.WriteStartObject();
+                        foreach (DictionaryEntry entry in descriptor.Failure.Data)
+                        {
+                            writer.WritePropertyName(entry.Key.ToString());
+                            writer.WriteValue(entry.Value);
+                        }
+                        writer.WriteEndObject();
+                    }
+                    writer.WriteEndObject();
                     writer.WriteEndObject();
                 }
             }
