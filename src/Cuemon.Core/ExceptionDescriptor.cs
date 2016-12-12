@@ -28,7 +28,7 @@ namespace Cuemon
             Code = code;
             Message = message;
             HelpLink = helpLink;
-            Failure = failure;
+            Failure = failure.GetBaseException();
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Cuemon
         /// <summary>
         /// Gets the <see cref="Exception"/> that caused the current failure.
         /// </summary>
-        /// <value>The failure.</value>
+        /// <value>The deeper cause of the failure.</value>
         public Exception Failure { get; }
     }
 }
