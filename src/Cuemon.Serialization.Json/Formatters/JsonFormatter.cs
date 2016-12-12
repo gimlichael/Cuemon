@@ -45,7 +45,6 @@ namespace Cuemon.Serialization.Json.Formatters
                 var writerFormatter = Options.ParseWriterFormatter(SourceType);
                 serializer = DynamicJsonConverter.Create(Source, writerFormatter, Options.ReaderFormatter);
             }
-            Options.Settings.Converters.Clear();
             Options.Settings.Converters.Add(serializer);
             return JsonConvert.SerializeObject(Source, Options.Settings);
         }
@@ -68,7 +67,6 @@ namespace Cuemon.Serialization.Json.Formatters
                 var readerFormatter = Options.ParseReaderFormatter(SourceType);
                 serializer = DynamicJsonConverter.Create(Source, Options.WriterFormatter, readerFormatter);
             }
-            Options.Settings.Converters.Clear();
             Options.Settings.Converters.Add(serializer);
             return JsonConvert.DeserializeObject<T>(value, Options.Settings);
         }
