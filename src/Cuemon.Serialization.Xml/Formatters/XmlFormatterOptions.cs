@@ -99,7 +99,7 @@ namespace Cuemon.Serialization.Xml.Formatters
                     writer.WriteElementString("Message", descriptor.Message);
                     writer.WriteStartElement("Failure");
                     writer.WriteAttributeString("type", descriptor.Failure.GetType().FullName);
-                    writer.WriteElementString("Message", descriptor.Message);
+                    writer.WriteElementString("Message", descriptor.Failure.Message);
                     if (descriptor.Failure.Data.Count > 0)
                     {
                         writer.WriteStartElement("Data");

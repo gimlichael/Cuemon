@@ -120,7 +120,7 @@ namespace Cuemon.Serialization.Json.Formatters
                     writer.WritePropertyName("type");
                     writer.WriteValue(descriptor.Failure.GetType().FullName);
                     writer.WritePropertyName("message");
-                    writer.WriteValue(descriptor.Message);
+                    writer.WriteValue(descriptor.Failure.Message);
                     if (descriptor.Failure.Data.Count > 0)
                     {
                         writer.WritePropertyName("data");
