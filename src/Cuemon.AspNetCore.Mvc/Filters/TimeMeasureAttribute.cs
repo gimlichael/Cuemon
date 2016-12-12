@@ -21,11 +21,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeMeasureAttribute" /> class.
         /// </summary>
-        /// <param name="callbackThreshold">The <see cref="double" /> value that in combination with <paramref name="callbackThresholdTimeUnit" /> specifies the threshold of the action method.</param>
-        /// <param name="callbackThresholdTimeUnit">One of the enumeration values that specifies the time unit of <paramref name="callbackThreshold" />.</param>
-        public TimeMeasureAttribute(double callbackThreshold, TimeUnit callbackThresholdTimeUnit)
+        /// <param name="threshold">The <see cref="double" /> value that in combination with <paramref name="thresholdTimeUnit" /> specifies the threshold of the action method.</param>
+        /// <param name="thresholdTimeUnit">One of the enumeration values that specifies the time unit of <paramref name="threshold" />.</param>
+        public TimeMeasureAttribute(double threshold, TimeUnit thresholdTimeUnit)
         {
-            Setup = options => options.TimeMeasureCompletedThreshold = TimeSpanConverter.FromDouble(callbackThreshold, callbackThresholdTimeUnit);
+            Setup = options => options.TimeMeasureCompletedThreshold = TimeSpanConverter.FromDouble(threshold, thresholdTimeUnit);
         }
 
         private Action<TimeMeasureOptions> Setup { get; }
