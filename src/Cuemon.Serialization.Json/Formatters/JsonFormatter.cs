@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Text;
 using Cuemon.Serialization.Formatters;
 using Newtonsoft.Json;
 
@@ -39,14 +42,25 @@ namespace Cuemon.Serialization.Json.Formatters
         /// </remarks>
         public override string Serialize()
         {
-            var serializer = Options.Converter;
-            if (serializer == null)
+            var converter = Options.Converter;
+            if (converter == null)
             {
                 var writerFormatter = Options.ParseWriterFormatter(SourceType);
-                serializer = DynamicJsonConverter.Create(Source, writerFormatter, Options.ReaderFormatter);
+                converter = DynamicJsonConverter.Create(Source, writerFormatter, Options.ReaderFormatter);
             }
-            Options.Settings.Converters.Add(serializer);
-            return JsonConvert.SerializeObject(Source, Options.Settings);
+
+            var serializer = JsonSerializer.Create(Options.Settings); // there is a bug in the JsonConvert.SerializeObject, why we had to make our own implementation
+            serializer.Converters.Add(converter);
+
+            StringBuilder sb = new StringBuilder(256);
+            StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
+            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            {
+                jsonWriter.Formatting = serializer.Formatting;
+                serializer.Serialize(jsonWriter, Source, SourceType);
+            }
+
+            return sw.ToString();
         }
 
         /// <summary>
