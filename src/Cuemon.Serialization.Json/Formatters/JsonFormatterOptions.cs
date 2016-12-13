@@ -10,7 +10,7 @@ using Newtonsoft.Json.Serialization;
 namespace Cuemon.Serialization.Json.Formatters
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="JsonFormatterOptions"/> operations.
+    /// Specifies options that is related to <see cref="JsonFormatter"/> operations.
     /// </summary>
     /// <seealso cref="FormatterOptions{TReader,TWriter,TConverter}" />
     public class JsonFormatterOptions : FormatterOptions<JsonReader, JsonWriter, JsonConverter>
