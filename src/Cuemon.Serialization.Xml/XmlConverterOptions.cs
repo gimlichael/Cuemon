@@ -5,7 +5,7 @@ using Cuemon.Xml.Serialization;
 namespace Cuemon.Serialization.Xml
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="XmlConverterOptions"/> class.
+    /// Specifies options that is related to <see cref="XmlConverter"/> operations.
     /// </summary>
     public class XmlConverterOptions
     {
