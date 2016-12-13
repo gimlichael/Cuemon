@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 
-namespace Cuemon.Xml
+namespace Cuemon.Serialization.Xml
 {
     /// <summary>
     /// Extension methods for the <see cref="XmlReader"/>.
