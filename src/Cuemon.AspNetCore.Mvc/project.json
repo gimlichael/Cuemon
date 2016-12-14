@@ -8,14 +8,8 @@
   "dependencies": {
     "Cuemon.Core": "4.1.2016.3500",
     "Cuemon.Integrity": "4.1.2016.3500",
-    "Cuemon.Xml": "4.1.2016.3500",
-    "Cuemon.Serialization": "4.1.2016.3500",
-    "Cuemon.Serialization.Xml": "4.1.2016.3500",
     "Cuemon.AspNetCore": "4.1.2016.3500",
-    "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
-    "Microsoft.AspNetCore.Mvc": "1.1.0",
-    "Microsoft.AspNetCore.Mvc.Formatters.Xml": "1.1.0",
-    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.0"
+    "Microsoft.AspNetCore.Mvc": "1.1.0"
   },
   "frameworks": {
     "netstandard1.6": {},
