@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Cuemon.Xml;
 
 namespace Cuemon.Serialization.Xml
@@ -10,13 +11,12 @@ namespace Cuemon.Serialization.Xml
     public static class XmlConvert
     {
         /// <summary>
-        /// Serializes the <typeparamref name="T"/> object of this instance to a <see cref="Stream"/>.
+        /// Serializes the specified <paramref name="value"/> to a <see cref="Stream" />.
         /// </summary>
-        /// <typeparam name="T">The type of the object to serialize.</typeparam>
         /// <param name="value">The object to serialize to XML format.</param>
         /// <param name="serializer">The object that will handle the serialization.</param>
-        /// <returns>A stream of the serialized <typeparamref name="T"/> object.</returns>
-        public static Stream SerializeObject<T>(T value, XmlConverter serializer)
+        /// <returns>A stream of the serialized object.</returns>
+        public static Stream SerializeObject(object value, XmlConverter serializer)
         {
             return XmlWriterUtility.CreateXml(writer =>
             {
@@ -48,6 +48,18 @@ namespace Cuemon.Serialization.Xml
         /// <returns>An object of <typeparamref name="T"/>.</returns>
         public static T DeserializeObject<T>(Stream value, XmlConverter serializer)
         {
+            return (T)DeserializeObject(value, typeof(T), serializer);
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value" /> into an object of <paramref name="valueType"/>.
+        /// </summary>
+        /// <param name="value">The object to deserialize from XML format.</param>
+        /// <param name="valueType">The type of the object to deserialize.</param>
+        /// <param name="serializer">The object that will handle the deserialization.</param>
+        /// <returns>An object of <paramref name="valueType"/>.</returns>
+        public static object DeserializeObject(Stream value, Type valueType, XmlConverter serializer)
+        {
             using (var reader = XmlReaderConverter.FromStream(value, null, settings =>
             {
                 settings.ConformanceLevel = serializer.Options.ReaderSettings.ConformanceLevel;
@@ -65,7 +77,7 @@ namespace Cuemon.Serialization.Xml
                 settings.CheckCharacters = serializer.Options.ReaderSettings.CheckCharacters;
             }))
             {
-                return (T)serializer.ReadXml(reader, typeof(T));
+                return serializer.ReadXml(reader, valueType);
             }
         }
     }

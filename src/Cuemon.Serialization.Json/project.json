@@ -22,9 +22,9 @@
   },
   "packOptions": {
     "owners": [ "Weubphoria" ],
-    "projectUrl": "http://www.cuemon.net/",
-    "licenseUrl": "http://opensource.org/licenses/MIT",
-    "iconUrl": "http://cdn.nblapi.net/themes/cuemon.net/img/core/128x128x.png",
+    "projectUrl": "https://www.cuemon.net/",
+    "licenseUrl": "https://opensource.org/licenses/MIT",
+    "iconUrl": "https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png",
     "summary": "A free and flexible assembly family, built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.",
     "tags": [ "" ],
     "releaseNotes": "The .NET Platform Standard release of the ported Cuemon .NET Framework."

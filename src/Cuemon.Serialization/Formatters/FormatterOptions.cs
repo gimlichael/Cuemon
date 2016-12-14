@@ -50,7 +50,7 @@ namespace Cuemon.Serialization.Formatters
         public abstract IDictionary<Type, Func<TReader, Type, object>> ReaderFormatters { get; }
 
         /// <summary>
-        /// Resolves the formatter that will be used for <see cref="Formatter{TFormat}.Serialize"/> operations.
+        /// Resolves the formatter that will be used for <see cref="Formatter{TFormat}.Serialize(object)"/> operations.
         /// </summary>
         /// <param name="sourceType">The type of the object to resolve a formatter.</param>
         /// <value>The delegate that converts an object.</value>

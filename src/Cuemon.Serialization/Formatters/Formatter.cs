@@ -11,53 +11,28 @@ namespace Cuemon.Serialization.Formatters
         /// <summary>
         /// Initializes a new instance of the <see cref="Formatter{TFormat}"/> class.
         /// </summary>
-        /// <param name="source">The object to serialize and deserialize to and from a given format.</param>
-        /// <param name="sourceType">The type of the object to serialize and deserialize.</param>
-        protected Formatter(object source, Type sourceType)
+        protected Formatter()
+        {
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="source"/> to an object of <typeparamref name="TFormat" />.
+        /// </summary>
+        /// <param name="source">The object to serialize to a given format.</param>
+        /// <returns>An object of the serialized <paramref name="source" />.</returns>
+        public TFormat Serialize(object source)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(sourceType, nameof(sourceType));
-            Source = source;
-            SourceType = sourceType;
+            return Serialize(source, source.GetType());
         }
 
         /// <summary>
-        /// Gets the object to serialize and deserialize to and from a given format.
+        /// Serializes the object of this instance to an object of <typeparamref name="TFormat" />.
         /// </summary>
-        /// <value>The object to be formatted.</value>
-        protected object Source { get; }
-
-        /// <summary>
-        /// Gets the type of the object to serialize and deserialize.
-        /// </summary>
-        /// <value>The type of the object to be formatted.</value>
-        protected Type SourceType { get; }
-
-        /// <summary>
-        /// Validates the first parameter for the base class <see cref="Formatter{TFormat}"/>.
-        /// </summary>
-        /// <param name="source">The object to serialize and deserialize to and from a given format.</param>
-        protected static object ValidateBase(object source)
-        {
-            Validator.ThrowIfNull(source, nameof(source));
-            return source;
-        }
-
-        /// <summary>
-        /// Validates the second parameter for the base class <see cref="Formatter{TFormat}"/>.
-        /// </summary>
-        /// <param name="sourceType">The type of the object to serialize and deserialize.</param>
-        protected static Type ValidateBase(Type sourceType)
-        {
-            Validator.ThrowIfNull(sourceType, nameof(sourceType));
-            return sourceType;
-        }
-
-        /// <summary>
-        /// Serializes the object of this instance to an object of <typeparamref name="TFormat"/>.
-        /// </summary>
-        /// <returns>An object of the serialized <see cref="Formatter{TFormat}.Source"/>.</returns>
-        public abstract TFormat Serialize();
+        /// <param name="source">The object to serialize to a given format.</param>
+        /// <param name="sourceType">The type of the object to serialize.</param>
+        /// <returns>An object of the serialized <paramref name="source"/>.</returns>
+        public abstract TFormat Serialize(object source, Type sourceType);
 
         /// <summary>
         /// Deserializes the specified <paramref name="value"/> of <typeparamref name="TFormat"/> into an object of <typeparamref name="T"/>.
@@ -65,6 +40,18 @@ namespace Cuemon.Serialization.Formatters
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="value">The object from which to deserialize the object graph.</param>
         /// <returns>An object of <typeparamref name="T" />.</returns>
-        public abstract T Deserialize<T>(TFormat value);
+        public T Deserialize<T>(TFormat value)
+        {
+            Validator.ThrowIfNull(value, nameof(value));
+            return (T)Deserialize(value, typeof(T));
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value"/> of <typeparamref name="TFormat"/> into an object of <paramref name="valueType"/>.
+        /// </summary>
+        /// <param name="value">The object from which to deserialize the object graph.</param>
+        /// <param name="valueType">The type of the deserialized object.</param>
+        /// <returns>An object of <paramref name="valueType"/>.</returns>
+        public abstract object Deserialize(TFormat value, Type valueType);
     }
 }

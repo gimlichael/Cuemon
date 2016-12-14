@@ -11,33 +11,42 @@ namespace Cuemon.Serialization.Xml
         /// <summary>
         /// Creates a dynamic instance of an <see cref="XmlConverter"/> implementation wrapping <see cref="XmlConverter.WriteXml"/> through <paramref name="writer"/> and <see cref="XmlConverter.ReadXml"/> through <paramref name="reader"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the <paramref name="source"/> to implement an <see cref="XmlConverter"/>.</typeparam>
-        /// <param name="source">The object that needs support for an <see cref="XmlConverter"/> implementation.</param>
-        /// <param name="writer">The delegate that converts <paramref name="source"/> to its JSON representation.</param>
-        /// <param name="reader">The delegate that generates <paramref name="source"/> from its JSON representation.</param>
+        /// <typeparam name="T">The type to implement an <see cref="XmlConverter"/>.</typeparam>
+        /// <param name="writer">The delegate that converts <typeparamref name="T"/> to its XML representation.</param>
+        /// <param name="reader">The delegate that generates <typeparamref name="T"/> from its XML representation.</param>
         /// <param name="setup">The <see cref="XmlConverterOptions"/> which need to be configured.</param>
-        /// <returns>An <see cref="XmlConverter"/> implementation of <paramref name="source"/>.</returns>
-        public static XmlConverter Create<T>(T source, Action<XmlWriter, T> writer = null, Func<XmlReader, Type, T> reader = null, Action<XmlConverterOptions> setup = null)
+        /// <returns>An <see cref="XmlConverter"/> implementation of <typeparamref name="T"/>.</returns>
+        public static XmlConverter Create<T>(Action<XmlWriter, T> writer = null, Func<XmlReader, Type, T> reader = null, Action<XmlConverterOptions> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            return new DynamicXmlConverter<T>(source, writer, reader, setup);
+            var castedWriter = writer == null ? (Action<XmlWriter, object>)null : (w, t) => writer(w, (T)t);
+            var castedReader = reader == null ? (Func<XmlReader, Type, object>)null : (r, t) => reader(r, t);
+            return Create(castedWriter, castedReader, setup);
+        }
+
+        /// <summary>
+        /// Creates a dynamic instance of an <see cref="XmlConverter"/> implementation wrapping <see cref="XmlConverter.WriteXml"/> through <paramref name="writer"/> and <see cref="XmlConverter.ReadXml"/> through <paramref name="reader"/>.
+        /// </summary>
+        /// <param name="writer">The delegate that converts an object to its XML representation.</param>
+        /// <param name="reader">The delegate that generates an object from its XML representation.</param>
+        /// <param name="setup">The <see cref="XmlConverterOptions"/> which need to be configured.</param>
+        /// <returns>An <see cref="XmlConverter"/> implementation of an object.</returns>
+        public static XmlConverter Create(Action<XmlWriter, object> writer = null, Func<XmlReader, Type, object> reader = null, Action<XmlConverterOptions> setup = null)
+        {
+            return new DynamicXmlConverterCore(writer, reader, setup);
         }
     }
 
-    internal class DynamicXmlConverter<T> : XmlConverter
+    internal class DynamicXmlConverterCore : XmlConverter
     {
-        internal DynamicXmlConverter(T source, Action<XmlWriter, T> writer, Func<XmlReader, Type, T> reader, Action<XmlConverterOptions> setup) : base(setup)
+        internal DynamicXmlConverterCore(Action<XmlWriter, object> writer, Func<XmlReader, Type, object> reader, Action<XmlConverterOptions> setup) : base(setup)
         {
-            Source = source;
             Writer = writer;
             Reader = reader;
         }
 
-        private T Source { get; }
+        private Action<XmlWriter, object> Writer { get; }
 
-        private Action<XmlWriter, T> Writer { get; }
-
-        private Func<XmlReader, Type, T> Reader { get; }
+        private Func<XmlReader, Type, object> Reader { get; }
 
         public override object ReadXml(XmlReader reader, Type valueType)
         {
@@ -52,7 +61,7 @@ namespace Cuemon.Serialization.Xml
             }
             else
             {
-                Writer(writer, Source);
+                Writer(writer, source);
             }
         }
     }

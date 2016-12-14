@@ -1,13 +1,15 @@
-{
+﻿{
   "version": "4.1.2016.3500",
-  "title": "Cuemon.AspNetCore.Mvc",
-  "description": "The Cuemon.AspNetCore.Mvc assembly is a supplement to the Microsoft ASP.NET Core MVC.",
+  "title": "Cuemon.AspNetCore.Mvc.Formatters.Xml",
+  "description": "The Cuemon.AspNetCore.Mvc.Formatters.Xml assembly is a supplement to the Microsoft ASP.NET Core MVC.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
   "dependencies": {
     "Cuemon.Core": "4.1.2016.3500",
-    "Cuemon.Integrity": "4.1.2016.3500",
+    "Cuemon.Xml": "4.1.2016.3500",
+    "Cuemon.Serialization": "4.1.2016.3500",
+    "Cuemon.Serialization.Xml": "4.1.2016.3500",
     "Cuemon.AspNetCore": "4.1.2016.3500",
     "Microsoft.AspNetCore.Mvc": "1.1.0"
   },
