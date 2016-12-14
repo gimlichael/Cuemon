@@ -36,7 +36,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// <param name="context">The filter context.</param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            Infrastructure.InterceptControllerWithProfiler(context, Setup);
+            Infrastructure.InterceptControllerWithProfiler(context, Setup.ConfigureOptions());
         }
     }
 }

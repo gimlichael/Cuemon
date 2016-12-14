@@ -16,10 +16,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// <param name="setup">The <see cref="TimeMeasureOptions"/> which need to be configured.</param>
         public TimeMeasuringFilter(Action<TimeMeasureOptions> setup = null)
         {
-            Setup = setup;
+            Options = setup.ConfigureOptions();
         }
 
-        private Action<TimeMeasureOptions> Setup { get; }
+        private TimeMeasureOptions Options { get; }
 
         /// <summary>
         /// Called by the ASP.NET Core MVC framework before the action method executes.
@@ -27,7 +27,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// <param name="context">The filter context.</param>
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            Infrastructure.InterceptControllerWithProfiler(context, Setup);
+            Infrastructure.InterceptControllerWithProfiler(context, Options);
         }
 
         /// <summary>
