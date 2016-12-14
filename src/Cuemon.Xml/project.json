@@ -1,5 +1,5 @@
 {
-  "version": "4.1.2016.3500",
+  "version": "4.1.2016.3510",
   "title": "Cuemon.Xml",
   "description": "The Cuemon.Xml assembly is a member of the Cuemon .NET Core family and provides enhancements to the System.Xml namespace.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
@@ -11,11 +11,11 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.1.2016.3500",
-    "Cuemon.IO": "4.1.2016.3500",
-    "Cuemon.Security": "4.1.2016.3500",
-    "Cuemon.Runtime": "4.1.2016.3500",
-    "Cuemon.Runtime.Caching": "4.1.2016.3500",
+    "Cuemon.Core": "4.1.2016.3510",
+    "Cuemon.IO": "4.1.2016.3510",
+    "Cuemon.Security": "4.1.2016.3510",
+    "Cuemon.Runtime": "4.1.2016.3510",
+    "Cuemon.Runtime.Caching": "4.1.2016.3510",
     "System.Reflection.Emit.Lightweight": "4.3.0",
     "System.Xml.XmlDocument": "4.3.0",
     "System.Xml.XmlSerializer": "4.3.0",
