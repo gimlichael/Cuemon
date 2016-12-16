@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 
 namespace Cuemon.Text
 {
@@ -44,5 +45,35 @@ namespace Cuemon.Text
         /// </summary>
         /// <value>The encoding for the operation.</value>
         public Encoding Encoding { get; set; }
+
+        /// <summary>
+        /// Tries to detect an <see cref="System.Text.Encoding"/> object from the specified <paramref name="value"/>. If unsuccessful, the encoding of this instance is returned.
+        /// </summary>
+        /// <param name="value">The <see cref="Stream"/> to parse for an <see cref="System.Text.Encoding"/>.</param>
+        /// <returns>Either the detected encoding of <paramref name="value"/>  or the encoding of this instance.</returns>
+        public Encoding DetectEncoding(Stream value)
+        {
+            Encoding result;
+            if (EncodingUtility.TryParse(value, out result))
+            {
+                return result;
+            }
+            return Encoding;
+        }
+
+        /// <summary>
+        /// Tries to detect an <see cref="System.Text.Encoding"/> object from the specified <paramref name="value"/>. If unsuccessful, the encoding of this instance is returned.
+        /// </summary>
+        /// <param name="value">The <see cref="byte"/> array to parse for an <see cref="System.Text.Encoding"/>.</param>
+        /// <returns>Either the detected encoding of <paramref name="value"/> or the encoding of this instance.</returns>
+        public Encoding DetectEncoding(byte[] value)
+        {
+            Encoding result;
+            if (EncodingUtility.TryParse(value, out result))
+            {
+                return result;
+            }
+            return Encoding;
+        }
     }
 }
