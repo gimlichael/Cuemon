@@ -13,7 +13,7 @@ namespace Cuemon.Diagnostics
         /// Gets or sets the callback that is invoked when a time measuring operation is completed.
         /// </summary>
         /// <value>A <see cref="Action{T}"/>. The default value is <c>null</c>.</value>
-        public static Action<TimeMeasureProfiler> TimeMeasureCompleted { get; set; }
+        public static Action<TimeMeasureProfiler> CompletedCallback { get; set; }
 
         /// <summary>
         /// Profile and time measure the specified <paramref name="action"/> delegate.
@@ -567,14 +567,14 @@ namespace Cuemon.Diagnostics
             }
             catch (TargetInvocationException ex)
             {
-                throw ex.InnerException; // don't confuse the end-user with reflection related details; return the originating exception
+                throw ex.InnerException ?? ex; // don't confuse the end-user with reflection related details; return the originating exception
             }
             finally
             {
                 profiler.Timer.Stop();
                 if (options.TimeMeasureCompletedThreshold == TimeSpan.Zero || profiler.Elapsed > options.TimeMeasureCompletedThreshold)
                 {
-                    TimeMeasureCompleted?.Invoke(profiler);
+                    CompletedCallback?.Invoke(profiler);
                 }
             }
         }
