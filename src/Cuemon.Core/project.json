@@ -1,5 +1,5 @@
 {
-  "version": "4.1.2016.3510",
+  "version": "4.1.2016.3580",
   "title": "Cuemon",
   "description": "The Cuemon.Core assembly is the patriarch of the Cuemon .NET Core family and provides fundamental-, utility- and base-classes that define commonly-used value and reference data types, events and event handlers, interfaces, attribute, and feature rich delegates to greatly support functional programming.\n\nA great addition to the well established System namespace to make your daily operations easier to work with.",
   "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
