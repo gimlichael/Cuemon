@@ -47,6 +47,12 @@ namespace Cuemon
         public Func<Exception, bool> DetectionStrategy { get; set; }
 
         /// <summary>
+        /// Gets or sets the maximum allowed latency before a <see cref="LatencyException"/> is raised.
+        /// </summary>
+        /// <value>A <see cref="TimeSpan"/> defining the maximum allowed latency.</value>
+        public TimeSpan MaximumAllowedLatency { get; set; }
+
+        /// <summary>
         /// Gets or sets the default amount of retry attempts for transient faults. Default is 5 attempts.
         /// </summary>
         /// <value>The default amount of retry attempts for transient faults.</value>
