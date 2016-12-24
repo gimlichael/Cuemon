@@ -46,10 +46,7 @@ namespace Cuemon.Collections.Generic
         /// Gets a value indicating whether this instance has partitions remaining to be iterated.
         /// </summary>
         /// <value><c>true</c> if this instance has partitions remaining to be iterated; otherwise, <c>false</c>.</value>
-        public bool HasPartitions
-        {
-            get { return (Remaining > 0); }
-        }
+        public bool HasPartitions => (Remaining > 0);
 
         /// <summary>
         /// Gets the total number of elements in the sequence before partitioning is applied.
@@ -61,10 +58,7 @@ namespace Cuemon.Collections.Generic
         /// Gets the number of elements remaining in the partitioned sequence.
         /// </summary>
         /// <value>The number of elements remaining in the partitioned sequence.</value>
-        public int Remaining
-        {
-            get { return (Count - _iteratedCount); }
-        }
+        public int Remaining => (Count - _iteratedCount);
 
         /// <summary>
         /// Gets the total amount of partitions for the elements in this sequence.
@@ -88,6 +82,10 @@ namespace Cuemon.Collections.Generic
             return result.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
