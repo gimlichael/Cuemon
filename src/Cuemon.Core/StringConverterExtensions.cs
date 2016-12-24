@@ -40,7 +40,7 @@ namespace Cuemon
         /// <param name="value">The <see cref="System.IO.Stream"/> to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
-        public static string ToString(this Stream value, Action<EncodingOptions> setup)
+        public static string ToEncodedString(this Stream value, Action<EncodingOptions> setup)
         {
             return StringConverter.FromStream(value, setup);
         }
@@ -52,7 +52,7 @@ namespace Cuemon
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
         /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
-        public static string ToString(this Stream value, Action<EncodingOptions> setup, bool leaveStreamOpen)
+        public static string ToEncodedString(this Stream value, Action<EncodingOptions> setup, bool leaveStreamOpen)
         {
             return StringConverter.FromStream(value, setup, leaveStreamOpen);
         }
@@ -140,7 +140,7 @@ namespace Cuemon
         /// <param name="exception">The <see cref="Exception"/> to render human readable.</param>
         /// <param name="includeStackTrace">if set to <c>true</c> the stack trace of the exception is included in the rendered result.</param>
         /// <returns>A human readable <see cref="String"/> variant of the specified <paramref name="exception"/>.</returns>
-        public static string ToString(this Exception exception, bool includeStackTrace)
+        public static string ToEncodedString(this Exception exception, bool includeStackTrace)
         {
             return StringConverter.FromException(exception, Encoding.Unicode, includeStackTrace);
         }
@@ -152,7 +152,7 @@ namespace Cuemon
         /// <param name="includeStackTrace">if set to <c>true</c> the stack trace of the exception is included in the rendered result.</param>
         /// <param name="encoding">The encoding to use when rendering the <paramref name="exception"/>.</param>
         /// <returns>A human readable <see cref="String"/> variant of the specified <paramref name="exception"/>.</returns>
-        public static string ToString(this Exception exception, bool includeStackTrace, Encoding encoding)
+        public static string ToEncodedString(this Exception exception, bool includeStackTrace, Encoding encoding)
         {
             return StringConverter.FromException(exception, encoding, includeStackTrace);
         }
@@ -163,7 +163,7 @@ namespace Cuemon
         /// <param name="value">The byte array to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="string"/> containing the results of decoding the specified sequence of bytes.</returns>
-        public static string ToString(this byte[] value, Action<EncodingOptions> setup)
+        public static string ToEncodedString(this byte[] value, Action<EncodingOptions> setup)
         {
             return StringConverter.FromBytes(value, setup);
         }
