@@ -86,13 +86,13 @@ namespace Cuemon
         /// </exception>
         public static TResult Parse<TResult>(Exception exception) where TResult : Exception
         {
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-
             Type resultType = typeof(TResult);
-            Type sourceType = exception.GetType();
-            if (TypeUtility.ContainsType(sourceType, resultType)) { return exception as TResult; }
-            Type innerSourceType = exception.InnerException.GetType();
-            if (TypeUtility.ContainsType(innerSourceType, resultType)) { return exception.InnerException as TResult; }
+            var exceptions = Flatten(exception);
+            foreach (var e in exceptions)
+            {
+                Type sourceType = e.GetType();
+                if (TypeUtility.ContainsType(sourceType, resultType)) { return e as TResult; }
+            }
             return null;
         }
 
@@ -126,7 +126,7 @@ namespace Cuemon
         /// </remarks>
         public static IEnumerable<Exception> Flatten(Exception exception)
         {
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
+            Validator.ThrowIfNull(exception, nameof(exception));
             return Flatten(exception, exception.GetType());
         }
 
@@ -145,16 +145,18 @@ namespace Cuemon
         /// </remarks>
         public static IEnumerable<Exception> Flatten(Exception exception, Type exceptionType)
         {
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (exceptionType == null) { throw new ArgumentNullException(nameof(exceptionType)); }
+            Validator.ThrowIfNull(exception, nameof(exception));
+            Validator.ThrowIfNull(exceptionType, nameof(exceptionType));
             PropertyInfo innerExceptionsProperty = ReflectionUtility.GetProperty(exceptionType, "InnerExceptions");
             if (innerExceptionsProperty != null) { return innerExceptionsProperty.GetValue(exception, null) as IEnumerable<Exception>; }
-            return HierarchyUtility.WhileSourceTraversalIsNotNull(exception, FlattenCallback);
+            return HierarchyUtility.WhileSourceTraversalHasElements(exception, FlattenCallback).Skip(1);
         }
 
-        private static Exception FlattenCallback(Exception source)
+        private static IEnumerable<Exception> FlattenCallback(Exception source)
         {
-            return source.InnerException;
+            PropertyInfo innerExceptionsProperty = ReflectionUtility.GetProperty(source.GetType(), "InnerExceptions");
+            if (innerExceptionsProperty != null) { return innerExceptionsProperty.GetValue(source, null) as IEnumerable<Exception>; }
+            return source.InnerException == null ? Enumerable.Empty<Exception>() : source.InnerException.Yield();
         }
 
         /// <summary>
