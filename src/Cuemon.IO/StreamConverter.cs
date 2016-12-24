@@ -68,26 +68,13 @@ namespace Cuemon.IO
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="value"/> to a <see cref="Stream"/> using UTF-16 for the encoding preserving any preamble sequences.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
-        /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
-        public static Stream FromString(string value)
-        {
-            return FromString(value, options =>
-            {
-                options.Encoding = Encoding.Unicode;
-                options.Preamble = PreambleSequence.Keep;
-            });
-        }
-
-        /// <summary>
         /// Converts the specified <paramref name="value"/> to a <see cref="Stream"/>.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
-        public static Stream FromString(string value, Action<EncodingOptions> setup)
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        public static Stream FromString(string value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             MemoryStream output = DelegateUtility.SafeInvokeDisposable(() =>
