@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,7 +15,7 @@ namespace Cuemon
     /// </summary>
     public static class TypeUtility
     {
-        private static Dictionary<string, bool> ComplexValueTypeLookup { get; } = new Dictionary<string, bool>();
+        private static ConcurrentDictionary<string, bool> ComplexValueTypeLookup { get; } = new ConcurrentDictionary<string, bool>();
 
         /// <summary>
         /// Determines whether the specified <paramref name="source"/> is of <typeparamref name="T"/>.
