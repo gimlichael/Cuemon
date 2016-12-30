@@ -26,6 +26,8 @@ namespace Cuemon.AspNetCore.Mvc
         public static IActionResult OkOrNotModified<T>(this Controller controller, T value, Func<T, CacheValidator> parser = null)
         {
             var validator = parser?.Invoke(value) ?? CacheValidator.ReferencePoint;
+            var accept = controller.Request.Headers["Accept"];
+            validator = validator.CombineWith(accept);
             int statusCodeNotModified = (int)HttpStatusCode.NotModified;
             if (validator.Strength != ChecksumStrength.None)
             {
