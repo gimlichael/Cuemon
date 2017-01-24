@@ -510,7 +510,7 @@ namespace Cuemon
         {
             ThrowIfNotNumber(value, paramName, message, styles, CultureInfo.InvariantCulture);
         }
-        
+
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not a number.
         /// </summary>
@@ -542,7 +542,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName) 
+        public static void ThrowIfNull<T>(T value, string paramName)
         {
             ThrowIfNull(value, paramName, "Value cannot be null.");
         }
@@ -556,7 +556,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName, string message) 
+        public static void ThrowIfNull<T>(T value, string paramName, string message)
         {
             try
             {
@@ -641,9 +641,6 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
         /// <exception cref="ArgumentEmptyException">
         /// <paramref name="value"/> cannot be empty.
         /// </exception>
@@ -658,9 +655,6 @@ namespace Cuemon
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
         /// <exception cref="ArgumentEmptyException">
         /// <paramref name="value"/> cannot be empty.
         /// </exception>
@@ -670,11 +664,41 @@ namespace Cuemon
             {
                 ThrowIf(value, Condition.IsEmpty, ExceptionUtility.CreateArgumentEmptyException, paramName, message);
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentEmptyException ex)
             {
                 throw ex;
             }
-            catch (ArgumentEmptyException ex)
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentEmptyException"/> if the specified <paramref name="value"/> consist only of white-space characters.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> cannot consist only of white-space characters.
+        /// </exception>
+        public static void ThrowIfWhiteSpace(string value, string paramName)
+        {
+            ThrowIfWhiteSpace(value, paramName, "Value cannot consist only of white-space characters.");
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> consist only of white-space characters.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> cannot consist only of white-space characters.
+        /// </exception>
+        public static void ThrowIfWhiteSpace(string value, string paramName, string message)
+        {
+            try
+            {
+                ThrowIf(value, Condition.IsWhiteSpace, ExceptionUtility.CreateArgumentException, paramName, message);
+            }
+            catch (ArgumentException ex)
             {
                 throw ex;
             }
@@ -732,6 +756,79 @@ namespace Cuemon
                 throw ex;
             }
             catch (ArgumentEmptyException ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws either an <see cref="ArgumentNullException"/>, <see cref="ArgumentEmptyException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null, empty or consist only of white-space characters.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentEmptyException">
+        /// <paramref name="value"/> cannot be empty.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> cannot consist only of white-space characters.
+        /// </exception>
+        public static void ThrowIfNullOrWhitespace(string value, string paramName)
+        {
+            try
+            {
+                ThrowIfNull(value, paramName);
+                ThrowIfEmpty(value, paramName);
+                ThrowIfWhiteSpace(value, paramName);
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw ex;
+            }
+            catch (ArgumentEmptyException ex)
+            {
+                throw ex;
+            }
+            catch (ArgumentException ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws either an <see cref="ArgumentNullException"/>, <see cref="ArgumentEmptyException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null, empty or consist only of white-space characters.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentEmptyException">
+        /// <paramref name="value"/> cannot be empty.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> cannot consist only of white-space characters.
+        /// </exception>
+        public static void ThrowIfNullOrWhitespace(string value, string paramName, string message)
+        {
+            try
+            {
+                ThrowIfNull(value, paramName, message);
+                ThrowIfEmpty(value, paramName, message);
+                ThrowIfWhiteSpace(value, paramName, message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw ex;
+            }
+            catch (ArgumentEmptyException ex)
+            {
+                throw ex;
+            }
+            catch (ArgumentException ex)
             {
                 throw ex;
             }

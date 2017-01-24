@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Cuemon
@@ -212,6 +213,17 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         }
 
         /// <summary>
+        /// Determines whether the specified <paramref name="value"/> consist only of white-space characters.
+        /// </summary>
+        /// <param name="value">The string to verify consist only of white-space characters.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> consist only of white-space characters; otherwise, <c>false</c>.</returns>
+        public static bool IsWhiteSpace(string value)
+        {
+            if (value == null) { return false; }
+            return value.All(char.IsWhiteSpace);
+        }
+
+        /// <summary>
         /// Determines whether the specified <paramref name="value"/> is <c>true</c>.
         /// </summary>
         /// <param name="value">The value to verify is <c>true</c>.</param>
@@ -278,7 +290,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="value">The object to verify is null.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> is null; otherwise, <c>false</c>.</returns>
-        public static bool IsNull<T>(T value) 
+        public static bool IsNull<T>(T value)
         {
             return (value == null);
         }
