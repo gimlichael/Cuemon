@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Cuemon.Text;
 
 namespace Cuemon
@@ -74,22 +73,12 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="value"/> to a byte array using UTF-16 for the encoding preserving any preamble sequences.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
-        /// <returns>A <b>byte array</b> containing the results of encoding the specified set of characters.</returns>
-        public static byte[] ToByteArray(this string value)
-        {
-            return ByteConverter.FromString(value);
-        }
-
-        /// <summary>
         /// Converts the specified <paramref name="value"/> to a byte array using the provided preferred encoding.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <b>byte array</b> containing the results of encoding the specified set of characters.</returns>
-        public static byte[] ToByteArray(this string value, Action<EncodingOptions> setup)
+        public static byte[] ToByteArray(this string value, Action<EncodingOptions> setup = null)
         {
             return ByteConverter.FromString(value, setup);
         }
