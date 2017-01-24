@@ -451,7 +451,7 @@ namespace Cuemon.Net.Http
         /// <param name="method">The HTTP method.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(HttpMethod method, Uri location, TimeSpan timeout)
+        public static HttpResponseMessage Http(this HttpMethod method, Uri location, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
