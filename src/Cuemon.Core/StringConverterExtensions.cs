@@ -40,7 +40,7 @@ namespace Cuemon
         /// <param name="value">The <see cref="System.IO.Stream"/> to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
-        public static string ToEncodedString(this Stream value, Action<EncodingOptions> setup)
+        public static string ToEncodedString(this Stream value, Action<EncodingOptions> setup = null)
         {
             return StringConverter.FromStream(value, setup);
         }
@@ -71,25 +71,12 @@ namespace Cuemon
         /// Converts the specified hexadecimal <paramref name="value"/> to its equivalent <see cref="String"/> representation.
         /// </summary>
         /// <param name="value">The hexadecimal string to be converted.</param>
-        /// <returns>A <see cref="String"/> representation of the hexadecimal characters in <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        public static string FromHexadecimal(this string value)
-        {
-            return StringConverter.FromHexadecimal(value);
-        }
-
-        /// <summary>
-        /// Converts the specified hexadecimal <paramref name="value"/> to its equivalent <see cref="String"/> representation.
-        /// </summary>
-        /// <param name="value">The hexadecimal string to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="String"/> representation of the hexadecimal characters in <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null.
         /// </exception>
-        public static string FromHexadecimal(this string value, Action<EncodingOptions> setup)
+        public static string FromHexadecimal(this string value, Action<EncodingOptions> setup = null)
         {
             return StringConverter.FromHexadecimal(value, setup);
         }
@@ -111,25 +98,12 @@ namespace Cuemon
         /// Converts the specified <paramref name="value"/> to its equivalent hexadecimal representation.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
-        /// <returns>A hexadecimal <see cref="string"/> representation of the characters in <paramref name="value"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        public static string ToHexadecimal(this string value)
-        {
-            return StringConverter.ToHexadecimal(value);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="value"/> to its equivalent hexadecimal representation.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A hexadecimal <see cref="String"/> representation of the characters in <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null.
         /// </exception>
-        public static string ToHexadecimal(this string value, Action<EncodingOptions> setup)
+        public static string ToHexadecimal(this string value, Action<EncodingOptions> setup = null)
         {
             return StringConverter.ToHexadecimal(value, setup);
         }
@@ -163,7 +137,7 @@ namespace Cuemon
         /// <param name="value">The byte array to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="string"/> containing the results of decoding the specified sequence of bytes.</returns>
-        public static string ToEncodedString(this byte[] value, Action<EncodingOptions> setup)
+        public static string ToEncodedString(this byte[] value, Action<EncodingOptions> setup = null)
         {
             return StringConverter.FromBytes(value, setup);
         }
