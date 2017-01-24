@@ -32,22 +32,12 @@ namespace Cuemon.IO
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="value"/> to a <see cref="Stream"/> using UTF-16 for the encoding preserving any preamble sequences.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
-        /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
-        public static Stream ToStream(this string value)
-        {
-            return StreamConverter.FromString(value);
-        }
-
-        /// <summary>
         /// Converts the specified <paramref name="value"/> to a <see cref="Stream"/>.
         /// </summary>
         /// <param name="value">The string to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
-        public static Stream ToStream(this string value, Action<EncodingOptions> setup)
+        public static Stream ToStream(this string value, Action<EncodingOptions> setup = null)
         {
             return StreamConverter.FromString(value, setup);
         }
