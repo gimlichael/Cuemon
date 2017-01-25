@@ -14,6 +14,27 @@ namespace Cuemon.Net.Http
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpManagerOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="HttpManagerOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="DisposeHandler"/></term>
+        ///         <description><c>true</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="DefaultRequestHeaders"/></term>
+        ///         <description>Connection: Keep-Alive</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="Handler"/></term>
+        ///         <description><see cref="HttpClientHandler"/> initialized with <see cref="HttpClientHandler.AutomaticDecompression"/> for GZip|Deflate and <see cref="HttpClientHandler.MaxAutomaticRedirections"/> to 10.</description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public HttpManagerOptions()
         {
             Handler = new HttpClientHandler()
