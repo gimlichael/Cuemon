@@ -44,8 +44,8 @@ namespace Cuemon.Text
         /// </remarks>
         public EncodingOptions()
         {
-            Preamble = PreambleSequence.Remove;
-            Encoding = Encoding.UTF8;
+            Preamble = DefaultPreambleSequence;
+            Encoding = DefaultEncoding;
         }
 
         /// <summary>

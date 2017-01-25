@@ -40,6 +40,7 @@ namespace Cuemon
         /// <param name="value">The <see cref="System.IO.Stream"/> to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToEncodedString(this Stream value, Action<EncodingOptions> setup = null)
         {
             return StringConverter.FromStream(value, setup);
@@ -52,6 +53,7 @@ namespace Cuemon
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
         /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToEncodedString(this Stream value, Action<EncodingOptions> setup, bool leaveStreamOpen)
         {
             return StringConverter.FromStream(value, setup, leaveStreamOpen);
@@ -73,9 +75,7 @@ namespace Cuemon
         /// <param name="value">The hexadecimal string to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="String"/> representation of the hexadecimal characters in <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string FromHexadecimal(this string value, Action<EncodingOptions> setup = null)
         {
             return StringConverter.FromHexadecimal(value, setup);
@@ -100,9 +100,7 @@ namespace Cuemon
         /// <param name="value">The string to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A hexadecimal <see cref="String"/> representation of the characters in <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToHexadecimal(this string value, Action<EncodingOptions> setup = null)
         {
             return StringConverter.ToHexadecimal(value, setup);
@@ -137,6 +135,7 @@ namespace Cuemon
         /// <param name="value">The byte array to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="string"/> containing the results of decoding the specified sequence of bytes.</returns>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToEncodedString(this byte[] value, Action<EncodingOptions> setup = null)
         {
             return StringConverter.FromBytes(value, setup);
