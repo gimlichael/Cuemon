@@ -37,6 +37,7 @@ namespace Cuemon.IO
         /// <param name="value">The string to be converted.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static Stream ToStream(this string value, Action<EncodingOptions> setup = null)
         {
             return StreamConverter.FromString(value, setup);
