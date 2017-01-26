@@ -75,16 +75,10 @@ namespace Cuemon.Reflection
 	    public static bool IsAutoProperty(PropertyInfo property)
         {
             Validator.ThrowIfNull(property, nameof(property));
-            if (!property.CanRead && !property.CanWrite) { return false; }
-            CompilerGeneratedAttribute compilerAttribute = property.GetCustomAttribute<CompilerGeneratedAttribute>();
-            if (compilerAttribute != null)
+            if (property?.GetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null ||
+                property?.SetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
             {
-                IEnumerable<FieldInfo> fields = GetFields(property.DeclaringType);
-                if (fields != null)
-                {
-                    IEnumerable<FieldInfo> autoFields = EnumerableUtility.FindAll(fields, MatchPropertyName, property.Name);
-                    return autoFields.Any();
-                }
+                return property.DeclaringType.GetFields(BindingInstancePublicAndPrivateNoneInheritedIncludeStatic).Any(f => f.Name.Contains("<{0}>".FormatWith(property.Name)));
             }
             return false;
         }
