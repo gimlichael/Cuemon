@@ -2,7 +2,7 @@
   "version": "4.1.2017.200",
   "title": "Cuemon.Data.XmlClient",
   "description": "The Cuemon.Data.XmlClient assembly is a member of the Cuemon .NET Core family and provides enhancements to the Cuemon.Data namespace.",
-  "copyright": "Copyright © Weubphoria 2009-2016. All rights reserved.",
+  "copyright": "Copyright © Weubphoria 2009-2017. All rights reserved.",
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
   "frameworks": {

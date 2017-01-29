@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Weubphoria")]
 [assembly: AssemblyProduct("Cuemon .NET Core")]
-[assembly: AssemblyCopyright("Copyright © Weubphoria 2009-2016. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © Weubphoria 2009-2017. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
