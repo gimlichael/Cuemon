@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Reflection;
+using Cuemon.Reflection;
 
 namespace Cuemon
 {
@@ -114,6 +116,42 @@ namespace Cuemon
         public static bool IsNullOrWhiteSpace(this string value)
         {
             return string.IsNullOrWhiteSpace(value);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to either lowercase, UPPERCASE, Title Case or unaltered using the specified <paramref name="culture"/>.
+        /// </summary>
+        /// <param name="value">The value to convert to one of the values in <see cref="CasingMethod"/>.</param>
+        /// <param name="method">The method to use in the conversion.</param>
+        /// <returns>A <see cref="string"/> that corresponds to <paramref name="value"/> with the applied conversion <paramref name="method"/>.</returns>
+        /// <remarks>Uses <see cref="CultureInfo.InvariantCulture"/> for the conversion.</remarks>
+        public static string ToCasing(this string value, CasingMethod method)
+        {
+            return ToCasing(value, method, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to either lowercase, UPPERCASE, Title Case or unaltered using the specified <paramref name="culture"/>.
+        /// </summary>
+        /// <param name="value">The value to convert to one of the values in <see cref="CasingMethod"/>.</param>
+        /// <param name="method">The method to use in the conversion.</param>
+        /// <param name="culture">The culture rules to apply the conversion.</param>
+        /// <returns>A <see cref="string"/> that corresponds to <paramref name="value"/> with the applied conversion <paramref name="method"/>.</returns>
+        public static string ToCasing(this string value, CasingMethod method, CultureInfo culture)
+        {
+            switch (method)
+            {
+                case CasingMethod.Default:
+                    return value;
+                case CasingMethod.LowerCase:
+                    return culture.TextInfo.ToLower(value);
+                case CasingMethod.TitleCase:
+                    var toTitleCase = culture.TextInfo.GetType().GetMethod("ToTitleCase", ReflectionUtility.BindingInstancePublicAndPrivate);
+                    return toTitleCase?.Invoke(culture.TextInfo, new[] { value }) as string;
+                case CasingMethod.UpperCase:
+                    return culture.TextInfo.ToUpper(value);
+            }
+            return value;
         }
     }
 }
