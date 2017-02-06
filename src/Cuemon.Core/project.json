@@ -12,7 +12,8 @@
   },
   "buildOptions": {
     "optimize": true,
-    "xmlDoc": true
+    "xmlDoc": true,
+    "embed": [ "Globalization\\CultureInfo.SpecificCultures.dsv" ]
   },
   "packOptions": {
     "owners": [ "Weubphoria" ],
