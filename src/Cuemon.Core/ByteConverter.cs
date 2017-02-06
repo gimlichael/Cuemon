@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using Cuemon.IO;
 using Cuemon.Text;
 
@@ -153,7 +152,7 @@ namespace Cuemon
         /// <paramref name="value"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Boolean"/>, <see cref="Char"/>, <see cref="double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="ushort"/>, <see cref="UInt32"/> and <see cref="UInt64"/>.
         /// </exception>
-        public static byte[] FromConvertible<T>(T value) where T : struct, IConvertible
+        public static byte[] FromConvertibles<T>(T value) where T : struct, IConvertible
         {
             return FromConvertiblesCore(value);
         }

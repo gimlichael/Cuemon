@@ -65,7 +65,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="Double"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime modified, double checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
+            : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
         {
         }
 
@@ -77,7 +77,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="Int16"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime modified, short checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
+            : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
         {
         }
 
@@ -102,7 +102,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="Int32"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime modified, int checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
+            : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
         {
         }
 
@@ -114,7 +114,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="Int64"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime modified, long checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
+            : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
         {
         }
 
@@ -126,7 +126,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="Single"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime modified, float checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
+            : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
         {
         }
 
@@ -138,7 +138,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="UInt16"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime modified, ushort checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
+            : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
         {
         }
 
@@ -150,7 +150,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="UInt32"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime modified, uint checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
+            : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
         {
         }
 
@@ -161,7 +161,7 @@ namespace Cuemon.Integrity
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
         /// <param name="checksum">A <see cref="UInt64"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
-        public CacheValidator(DateTime created, DateTime modified, ulong checksum, Action<CacheValidatorOptions> setup = null) : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
+        public CacheValidator(DateTime created, DateTime modified, ulong checksum, Action<CacheValidatorOptions> setup = null) : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
         {
         }
 
@@ -186,12 +186,12 @@ namespace Cuemon.Integrity
                 case ChecksumMethod.Default:
                     break;
                 case ChecksumMethod.Timestamp:
-                    checksum = ByteConverter.FromConvertible(Created.Ticks ^ Modified.Ticks);
+                    checksum = ByteConverter.FromConvertibles(Created.Ticks ^ Modified.Ticks);
                     strength = ChecksumStrength.Weak;
                     break;
                 case ChecksumMethod.Combined:
                     var checksumValue = isChecksumNullOrZeroLength ? NullOrZeroLengthChecksum : checksum.GetHashCode64();
-                    checksum = ByteConverter.FromConvertible(Created.Ticks ^ Modified.Ticks ^ checksumValue);
+                    checksum = ByteConverter.FromConvertibles(Created.Ticks ^ Modified.Ticks ^ checksumValue);
                     strength = ChecksumStrength.Weak;
                     break;
                 default:
@@ -338,7 +338,7 @@ namespace Cuemon.Integrity
         /// <param name="additionalChecksum">A <see cref="Double"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
         public CacheValidator CombineWith(params double[] additionalChecksum)
         {
-            return CombineWith(ByteConverter.FromConvertibles(additionalChecksum));
+            return CombineWith(ByteConverter.FromConvertibles<double>(additionalChecksum));
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace Cuemon.Integrity
         /// <param name="additionalChecksum">An <see cref="Int16"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
         public CacheValidator CombineWith(params short[] additionalChecksum)
         {
-            return CombineWith(ByteConverter.FromConvertibles(additionalChecksum));
+            return CombineWith(ByteConverter.FromConvertibles<short>(additionalChecksum));
         }
 
         /// <summary>
@@ -377,7 +377,7 @@ namespace Cuemon.Integrity
         /// <param name="additionalChecksum">An <see cref="Int32"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
         public CacheValidator CombineWith(params int[] additionalChecksum)
         {
-            return CombineWith(ByteConverter.FromConvertibles(additionalChecksum));
+            return CombineWith(ByteConverter.FromConvertibles<int>(additionalChecksum));
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace Cuemon.Integrity
         /// <param name="additionalChecksum">An <see cref="Int64"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
         public CacheValidator CombineWith(params long[] additionalChecksum)
         {
-            return CombineWith(ByteConverter.FromConvertibles(additionalChecksum));
+            return CombineWith(ByteConverter.FromConvertibles<long>(additionalChecksum));
         }
 
         /// <summary>
@@ -395,7 +395,7 @@ namespace Cuemon.Integrity
         /// <param name="additionalChecksum">A <see cref="Single"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
         public CacheValidator CombineWith(params float[] additionalChecksum)
         {
-            return CombineWith(ByteConverter.FromConvertibles(additionalChecksum));
+            return CombineWith(ByteConverter.FromConvertibles<float>(additionalChecksum));
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace Cuemon.Integrity
         /// <param name="additionalChecksum">An <see cref="UInt16"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
         public CacheValidator CombineWith(params ushort[] additionalChecksum)
         {
-            return CombineWith(ByteConverter.FromConvertibles(additionalChecksum));
+            return CombineWith(ByteConverter.FromConvertibles<ushort>(additionalChecksum));
         }
 
         /// <summary>
@@ -413,7 +413,7 @@ namespace Cuemon.Integrity
         /// <param name="additionalChecksum">An <see cref="UInt32"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
         public CacheValidator CombineWith(params uint[] additionalChecksum)
         {
-            return CombineWith(ByteConverter.FromConvertibles(additionalChecksum));
+            return CombineWith(ByteConverter.FromConvertibles<uint>(additionalChecksum));
         }
 
         /// <summary>
@@ -422,7 +422,7 @@ namespace Cuemon.Integrity
         /// <param name="additionalChecksum">An <see cref="UInt64"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
         public CacheValidator CombineWith(params ulong[] additionalChecksum)
         {
-            return CombineWith(ByteConverter.FromConvertibles(additionalChecksum));
+            return CombineWith(ByteConverter.FromConvertibles<ulong>(additionalChecksum));
         }
 
         /// <summary>

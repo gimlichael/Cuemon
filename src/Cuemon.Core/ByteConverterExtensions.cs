@@ -52,7 +52,7 @@ namespace Cuemon
         /// </exception>
         public static byte[] ToByteArray<T>(this T value) where T : struct, IConvertible
         {
-            return ByteConverter.FromConvertible(value);
+            return ByteConverter.FromConvertibles(value);
         }
 
         /// <summary>

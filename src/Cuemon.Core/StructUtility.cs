@@ -29,7 +29,7 @@ namespace Cuemon
         {
             if (convertibles == null) { throw new ArgumentNullException(nameof(convertibles)); }
             long hash = GetHashCode64(convertibles);
-            byte[] temp = ByteConverter.FromConvertible(hash);
+            byte[] temp = ByteConverter.FromConvertibles(hash);
             byte[] result = new byte[4];
             for (int i = (result.Length - 1); i >= 0; i--)
             {
