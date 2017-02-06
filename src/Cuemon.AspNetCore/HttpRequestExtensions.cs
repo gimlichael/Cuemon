@@ -39,7 +39,7 @@ namespace Cuemon.AspNetCore
                     clientSideEntityTag = clientSideEntityTag.Remove(indexOfEndQuote, 1);
                     clientSideEntityTag = clientSideEntityTag.Remove(indexOfStartQuote, 1);
                 }
-                isClientSideContentCached = validator.Checksum.Equals(clientSideEntityTag);
+                isClientSideContentCached = validator.Checksum.ToHexadecimal().Equals(clientSideEntityTag);
             }
             return isClientSideContentCached;
         }

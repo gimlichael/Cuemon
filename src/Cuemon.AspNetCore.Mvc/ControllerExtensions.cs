@@ -40,7 +40,7 @@ namespace Cuemon.AspNetCore.Mvc
                 {
                     controller.Response.Headers.Add(HeaderNames.LastModified, new StringValues(EnumerableConverter.FromArray(utcNow, validator.GetMostSignificant()).Min().ToString("R", DateTimeFormatInfo.InvariantInfo)));
                 }
-                controller.Response.Headers.Add(HeaderNames.ETag, new StringValues(string.Concat("\"", validator.Checksum, "\"")));
+                controller.Response.Headers.Add(HeaderNames.ETag, new StringValues(string.Concat("\"", validator.Checksum.ToHexadecimal(), "\"")));
             }
             return controller.Response.StatusCode == statusCodeNotModified ? (IActionResult)new EmptyResult() : new OkObjectResult(value);
         }
