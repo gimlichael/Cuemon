@@ -30,6 +30,7 @@
     "NETStandard.Library": "1.6.1",
     "System.ComponentModel.TypeConverter": "4.3.0",
     "System.Linq.Expressions": "4.3.0",
-    "System.Reflection.TypeExtensions": "4.3.0"
+    "System.Reflection.TypeExtensions": "4.3.0",
+    "System.Diagnostics.FileVersionInfo": "4.3.0"
   }
 }
