@@ -16,11 +16,7 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         public AssemblyCacheBusting(Action<AssemblyCacheBustingOptions> setup = null)
         {
             var options = setup.ConfigureOptions();
-            Version = options.Assembly?.GetCacheValidator(options.ReadByteForByteChecksum, o =>
-            {
-                o.AlgorithmType = options.AlgorithmType;
-                o.Method = options.ReadByteForByteChecksum ? ChecksumMethod.Default : ChecksumMethod.Timestamp;
-            }).Checksum.ToHexadecimal().ToCasing(options.PreferredCasing);
+            Version = options.Assembly?.GetCacheValidator(options.ReadByteForByteChecksum).Checksum.ToHexadecimal().ToCasing(options.PreferredCasing);
         }
 
         /// <summary>

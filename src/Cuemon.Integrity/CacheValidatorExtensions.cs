@@ -179,6 +179,7 @@ namespace Cuemon.Integrity
         public static CacheValidator GetCacheValidator(this string fileName, int bytesToRead = 0, Action<CacheValidatorOptions> setup = null)
         {
             Validator.ThrowIfNullOrWhitespace(fileName, nameof(fileName));
+            var options = setup.ConfigureOptions();
             try
             {
                 return FileInfoConverter.Convert(fileName, bytesToRead, (fi, checksumBytes) =>
@@ -187,7 +188,11 @@ namespace Cuemon.Integrity
                     {
                         return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, checksumBytes.GetHashCode64(), setup);
                     }
-                    return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, setup);
+                    return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, o =>
+                    {
+                        o.AlgorithmType = options.AlgorithmType;
+                        o.Method = bytesToRead == 0 ? ChecksumMethod.Timestamp : ChecksumMethod.Default;
+                    });
                 });
             }
             catch (Exception)
