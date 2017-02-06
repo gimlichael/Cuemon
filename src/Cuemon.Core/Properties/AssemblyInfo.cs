@@ -15,3 +15,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("4.1.2017.280")]
 [assembly: AssemblyVersion("4.1.2017.0")]
 [assembly: InternalsVisibleTo("Cuemon.IO")]
+[assembly: InternalsVisibleTo("Cuemon.Integrity")]
