@@ -13,7 +13,8 @@
   "dependencies": {
     "Cuemon.Core": "4.1.2017.280",
     "Cuemon.Reflection": "4.1.2017.280",
-    "Cuemon.Security": "4.1.2017.280"
+    "Cuemon.Security": "4.1.2017.280",
+    "Cuemon.IO": "4.1.2017.280"
   },
   "buildOptions": {
     "optimize": true,

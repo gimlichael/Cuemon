@@ -1,7 +1,7 @@
 ﻿namespace Cuemon.Integrity
 {
     /// <summary>
-    /// Specifies ways for the checksum to be computed.
+    /// Specifies ways for a checksum to be computed.
     /// </summary>
     public enum ChecksumMethod
     {
@@ -12,6 +12,10 @@
         /// <summary>
         /// Indicates that a checksum is combined from all given input and hence always will be available.
         /// </summary>
-        Combined
+        Combined,
+        /// <summary>
+        /// Indicates that a checksum is generated from date-time inputs.
+        /// </summary>
+        Timestamp
     }
 }
