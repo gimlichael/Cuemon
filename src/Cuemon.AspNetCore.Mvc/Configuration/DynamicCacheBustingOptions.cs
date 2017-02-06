@@ -11,6 +11,27 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicCacheBustingOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="DynamicCacheBustingOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="PreferredLength"/></term>
+        ///         <description>8</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="PreferredCharacters"/></term>
+        ///         <description><see cref="StringUtility.AlphanumericCharactersCaseSensitive"/></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="TimeToLive"/></term>
+        ///         <description>20 minutes</description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public DynamicCacheBustingOptions()
         {
             TimeToLive = TimeSpan.FromMinutes(20);

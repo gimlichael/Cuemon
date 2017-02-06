@@ -8,6 +8,19 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheBustingOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="CacheBustingOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="PreferredCasing"/></term>
+        ///         <description><see cref="CasingMethod.LowerCase"/></description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public CacheBustingOptions()
         {
             PreferredCasing = CasingMethod.LowerCase;

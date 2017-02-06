@@ -12,6 +12,27 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyCacheBustingOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="DynamicCacheBustingOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="Assembly"/></term>
+        ///         <description><see cref="System.Reflection.Assembly.GetEntryAssembly"/></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="AlgorithmType"/></term>
+        ///         <description><see cref="HashAlgorithmType.CRC32"/></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="ReadByteForByteChecksum"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public AssemblyCacheBustingOptions()
         {
             Assembly = Assembly.GetEntryAssembly();
