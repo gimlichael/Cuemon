@@ -1,5 +1,5 @@
 {
-  "version": "4.1.2017.280",
+  "version": "4.1.2017.350",
   "title": "Cuemon.Collections.Specialized",
   "description": "The Cuemon.Collections.Specialized assembly is a member of the Cuemon .NET Core family and provides enhancements to the System.Collections.Specialized assembly.",
   "copyright": "Copyright © Weubphoria 2009-2017. All rights reserved.",
@@ -12,7 +12,7 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.1.2017.280",
+    "Cuemon.Core": "4.1.2017.350",
     "System.Collections.Specialized": "4.3.0"
   },
   "buildOptions": {

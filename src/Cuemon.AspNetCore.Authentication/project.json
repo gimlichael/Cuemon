@@ -1,13 +1,13 @@
 ﻿{
-  "version": "4.1.2017.280",
+  "version": "4.1.2017.350",
   "title": "Cuemon.AspNetCore.Authentication",
   "description": "The Cuemon.AspNetCore.Authentication assembly is a supplement to the Microsoft ASP.NET Core Authentication.",
   "copyright": "Copyright © Weubphoria 2009-2017. All rights reserved.",
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
   "dependencies": {
-    "Cuemon.Core": "4.1.2017.280",
-    "Cuemon.AspNetCore": "4.1.2017.280"
+    "Cuemon.Core": "4.1.2017.350",
+    "Cuemon.AspNetCore": "4.1.2017.350"
   },
   "frameworks": {
     "netstandard1.6": {},
