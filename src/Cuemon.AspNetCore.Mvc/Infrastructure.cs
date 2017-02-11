@@ -1,15 +1,48 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
+using System.Threading.Tasks;
+using Cuemon.AspNetCore.Integrity;
+using Cuemon.Integrity;
+using Cuemon.Security.Cryptography;
+using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.AspNetCore.Mvc
 {
     internal static class Infrastructure
     {
+        internal static async Task InvokeResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+        {
+
+            using (var memoryStream = new MemoryStream())
+            {
+                var stream = context.HttpContext.Response.Body;
+                context.HttpContext.Response.Body = memoryStream;
+                await next();
+
+                var httpMethod = context.HttpContext.Request.Method;
+                if (HttpMethods.IsGet(httpMethod) || HttpMethods.IsHead(httpMethod))
+                {
+                    if (context.HttpContext.Response.IsSuccessStatusCode())
+                    {
+                        var validator = CacheValidator.ReferencePoint.CombineWith(memoryStream.ComputeHash(HashAlgorithmType.MD5, true).Value);
+                        validator.SetEntityTagHeaderInformation(context.HttpContext.Request, context.HttpContext.Response);
+                        if (context.HttpContext.Response.StatusCode == StatusCodes.Status304NotModified)
+                        {
+                            return;
+                        }
+                    }
+                }
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                await memoryStream.CopyToAsync(stream);
+            }
+        }
+
         internal static void InterceptControllerWithProfiler(ActionExecutingContext context, TimeMeasureOptions options)
         {
             var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
