@@ -1,5 +1,5 @@
 ﻿{
-  "version": "4.1.2017.350",
+  "version": "4.1.2017.400",
   "title": "Cuemon.Json",
   "description": "The Cuemon.Serialization.Json assembly is a member of the Cuemon .NET Core family and provides JSON serialization using the highly acclaimed Newtonsoft.Json package.",
   "copyright": "Copyright © Weubphoria 2009-2017. All rights reserved.",
@@ -11,8 +11,8 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.1.2017.350",
-    "Cuemon.Serialization": "4.1.2017.350",
+    "Cuemon.Core": "4.1.2017.400",
+    "Cuemon.Serialization": "4.1.2017.400",
     "System.Reflection.Emit.Lightweight": "4.3.0",
     "Newtonsoft.Json": "9.0.1"
   },

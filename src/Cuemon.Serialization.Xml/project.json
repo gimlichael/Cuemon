@@ -1,5 +1,5 @@
 ﻿{
-  "version": "4.1.2017.350",
+  "version": "4.1.2017.400",
   "title": "Cuemon.Serialization.Xml",
   "description": "The Cuemon.Serialization.Xml assembly is a member of the Cuemon .NET Core family and provides XML serialization.",
   "copyright": "Copyright © Weubphoria 2009-2017. All rights reserved.",
@@ -11,9 +11,9 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.1.2017.350",
-    "Cuemon.Xml": "4.1.2017.350",
-    "Cuemon.Serialization": "4.1.2017.350"
+    "Cuemon.Core": "4.1.2017.400",
+    "Cuemon.Xml": "4.1.2017.400",
+    "Cuemon.Serialization": "4.1.2017.400"
   },
   "buildOptions": {
     "optimize": true,

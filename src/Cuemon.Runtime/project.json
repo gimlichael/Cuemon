@@ -1,5 +1,5 @@
 {
-  "version": "4.1.2017.350",
+  "version": "4.1.2017.400",
   "title": "Cuemon.Runtime",
   "description": "The Cuemon.Runtime assembly is a member of the Cuemon .NET Core family and provides enhancements to the System.Runtime namespace.",
   "copyright": "Copyright © Weubphoria 2009-2017. All rights reserved.",
@@ -11,8 +11,8 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.1.2017.350",
-    "Cuemon.Reflection": "4.1.2017.350"
+    "Cuemon.Core": "4.1.2017.400",
+    "Cuemon.Reflection": "4.1.2017.400"
   },
   "buildOptions": {
     "optimize": true,
