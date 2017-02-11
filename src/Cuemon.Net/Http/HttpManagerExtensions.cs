@@ -243,6 +243,68 @@ namespace Cuemon.Net.Http
         }
 
         /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static HttpResponseMessage HttPatch(this Uri location, string contentType, Stream content)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttPatch(location, contentType, content).Result;
+            }
+        }
+
+        /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static HttpResponseMessage HttPatch(this Uri location, string contentType, Stream content, TimeSpan timeout)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttPatch(location, contentType, content, timeout).Result;
+            }
+        }
+
+        /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static HttpResponseMessage HttPatch(this Uri location, MediaTypeHeaderValue contentType, Stream content)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttPatch(location, contentType, content).Result;
+            }
+        }
+
+        /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static HttpResponseMessage HttPatch(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttPatch(location, contentType, content, timeout).Result;
+            }
+        }
+
+        /// <summary>
         /// Send a TRACE request to the specified Uri as an asynchronous operation.
         /// </summary>
         /// <param name="location">The Uri the request is sent to.</param>

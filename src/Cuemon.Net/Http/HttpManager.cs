@@ -15,6 +15,7 @@ namespace Cuemon.Net.Http
     {
         private volatile bool _isDisposed;
         private readonly Lazy<HttpClient> _httpClient;
+        private const string HttpPatchVerb = "PATCH";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpManager"/> class.
@@ -244,6 +245,56 @@ namespace Cuemon.Net.Http
         }
 
         /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public Task<HttpResponseMessage> HttPatch(Uri location, string contentType, Stream content)
+        {
+            return HttPatch(location, contentType, content, Client.Timeout);
+        }
+
+        /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public Task<HttpResponseMessage> HttPatch(Uri location, string contentType, Stream content, TimeSpan timeout)
+        {
+            return Http(new HttpMethod(HttpPatchVerb), location, contentType, content, timeout);
+        }
+
+        /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public Task<HttpResponseMessage> HttPatch(Uri location, MediaTypeHeaderValue contentType, Stream content)
+        {
+            return HttPatch(location, contentType, content, Client.Timeout);
+        }
+
+        /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public Task<HttpResponseMessage> HttPatch(Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        {
+            return Http(new HttpMethod(HttpPatchVerb), location, contentType, content, timeout);
+        }
+
+        /// <summary>
         /// Send a TRACE request to the specified Uri as an asynchronous operation.
         /// </summary>
         /// <param name="location">The Uri the request is sent to.</param>
@@ -463,11 +514,11 @@ namespace Cuemon.Net.Http
         /// <param name="message">The HTTP request message to send.</param>
         /// <param name="cts">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> Http(HttpRequestMessage message, CancellationTokenSource cts)
+        public async Task<HttpResponseMessage> Http(HttpRequestMessage message, CancellationTokenSource cts)
         {
             Validator.ThrowIfNull(message, nameof(message));
             Validator.ThrowIfNull(cts, nameof(cts));
-            return Client.SendAsync(message, ParseCompletionOption(message.Method), cts.Token);
+            return await Client.SendAsync(message, ParseCompletionOption(message.Method), cts.Token).ConfigureAwait(false);
         }
 
         private HttpCompletionOption ParseCompletionOption(HttpMethod method)
