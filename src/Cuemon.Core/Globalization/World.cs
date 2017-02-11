@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using Cuemon.Reflection;
 
 namespace Cuemon.Globalization
@@ -11,9 +12,22 @@ namespace Cuemon.Globalization
     /// </summary>
     public static class World
     {
+        private const int CultureTypesSpecificCultures = 2;
+        private static readonly MethodInfo CultureInfoGetCultures = typeof(CultureInfo).GetMethod("GetCultures", ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic);
+
         internal static readonly Lazy<IEnumerable<CultureInfo>> SpecificCultures = new Lazy<IEnumerable<CultureInfo>>(() =>
         {
             var cultures = new SortedList<string, CultureInfo>();
+            var specificCultures = CultureInfoGetCultures?.Invoke(null, new object[] { CultureTypesSpecificCultures }) as CultureInfo[];
+            if (specificCultures != null)
+            {
+                foreach (var c in specificCultures)
+                {
+                    cultures.Add(c.DisplayName, c);
+                }
+                return cultures.Values;
+            }
+
             using (var lfdSpecificCultures = ReflectionUtility.GetEmbeddedResource(typeof(World), "CultureInfo.SpecificCultures.dsv", ResourceMatch.ContainsName))
             {
                 using (var reader = new StreamReader(lfdSpecificCultures))
@@ -21,8 +35,14 @@ namespace Cuemon.Globalization
                     string specificCulture;
                     while ((specificCulture = reader.ReadLine()) != null)
                     {
-                        var c = new CultureInfo(specificCulture);
-                        cultures.Add(c.DisplayName, c);
+                        try
+                        {
+                            var c = new CultureInfo(specificCulture);
+                            cultures.Add(c.DisplayName, c);
+                        }
+                        catch (CultureNotFoundException)
+                        {
+                        }
                     }
                 }
             }
