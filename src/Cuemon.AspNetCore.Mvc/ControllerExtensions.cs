@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Globalization;
-using Cuemon.Collections.Generic;
 using Cuemon.Integrity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
-using System.Linq;
-using System.Net;
-using Microsoft.Net.Http.Headers;
+using Cuemon.AspNetCore.Integrity;
+using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.AspNetCore.Mvc
 {
@@ -25,24 +21,9 @@ namespace Cuemon.AspNetCore.Mvc
         /// <returns>An <see cref="IActionResult" /> object that is either created from <see cref="EmptyResult" /> or <see cref="OkObjectResult" />.</returns>
         public static IActionResult OkOrNotModified<T>(this Controller controller, T value, Func<T, CacheValidator> parser = null)
         {
-            var validator = parser?.Invoke(value) ?? CacheValidator.ReferencePoint;
-            var accept = controller.Request.Headers["Accept"];
-            validator = validator.CombineWith(accept);
-            int statusCodeNotModified = (int)HttpStatusCode.NotModified;
-            if (validator.Strength != ChecksumStrength.None)
-            {
-                DateTime utcNow = DateTime.UtcNow;
-                if (controller.Request.IsClientSideResourceCached(validator))
-                {
-                    controller.Response.StatusCode = statusCodeNotModified;
-                }
-                else
-                {
-                    controller.Response.Headers.Add(HeaderNames.LastModified, new StringValues(EnumerableConverter.FromArray(utcNow, validator.GetMostSignificant()).Min().ToString("R", DateTimeFormatInfo.InvariantInfo)));
-                }
-                controller.Response.Headers.Add(HeaderNames.ETag, new StringValues(string.Concat("\"", validator.Checksum.ToHexadecimal(), "\"")));
-            }
-            return controller.Response.StatusCode == statusCodeNotModified ? (IActionResult)new EmptyResult() : new OkObjectResult(value);
+            var validator = parser?.Invoke(value) ?? CacheValidator.ReferencePoint.CombineWith(value.GetHashCode());
+            validator.SetEntityTagHeaderInformation(controller.Request, controller.Response);
+            return controller.Response.StatusCode == StatusCodes.Status304NotModified ? (IActionResult)new EmptyResult() : new OkObjectResult(value);
         }
     }
 }
