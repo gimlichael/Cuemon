@@ -11,6 +11,19 @@ namespace Cuemon
     public static class StringExtensions
     {
         /// <summary>
+        /// Retrieves a substring from the specified <paramref name="value"/>. The substring starts at position 0 and continues until the first occurrence of <paramref name="match"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/> to extend.</param>
+        /// <param name="match">The match that will define the stopping point.</param>
+        /// <param name="comparisonType">One of the enumeration values that specifies the rules for the search.</param>
+        /// <returns>A substring that contains only the value just before <paramref name="match"/>.</returns>
+        public static string SubstringBefore(this string value, string match, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
+        {
+            var indexOf = value.IndexOf(match, comparisonType);
+            return indexOf == -1 ? "" : value.Substring(0, indexOf);
+        }
+
+        /// <summary>
         /// Converts the specified absolute <paramref name="uriString"/> to its equivalent <see cref="Uri"/> representation.
         /// </summary>
         /// <param name="uriString">A string that identifies the resource to be represented by the <see cref="Uri"/> instance.</param>
