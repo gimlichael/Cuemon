@@ -21,17 +21,34 @@ namespace Cuemon.Serialization.Json
             var depthIndexes = new Dictionary<int, Dictionary<int, int>>();
             var dimension = 0;
             IHierarchy<DataPair> hierarchy = new Hierarchy<DataPair>();
+            List<DataPair> array = new List<DataPair>();
             hierarchy.Add(new DataPair("root", null, typeof(string)));
             while (reader.Read())
             {
                 object typeStrongValue;
                 switch (reader.TokenType)
                 {
+                    case JsonToken.StartArray:
+                        if (reader.TokenType == JsonToken.EndArray) { goto case JsonToken.EndArray; }
+                        if (reader.TokenType != JsonToken.StartArray)
+                        {
+                            typeStrongValue = ObjectConverter.FromString("{0}".FormatWith(reader.Value));
+                            array.Add(new DataPair(hierarchy[index].Data[PropertyNameKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
+                        }
+                        while (reader.Read()) { goto case JsonToken.StartArray; }
+                        break;
                     case JsonToken.PropertyName:
-
                         hierarchy[depthIndexes.GetDepthIndex(reader, index, dimension)].Add(new DataPair("{0}".FormatWith(reader.Value), null, typeof(string))).Data.Add(PropertyNameKey, "{0}".FormatWith(reader.Value));
                         index++;
-
+                        break;
+                    case JsonToken.EndArray:
+                        var indexCopy = index;
+                        foreach (var item in array)
+                        {
+                            hierarchy[indexCopy].Add(item);
+                            index++;
+                        }
+                        array.Clear();
                         break;
                     case JsonToken.EndObject:
                         if (reader.Depth == 1) { dimension++; }
