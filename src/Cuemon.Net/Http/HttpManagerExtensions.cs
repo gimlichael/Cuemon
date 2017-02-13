@@ -249,7 +249,7 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttPatch(this Uri location, string contentType, Stream content)
+        public static HttpResponseMessage HttpPatch(this Uri location, string contentType, Stream content)
         {
             using (HttpManager manager = new HttpManager())
             {
@@ -265,7 +265,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttPatch(this Uri location, string contentType, Stream content, TimeSpan timeout)
+        public static HttpResponseMessage HttpPatch(this Uri location, string contentType, Stream content, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
@@ -280,7 +280,7 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttPatch(this Uri location, MediaTypeHeaderValue contentType, Stream content)
+        public static HttpResponseMessage HttpPatch(this Uri location, MediaTypeHeaderValue contentType, Stream content)
         {
             using (HttpManager manager = new HttpManager())
             {
@@ -296,7 +296,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttPatch(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        public static HttpResponseMessage HttpPatch(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
