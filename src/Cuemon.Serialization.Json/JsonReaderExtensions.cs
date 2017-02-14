@@ -30,7 +30,7 @@ namespace Cuemon.Serialization.Json
                 {
                     case JsonToken.StartArray:
                         if (reader.TokenType == JsonToken.EndArray) { goto case JsonToken.EndArray; }
-                        if (reader.TokenType != JsonToken.StartArray)
+                        if (reader.TokenType != JsonToken.StartArray && reader.TokenType != JsonToken.StartObject && reader.TokenType != JsonToken.EndObject)
                         {
                             typeStrongValue = ObjectConverter.FromString("{0}".FormatWith(reader.Value));
                             array.Add(new DataPair(hierarchy[index].Data[PropertyNameKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
