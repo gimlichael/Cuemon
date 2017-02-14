@@ -251,9 +251,9 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttPatch(Uri location, string contentType, Stream content)
+        public Task<HttpResponseMessage> HttpPatch(Uri location, string contentType, Stream content)
         {
-            return HttPatch(location, contentType, content, Client.Timeout);
+            return HttpPatch(location, contentType, content, Client.Timeout);
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttPatch(Uri location, string contentType, Stream content, TimeSpan timeout)
+        public Task<HttpResponseMessage> HttpPatch(Uri location, string contentType, Stream content, TimeSpan timeout)
         {
             return Http(new HttpMethod(HttpPatchVerb), location, contentType, content, timeout);
         }
@@ -276,9 +276,9 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttPatch(Uri location, MediaTypeHeaderValue contentType, Stream content)
+        public Task<HttpResponseMessage> HttpPatch(Uri location, MediaTypeHeaderValue contentType, Stream content)
         {
-            return HttPatch(location, contentType, content, Client.Timeout);
+            return HttpPatch(location, contentType, content, Client.Timeout);
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttPatch(Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        public Task<HttpResponseMessage> HttpPatch(Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
         {
             return Http(new HttpMethod(HttpPatchVerb), location, contentType, content, timeout);
         }

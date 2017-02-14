@@ -253,7 +253,7 @@ namespace Cuemon.Net.Http
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttPatch(location, contentType, content).Result;
+                return manager.HttpPatch(location, contentType, content).Result;
             }
         }
 
@@ -269,7 +269,7 @@ namespace Cuemon.Net.Http
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttPatch(location, contentType, content, timeout).Result;
+                return manager.HttpPatch(location, contentType, content, timeout).Result;
             }
         }
 
@@ -284,7 +284,7 @@ namespace Cuemon.Net.Http
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttPatch(location, contentType, content).Result;
+                return manager.HttpPatch(location, contentType, content).Result;
             }
         }
 
@@ -300,7 +300,7 @@ namespace Cuemon.Net.Http
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttPatch(location, contentType, content, timeout).Result;
+                return manager.HttpPatch(location, contentType, content, timeout).Result;
             }
         }
 
