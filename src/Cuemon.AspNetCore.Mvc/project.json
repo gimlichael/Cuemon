@@ -1,14 +1,14 @@
 {
-  "version": "4.1.2017.400",
+  "version": "4.1.2017.410",
   "title": "Cuemon.AspNetCore.Mvc",
   "description": "The Cuemon.AspNetCore.Mvc assembly is a supplement to the Microsoft ASP.NET Core MVC.",
   "copyright": "Copyright © Weubphoria 2009-2017. All rights reserved.",
   "language": "en-US",
   "authors": [ "Michael Mortensen" ],
   "dependencies": {
-    "Cuemon.Core": "4.1.2017.400",
-    "Cuemon.Integrity": "4.1.2017.400",
-    "Cuemon.AspNetCore": "4.1.2017.400",
+    "Cuemon.Core": "4.1.2017.410",
+    "Cuemon.Integrity": "4.1.2017.410",
+    "Cuemon.AspNetCore": "4.1.2017.410",
     "Microsoft.AspNetCore.Mvc": "1.1.1"
   },
   "frameworks": {

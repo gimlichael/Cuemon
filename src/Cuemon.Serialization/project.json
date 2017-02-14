@@ -1,5 +1,5 @@
 ﻿{
-  "version": "4.1.2017.400",
+  "version": "4.1.2017.410",
   "title": "Cuemon.Serialization",
   "description": "The Cuemon.Serialization assembly is a member of the Cuemon .NET Core family and provides generic base classes for serialization.",
   "copyright": "Copyright © Weubphoria 2009-2017. All rights reserved.",
@@ -11,7 +11,7 @@
     }
   },
   "dependencies": {
-    "Cuemon.Core": "4.1.2017.400"
+    "Cuemon.Core": "4.1.2017.410"
   },
   "buildOptions": {
     "optimize": true,
