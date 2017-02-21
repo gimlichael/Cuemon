@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Cuemon
 {
@@ -58,10 +57,10 @@ namespace Cuemon
     }
 
     /// <summary>
-    /// Represents a generic way to provide information about arbitrary data. This class cannot be inherited.
+    /// Represents a generic way to provide information about arbitrary data.
     /// </summary>
     /// <typeparam name="T">The type of the data value being represented by this instance.</typeparam>
-    public sealed class DataPair<T> : DataPair
+    public class DataPair<T> : DataPair
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DataPair" /> class.

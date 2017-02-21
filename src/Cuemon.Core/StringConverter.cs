@@ -180,8 +180,9 @@ namespace Cuemon
         /// Converts the specified pascal-case representation <paramref name="value"/> to a human readable string.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to convert.</param>
+        /// <param name="delimiter">The delimiter to use when converting PascalCasing to a human readable string. Default is space ( ).</param>
         /// <returns>A human readable string from the specified pascal-case representation <paramref name="value"/>.</returns>
-        public static string FromPascalCasing(string value)
+        public static string FromPascalCasing(string value, string delimiter = " ")
         {
             Validator.ThrowIfNullOrEmpty(value, nameof(value));
 
@@ -196,7 +197,7 @@ namespace Cuemon
                 bool between = (!first && !last);
                 if (Char.IsUpper(c))
                 {
-                    result.AppendFormat(between ? " {0}" : "{0}", c);
+                    result.AppendFormat(between ? delimiter + "{0}" : "{0}", c);
                 }
                 else
                 {
