@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
-using System.Text;
+using Cuemon.IO;
 using Cuemon.Serialization.Formatters;
 using Newtonsoft.Json;
 
@@ -12,7 +11,7 @@ namespace Cuemon.Serialization.Json.Formatters
     /// </summary>
     /// <seealso cref="Formatter{TFormat}" />.
     /// <seealso cref="JsonConverter"/>.
-    public class JsonFormatter : Formatter<string>
+    public class JsonFormatter : Formatter<Stream>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
@@ -40,7 +39,7 @@ namespace Cuemon.Serialization.Json.Formatters
         /// 2. the implicit or explicit defined delegate in <see cref="JsonFormatterOptions.WriterFormatters"/> dictionary<br/>
         /// 3. if neither was specified, a default JSON writer implementation will be used on <see cref="JsonConverter"/>.
         /// </remarks>
-        public override string Serialize(object source, Type sourceType)
+        public override Stream Serialize(object source, Type sourceType)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(sourceType, nameof(sourceType));
@@ -54,15 +53,15 @@ namespace Cuemon.Serialization.Json.Formatters
             var serializer = JsonSerializer.Create(Options.Settings); // there is a bug in the JsonConvert.SerializeObject, why we had to make our own implementation
             serializer.Converters.Add(converter);
 
-            StringBuilder sb = new StringBuilder(256);
-            StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            return StreamWriterUtility.CreateStream(writer =>
             {
-                jsonWriter.Formatting = serializer.Formatting;
-                serializer.Serialize(jsonWriter, source, sourceType);
-            }
-
-            return sw.ToString();
+                using (JsonTextWriter jsonWriter = new JsonTextWriter(writer))
+                {
+                    jsonWriter.CloseOutput = false;
+                    jsonWriter.Formatting = serializer.Formatting;
+                    serializer.Serialize(jsonWriter, source, sourceType);
+                }
+            });
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace Cuemon.Serialization.Json.Formatters
         /// 1. the explicitly defined <see cref="JsonFormatterOptions.ReaderFormatter" /> delegate<br />
         /// 2. the implicit or explicit defined delegate in <see cref="JsonFormatterOptions.ReaderFormatters" /> dictionary<br />
         /// 3. if neither was specified, a default JSON reader implementation will be used.</remarks>
-        public override object Deserialize(string value, Type valueType)
+        public override object Deserialize(Stream value, Type valueType)
         {
             var serializer = Options.Converter;
             if (serializer == null)
@@ -84,7 +83,12 @@ namespace Cuemon.Serialization.Json.Formatters
                 serializer = DynamicJsonConverter.Create(valueType, null, formatter);
             }
             Options.Settings.Converters.Add(serializer);
-            return JsonConvert.DeserializeObject(value, valueType, Options.Settings);
+
+            var jsonSerializer = JsonSerializer.CreateDefault(Options.Settings);
+            using (JsonTextReader reader = new JsonTextReader(new StreamReader(value, true)))
+            {
+                return jsonSerializer.Deserialize(reader, valueType);
+            }
         }
     }
 }

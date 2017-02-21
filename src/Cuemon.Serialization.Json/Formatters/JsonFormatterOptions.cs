@@ -43,6 +43,7 @@ namespace Cuemon.Serialization.Json.Formatters
             Converter = null;
             Settings = new JsonSerializerSettings()
             {
+                CheckAdditionalContent = true,
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
