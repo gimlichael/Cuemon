@@ -38,7 +38,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {
                 JsonFormatter formatter = new JsonFormatter();
-                using (var streamReader = new StringReader(formatter.Serialize(value)))
+                using (var streamReader = new StreamReader(formatter.Serialize(value)))
                 {
                     int bytesRead;
                     while ((bytesRead = await streamReader.ReadAsync(buffer, 0, buffer.Length)) > 0)

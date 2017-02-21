@@ -35,10 +35,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
             Validator.ThrowIfNull(encoding, nameof(encoding));
             var request = context.HttpContext.Request;
             var formatter = new JsonFormatter();
-            var deserializedObject = formatter.Deserialize(request.Body.Copy().ToEncodedString(o =>
-            {
-                o.Encoding = encoding;
-            }), context.ModelType);
+            var deserializedObject = formatter.Deserialize(request.Body, context.ModelType);
             return InputFormatterResult.SuccessAsync(deserializedObject);
         }
     }
