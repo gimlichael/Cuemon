@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>The Cuemon.AspNetCore.Mvc.Formatters.Xml assembly is a supplement to the Microsoft ASP.NET Core MVC.</Description>
+    <Copyright>Copyright © Weubphoria 2009-2017. All rights reserved.</Copyright>
+    <AssemblyTitle>Cuemon.AspNetCore.Mvc.Formatters.Xml</AssemblyTitle>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <VersionPrefix>4.1.2017.500</VersionPrefix>
+    <Authors>Michael Mortensen</Authors>
+    <TargetFrameworks>netstandard1.6;net461</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>Cuemon.AspNetCore.Mvc.Formatters.Xml</AssemblyName>
+    <PackageId>Cuemon.AspNetCore.Mvc.Formatters.Xml</PackageId>
+    <PackageReleaseNotes>The .NET Platform Standard release of the ported Cuemon .NET Framework.</PackageReleaseNotes>
+    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
+    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
+    <ProjectReference Include="..\Cuemon.Serialization\Cuemon.Serialization.csproj" />
+    <ProjectReference Include="..\Cuemon.Serialization.Xml\Cuemon.Serialization.Xml.csproj" />
+    <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+  </ItemGroup>
+
+  <Target Name="PostcompileScript" AfterTargets="Build" Condition=" '$(IsCrossTargetingBuild)' != 'true' ">
+    <Exec Command="dotnet pack --no-build -c Release" />
+  </Target>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>

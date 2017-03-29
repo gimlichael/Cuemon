@@ -16,6 +16,7 @@
     <OutputPath>.\Help</OutputPath>
     <CleanupOutputPath>true</CleanupOutputPath>
     <HelpFileName>Cuemon Framework Core</HelpFileName>
+    <HelpFileNamingMethod>MemberName</HelpFileNamingMethod>
     <ImageFolderPath />
     <Theme />
     <HtmlFormats>
