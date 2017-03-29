@@ -12,22 +12,18 @@ namespace Cuemon.AspNetCore
     public static class HttpRequestExtensions
     {
         /// <summary>
-        /// Determines whether a cached version of the requested resource is found client-side given the specified <paramref name="validator"/>.
+        /// Determines whether a cached version of the requested resource is found client-side using the If-None-Match HTTP header.
         /// </summary>
         /// <param name="request">An instance of the <see cref="HttpRequest"/> object.</param>
-        /// <param name="validator">A <see cref="CacheValidator"/> object that represents the content validation of the resource.</param>
+        /// <param name="builder">A <see cref="ChecksumBuilder"/> that represents the integrity of the client.</param>
         /// <returns>
-        ///     <c>true</c> if a cached version of the requested content is found client-side given the specified <paramref name="validator"/>; otherwise, <c>false</c>.
+        ///     <c>true</c> if a cached version of the requested content is found client-side; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsClientSideResourceCached(this HttpRequest request, CacheValidator validator)
+        public static bool IsClientSideResourceCached(this HttpRequest request, ChecksumBuilder builder)
         {
             Validator.ThrowIfNull(request, nameof(request));
-            Validator.ThrowIfNull(validator, nameof(validator));
             var headers = new RequestHeaders(request.Headers);
-            var validatorLastModified = validator.GetMostSignificant().Adjust(o => new DateTime(o.Year, o.Month, o.Day, o.Hour, o.Minute, o.Second, DateTimeKind.Utc)); // make sure, that modified has the same format as the if-modified-since header
-            var ifModifiedSince = headers.IfModifiedSince;
-            var isClientSideContentCached = (validatorLastModified != DateTime.MinValue) && (ifModifiedSince.HasValue && ifModifiedSince.Value.ToUniversalTime() >= validatorLastModified);
-            if (isClientSideContentCached && validator.Strength != ChecksumStrength.None && headers.IfNoneMatch != null)
+            if (headers.IfNoneMatch != null)
             {
                 var clientSideEntityTagHeader = headers.IfNoneMatch.FirstOrDefault();
                 var clientSideEntityTag = clientSideEntityTagHeader == null ? "" : clientSideEntityTagHeader.Tag;
@@ -39,9 +35,27 @@ namespace Cuemon.AspNetCore
                     clientSideEntityTag = clientSideEntityTag.Remove(indexOfEndQuote, 1);
                     clientSideEntityTag = clientSideEntityTag.Remove(indexOfStartQuote, 1);
                 }
-                isClientSideContentCached = validator.Checksum.ToHexadecimal().Equals(clientSideEntityTag);
+                return builder.Checksum.ToHexadecimal().Equals(clientSideEntityTag);
             }
-            return isClientSideContentCached;
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether a cached version of the requested resource is found client-side using the If-Modified-Since HTTP header.
+        /// </summary>
+        /// <param name="request">An instance of the <see cref="HttpRequest"/> object.</param>
+        /// <param name="lastModified">A <see cref="DateTime"/> value that represents the modification date of the content.</param>
+        /// <returns>
+        ///     <c>true</c> if a cached version of the requested content is found client-side; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsClientSideResourceCached(this HttpRequest request, DateTime lastModified)
+        {
+            Validator.ThrowIfNull(request, nameof(request));
+            Validator.ThrowIfNull(lastModified, nameof(lastModified));
+            var headers = new RequestHeaders(request.Headers);
+            var adjustedLastModified = lastModified.Adjust(o => new DateTime(o.Year, o.Month, o.Day, o.Hour, o.Minute, o.Second, DateTimeKind.Utc)); // make sure, that modified has the same format as the if-modified-since header
+            var ifModifiedSince = headers.IfModifiedSince;
+            return (adjustedLastModified != DateTime.MinValue) && (ifModifiedSince.HasValue && ifModifiedSince.Value.ToUniversalTime() >= adjustedLastModified);
         }
     }
 }
