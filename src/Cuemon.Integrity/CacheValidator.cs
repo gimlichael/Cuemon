@@ -4,19 +4,18 @@ using System.Linq;
 using System.Reflection;
 using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
-using Cuemon.Security.Cryptography;
 
 namespace Cuemon.Integrity
 {
     /// <summary>
     /// Provides a way to represent cacheable data-centric content that can be validated by cache-aware applications.
     /// </summary>
-    public class CacheValidator
+    public class CacheValidator : ChecksumBuilder
     {
         private const long NullOrZeroLengthChecksum = 23719;
         private static readonly CacheValidator DefaultCacheValidatorValue = new CacheValidator(DateTime.MinValue, DateTime.MinValue);
         private static CacheValidator _referencePointCacheValidator;
-        private static Assembly _assemblyValue = null;
+        private static Assembly _assemblyValue;
         private static readonly Lazy<Assembly> LazyAssembly = new Lazy<Assembly>(() =>
         {
             Assembly result = null;
@@ -181,7 +180,8 @@ namespace Cuemon.Integrity
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
         /// <param name="checksum">A <see cref="UInt64"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
-        public CacheValidator(DateTime created, DateTime modified, ulong checksum, Action<CacheValidatorOptions> setup = null) : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
+        public CacheValidator(DateTime created, DateTime modified, ulong checksum, Action<CacheValidatorOptions> setup = null)
+            : this(created, modified, ByteConverter.FromConvertibles(checksum), setup)
         {
         }
 
@@ -221,6 +221,7 @@ namespace Cuemon.Integrity
             Strength = strength;
             Method = options.Method;
             Options = options;
+            AlgorithmType = options.AlgorithmType;
         }
 
         private CacheValidatorOptions Options { get; set; }
@@ -236,14 +237,6 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <value>A <see cref="DateTime"/> value from when data this instance represents was last modified, expressed as the Coordinated Universal Time (UTC).</value>
         public DateTime Modified { get; private set; }
-
-        /// <summary>
-        /// Gets a <see cref="HashResult"/> containing a computed hash value of the data this instance represents.
-        /// </summary>
-        /// <value>A <see cref="HashResult"/> containing a computed hash value of the data this instance represents.</value>
-        public HashResult Checksum => ComputedChecksum ?? (ComputedChecksum = HashUtility.ComputeHash(Bytes.ToArray(), Options.AlgorithmType));
-
-        private HashResult ComputedChecksum { get; set; }
 
         /// <summary>
         /// Gets a <see cref="CacheValidator"/> object that is initialized to a default representation that should be considered invalid for usage beyond this check.
@@ -268,13 +261,6 @@ namespace Cuemon.Integrity
         }
 
         /// <summary>
-        /// Gets a byte array that is the result of the associated <see cref="CacheValidator"/>.
-        /// </summary>
-        /// <value>The byte array that is the result of the associated <see cref="CacheValidator"/>.</value>
-        internal List<byte> Bytes { get; set; }
-
-
-        /// <summary>
         /// Gets an enumeration value of <see cref="ChecksumMethod"/> indicating the usage method of this instance.
         /// </summary>
         /// <value>One of the enumeration values of <see cref="ChecksumMethod"/> that indicates the usage method of this instance.</value>
@@ -285,15 +271,6 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <value>One of the enumeration values of <see cref="ChecksumStrength"/> that specifies the strength of this instance.</value>
         public ChecksumStrength Strength { get; private set; }
-
-        /// <summary>
-        /// Converts the the <see cref="Bytes"/> of this instance to its equivalent hexadecimal representation.
-        /// </summary>
-        /// <returns>A hexadecimal representation of this instance.</returns>
-        public override string ToString()
-        {
-            return Checksum.ToHexadecimal();
-        }
 
         /// <summary>
         /// Creates a shallow copy of the current <see cref="CacheValidator"/> object.
@@ -323,112 +300,6 @@ namespace Cuemon.Integrity
         }
 
         /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">A <see cref="Double"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params double[] additionalChecksum)
-        {
-            return CombineWith(ByteConverter.FromConvertibles<double>(additionalChecksum));
-        }
-
-        /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">An <see cref="Int16"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params short[] additionalChecksum)
-        {
-            return CombineWith(ByteConverter.FromConvertibles<short>(additionalChecksum));
-        }
-
-        /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">A <see cref="String"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params string[] additionalChecksum)
-        {
-            List<long> result = new List<long>();
-            if (additionalChecksum == null)
-            {
-                result.Add(StructUtility.HashCodeForNullValue);
-            }
-            else
-            {
-                for (int i = 0; i < additionalChecksum.Length; i++)
-                {
-                    result.Add(StructUtility.GetHashCode64(additionalChecksum[i]));
-                }
-            }
-            return CombineWith(result.ToArray());
-        }
-
-        /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">An <see cref="Int32"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params int[] additionalChecksum)
-        {
-            return CombineWith(ByteConverter.FromConvertibles<int>(additionalChecksum));
-        }
-
-        /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">An <see cref="Int64"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params long[] additionalChecksum)
-        {
-            return CombineWith(ByteConverter.FromConvertibles<long>(additionalChecksum));
-        }
-
-        /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">A <see cref="Single"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params float[] additionalChecksum)
-        {
-            return CombineWith(ByteConverter.FromConvertibles<float>(additionalChecksum));
-        }
-
-        /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">An <see cref="UInt16"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params ushort[] additionalChecksum)
-        {
-            return CombineWith(ByteConverter.FromConvertibles<ushort>(additionalChecksum));
-        }
-
-        /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">An <see cref="UInt32"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params uint[] additionalChecksum)
-        {
-            return CombineWith(ByteConverter.FromConvertibles<uint>(additionalChecksum));
-        }
-
-        /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">An <see cref="UInt64"/> array that contains zero or more checksums of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params ulong[] additionalChecksum)
-        {
-            return CombineWith(ByteConverter.FromConvertibles<ulong>(additionalChecksum));
-        }
-
-        /// <summary>
-        /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
-        /// </summary>
-        /// <param name="additionalChecksum">An array of bytes containing a checksum of the additional data this instance must represent.</param>
-        public CacheValidator CombineWith(params byte[] additionalChecksum)
-        {
-            if (additionalChecksum == null) { return this; }
-            if (additionalChecksum.Length == 0) { return this; }
-            ComputedChecksum = null;
-            Bytes.AddRange(additionalChecksum);
-            return this;
-        }
-
-        /// <summary>
         /// Gets the most significant <see cref="CacheValidator"/> object from the most significant (largest) value of either <see cref="Created"/> or <see cref="Modified"/> in the specified <paramref name="sequence"/>.
         /// </summary>
         /// <param name="sequence">A sequence of  <see cref="CacheValidator"/> objects to parse for the most significant (largest) value of either <see cref="Created"/> or <see cref="Modified"/>.</param>
@@ -442,38 +313,6 @@ namespace Cuemon.Integrity
                 if (candidate.GetMostSignificant().Ticks > mostSignificant.GetMostSignificant().Ticks) { mostSignificant = candidate; }
             }
             return mostSignificant;
-        }
-
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
-        public override int GetHashCode()
-        {
-            return Checksum.ToHexadecimal().GetHashCode();
-        }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />.</param>
-        /// <returns><c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
-        {
-            CacheValidator validator = obj as CacheValidator;
-            if (validator == null) { return false; }
-            return Equals(validator);
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare with this object.</param>
-        /// <returns><c>true</c> if the current object is equal to the other parameter; otherwise, <c>false</c>. </returns>
-        public bool Equals(CacheValidator other)
-        {
-            if (other == null) { return false; }
-            return (Checksum.ToHexadecimal() == other.Checksum.ToHexadecimal());
         }
     }
 }

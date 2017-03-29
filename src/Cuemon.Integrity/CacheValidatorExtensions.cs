@@ -179,7 +179,6 @@ namespace Cuemon.Integrity
         public static CacheValidator GetCacheValidator(this string fileName, int bytesToRead = 0, Action<CacheValidatorOptions> setup = null)
         {
             Validator.ThrowIfNullOrWhitespace(fileName, nameof(fileName));
-            var options = setup.ConfigureOptions();
             try
             {
                 return FileInfoConverter.Convert(fileName, bytesToRead, (fi, checksumBytes) =>
@@ -188,11 +187,8 @@ namespace Cuemon.Integrity
                     {
                         return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, checksumBytes.GetHashCode64(), setup);
                     }
-                    return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, o =>
-                    {
-                        o.AlgorithmType = options.AlgorithmType;
-                        o.Method = bytesToRead == 0 ? ChecksumMethod.Timestamp : ChecksumMethod.Default;
-                    });
+                    var fileNameHashCode64 = fileName.GetHashCode64();
+                    return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, fileNameHashCode64, setup);
                 });
             }
             catch (Exception)
@@ -220,7 +216,7 @@ namespace Cuemon.Integrity
             catch (Exception)
             {
             }
-            return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, setup).CombineWith(assemblyHashCode64) : GetCacheValidator(assemblyLocation, readByteForByteChecksum ? int.MaxValue : 0, setup).CombineWith(assemblyHashCode64);
+            return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : GetCacheValidator(assemblyLocation, readByteForByteChecksum ? int.MaxValue : 0, setup);
         }
     }
 }
