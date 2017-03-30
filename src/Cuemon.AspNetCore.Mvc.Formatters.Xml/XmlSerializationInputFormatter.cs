@@ -5,7 +5,7 @@ using Cuemon.Serialization.Xml.Formatters;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters
+namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
 {
     /// <summary>
     /// This class handles deserialization of JSON to objects using <see cref="XmlFormatter"/>.

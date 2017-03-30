@@ -1,8 +1,7 @@
-﻿using Cuemon.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Cuemon.AspNetCore.Mvc
+namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
 {
     /// <summary>
     /// A <see cref="ConfigureOptions{TOptions}"/> implementation which will add the XML serializer formatters to <see cref="MvcOptions"/>.
