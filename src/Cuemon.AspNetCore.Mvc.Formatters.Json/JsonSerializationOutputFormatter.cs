@@ -5,7 +5,7 @@ using Cuemon.Serialization.Json.Formatters;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters
+namespace Cuemon.AspNetCore.Mvc.Formatters.Json
 {
     /// <summary>
     /// This class handles serialization of objects to JSON using <see cref="JsonFormatter"/>.
@@ -41,12 +41,12 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
                 using (var streamReader = new StreamReader(formatter.Serialize(value)))
                 {
                     int bytesRead;
-                    while ((bytesRead = await streamReader.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                    while ((bytesRead = await streamReader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
                     {
-                        await textWriter.WriteAsync(buffer, 0, bytesRead);
+                        await textWriter.WriteAsync(buffer, 0, bytesRead).ConfigureAwait(false);
                     }
                 }
-                await textWriter.FlushAsync();
+                await textWriter.FlushAsync().ConfigureAwait(false);
             }
         }
     }

@@ -1,11 +1,10 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
-using Cuemon.IO;
 using Cuemon.Serialization.Json.Formatters;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters
+namespace Cuemon.AspNetCore.Mvc.Formatters.Json
 {
     /// <summary>
     /// This class handles deserialization of JSON to objects using <see cref="JsonFormatter"/>.
