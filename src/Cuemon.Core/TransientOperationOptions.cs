@@ -11,12 +11,43 @@ namespace Cuemon
         /// <summary>
         /// Initializes a new instance of the <see cref="TransientOperationOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="TransientOperationOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="RetryAttempts"/></term>
+        ///         <description><see cref="DefaultRetryAttempts"/></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="EnableRecovery"/></term>
+        ///         <description><see cref="RetryAttempts"/> > 0</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="RetryStrategy"/></term>
+        ///         <description><c>retry</c> + 2^ to a maximum of 5; eg. 1, 2, 4, 8, 16 to a total of 31 seconds</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="DetectionStrategy"/></term>
+        ///         <description><c>exception => false</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="MaximumAllowedLatency"/></term>
+        ///         <description><c>5 minutes</c></description>
+        /// 
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public TransientOperationOptions()
         {
             RetryAttempts = DefaultRetryAttempts;
             EnableRecovery = RetryAttempts > 0;
             RetryStrategy = currentAttempt => TimeSpan.FromSeconds(Math.Pow(2, currentAttempt > 5 ? 5 : currentAttempt));
             DetectionStrategy = exception => false;
+            MaximumAllowedLatency = TimeSpan.FromMinutes(5);
         }
 
         /// <summary>

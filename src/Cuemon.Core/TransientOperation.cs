@@ -9,7 +9,7 @@ namespace Cuemon
     /// <summary>
     /// Provides developers ways to make their applications more resilient by adding robust transient fault handling logic ideal for temporary condition such as network connectivity issues or service unavailability.
     /// </summary>
-    public static class TransientOperation
+    public static partial class TransientOperation
     {
         /// <summary>
         /// Repetitively executes the specified <paramref name="faultSensitiveMethod"/> until the operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.

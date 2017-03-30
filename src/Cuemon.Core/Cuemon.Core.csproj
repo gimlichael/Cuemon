@@ -26,6 +26,7 @@ A great addition to the well established System namespace to make your daily ope
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <RootNamespace>Cuemon</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
