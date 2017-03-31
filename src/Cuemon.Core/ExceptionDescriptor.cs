@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cuemon.Collections.Generic;
 
 namespace Cuemon
 {
@@ -41,24 +44,47 @@ namespace Cuemon
         /// Gets a number that identifies the type of failure.
         /// </summary>
         /// <value>The number that identifies the type of failure.</value>
-        public int Code { get; }
+        public int Code { get; private set; }
 
         /// <summary>
         /// Gets a message that describes the current failure.
         /// </summary>
         /// <value>The message that explains the reason for the failure.</value>
-        public string Message { get; }
+        public string Message { get; private set; }
 
         /// <summary>
         /// Gets a link to the help page associated with this failure.
         /// </summary>
         /// <value>The location of an optional help page associated with this failure.</value>
-        public Uri HelpLink { get; }
+        public Uri HelpLink { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="Exception"/> that caused the current failure.
         /// </summary>
         /// <value>The deeper cause of the failure.</value>
         public Exception Failure { get; }
+
+        /// <summary>
+        /// Post initialize this instance with the specified <paramref name="attribute"/>.
+        /// </summary>
+        public void PostInitializeWith(ExceptionDescriptorAttribute attribute)
+        {
+            PostInitializeWith(attribute.Yield());
+        }
+
+        /// <summary>
+        /// Post initialize this instance with a matching <see cref="ExceptionDescriptorAttribute"/> from the specified <paramref name="attributes"/>.
+        /// </summary>
+        /// <param name="attributes">The attributes to find a match within.</param>
+        public void PostInitializeWith(IEnumerable<ExceptionDescriptorAttribute> attributes)
+        {
+            var attribute = attributes?.FirstOrDefault(eda => eda.FailureType == Failure.GetType());
+            if (attribute != null)
+            {
+                Code = attribute.Code;
+                if (!attribute.Message.IsNullOrWhiteSpace()) { Message = attribute.Message; }
+                if (!attribute.HelpLink.IsNullOrWhiteSpace()) { HelpLink = new Uri(attribute.HelpLink); }
+            }
+        }
     }
 }

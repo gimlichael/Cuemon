@@ -1449,6 +1449,164 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of an <see cref="Uri"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> cannot be an <see cref="Uri"/>.
+        /// </exception>
+        public static void ThrowIfUri(string value, string paramName)
+        {
+            ThrowIfUri(value, UriKind.Absolute, paramName);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of an <see cref="Uri"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="uriKind">The type of the URI.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> cannot be an <see cref="Uri"/>.
+        /// </exception>
+        public static void ThrowIfUri(string value, UriKind uriKind, string paramName, string message = "Value cannot be an URI.")
+        {
+            try
+            {
+                ThrowIf(value, UriUtility.IsUri, uriKind, ExceptionUtility.CreateArgumentException, paramName, message);
+            }
+            catch (ArgumentException ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of an <see cref="Uri"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> must be an <see cref="Uri"/>.
+        /// </exception>
+        public static void ThrowIfNotUri(string value, string paramName)
+        {
+            ThrowIfNotUri(value, UriKind.Absolute, paramName);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of an <see cref="Uri"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="uriKind">The type of the URI.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> must be an <see cref="Uri"/>.
+        /// </exception>
+        public static void ThrowIfNotUri(string value, UriKind uriKind, string paramName, string message = "Value must be an URI.")
+        {
+            try
+            {
+                ThrowIfNot(value, UriUtility.IsUri, uriKind, ExceptionUtility.CreateArgumentException, paramName, message);
+            }
+            catch (ArgumentException ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfContainsType(Type value, string paramName, params Type[] types)
+        {
+            ThrowIfContainsType(value, paramName, "Specified argument was out of the range of valid values.", types);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfContainsType(Type value, string paramName, string message, params Type[] types)
+        {
+            ThrowIfNull(value, nameof(value));
+            ThrowIfNull(types, nameof(types));
+            try
+            {
+                ThrowIf(value, TypeUtility.ContainsType, types, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfNotContainsType(Type value, string paramName, params Type[] types)
+        {
+            ThrowIfNotContainsType(value, paramName, "Specified argument was out of the range of valid values.", types);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfNotContainsType(Type value, string paramName, string message, params Type[] types)
+        {
+            ThrowIfNull(value, nameof(value));
+            ThrowIfNull(types, nameof(types));
+            try
+            {
+                ThrowIfNot(value, TypeUtility.ContainsType, types, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
