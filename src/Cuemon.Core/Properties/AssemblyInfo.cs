@@ -16,3 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("4.1.2017.0")]
 [assembly: InternalsVisibleTo("Cuemon.IO")]
 [assembly: InternalsVisibleTo("Cuemon.Integrity")]
+[assembly: InternalsVisibleTo("Cuemon.AspNetCore.Mvc")]
