@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Cuemon
 {
@@ -487,7 +487,7 @@ namespace Cuemon
     /// </summary>
     /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="Template"/>.</typeparam>
     /// <typeparam name="TResult">The type of the return value of the function delegate <see cref="Method"/>.</typeparam>
-    public class FuncFactory<TTuple, TResult> : TemplateFactory<TTuple> where TTuple : Template
+    public sealed class FuncFactory<TTuple, TResult> : TemplateFactory<TTuple> where TTuple : Template
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FuncFactory{TTuple,TResult}"/> class.
@@ -517,21 +517,6 @@ namespace Cuemon
         private Func<TTuple, TResult> Method { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether this instance has an assigned function delegate.
-        /// </summary>
-        /// <value><c>true</c> if this instance an assigned function delegate; otherwise, <c>false</c>.</value>
-        public override bool HasDelegate { get { return base.HasDelegate; } }
-
-        /// <summary>
-        /// Gets the method represented by the function delegate.
-        /// </summary>
-        /// <value>A <see cref="MethodInfo" /> describing the method represented by the function delegate.</value>
-        public override MethodInfo DelegateInfo
-        {
-            get { return base.DelegateInfo; }
-        }
-
-        /// <summary>
         /// Executes the function delegate associated with this instance.
         /// </summary>
         /// <returns>The result of the the function delegate associated with this instance.</returns>
@@ -539,6 +524,14 @@ namespace Cuemon
         {
             ThrowIfNoValidDelegate(Condition.IsNull(Method));
             return Method(GenericArguments);
+        }
+
+        /// <summary>
+        /// Executes the function delegate associated with this instance as an asynchronous operation.
+        /// </summary>
+        public async Task<TResult> ExecuteMethodAsync()
+        {
+            return await Task.Factory.FromAsync(Method.BeginInvoke, Method.EndInvoke, GenericArguments, null).ConfigureAwait(false);
         }
 
         /// <summary>
