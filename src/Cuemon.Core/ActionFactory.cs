@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Cuemon
 {
@@ -502,6 +503,14 @@ namespace Cuemon
         {
             ThrowIfNoValidDelegate(Condition.IsNull(Method));
             Method(GenericArguments);
+        }
+
+        /// <summary>
+        /// Executes the delegate associated with this instance as an asynchronous operation.
+        /// </summary>
+        public async Task ExecuteMethodAsync()
+        {
+            await Task.Factory.FromAsync(Method.BeginInvoke, Method.EndInvoke, GenericArguments, null).ConfigureAwait(false);
         }
 
         /// <summary>
