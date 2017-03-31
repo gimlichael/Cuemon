@@ -36,7 +36,7 @@ namespace Cuemon.IO
             Validator.ThrowIfFalse(source.CanRead, nameof(source), "Source stream cannot be read from.");
             Validator.ThrowIfFalse(destination.CanWrite, nameof(destination), "Destination stream cannot be written to.");
 
-            Infrastructure.WhileSourceReadDestionationWrite(source, destination, bufferSize);
+            Infrastructure.WhileSourceReadDestinationWrite(source, destination, bufferSize);
 		}
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Cuemon.IO
             MemoryStream destination = new MemoryStream();
             try
             {
-                Infrastructure.WhileSourceReadDestionationWrite(source, destination, bufferSize, true);
+                Infrastructure.WhileSourceReadDestinationWrite(source, destination, bufferSize, true);
             }
             finally
             {

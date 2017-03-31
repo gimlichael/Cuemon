@@ -59,7 +59,7 @@ namespace Cuemon.IO.Compression
 
 				using (compressed)
 				{
-                    Infrastructure.WhileSourceReadDestionationWrite(source, compressed, bufferSize, true);
+                    Infrastructure.WhileSourceReadDestinationWrite(source, compressed, bufferSize, true);
                 }
 			}
 			catch (Exception)

@@ -8,12 +8,12 @@ namespace Cuemon
     {
         public static int DefaultBufferSize = 2048;
 
-        public static void WhileSourceReadDestionationWrite(Stream source, Stream destination, int bufferSize)
+        public static void WhileSourceReadDestinationWrite(Stream source, Stream destination, int bufferSize)
         {
-            WhileSourceReadDestionationWrite(source, destination, bufferSize, false);
+            WhileSourceReadDestinationWrite(source, destination, bufferSize, false);
         }
 
-        public static void WhileSourceReadDestionationWrite(Stream source, Stream destination, int bufferSize, bool changePosition)
+        public static void WhileSourceReadDestinationWrite(Stream source, Stream destination, int bufferSize, bool changePosition)
         {
             long lastPosition = 0;
             if (changePosition && source.CanSeek)
