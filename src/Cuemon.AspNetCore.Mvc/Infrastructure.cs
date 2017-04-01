@@ -13,7 +13,7 @@ namespace Cuemon.AspNetCore.Mvc
 {
     internal static class Infrastructure
     {
-        internal static async Task InvokeResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next, Action<Stream, HttpRequest, HttpResponse> entityTagParser)
+        internal static async Task InvokeEntityTagHeaderOnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next, Action<Stream, HttpRequest, HttpResponse> entityTagParser)
         {
             using (var result = new MemoryStream())
             {

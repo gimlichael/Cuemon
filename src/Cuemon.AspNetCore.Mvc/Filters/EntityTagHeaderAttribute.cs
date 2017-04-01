@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
         public sealed override Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
-            return Infrastructure.InvokeResultExecutionAsync(context, next, Options.EntityTagParser);
+            return Infrastructure.InvokeEntityTagHeaderOnResultExecutionAsync(context, next, Options.EntityTagParser);
         }
     }
 }
