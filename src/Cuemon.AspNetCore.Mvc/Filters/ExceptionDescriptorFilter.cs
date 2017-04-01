@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -15,7 +16,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// Initializes a new instance of the <see cref="ExceptionDescriptorFilter"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="ExceptionDescriptorFilterOptions"/> which need to be configured.</param>
-        public ExceptionDescriptorFilter(Action<ExceptionDescriptorFilterOptions> setup)
+        public ExceptionDescriptorFilter(Action<ExceptionDescriptorFilterOptions> setup = null)
         {
             Options = setup.ConfigureOptions();
         }
@@ -24,7 +25,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// Gets the configured options of this <see cref="ExceptionDescriptorFilter"/>.
         /// </summary>
         /// <value>The configured options of this <see cref="ExceptionDescriptorFilter"/>.</value>
-        public ExceptionDescriptorFilterOptions Options { get; }
+        private ExceptionDescriptorFilterOptions Options { get; }
 
         /// <summary>
         /// Called after an action has thrown an <see cref="Exception" />.
@@ -32,12 +33,16 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// <param name="context">The <see cref="ExceptionContext" />.</param>
         public void OnException(ExceptionContext context)
         {
-            var descriptor = context.ParseMethodDescriptor(context.ActionDescriptor as ControllerActionDescriptor);
+            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            var descriptor = context.ParseMethodDescriptor(actionDescriptor);
             if (descriptor != null)
             {
                 var statusCode = Options.HttpStatusCodeResolver?.Invoke(context.Exception);
                 if (statusCode.HasValue) { context.HttpContext.Response.StatusCode = (int)statusCode.Value; }
-                context.Result = new ExceptionDescriptorResult(Options.ExceptionDescriptorResolver?.Invoke(context.Exception));
+                var exceptionDescriptor = Options.ExceptionDescriptorResolver?.Invoke(context.Exception);
+                exceptionDescriptor?.PostInitializeWith(actionDescriptor?.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>());
+                Options.ExceptionCallback?.Invoke(context.Exception, exceptionDescriptor);
+                context.Result = new ExceptionDescriptorResult(exceptionDescriptor);
             }
         }
     }

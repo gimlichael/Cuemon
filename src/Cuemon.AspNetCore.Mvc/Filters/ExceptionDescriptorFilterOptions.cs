@@ -28,6 +28,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         ///         <term><see cref="ExceptionDescriptorResolver"/></term>
         ///         <description><c>null</c></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="ExceptionCallback"/></term>
+        ///         <description><c>null</c></description>
+        ///     </item>
         /// </list>
         /// </remarks>
         public ExceptionDescriptorFilterOptions()
@@ -38,6 +42,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters
                 return HttpStatusCode.InternalServerError;
             };
             ExceptionDescriptorResolver = null;
+            ExceptionCallback = null;
         }
 
         /// <summary>
@@ -52,6 +57,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// <value>The function delegate that will resolve a <see cref="HttpStatusCode"/> from the specified <see cref="Exception"/>.</value>
         public Func<Exception, HttpStatusCode> HttpStatusCodeResolver { get; set; }
 
+        /// <summary>
+        /// Gets or sets the callback delegate that is invoked when an exception has been thrown.
+        /// </summary>
+        /// <value>A <see cref="Action{T}"/>. The default value is <c>null</c>.</value>
+        public Action<Exception, ExceptionDescriptor> ExceptionCallback { get; set; }
 
         private static bool IsValidationException(Exception exception)
         {
