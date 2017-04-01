@@ -12,33 +12,35 @@ namespace Cuemon
     /// </summary>
     public static class ExceptionUtility
     {
+        private const string ThrowingMethod = "throwingMethod";
+
         /// <summary>
-        /// Refines the specified <paramref name="exception"/> with valuable meta information extracted from the associated <paramref name="method"/>.
+        /// Unwraps the specified <paramref name="wrappedException"/> and returns the originating exception.
         /// </summary>
-        /// <typeparam name="T">The type of the exception.</typeparam>
-        /// <param name="exception">The exception that needs to be thrown.</param>
-        /// <param name="method">The method to extract valuable meta information from.</param>
-        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
+        /// <param name="wrappedException">The wrapped exception to unwrap.</param>
+        /// <returns>The originating exception from within <see cref="MethodWrappedException"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="wrappedException"/> is null.
         /// </exception>
-        public static T Refine<T>(T exception, MethodBase method) where T : Exception
+        public static Exception Unwrap(MethodWrappedException wrappedException)
         {
-            return Refine(exception, method, new object[] { });
+            Validator.ThrowIfNull(wrappedException, nameof(wrappedException));
+            var original = wrappedException.InnerException;
+            if (!original.Data.Contains(ThrowingMethod)) { original.Data.Add(ThrowingMethod, wrappedException.ToString()); }
+            return original;
         }
 
         /// <summary>
         /// Refines the specified <paramref name="exception"/> with valuable meta information extracted from the associated <paramref name="method"/> and <paramref name="parameters"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the exception.</typeparam>
         /// <param name="exception">The exception that needs to be thrown.</param>
         /// <param name="method">The method to extract valuable meta information from.</param>
         /// <param name="parameters">The optional parameters to accompany <paramref name="method"/>.</param>
-        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information.</returns>
+        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information within a <see cref="MethodWrappedException"/>.</returns>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
-        public static T Refine<T>(T exception, MethodBase method, params object[] parameters) where T : Exception
+        public static MethodWrappedException Refine(Exception exception, MethodBase method, params object[] parameters)
         {
             Validator.ThrowIfNull(method, nameof(method));
             return Refine(exception, MethodDescriptor.Create(method), parameters);
@@ -47,32 +49,18 @@ namespace Cuemon
         /// <summary>
         /// Refines the specified <paramref name="exception"/> with valuable meta information extracted from the associated <paramref name="method"/> and <paramref name="parameters"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the exception.</typeparam>
         /// <param name="exception">The exception that needs to be thrown.</param>
         /// <param name="method">The method signature containing valuable meta information.</param>
         /// <param name="parameters">The optional parameters to accompany <paramref name="method"/>.</param>
-        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information.</returns>
+        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information within a <see cref="MethodWrappedException"/>.</returns>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
-        public static T Refine<T>(T exception, MethodDescriptor method, params object[] parameters) where T : Exception
+        public static MethodWrappedException Refine(Exception exception, MethodDescriptor method, params object[] parameters)
         {
             Validator.ThrowIfNull(exception, nameof(exception));
             Validator.ThrowIfNull(method, nameof(method));
-
-            exception.Source = method.ToString();
-            if (method.HasParameters)
-            {
-                foreach (KeyValuePair<string, object> item in method.MergeParameters(parameters))
-                {
-                    string key = item.Key;
-                    if (!exception.Data.Contains(key))
-                    {
-                        exception.Data.Add(key, StringConverter.FromObject(item.Value));
-                    }
-                }
-            }
-            return exception;
+            return new MethodWrappedException(exception, method, method.MergeParameters(parameters));
         }
 
         /// <summary>

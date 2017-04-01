@@ -70,14 +70,14 @@ namespace Cuemon
                 if (resultType == typeof(Uri)) // for reasons unknown to me, MS allows all sorts of string to be constructed on a Uri - check if valid (quick-fix until more knowledge of ITypeDescriptorContext)
                 {
                     Uri resultAsUri = result as Uri;
-                    string[] segments = resultAsUri.Segments;
+                    string[] segments = resultAsUri?.Segments;
                 }
                 return result;
             }
             catch (Exception ex)
             {
                 if (ex.GetType() == typeof(NotSupportedException)) { throw; }
-                throw ExceptionUtility.Refine(ExceptionUtility.CreateArgumentException(nameof(value), ex.Message, ex.InnerException), MethodBaseConverter.FromType(typeof(Converter), EnumerableConverter.AsArray(typeof(string), typeof(CultureInfo), typeof(ITypeDescriptorContext))), value, culture, context);
+                throw ExceptionUtility.Refine(ExceptionUtility.CreateArgumentException(nameof(value), ex.Message, ex.InnerException), MethodBaseConverter.FromType(typeof(Converter), EnumerableConverter.AsArray(typeof(string), typeof(CultureInfo), typeof(ITypeDescriptorContext))), value, culture, context).Unwrap();
             }
         }
 

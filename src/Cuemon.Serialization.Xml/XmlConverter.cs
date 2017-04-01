@@ -59,7 +59,7 @@ namespace Cuemon.Serialization.Xml
                 Exception innerException = ex;
                 if (innerException is OutOfMemoryException) { throw; }
                 if (innerException is TargetInvocationException) { innerException = innerException.InnerException; }
-                throw ExceptionUtility.Refine(new InvalidOperationException("There is an error in the XML document.", innerException), MethodBaseConverter.FromType(typeof(XmlConverter), flags: ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic), writer, value);
+                throw ExceptionUtility.Refine(new InvalidOperationException("There is an error in the XML document.", innerException), MethodBaseConverter.FromType(typeof(XmlConverter), flags: ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic), writer, value).Unwrap();
             }
             writer.WriteEndElement();
             writer.Flush();

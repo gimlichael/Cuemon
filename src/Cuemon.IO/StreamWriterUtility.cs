@@ -275,7 +275,7 @@ namespace Cuemon.IO
                 List<object> parameters = new List<object>();
                 parameters.AddRange(factory.GenericArguments.ToArray());
                 parameters.Add(options);
-                throw ExceptionUtility.Refine(new InvalidOperationException("There is an error in the Stream being written.", ex), factory.DelegateInfo, parameters.ToArray());
+                throw ExceptionUtility.Refine(new InvalidOperationException("There is an error in the Stream being written.", ex), factory.DelegateInfo, parameters.ToArray()).Unwrap();
             }
             finally
             {

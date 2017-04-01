@@ -768,7 +768,7 @@ namespace Cuemon
             return excludeGenericArguments ? typeName : string.Format(CultureInfo.InvariantCulture, "{0}<{1}>", typeName, ToDelimitedString(parameters, ", ", FromTypeConverter, fullName));
         }
 
-        private static readonly char[] InvalidCharacters = StringUtility.PunctuationMarks.ToCharArray();
+        private static readonly char[] InvalidCharacters = StringUtility.PunctuationMarks.Replace(".", "").ToCharArray();
 
         private static string FromTypeConverter(Type source, bool fullName)
         {

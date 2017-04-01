@@ -11,32 +11,26 @@ namespace Cuemon
     public static class ExceptionUtilityExtensions
     {
         /// <summary>
-        /// Refines the specified <paramref name="exception"/> with valuable meta information extracted from the associated <paramref name="method"/>.
+        /// Unwraps the specified <paramref name="wrappedException"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the exception.</typeparam>
-        /// <param name="exception">The exception that needs to be thrown.</param>
-        /// <param name="method">The method to extract valuable meta information from.</param>
-        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
-        /// </exception>
-        public static T RefineException<T>(this T exception, MethodBase method) where T : Exception
+        /// <param name="wrappedException">The wrapped exception to unwrap.</param>
+        /// <returns>The originating exception from within <see cref="MethodWrappedException"/>.</returns>
+        public static Exception Unwrap(this MethodWrappedException wrappedException)
         {
-            return ExceptionUtility.Refine(exception, method);
+            return ExceptionUtility.Unwrap(wrappedException);
         }
 
         /// <summary>
         /// Refines the specified <paramref name="exception"/> with valuable meta information extracted from the associated <paramref name="method"/> and <paramref name="parameters"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the exception.</typeparam>
         /// <param name="exception">The exception that needs to be thrown.</param>
         /// <param name="method">The method to extract valuable meta information from.</param>
         /// <param name="parameters">The optional parameters to accompany <paramref name="method"/>.</param>
-        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information.</returns>
+        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information within a <see cref="MethodWrappedException"/>.</returns>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
-        public static T RefineException<T>(this T exception, MethodBase method, params object[] parameters) where T : Exception
+        public static MethodWrappedException Refine(this Exception exception, MethodBase method, params object[] parameters)
         {
             return ExceptionUtility.Refine(exception, method, parameters);
         }
@@ -44,15 +38,14 @@ namespace Cuemon
         /// <summary>
         /// Refines the specified <paramref name="exception"/> with valuable meta information extracted from the associated <paramref name="method"/> and <paramref name="parameters"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the exception.</typeparam>
         /// <param name="exception">The exception that needs to be thrown.</param>
         /// <param name="method">The method signature containing valuable meta information.</param>
         /// <param name="parameters">The optional parameters to accompany <paramref name="method"/>.</param>
-        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information.</returns>
+        /// <returns>The specified <paramref name="exception"/> refined with valuable meta information within a <see cref="MethodWrappedException"/>.</returns>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
-        public static T Refine<T>(this T exception, MethodDescriptor method, params object[] parameters) where T : Exception
+        public static MethodWrappedException Refine(this Exception exception, MethodDescriptor method, params object[] parameters)
         {
             return ExceptionUtility.Refine(exception, method, parameters);
         }

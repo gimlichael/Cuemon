@@ -25,7 +25,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition()) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo()); }
+            if (condition()) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo()).Unwrap(); }
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value); }
+            if (condition(value)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value).Unwrap(); }
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg); }
+            if (condition(value, arg)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg).Unwrap(); }
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg1, arg2)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2); }
+            if (condition(value, arg1, arg2)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2).Unwrap(); }
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg1, arg2, arg3)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3); }
+            if (condition(value, arg1, arg2, arg3)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3).Unwrap(); }
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg1, arg2, arg3, arg4)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4); }
+            if (condition(value, arg1, arg2, arg3, arg4)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4).Unwrap(); }
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg1, arg2, arg3, arg4, arg5)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4, arg5); }
+            if (condition(value, arg1, arg2, arg3, arg4, arg5)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4, arg5).Unwrap(); }
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition()) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo()); }
+            if (!condition()) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo()).Unwrap(); }
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value); }
+            if (!condition(value)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value).Unwrap(); }
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg); }
+            if (!condition(value, arg)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg).Unwrap(); }
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg1, arg2)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2); }
+            if (!condition(value, arg1, arg2)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2).Unwrap(); }
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg1, arg2, arg3)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3); }
+            if (!condition(value, arg1, arg2, arg3)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3).Unwrap(); }
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg1, arg2, arg3, arg4)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4); }
+            if (!condition(value, arg1, arg2, arg3, arg4)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4).Unwrap(); }
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg1, arg2, arg3, arg4, arg5)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4, arg5); }
+            if (!condition(value, arg1, arg2, arg3, arg4, arg5)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4, arg5).Unwrap(); }
         }
 
         /// <summary>
