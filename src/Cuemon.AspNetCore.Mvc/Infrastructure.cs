@@ -1,62 +1,64 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Integrity;
-using Cuemon.Integrity;
-using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.AspNetCore.Mvc
 {
     internal static class Infrastructure
     {
-        internal static async Task InvokeResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+        internal static async Task InvokeResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next, Action<Stream, HttpRequest, HttpResponse> entityTagParser)
         {
-
-            using (var memoryStream = new MemoryStream())
+            using (var result = new MemoryStream())
             {
-                var stream = context.HttpContext.Response.Body;
-                context.HttpContext.Response.Body = memoryStream;
-                await next();
+                var body = context.HttpContext.Response.Body;
+                context.HttpContext.Response.Body = result;
+                await next().ConfigureAwait(false);
+                result.Seek(0, SeekOrigin.Begin);
 
-                var httpMethod = context.HttpContext.Request.Method;
-                if (HttpMethods.IsGet(httpMethod) || HttpMethods.IsHead(httpMethod))
+                var method = context.HttpContext.Request.Method;
+                if (HttpMethods.IsGet(method) || HttpMethods.IsHead(method))
                 {
                     if (context.HttpContext.Response.IsSuccessStatusCode())
                     {
-                        var validator = CacheValidator.ReferencePoint.CombineWith(memoryStream.ComputeHash(HashAlgorithmType.MD5, true).Value);
-                        validator.SetEntityTagHeaderInformation(context.HttpContext.Request, context.HttpContext.Response);
+                        entityTagParser?.Invoke(result, context.HttpContext.Request, context.HttpContext.Response);
                         if (context.HttpContext.Response.StatusCode == StatusCodes.Status304NotModified)
                         {
                             return;
                         }
                     }
                 }
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                await memoryStream.CopyToAsync(stream);
+                await result.CopyToAsync(body).ConfigureAwait(false);
             }
         }
 
-        internal static void InterceptControllerWithProfiler(ActionExecutingContext context, TimeMeasureOptions options)
+        internal static void InterceptControllerWithProfilerOnActionExecuting(ActionExecutingContext context, TimeMeasureOptions options, TimeMeasureProfiler profiler)
         {
+            profiler.Timer.Start();
             var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
             if (descriptor != null)
             {
                 var expectedObjects = context.ParseRuntimeParameters(descriptor);
                 var verifiedObjects = context.ActionArguments.Values.ToArray();
                 if (verifiedObjects.Length == expectedObjects.Length) { expectedObjects = verifiedObjects; }
-                context.Result = TimeMeasure.WithFunc(descriptor.MethodInfo.Invoke, context.Controller, expectedObjects, o =>
-                {
-                    o.RuntimeParameters = options.RuntimeParameters ?? expectedObjects;
-                    o.MethodDescriptor = options.MethodDescriptor ?? (() => context.ParseMethodDescriptor(descriptor));
-                    o.TimeMeasureCompletedThreshold = options.TimeMeasureCompletedThreshold;
-                }).Result as IActionResult;
+                var md = options.MethodDescriptor?.Invoke() ?? context.ParseMethodDescriptor(descriptor);
+                profiler.Member = md.ToString();
+                profiler.Data = md.MergeParameters(options.RuntimeParameters ?? expectedObjects);
+            }
+        }
+
+        internal static void InterceptControllerWithProfilerOnActionExecuted(ActionExecutedContext context, TimeMeasureOptions options, TimeMeasureProfiler profiler)
+        {
+            profiler.Timer.Stop();
+            if (options.TimeMeasureCompletedThreshold == TimeSpan.Zero || profiler.Elapsed > options.TimeMeasureCompletedThreshold)
+            {
+                TimeMeasure.CompletedCallback?.Invoke(profiler);
             }
         }
 
