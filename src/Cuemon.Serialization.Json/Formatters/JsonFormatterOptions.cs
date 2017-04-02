@@ -133,6 +133,11 @@ namespace Cuemon.Serialization.Json.Formatters
                         writer.WriteEndObject();
                     }
                     writer.WriteEndObject();
+                    if (descriptor.HelpLink != null)
+                    {
+                        writer.WritePropertyName("helpLink");
+                        writer.WriteValue(descriptor.HelpLink.OriginalString);
+                    }
                     writer.WriteEndObject();
                 }
             }

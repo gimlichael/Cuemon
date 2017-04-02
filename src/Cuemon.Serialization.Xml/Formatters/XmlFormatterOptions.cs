@@ -112,6 +112,10 @@ namespace Cuemon.Serialization.Xml.Formatters
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
+                    if (descriptor.HelpLink != null)
+                    {
+                        writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString);
+                    }
                     writer.WriteEndElement();
                 }
             }
