@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using Cuemon.Serialization.Formatters;
 using Cuemon.Serialization.Json.Converters;
 using Newtonsoft.Json;
@@ -113,7 +112,7 @@ namespace Cuemon.Serialization.Json.Formatters
                         writer.WriteValue(descriptor.RequestId);
                     }
                     writer.WritePropertyName("code");
-                    writer.WriteValue(descriptor.Code.ToString(CultureInfo.InvariantCulture));
+                    writer.WriteValue(descriptor.Code);
                     writer.WritePropertyName("message");
                     writer.WriteValue(descriptor.Message);
                     writer.WritePropertyName("failure");
