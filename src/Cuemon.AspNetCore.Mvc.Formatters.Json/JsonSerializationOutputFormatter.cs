@@ -15,12 +15,13 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonSerializationOutputFormatter"/> class.
         /// </summary>
-        public JsonSerializationOutputFormatter()
+        public JsonSerializationOutputFormatter(JsonFormatterOptions formatterOptions)
         {
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/json"));
+            FormatterOptions = formatterOptions;
         }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
             var value = context.Object;
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {
-                JsonFormatter formatter = new JsonFormatter();
+                JsonFormatter formatter = new JsonFormatter(FormatterOptions);
                 using (var streamReader = new StreamReader(formatter.Serialize(value)))
                 {
                     int bytesRead;
@@ -49,5 +50,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
                 await textWriter.FlushAsync().ConfigureAwait(false);
             }
         }
+
+        private JsonFormatterOptions FormatterOptions { get; }
     }
 }

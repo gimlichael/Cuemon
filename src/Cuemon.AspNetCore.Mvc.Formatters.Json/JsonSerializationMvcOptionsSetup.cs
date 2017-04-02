@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Cuemon.Serialization.Json.Formatters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Cuemon.AspNetCore.Mvc.Formatters.Json
@@ -11,18 +12,12 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
         /// <summary>
         /// Creates a new <see cref="JsonSerializationMvcOptionsSetup"/>.
         /// </summary>
-        public JsonSerializationMvcOptionsSetup() : base(ConfigureMvc)
+        public JsonSerializationMvcOptionsSetup(IOptions<JsonFormatterOptions> formatterOptions) : base(mo =>
         {
-        }
-
-        /// <summary>
-        /// Adds the XML serializer formatters to <see cref="MvcOptions"/>.
-        /// </summary>
-        /// <param name="options">The <see cref="MvcOptions"/>.</param>
-        public static void ConfigureMvc(MvcOptions options)
+            mo.OutputFormatters.Insert(0, new JsonSerializationOutputFormatter(formatterOptions?.Value));
+            mo.InputFormatters.Insert(0, new JsonSerializationInputFormatter(formatterOptions?.Value));
+        })
         {
-            options.OutputFormatters.Insert(0, new JsonSerializationOutputFormatter());
-            options.InputFormatters.Insert(0, new JsonSerializationInputFormatter());
         }
     }
 }
