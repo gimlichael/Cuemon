@@ -17,9 +17,18 @@ namespace Cuemon.Serialization.Json.Formatters
         /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
-        public JsonFormatter(Action<JsonFormatterOptions> setup = null)
+        public JsonFormatter(Action<JsonFormatterOptions> setup = null) : this(setup.ConfigureOptions())
         {
-            Options = setup.ConfigureOptions();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
+        /// </summary>
+        /// <param name="options">The configured <see cref="JsonFormatterOptions"/>.</param>
+        public JsonFormatter(JsonFormatterOptions options)
+        {
+            Validator.ThrowIfNull(options, nameof(options));
+            Options = options;
         }
 
         /// <summary>
