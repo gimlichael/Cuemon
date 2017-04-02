@@ -10,7 +10,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
     /// <summary>
     /// Extension methods for adding XML formatters to MVC.
     /// </summary>
-    public static class XmlMvcCoreBuilderExtensions
+    public static class JsonMvcCoreBuilderExtensions
     {
         /// <summary>
         /// Adds the JSON Serializer formatters to MVC.
