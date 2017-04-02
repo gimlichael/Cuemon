@@ -21,6 +21,16 @@ namespace Cuemon.Serialization.Xml.Formatters
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="XmlFormatter"/> class.
+        /// </summary>
+        /// <param name="options">The configured <see cref="XmlFormatterOptions"/>.</param>
+        public XmlFormatter(XmlFormatterOptions options)
+        {
+            Validator.ThrowIfNull(options, nameof(options));
+            Options = options;
+        }
+
+        /// <summary>
         /// Gets the configured options of this <see cref="XmlFormatter"/>.
         /// </summary>
         /// <value>The configured options of this <see cref="XmlFormatter"/>.</value>
