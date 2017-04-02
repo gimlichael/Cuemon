@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Cuemon.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Authentication
 {
@@ -29,38 +30,34 @@ namespace Cuemon.AspNetCore.Authentication
         /// <returns>A task that represents the execution of this middleware.</returns>
         public override async Task Invoke(HttpContext context)
         {
-            if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationParser, PrincipalParser))
+            if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
                 context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
-                context.Response.Headers.Add(AuthenticationUtility.HttpWwwAuthenticateHeader, "{0} realm=\"{1}\"".FormatWith(AuthenticationSchemeName, Options.Realm));
-                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody);
+                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, "{0} realm=\"{1}\"".FormatWith(AuthenticationScheme, Options.Realm));
+                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ConfigureAwait(false);
                 return;
             }
-
-            await Next.Invoke(context);
+            await Next.Invoke(context).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Gets the name of the authentication scheme.
         /// </summary>
         /// <value>The name of the authentication scheme.</value>
-        public string AuthenticationSchemeName
-        {
-            get { return "Basic"; }
-        }
+        public string AuthenticationScheme => "Basic";
 
-        private bool PrincipalParser(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
+        private bool TryAuthenticate(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
         {
-            if (Options.CredentialsValidator == null) { throw new InvalidOperationException("The CredentialsValidator delegate cannot be null."); }
-            result = Options.CredentialsValidator(credentials.Arg1, credentials.Arg2);
+            if (Options.Authenticator == null) { throw new InvalidOperationException("The {0} cannot be null.".FormatWith(nameof(Options.Authenticator))); }
+            result = Options.Authenticator(credentials.Arg1, credentials.Arg2);
             return Condition.IsNotNull(result);
         }
 
-        private Template<string, string> AuthorizationParser(string authorizationHeader)
+        private Template<string, string> AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
         {
-            if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, AuthenticationSchemeName))
+            if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, AuthenticationScheme))
             {
-                string base64Credentials = authorizationHeader.Remove(0, AuthenticationSchemeName.Length + 1);
+                string base64Credentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
                 if (StringUtility.IsBase64(base64Credentials))
                 {
                     string[] credentials = StringConverter.FromBytes(Convert.FromBase64String(base64Credentials), options =>
@@ -87,11 +84,11 @@ namespace Cuemon.AspNetCore.Authentication
         /// Adds a HTTP Basic Authentication scheme to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="options">The HTTP Basic Authentication middleware options.</param>
+        /// <param name="setup">The HTTP <see cref="BasicAuthenticationOptions"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder builder, Action<BasicAuthenticationOptions> options)
+        public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder builder, Action<BasicAuthenticationOptions> setup)
         {
-            return builder.UseMiddleware<BasicAuthenticationMiddleware>(options);
+            return builder.UseMiddleware<BasicAuthenticationMiddleware>(setup);
         }
     }
 }

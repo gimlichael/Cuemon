@@ -1,7 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-
-namespace Cuemon.AspNetCore.Authentication
+﻿namespace Cuemon.AspNetCore.Authentication
 {
     /// <summary>
     /// Configuration options for <see cref="BasicAuthenticationMiddleware"/>. This class cannot be inherited.
@@ -10,9 +7,22 @@ namespace Cuemon.AspNetCore.Authentication
     public sealed class BasicAuthenticationOptions : AuthenticationOptions
     {
         /// <summary>
-        /// Gets the function delegate callback for credentials validation.
+        /// Initializes a new instance of the <see cref="BasicAuthenticationOptions"/> class.
         /// </summary>
-        /// <value>The function delegate callback for credentials validation.</value>
-        public Func<string, string, ClaimsPrincipal> CredentialsValidator { get; set; }
+        public BasicAuthenticationOptions()
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the function delegate that will perform the authentication from the specified <c>username</c> and <c>password</c>.
+        /// </summary>
+        /// <value>The function delegate that will perform the authentication.</value>
+        public BasicAuthenticator Authenticator { get; set; }
+
+        /// <summary>
+        /// Gets the realm that defines the protection space.
+        /// </summary>
+        /// <value>The realm that defines the protection space.</value>
+        public string Realm { get; set; }
     }
 }

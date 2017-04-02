@@ -102,10 +102,10 @@ namespace Cuemon.AspNetCore.Authentication
         /// <param name="hash2">The HA2 to include in the RESPONSE computed value.</param>
         /// <param name="algorithm">The algorithm to use when computing the RESPONSE value.</param>
         /// <returns>A <see cref="string"/> in the format of H('<paramref name="hash1"/>:<paramref name="credentials"/>[CredentialNonce]:<paramref name="credentials"/>[CredentialNonceCount]:<paramref name="credentials"/>[CredentialClientNonce]:<paramref name="credentials"/>[CredentialQualityOfProtection]:<paramref name="hash2"/>').</returns>
-        public static string ComputeResponse(IDictionary<string, string> credentials, string hash1, string hash2, HashAlgorithmType algorithm)
+        public static byte[] ComputeResponse(IDictionary<string, string> credentials, string hash1, string hash2, HashAlgorithmType algorithm)
         {
             ValidateCredentials(credentials, CredentialNonce, CredentialNonceCount, CredentialClientNonce, CredentialQualityOfProtection);
-            return HashUtility.ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}:{3}:{4}:{5}", hash1, credentials[CredentialNonce], credentials[CredentialNonceCount], credentials[CredentialClientNonce], credentials[CredentialQualityOfProtection], hash2), algorithm, Encoding.UTF8).ToHexadecimal();
+            return HashUtility.ComputeHash("{0}:{1}:{2}:{3}:{4}:{5}".FormatWith(hash1, credentials[CredentialNonce], credentials[CredentialNonceCount], credentials[CredentialClientNonce], credentials[CredentialQualityOfProtection], hash2), algorithm, Encoding.UTF8).Value;
         }
 
         /// <summary>

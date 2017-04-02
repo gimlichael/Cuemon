@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Authentication
 {
@@ -12,7 +17,8 @@ namespace Cuemon.AspNetCore.Authentication
     /// </summary>
     public class DigestAccessAuthenticationMiddleware : Middleware<DigestAccessAuthenticationOptions>
     {
-        private static readonly Dictionary<string, Template<DateTime, string>> NonceCounter = new Dictionary<string, Template<DateTime, string>>();
+        private static readonly ConcurrentDictionary<string, Template<DateTime, string>> NonceCounter = new ConcurrentDictionary<string, Template<DateTime, string>>();
+        private static Timer _nonceCounterSweeper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DigestAccessAuthenticationMiddleware"/> class.
@@ -22,6 +28,15 @@ namespace Cuemon.AspNetCore.Authentication
         public DigestAccessAuthenticationMiddleware(RequestDelegate next, Action<DigestAccessAuthenticationOptions> setup)
             : base(next, setup)
         {
+            _nonceCounterSweeper = new Timer(s =>
+            {
+                DateTime utcStaleTimestamp = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5));
+                var staledEntries = NonceCounter.Where(pair => pair.Value.Arg1 <= utcStaleTimestamp).ToList();
+                foreach (var staledEntry in staledEntries)
+                {
+                    TesterDoer.IgnoreResult<string, Template<DateTime, string>, bool>(NonceCounter.TryRemove, staledEntry.Key);
+                }
+            }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(2));
         }
 
         /// <summary>
@@ -31,43 +46,38 @@ namespace Cuemon.AspNetCore.Authentication
         /// <returns>A task that represents the execution of this middleware.</returns>
         public override async Task Invoke(HttpContext context)
         {
-
-            if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationParser, PrincipalParser))
+            if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
                 context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
-                string etag = context.Response.Headers[AuthenticationUtility.HttpEtagHeader];
+                string etag = context.Response.Headers[HeaderNames.ETag];
                 if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
                 Func<string> opaqueGenerator = Options.OpaqueGenerator;
                 Func<byte[]> nonceSecret = Options.NonceSecret;
                 Func<DateTime, string, byte[], string> nonceGenerator = Options.NonceGenerator;
                 string staleNonce = context.Items["staleNonce"] as string ?? "FALSE";
-                context.Response.Headers.Add(AuthenticationUtility.HttpWwwAuthenticateHeader, "{0} realm=\"{1}\", qop=\"{2}\", nonce=\"{3}\", opaque=\"{4}\", stale=\"{5}\", algorithm=\"{6}\"".FormatWith(
-                    AuthenticationSchemeName,
+                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, "{0} realm=\"{1}\", qop=\"{2}\", nonce=\"{3}\", opaque=\"{4}\", stale=\"{5}\", algorithm=\"{6}\"".FormatWith(
+                    AuthenticationScheme,
                     Options.Realm,
                     DigestAuthenticationUtility.CredentialQualityOfProtectionOptions,
                     nonceGenerator(DateTime.UtcNow, etag, nonceSecret()),
                     opaqueGenerator(),
                     staleNonce,
                     DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)));
-                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody);
+                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ConfigureAwait(false);
                 return;
             }
-
-            await Next.Invoke(context);
+            await Next.Invoke(context).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Gets the name of the authentication scheme.
         /// </summary>
         /// <value>The name of the authentication scheme.</value>
-        public string AuthenticationSchemeName
-        {
-            get { return "Digest"; }
-        }
+        public string AuthenticationScheme => "Digest";
 
-        private bool PrincipalParser(HttpContext context, Dictionary<string, string> credentials, out ClaimsPrincipal result)
+        private bool TryAuthenticate(HttpContext context, Dictionary<string, string> credentials, out ClaimsPrincipal result)
         {
-            if (Options.CredentialsValidator == null) { throw new InvalidOperationException("The CredentialsValidator delegate cannot be null."); }
+            if (Options.Authenticator == null) { throw new InvalidOperationException("The {0} delegate cannot be null.".FormatWith(Options.Authenticator)); }
             string password, userName, clientResponse, nonce, nonceCount;
             credentials.TryGetValue(DigestAuthenticationUtility.CredentialUserName, out userName);
             credentials.TryGetValue(DigestAuthenticationUtility.CredentialResponse, out clientResponse);
@@ -79,32 +89,27 @@ namespace Cuemon.AspNetCore.Authentication
                 bool staleNonce = nonceExpiredParser(nonce, TimeSpan.FromSeconds(30));
                 context.Items["staleNonce"] = staleNonce.ToString().ToUpperInvariant();
                 if (staleNonce) { return false; }
-
-                lock (NonceCounter)
+                Template<DateTime, string> previousNonce;
+                if (NonceCounter.TryGetValue(nonce, out previousNonce))
                 {
-                    Template<DateTime, string> previousNonce;
-                    if (NonceCounter.TryGetValue(nonce, out previousNonce))
-                    {
-                        if (previousNonce.Arg2.Equals(nonceCount, StringComparison.Ordinal)) { return false; }
-                    }
-                    else
-                    {
-                        NonceCounter.Add(nonce, TupleUtility.CreateTwo(DateTime.UtcNow, nonceCount));
-                    }
+                    if (previousNonce.Arg2.Equals(nonceCount, StringComparison.Ordinal)) { return false; }
+                }
+                else
+                {
+                    NonceCounter.TryAdd(nonce, TupleUtility.CreateTwo(DateTime.UtcNow, nonceCount));
                 }
             }
-            result = Options.CredentialsValidator(userName, out password);
-            string ha1 = DigestAuthenticationUtility.ComputeHash1(credentials, password, Options.Algorithm);
-            string ha2 = DigestAuthenticationUtility.ComputeHash2(credentials, context.Request.Method, Options.Algorithm);
-            string serverResponse = DigestAuthenticationUtility.ComputeResponse(credentials, ha1, ha2, Options.Algorithm);
-            return serverResponse.Equals(clientResponse, StringComparison.Ordinal) && Condition.IsNotNull(result);
+            result = Options.Authenticator(userName, out password);
+
+            string serverResponse = Options?.DigestAccessSigner(new DigestAccessAuthenticationParameters(credentials.ToImmutableDictionary(), context.Request.Method, password, Options.Algorithm))?.ToHexadecimal();
+            return serverResponse != null && (serverResponse.Equals(clientResponse, StringComparison.Ordinal) && Condition.IsNotNull(result));
         }
 
-        private Dictionary<string, string> AuthorizationParser(string authorizationHeader)
+        private Dictionary<string, string> AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
         {
-            if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, AuthenticationSchemeName))
+            if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, AuthenticationScheme))
             {
-                string digestCredentials = authorizationHeader.Remove(0, AuthenticationSchemeName.Length + 1);
+                string digestCredentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
                 string[] credentials = digestCredentials.Split(AuthenticationUtility.DigestAuthenticationCredentialSeparator);
                 if (IsDigestCredentialsValid(credentials))
                 {
@@ -160,11 +165,11 @@ namespace Cuemon.AspNetCore.Authentication
         /// Adds a HTTP Basic Authentication scheme to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="options">The HTTP Digest Access Authentication middleware options.</param>
+        /// <param name="setup">The HTTP <see cref="DigestAccessAuthenticationMiddleware"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Action<DigestAccessAuthenticationOptions> options)
+        public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Action<DigestAccessAuthenticationOptions> setup)
         {
-            return builder.UseMiddleware<DigestAccessAuthenticationMiddleware>(options);
+            return builder.UseMiddleware<DigestAccessAuthenticationMiddleware>(setup);
         }
     }
 }
