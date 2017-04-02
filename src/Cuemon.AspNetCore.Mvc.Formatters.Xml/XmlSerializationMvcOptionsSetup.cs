@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Cuemon.Serialization.Xml.Formatters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
@@ -11,18 +12,12 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
         /// <summary>
         /// Creates a new <see cref="XmlSerializationMvcOptionsSetup"/>.
         /// </summary>
-        public XmlSerializationMvcOptionsSetup() : base(ConfigureMvc)
+        public XmlSerializationMvcOptionsSetup(IOptions<XmlFormatterOptions> formatterOptions) : base(mo =>
         {
-        }
-
-        /// <summary>
-        /// Adds the XML serializer formatters to <see cref="MvcOptions"/>.
-        /// </summary>
-        /// <param name="options">The <see cref="MvcOptions"/>.</param>
-        public static void ConfigureMvc(MvcOptions options)
+            mo.OutputFormatters.Insert(0, new XmlSerializationOutputFormatter(formatterOptions?.Value));
+            mo.InputFormatters.Insert(0, new XmlSerializationInputFormatter(formatterOptions?.Value));
+        })
         {
-            options.OutputFormatters.Insert(0, new XmlSerializationOutputFormatter());
-            options.InputFormatters.Insert(0, new XmlSerializationInputFormatter());
         }
     }
 }

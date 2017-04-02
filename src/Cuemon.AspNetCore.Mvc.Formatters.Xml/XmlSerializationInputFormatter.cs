@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
-using Cuemon.IO;
 using Cuemon.Serialization.Xml.Formatters;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
@@ -15,12 +14,13 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlSerializationInputFormatter"/> class.
         /// </summary>
-        public XmlSerializationInputFormatter()
+        public XmlSerializationInputFormatter(XmlFormatterOptions formatterOptions)
         {
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/xml"));
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/xml"));
+            FormatterOptions = formatterOptions;
         }
 
         /// <summary>
@@ -34,9 +34,11 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
             Validator.ThrowIfNull(context, nameof(context));
             Validator.ThrowIfNull(encoding, nameof(encoding));
             var request = context.HttpContext.Request;
-            var formatter = new XmlFormatter(o => o.WriterSettings.Encoding = encoding);
-            var deserializedObject = formatter.Deserialize(request.Body.Copy(), context.ModelType);
+            var formatter = new XmlFormatter(FormatterOptions);
+            var deserializedObject = formatter.Deserialize(request.Body, context.ModelType);
             return InputFormatterResult.SuccessAsync(deserializedObject);
         }
+
+        private XmlFormatterOptions FormatterOptions { get; }
     }
 }

@@ -16,12 +16,13 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlSerializationOutputFormatter"/> class.
         /// </summary>
-        public XmlSerializationOutputFormatter()
+        public XmlSerializationOutputFormatter(XmlFormatterOptions formatterOptions)
         {
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/xml"));
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/xml"));
+            FormatterOptions = formatterOptions;
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
             var value = context.Object;
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {
-                var formatter = new XmlFormatter();
+                var formatter = new XmlFormatter(FormatterOptions);
                 var raw = XmlStreamConverter.ChangeEncoding(formatter.Serialize(value), selectedEncoding);
                 using (var streamReader = new StreamReader(raw, selectedEncoding))
                 {
@@ -51,5 +52,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
                 await textWriter.FlushAsync().ConfigureAwait(false);
             }
         }
+
+        private XmlFormatterOptions FormatterOptions { get; }
     }
 }
