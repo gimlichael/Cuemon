@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 
@@ -28,15 +29,29 @@ namespace Cuemon
         /// <param name="conversionType">The <see cref="Type"/> of object to return.</param>
         /// <param name="provider">An object that supplies culture-specific formatting information.</param>
         /// <returns>An object whose type is <paramref name="conversionType"/> and whose value is equivalent to <paramref name="value"/>.</returns>
-        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,System.Type)"/> is, that this converter supports generics and enums somewhat automated.</remarks>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,System.Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/>.</remarks>
         public static object ChangeType(object value, Type conversionType, IFormatProvider provider)
         {
             Validator.ThrowIfNull(conversionType, nameof(conversionType));
             if (value == null) { return null; }
 
-            bool isEnum = conversionType.GetTypeInfo().IsEnum;
-            bool isNullable = TypeUtility.IsNullable(conversionType);
-            return Convert.ChangeType(isEnum ? Enum.Parse(conversionType, value.ToString()) : value, isNullable ? Nullable.GetUnderlyingType(conversionType) : conversionType, provider);
+            try
+            {
+                bool isEnum = conversionType.GetTypeInfo().IsEnum;
+                bool isNullable = TypeUtility.IsNullable(conversionType);
+                return Convert.ChangeType(isEnum ? Enum.Parse(conversionType, value.ToString()) : value, isNullable ? Nullable.GetUnderlyingType(conversionType) : conversionType, provider);
+            }
+            catch (Exception first)
+            {
+                try
+                {
+                    return TypeDescriptor.GetConverter(conversionType).ConvertFrom(value);
+                }
+                catch (Exception second)
+                {
+                    throw new AggregateException(first, second);
+                }
+            }
         }
 
         /// <summary>
