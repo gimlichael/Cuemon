@@ -85,18 +85,19 @@ namespace Cuemon.Serialization.Json.Formatters
         /// 3. if neither was specified, a default JSON reader implementation will be used.</remarks>
         public override object Deserialize(Stream value, Type valueType)
         {
-            var serializer = Options.Converter;
-            if (serializer == null)
+            var converter = Options.Converter;
+            if (converter == null)
             {
                 var formatter = Options.ParseReaderFormatter(valueType);
-                serializer = DynamicJsonConverter.Create(valueType, null, formatter);
+                converter = DynamicJsonConverter.Create(valueType, null, formatter);
             }
-            Options.Settings.Converters.Add(serializer);
 
-            var jsonSerializer = JsonSerializer.CreateDefault(Options.Settings);
+            var serializer = JsonSerializer.Create(Options.Settings);
+            serializer.Converters.Add(converter);
+
             using (JsonTextReader reader = new JsonTextReader(new StreamReader(value, true)))
             {
-                return jsonSerializer.Deserialize(reader, valueType);
+                return serializer.Deserialize(reader, valueType);
             }
         }
     }
