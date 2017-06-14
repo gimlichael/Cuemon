@@ -122,7 +122,10 @@ namespace Cuemon.IO
 
         private static void WriteInnerExceptions(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
-            var innerExceptions = new List<Exception>(ExceptionUtility.Flatten(exception));
+            var aggregated = exception as AggregateException;
+            var innerExceptions = new List<Exception>();
+            if (aggregated != null) { innerExceptions.AddRange(aggregated.InnerExceptions); }
+            if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
             if (innerExceptions.Count > 0)
             {
                 int endElementsToWrite = 0;
