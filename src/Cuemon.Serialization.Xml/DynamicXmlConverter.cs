@@ -16,10 +16,10 @@ namespace Cuemon.Serialization.Xml
         /// <param name="reader">The delegate that generates <typeparamref name="T"/> from its XML representation.</param>
         /// <param name="setup">The <see cref="XmlConverterOptions"/> which need to be configured.</param>
         /// <returns>An <see cref="XmlConverter"/> implementation of <typeparamref name="T"/>.</returns>
-        public static XmlConverter Create<T>(Action<XmlWriter, T> writer = null, Func<XmlReader, Type, T> reader = null, Action<XmlConverterOptions> setup = null)
+        public static XmlConverter Create<T>(Action<XmlWriter, XmlWriterSettings, T> writer = null, Func<XmlReader, XmlReaderSettings, Type, T> reader = null, Action<XmlConverterOptions> setup = null)
         {
-            var castedWriter = writer == null ? (Action<XmlWriter, object>)null : (w, t) => writer(w, (T)t);
-            var castedReader = reader == null ? (Func<XmlReader, Type, object>)null : (r, t) => reader(r, t);
+            var castedWriter = writer == null ? (Action<XmlWriter, XmlWriterSettings, object>)null : (w, s, t) => writer(w, s, (T)t);
+            var castedReader = reader == null ? (Func<XmlReader, XmlReaderSettings, Type, object>)null : (r, s, t) => reader(r, s, t);
             return Create(castedWriter, castedReader, setup);
         }
 
@@ -30,7 +30,7 @@ namespace Cuemon.Serialization.Xml
         /// <param name="reader">The delegate that generates an object from its XML representation.</param>
         /// <param name="setup">The <see cref="XmlConverterOptions"/> which need to be configured.</param>
         /// <returns>An <see cref="XmlConverter"/> implementation of an object.</returns>
-        public static XmlConverter Create(Action<XmlWriter, object> writer = null, Func<XmlReader, Type, object> reader = null, Action<XmlConverterOptions> setup = null)
+        public static XmlConverter Create(Action<XmlWriter, XmlWriterSettings, object> writer = null, Func<XmlReader, XmlReaderSettings, Type, object> reader = null, Action<XmlConverterOptions> setup = null)
         {
             return new DynamicXmlConverterCore(writer, reader, setup);
         }
@@ -38,19 +38,19 @@ namespace Cuemon.Serialization.Xml
 
     internal class DynamicXmlConverterCore : XmlConverter
     {
-        internal DynamicXmlConverterCore(Action<XmlWriter, object> writer, Func<XmlReader, Type, object> reader, Action<XmlConverterOptions> setup) : base(setup)
+        internal DynamicXmlConverterCore(Action<XmlWriter, XmlWriterSettings, object> writer, Func<XmlReader, XmlReaderSettings, Type, object> reader, Action<XmlConverterOptions> setup) : base(setup)
         {
             Writer = writer;
             Reader = reader;
         }
 
-        private Action<XmlWriter, object> Writer { get; }
+        private Action<XmlWriter, XmlWriterSettings, object> Writer { get; }
 
-        private Func<XmlReader, Type, object> Reader { get; }
+        private Func<XmlReader, XmlReaderSettings, Type, object> Reader { get; }
 
         public override object ReadXml(XmlReader reader, Type valueType)
         {
-            return Reader == null ? base.ReadXml(reader, valueType) : Reader.Invoke(reader, valueType);
+            return Reader == null ? base.ReadXml(reader, valueType) : Reader.Invoke(reader, Options?.ReaderSettings, valueType);
         }
 
         public override void WriteXml(XmlWriter writer, object source)
@@ -61,7 +61,7 @@ namespace Cuemon.Serialization.Xml
             }
             else
             {
-                Writer(writer, source);
+                Writer(writer, Options?.WriterSettings, source);
             }
         }
     }

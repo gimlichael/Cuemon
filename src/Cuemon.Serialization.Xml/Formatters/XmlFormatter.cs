@@ -82,7 +82,7 @@ namespace Cuemon.Serialization.Xml.Formatters
                 var formatter = Options.ParseReaderFormatter(valueType);
                 serializer = DynamicXmlConverter.Create(null, formatter, options =>
                 {
-                    options.WriterSettings = Options.WriterSettings;
+                    options.ReaderSettings = Options.ReaderSettings;
                     options.RootName = Options.RootName;
                 });
             }

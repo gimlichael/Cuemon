@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using Cuemon.IO;
 using Cuemon.Serialization.Formatters;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
@@ -14,8 +15,8 @@ namespace Cuemon.Serialization.Xml.Formatters
     /// <summary>
     /// Specifies options that is related to <see cref="XmlFormatter"/> operations.
     /// </summary>
-    /// <seealso cref="FormatterOptions{TReader,TWriter,TConverter}" />
-    public class XmlFormatterOptions : FormatterOptions<XmlReader, XmlWriter, XmlConverter>
+    /// <seealso cref="FormatterOptions{TReader,TReaderOptions,TWriter,TWriterOptions,TConverter}" />
+    public class XmlFormatterOptions : FormatterOptions<XmlReader, XmlReaderSettings, XmlWriter, XmlWriterSettings, XmlConverter>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlFormatterOptions"/> class.
@@ -28,7 +29,7 @@ namespace Cuemon.Serialization.Xml.Formatters
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="FormatterOptions{TReader,TWriter,TConverter}.Converter"/></term>
+        ///         <term><see cref="FormatterOptions{TReader,TReaderOptions,TWriter,TWriterOptions,TConverter}.Converter"/></term>
         ///         <description><c>null</c></description>
         ///     </item>
         ///     <item>
@@ -75,22 +76,22 @@ namespace Cuemon.Serialization.Xml.Formatters
         /// Gets or sets the function delegate that generates an object from its XML representation.
         /// </summary>
         /// <value>The function delegate that generates an object from its XML representation.</value>
-        public override Func<XmlReader, Type, object> ReaderFormatter { get; set; }
+        public override Func<XmlReader, XmlReaderSettings, Type, object> ReaderFormatter { get; set; }
 
         /// <summary>
         /// Gets or sets the delegate that converts an object into its XML representation.
         /// </summary>
         /// <value>The delegate that converts an object into its XML representation.</value>
-        public override Action<XmlWriter, object> WriterFormatter { get; set; }
+        public override Action<XmlWriter, XmlWriterSettings, object> WriterFormatter { get; set; }
 
         /// <summary>
         /// Gets the, by <see cref="Type"/>, specialized delegate that converts an object into its XML representation.
         /// </summary>
         /// <value>A specialized delegate, by <see cref="Type"/>, that converts an object into its XML representation.</value>
-        public override IDictionary<Type, Action<XmlWriter, object>> WriterFormatters { get; } = new Dictionary<Type, Action<XmlWriter, object>>()
+        public override IDictionary<Type, Action<XmlWriter, XmlWriterSettings, object>> WriterFormatters { get; } = new Dictionary<Type, Action<XmlWriter, XmlWriterSettings, object>>()
         {
             {
-                typeof(ExceptionDescriptor), (writer, o) =>
+                typeof(ExceptionDescriptor), (writer, settings, o) =>
                 {
                     ExceptionDescriptor descriptor = (ExceptionDescriptor) o;
                     writer.WriteStartElement("ExceptionDescriptor");
@@ -118,6 +119,13 @@ namespace Cuemon.Serialization.Xml.Formatters
                     }
                     writer.WriteEndElement();
                 }
+            },
+            {
+                typeof(Exception), (writer, settings, o) =>
+                {
+                    Exception ex = (Exception) o;
+                    XmlStreamConverter.WriteException(writer, ex, true);
+                }
             }
         };
 
@@ -125,67 +133,67 @@ namespace Cuemon.Serialization.Xml.Formatters
         /// Gets the, by <see cref="Type"/>, specialized function delegate that generates an object from its XML representation.
         /// </summary>
         /// <value>A specialized function delegate, by <see cref="Type"/>, that generates an object from its XML representation.</value>
-        public override IDictionary<Type, Func<XmlReader, Type, object>> ReaderFormatters { get; } = new Dictionary<Type, Func<XmlReader, Type, object>>()
+        public override IDictionary<Type, Func<XmlReader, XmlReaderSettings, Type, object>> ReaderFormatters { get; } = new Dictionary<Type, Func<XmlReader, XmlReaderSettings, Type, object>>()
         {
             {
-                typeof(Uri), (reader, type) => reader.ToHierarchy().UseUriFormatter()
+                typeof(Uri), (reader, settings, type) => reader.ToHierarchy().UseUriFormatter()
             },
             {
-                typeof(DateTime), (reader, type) => reader.ToHierarchy().UseDateTimeFormatter()
+                typeof(DateTime), (reader, settings, type) => reader.ToHierarchy().UseDateTimeFormatter()
             },
             {
-                typeof(IConvertible), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(IConvertible), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(decimal), (reader, type) => reader.ToHierarchy().UseDecimalFormatter()
+                typeof(decimal), (reader, settings, type) => reader.ToHierarchy().UseDecimalFormatter()
             },
             {
-                typeof(bool), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(bool), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(int), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(int), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(long), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(long), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(double), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(double), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(byte), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(byte), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(char), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(char), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(uint), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(uint), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(ulong), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(ulong), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(sbyte), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(sbyte), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(float), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(float), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(short), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(short), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(ushort), (reader, type) => reader.ToHierarchy().UseConvertibleFormatter()
+                typeof(ushort), (reader, settings, type) => reader.ToHierarchy().UseConvertibleFormatter()
             },
             {
-                typeof(Guid), (reader, type) => reader.ToHierarchy().UseGuidFormatter()
+                typeof(Guid), (reader, settings, type) => reader.ToHierarchy().UseGuidFormatter()
             },
             {
-                typeof(string), (reader, type) => reader.ToHierarchy().UseStringFormatter()
+                typeof(string), (reader, settings, type) => reader.ToHierarchy().UseStringFormatter()
             },
             {
-                typeof(IList), (reader, type) => reader.ToHierarchy().UseCollection(type.GetGenericArguments().First())
+                typeof(IList), (reader, settings, type) => reader.ToHierarchy().UseCollection(type.GetGenericArguments().First())
             },
             {
-                typeof(IDictionary), (reader, type) => reader.ToHierarchy().UseDictionary(type.GetGenericArguments())
+                typeof(IDictionary), (reader, settings, type) => reader.ToHierarchy().UseDictionary(type.GetGenericArguments())
             }
         };
     }
