@@ -29,6 +29,7 @@ namespace Cuemon.Serialization.Json.Formatters
         {
             Validator.ThrowIfNull(options, nameof(options));
             Options = options;
+            if (options.SynchronizeWithJsonConvert) { JsonConvert.DefaultSettings = () => options.Settings; }
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace Cuemon.Serialization.Json.Formatters
             if (converter == null)
             {
                 var formatter = Options.ParseWriterFormatter(sourceType);
-                converter = DynamicJsonConverter.Create(sourceType, formatter);
+                converter = DynamicJsonConverter.Create(sourceType, Options.Settings, formatter);
             }
 
             var serializer = JsonSerializer.Create(Options.Settings); // there is a bug in the JsonConvert.SerializeObject, why we had to make our own implementation
@@ -89,7 +90,7 @@ namespace Cuemon.Serialization.Json.Formatters
             if (converter == null)
             {
                 var formatter = Options.ParseReaderFormatter(valueType);
-                converter = DynamicJsonConverter.Create(valueType, null, formatter);
+                converter = DynamicJsonConverter.Create(valueType, Options.Settings, null, formatter);
             }
 
             var serializer = JsonSerializer.Create(Options.Settings);

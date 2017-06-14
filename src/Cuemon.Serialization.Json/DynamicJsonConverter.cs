@@ -11,32 +11,49 @@ namespace Cuemon.Serialization.Json
         /// <summary>
         /// Creates a dynamic instance of an <see cref="JsonConverter"/> implementation wrapping <see cref="JsonConverter.WriteJson"/> through <paramref name="writer"/> and <see cref="JsonConverter.ReadJson"/> through <paramref name="reader"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the <paramref name="source"/> to implement an <see cref="JsonConverter"/>.</typeparam>
-        /// <param name="source">The object that needs support for an <see cref="JsonConverter"/> implementation.</param>
-        /// <param name="writer">The delegate that converts <paramref name="source"/> to its JSON representation.</param>
-        /// <param name="reader">The delegate that generates <paramref name="source"/> from its JSON representation.</param>
-        /// <returns>An <see cref="JsonConverter"/> implementation of <paramref name="source"/>.</returns>
-        public static JsonConverter Create<T>(T source, Action<JsonWriter, T> writer, Func<JsonReader, Type, T> reader = null)
+        /// <typeparam name="T">The type to implement an <see cref="JsonConverter"/>.</typeparam>
+        /// <param name="settings">The settings to associate with <paramref name="writer"/> and <paramref name="reader"/>.</param>
+        /// <param name="writer">The delegate that converts <typeparamref name="T"/> to its JSON representation.</param>
+        /// <param name="reader">The delegate that generates <typeparamref name="T"/> from its JSON representation.</param>
+        /// <returns>An <see cref="JsonConverter"/> implementation of <typeparamref name="T"/>.</returns>
+        public static JsonConverter Create<T>(JsonSerializerSettings settings, Action<JsonWriter, JsonSerializerSettings, T> writer = null, Func<JsonReader, JsonSerializerSettings, Type, T> reader = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            return new DynamicJsonConverter<T>(source, writer, reader);
+            var castedWriter = writer == null ? (Action<JsonWriter, JsonSerializerSettings, object>)null : (w, s, t) => writer(w, s, (T)t);
+            var castedReader = reader == null ? (Func<JsonReader, JsonSerializerSettings, Type, object>)null : (r, s, t) => reader(r, s, t);
+            return Create(typeof(T), settings, castedWriter, castedReader);
+        }
+
+        /// <summary>
+        /// Creates a dynamic instance of an <see cref="JsonConverter" /> implementation wrapping <see cref="JsonConverter.WriteJson" /> through <paramref name="writer" /> and <see cref="JsonConverter.ReadJson" /> through <paramref name="reader" />.
+        /// </summary>
+        /// <param name="objectType">The type of the object to convert.</param>
+        /// <param name="settings">The settings to associate with <paramref name="writer"/> and <paramref name="reader"/>.</param>
+        /// <param name="writer">The delegate that converts <paramref name="objectType"/> to its JSON representation.</param>
+        /// <param name="reader">The delegate that generates <paramref name="objectType"/> from its JSON representation.</param>
+        /// <returns>An <see cref="JsonConverter" /> implementation of <paramref name="objectType"/>.</returns>
+        public static JsonConverter Create(Type objectType, JsonSerializerSettings settings, Action<JsonWriter, JsonSerializerSettings, object> writer = null, Func<JsonReader, JsonSerializerSettings, Type, object> reader = null)
+        {
+            return new DynamicJsonConverterCore(objectType, settings, writer, reader);
         }
     }
 
-    internal class DynamicJsonConverter<T> : JsonConverter
+    internal class DynamicJsonConverterCore : JsonConverter
     {
-        internal DynamicJsonConverter(T source, Action<JsonWriter, T> writer, Func<JsonReader, Type, T> reader)
+        internal DynamicJsonConverterCore(Type objectType, JsonSerializerSettings settings, Action<JsonWriter, JsonSerializerSettings, object> writer, Func<JsonReader, JsonSerializerSettings, Type, object> reader)
         {
-            Source = source;
+            ObjectType = objectType;
             Writer = writer;
             Reader = reader;
+            Settings = settings;
         }
 
-        private T Source { get; }
+        private Type ObjectType { get; set; }
 
-        private Action<JsonWriter, T> Writer { get; }
+        private JsonSerializerSettings Settings { get; }
 
-        private Func<JsonReader, Type, T> Reader { get; }
+        private Action<JsonWriter, JsonSerializerSettings, object> Writer { get; }
+
+        private Func<JsonReader, JsonSerializerSettings, Type, object> Reader { get; }
 
         /// <summary>
         /// Writes the JSON representation of the object.
@@ -47,7 +64,7 @@ namespace Cuemon.Serialization.Json
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             if (Writer == null) { throw new NotImplementedException(); }
-            Writer.Invoke(writer, Source);
+            Writer.Invoke(writer, Settings, value);
         }
 
         /// <summary>
@@ -61,7 +78,7 @@ namespace Cuemon.Serialization.Json
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (Reader == null) { throw new NotImplementedException(); }
-            return Reader.Invoke(reader, objectType);
+            return Reader.Invoke(reader, Settings, objectType);
         }
 
         /// <summary>
@@ -71,7 +88,7 @@ namespace Cuemon.Serialization.Json
         /// <returns><c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.</returns>
         public override bool CanConvert(Type objectType)
         {
-            return Source.GetType().HasTypes(objectType);
+            return ObjectType.HasTypes(objectType);
         }
 
         /// <summary>
