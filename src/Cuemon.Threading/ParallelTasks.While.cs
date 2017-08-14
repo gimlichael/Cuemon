@@ -961,7 +961,6 @@ namespace Cuemon.Threading
 
         private static void WhileCore<TTuple, TSource, TResult>(ActionFactory<TTuple> factory, TesterFunc<TSource, TResult, bool> condition, TSource source, out TResult result, int partitionSize, TimeSpan timeout) where TTuple : Template<TResult>
         {
-            bool breakout = false;
             CancellationTokenSource cts = new CancellationTokenSource(timeout);
             List<Exception> aggregatedExceptions = new List<Exception>();
             while (true)
@@ -990,8 +989,7 @@ namespace Cuemon.Threading
                     if (partitioned == 0) { break; }
                 }
                 Task.WaitAll(queue.ToArray());
-                if (partitioned > 0) { breakout = true; }
-                if (breakout) { break; }
+                if (partitioned > 0) { break; }
             }
             if (aggregatedExceptions.Count > 0) { throw new AggregateException(aggregatedExceptions); }
         }
