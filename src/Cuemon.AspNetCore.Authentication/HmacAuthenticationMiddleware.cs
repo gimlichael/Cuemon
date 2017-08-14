@@ -56,18 +56,26 @@ namespace Cuemon.AspNetCore.Authentication
             var stringToSign = Options.MessageDescriptor(context);
             byte[] privateKey = new byte[0];
             result = Options?.Authenticator(publicKey, out privateKey);
+            if (privateKey == null)
+            {
+                result = null;
+                return false;
+            }
             var computedSignature = Options?.HmacSigner(new HmacAuthenticationParameters(Options.Algorithm, privateKey, stringToSign))?.ToBase64();
             return signature.Equals(computedSignature, StringComparison.Ordinal) && Condition.IsNotNull(result);
         }
 
         private Template<string, string> AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
         {
-            if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, Options.AuthenticationScheme))
+            if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, Options.AuthenticationScheme) && authorizationHeader.Length > Options.AuthenticationScheme.Length)
             {
                 var credentials = authorizationHeader.Remove(0, Options.AuthenticationScheme.Length + 1).Split(':');
-                var publicKey = credentials?[0];
-                var signature = credentials?[1];
-                if (!publicKey.IsNullOrWhiteSpace() && !signature.IsNullOrWhiteSpace()) { return TupleUtility.CreateTwo(publicKey, signature); }
+                if (credentials.Length == 2)
+                {
+                    var publicKey = credentials[0];
+                    var signature = credentials[1];
+                    if (!publicKey.IsNullOrWhiteSpace() && !signature.IsNullOrWhiteSpace()) { return TupleUtility.CreateTwo(publicKey, signature); }
+                }
             }
             return null;
         }
