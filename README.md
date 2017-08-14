@@ -1,5 +1,8 @@
-**Cuemon .NET Core**
-The Cuemon .NET Core is a free and flexible assembly package for the new version of the Microsoft .NET Framework. It was built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof. Ideal for ASP.NET Core, Windows Universal or .NET 4.6+.
+![Cuemon .NET Core](https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png)
+
+Cuemon .NET Core
+----------------
+The Cuemon .NET Core is a free and flexible assembly package for the Microsoft .NET Standard ecosystem. It was built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof. Ideal for .NET Standard, .NET Core, Universal Windows Platform and .NET Framework 4.6.1 and newer.
 
 Useful links for this project:
 
