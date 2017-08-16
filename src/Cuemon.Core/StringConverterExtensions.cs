@@ -66,7 +66,7 @@ namespace Cuemon
         /// <returns>A <see cref="String"/> sequence equivalent to the specified <paramref name="value"/>.</returns>
         public static IEnumerable<string> ToEnumerable(this IEnumerable<char> value)
         {
-            return StringConverter.FromChars(value);
+            return StringConverter.ToEnumerable(value);
         }
 
         /// <summary>

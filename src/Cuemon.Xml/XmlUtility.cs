@@ -143,7 +143,7 @@ namespace Cuemon.Xml
         public static string SanitizeElementName(string elementName)
         {
             if (elementName == null) { throw new ArgumentNullException(nameof(elementName)); }
-            if (StringUtility.StartsWith(elementName, StringComparison.OrdinalIgnoreCase, EnumerableUtility.Concat(StringConverter.FromChars(StringUtility.NumericCharacters), new[] { "." })))
+            if (StringUtility.StartsWith(elementName, StringComparison.OrdinalIgnoreCase, EnumerableUtility.Concat(StringConverter.ToEnumerable(StringUtility.NumericCharacters), new[] { "." })))
             {
                 int startIndex = 0;
                 IList<char> numericsAndPunctual = new List<char>(EnumerableUtility.Concat(StringUtility.NumericCharacters.ToCharArray(), new[] { '.' }));

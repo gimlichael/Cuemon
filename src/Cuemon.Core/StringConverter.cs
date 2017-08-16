@@ -456,7 +456,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The value to convert into a sequence.</param>
         /// <returns>A <see cref="string"/> sequence equivalent to the specified <paramref name="value"/>.</returns>
-        public static IEnumerable<string> FromChars(IEnumerable<char> value)
+        public static IEnumerable<string> ToEnumerable(IEnumerable<char> value)
         {
             Validator.ThrowIfNull(value, nameof(value));
             return EnumerableConverter.Parse(value, c => new string(c, 1));
