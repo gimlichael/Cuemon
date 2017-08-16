@@ -27,7 +27,7 @@ namespace Cuemon.Xml
         /// <param name="setup">The <see cref="XmlWriterSettings"/> which need to be configured.</param>
         /// <returns>An sequence of <see cref="XmlReader"/> objects that contains no more than the specified <paramref name="size"/> of XML node elements from the <paramref name="reader" /> object.</returns>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="reader"/> is null - or - <paramref name="settings"/> is null.
+        /// <paramref name="reader"/> is null.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// The <see cref="XmlReader.Read"/> method of the <paramref name="reader"/> object has already been called.
