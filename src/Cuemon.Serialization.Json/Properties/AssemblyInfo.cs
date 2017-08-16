@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Cuemon.Serialization.Json")]
-[assembly: AssemblyDescription("The Cuemon.Serialization.Json assembly is a member of the Cuemon .NET Core family and provides JSON serialization using the highly acclaimed Newtonsoft.Json package.")]
+[assembly: AssemblyDescription("The Cuemon.Serialization.Json assembly is a stand-alone member of the Cuemon .NET Core family and provides JSON serialization using the highly acclaimed Newtonsoft.Json package.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Weubphoria")]
 [assembly: AssemblyProduct("Cuemon .NET Core")]
