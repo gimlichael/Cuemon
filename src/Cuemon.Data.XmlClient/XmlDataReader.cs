@@ -52,6 +52,10 @@ namespace Cuemon.Data.XmlClient
             get { return CurrentDepth; }
         }
 
+        /// <summary>
+        /// Gets a value that indicates whether this <see cref="T:System.Data.Common.DbDataReader" /> contains one or more rows.
+        /// </summary>
+        /// <value><c>true</c> if this instance has rows; otherwise, <c>false</c>.</value>
         public override bool HasRows { get; }
 
         private int CurrentDepth { get; set; }
@@ -107,7 +111,7 @@ namespace Cuemon.Data.XmlClient
                         break;
                 }
             }
-        addFields:
+            addFields:
             SetFields(fields);
             return (fields.Count > 0);
         }
