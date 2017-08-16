@@ -65,14 +65,14 @@ namespace Cuemon.Data.CsvClient
         /// <exception cref="ArgumentEmptyException">
         /// <paramref name="header"/> is empty -or- <paramref name="delimiter"/> is empty.
         /// </exception>
-        /// <remarks>The default implementation uses <see cref="StringConverter.ChangeType(System.String)"/> as <paramref name="parser"/>.</remarks>
+        /// <remarks>The default implementation uses <see cref="ObjectConverter.FromString(string)"/> as <paramref name="parser"/>.</remarks>
         public CsvDataReader(StreamReader reader, string header, string delimiter, Func<string, object> parser) : base(parser)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNullOrEmpty(header, nameof(header));
             Validator.ThrowIfNullOrEmpty(delimiter, nameof(delimiter));
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
-            
+
             Reader = reader;
             Header = StringUtility.Split(header, delimiter);
             Delimiter = delimiter;
@@ -130,7 +130,7 @@ namespace Cuemon.Data.CsvClient
                     fields.Add(Header[i], StringParser(columns[i]));
                 }
             }
-            SetFields(fields);
+            this.SetFields(fields);
             return (fields.Count > 0);
         }
 
