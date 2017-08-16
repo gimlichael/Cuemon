@@ -86,6 +86,57 @@ namespace Cuemon
 
         #region Methods
         /// <summary>
+        /// Parses whether the two specified values has a distinct difference from each other.
+        /// </summary>
+        /// <param name="definite">The value that specifies valid characters.</param>
+        /// <param name="arbitrary">The value to distinctively compare with <paramref name="definite"/>.</param>
+        /// <param name="difference">The distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/> or <see cref="string.Empty"/> if no difference.</param>
+        /// <returns>
+        /// 	<c>true</c> if there is a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>; otherwise <c>false</c>.
+        /// </returns>
+        public static bool ParseDistinctDifference(string definite, string arbitrary, out string difference)
+        {
+            if (definite == null) { definite = string.Empty; }
+            if (arbitrary == null) { arbitrary = string.Empty; }
+            difference = arbitrary.Distinct().Except(definite.Distinct()).FromChars();
+            return difference.Any();
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> contains at least one of the succession <paramref name="characters"/> of <paramref name="length"/>.
+        /// </summary>
+        /// <param name="value">The value to test for consecutive characters.</param>
+        /// <param name="characters">The character to locate with the specified <paramref name="length"/>.</param>
+        /// <param name="length">The number of characters in succession.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> contains at least one of the succession <paramref name="characters"/> of <paramref name="length"/>; otherwise, <c>false</c>.</returns>
+        public static bool HasConsecutiveCharacters(string value, IEnumerable<char> characters, int length = 2)
+        {
+            if (value.IsNullOrEmpty()) { return false; }
+            if (value.Length == 1) { return false; }
+            if (characters == null) { return false; }
+            foreach (var sc in characters)
+            {
+                if (HasConsecutiveCharacters(value, sc, length)) { return true; }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> contains a succession <paramref name="character"/> of <paramref name="length"/>.
+        /// </summary>
+        /// <param name="value">The value to test for consecutive characters.</param>
+        /// <param name="character">The characters to locate with the specified <paramref name="length"/>.</param>
+        /// <param name="length">The number of characters in succession.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> contains a succession <paramref name="character"/> of <paramref name="length"/>; otherwise, <c>false</c>.</returns>
+        public static bool HasConsecutiveCharacters(string value, char character, int length = 2)
+        {
+            if (length < 2) { length = 2; }
+            if (value.IsNullOrEmpty()) { return false; }
+            if (value.Length == 1) { return false; }
+            return value.Contains(new string(character, length));
+        }
+
+        /// <summary>
         /// Determines whether the specified <paramref name="value"/> matches a Base64 structure.
         /// </summary>
         /// <param name="value">The value to test for a Base64 structure.</param>

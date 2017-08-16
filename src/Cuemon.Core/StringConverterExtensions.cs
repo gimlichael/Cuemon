@@ -11,6 +11,8 @@ namespace Cuemon
     /// </summary>
     public static class StringConverterExtensions
     {
+
+
         /// <summary>
         /// Converts the specified <paramref name="value"/> to its equivalent binary representation.
         /// </summary>
@@ -67,6 +69,16 @@ namespace Cuemon
         public static IEnumerable<string> ToEnumerable(this IEnumerable<char> value)
         {
             return StringConverter.ToEnumerable(value);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to its equivalent <see cref="String"/> representation.
+        /// </summary>
+        /// <param name="value">The <see cref="Char"/> sequence to convert.</param>
+        /// <returns>A <see cref="String"/> equivalent to the specified <paramref name="value"/>.</returns>
+        public static string FromChars(this IEnumerable<char> value)
+        {
+            return StringConverter.FromChars(value);
         }
 
         /// <summary>
