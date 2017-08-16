@@ -15,7 +15,7 @@ namespace Cuemon.Collections.Generic
         /// <typeparam name="TValue">The type of the values in the <paramref name="dictionary"/>.</typeparam>
         /// <param name="dictionary">The dictionary to extend.</param>
         /// <param name="key">The key of the value to get.</param>
-        /// <returns>Either the value associated with the specified <paramref name="key"/> or a default value through <paramref name="defaultProvider"/> when the key does not exists.</returns>
+        /// <returns>Either the value associated with the specified <paramref name="key"/> or <c>default(<typeparamref name="TValue"/>)</c> when the key does not exists.</returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
             return GetValueOrDefault(dictionary, key, () => default(TValue));
