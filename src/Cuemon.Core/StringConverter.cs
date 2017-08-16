@@ -452,6 +452,19 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Converts the specified <paramref name="value"/> to its equivalent <see cref="string"/>.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>A <see cref="string"/> equivalent to the specified <paramref name="value"/>.</returns>
+        public static string FromChars(IEnumerable<char> value)
+        {
+            Validator.ThrowIfNull(value, nameof(value));
+            var builder = new StringBuilder();
+            foreach (var c in value) { builder.Append(c); }
+            return builder.ToString();
+        }
+
+        /// <summary>
         /// Converts the specified <paramref name="value"/> to its equivalent <see cref="string"/> sequence.
         /// </summary>
         /// <param name="value">The value to convert into a sequence.</param>
