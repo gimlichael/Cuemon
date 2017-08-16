@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.10
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}"
 EndProject
@@ -50,6 +50,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.AspNetCore.Mvc.Formatters.Xml", "src\Cuemon.AspNetCore.Mvc.Formatters.Xml\Cuemon.AspNetCore.Mvc.Formatters.Xml.csproj", "{82380190-B2E8-4DD5-8C2C-423F26014CB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.AspNetCore.Mvc.Formatters.Json", "src\Cuemon.AspNetCore.Mvc.Formatters.Json\Cuemon.AspNetCore.Mvc.Formatters.Json.csproj", "{CBBC48E2-2F2A-4E66-9ACE-9921B940DF21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Net.Mail", "src\Cuemon.Net.Mail\Cuemon.Net.Mail.csproj", "{B7E3C0EA-16A2-4305-8AA0-D95A95DA8C09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +147,10 @@ Global
 		{CBBC48E2-2F2A-4E66-9ACE-9921B940DF21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBBC48E2-2F2A-4E66-9ACE-9921B940DF21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBBC48E2-2F2A-4E66-9ACE-9921B940DF21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7E3C0EA-16A2-4305-8AA0-D95A95DA8C09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7E3C0EA-16A2-4305-8AA0-D95A95DA8C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7E3C0EA-16A2-4305-8AA0-D95A95DA8C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7E3C0EA-16A2-4305-8AA0-D95A95DA8C09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,5 +178,9 @@ Global
 		{5518FB8F-3096-41E1-841E-1527933D3482} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{82380190-B2E8-4DD5-8C2C-423F26014CB0} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{CBBC48E2-2F2A-4E66-9ACE-9921B940DF21} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{B7E3C0EA-16A2-4305-8AA0-D95A95DA8C09} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2484F3A9-F0D1-4A31-870E-1EB288309FFD}
 	EndGlobalSection
 EndGlobal
