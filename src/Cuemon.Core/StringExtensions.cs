@@ -132,7 +132,7 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="value"/> to either lowercase, UPPERCASE, Title Case or unaltered using the specified <paramref name="culture"/>.
+        /// Converts the specified <paramref name="value"/> to either lowercase, UPPERCASE, Title Case or unaltered.
         /// </summary>
         /// <param name="value">The value to convert to one of the values in <see cref="CasingMethod"/>.</param>
         /// <param name="method">The method to use in the conversion.</param>
