@@ -43,7 +43,7 @@ namespace Cuemon.Data
                 Fields.Count != Mappings.Count) { throw new InvalidOperationException("Mappings must be either all name or all ordinal based."); }
             UseOrdinal = Fields.Count == 0;
         }
-        
+
         private DbDataReader Reader { get; set; }
 
         private void SetFields(IOrderedDictionary fields)
@@ -80,6 +80,10 @@ namespace Cuemon.Data
             get { return Fields[i]; }
         }
 
+        /// <summary>
+        /// Gets the number of rows changed, inserted, or deleted by execution of the SQL statement.
+        /// </summary>
+        /// <value>The records affected.</value>
         public override int RecordsAffected
         {
             get { return -1; }
@@ -91,7 +95,8 @@ namespace Cuemon.Data
         /// Gets a value that indicates whether this <see cref="T:System.Data.Common.DbDataReader" /> contains one or more rows.
         /// </summary>
         /// <value><c>true</c> if this instance has rows; otherwise, <c>false</c>.</value>
-        public override bool HasRows {
+        public override bool HasRows
+        {
             get { return Reader.HasRows; }
         }
 
@@ -228,6 +233,15 @@ namespace Cuemon.Data
             return Convert.ToByte(GetValue(i), CultureInfo.InvariantCulture);
         }
 
+        /// <summary>
+        /// Reads a stream of bytes from the specified column, starting at location indicated by dataOffset, into the buffer, starting at the location indicated by bufferOffset.
+        /// </summary>
+        /// <param name="i">The zero-based column ordinal.</param>
+        /// <param name="fieldOffset">The index within the row from which to begin the read operation.</param>
+        /// <param name="buffer">The buffer into which to copy the data.</param>
+        /// <param name="bufferoffset">The index with the buffer to which the data will be copied.</param>
+        /// <param name="length">The maximum number of characters to read.</param>
+        /// <returns>The actual number of bytes read.</returns>
         public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
         {
             return 0;
@@ -412,6 +426,10 @@ namespace Cuemon.Data
             return GetValue(i) == null || GetValue(i) == DBNull.Value;
         }
 
+        /// <summary>
+        /// Releases the managed resources used by the <see cref="T:System.Data.Common.DbDataReader" /> and optionally releases the unmanaged resources.
+        /// </summary>
+        /// <param name="disposing">true to release managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (IsDisposed) { return; }
@@ -429,6 +447,11 @@ namespace Cuemon.Data
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating the depth of nesting for the current row.
+        /// </summary>
+        /// <value>The depth of nesting for the current row.</value>
+        /// <remarks>The outermost table has a depth of zero.</remarks>
         public override int Depth
         {
             get { return 0; }
@@ -450,16 +473,34 @@ namespace Cuemon.Data
             return length;
         }
 
+        /// <summary>
+        /// Advances the reader to the next result when reading the results of a batch of statements.
+        /// </summary>
+        /// <returns><c>true</c> if there are more result sets; otherwise <c>false</c>.</returns>
         public override bool NextResult()
         {
             return false;
         }
 
+        /// <summary>
+        /// Reads a stream of characters from the specified column, starting at location indicated by dataOffset, into the buffer, starting at the location indicated by bufferOffset.
+        /// </summary>
+        /// <param name="i">The zero-based column ordinal.</param>
+        /// <param name="fieldoffset">The index within the row from which to begin the read operation.</param>
+        /// <param name="buffer">The buffer into which to copy the data.</param>
+        /// <param name="bufferoffset">The index with the buffer to which the data will be copied.</param>
+        /// <param name="length">The maximum number of characters to read.</param>
+        /// <returns>The actual number of characters read.</returns>
         public override long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
         {
             return 0;
         }
 
+        /// <summary>
+        /// Gets the name of the data type.
+        /// </summary>
+        /// <param name="i">The zero-based column ordinal.</param>
+        /// <returns>System.String.</returns>
         public override string GetDataTypeName(int i)
         {
             return typeof(string).ToString();
