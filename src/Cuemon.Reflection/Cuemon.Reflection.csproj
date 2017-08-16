@@ -5,7 +5,7 @@
     <Copyright>Copyright © Weubphoria 2009-2017. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon.Reflection</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <VersionPrefix>4.2.2017.2250</VersionPrefix>
+    <VersionPrefix>4.2.2017.2270</VersionPrefix>
     <Authors>Michael Mortensen</Authors>
     <TargetFramework>netstandard1.4</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

@@ -10,7 +10,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <VersionPrefix>4.2.2017.2250</VersionPrefix>
+    <VersionPrefix>4.2.2017.2270</VersionPrefix>
     <Authors>Michael Mortensen</Authors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Cuemon.Net.Mail</AssemblyName>
