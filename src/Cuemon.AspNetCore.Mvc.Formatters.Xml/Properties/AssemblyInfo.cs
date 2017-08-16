@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Cuemon.AspNetCore.Mvc")]
-[assembly: AssemblyDescription("The Cuemon.AspNetCore.Mvc.Formatters.Xml assembly is a supplement to the Microsoft ASP.NET Core MVC.")]
+[assembly: AssemblyTitle("Cuemon.AspNetCore.Mvc.Formatters.Xml")]
+[assembly: AssemblyDescription("The Cuemon.AspNetCore.Mvc.Formatters.Xml assembly is a stand-alone member of the Cuemon .NET Core family and serves as a supplement to the Microsoft ASP.NET Core MVC.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Weubphoria")]
 [assembly: AssemblyProduct("Cuemon .NET Core")]

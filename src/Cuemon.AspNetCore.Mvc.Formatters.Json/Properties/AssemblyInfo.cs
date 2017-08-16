@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Cuemon.AspNetCore.Mvc.Formatters.Json")]
-[assembly: AssemblyDescription("The Cuemon.AspNetCore.Mvc.Formatters.Json assembly is a supplement to the Microsoft ASP.NET Core MVC.")]
+[assembly: AssemblyDescription("The Cuemon.AspNetCore.Mvc.Formatters.Json assembly is a stand-alone member of the Cuemon .NET Core family and serves as a supplement to the Microsoft ASP.NET Core MVC.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Weubphoria")]
 [assembly: AssemblyProduct("Cuemon .NET Core")]
