@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 namespace Cuemon.Xml.Serialization
 {
     /// <summary>
-    /// Provide ways to override the default XML naming serialization logic used by all Serialize methods on <see cref="XmlSerializationUtility"/>.
+    /// Provide ways to override the default XML serialization.
     /// </summary>
     [XmlWrapper]
     public abstract class XmlWrapper : Wrapper<object>
