@@ -11,6 +11,7 @@ Useful links for this project:
 * Cuemon ASP.NET Core Package on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Package/)
 * Cuemon.AspNetCore.Mvc.Formatters.Json on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Mvc.Formatters.Json/)
 * Cuemon.AspNetCore.Mvc.Formatters.Xml on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Mvc.Formatters.Xml/)
+* Cuemon.Net.Mail on [Nuget](https://www.nuget.org/packages/Cuemon.Net.Mail/)
 * Cuemon.Serialization.Json on [Nuget](https://www.nuget.org/packages/Cuemon.Serialization.Json/)
 
 * My profile on [LinkedIn](http://dk.linkedin.com/in/gimlichael)
