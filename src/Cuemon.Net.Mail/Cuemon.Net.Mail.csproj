@@ -10,7 +10,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <VersionPrefix>4.2.2017.2270</VersionPrefix>
+    <VersionPrefix>4.2.2018.840</VersionPrefix>
     <Authors>Michael Mortensen</Authors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Cuemon.Net.Mail</AssemblyName>
@@ -28,7 +28,7 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <Version>4.2.2017.2270</Version>
+    <Version>4.2.2018.840</Version>
   </PropertyGroup>
 
   <ItemGroup>

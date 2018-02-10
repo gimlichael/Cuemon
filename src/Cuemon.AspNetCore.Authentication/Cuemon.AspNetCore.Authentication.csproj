@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <Description>The Cuemon.AspNetCore.Authentication assembly is a supplement to the Microsoft ASP.NET Core Authentication.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2017. All rights reserved.</Copyright>
+    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon.AspNetCore.Authentication</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <VersionPrefix>4.2.2017.2270</VersionPrefix>
+    <VersionPrefix>4.2.2018.840</VersionPrefix>
     <Authors>Michael Mortensen</Authors>
     <TargetFrameworks>netstandard1.6;net461</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -26,17 +26,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Collections.Immutable" Version="1.3.1" />
+    <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
   </ItemGroup>
-
-  <Target Name="PostcompileScript" AfterTargets="Build" Condition=" '$(IsCrossTargetingBuild)' != 'true' ">
-    <Exec Command="dotnet pack --no-build -c Release" />
-  </Target>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="System" />

@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>The Cuemon.Web assembly is a member of the Cuemon .NET Core family and provides enhancements to the now deprecated System.Web namespace.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2017. All rights reserved.</Copyright>
+    <Description>The Cuemon.Web assembly is a member of the Cuemon .NET Standard family and provides enhancements to the now deprecated System.Web namespace.</Description>
+    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon.Web</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <VersionPrefix>4.2.2017.2270</VersionPrefix>
+    <VersionPrefix>4.2.2018.840</VersionPrefix>
     <Authors>Michael Mortensen</Authors>
     <TargetFramework>netstandard1.4</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -30,9 +30,5 @@
     <ProjectReference Include="..\Cuemon.Collections.Specialized\Cuemon.Collections.Specialized.csproj" />
     <ProjectReference Include="..\Cuemon.Security\Cuemon.Security.csproj" />
   </ItemGroup>
-
-  <Target Name="PostcompileScript" AfterTargets="Build">
-    <Exec Command="dotnet pack --no-build -c Release" />
-  </Target>
 
 </Project>
