@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
         /// <param name="builder">The <see cref="IMvcBuilder"/>.</param>
         /// <param name="setup">The <see cref="XmlFormatterOptions"/> which need to be configured.</param>
         /// <returns>The <see cref="IMvcBuilder"/>.</returns>
-        public static IMvcCoreBuilder AddXmlFormatterOptions(this IMvcCoreBuilder builder, Action<XmlFormatterOptions> setup = null)
+        public static IMvcCoreBuilder AddXmlFormatterOptions(this IMvcCoreBuilder builder, Action<XmlFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             Validator.ThrowIfNull(setup, nameof(setup));
@@ -56,7 +56,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
         /// <param name="builder">The <see cref="IMvcBuilder"/>.</param>
         /// <param name="setup">The <see cref="XmlFormatterOptions"/> which need to be configured.</param>
         /// <returns>The <see cref="IMvcBuilder"/>.</returns>
-        public static IMvcBuilder AddXmlFormatterOptions(this IMvcBuilder builder, Action<XmlFormatterOptions> setup = null)
+        public static IMvcBuilder AddXmlFormatterOptions(this IMvcBuilder builder, Action<XmlFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             Validator.ThrowIfNull(setup, nameof(setup));
