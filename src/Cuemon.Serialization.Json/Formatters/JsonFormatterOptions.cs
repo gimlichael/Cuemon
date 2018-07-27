@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cuemon.Serialization.Formatters;
 using Cuemon.Serialization.Json.Converters;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace Cuemon.Serialization.Json.Formatters
@@ -48,9 +49,11 @@ namespace Cuemon.Serialization.Json.Formatters
             {
                 CheckAdditionalContent = true,
                 NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             Settings.Converters.Add(new StringFlagsEnumConverter());
+            Settings.Converters.Add(new StringEnumConverter());
             SynchronizeWithJsonConvert = false;
         }
 
