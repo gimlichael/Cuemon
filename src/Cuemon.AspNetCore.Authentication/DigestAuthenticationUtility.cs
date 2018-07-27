@@ -78,7 +78,11 @@ namespace Cuemon.AspNetCore.Authentication
         public static string ComputeHash1(IDictionary<string, string> credentials, string password, HashAlgorithmType algorithm)
         {
             ValidateCredentials(credentials, CredentialUserName, CredentialRealm);
-            return HashUtility.ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}", credentials[CredentialUserName], credentials[CredentialRealm], password), algorithm, Encoding.UTF8).ToHexadecimal();
+            return HashUtility.ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}", credentials[CredentialUserName], credentials[CredentialRealm], password), o =>
+            {
+                o.AlgorithmType = algorithm;
+                o.Encoding = Encoding.UTF8;
+            }).ToHexadecimal();
         }
 
         /// <summary>
@@ -91,7 +95,11 @@ namespace Cuemon.AspNetCore.Authentication
         public static string ComputeHash2(IDictionary<string, string> credentials, string httpMethod, HashAlgorithmType algorithm)
         {
             ValidateCredentials(credentials, CredentialDigestUri);
-            return HashUtility.ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}", httpMethod, credentials[CredentialDigestUri]), algorithm, Encoding.UTF8).ToHexadecimal();
+            return HashUtility.ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}", httpMethod, credentials[CredentialDigestUri]), o =>
+            {
+                o.AlgorithmType = algorithm;
+                o.Encoding = Encoding.UTF8;
+            }).ToHexadecimal();
         }
 
         /// <summary>
@@ -105,7 +113,11 @@ namespace Cuemon.AspNetCore.Authentication
         public static byte[] ComputeResponse(IDictionary<string, string> credentials, string hash1, string hash2, HashAlgorithmType algorithm)
         {
             ValidateCredentials(credentials, CredentialNonce, CredentialNonceCount, CredentialClientNonce, CredentialQualityOfProtection);
-            return HashUtility.ComputeHash("{0}:{1}:{2}:{3}:{4}:{5}".FormatWith(hash1, credentials[CredentialNonce], credentials[CredentialNonceCount], credentials[CredentialClientNonce], credentials[CredentialQualityOfProtection], hash2), algorithm, Encoding.UTF8).Value;
+            return HashUtility.ComputeHash("{0}:{1}:{2}:{3}:{4}:{5}".FormatWith(hash1, credentials[CredentialNonce], credentials[CredentialNonceCount], credentials[CredentialClientNonce], credentials[CredentialQualityOfProtection], hash2), o =>
+            {
+                o.AlgorithmType = algorithm;
+                o.Encoding = Encoding.UTF8;
+            }).Value;
         }
 
         /// <summary>
@@ -190,7 +202,11 @@ namespace Cuemon.AspNetCore.Authentication
 
         private static string ComputeNonceHash(DateTime timeStamp, string entityTag, byte[] privateKey)
         {
-            return HashUtility.ComputeHash(string.Concat(timeStamp.ToString("u", CultureInfo.InvariantCulture), entityTag, Convert.ToBase64String(privateKey)), HashAlgorithmType.SHA256, Encoding.UTF8).ToHexadecimal();
+            return HashUtility.ComputeHash(string.Concat(timeStamp.ToString("u", CultureInfo.InvariantCulture), entityTag, Convert.ToBase64String(privateKey)), o =>
+            {
+                o.AlgorithmType = HashAlgorithmType.SHA256;
+                o.Encoding = Encoding.UTF8;
+            }).ToHexadecimal();
         }
     }
 }

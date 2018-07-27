@@ -45,8 +45,12 @@ namespace Cuemon.AspNetCore.Authentication
         private bool TryAuthenticate(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
         {
             if (Options.Authenticator == null) { throw new InvalidOperationException("The {0} cannot be null.".FormatWith(nameof(Options.Authenticator))); }
-            var requestBodyMd5 = context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()?.ComputeHash(HashAlgorithmType.MD5, Encoding.UTF8).ToHexadecimal();
-            if (!requestBodyMd5.IsNullOrWhiteSpace() && !context.Request.Body.ComputeHash(HashAlgorithmType.MD5).ToHexadecimal().Equals(requestBodyMd5, StringComparison.Ordinal))
+            var requestBodyMd5 = context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()?.ComputeHash(o =>
+            {
+                o.AlgorithmType = HashAlgorithmType.MD5;
+                o.Encoding = Encoding.UTF8;
+            }).ToHexadecimal();
+            if (!requestBodyMd5.IsNullOrWhiteSpace() && !context.Request.Body.ComputeHash(o => o.AlgorithmType = HashAlgorithmType.MD5).ToHexadecimal().Equals(requestBodyMd5, StringComparison.Ordinal))
             {
                 result = null;
                 return false;

@@ -28,7 +28,11 @@ namespace Cuemon.AspNetCore.Authentication
                 context.Request.Headers[HeaderNames.ContentType].FirstOrDefault(),
                 context.Request.Headers[HeaderNames.Date].FirstOrDefault(),
                 context.Request.Headers[HeaderNames.UserAgent].FirstOrDefault());
-            HmacSigner = parameters => HmacUtility.ComputeKeyedHash(parameters.Message, parameters.PrivateKey, parameters.Algorithm, Encoding.UTF8).Value;
+            HmacSigner = parameters => HmacUtility.ComputeKeyedHash(parameters.Message, parameters.PrivateKey, o =>
+            {
+                o.AlgorithmType = parameters.Algorithm;
+                o.Encoding = Encoding.UTF8;
+            }).Value;
         }
 
         /// <summary>

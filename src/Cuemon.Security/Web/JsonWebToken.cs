@@ -128,7 +128,11 @@ namespace Cuemon.Security.Web
         public string ComputeSignature(string base64UrlEncodedHeader, string base64UrlEncodedPayload, JsonWebTokenHashAlgorithm algorithm, byte[] secret)
         {
             ValidateJwtParameters(base64UrlEncodedHeader, base64UrlEncodedPayload, algorithm, secret);
-            return Tokenize(base64UrlEncodedHeader, base64UrlEncodedPayload).ComputeKeyedHash(secret, JsonWebTokenHashAlgorithmConverter.ToHmacAlgorithm(algorithm), Encoding.UTF8).ToUrlEncodedBase64();
+            return Tokenize(base64UrlEncodedHeader, base64UrlEncodedPayload).ComputeKeyedHash(secret, o =>
+            {
+                o.AlgorithmType = JsonWebTokenHashAlgorithmConverter.ToHmacAlgorithm(algorithm);
+                o.Encoding = Encoding.UTF8;
+            }).ToUrlEncodedBase64();
         }
 
         /// <summary>

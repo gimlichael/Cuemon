@@ -170,7 +170,11 @@ namespace Cuemon.Web.Security
 			querystring = QueryStringUtility.RemoveDublets(secureQuerystring, formatedQuerytring.AllKeys);
 
 			string secureUri = string.Format(CultureInfo.InvariantCulture, "{0}{1}", uriLocation, QueryStringConverter.FromNameValueCollection(querystring));
-			secureUri += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", querystringParameterHashName, HashUtility.ComputeHash(secureUri + salt + securityToken.Token, algorithmType, Encoding.UTF8).ToHexadecimal());
+		    secureUri += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", querystringParameterHashName, HashUtility.ComputeHash(secureUri + salt + securityToken.Token, o =>
+		    {
+		        o.AlgorithmType = algorithmType;
+		        o.Encoding = Encoding.UTF8;
+		    }).ToHexadecimal());
 			return new Uri(secureUri);
 		}
 
@@ -307,7 +311,11 @@ namespace Cuemon.Web.Security
 				Uri originalUriWithRemovedChecksum = new Uri(originalUriString);
 
                 string urlToCompute = string.Format(CultureInfo.InvariantCulture, "{0}{1}", new Uri(originalUriWithRemovedChecksum, originalUriWithRemovedChecksum.AbsolutePath), querystring);
-				string computedChecksum = HashUtility.ComputeHash(urlToCompute + salt + securityToken.Token, algorithmType, Encoding.UTF8).ToHexadecimal();
+			    string computedChecksum = HashUtility.ComputeHash(urlToCompute + salt + securityToken.Token, o =>
+			    {
+			        o.AlgorithmType = algorithmType;
+			        o.Encoding = Encoding.UTF8;
+			    }).ToHexadecimal();
 				if (!string.Equals(hash, computedChecksum)) { throw new SecurityException("Security checksum is invalid."); }
 				if (securityToken.HasExpired) { throw new SecurityException("Security token is expired."); }
 			}

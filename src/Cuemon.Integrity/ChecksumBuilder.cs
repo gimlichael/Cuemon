@@ -126,7 +126,7 @@ namespace Cuemon.Integrity
         /// Gets a <see cref="HashResult"/> containing a computed hash value of the data this instance represents.
         /// </summary>
         /// <value>A <see cref="HashResult"/> containing a computed hash value of the data this instance represents.</value>
-        public HashResult Checksum => ComputedChecksum ?? (ComputedChecksum = HashUtility.ComputeHash(Bytes.ToArray(), AlgorithmType));
+        public HashResult Checksum => ComputedChecksum ?? (ComputedChecksum = HashUtility.ComputeHash(Bytes.ToArray(), o => o.AlgorithmType = AlgorithmType));
 
         /// <summary>
         /// Gets or sets the computed checksum of <see cref="Bytes"/>.

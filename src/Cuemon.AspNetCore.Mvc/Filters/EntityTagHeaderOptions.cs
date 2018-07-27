@@ -31,7 +31,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         {
             EntityTagParser = (body, request, response) =>
             {
-                var builder = new ChecksumBuilder(body.ComputeHash(HashAlgorithmType.MD5, true).Value);
+                var builder = new ChecksumBuilder(body.ComputeHash(o =>
+                {
+                    o.AlgorithmType = HashAlgorithmType.MD5;
+                    o.LeaveStreamOpen = true;
+                }).Value);
                 response.SetEntityTagHeaderInformation(request, builder);
             };
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 using Cuemon.Collections.Generic;
 using Cuemon.IO;
 
@@ -13,177 +12,86 @@ namespace Cuemon.Security.Cryptography
     public static class HashUtility
     {
         /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <paramref name="value"/>.
+        /// Computes a hash value of the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The <see cref="Stream"/> object to compute a hash code for.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(Stream value)
-        {
-            return ComputeHash(value, HashAlgorithmType.MD5);
-        }
-
-        /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <see cref="Stream"/> <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="Stream"/> object to compute a hash code for.</param>
-        /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(Stream value, HashAlgorithmType algorithmType)
-        {
-            return ComputeHash(value, algorithmType, false);
-        }
-
-        /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <see cref="Stream"/> <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="Stream"/> object to compute a hash code for.</param>
-        /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="Stream"/> <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(Stream value, HashAlgorithmType algorithmType, bool leaveStreamOpen)
-        {
-            return ComputeHashCore(value, null, algorithmType, leaveStreamOpen);
-        }
-
-        /// <summary>
-        /// Computes a MD5 hash value of the specified <see cref="byte"/> sequence, <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <see cref="byte"/> sequence <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(byte[] value)
-        {
-            return ComputeHash(value, HashAlgorithmType.MD5);
-        }
-
-        /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <see cref="byte"/> sequence, <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
-        /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="byte"/> sequence <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(byte[] value, HashAlgorithmType algorithmType)
-        {
-            return ComputeHashCore(null, value, algorithmType, false);
-        }
-
-        /// <summary>
-        /// Computes a MD5 hash value of the specified <see cref="string"/> <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> value to compute a hash code for.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(string value)
-        {
-            return ComputeHash(value, HashAlgorithmType.MD5);
-        }
-
-        /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <see cref="string"/> <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> value to compute a hash code for.</param>
-        /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(string value, HashAlgorithmType algorithmType)
-        {
-            return ComputeHash(value, algorithmType, Encoding.Unicode);
-        }
-
-        /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <see cref="string"/> <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> value to compute a hash code for.</param>
-        /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <param name="encoding">The encoding to use when computing the <paramref name="value"/>.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(string value, HashAlgorithmType algorithmType, Encoding encoding)
-        {
-            return ComputeHash(ByteConverter.FromString(value, options =>
-            {
-                options.Encoding = encoding;
-                options.Preamble = PreambleSequence.Remove;
-            }), algorithmType);
-        }
-
-        /// <summary>
-        /// Computes a MD5 hash value of the specified <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The object to compute a hash code for.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(object value)
-        {
-            return ComputeHash(value, HashAlgorithmType.MD5);
-        }
-
-        /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The object to compute a hash code for.</param>
-        /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
+        /// <param name="value">The <see cref="Stream"/> to compute a hash code for.</param>
+        /// <param name="setup">The <see cref="StreamHashOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(object value, HashAlgorithmType algorithmType)
+        public static HashResult ComputeHash(Stream value, Action<StreamHashOptions> setup = null)
         {
-            return ComputeHash(EnumerableConverter.AsArray(value), algorithmType);
+            var options = setup.ConfigureOptions();
+            return ComputeHashCore(value, null, options.AlgorithmType, options.LeaveStreamOpen);
         }
 
         /// <summary>
-        /// Combines a sequence of objects into one object, and computes a MD5 hash value of the specified sequence, <paramref name="values"/>.
+        /// Computes a hash value of the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="values">The objects to compute a hash code for.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified object sequence <paramref name="values"/>.</returns>
-        public static HashResult ComputeHash(object[] values)
+        /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
+        /// <param name="setup">The <see cref="HashOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(byte[] value, Action<HashOptions> setup = null)
         {
-            return ComputeHash(values, HashAlgorithmType.MD5);
+            var options = setup.ConfigureOptions();
+            return ComputeHashCore(null, value, options.AlgorithmType, false);
         }
 
         /// <summary>
-        /// Combines a sequence of objects into one object, and computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified sequence, <paramref name="values"/>.
+        /// Computes a hash value of the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/> to compute a hash code for.</param>
+        /// <param name="setup">The <see cref="StringHashOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(string value, Action<StringHashOptions> setup = null)
+        {
+            var options = setup.ConfigureOptions();
+            return ComputeHash(ByteConverter.FromString(value, o =>
+            {
+                o.Encoding = options.Encoding;
+                o.Preamble = options.Preamble;
+            }), o => o.AlgorithmType = options.AlgorithmType);
+        }
+
+        /// <summary>
+        /// Computes a hash value of the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The object to compute a hash code for.</param>
+        /// <param name="setup">The <see cref="HashOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
+        public static HashResult ComputeHash(object value, Action<HashOptions> setup = null)
+        {
+            var options = setup.ConfigureOptions();
+            return ComputeHash(EnumerableConverter.AsArray(value), o => o.AlgorithmType = options.AlgorithmType);
+        }
+
+        /// <summary>
+        /// Combines a sequence of objects into one object, and computes a hash value of the specified <paramref name="values"/>.
         /// </summary>
         /// <param name="values">The objects to compute a hash code for.</param>
-        /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
+        /// <param name="setup">The <see cref="HashOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified object sequence <paramref name="values"/>.</returns>
-        public static HashResult ComputeHash(object[] values, HashAlgorithmType algorithmType)
+        public static HashResult ComputeHash(object[] values, Action<HashOptions> setup = null)
         {
             Validator.ThrowIfNull(values, nameof(values));
+            var options = setup.ConfigureOptions();
             long signature = StructUtility.GetHashCode64(EnumerableConverter.Parse(values, o => o.GetHashCode()));
-            return ComputeHash(BitConverter.GetBytes(signature), algorithmType);
+            return ComputeHash(BitConverter.GetBytes(signature), o => o.AlgorithmType = options.AlgorithmType);
         }
 
         /// <summary>
-        /// Computes a MD5 hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.
+        /// Computes a hash value of the specified <paramref name="values"/>.
         /// </summary>
-        /// <param name="values">The <see cref="string"/> sequence to compute a hash code for.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed MD5 hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
-        public static HashResult ComputeHash(string[] values)
-        {
-            return ComputeHash(values, HashAlgorithmType.MD5);
-        }
-
-        /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.
-        /// </summary>
-        /// <param name="values">The <see cref="string"/> sequence to compute a hash code for.</param>
-        /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
-        public static HashResult ComputeHash(string[] values, HashAlgorithmType algorithmType)
-        {
-            return ComputeHash(values, algorithmType, Encoding.Unicode);
-        }
-
-        /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.
-        /// </summary>
-        /// <param name="values">The <see cref="string"/> sequence to compute a hash code for.</param>
-        /// <param name="algorithmType">The hash algorithm to use for the computation.</param>
-        /// <param name="encoding">The encoding to use when computing the <paramref name="values"/> sequence.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <see cref="string"/> sequence, <paramref name="values"/>.</returns>
-        public static HashResult ComputeHash(string[] values, HashAlgorithmType algorithmType, Encoding encoding)
+        /// <param name="values">The <see cref="string"/> array to compute a hash code for.</param>
+        /// <param name="setup">The <see cref="StringHashOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="values"/>.</returns>
+        public static HashResult ComputeHash(string[] values, Action<StringHashOptions> setup = null)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            Validator.ThrowIfNull(encoding, nameof(encoding));
+            var options = setup.ConfigureOptions();
             MemoryStream tempStream = null;
             try
-            {
+            { 
                 tempStream = new MemoryStream();
-                using (StreamWriter writer = new StreamWriter(tempStream, encoding))
+                using (StreamWriter writer = new StreamWriter(tempStream, options.Encoding))
                 {
                     foreach (string value in values)
                     {
@@ -192,12 +100,12 @@ namespace Cuemon.Security.Cryptography
                     }
                     writer.Flush();
                     tempStream.Position = 0;
-                    Stream stream = StreamConverter.RemovePreamble(tempStream, encoding);
+                    Stream stream = StreamConverter.RemovePreamble(tempStream, options.Encoding);
                     tempStream = null;
-                    return ComputeHash(stream, algorithmType);
+                    return ComputeHash(stream, o => o.AlgorithmType = options.AlgorithmType);
                 }
             }
-            finally
+            finally 
             {
                 if (tempStream != null) { tempStream.Dispose(); }
             }
@@ -206,7 +114,7 @@ namespace Cuemon.Security.Cryptography
         private static HashResult ComputeHashCore(Stream value, byte[] hash, HashAlgorithmType algorithmType, bool leaveStreamOpen)
         {
             if (algorithmType > HashAlgorithmType.CRC32 || algorithmType < HashAlgorithmType.MD5) { throw new ArgumentOutOfRangeException(nameof(algorithmType), "Specified argument was out of the range of valid values."); }
-
+            
             HashAlgorithm algorithm;
             switch (algorithmType)
             {
