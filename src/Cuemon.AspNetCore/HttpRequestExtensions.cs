@@ -26,7 +26,7 @@ namespace Cuemon.AspNetCore
             if (headers.IfNoneMatch != null)
             {
                 var clientSideEntityTagHeader = headers.IfNoneMatch.FirstOrDefault();
-                var clientSideEntityTag = clientSideEntityTagHeader == null ? "" : clientSideEntityTagHeader.Tag;
+                var clientSideEntityTag = clientSideEntityTagHeader == null ? "" : clientSideEntityTagHeader.Tag.Value;
                 int indexOfStartQuote = clientSideEntityTag.IndexOf('"');
                 int indexOfEndQuote = clientSideEntityTag.LastIndexOf('"');
                 if (indexOfStartQuote == 0 &&
