@@ -603,7 +603,7 @@ namespace Cuemon
         /// Returns a <see cref="string" /> that represents the specified <paramref name="instance"/>.
         /// </summary>
         /// <param name="instance">The instance to represent.</param>
-        /// <param name="bypassOverrideCheck">Specify <c>true</c> to bypass the check for if a ToString() method is overriden; otherwise, <c>false</c> to use default behaviour, where an overriden method will return without further processing.</param>
+        /// <param name="bypassOverrideCheck">Specify <c>true</c> to bypass the check for if a ToString() method is overridden; otherwise, <c>false</c> to use default behavior, where an overridden method will return without further processing.</param>
         /// <returns>A <see cref="string" /> that represents the specified <paramref name="instance"/>.</returns>
         /// <remarks>
         /// When determining the representation of the specified <paramref name="instance"/>, these rules applies: <br/>
@@ -788,8 +788,8 @@ namespace Cuemon
             if (source.IsAnonymousMethod())
             {
                 var namespaceSegments = source.FullName.Split('.');
-                var className = namespaceSegments.Last().Replace(source.Name, "").Remove(InvalidCharacters);
-                return fullName ? source.FullName.Replace(source.Name, "").Remove(InvalidCharacters) : className;
+                var className = namespaceSegments.Last().Replace(source.Name, "").RemoveAll(InvalidCharacters);
+                return fullName ? source.FullName.Replace(source.Name, "").RemoveAll(InvalidCharacters) : className;
 
             }
             return fullName ? source.FullName : source.Name;

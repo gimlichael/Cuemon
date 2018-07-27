@@ -192,8 +192,8 @@ namespace Cuemon.Xml
         public static string SanitizeElementText(string text, bool cdataSection)
         {
             if (string.IsNullOrEmpty(text)) { return text; }
-            text = StringUtility.Remove(text, InvalidXmlCharacters);
-            return cdataSection ? StringUtility.Remove(text, "]]>") : text;
+            text = StringUtility.RemoveAll(text, InvalidXmlCharacters);
+            return cdataSection ? StringUtility.RemoveAll(text, "]]>") : text;
         }
     }
 }

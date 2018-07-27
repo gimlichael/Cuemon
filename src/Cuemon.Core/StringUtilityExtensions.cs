@@ -133,9 +133,9 @@ namespace Cuemon
         /// <paramref name="source"/> is null or <paramref name="filter"/> is null.
         /// </exception>
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
-        public static string Remove(this string source, params string[] filter)
+        public static string RemoveAll(this string source, params string[] filter)
         {
-            return StringUtility.Remove(source, filter);
+            return StringUtility.RemoveAll(source, filter);
         }
         /// <summary>
         /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="source"/>.
@@ -147,9 +147,9 @@ namespace Cuemon
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null or <paramref name="filter"/> is null.
         /// </exception>
-        public static string Remove(this string source, StringComparison comparison, params string[] filter)
+        public static string RemoveAll(this string source, StringComparison comparison, params string[] filter)
         {
-            return StringUtility.Remove(source, comparison, filter);
+            return StringUtility.RemoveAll(source, comparison, filter);
         }
 
         /// <summary>
@@ -162,9 +162,9 @@ namespace Cuemon
         /// <paramref name="source"/> is null or <paramref name="filter"/> is null.
         /// </exception>
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
-        public static string[] Remove(this string[] source, params string[] filter)
+        public static string[] RemoveAll(this string[] source, params string[] filter)
         {
-            return StringUtility.Remove(source, filter);
+            return StringUtility.RemoveAll(source, filter);
         }
 
         /// <summary>
@@ -177,9 +177,9 @@ namespace Cuemon
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="source"/> is null or <paramref name="filter"/> is null.
         /// </exception>
-        public static string[] Remove(this string[] source, StringComparison comparison, params string[] filter)
+        public static string[] RemoveAll(this string[] source, StringComparison comparison, params string[] filter)
         {
-            return StringUtility.Remove(source, comparison, filter);
+            return StringUtility.RemoveAll(source, comparison, filter);
         }
 
         /// <summary>
@@ -188,9 +188,9 @@ namespace Cuemon
         /// <param name="source">The source to delete occurrences found in <paramref name="filter"/>.</param>
         /// <param name="filter">The filter containing the characters and/or words to delete.</param>
         /// <returns>A new string that is equivalent to <paramref name="source"/> except for the removed characters.</returns>
-        public static string Remove(this string source, params char[] filter)
+        public static string RemoveAll(this string source, params char[] filter)
         {
-            return StringUtility.Remove(source, filter);
+            return StringUtility.RemoveAll(source, filter);
         }
 
         /// <summary>

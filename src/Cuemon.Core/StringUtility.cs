@@ -398,9 +398,9 @@ namespace Cuemon
         /// <param name="filter">The filter containing the characters and/or words to delete.</param>
         /// <returns>A new string that is equivalent to <paramref name="source"/> except for the removed characters and/or words.</returns>
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
-        public static string Remove(string source, params string[] filter)
+        public static string RemoveAll(string source, params string[] filter)
         {
-            return Remove(source, StringComparison.Ordinal, filter);
+            return RemoveAll(source, StringComparison.Ordinal, filter);
         }
         /// <summary>
         /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="source"/>.
@@ -409,7 +409,7 @@ namespace Cuemon
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <param name="filter">The filter containing the characters and/or words to delete.</param>
         /// <returns>A new string that is equivalent to <paramref name="source"/> except for the removed characters and/or words.</returns>
-        public static string Remove(string source, StringComparison comparison, params string[] filter)
+        public static string RemoveAll(string source, StringComparison comparison, params string[] filter)
         {
             if (string.IsNullOrEmpty(source)) { return source; }
             if (filter == null || filter.Length == 0) { return source; }
@@ -426,7 +426,7 @@ namespace Cuemon
         /// <param name="source">The source to delete occurrences found in <paramref name="filter"/>.</param>
         /// <param name="filter">The filter containing the characters and/or words to delete.</param>
         /// <returns>A new string that is equivalent to <paramref name="source"/> except for the removed characters.</returns>
-        public static string Remove(string source, params char[] filter)
+        public static string RemoveAll(string source, params char[] filter)
         {
             if (string.IsNullOrEmpty(source)) { return source; }
             StringBuilder result = new StringBuilder(source.Length);
@@ -445,9 +445,9 @@ namespace Cuemon
         /// <param name="filter">The filter containing the characters and/or words to delete.</param>
         /// <returns>A new string array that is equivalent to <paramref name="source"/> except for the removed characters and/or words.</returns>
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
-        public static string[] Remove(string[] source, params string[] filter)
+        public static string[] RemoveAll(string[] source, params string[] filter)
         {
-            return Remove(source, StringComparison.Ordinal, filter);
+            return RemoveAll(source, StringComparison.Ordinal, filter);
         }
 
         /// <summary>
@@ -457,14 +457,14 @@ namespace Cuemon
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <param name="filter">The filter containing the characters and/or words to delete.</param>
         /// <returns>A new string array that is equivalent to <paramref name="source"/> except for the removed characters and/or words.</returns>
-        public static string[] Remove(string[] source, StringComparison comparison, params string[] filter)
+        public static string[] RemoveAll(string[] source, StringComparison comparison, params string[] filter)
         {
             if (source == null || source.Length == 0) { return source; }
             if (filter == null || filter.Length == 0) { return source; }
             List<string> result = new List<string>();
             foreach (string s in source)
             {
-                result.Add(Remove(s, comparison, filter));
+                result.Add(RemoveAll(s, comparison, filter));
             }
             return result.ToArray();
         }
