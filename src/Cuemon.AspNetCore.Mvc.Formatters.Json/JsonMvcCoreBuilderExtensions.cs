@@ -42,9 +42,10 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
         /// <param name="builder">The <see cref="IMvcBuilder"/>.</param>
         /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
         /// <returns>The <see cref="IMvcBuilder"/>.</returns>
-        public static IMvcCoreBuilder AddJsonFormatterOptions(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup = null)
+        public static IMvcCoreBuilder AddJsonFormatterOptions(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(setup, nameof(setup));
             builder.Services.Configure(setup);
             return builder;
         }
@@ -55,9 +56,10 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
         /// <param name="builder">The <see cref="IMvcBuilder"/>.</param>
         /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
         /// <returns>The <see cref="IMvcBuilder"/>.</returns>
-        public static IMvcBuilder AddJsonFormatterOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup = null)
+        public static IMvcBuilder AddJsonFormatterOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(setup, nameof(setup));
             builder.Services.Configure(setup);
             return builder;
         }
