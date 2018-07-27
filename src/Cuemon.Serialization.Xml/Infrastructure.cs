@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using Cuemon.Reflection;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 
