@@ -5,9 +5,8 @@
     <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon.AspNetCore.Authentication</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <VersionPrefix>4.2.2018.840</VersionPrefix>
     <Authors>Michael Mortensen</Authors>
-    <TargetFrameworks>netstandard1.6;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Cuemon.AspNetCore.Authentication</AssemblyName>
     <PackageId>Cuemon.AspNetCore.Authentication</PackageId>
@@ -26,7 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup>
