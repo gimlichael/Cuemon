@@ -14,14 +14,15 @@ namespace Cuemon.Net
 	public sealed class NetWatcher : Watcher
 	{
 		private readonly object _locker = new object();
+        private static readonly string SignatureDefault = StringUtility.CreateRandomString(32);
 
-		#region Constructors
-	    /// <summary>
-		/// Initializes a new instance of the <see cref="NetWatcher"/> class.
-		/// </summary>
-		/// <param name="requestUri">The request URI to monitor for changes.</param>
-		/// <remarks>Monitors the provided <paramref name="requestUri"/> for changes in an interval of two minutes, using the last modified timestamp of the ressource.</remarks>
-		public NetWatcher(Uri requestUri) : this(requestUri, false)
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NetWatcher"/> class.
+        /// </summary>
+        /// <param name="requestUri">The request URI to monitor for changes.</param>
+        /// <remarks>Monitors the provided <paramref name="requestUri"/> for changes in an interval of two minutes, using the last modified timestamp of the ressource.</remarks>
+        public NetWatcher(Uri requestUri) : this(requestUri, false)
 		{
 		}
 
@@ -81,7 +82,7 @@ namespace Cuemon.Net
 			Scheme = scheme;
 			UtcCreated = DateTime.UtcNow;
 			CheckResponseData = checkResponseData;
-			Signature = null;
+			Signature = SignatureDefault;
 		}
 		#endregion
 
@@ -117,8 +118,8 @@ namespace Cuemon.Net
 		{
 			lock (_locker)
 			{
-				string currentSignature = null;
-				string listenerHeader = string.Format(CultureInfo.InvariantCulture, "Cuemon.Net.NetWatcher; Interval={0} seconds", Period.TotalSeconds);
+                string currentSignature = SignatureDefault;
+                string listenerHeader = string.Format(CultureInfo.InvariantCulture, "Cuemon.Net.NetWatcher; Interval={0} seconds", Period.TotalSeconds);
 				DateTime utcLastModified = DateTime.UtcNow;
 				switch (Scheme)
 				{
@@ -138,7 +139,7 @@ namespace Cuemon.Net
 				        using (HttpManager manager = new HttpManager())
 				        {
 				            manager.DefaultRequestHeaders.Add("Listener-Object", listenerHeader);
-				            using (HttpResponseMessage response = CheckResponseData ? manager.HttpGet(RequestUri).Result : manager.HttpHead(RequestUri).Result)
+				            using (HttpResponseMessage response = CheckResponseData ? manager.HttpGetAsync(RequestUri).Result : manager.HttpHeadAsync(RequestUri).Result)
 				            {
 				                switch (HttpMethodConverter.ToHttpMethod(response.RequestMessage.Method))
 				                {
@@ -159,8 +160,8 @@ namespace Cuemon.Net
 
 				if (CheckResponseData)
 				{
-					if (Signature == null) { Signature = currentSignature; }
-					if (!Signature.Equals(currentSignature, StringComparison.OrdinalIgnoreCase))
+                    if (Signature == SignatureDefault) { Signature = currentSignature; }
+                    if (!Signature.Equals(currentSignature, StringComparison.OrdinalIgnoreCase))
 					{
 						SetUtcLastModified(utcLastModified);
 						OnChangedRaised();

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace Cuemon.Net.Http
 {
@@ -15,11 +16,11 @@ namespace Cuemon.Net.Http
         /// </summary>
         /// <param name="location">The Uri the request is sent to.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpDelete(this Uri location)
+        public static Task<HttpResponseMessage> HttpDeleteAsync(this Uri location)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpDelete(location).Result;
+                return manager.HttpDeleteAsync(location);
             }
         }
 
@@ -29,11 +30,11 @@ namespace Cuemon.Net.Http
         /// <param name="location">The Uri the request is sent to.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpDelete(this Uri location, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpDeleteAsync(this Uri location, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpDelete(location, timeout).Result;
+                return manager.HttpDeleteAsync(location, timeout);
             }
         }
 
@@ -42,11 +43,11 @@ namespace Cuemon.Net.Http
         /// </summary>
         /// <param name="location">The Uri the request is sent to.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpGet(this Uri location)
+        public static Task<HttpResponseMessage> HttpGet(this Uri location)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpGet(location).Result;
+                return manager.HttpGetAsync(location);
             }
         }
 
@@ -56,11 +57,11 @@ namespace Cuemon.Net.Http
         /// <param name="location">The Uri the request is sent to.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpGet(this Uri location, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpGet(this Uri location, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpGet(location, timeout).Result;
+                return manager.HttpGetAsync(location, timeout);
             }
         }
 
@@ -69,11 +70,11 @@ namespace Cuemon.Net.Http
         /// </summary>
         /// <param name="location">The Uri the request is sent to.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpHead(this Uri location)
+        public static Task<HttpResponseMessage> HttpHeadAsync(this Uri location)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpHead(location).Result;
+                return manager.HttpHeadAsync(location);
             }
         }
 
@@ -83,11 +84,11 @@ namespace Cuemon.Net.Http
         /// <param name="location">The Uri the request is sent to.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpHead(this Uri location, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpHeadAsync(this Uri location, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpHead(location, timeout).Result;
+                return manager.HttpHeadAsync(location, timeout);
             }
         }
 
@@ -96,11 +97,11 @@ namespace Cuemon.Net.Http
         /// </summary>
         /// <param name="location">The Uri the request is sent to.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpOptions(this Uri location)
+        public static Task<HttpResponseMessage> HttpOptionsAsync(this Uri location)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpOptions(location).Result;
+                return manager.HttpOptionsAsync(location);
             }
         }
 
@@ -110,11 +111,11 @@ namespace Cuemon.Net.Http
         /// <param name="location">The Uri the request is sent to.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpOptions(this Uri location, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpOptionsAsync(this Uri location, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpOptions(location, timeout).Result;
+                return manager.HttpOptionsAsync(location, timeout);
             }
         }
 
@@ -125,42 +126,11 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPost(this Uri location, string contentType, Stream content)
+        public static Task<HttpResponseMessage> HttpPostAsync(this Uri location, string contentType, Stream content)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpPost(location, contentType, content).Result;
-            }
-        }
-
-        /// <summary>
-        /// Send a POST request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPost(this Uri location, string contentType, Stream content, TimeSpan timeout)
-        {
-            using (HttpManager manager = new HttpManager())
-            {
-                return manager.HttpPost(location, contentType, content, timeout).Result;
-            }
-        }
-
-        /// <summary>
-        /// Send a POST request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPost(this Uri location, MediaTypeHeaderValue contentType, Stream content)
-        {
-            using (HttpManager manager = new HttpManager())
-            {
-                return manager.HttpPost(location, contentType, content).Result;
+                return manager.HttpPostAsync(location, contentType, content);
             }
         }
 
@@ -172,11 +142,42 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPost(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpPostAsync(this Uri location, string contentType, Stream content, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpPost(location, contentType, content, timeout).Result;
+                return manager.HttpPostAsync(location, contentType, content, timeout);
+            }
+        }
+
+        /// <summary>
+        /// Send a POST request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static Task<HttpResponseMessage> HttpPostAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttpPostAsync(location, contentType, content);
+            }
+        }
+
+        /// <summary>
+        /// Send a POST request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static Task<HttpResponseMessage> HttpPostAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttpPostAsync(location, contentType, content, timeout);
             }
         }
 
@@ -187,11 +188,11 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPut(this Uri location, string contentType, Stream content)
+        public static Task<HttpResponseMessage> HttpPutAsync(this Uri location, string contentType, Stream content)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpPut(location, contentType, content).Result;
+                return manager.HttpPutAsync(location, contentType, content);
             }
         }
 
@@ -203,11 +204,11 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPut(this Uri location, string contentType, Stream content, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpPutAsync(this Uri location, string contentType, Stream content, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpPut(location, contentType, content, timeout).Result;
+                return manager.HttpPutAsync(location, contentType, content, timeout);
             }
         }
 
@@ -218,42 +219,11 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPut(this Uri location, MediaTypeHeaderValue contentType, Stream content)
+        public static Task<HttpResponseMessage> HttpPutAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpPut(location, contentType, content).Result;
-            }
-        }
-
-        /// <summary>
-        /// Send a PUT request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPut(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
-        {
-            using (HttpManager manager = new HttpManager())
-            {
-                return manager.HttpPut(location, contentType, content, timeout).Result;
-            }
-        }
-
-        /// <summary>
-        /// Send a PUT request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPatch(this Uri location, string contentType, Stream content)
-        {
-            using (HttpManager manager = new HttpManager())
-            {
-                return manager.HttpPatch(location, contentType, content).Result;
+                return manager.HttpPutAsync(location, contentType, content);
             }
         }
 
@@ -265,11 +235,11 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPatch(this Uri location, string contentType, Stream content, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpPutAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpPatch(location, contentType, content, timeout).Result;
+                return manager.HttpPutAsync(location, contentType, content, timeout);
             }
         }
 
@@ -280,11 +250,11 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPatch(this Uri location, MediaTypeHeaderValue contentType, Stream content)
+        public static Task<HttpResponseMessage> HttpPatchAsync(this Uri location, string contentType, Stream content)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpPatch(location, contentType, content).Result;
+                return manager.HttpPatchAsync(location, contentType, content);
             }
         }
 
@@ -296,11 +266,42 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpPatch(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpPatchAsync(this Uri location, string contentType, Stream content, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpPatch(location, contentType, content, timeout).Result;
+                return manager.HttpPatchAsync(location, contentType, content, timeout);
+            }
+        }
+
+        /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static Task<HttpResponseMessage> HttpPatchAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttpPatchAsync(location, contentType, content);
+            }
+        }
+
+        /// <summary>
+        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static Task<HttpResponseMessage> HttpPatchAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttpPatchAsync(location, contentType, content, timeout);
             }
         }
 
@@ -309,11 +310,11 @@ namespace Cuemon.Net.Http
         /// </summary>
         /// <param name="location">The Uri the request is sent to.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpTrace(this Uri location)
+        public static Task<HttpResponseMessage> HttpTraceAsync(this Uri location)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpTrace(location).Result;
+                return manager.HttpTraceAsync(location);
             }
         }
 
@@ -323,11 +324,11 @@ namespace Cuemon.Net.Http
         /// <param name="location">The Uri the request is sent to.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage HttpTrace(this Uri location, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpTraceAsync(this Uri location, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.HttpTrace(location, timeout).Result;
+                return manager.HttpTraceAsync(location, timeout);
             }
         }
 
@@ -337,11 +338,11 @@ namespace Cuemon.Net.Http
         /// <param name="location">The Uri the request is sent to.</param>
         /// <param name="method">The HTTP method.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, string method)
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, string method)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location).Result;
+                return manager.HttpAsync(method, location);
             }
         }
 
@@ -352,11 +353,11 @@ namespace Cuemon.Net.Http
         /// <param name="method">The HTTP method.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, string method, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, string method, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location, timeout).Result;
+                return manager.HttpAsync(method, location, timeout);
             }
         }
 
@@ -368,11 +369,11 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, string method, string contentType, Stream content)
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, string method, string contentType, Stream content)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location, contentType, content).Result;
+                return manager.HttpAsync(method, location, contentType, content);
             }
         }
 
@@ -385,11 +386,11 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, string method, string contentType, Stream content, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, string method, string contentType, Stream content, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location, contentType, content, timeout).Result;
+                return manager.HttpAsync(method, location, contentType, content, timeout);
             }
         }
 
@@ -401,44 +402,11 @@ namespace Cuemon.Net.Http
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, HttpMethod method, string contentType, Stream content)
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, string contentType, Stream content)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location, contentType, content).Result;
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, HttpMethod method, string contentType, Stream content, TimeSpan timeout)
-        {
-            using (HttpManager manager = new HttpManager())
-            {
-                return manager.Http(method, location, contentType, content, timeout).Result;
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, string method, MediaTypeHeaderValue contentType, Stream content)
-        {
-            using (HttpManager manager = new HttpManager())
-            {
-                return manager.Http(method, location, contentType, content).Result;
+                return manager.HttpAsync(method, location, contentType, content);
             }
         }
 
@@ -451,27 +419,27 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, string method, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, string contentType, Stream content, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location, contentType, content, timeout).Result;
+                return manager.HttpAsync(method, location, contentType, content, timeout);
             }
         }
 
         /// <summary>
         /// Send an HTTP request as an asynchronous operation.
         /// </summary>
-        /// <param name="method">The HTTP method.</param>
         /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="method">The HTTP method.</param>
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content)
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, string method, MediaTypeHeaderValue contentType, Stream content)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location, contentType, content).Result;
+                return manager.HttpAsync(method, location, contentType, content);
             }
         }
 
@@ -484,11 +452,44 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, string method, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location, contentType, content, timeout).Result;
+                return manager.HttpAsync(method, location, contentType, content, timeout);
+            }
+        }
+
+        /// <summary>
+        /// Send an HTTP request as an asynchronous operation.
+        /// </summary>
+        /// <param name="method">The HTTP method.</param>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttpAsync(method, location, contentType, content);
+            }
+        }
+
+        /// <summary>
+        /// Send an HTTP request as an asynchronous operation.
+        /// </summary>
+        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="method">The HTTP method.</param>
+        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
+        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        {
+            using (HttpManager manager = new HttpManager())
+            {
+                return manager.HttpAsync(method, location, contentType, content, timeout);
             }
         }
 
@@ -498,11 +499,11 @@ namespace Cuemon.Net.Http
         /// <param name="location">The Uri the request is sent to.</param>
         /// <param name="method">The HTTP method.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this Uri location, HttpMethod method)
+        public static Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location).Result;
+                return manager.HttpAsync(method, location);
             }
         }
 
@@ -513,11 +514,11 @@ namespace Cuemon.Net.Http
         /// <param name="method">The HTTP method.</param>
         /// <param name="timeout">The timespan to wait before the request times out.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static HttpResponseMessage Http(this HttpMethod method, Uri location, TimeSpan timeout)
+        public static Task<HttpResponseMessage> HttpAsync(this HttpMethod method, Uri location, TimeSpan timeout)
         {
             using (HttpManager manager = new HttpManager())
             {
-                return manager.Http(method, location, timeout).Result;
+                return manager.HttpAsync(method, location, timeout);
             }
         }
     }
