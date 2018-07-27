@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 namespace Cuemon.AspNetCore.Mvc.Formatters.Json
 {
     /// <summary>
-    /// A <see cref="ConfigureOptions{TOptions}"/> implementation which will add the XML serializer formatters to <see cref="MvcOptions"/>.
+    /// A <see cref="ConfigureOptions{TOptions}"/> implementation which will add the JSON serializer formatters to <see cref="MvcOptions"/>.
     /// </summary>
     public class JsonSerializationMvcOptionsSetup : ConfigureOptions<MvcOptions>
     {

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace Cuemon.AspNetCore.Mvc.Formatters.Json
 {
     /// <summary>
-    /// Extension methods for adding XML formatters to MVC.
+    /// Extension methods for adding JSON formatters to MVC.
     /// </summary>
     public static class JsonMvcCoreBuilderExtensions
     {
@@ -45,7 +45,6 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
         public static IMvcCoreBuilder AddJsonFormatterOptions(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            Validator.ThrowIfNull(setup, nameof(setup));
             builder.Services.Configure(setup);
             return builder;
         }
@@ -59,7 +58,6 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
         public static IMvcBuilder AddJsonFormatterOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            Validator.ThrowIfNull(setup, nameof(setup));
             builder.Services.Configure(setup);
             return builder;
         }
