@@ -24,6 +24,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <RootNamespace>Cuemon</RootNamespace>
+    <Version>4.3.2018.2070</Version>
   </PropertyGroup>
 
   <ItemGroup>
