@@ -6,7 +6,7 @@
     <AssemblyTitle>Cuemon.AspNetCore.Mvc.Formatters.Xml</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Cuemon.AspNetCore.Mvc.Formatters.Xml</AssemblyName>
     <PackageId>Cuemon.AspNetCore.Mvc.Formatters.Xml</PackageId>
@@ -35,11 +35,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>
