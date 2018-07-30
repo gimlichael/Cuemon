@@ -38,10 +38,10 @@ namespace Cuemon.Net.Mail
         /// <param name="mail">The e-mail to send to an SMTP server.</param>
         /// <param name="filter">The function delegate that defines the conditions for the sending of <paramref name="mail"/>.</param>
         /// <remarks>The function delegate <paramref name="filter"/> will only include the <paramref name="mail"/> if that evaluates to <c>true</c>.</remarks>
-        public async Task SendOneAsync(MailMessage mail, Func<MailMessage, bool> filter = null)
+        public Task SendOneAsync(MailMessage mail, Func<MailMessage, bool> filter = null)
         {
             Validator.ThrowIfNull(mail, nameof(mail));
-            await SendAsync(mail.Yield(), filter).ConfigureAwait(false);
+            return SendAsync(mail.Yield(), filter);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Cuemon.Net.Mail
         /// <param name="mails">The e-mails to send to an SMTP server.</param>
         /// <param name="filter">The function delegate that defines the conditions for sending of the <paramref name="mails"/> sequence.</param>
         /// <remarks>The function delegate <paramref name="filter"/> will only include those <paramref name="mails"/> that evaluates to <c>true</c>.</remarks>
-        public async Task SendAsync(IEnumerable<MailMessage> mails, Func<MailMessage, bool> filter = null)
+        public Task SendAsync(IEnumerable<MailMessage> mails, Func<MailMessage, bool> filter = null)
         {
             Validator.ThrowIfNull(mails, nameof(mails));
             var carriers = PrepareShipment(this, mails, filter);
@@ -62,7 +62,7 @@ namespace Cuemon.Net.Mail
                 var carrier = shipment.Arg1;
                 shipments.Add(SendAsync(carrier, filteredMails));
             }
-            await Task.WhenAll(shipments).ConfigureAwait(false);
+            return Task.WhenAll(shipments);
         }
 
         private static async Task SendAsync(Func<SmtpClient> carrierCallback, List<MailMessage> mails)
