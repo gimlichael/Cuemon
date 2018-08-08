@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using System.Threading.Tasks;
+using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.AspNetCore.Mvc
@@ -19,7 +20,7 @@ namespace Cuemon.AspNetCore.Mvc
             {
                 var body = context.HttpContext.Response.Body;
                 context.HttpContext.Response.Body = result;
-                await next().ConfigureAwait(false);
+                await next().ContinueWithSuppressedContext();
                 result.Seek(0, SeekOrigin.Begin);
 
                 var method = context.HttpContext.Request.Method;
@@ -34,7 +35,7 @@ namespace Cuemon.AspNetCore.Mvc
                         }
                     }
                 }
-                await result.CopyToAsync(body).ConfigureAwait(false);
+                await result.CopyToAsync(body).ContinueWithSuppressedContext();
             }
         }
 

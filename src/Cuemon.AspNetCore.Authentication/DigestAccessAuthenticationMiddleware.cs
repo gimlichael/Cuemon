@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
@@ -63,10 +64,10 @@ namespace Cuemon.AspNetCore.Authentication
                     opaqueGenerator(),
                     staleNonce,
                     DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)));
-                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ConfigureAwait(false);
+                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ContinueWithSuppressedContext();
                 return;
             }
-            await Next.Invoke(context).ConfigureAwait(false);
+            await Next.Invoke(context).ContinueWithSuppressedContext();
         }
 
         /// <summary>

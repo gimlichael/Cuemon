@@ -2,6 +2,7 @@
 using System.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
@@ -104,7 +105,7 @@ namespace Cuemon.AspNetCore.Authentication
             var bodyContent = httpNotAuthorizedBody?.Invoke();
             if (bodyContent != null)
             {
-                await context.Response.Body.WriteAsync(bodyContent, 0, bodyContent.Length).ConfigureAwait(false);
+                await context.Response.Body.WriteAsync(bodyContent, 0, bodyContent.Length).ContinueWithSuppressedContext();
             }
         }
     }

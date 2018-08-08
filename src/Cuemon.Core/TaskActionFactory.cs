@@ -487,10 +487,10 @@ namespace Cuemon
         /// <summary>
         /// Executes the delegate associated with this instance.
         /// </summary>
-        public async Task ExecuteMethodAsync()
+        public Task ExecuteMethodAsync()
         {
             ThrowIfNoValidDelegate(Condition.IsNull(Method));
-            await Method.Invoke(GenericArguments).ConfigureAwait(false);
+            return Method.Invoke(GenericArguments);
         }
 
         /// <summary>

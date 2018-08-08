@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
+using Cuemon.Threading.Tasks;
 
 namespace Cuemon.Net.Mail
 {
@@ -74,7 +75,7 @@ namespace Cuemon.Net.Mail
                 {
                     try
                     {
-                        await carrier.SendMailAsync(mail).ConfigureAwait(false);
+                        await carrier.SendMailAsync(mail).ContinueWithSuppressedContext();
                     }
                     finally
                     {

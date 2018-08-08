@@ -529,9 +529,9 @@ namespace Cuemon
         /// <summary>
         /// Executes the function delegate associated with this instance as an asynchronous operation.
         /// </summary>
-        public async Task<TResult> ExecuteMethodAsync()
+        public Task<TResult> ExecuteMethodAsync()
         {
-            return await Task.Factory.FromAsync(Method.BeginInvoke, Method.EndInvoke, GenericArguments, null).ConfigureAwait(false);
+            return Task.Factory.FromAsync(Method.BeginInvoke, Method.EndInvoke, GenericArguments, null);
         }
 
         /// <summary>

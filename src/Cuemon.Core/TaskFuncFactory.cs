@@ -506,10 +506,10 @@ namespace Cuemon
         /// Executes the function delegate associated with this instance.
         /// </summary>
         /// <returns>The result of the the function delegate associated with this instance.</returns>
-        public async Task<TResult> ExecuteMethodAsync()
+        public Task<TResult> ExecuteMethodAsync()
         {
             ThrowIfNoValidDelegate(Condition.IsNull(Method));
-            return await Method.Invoke(GenericArguments).ConfigureAwait(false);
+            return Method.Invoke(GenericArguments);
         }
 
         /// <summary>

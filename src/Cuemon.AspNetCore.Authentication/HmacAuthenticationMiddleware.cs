@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.Security.Cryptography;
+using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
@@ -36,10 +37,10 @@ namespace Cuemon.AspNetCore.Authentication
             {
                 context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
                 context.Response.Headers.Add(HeaderNames.WWWAuthenticate, "{0}".FormatWith(Options.AuthenticationScheme));
-                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ConfigureAwait(false);
+                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ContinueWithSuppressedContext();
                 return;
             }
-            await Next.Invoke(context).ConfigureAwait(false);
+            await Next.Invoke(context).ContinueWithSuppressedContext();
         }
 
         private bool TryAuthenticate(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
