@@ -26,7 +26,7 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <Version>4.3.2018.2070</Version>
+    <Version>4.3.2018.2200</Version>
   </PropertyGroup>
 
   <ItemGroup>
