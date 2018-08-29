@@ -67,7 +67,7 @@ namespace Cuemon.Net.Http
         /// <value>The HTTP handler stack to use for sending requests.</value>
         public HttpMessageHandler Handler
         {
-            get { return _handler; }
+            get => _handler;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));

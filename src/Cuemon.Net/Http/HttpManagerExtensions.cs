@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cuemon.Net.Http
@@ -14,511 +15,214 @@ namespace Cuemon.Net.Http
         /// <summary>
         /// Send a DELETE request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpDeleteAsync(this Uri location)
+        public static async Task<HttpResponseMessage> HttpDeleteAsync(this Uri location, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpDeleteAsync(location);
-            }
-        }
-
-        /// <summary>
-        /// Send a DELETE request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpDeleteAsync(this Uri location, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpDeleteAsync(location, timeout);
+                return await manager.HttpDeleteAsync(location, ct);
             }
         }
 
         /// <summary>
         /// Send a GET request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpGetAsync(this Uri location)
+        public static async Task<HttpResponseMessage> HttpGetAsync(this Uri location, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpGetAsync(location);
-            }
-        }
-
-        /// <summary>
-        /// Send a GET request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpGetAsync(this Uri location, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpGetAsync(location, timeout);
+                return await manager.HttpGetAsync(location, ct);
             }
         }
 
         /// <summary>
         /// Send a HEAD request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpHeadAsync(this Uri location)
+        public static async Task<HttpResponseMessage> HttpHeadAsync(this Uri location, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpHeadAsync(location);
-            }
-        }
-
-        /// <summary>
-        /// Send a HEAD request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpHeadAsync(this Uri location, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpHeadAsync(location, timeout);
+                return await manager.HttpHeadAsync(location, ct);
             }
         }
 
         /// <summary>
         /// Send an OPTIONS request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpOptionsAsync(this Uri location)
+        public static async Task<HttpResponseMessage> HttpOptionsAsync(this Uri location, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpOptionsAsync(location);
-            }
-        }
-
-        /// <summary>
-        /// Send an OPTIONS request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpOptionsAsync(this Uri location, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpOptionsAsync(location, timeout);
+                return await manager.HttpOptionsAsync(location, ct);
             }
         }
 
         /// <summary>
         /// Send a POST request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, string contentType, Stream content)
+        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpPostAsync(location, contentType, content);
+                return await manager.HttpPostAsync(location, contentType, content, ct);
             }
         }
 
         /// <summary>
         /// Send a POST request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, string contentType, Stream content, TimeSpan timeout)
+        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpPostAsync(location, contentType, content, timeout);
-            }
-        }
-
-        /// <summary>
-        /// Send a POST request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPostAsync(location, contentType, content);
-            }
-        }
-
-        /// <summary>
-        /// Send a POST request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPostAsync(location, contentType, content, timeout);
+                return await manager.HttpPostAsync(location, contentType, content, ct);
             }
         }
 
         /// <summary>
         /// Send a PUT request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, string contentType, Stream content)
+        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpPutAsync(location, contentType, content);
+                return await manager.HttpPutAsync(location, contentType, content, ct);
             }
         }
 
         /// <summary>
         /// Send a PUT request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, string contentType, Stream content, TimeSpan timeout)
+        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpPutAsync(location, contentType, content, timeout);
+                return await manager.HttpPutAsync(location, contentType, content, ct);
             }
         }
 
         /// <summary>
-        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// Send a PATCH request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content)
+        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpPutAsync(location, contentType, content);
+                return await manager.HttpPatchAsync(location, contentType, content, ct);
             }
         }
 
         /// <summary>
-        /// Send a PUT request to the specified Uri as an asynchronous operation.
+        /// Send a PATCH request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
+        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpPutAsync(location, contentType, content, timeout);
-            }
-        }
-
-        /// <summary>
-        /// Send a PUT request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, string contentType, Stream content)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPatchAsync(location, contentType, content);
-            }
-        }
-
-        /// <summary>
-        /// Send a PUT request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, string contentType, Stream content, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPatchAsync(location, contentType, content, timeout);
-            }
-        }
-
-        /// <summary>
-        /// Send a PUT request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPatchAsync(location, contentType, content);
-            }
-        }
-
-        /// <summary>
-        /// Send a PUT request to the specified Uri as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPatchAsync(location, contentType, content, timeout);
+                return await manager.HttpPatchAsync(location, contentType, content, ct);
             }
         }
 
         /// <summary>
         /// Send a TRACE request to the specified Uri as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpTraceAsync(this Uri location)
+        public static async Task<HttpResponseMessage> HttpTraceAsync(this Uri location, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpTraceAsync(location);
+                return await manager.HttpTraceAsync(location, ct);
             }
         }
 
         /// <summary>
-        /// Send a TRACE request to the specified Uri as an asynchronous operation.
+        /// Send a request as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpTraceAsync(this Uri location, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpTraceAsync(location, timeout);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, string method)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, string method, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location, timeout);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="method">The HTTP method.</param>
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, string method, string contentType, Stream content)
+        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpAsync(method, location, contentType, content);
+                return await manager.HttpAsync(method, location, contentType, content, ct);
             }
         }
 
         /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
+        /// Send a request as an asynchronous operation.
         /// </summary>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, string method, string contentType, Stream content, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location, contentType, content, timeout);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, string contentType, Stream content)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location, contentType, content);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="method">The HTTP method.</param>
         /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
         /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
+        /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, string contentType, Stream content, TimeSpan timeout)
+        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpAsync(method, location, contentType, content, timeout);
+                return await manager.HttpAsync(method, location, contentType, content, ct);
             }
         }
 
         /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
+        /// Send a request as an asynchronous operation.
         /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
+        /// <param name="location">The <see cref="Uri"/> to request.</param>
+        /// <param name="setup">The <see cref="HttpRequestOptions"/> which need to be configured.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, string method, MediaTypeHeaderValue contentType, Stream content)
+        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, Action<HttpRequestOptions> setup)
         {
             using (var manager = new HttpManager())
             {
-                return await manager.HttpAsync(method, location, contentType, content);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, string method, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location, contentType, content, timeout);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location, contentType, content);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="contentType">The Content-Type header of the HTTP request sent to the server.</param>
-        /// <param name="content">The HTTP request content sent to the server.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location, contentType, content, timeout);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location);
-            }
-        }
-
-        /// <summary>
-        /// Send an HTTP request as an asynchronous operation.
-        /// </summary>
-        /// <param name="location">The Uri the request is sent to.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="timeout">The timespan to wait before the request times out.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this HttpMethod method, Uri location, TimeSpan timeout)
-        {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location, timeout);
+                return await manager.HttpAsync(location, setup);
             }
         }
     }
