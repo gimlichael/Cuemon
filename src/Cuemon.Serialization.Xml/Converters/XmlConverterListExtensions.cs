@@ -209,6 +209,7 @@ namespace Cuemon.Serialization.Xml.Converters
         {
             converters.AddXmlConverter<string>((w, s, q) =>
             {
+                if (s.IsNullOrWhiteSpace()) { return; }
                 w.WriteEncapsulatingElementIfNotNull(s, q, (writer, value) =>
                 {
                     if (value.IsXmlString())
