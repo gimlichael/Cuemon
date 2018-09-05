@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Xml;
 using Cuemon.IO;
 using Cuemon.Serialization.Formatters;
+using Cuemon.Xml.Linq;
 using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Serialization.Xml.Converters
@@ -198,6 +199,28 @@ namespace Cuemon.Serialization.Xml.Converters
         public static void AddTimeSpanConverter(this IList<XmlConverter> converters)
         {
             converters.AddXmlConverter(reader: (reader, type) => reader.ToHierarchy().UseTimeSpanFormatter());
+        }
+
+        /// <summary>
+        /// Adds an <see cref="string"/> XML converter to the list.
+        /// </summary>
+        /// <param name="converters">The list of XML converters.</param>
+        public static void AddStringConverter(this IList<XmlConverter> converters)
+        {
+            converters.AddXmlConverter<string>((w, s, q) =>
+            {
+                w.WriteEncapsulatingElementIfNotNull(s, q, (writer, value) =>
+                {
+                    if (value.IsXmlString())
+                    {
+                        writer.WriteCData(value);
+                    }
+                    else
+                    {
+                        writer.WriteValue(value);
+                    }
+                });
+            });
         }
     }
 }

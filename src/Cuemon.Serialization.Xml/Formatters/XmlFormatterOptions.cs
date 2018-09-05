@@ -40,6 +40,7 @@ namespace Cuemon.Serialization.Xml.Formatters
             Settings.Converters.AddUriConverter();
             Settings.Converters.AddDateTimeConverter();
             Settings.Converters.AddTimeSpanConverter();
+            Settings.Converters.AddStringConverter();
             SynchronizeWithXmlConvert = true;
             IncludeExceptionStackTrace = false;
         }
