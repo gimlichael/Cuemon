@@ -1,23 +1,30 @@
 ﻿using System;
 using System.IO;
 using Cuemon.Serialization.Formatters;
+using Cuemon.Serialization.Xml.Converters;
 
 namespace Cuemon.Serialization.Xml.Formatters
 {
     /// <summary>
-    /// Serializes and deserializes an object, in XML format.
+    /// Serializes and deserializes an object in XML format.
     /// </summary>
     /// <seealso cref="Formatter{TFormat}" />.
-    /// <seealso cref="XmlConverter"/>.
+    /// <seealso cref="DefaultXmlConverter"/>.
     public class XmlFormatter : Formatter<Stream>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlFormatter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which need to be configured.</param>
-        public XmlFormatter(Action<XmlFormatterOptions> setup = null)
+        public XmlFormatter() : this((Action<XmlFormatterOptions>) null)
         {
-            Options = setup.ConfigureOptions();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmlFormatter"/> class.
+        /// </summary>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which need to be configured.</param>
+        public XmlFormatter(Action<XmlFormatterOptions> setup) : this(setup.ConfigureOptions())
+        {
         }
 
         /// <summary>
@@ -28,6 +35,7 @@ namespace Cuemon.Serialization.Xml.Formatters
         {
             Validator.ThrowIfNull(options, nameof(options));
             Options = options;
+            if (options.SynchronizeWithXmlConvert) { XmlConvert.DefaultSettings = () => options.Settings; }
         }
 
         /// <summary>
@@ -40,53 +48,28 @@ namespace Cuemon.Serialization.Xml.Formatters
         /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
         /// </summary>
         /// <param name="source">The object to serialize to XML format.</param>
-        /// <param name="sourceType">The type of the object to serialize.</param>
+        /// <param name="objectType">The type of the object to serialize.</param>
         /// <returns>A stream of the serialized <paramref name="source"/>.</returns>
-        /// <remarks>This method will serialize, in the order specified, using one of either:<br/>
-        /// 1. the explicitly defined <see cref="XmlFormatterOptions.WriterFormatter"/> delegate<br/>
-        /// 2. the implicit or explicit defined delegate in <see cref="XmlFormatterOptions.WriterFormatters"/> dictionary<br/>
-        /// 3. if neither was specified, a default XML writer implementation will be used on <see cref="XmlConverter"/>.
-        /// </remarks>
-        public override Stream Serialize(object source, Type sourceType)
+        public override Stream Serialize(object source, Type objectType)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(sourceType, nameof(sourceType));
-            var serializer = Options.Converter;
-            if (serializer == null)
-            {
-                var formatter = Options.ParseWriterFormatter(sourceType);
-                serializer = DynamicXmlConverter.Create(formatter, null, options =>
-                {
-                    options.WriterSettings = Options.WriterSettings;
-                    options.RootName = Options.RootName;
-                });
-            }
-            return XmlConvert.SerializeObject(source, serializer);
+            Validator.ThrowIfNull(objectType, nameof(objectType));
+            var serializer = XmlSerializer.Create(Options.Settings);
+            return serializer.Serialize(source, objectType);
         }
 
         /// <summary>
-        /// Deserializes the specified <paramref name="value" /> into an object of <paramref name="valueType"/>.
+        /// Deserializes the specified <paramref name="value" /> into an object of <paramref name="objectType"/>.
         /// </summary>
         /// <param name="value">The stream from which to deserialize the object graph.</param>
-        /// <param name="valueType">The type of the deserialized object.</param>
-        /// <returns>An object of <paramref name="valueType"/>.</returns>
-        /// <remarks>This method will deserialize, in the order specified, using one of either:<br />
-        /// 1. the explicitly defined <see cref="XmlFormatterOptions.ReaderFormatter" /> delegate<br />
-        /// 2. the implicit or explicit defined delegate in <see cref="XmlFormatterOptions.ReaderFormatters" /> dictionary<br />
-        /// 3. if neither was specified, a default XML reader implementation will be used.</remarks>
-        public override object Deserialize(Stream value, Type valueType)
+        /// <param name="objectType">The type of the deserialized object.</param>
+        /// <returns>An object of <paramref name="objectType"/>.</returns>
+        public override object Deserialize(Stream value, Type objectType)
         {
-            var serializer = Options.Converter;
-            if (serializer == null)
-            {
-                var formatter = Options.ParseReaderFormatter(valueType);
-                serializer = DynamicXmlConverter.Create(null, formatter, options =>
-                {
-                    options.ReaderSettings = Options.ReaderSettings;
-                    options.RootName = Options.RootName;
-                });
-            }
-            return XmlConvert.DeserializeObject(value, valueType, serializer);
+            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(objectType, nameof(objectType));
+            var serializer = XmlSerializer.Create(Options.Settings);
+            return serializer.Deserialize(value, objectType);
         }
     }
 }

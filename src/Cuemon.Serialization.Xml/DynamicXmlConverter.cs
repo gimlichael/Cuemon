@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using System.Xml;
+using Cuemon.Serialization.Xml.Converters;
+using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Serialization.Xml
 {
@@ -9,60 +12,75 @@ namespace Cuemon.Serialization.Xml
     public static class DynamicXmlConverter
     {
         /// <summary>
-        /// Creates a dynamic instance of an <see cref="XmlConverter"/> implementation wrapping <see cref="XmlConverter.WriteXml"/> through <paramref name="writer"/> and <see cref="XmlConverter.ReadXml"/> through <paramref name="reader"/>.
+        /// Creates a dynamic instance of an <see cref="XmlConverter" /> implementation wrapping <see cref="XmlConverter.WriteXml" /> through <paramref name="writer" /> and <see cref="XmlConverter.ReadXml" /> through <paramref name="reader" />.
         /// </summary>
-        /// <typeparam name="T">The type to implement an <see cref="XmlConverter"/>.</typeparam>
-        /// <param name="writer">The delegate that converts <typeparamref name="T"/> to its XML representation.</param>
-        /// <param name="reader">The delegate that generates <typeparamref name="T"/> from its XML representation.</param>
-        /// <param name="setup">The <see cref="XmlConverterOptions"/> which need to be configured.</param>
-        /// <returns>An <see cref="XmlConverter"/> implementation of <typeparamref name="T"/>.</returns>
-        public static XmlConverter Create<T>(Action<XmlWriter, XmlWriterSettings, T> writer = null, Func<XmlReader, XmlReaderSettings, Type, T> reader = null, Action<XmlConverterOptions> setup = null)
+        /// <typeparam name="T">The type to implement an <see cref="XmlConverter" />.</typeparam>
+        /// <param name="writer">The delegate that converts <typeparamref name="T" /> to its XML representation.</param>
+        /// <param name="reader">The delegate that generates <typeparamref name="T" /> from its XML representation.</param>
+        /// <param name="canConvertPredicate">The predicate that determines if an <see cref="XmlConverter"/> can convert.</param>
+        /// <returns>An <see cref="XmlConverter" /> implementation of <typeparamref name="T" />.</returns>
+        public static XmlConverter Create<T>(Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null)
         {
-            var castedWriter = writer == null ? (Action<XmlWriter, XmlWriterSettings, object>)null : (w, s, t) => writer(w, s, (T)t);
-            var castedReader = reader == null ? (Func<XmlReader, XmlReaderSettings, Type, object>)null : (r, s, t) => reader(r, s, t);
-            return Create(castedWriter, castedReader, setup);
+            var castedWriter = writer == null ? (Action<XmlWriter, object, XmlQualifiedEntity>)null : (w, t, q) => writer(w, (T)t, q);
+            var castedReader = reader == null ? (Func<XmlReader, Type, object>)null : (r, t) => reader(r, t);
+            return Create(typeof(T), castedWriter, castedReader, canConvertPredicate);
         }
 
         /// <summary>
-        /// Creates a dynamic instance of an <see cref="XmlConverter"/> implementation wrapping <see cref="XmlConverter.WriteXml"/> through <paramref name="writer"/> and <see cref="XmlConverter.ReadXml"/> through <paramref name="reader"/>.
+        /// Creates a dynamic instance of an <see cref="XmlConverter" /> implementation wrapping <see cref="XmlConverter.WriteXml" /> through <paramref name="writer" /> and <see cref="XmlConverter.ReadXml" /> through <paramref name="reader" />.
         /// </summary>
+        /// <param name="objectType">The type of the object to make convertible.</param>
         /// <param name="writer">The delegate that converts an object to its XML representation.</param>
         /// <param name="reader">The delegate that generates an object from its XML representation.</param>
-        /// <param name="setup">The <see cref="XmlConverterOptions"/> which need to be configured.</param>
-        /// <returns>An <see cref="XmlConverter"/> implementation of an object.</returns>
-        public static XmlConverter Create(Action<XmlWriter, XmlWriterSettings, object> writer = null, Func<XmlReader, XmlReaderSettings, Type, object> reader = null, Action<XmlConverterOptions> setup = null)
+        /// <param name="canConvertPredicate">The predicate that determines if an <see cref="XmlConverter" /> can convert.</param>
+        /// <returns>An <see cref="XmlConverter" /> implementation of an object.</returns>
+        public static XmlConverter Create(Type objectType, Action<XmlWriter, object, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, object> reader = null, Func<Type, bool> canConvertPredicate = null)
         {
-            return new DynamicXmlConverterCore(writer, reader, setup);
+            return new DynamicXmlConverterCore(objectType, writer, reader, canConvertPredicate);
         }
     }
 
     internal class DynamicXmlConverterCore : XmlConverter
     {
-        internal DynamicXmlConverterCore(Action<XmlWriter, XmlWriterSettings, object> writer, Func<XmlReader, XmlReaderSettings, Type, object> reader, Action<XmlConverterOptions> setup) : base(setup)
+        internal DynamicXmlConverterCore(Type objectType, Action<XmlWriter, object, XmlQualifiedEntity> writer, Func<XmlReader, Type, object> reader, Func<Type, bool> secondaryCanConvertPredicate)
         {
+            ObjectType = objectType;
             Writer = writer;
             Reader = reader;
+            CanConvertPredicate = secondaryCanConvertPredicate;
         }
 
-        private Action<XmlWriter, XmlWriterSettings, object> Writer { get; }
+        private Func<Type, bool> CanConvertPredicate { get; }
 
-        private Func<XmlReader, XmlReaderSettings, Type, object> Reader { get; }
+        private Type ObjectType { get; set; }
 
-        public override object ReadXml(XmlReader reader, Type valueType)
+        private Action<XmlWriter, object, XmlQualifiedEntity> Writer { get; }
+
+        private Func<XmlReader, Type, object> Reader { get; }
+
+        public override object ReadXml(XmlReader reader, Type objectType)
         {
-            return Reader == null ? base.ReadXml(reader, valueType) : Reader.Invoke(reader, Options?.ReaderSettings, valueType);
+            if (Reader == null) { throw new NotImplementedException("Delegate reader is null."); }
+            return Reader.Invoke(reader, objectType);
         }
 
-        public override void WriteXml(XmlWriter writer, object source)
+        public override bool CanConvert(Type objectType)
         {
-            if (Writer == null)
+            if (CanConvertPredicate != null)
             {
-                base.WriteXml(writer, source);
+                return ObjectType.IsAssignableFrom(objectType) && CanConvertPredicate(objectType);
             }
-            else
-            {
-                Writer(writer, Options?.WriterSettings, source);
-            }
+            return ObjectType.IsAssignableFrom(objectType);
         }
+
+        public override void WriteXml(XmlWriter writer, object value, XmlQualifiedEntity elementName = null)
+        {
+            if (Writer == null) { throw new NotImplementedException("Delegate writer is null."); }
+            Writer.Invoke(writer, value, elementName);
+        }
+
+        public override bool CanRead => Reader != null;
+
+        public override bool CanWrite => Writer != null;
     }
 }

@@ -12,86 +12,78 @@ using Cuemon.Reflection;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 
-namespace Cuemon.Serialization.Xml
+namespace Cuemon.Serialization.Xml.Converters
 {
     /// <summary>
-    /// Provides a way to convert objects to and from XML.
+    /// Provides a default way to convert objects to and from XML.
     /// </summary>
-    public class XmlConverter
+    public sealed class DefaultXmlConverter : XmlConverter
     {
         private const string EnumerableElementName = "Item";
         private const string XmlWriterMethod = "WriteXml";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XmlConverter"/> class.
+        /// Initializes a new instance of the <see cref="DefaultXmlConverter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="XmlConverterOptions"/> which need to be configured.</param>
-        public XmlConverter(Action<XmlConverterOptions> setup = null)
+        public DefaultXmlConverter(XmlQualifiedEntity rootName, IList<XmlConverter> converters)
         {
-            Options = setup.ConfigureOptions();
+            RootName = rootName;
+            Converters = converters ?? new List<XmlConverter>();
         }
 
-        /// <summary>
-        /// Gets the configured options of this <see cref="XmlConverter"/>.
-        /// </summary>
-        /// <value>The configured options of this <see cref="XmlConverter"/>.</value>
-        public XmlConverterOptions Options { get; }
+        private XmlQualifiedEntity RootName { get; }
+
+        private IList<XmlConverter> Converters { get; }
 
         /// <summary>
         /// Converts an object into its XML representation.
         /// </summary>
         /// <param name="writer">The <see cref="XmlWriter" /> stream to which the object is serialized.</param>
         /// <param name="value">The object to convert.</param>
+        /// <param name="elementName">The element name to encapsulate around <paramref name="value" />.</param>
         /// <exception cref="InvalidOperationException">There is an error in the XML document.</exception>
-        public virtual void WriteXml(XmlWriter writer, object value)
+        public override void WriteXml(XmlWriter writer, object value, XmlQualifiedEntity elementName = null)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
-            Validator.ThrowIfNull(value, nameof(value));
-            try
-            {
-                var root = new HierarchySerializer(value);
-                var rootElement = root.Nodes.LookupXmlStartElement(Options.RootName);
-                writer.WriteStartElement(rootElement.Prefix, rootElement.LocalName, rootElement.Namespace);
-                WriteXmlNodes(writer, root.Nodes);
-            }
-            catch (Exception ex)
-            {
-                Exception innerException = ex;
-                if (innerException is OutOfMemoryException) { throw; }
-                if (innerException is TargetInvocationException) { innerException = innerException.InnerException; }
-                throw ExceptionUtility.Refine(new InvalidOperationException("There is an error in the XML document.", innerException), MethodBaseConverter.FromType(typeof(XmlConverter), flags: ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic), writer, value).Unwrap();
-            }
-            writer.WriteEndElement();
-            writer.Flush();
+            writer.WriteXmlRootElement(value, WriteXmlNodes, elementName ?? RootName);
         }
 
         /// <summary>
         /// Generates an object from its XML representation.
         /// </summary>
         /// <param name="reader">The <see cref="XmlReader" /> stream from which the object is deserialized.</param>
-        /// <param name="valueType">The <see cref="Type"/> of the object to generate.</param>
+        /// <param name="objectType">The <see cref="Type"/> of the object to generate.</param>
         /// <returns>The generated (deserialized) object.</returns>
-        public virtual object ReadXml(XmlReader reader, Type valueType)
+        public override object ReadXml(XmlReader reader, Type objectType)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
-            Validator.ThrowIfNull(valueType, nameof(valueType));
-            if (valueType.IsEnumerable() && valueType != typeof(string))
+            Validator.ThrowIfNull(objectType, nameof(objectType));
+            if (objectType.IsEnumerable() && objectType != typeof(string))
             {
-                if (valueType.IsDictionary())
+                if (objectType.IsDictionary())
                 {
-                    return ParseReadXmlDictionary(reader, valueType);
+                    return ParseReadXmlDictionary(reader, objectType);
                 }
-                return ParseReadXmlEnumerable(reader, valueType);
+                return ParseReadXmlEnumerable(reader, objectType);
             }
-            var valueTypeInfo = valueType.GetTypeInfo();
+            var valueTypeInfo = objectType.GetTypeInfo();
             if (valueTypeInfo.IsPrimitive ||
-                valueType == typeof(string) ||
-                valueType == typeof(Guid) ||
-                valueType == typeof(decimal))
+                objectType == typeof(string) ||
+                objectType == typeof(Guid) ||
+                objectType == typeof(decimal))
             {
-                return ParseReadXmlSimple(reader, valueType);
+                return ParseReadXmlSimple(reader, objectType);
             }
-            return ParseReadXmlDefault(reader, valueType);
+            return ParseReadXmlDefault(reader, objectType);
+        }
+
+        /// <summary>
+        /// Determines whether this instance can convert the specified object type.
+        /// </summary>
+        /// <param name="objectType">The <seealso cref="Type" /> of the object.</param>
+        /// <returns><c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return true;
         }
 
         private object ParseReadXmlDictionary(XmlReader reader, Type valueType)
@@ -223,7 +215,7 @@ namespace Cuemon.Serialization.Xml
 
             if (args.Count == 0)
             {
-                var staticMethods = valueType.GetMethods(ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic).Where(info => info.ReturnType == valueType && info.IsStatic).ToList();
+                var staticMethods = valueType.GetMethods(ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic).Where(info => info.ReturnType == valueType && info.IsStatic && !info.IsSpecialName).ToList();
                 foreach (var method in staticMethods)
                 {
                     var arguments = method.GetParameters();
@@ -262,14 +254,20 @@ namespace Cuemon.Serialization.Xml
             }
             else
             {
-                ParseWriteXml(writer, node);
+                Condition.FlipFlop(node.HasChildren, WriteXmlChildren, WriteXmlValue, writer, node);
             }
         }
 
         private void WriteXmlValue(XmlWriter writer, IHierarchy<object> node)
         {
             if (node.IsNodeEnumerable()) { return; }
-            bool enumerableCaller = node.Data.ContainsKey("enumerableCaller") && node.Data["enumerableCaller"].As<bool>();
+
+            var converter = Converters.FirstOrDefaultWriterConverter(node.InstanceType);
+            if (converter != null)
+            {
+                converter.WriteXml(writer, node.Instance);
+                return;
+            }
 
             bool hasAttributeAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlAttributeAttribute));
             bool hasElementAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlElementAttribute));
@@ -282,7 +280,7 @@ namespace Cuemon.Serialization.Xml
             if (!hasAttributeAttribute && !hasElementAttribute && !hasTextAttribute)
             {
                 hasElementAttribute = true; // default serialization value for legacy Cuemon
-                if ((!TypeUtility.IsComplex(nodeType) || isType) && !node.HasChildren && (!enumerableCaller || isType))
+                if ((!TypeUtility.IsComplex(nodeType) || isType) && !node.HasChildren && (isType))
                 {
                     if (!node.HasParent)
                     {
@@ -304,11 +302,7 @@ namespace Cuemon.Serialization.Xml
             }
 
             var value = Wrapper.ParseInstance(node);
-            if (enumerableCaller)
-            {
-                writer.WriteString(value);
-            }
-            else if (hasAttributeAttribute)
+            if (hasAttributeAttribute)
             {
                 writer.WriteAttributeString(attributeOrElementName, value);
             }
@@ -322,104 +316,29 @@ namespace Cuemon.Serialization.Xml
             }
         }
 
-        private void ParseWriteXml(XmlWriter writer, IHierarchy<object> node)
-        {
-            WriteXmlEnumerable(writer, node, !node.HasParent);
-            Condition.FlipFlop(node.HasChildren, WriteXmlChildren, WriteXmlValue, writer, node);
-        }
-
         private void WriteXmlChildren(XmlWriter writer, IHierarchy<object> node)
         {
             foreach (IHierarchy<object> childNode in node.GetChildren().OrderByXmlAttributes())
             {
-                if (childNode.HasXmlIgnoreAttribute()) { return; }
-
-                XmlQualifiedEntity qualifiedEntity = childNode.LookupXmlStartElement();
-                if (childNode.HasChildren && TypeUtility.IsComplex(childNode.InstanceType)) { writer.WriteStartElement(qualifiedEntity.Prefix, qualifiedEntity.LocalName, qualifiedEntity.Namespace); }
-                WriteXmlNodes(writer, childNode);
-                if (childNode.HasChildren && TypeUtility.IsComplex(childNode.InstanceType)) { writer.WriteEndElement(); }
-            }
-        }
-
-        private void WriteXmlEnumerable(XmlWriter writer, IHierarchy<object> current, bool skipStartElement = false)
-        {
-            Type currentType = current.InstanceType;
-            Type[] genericParameters = currentType.GetGenericArguments();
-            if (genericParameters.Length == 0) { genericParameters = null; }
-            if (TypeUtility.IsEnumerable(currentType) && currentType != typeof(string))
-            {
-                bool isDictionary = TypeUtility.IsDictionary(currentType);
-                IEnumerable enumerable = current.Instance as IEnumerable;
-                if (enumerable != null)
+                if (childNode.HasXmlIgnoreAttribute()) { continue; }
+                if (!childNode.InstanceType.GetTypeInfo().IsValueType && childNode.Instance == null) { continue; }
+                if (childNode.InstanceType.IsEnumerable() && childNode.InstanceType != typeof(string) && !childNode.InstanceType.IsDictionary())
                 {
-                    var list = enumerable.Cast<object>().ToList();
-                    if (!skipStartElement && !current.HasChildren && list.Count > 0)
-                    {
-                        XmlQualifiedEntity qualifiedEntity = null;
-                        if (!current.InstanceType.HasAttributes(typeof(XmlRootAttribute)) && current.MemberReference == null)
-                        {
-                            qualifiedEntity = new XmlQualifiedEntity(StringConverter.FromType(current.InstanceType, false, true).SanitizeElementName());
-                        }
-                        qualifiedEntity = current.LookupXmlStartElement(qualifiedEntity);
-                        writer.WriteStartElement(qualifiedEntity.Prefix, qualifiedEntity.LocalName, qualifiedEntity.Namespace);
-                    }
-                    IEnumerator enumerator = list.GetEnumerator();
-                    IHierarchy<object> enumeratorNode = new Hierarchy<object>();
-                    enumeratorNode.Add(enumerator);
-                    while (enumerator.MoveNext())
-                    {
-                        object value = enumerator.Current;
-                        if (value == null) { continue; }
-                        writer.WriteStartElement(EnumerableElementName);
-                        Type valueType = value.GetType();
-
-                        if (isDictionary)
-                        {
-                            PropertyInfo keyProperty = valueType.GetProperty("Key");
-                            PropertyInfo valueProperty = valueType.GetProperty("Value");
-                            object keyValue = keyProperty.GetValue(value, null) ?? "null";
-                            object valueValue = valueProperty.GetValue(value, null) ?? "null";
-                            var kvpWrapper = DynamicXmlSerializable.Create(new[] { keyValue, valueValue }, (xmlWriter, o) =>
-                            {
-                                var k = o[0];
-                                var v = ReflectionUtility.GetObjectHierarchy(o[1], options => options.MaxDepth = 0);
-                                v.Data.Add("enumerableCaller", true);
-                                writer.WriteAttributeString("key", k.ToString());
-
-                                XmlQualifiedEntity qualifiedEntity = null;
-                                if (genericParameters != null && genericParameters.Length > 0)
-                                {
-                                    qualifiedEntity = new XmlQualifiedEntity(StringConverter.FromType(genericParameters.Last(), false, true).SanitizeElementName());
-                                }
-
-                                qualifiedEntity = v.LookupXmlStartElement(qualifiedEntity);
-                                writer.WriteStartElement(qualifiedEntity.Prefix, qualifiedEntity.LocalName, qualifiedEntity.Namespace);
-                                WriteXmlNodes(writer, v);
-                                writer.WriteEndElement();
-                            });
-                            WriteXmlNodes(writer, ReflectionUtility.GetObjectHierarchy(kvpWrapper, options => options.MaxDepth = 0));
-                        }
-                        else
-                        {
-                            IHierarchy<object> itemNode = ReflectionUtility.GetObjectHierarchy(value, options => options.MaxDepth = 0);
-                            itemNode.Data.Add("enumerableCaller", true);
-
-                            XmlQualifiedEntity qualifiedEntity = null;
-
-                            if (genericParameters != null && genericParameters.Length > 0)
-                            {
-                                qualifiedEntity = new XmlQualifiedEntity(StringConverter.ToDelimitedString(genericParameters, "And", StringConverter.FromType));
-                            }
-
-                            qualifiedEntity = itemNode.LookupXmlStartElement(qualifiedEntity);
-                            writer.WriteStartElement(qualifiedEntity.Prefix, qualifiedEntity.LocalName, qualifiedEntity.Namespace);
-                            WriteXmlNodes(writer, itemNode);
-                            writer.WriteEndElement();
-                        }
-                        writer.WriteEndElement();
-                    }
-                    if (!skipStartElement && !current.HasChildren && list.Count > 0) { writer.WriteEndElement(); }
+                    var i = childNode.Instance as IEnumerable;
+                    if (i == null || i.Cast<object>().Count() == 0) { continue; }
                 }
+                XmlQualifiedEntity qualifiedEntity = childNode.LookupXmlStartElement();
+                if (childNode.HasChildren && TypeUtility.IsComplex(childNode.InstanceType)) { writer.WriteStartElement(qualifiedEntity); }
+                var converter = Converters.FirstOrDefaultWriterConverter(childNode.InstanceType);
+                if (converter != null)
+                {
+                    converter.WriteXml(writer, childNode.Instance, qualifiedEntity);
+                }
+                else
+                {
+                    WriteXmlNodes(writer, childNode);    
+                }
+                if (childNode.HasChildren && TypeUtility.IsComplex(childNode.InstanceType)) { writer.WriteEndElement(); }
             }
         }
     }
