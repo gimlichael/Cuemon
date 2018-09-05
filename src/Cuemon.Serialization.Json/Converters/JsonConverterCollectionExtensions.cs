@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cuemon.Serialization.Formatters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -28,6 +29,46 @@ namespace Cuemon.Serialization.Json.Converters
         public static void AddStringFlagsEnumConverter(this ICollection<JsonConverter> converters)
         {
             converters.Add(new StringFlagsEnumConverter());
+        }
+
+        /// <summary>
+        /// Adds an <see cref="ExceptionDescriptor"/> JSON converter to the list.
+        /// </summary>
+        /// <param name="converters">The list of JSON converters.</param>
+        public static void AddExceptionDescriptorConverter(this ICollection<JsonConverter> converters)
+        {
+            converters.Add(DynamicJsonConverter.Create<ExceptionDescriptor>((writer, descriptor) =>
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName("code", () => DynamicJsonConverter.UseCamelCase);
+                writer.WriteValue(descriptor.Code);
+                writer.WritePropertyName("message", () => DynamicJsonConverter.UseCamelCase);
+                writer.WriteValue(descriptor.Message);
+                writer.WritePropertyName("failure", () => DynamicJsonConverter.UseCamelCase);
+                writer.WriteObject(descriptor.Failure);
+                if (descriptor.Evidence.Any())
+                {
+                    writer.WritePropertyName("evidence", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WriteStartObject();
+                    foreach (var evidence in descriptor.Evidence)
+                    {
+                        writer.WritePropertyName(evidence.Key, () => DynamicJsonConverter.UseCamelCase);
+                        writer.WriteObject(evidence.Value);
+                    }
+                    writer.WriteEndObject();
+                }
+                if (descriptor.HelpLink != null)
+                {
+                    writer.WritePropertyName("helpLink", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WriteValue(descriptor.HelpLink.OriginalString);
+                }
+                if (!descriptor.RequestId.IsNullOrWhiteSpace())
+                {
+                    writer.WritePropertyName("requestId", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WriteValue(descriptor.RequestId);
+                }
+                writer.WriteEndObject();
+            }));
         }
 
         /// <summary>

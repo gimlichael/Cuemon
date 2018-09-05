@@ -48,6 +48,7 @@ namespace Cuemon.Serialization.Json.Formatters
             Settings.Converters.AddStringFlagsEnumConverter();
             Settings.Converters.AddStringEnumConverter();
             Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
+            Settings.Converters.AddExceptionDescriptorConverter();
             Settings.Converters.AddTimeSpanConverter();
             SynchronizeWithJsonConvert = true;
         }
