@@ -214,7 +214,7 @@ namespace Cuemon
         /// <returns>A camel-case representation of the specified <see cref="string"/> value.</returns>
         public static string ToCamelCasing(string value)
         {
-            Validator.ThrowIfNullOrEmpty(value, nameof(value));
+            if (value.IsNullOrWhiteSpace()) { return value; }
             if (value.Length > 1) { return value.Substring(0, 1).ToLower() + value.Substring(1); }
             return value.ToLower();
         }
@@ -226,7 +226,7 @@ namespace Cuemon
         /// <returns>A pascal-case representation of the specified <see cref="string"/> value.</returns>
         public static string ToPascalCasing(string value)
         {
-            Validator.ThrowIfNullOrEmpty(value, nameof(value));
+            if (value.IsNullOrWhiteSpace()) { return value; }
             return value.Substring(0, 1).ToUpper() + value.Substring(1);
         }
 
