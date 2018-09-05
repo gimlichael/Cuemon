@@ -31,9 +31,10 @@ namespace Cuemon.Serialization.Xml
                         typeStrongValue = ObjectConverter.FromString(reader.Value);
                         attributes.Add(new DataPair(reader.Name, typeStrongValue, typeStrongValue.GetType()));
                         while (reader.MoveToNextAttribute()) { goto case XmlNodeType.Attribute; }
+                        var elementIndex = index;
                         foreach (var attribute in attributes)
                         {
-                            hierarchy[index].Add(attribute);
+                            hierarchy[index].Add(attribute).Data.Add("parent", elementIndex);
                             index++;
                         }
                         reader.MoveToElement();
@@ -56,9 +57,10 @@ namespace Cuemon.Serialization.Xml
                         break;
                     case XmlNodeType.CDATA:
                     case XmlNodeType.Text:
+                        var indexToApplyText = hierarchy[index].Data.ContainsKey(XmlReaderKey) ? index : hierarchy[index].Data["parent"].As<int>();
                         typeStrongValue = ObjectConverter.FromString(reader.Value);
-                        hierarchy[index].Replace(new DataPair(hierarchy[index].Data[XmlReaderKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
-                        hierarchy[index].Data.Remove(XmlReaderKey);
+                        hierarchy[indexToApplyText].Replace(new DataPair(hierarchy[indexToApplyText].Data[XmlReaderKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
+                        hierarchy[indexToApplyText].Data.Remove(XmlReaderKey);
                         break;
                 }
             }
