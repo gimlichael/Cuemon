@@ -98,20 +98,9 @@ namespace Cuemon
         /// Initializes a new instance of the <see cref="Wrapper{T}"/> class.
         /// </summary>
         /// <param name="instance">The instance that this wrapper object represents.</param>
-        public Wrapper(T instance)
-        {
-            _instance = instance;
-            _instanceType = instance.GetType();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Wrapper{T}"/> class.
-        /// </summary>
-        /// <param name="instance">The instance that this wrapper object represents.</param>
         /// <param name="memberReference">The member from where <paramref name="instance"/> was referenced.</param>
-        public Wrapper(T instance, MemberInfo memberReference)
+        public Wrapper(T instance, MemberInfo memberReference = null) 
         {
-            if (memberReference == null) { throw new ArgumentNullException(nameof(memberReference)); }
             _instance = instance;
             _instanceType = instance.GetType();
             _memberReference = memberReference;
