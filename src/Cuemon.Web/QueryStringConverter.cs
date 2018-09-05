@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using Cuemon.Collections.Specialized.Extensions;
+using Cuemon.Collections.Specialized;
 
 namespace Cuemon.Web
 {

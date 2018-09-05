@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using Cuemon.Collections.Specialized.Extensions;
+using Cuemon.Collections.Specialized;
 
 namespace Cuemon.Web
 {
@@ -12,7 +12,7 @@ namespace Cuemon.Web
         /// <summary>
         /// Converts the specified <paramref name="form"/> into its <see cref="string"/> equivalent.
         /// </summary>
-        /// <param name="form">The forma-data values to convert.</param>
+        /// <param name="form">The form-data values to convert.</param>
         /// <returns>A <see cref="string"/> equivalent to the values in the <paramref name="form"/>.</returns>
         public static string FromDictionary(IDictionary<string, string[]> form)
         {
@@ -23,7 +23,7 @@ namespace Cuemon.Web
         /// <summary>
         /// Converts the specified <paramref name="form"/> into its <see cref="string"/> equivalent.
         /// </summary>
-        /// <param name="form">The forma-data values to convert.</param>
+        /// <param name="form">The form-data values to convert.</param>
         /// <returns>A <see cref="string"/> equivalent to the values in the <paramref name="form"/>.</returns>
         public static string FromNameValueCollection(NameValueCollection form)
         {
@@ -34,7 +34,7 @@ namespace Cuemon.Web
         /// <summary>
         /// Converts the specified <paramref name="form"/> into its <see cref="NameValueCollection"/> equivalent.
         /// </summary>
-        /// <param name="form">The forma-data values to convert.</param>
+        /// <param name="form">The form-data values to convert.</param>
         /// <returns>A <see cref="NameValueCollection"/> equivalent to the values in the <paramref name="form"/>.</returns>
         public static NameValueCollection FromString(string form)
         {

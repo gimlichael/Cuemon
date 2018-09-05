@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace Cuemon.Collections.Specialized.Extensions
+namespace Cuemon.Collections.Specialized
 {
     /// <summary>
     /// This is an extension implementation of the <see cref="NameValueCollectionConverter"/> class.
