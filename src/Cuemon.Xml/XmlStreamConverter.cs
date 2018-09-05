@@ -40,7 +40,7 @@ namespace Cuemon.IO
         /// </summary>
         /// <param name="exception">The <see cref="Exception"/> to convert into an XML <see cref="Stream"/>.</param>
         /// <param name="encoding">The preferred encoding to apply to the result.</param>
-        /// <param name="includeStackTrace">if set to <c>true</c> the stack trace of the exception (and possible user data) is included in the converted result.</param>
+        /// <param name="includeStackTrace">if set to <c>true</c> the stack trace of the exception is included in the converted result.</param>
         /// <returns>An XML <see cref="Stream"/> variant of the specified <paramref name="exception"/>.</returns>
         public static Stream FromException(Exception exception, Encoding encoding, bool includeStackTrace)
         {
@@ -71,8 +71,7 @@ namespace Cuemon.IO
         internal static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
             Type exceptionType = exception.GetType();
-            writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.Name));
-            writer.WriteAttributeString("namespace", exceptionType.Namespace);
+            writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.FullName));
             WriteExceptionCore(writer, exception, includeStackTrace);
             writer.WriteEndElement();
         }
@@ -96,7 +95,7 @@ namespace Cuemon.IO
 
             if (exception.StackTrace != null && includeStackTrace)
             {
-                writer.WriteStartElement("StackTrace");
+                writer.WriteStartElement("Stack");
                 string[] lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string line in lines)
                 {
@@ -124,7 +123,7 @@ namespace Cuemon.IO
         {
             var aggregated = exception as AggregateException;
             var innerExceptions = new List<Exception>();
-            if (aggregated != null) { innerExceptions.AddRange(aggregated.InnerExceptions); }
+            if (aggregated != null) {  innerExceptions.AddRange(aggregated.InnerExceptions); }
             if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
             if (innerExceptions.Count > 0)
             {
