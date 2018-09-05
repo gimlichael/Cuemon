@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using Cuemon.Globalization;
 
 namespace Cuemon
 {
@@ -7,9 +9,11 @@ namespace Cuemon
     /// </summary>
     /// <seealso cref="System.Attribute" />
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class ExceptionDescriptorAttribute : Attribute
+    public class ExceptionDescriptorAttribute : Attribute, IMessageLocalizer
     {
         private string _helpLink;
+        private string _message;
+        private readonly Lazy<string> _messageResolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionDescriptorAttribute"/> class.
@@ -20,6 +24,19 @@ namespace Cuemon
             Validator.ThrowIfNull(failureType, nameof(failureType));
             Validator.ThrowIfNotContainsType(failureType, nameof(failureType), "The specified type is not an Exception.", typeof(Exception));
             FailureType = failureType;
+            _messageResolver = new Lazy<string>(() =>
+            {
+                if (!MessageResourceName.IsNullOrWhiteSpace() && MessageResourceType != null)
+                {
+                    var property = MessageResourceType.GetProperty(MessageResourceName, BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic);
+                    var getMethod = property?.GetGetMethod(true);
+                    if (getMethod != null && (getMethod.IsAssembly || getMethod.IsPublic))
+                    {
+                        return property.GetValue(null, null) as string;
+                    }
+                }
+                return _message;
+            });
         }
 
         /// <summary>
@@ -29,10 +46,26 @@ namespace Cuemon
         public string Code { get; set; }
 
         /// <summary>
-        /// Gets or sets a message that describes the current failure.
+        /// Gets or sets a default message that describes the current failure.
         /// </summary>
-        /// <value>The message that explains the reason for the failure.</value>
-        public string Message { get; set; }
+        /// <value>The default message that explains the reason for the failure.</value>
+        public string Message
+        {
+            get => _messageResolver.Value;
+            set => _message = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the resource name (property name) to use as the key for lookups on the resource type.
+        /// </summary>
+        /// <value>Use this property to set the name of the property within <see cref="MessageResourceType" /> that will provide a localized message that describes the current failure.</value>
+        public string MessageResourceName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the resource type to use for message lookups.
+        /// </summary>
+        /// <value>Use this property only in conjunction with <see cref="MessageResourceName" />. They are used together to retrieve localized messages at runtime.</value>
+        public Type MessageResourceType { get; set; }
 
         /// <summary>
         /// Gets or sets a link to the help page associated with this failure.
@@ -40,10 +73,7 @@ namespace Cuemon
         /// <value>The location of an optional help page associated with this failure.</value>
         public string HelpLink
         {
-            get
-            {
-                return _helpLink;
-            }
+            get => _helpLink;
             set
             {
                 if (value != null) { Validator.ThrowIfNotUri(value, nameof(value)); }
