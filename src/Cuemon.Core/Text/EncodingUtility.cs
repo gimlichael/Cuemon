@@ -50,48 +50,50 @@ namespace Cuemon.Text
         {
             if (value == null) { throw new ArgumentNullException(nameof(value)); }
             result = null;
+            if (value.Length >= 4)
+            {
 
-            if (value[0] == 0xEF &&
-                value[1] == 0xBB &&
-                value[2] == 0xBF)
-            {
-                result = Encoding.GetEncoding("UTF-8");
+                if (value[0] == 0xEF &&
+                    value[1] == 0xBB &&
+                    value[2] == 0xBF)
+                {
+                    result = Encoding.GetEncoding("UTF-8");
+                }
+                else if (value[0] == 0x00 &&
+                         value[1] == 0x00 &&
+                         value[2] == 0xFE &&
+                         value[3] == 0xFF)
+                {
+                    result = Encoding.GetEncoding("UTF-32BE");
+                }
+                else if (value[0] == 0xFF &&
+                         value[1] == 0xFE &&
+                         value[2] == 0x00 &&
+                         value[3] == 0x00)
+                {
+                    result = Encoding.GetEncoding("UTF-32");
+                }
+                else if (value[0] == 0xFE &&
+                         value[1] == 0xFF)
+                {
+                    result = Encoding.GetEncoding("UNICODEFFFE");
+                }
+                else if (value[0] == 0xFF &&
+                         value[1] == 0xFE)
+                {
+                    result = Encoding.GetEncoding("UTF-16");
+                }
+                else if (value[0] == 0x2B &&
+                         value[1] == 0x2F &&
+                         value[2] == 0x76 &&
+                         (value[3] == 0x38 ||
+                          value[3] == 0x39 ||
+                          value[3] == 0x2B ||
+                          value[3] == 0x2F))
+                {
+                    result = Encoding.GetEncoding("UTF-7");
+                }
             }
-            else if (value[0] == 0x00 &&
-                value[1] == 0x00 &&
-                value[2] == 0xFE &&
-                value[3] == 0xFF)
-            {
-                result = Encoding.GetEncoding("UTF-32BE");
-            }
-            else if (value[0] == 0xFF &&
-                value[1] == 0xFE &&
-                value[2] == 0x00 &&
-                value[3] == 0x00)
-            {
-                result = Encoding.GetEncoding("UTF-32");
-            }
-            else if (value[0] == 0xFE &&
-                value[1] == 0xFF)
-            {
-                result = Encoding.GetEncoding("UNICODEFFFE");
-            }
-            else if (value[0] == 0xFF &&
-                value[1] == 0xFE)
-            {
-                result = Encoding.GetEncoding("UTF-16");
-            }
-            else if (value[0] == 0x2B &&
-                value[1] == 0x2F &&
-                value[2] == 0x76 &&
-                (value[3] == 0x38 ||
-                value[3] == 0x39 ||
-                value[3] == 0x2B ||
-                value[3] == 0x2F))
-            {
-                result = Encoding.GetEncoding("UTF-7");
-            }
-
             return (result != null);
         }
     }
