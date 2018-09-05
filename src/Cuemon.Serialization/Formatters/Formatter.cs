@@ -30,9 +30,9 @@ namespace Cuemon.Serialization.Formatters
         /// Serializes the object of this instance to an object of <typeparamref name="TFormat" />.
         /// </summary>
         /// <param name="source">The object to serialize to a given format.</param>
-        /// <param name="sourceType">The type of the object to serialize.</param>
+        /// <param name="objectType">The type of the object to serialize.</param>
         /// <returns>An object of the serialized <paramref name="source"/>.</returns>
-        public abstract TFormat Serialize(object source, Type sourceType);
+        public abstract TFormat Serialize(object source, Type objectType);
 
         /// <summary>
         /// Deserializes the specified <paramref name="value"/> of <typeparamref name="TFormat"/> into an object of <typeparamref name="T"/>.
@@ -47,11 +47,11 @@ namespace Cuemon.Serialization.Formatters
         }
 
         /// <summary>
-        /// Deserializes the specified <paramref name="value"/> of <typeparamref name="TFormat"/> into an object of <paramref name="valueType"/>.
+        /// Deserializes the specified <paramref name="value"/> of <typeparamref name="TFormat"/> into an object of <paramref name="objectType"/>.
         /// </summary>
         /// <param name="value">The object from which to deserialize the object graph.</param>
-        /// <param name="valueType">The type of the deserialized object.</param>
-        /// <returns>An object of <paramref name="valueType"/>.</returns>
-        public abstract object Deserialize(TFormat value, Type valueType);
+        /// <param name="objectType">The type of the deserialized object.</param>
+        /// <returns>An object of <paramref name="objectType"/>.</returns>
+        public abstract object Deserialize(TFormat value, Type objectType);
     }
 }

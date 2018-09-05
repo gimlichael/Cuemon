@@ -12,9 +12,7 @@ namespace Cuemon.Serialization.Formatters
     /// </summary>
     public static class FormatterExtensions
     {
-        private const string EnumerableElementName = "Item";
         private static readonly IList<KeyValuePair<Type, string>> ConvertibleTypes = typeof(bool).GetTypeInfo().Assembly.GetTypes().Where(t => t.GetTypeInfo().IsPrimitive).Select(t => new KeyValuePair<Type, string>(t, t.Name.Split('.').Last())).ToList();
-
 
         /// <summary>
         /// A formatter implementation that resolves a <see cref="TimeSpan"/>.
@@ -24,7 +22,8 @@ namespace Cuemon.Serialization.Formatters
         public static TimeSpan UseTimeSpanFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            return TimeSpan.FromTicks(Convert.ToInt64(hierarchy.FindSingleInstance(h => h.Instance.Name.Equals("Ticks", StringComparison.OrdinalIgnoreCase)).Value));
+            var ticks = hierarchy.FindSingleInstance(h => h.Instance.Name.Equals("Ticks", StringComparison.OrdinalIgnoreCase));
+            return ticks == null ? hierarchy.UseGenericConverter<TimeSpan>() : TimeSpan.FromTicks(Convert.ToInt64(ticks.Value));
         }
 
         /// <summary>
@@ -35,7 +34,8 @@ namespace Cuemon.Serialization.Formatters
         public static Uri UseUriFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            return hierarchy.FindSingleInstance(h => h.Instance.Name.Equals("OriginalString", StringComparison.OrdinalIgnoreCase)).Value.ToString().ToUri();
+            var uri = hierarchy.FindSingleInstance(h => h.Instance.Name.Equals("OriginalString", StringComparison.OrdinalIgnoreCase));
+            return uri == null ? hierarchy.UseGenericConverter<Uri>() : uri.Value.ToString().ToUri();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Cuemon.Serialization.Formatters
         public static DateTime UseDateTimeFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            return new DateTime(Convert.ToInt64(hierarchy.FindSingleInstance(h => h.Instance.Name.Equals("Ticks", StringComparison.OrdinalIgnoreCase)).Value));
+            return hierarchy.Instance.Type == typeof(DateTime) ? hierarchy.Instance.Value.As<DateTime>() : hierarchy.UseGenericConverter<DateTime>();
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Cuemon.Serialization.Formatters
         /// <returns>A <see cref="ICollection"/> of <paramref name="valueType"/> from the specified <paramref name="hierarchy"/>.</returns>
         public static ICollection UseCollection(this IHierarchy<DataPair> hierarchy, Type valueType)
         {
-            var items = hierarchy.Find(h => h.Instance.Name == EnumerableElementName && h.Depth == 1).SelectMany(h => h.GetChildren()).ToList();
+            var items = hierarchy.GetChildren();
             var list = typeof(List<>).MakeGenericType(valueType);
             var listInstance = Activator.CreateInstance(list);
             var addMethod = list.GetMethod("Add");
@@ -211,7 +211,7 @@ namespace Cuemon.Serialization.Formatters
         /// <returns>A <see cref="IDictionary"/> with <see cref="KeyValuePair{TKey,TValue}"/> of <paramref name="valueTypes"/> from the specified <paramref name="hierarchy"/>.</returns>
         public static IDictionary UseDictionary(this IHierarchy<DataPair> hierarchy, Type[] valueTypes)
         {
-            var items = hierarchy.Find(h => h.Instance.Name == EnumerableElementName && h.Depth == 1).SelectMany(h => h.GetChildren()).ToList();
+            var items = hierarchy.GetChildren();
             var dic = typeof(Dictionary<,>).MakeGenericType(valueTypes);
             var dicInstance = Activator.CreateInstance(dic);
             var addMethod = dic.GetMethod("Add");
