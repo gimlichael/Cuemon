@@ -23,10 +23,10 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Gets or sets a number that identifies the type of failure.
+        /// Gets or sets an error code that uniquely identifies the type of failure.
         /// </summary>
         /// <value>The number that identifies the type of failure.</value>
-        public int Code { get; set; }
+        public string Code { get; set; }
 
         /// <summary>
         /// Gets or sets a message that describes the current failure.
