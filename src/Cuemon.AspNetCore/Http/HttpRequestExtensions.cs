@@ -4,7 +4,7 @@ using Cuemon.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Headers;
 
-namespace Cuemon.AspNetCore
+namespace Cuemon.AspNetCore.Http
 {
     /// <summary>
     /// Extension methods for the <see cref="HttpRequest"/> class.

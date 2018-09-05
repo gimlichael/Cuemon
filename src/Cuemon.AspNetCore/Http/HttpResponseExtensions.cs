@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Globalization;
+using Cuemon.AspNetCore.Integrity;
 using Cuemon.Collections.Generic;
 using Cuemon.Integrity;
-using Cuemon.AspNetCore.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
-namespace Cuemon.AspNetCore
+namespace Cuemon.AspNetCore.Http
 {
     /// <summary>
     /// Extension methods for the <see cref="HttpResponse"/> class.

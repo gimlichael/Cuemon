@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Cuemon.AspNetCore.Http;
 using Cuemon.Integrity;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
