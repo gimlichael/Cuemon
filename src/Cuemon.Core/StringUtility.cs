@@ -155,8 +155,7 @@ namespace Cuemon
         /// <returns><c>true</c> if the specified <paramref name="value"/> matches a Base64 structure; otherwise, <c>false</c>.</returns>
         public static bool IsBase64(string value, Func<string, bool> predicate)
         {
-            byte[] result;
-            return ByteConverter.TryFromBase64String(value, predicate, out result);
+            return ByteConverter.TryFromBase64String(value, predicate, out _);
         }
 
         internal static bool IsValueWithValidBase64ChecksumLength(string value)
@@ -1009,10 +1008,8 @@ namespace Cuemon
 
         private static bool CanConvertString<T>(string s, CultureInfo culture, ITypeDescriptorContext context)
         {
-            T result;
-            return Converter.TryFromString(s, culture, context, out result);
+            return Converter.TryFromString<T>(s, culture, context, out _);
         }
-
         #endregion
     }
 }
