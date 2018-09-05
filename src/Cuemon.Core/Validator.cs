@@ -510,7 +510,7 @@ namespace Cuemon
         {
             ThrowIfNotNumber(value, paramName, message, styles, CultureInfo.InvariantCulture);
         }
-
+        
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not a number.
         /// </summary>
@@ -542,7 +542,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName)
+        public static void ThrowIfNull<T>(T value, string paramName) 
         {
             ThrowIfNull(value, paramName, "Value cannot be null.");
         }
@@ -556,7 +556,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName, string message)
+        public static void ThrowIfNull<T>(T value, string paramName, string message) 
         {
             try
             {
@@ -1946,6 +1946,38 @@ namespace Cuemon
             {
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if there is a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
+        /// </summary>
+        /// <param name="definite">The value that specifies valid characters.</param>
+        /// <param name="arbitrary">The value to distinctively compare with <paramref name="definite"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// There is a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
+        /// </exception>
+        public static void ThrowIfDistinctDifference(string definite, string arbitrary, string paramName, string message)
+        {
+            bool hasDiff = StringUtility.ParseDistinctDifference(definite, arbitrary, out var invalidCharacters);
+            if (hasDiff) { throw new ArgumentOutOfRangeException(paramName, invalidCharacters, message); }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if there is not a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
+        /// </summary>
+        /// <param name="definite">The value that specifies valid characters.</param>
+        /// <param name="arbitrary">The value to distinctively compare with <paramref name="definite"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// There is not a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
+        /// </exception>
+        public static void ThrowIfNotDistinctDifference(string definite, string arbitrary, string paramName, string message)
+        {
+            bool hasDiff = StringUtility.ParseDistinctDifference(definite, arbitrary, out _);
+            if (!hasDiff) { throw new ArgumentOutOfRangeException(paramName, message); }
         }
     }
 }
