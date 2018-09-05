@@ -291,11 +291,12 @@ namespace Cuemon
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (targets == null) throw new ArgumentNullException(nameof(targets));
+            var sourceInterfaces = source.GetTypeInfo().IsInterface ? source.Yield().Concat(source.GetInterfaces()).ToList() : source.GetInterfaces().ToList();
             foreach (Type targetType in targets)
             {
                 if (inherit) // search all inheritance chains
                 {
-                    foreach (Type interfaceType in source.GetInterfaces())
+                    foreach (Type interfaceType in sourceInterfaces)
                     {
                         if (interfaceType.GetTypeInfo().IsGenericType)
                         {
@@ -307,7 +308,7 @@ namespace Cuemon
                 }
                 else // search this type only
                 {
-                    Type interfaceType = Converter.Parse(source.GetTypeInfo().ImplementedInterfaces, InterfaceParser, targetType);
+                    Type interfaceType = Converter.Parse(sourceInterfaces, InterfaceParser, targetType);
                     if (interfaceType != null)
                     {
                         if (interfaceType.GetTypeInfo().IsGenericType)
