@@ -3,10 +3,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Cuemon.AspNetCore.Builder;
 using Cuemon.Security.Cryptography;
 using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Authentication
@@ -14,15 +16,23 @@ namespace Cuemon.AspNetCore.Authentication
     /// <summary>
     /// Provides a HTTP HMAC Authentication middleware implementation for ASP.NET Core.
     /// </summary>
-    public class HmacAuthenticationMiddleware : Middleware<HmacAuthenticationOptions>
+    public class HmacAuthenticationMiddleware : ConfigurableMiddleware<HmacAuthenticationOptions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HmacAuthenticationMiddleware"/> class.
         /// </summary>
         /// <param name="next">The delegate of the request pipeline to invoke.</param>
+        /// <param name="setup">The <see cref="HmacAuthenticationOptions" /> which need to be configured.</param>
+        public HmacAuthenticationMiddleware(RequestDelegate next, IOptions<HmacAuthenticationOptions> setup) : base(next, setup)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HmacAuthenticationMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The delegate of the request pipeline to invoke.</param>
         /// <param name="setup">The middleware <see cref="HmacAuthenticationOptions"/> which need to be configured.</param>
-        public HmacAuthenticationMiddleware(RequestDelegate next, Action<HmacAuthenticationOptions> setup)
-            : base(next, setup)
+        public HmacAuthenticationMiddleware(RequestDelegate next, Action<HmacAuthenticationOptions> setup)  : base(next, setup)
         {
         }
 
@@ -31,7 +41,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// </summary>
         /// <param name="context">The context of the current request.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
-        public override async Task Invoke(HttpContext context)
+        public override async Task InvokeAsync(HttpContext context)
         {
             if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
@@ -92,14 +102,14 @@ namespace Cuemon.AspNetCore.Authentication
     public static class HmacAuthenticationBuilderExtension
     {
         /// <summary>
-        /// Adds a HTTP Basic Authentication scheme to the <see cref="IApplicationBuilder"/> request execution pipeline.
+        /// Adds a HTTP HMAC Authentication scheme to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="setup">The HTTP <see cref="HmacAuthenticationOptions"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseHmacAuthentication(this IApplicationBuilder builder, Action<HmacAuthenticationOptions> setup)
+        public static IApplicationBuilder UseHmacAuthentication(this IApplicationBuilder builder, Action<HmacAuthenticationOptions> setup = null)
         {
-            return builder.UseMiddleware<HmacAuthenticationMiddleware>(setup);
+            return ApplicationBuilderFactory.UseMiddlewareConfigurable<HmacAuthenticationMiddleware, HmacAuthenticationOptions>(builder, setup);
         }
     }
 }

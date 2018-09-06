@@ -6,9 +6,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.AspNetCore.Builder;
 using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Authentication
@@ -16,7 +18,7 @@ namespace Cuemon.AspNetCore.Authentication
     /// <summary>
     /// Provides a HTTP Digest Access Authentication middleware implementation for ASP.NET Core.
     /// </summary>
-    public class DigestAccessAuthenticationMiddleware : Middleware<DigestAccessAuthenticationOptions>
+    public class DigestAccessAuthenticationMiddleware : ConfigurableMiddleware<DigestAccessAuthenticationOptions>
     {
         private static readonly ConcurrentDictionary<string, Template<DateTime, string>> NonceCounter = new ConcurrentDictionary<string, Template<DateTime, string>>();
         private static Timer _nonceCounterSweeper;
@@ -25,9 +27,23 @@ namespace Cuemon.AspNetCore.Authentication
         /// Initializes a new instance of the <see cref="DigestAccessAuthenticationMiddleware"/> class.
         /// </summary>
         /// <param name="next">The delegate of the request pipeline to invoke.</param>
+        /// <param name="setup">The <see cref="DigestAccessAuthenticationOptions" /> which need to be configured.</param>
+        public DigestAccessAuthenticationMiddleware(RequestDelegate next, IOptions<DigestAccessAuthenticationOptions> setup) : base(next, setup)
+        {
+            InitializeNonceCounterSweeper();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DigestAccessAuthenticationMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The delegate of the request pipeline to invoke.</param>
         /// <param name="setup">The middleware <see cref="DigestAccessAuthenticationOptions"/> which need to be configured.</param>
-        public DigestAccessAuthenticationMiddleware(RequestDelegate next, Action<DigestAccessAuthenticationOptions> setup)
-            : base(next, setup)
+        public DigestAccessAuthenticationMiddleware(RequestDelegate next, Action<DigestAccessAuthenticationOptions> setup) : base(next, setup)
+        {
+            InitializeNonceCounterSweeper();
+        }
+
+        private void InitializeNonceCounterSweeper()
         {
             _nonceCounterSweeper = new Timer(s =>
             {
@@ -45,7 +61,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// </summary>
         /// <param name="context">The context of the current request.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
-        public override async Task Invoke(HttpContext context)
+        public override async Task InvokeAsync(HttpContext context)
         {
             if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
@@ -163,14 +179,14 @@ namespace Cuemon.AspNetCore.Authentication
     public static class DigestAccessAuthenticationBuilderExtension
     {
         /// <summary>
-        /// Adds a HTTP Basic Authentication scheme to the <see cref="IApplicationBuilder"/> request execution pipeline.
+        /// Adds a HTTP Digest Authentication scheme to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="setup">The HTTP <see cref="DigestAccessAuthenticationMiddleware"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Action<DigestAccessAuthenticationOptions> setup)
+        public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Action<DigestAccessAuthenticationOptions> setup = null)
         {
-            return builder.UseMiddleware<DigestAccessAuthenticationMiddleware>(setup);
+            return ApplicationBuilderFactory.UseMiddlewareConfigurable<DigestAccessAuthenticationMiddleware, DigestAccessAuthenticationOptions>(builder, setup);
         }
     }
 }

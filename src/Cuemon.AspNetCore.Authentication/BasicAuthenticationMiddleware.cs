@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cuemon.AspNetCore.Builder;
 using Cuemon.Text;
 using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Authentication
@@ -12,15 +14,23 @@ namespace Cuemon.AspNetCore.Authentication
     /// <summary>
     /// Provides a HTTP Basic Authentication middleware implementation for ASP.NET Core.
     /// </summary>
-    public class BasicAuthenticationMiddleware : Middleware<BasicAuthenticationOptions>
+    public class BasicAuthenticationMiddleware : ConfigurableMiddleware<BasicAuthenticationOptions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicAuthenticationMiddleware"/> class.
         /// </summary>
         /// <param name="next">The delegate of the request pipeline to invoke.</param>
+        /// <param name="setup">The <see cref="BasicAuthenticationOptions" /> which need to be configured.</param>
+        public BasicAuthenticationMiddleware(RequestDelegate next, IOptions<BasicAuthenticationOptions> setup) : base(next, setup)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BasicAuthenticationMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The delegate of the request pipeline to invoke.</param>
         /// <param name="setup">The middleware <see cref="BasicAuthenticationOptions"/> which need to be configured.</param>
-        public BasicAuthenticationMiddleware(RequestDelegate next, Action<BasicAuthenticationOptions> setup)
-            : base(next, setup)
+        public BasicAuthenticationMiddleware(RequestDelegate next, Action<BasicAuthenticationOptions> setup)  : base(next, setup)
         {
         }
 
@@ -29,7 +39,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// </summary>
         /// <param name="context">The context of the current request.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
-        public override async Task Invoke(HttpContext context)
+        public override async Task InvokeAsync(HttpContext context)
         {
             if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
@@ -87,9 +97,9 @@ namespace Cuemon.AspNetCore.Authentication
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="setup">The HTTP <see cref="BasicAuthenticationOptions"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder builder, Action<BasicAuthenticationOptions> setup)
+        public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder builder, Action<BasicAuthenticationOptions> setup = null)
         {
-            return builder.UseMiddleware<BasicAuthenticationMiddleware>(setup);
+            return ApplicationBuilderFactory.UseMiddlewareConfigurable<BasicAuthenticationMiddleware, BasicAuthenticationOptions>(builder, setup);
         }
     }
 }
