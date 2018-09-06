@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
 using Cuemon.Serialization.Json.Formatters;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
@@ -33,7 +34,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
         {
             Validator.ThrowIfNull(context, nameof(context));
             Validator.ThrowIfNull(encoding, nameof(encoding));
-            var request = context.HttpContext.Request;
+            var request = context.HttpContext.Request.EnableRewind();
             var formatter = new JsonFormatter(FormatterOptions);
             var deserializedObject = formatter.Deserialize(request.Body, context.ModelType);
             return InputFormatterResult.SuccessAsync(deserializedObject);
