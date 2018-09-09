@@ -1,5 +1,7 @@
 ﻿using System;
+using Cuemon.Configuration;
 using Cuemon.Integrity;
+using Microsoft.Extensions.Options;
 
 namespace Cuemon.AspNetCore.Mvc.Configuration
 {
@@ -13,16 +15,16 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         /// Initializes a new instance of the <see cref="AssemblyCacheBusting"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="AssemblyCacheBustingOptions"/> which need to be configured.</param>
-        public AssemblyCacheBusting(Action<AssemblyCacheBustingOptions> setup = null)
+        public AssemblyCacheBusting(IOptions<AssemblyCacheBustingOptions> setup)
         {
-            var options = setup.ConfigureOptions();
-            Version = options.Assembly?.GetCacheValidator(options.ReadByteForByteChecksum).Checksum.ToHexadecimal().ToCasing(options.PreferredCasing);
+            var options = setup.Value;
+            Version = options.Assembly?.GetCacheValidator(options.ReadByteForByteChecksum, o => o.AlgorithmType = options.AlgorithmType).Checksum.ToHexadecimal().ToCasing(options.PreferredCasing);
         }
 
         /// <summary>
         /// Gets the version to be a part of the link you need cache-busting compatible.
         /// </summary>
         /// <value>The version to be a part of the link you need cache-busting compatible.</value>
-        public override string Version { get; protected set; }
+        public override string Version { get; }
     }
 }

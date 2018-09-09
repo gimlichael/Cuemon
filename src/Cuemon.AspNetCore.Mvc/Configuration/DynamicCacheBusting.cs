@@ -1,4 +1,6 @@
 ﻿using System;
+using Cuemon.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Cuemon.AspNetCore.Mvc.Configuration
 {
@@ -6,7 +8,7 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
     /// Provides cache-busting capabilities on a duration based interval. This class cannot be inherited.
     /// </summary>
     /// <seealso cref="CacheBusting" />
-    public sealed class DynamicCacheBusting : CacheBusting
+    public sealed class DynamicCacheBusting : CacheBusting, IConfigurable<DynamicCacheBustingOptions>
     {
         private string _version;
 
@@ -14,12 +16,16 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         /// Initializes a new instance of the <see cref="DynamicCacheBusting"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="DynamicCacheBustingOptions"/> which need to be configured.</param>
-        public DynamicCacheBusting(Action<DynamicCacheBustingOptions> setup = null)
+        public DynamicCacheBusting(IOptions<DynamicCacheBustingOptions> setup)
         {
-            Options = setup.ConfigureOptions();
+            Options = setup.Value;
         }
 
-        private DynamicCacheBustingOptions Options { get; }
+        /// <summary>
+        /// Gets the configured options of this instance.
+        /// </summary>
+        /// <value>The configured options of this instance.</value>
+        public DynamicCacheBustingOptions Options { get; }
 
         /// <summary>
         /// Gets the UTC timestamp from when the <see cref="CacheBusting.Version"/> was last changed.
@@ -43,10 +49,6 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
                     UtcChanged = utcNow;
                 }
                 return _version;
-            }
-            protected set
-            {
-                throw new NotImplementedException();
             }
         }
     }
