@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Cuemon.AspNetCore
 {
@@ -43,6 +44,6 @@ namespace Cuemon.AspNetCore
         /// Gets or sets the predicate that can suppress the hosting environment HTTP header.
         /// </summary>
         /// <value>The function delegate that can determine if the hosting environment HTTP header should be suppressed.</value>
-        public Func<string, bool> SuppressHeaderPredicate { get; set; }
+        public Func<IHostingEnvironment, bool> SuppressHeaderPredicate { get; set; }
     }
 }

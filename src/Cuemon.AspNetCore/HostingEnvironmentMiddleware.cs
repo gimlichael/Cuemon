@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore
         {
             context.Response.OnStarting(() =>
             {
-                if (!Options?.SuppressHeaderPredicate(he.EnvironmentName) ?? false)
+                if (!Options?.SuppressHeaderPredicate(he) ?? false)
                 {
                     context.Response.Headers.AddIfNotContainsKey(Options.HeaderName, he.EnvironmentName);
                 }
