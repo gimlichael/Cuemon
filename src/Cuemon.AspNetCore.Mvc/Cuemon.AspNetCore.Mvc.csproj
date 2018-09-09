@@ -35,8 +35,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Filters\Diagnostics\" />
-  </ItemGroup>
-
 </Project>

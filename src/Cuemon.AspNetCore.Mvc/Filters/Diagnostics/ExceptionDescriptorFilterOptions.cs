@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Cuemon.Diagnostics;
 
-namespace Cuemon.AspNetCore.Mvc.Filters
+namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
     /// <summary>
     /// Specifies options that is related to <see cref="ExceptionDescriptorFilter" /> operations.

@@ -5,7 +5,7 @@ using Cuemon.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Cuemon.AspNetCore.Mvc.Filters
+namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
     /// <summary>
     /// A filter that, after an action has faulted, provides developer friendly information about an <see cref="Exception"/> along with a correct <see cref="HttpStatusCode"/>.
