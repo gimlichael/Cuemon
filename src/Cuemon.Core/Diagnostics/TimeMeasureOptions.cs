@@ -5,8 +5,8 @@ namespace Cuemon.Diagnostics
     /// <summary>
     /// Specifies options that is related to <see cref="TimeMeasureProfiler" /> operations.
     /// </summary>
-    /// <seealso cref="Cuemon.Diagnostics.ProfilerOptions" />
-    public sealed class TimeMeasureOptions : ProfilerOptions
+    /// <seealso cref="ProfilerOptions" />
+    public class TimeMeasureOptions : ProfilerOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeMeasureOptions"/> class.
