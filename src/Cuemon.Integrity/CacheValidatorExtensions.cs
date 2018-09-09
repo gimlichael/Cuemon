@@ -215,8 +215,10 @@ namespace Cuemon.Integrity
             }
             catch (Exception)
             {
+                // ignored because of potential reflection exception; don't want us to crash the framework
             }
-            return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : GetCacheValidator(assemblyLocation, readByteForByteChecksum ? int.MaxValue : 0, setup);
+
+            return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : GetCacheValidator(assemblyLocation, readByteForByteChecksum ? int.MaxValue : 0, setup).CombineWith(assemblyHashCode64);
         }
     }
 }
