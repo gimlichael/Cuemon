@@ -1,4 +1,6 @@
-﻿namespace Cuemon
+﻿using Cuemon.Configuration;
+
+namespace Cuemon
 {
     /// <summary>
     /// Provides a generic way to support the options pattern on a class level.

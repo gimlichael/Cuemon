@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon
+namespace Cuemon.Diagnostics
 {
     /// <summary>
     /// Specifies options that is related to <see cref="ExceptionDescriptor" /> operations.

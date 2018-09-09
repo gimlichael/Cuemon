@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cuemon.Diagnostics;
 using Cuemon.Serialization.Formatters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;

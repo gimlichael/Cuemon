@@ -2,7 +2,7 @@
 using System.Reflection;
 using Cuemon.Globalization;
 
-namespace Cuemon
+namespace Cuemon.Diagnostics
 {
     /// <summary>
     /// Provides information about an <see cref="Exception"/>, in a developer friendly way, optimized for open- and otherwise public application programming interfaces (API).

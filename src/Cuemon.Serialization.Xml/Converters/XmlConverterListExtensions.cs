@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using Cuemon.Diagnostics;
 using Cuemon.IO;
 using Cuemon.Serialization.Formatters;
 using Cuemon.Xml.Linq;
