@@ -26,7 +26,9 @@ namespace Cuemon.Integrity
             }
             catch (Exception)
             {
+                // ignored because we don't want the framework to crash in case of a reflection related exception
             }
+
             return result ?? typeof(CacheValidator).GetTypeInfo().Assembly;
         });
 
