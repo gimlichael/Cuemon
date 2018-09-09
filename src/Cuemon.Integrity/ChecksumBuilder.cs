@@ -123,16 +123,16 @@ namespace Cuemon.Integrity
         internal List<byte> Bytes { get; set; }
 
         /// <summary>
-        /// Gets a <see cref="HashResult"/> containing a computed hash value of the data this instance represents.
+        /// Gets a <see cref="ChecksumResult"/> containing a computed hash value of the data this instance represents.
         /// </summary>
-        /// <value>A <see cref="HashResult"/> containing a computed hash value of the data this instance represents.</value>
-        public HashResult Checksum => ComputedChecksum ?? (ComputedChecksum = HashUtility.ComputeHash(Bytes.ToArray(), o => o.AlgorithmType = AlgorithmType));
+        /// <value>A <see cref="ChecksumResult"/> containing a computed hash value of the data this instance represents.</value>
+        public ChecksumResult Checksum => ComputedChecksum ?? (ComputedChecksum = HashUtility.ComputeHash(Bytes.ToArray(), o => o.AlgorithmType = AlgorithmType));
 
         /// <summary>
         /// Gets or sets the computed checksum of <see cref="Bytes"/>.
         /// </summary>
         /// <value>The computed checksum of <see cref="Bytes"/>.</value>
-        protected HashResult ComputedChecksum { get; set; }
+        protected ChecksumResult ComputedChecksum { get; set; }
 
         /// <summary>
         /// Combines the <paramref name="additionalChecksum"/> to the representation of this instance.
