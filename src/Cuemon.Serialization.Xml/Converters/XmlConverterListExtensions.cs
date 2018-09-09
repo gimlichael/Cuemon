@@ -210,6 +210,7 @@ namespace Cuemon.Serialization.Xml.Converters
             converters.AddXmlConverter<string>((w, s, q) =>
             {
                 if (s.IsNullOrWhiteSpace()) { return; }
+                if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(typeof(string).ToFriendlyName()); }
                 w.WriteEncapsulatingElementIfNotNull(s, q, (writer, value) =>
                 {
                     if (value.IsXmlString())
