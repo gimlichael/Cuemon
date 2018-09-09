@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Cuemon.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
@@ -63,6 +64,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// </summary>
         /// <value>A <see cref="Action{T}"/>. The default value is <c>null</c>.</value>
         public Action<Exception, ExceptionDescriptor> ExceptionCallback { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to mark ASP.NET Core MVC <see cref="ExceptionContext.ExceptionHandled"/> to <c>true</c>.
+        /// </summary>
+        /// <value><c>true</c> if <see cref="ExceptionContext.ExceptionHandled"/> should be set; otherwise, <c>false</c>.</value>
+        public bool MarkExceptionHandled  { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the request that caused the exception should be included as evidence.
+        /// </summary>
+        /// <value><c>true</c> if the request that caused the exception should be included as evidence; otherwise, <c>false</c>.</value>
+        public bool IncludeRequest { get; set; }
 
         private static bool IsValidationException(Exception exception)
         {
