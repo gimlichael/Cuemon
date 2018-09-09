@@ -12,6 +12,17 @@ namespace Cuemon.AspNetCore.Http
     public static class HttpRequestExtensions
     {
         /// <summary>
+        /// Determines whether the specified <paramref name="request"/> is served by either a GET or a HEAD method.
+        /// </summary>
+        /// <param name="request">An instance of the <see cref="HttpRequest"/> object.</param>
+        /// <returns><c>true</c> if the specified <paramref name="request"/> is served by either a GET or a HEAD method; otherwise, <c>false</c>.</returns>
+        public static bool IsGetOrHeadMethod(this HttpRequest request)
+        {
+            var method = request.Method;
+            return HttpMethods.IsGet(method) || HttpMethods.IsHead(method);
+        }
+
+        /// <summary>
         /// Determines whether a cached version of the requested resource is found client-side using the If-None-Match HTTP header.
         /// </summary>
         /// <param name="request">An instance of the <see cref="HttpRequest"/> object.</param>
@@ -54,7 +65,7 @@ namespace Cuemon.AspNetCore.Http
             Validator.ThrowIfNull(lastModified, nameof(lastModified));
             var headers = new RequestHeaders(request.Headers);
             var adjustedLastModified = lastModified.Adjust(o => new DateTime(o.Year, o.Month, o.Day, o.Hour, o.Minute, o.Second, DateTimeKind.Utc)); // make sure, that modified has the same format as the if-modified-since header
-            var ifModifiedSince = headers.IfModifiedSince;
+            var ifModifiedSince = headers.IfModifiedSince?.UtcDateTime;
             return (adjustedLastModified != DateTime.MinValue) && (ifModifiedSince.HasValue && ifModifiedSince.Value.ToUniversalTime() >= adjustedLastModified);
         }
     }

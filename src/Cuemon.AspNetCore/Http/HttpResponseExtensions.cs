@@ -21,7 +21,17 @@ namespace Cuemon.AspNetCore.Http
         /// <returns><c>true</c> if <see cref="HttpResponse.StatusCode"/> was in the <b>Successful</b> range (200-299); otherwise, <c>false</c>.</returns>
         public static bool IsSuccessStatusCode(this HttpResponse response)
         {
-            return (response.StatusCode >= 200 && response.StatusCode <= 299);
+            return (response.StatusCode >= StatusCodes.Status200OK && response.StatusCode <= 299);
+        }
+
+        /// <summary>
+        /// Determines whether the HTTP response equals a 304 Not Modified.
+        /// </summary>
+        /// <param name="response">An instance of the <see cref="HttpResponse"/> object.</param>
+        /// <returns><c>true</c> if <see cref="HttpResponse.StatusCode"/> is <b>NotModified</b> (304); otherwise, <c>false</c>.</returns>
+        public static bool IsNotModifiedStatusCode(this HttpResponse response)
+        {
+            return (response.StatusCode == StatusCodes.Status304NotModified);
         }
 
         /// <summary>
@@ -36,17 +46,23 @@ namespace Cuemon.AspNetCore.Http
             Validator.ThrowIfNull(response, nameof(response));
             Validator.ThrowIfNull(request, nameof(request));
             Validator.ThrowIfNull(builder, nameof(builder));
-            builder = builder.CombineWith(request.Headers["Accept"]);
-            DateTime utcNow = DateTime.UtcNow;
-            if (request.IsClientSideResourceCached(builder))
-            {
-                response.StatusCode = StatusCodes.Status304NotModified;
-            }
-            else
-            {
-                response.Headers.AddOrUpdate(HeaderNames.LastModified, new StringValues(utcNow.ToString("R", DateTimeFormatInfo.InvariantInfo)));
-            }
+            builder = builder.CombineWith(request.Headers[HeaderNames.Accept]);
+            if (response.IsSuccessStatusCode() && request.IsClientSideResourceCached(builder)) { response.StatusCode = StatusCodes.Status304NotModified; }
             response.Headers.AddOrUpdate(HeaderNames.ETag, new StringValues(builder.ToEntityTag(isWeak).ToString()));
+        }
+
+        /// <summary>
+        /// This method will either add or update the necessary HTTP response headers needed to provide last-modified information.
+        /// </summary>
+        /// <param name="response">The <see cref="HttpResponse"/> to extend.</param>
+        /// <param name="request">An instance of the <see cref="HttpRequest"/> object.</param>
+        /// <param name="lastModified">A value that represents when the resource was either created or last modified.</param>
+        public static void SetLastModifiedHeaderInformation(this HttpResponse response, HttpRequest request, DateTime lastModified)
+        {
+            Validator.ThrowIfNull(response, nameof(response));
+            Validator.ThrowIfNull(request, nameof(request));
+            if (response.IsSuccessStatusCode() && request.IsClientSideResourceCached(lastModified)) { response.StatusCode = StatusCodes.Status304NotModified; }
+            response.Headers.AddOrUpdate(HeaderNames.LastModified, new StringValues(lastModified.ToUniversalTime().ToString("R", DateTimeFormatInfo.InvariantInfo)));
         }
     }
 }
