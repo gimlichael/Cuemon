@@ -1,8 +1,10 @@
 ﻿using System;
-using Cuemon.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
-namespace Cuemon.AspNetCore.Mvc.Filters
+namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
     /// <summary>
     /// Represents an attribute that is used to mark an action method for time measure profiling.
@@ -24,11 +26,21 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// <param name="thresholdTimeUnit">One of the enumeration values that specifies the time unit of <paramref name="threshold" />.</param>
         public TimeMeasureAttribute(double threshold, TimeUnit thresholdTimeUnit)
         {
-            Setup = options =>
-            {
-                options.TimeMeasureCompletedThreshold = TimeSpanConverter.FromDouble(threshold, thresholdTimeUnit);
-            };
+            Threshold = threshold;
+            ThresholdTimeUnit = thresholdTimeUnit;
         }
+
+        /// <summary>
+        /// Gets or sets the value that in combination with <see cref="ThresholdTimeUnit" /> specifies the threshold of the action method.
+        /// </summary>
+        /// <value>The threshold value of the action method.</value>
+        public double Threshold { get; set; }
+
+        /// <summary>
+        /// Gets or sets one of the enumeration values that specifies the time unit of <see cref="Threshold"/>.
+        /// </summary>
+        /// <value>The <see cref="TimeUnit"/> that defines the actual <see cref="Threshold"/>.</value>
+        public TimeUnit ThresholdTimeUnit { get; set; }
 
         /// <summary>
         /// Creates an instance of the executable filter.
@@ -37,13 +49,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// <returns>An instance of the executable filter.</returns>
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            return new TimeMeasureCoreFilter(Setup);
+            var he = serviceProvider.GetRequiredService<IHostingEnvironment>();
+            return new TimeMeasuringFilter(Options.Create(new TimeMeasuringOptions()
+            {
+                TimeMeasureCompletedThreshold = TimeSpanConverter.FromDouble(Threshold, ThresholdTimeUnit)
+            }), he);
         }
 
-        private Action<TimeMeasureOptions> Setup { get; }
-
         /// <summary>
-        /// Gets a value that indicates if the result of <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IFilterFactory.CreateInstance(System.IServiceProvider)" /> can be reused across requests.
+        /// Gets a value that indicates if the result of <see cref="IFilterFactory.CreateInstance(IServiceProvider)" /> can be reused across requests.
         /// </summary>
         /// <value><c>true</c> if this instance is reusable; otherwise, <c>false</c>.</value>
         public bool IsReusable => false;
