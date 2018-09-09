@@ -47,10 +47,7 @@ namespace Cuemon.AspNetCore
             context.Items.AddIfNotContainsKey(HttpContextItemsKey, correlationId);
             context.Response.OnStarting(() =>
             {
-                if (!context.Response.Headers.ContainsKey(Options.HeaderName))
-                {
-                    context.Response.Headers.AddOrUpdate(Options.HeaderName, correlationId);
-                }
+                context.Response.Headers.AddOrUpdate(Options.HeaderName, correlationId);
                 return Task.CompletedTask;
             });
             return Next(context);
