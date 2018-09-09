@@ -12,6 +12,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("a08a6112-ad0a-4767-b354-777ec2679acc")]
-[assembly: AssemblyFileVersion("4.3.2018.2200")]
-[assembly: AssemblyVersion("4.3.2018.205")]
+[assembly: AssemblyFileVersion("5.0.0.250")]
+[assembly: AssemblyVersion("5.0.2018.250")]
 [assembly: InternalsVisibleTo("Cuemon.Serialization.Xml")]
