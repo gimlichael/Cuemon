@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace Cuemon.AspNetCore.Mvc.Filters.ModelBinding
 {
     /// <summary>
-    /// Provides a generic way to disable <seealso cref="IValueProviderFactory"/> implementations used for model binding.
+    /// Provides a generic way to disable <see cref="IValueProviderFactory"/> implementations used for model binding.
     /// </summary>
     /// <seealso cref="Attribute" />
     /// <remarks>
