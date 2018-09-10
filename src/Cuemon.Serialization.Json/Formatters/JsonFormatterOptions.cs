@@ -50,6 +50,7 @@ namespace Cuemon.Serialization.Json.Formatters
             Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
             Settings.Converters.AddExceptionDescriptorConverter();
             Settings.Converters.AddTimeSpanConverter();
+            Settings.Converters.AddDataPairConverter();
             SynchronizeWithJsonConvert = false;
         }
 

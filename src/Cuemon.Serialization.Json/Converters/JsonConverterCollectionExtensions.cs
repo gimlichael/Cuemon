@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cuemon.Collections;
 using Cuemon.Diagnostics;
 using Cuemon.Serialization.Formatters;
 using Newtonsoft.Json;
@@ -113,6 +114,29 @@ namespace Cuemon.Serialization.Json.Converters
         public static void AddExceptionConverter(this ICollection<JsonConverter> converters, bool includeStackTrace)
         {
             AddExceptionConverter(converters, () => includeStackTrace);
+        }
+
+        /// <summary>
+        /// Adds an <see cref="DataPair" /> JSON converter to the list.
+        /// </summary>
+        /// <param name="converters">The list of JSON converters.</param>
+        public static void AddDataPairConverter(this ICollection<JsonConverter> converters)
+        {
+            converters.Add(DynamicJsonConverter.Create<DataPair>((writer, dp) =>
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName("name");
+                writer.WriteValue(dp.Name);
+                if (dp.HasValue)
+                {
+                    var value = (dp.Type == typeof(Uri)) ? dp.Value.As<Uri>().OriginalString : dp.Value;
+                    writer.WritePropertyName("value");
+                    writer.WriteValue(value);
+                }
+                writer.WritePropertyName("type");
+                writer.WriteValue(dp.Type.ToFriendlyName());
+                writer.WriteEndObject();
+            }));
         }
 
         internal static void AddExceptionConverter(this ICollection<JsonConverter> converters, Func<bool> includeStackTrace)
