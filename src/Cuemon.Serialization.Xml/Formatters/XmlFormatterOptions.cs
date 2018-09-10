@@ -41,7 +41,7 @@ namespace Cuemon.Serialization.Xml.Formatters
             Settings.Converters.AddDateTimeConverter();
             Settings.Converters.AddTimeSpanConverter();
             Settings.Converters.AddStringConverter();
-            SynchronizeWithXmlConvert = true;
+            SynchronizeWithXmlConvert = false;
             IncludeExceptionStackTrace = false;
         }
 
