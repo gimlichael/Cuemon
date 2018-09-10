@@ -43,7 +43,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// </summary>
         /// <param name="filters">The list of cache related HTTP filters.</param>
         /// <param name="setup">The <see cref="HttpEntityTagHeaderOptions"/> which need to be configured.</param>
-        public static void AddEntityTagHeaderHeader(this IList<ICacheableAsyncResultFilter> filters, Action<HttpEntityTagHeaderOptions> setup = null)
+        public static void AddEntityTagHeader(this IList<ICacheableAsyncResultFilter> filters, Action<HttpEntityTagHeaderOptions> setup = null)
         {
             filters.AddFilter<HttpEntityTagHeader, HttpEntityTagHeaderOptions>(setup);
         }
