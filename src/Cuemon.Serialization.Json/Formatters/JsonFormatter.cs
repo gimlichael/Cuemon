@@ -36,7 +36,7 @@ namespace Cuemon.Serialization.Json.Formatters
         {
             Validator.ThrowIfNull(options, nameof(options));
             Options = options;
-            if (options.SynchronizeWithJsonConvert) { JsonConvert.DefaultSettings = () => options.Settings; }
+            if (options.SynchronizeWithJsonConvert) { options.Settings.ApplyToDefaultSettings(); }
         }
 
         /// <summary>
