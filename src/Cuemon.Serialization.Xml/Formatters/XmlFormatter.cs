@@ -35,7 +35,7 @@ namespace Cuemon.Serialization.Xml.Formatters
         {
             Validator.ThrowIfNull(options, nameof(options));
             Options = options;
-            if (options.SynchronizeWithXmlConvert) { XmlConvert.DefaultSettings = () => options.Settings; }
+            if (options.SynchronizeWithXmlConvert) { options.Settings.ApplyToDefaultSettings(); }
         }
 
         /// <summary>
