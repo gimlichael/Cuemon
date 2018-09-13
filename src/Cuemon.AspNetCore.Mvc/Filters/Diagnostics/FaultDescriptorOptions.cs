@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Net;
 using Cuemon.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -34,6 +35,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///         <term><see cref="ExceptionCallback"/></term>
         ///         <description><c>null</c></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="IncludeRequest"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="RequestBodyParser"/></term>
+        ///         <description><c>null</c></description>
+        ///     </item>
         /// </list>
         /// </remarks>
         public FaultDescriptorOptions()
@@ -45,6 +54,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             };
             ExceptionDescriptorResolver = null;
             ExceptionCallback = null;
+            RequestBodyParser = null;
         }
 
         /// <summary>
@@ -76,6 +86,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// </summary>
         /// <value><c>true</c> if the request that caused the exception should be included as evidence; otherwise, <c>false</c>.</value>
         public bool IncludeRequest { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function delegate that, when <see cref="IncludeRequest"/> is <c>true</c>, will determines the string result of a HTTP request body.
+        /// </summary>
+        /// <value>The function delegate that determines the string result of a HTTP request body.</value>
+        public Func<Stream, string> RequestBodyParser { get; set; }
 
         private static bool IsValidationException(Exception exception)
         {

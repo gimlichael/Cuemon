@@ -44,7 +44,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
                 if (Options.IncludeRequest)
                 {
-                    exceptionDescriptor?.AddEvidence("Request", context.HttpContext.Request, request => new HttpRequestEvidence(request));
+                    exceptionDescriptor?.AddEvidence("Request", context.HttpContext.Request, request => new HttpRequestEvidence(request, Options.RequestBodyParser));
                 }
                 context.Result = new ExceptionDescriptorResult(exceptionDescriptor);
             }

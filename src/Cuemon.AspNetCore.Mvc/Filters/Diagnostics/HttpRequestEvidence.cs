@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
@@ -8,15 +10,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// </summary>
     public class HttpRequestEvidence
     {
-        internal HttpRequestEvidence(HttpRequest request)
+        internal HttpRequestEvidence(HttpRequest request, Func<Stream, string> bodyParser = null)
         {
+            var hasMultipartContentType = request.GetMultipartBoundary().Length > 0;
+            if (bodyParser == null) { bodyParser = body => hasMultipartContentType ? null : body.ToEncodedString(); }
             Location = request.GetDisplayUrl();
             Method = request.Method;
             Headers = request.Headers;
             Query = request.Query;
-            if (request.HasFormContentType) { Form = request.Form; }
+            if (request.HasFormContentType && !hasMultipartContentType) { Form = request.Form; }
             Cookies = request.Cookies;
-            Body = request.Body.ToEncodedString();
+            Body = bodyParser(request.Body);
         }
 
         /// <summary>
