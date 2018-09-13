@@ -29,6 +29,8 @@
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Integrity\Cuemon.Integrity.csproj" />
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
+    <ProjectReference Include="..\Cuemon.Serialization.Json\Cuemon.Serialization.Json.csproj" />
+    <ProjectReference Include="..\Cuemon.Serialization.Xml\Cuemon.Serialization.Xml.csproj" />
   </ItemGroup>
 
   <ItemGroup>
