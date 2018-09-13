@@ -13,13 +13,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// A filter that, after an action has faulted, provides developer friendly information about an <see cref="Exception"/> along with a correct <see cref="HttpStatusCode"/>.
     /// </summary>
     /// <seealso cref="IExceptionFilter"/>.
-    public class ExceptionDescriptorFilter : Configurable<ExceptionDescriptorFilterOptions>, IExceptionFilter
+    public class FaultDescriptorFilter : Configurable<FaultDescriptorOptions>, IExceptionFilter
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionDescriptorFilter"/> class.
+        /// Initializes a new instance of the <see cref="FaultDescriptorFilter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="ExceptionDescriptorFilterOptions"/> which need to be configured.</param>
-        public ExceptionDescriptorFilter(IOptions<ExceptionDescriptorFilterOptions> setup) : base(setup.Value)
+        /// <param name="setup">The <see cref="FaultDescriptorOptions"/> which need to be configured.</param>
+        public FaultDescriptorFilter(IOptions<FaultDescriptorOptions> setup) : base(setup.Value)
         {
         }
 

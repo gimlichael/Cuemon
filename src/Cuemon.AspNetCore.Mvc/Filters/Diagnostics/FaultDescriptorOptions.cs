@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="ExceptionDescriptorFilter" /> operations.
+    /// Specifies options that is related to <see cref="FaultDescriptorFilter" /> operations.
     /// </summary>
-    /// <seealso cref="ExceptionDescriptorFilter"/>.
-    public class ExceptionDescriptorFilterOptions
+    /// <seealso cref="FaultDescriptorFilter"/>.
+    public class FaultDescriptorOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionDescriptorFilterOptions"/> class.
+        /// Initializes a new instance of the <see cref="FaultDescriptorOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="ExceptionDescriptorFilterOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="FaultDescriptorOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -36,7 +36,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///     </item>
         /// </list>
         /// </remarks>
-        public ExceptionDescriptorFilterOptions()
+        public FaultDescriptorOptions()
         {
             HttpStatusCodeResolver = e =>
             {
