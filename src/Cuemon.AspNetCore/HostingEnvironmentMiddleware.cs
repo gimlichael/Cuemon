@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
 using Cuemon.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 

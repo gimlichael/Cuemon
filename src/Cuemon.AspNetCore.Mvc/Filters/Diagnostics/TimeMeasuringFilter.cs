@@ -4,7 +4,7 @@ using System.Linq;
 using Cuemon.Collections.Generic;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;

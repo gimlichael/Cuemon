@@ -1,6 +1,6 @@
 ﻿using System;
 using Cuemon.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
