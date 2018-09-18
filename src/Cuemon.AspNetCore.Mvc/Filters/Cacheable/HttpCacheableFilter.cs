@@ -40,6 +40,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                 {
                     result.Value = cacheableObjectResult.Value;
                     cacheableObjectResult.Value = null;
+                    if (!context.HttpContext.Response.HasStarted && Options.UseCacheControl) { context.HttpContext.Response.GetTypedHeaders().CacheControl = Options.CacheControl; }
                 }
             }
             if (!context.HttpContext.Response.HasStarted && context.HttpContext.Response.StatusCode != StatusCodes.Status304NotModified) { await next().ContinueWithSuppressedContext(); }
