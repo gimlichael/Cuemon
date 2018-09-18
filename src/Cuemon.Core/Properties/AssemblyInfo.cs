@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("989939cf-cef2-4e23-8bce-725255e35ce6")]
-[assembly: AssemblyFileVersion("5.0.2018.252")]
+[assembly: AssemblyFileVersion("5.0.2018.253")]
 [assembly: AssemblyVersion("5.0.2018.250")]
 [assembly: InternalsVisibleTo("Cuemon.IO")]
 [assembly: InternalsVisibleTo("Cuemon.Integrity")]
