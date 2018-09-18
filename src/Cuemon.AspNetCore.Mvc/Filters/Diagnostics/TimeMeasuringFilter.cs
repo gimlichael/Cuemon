@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cuemon.Collections.Generic;
+using Cuemon.AspNetCore.Http;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
 using Microsoft.Extensions.Hosting;
@@ -63,7 +63,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 TimeMeasure.CompletedCallback?.Invoke(Profiler);
                 if (!Options?.SuppressHeaderPredicate(Environment) ?? false)
                 {
-                    context.HttpContext.Response.Headers.AddIfNotContainsKey(Options.HeaderName, Profiler.ToString());
+                    context.HttpContext.Response.Headers.AddOrUpdateHeader(Options.HeaderName, Profiler.ToString());
                 }
             }
         }
