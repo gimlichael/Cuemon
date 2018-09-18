@@ -26,11 +26,7 @@ namespace Cuemon.Text
                 o.Encoding = options.Encoding;
                 o.Preamble = options.Preamble;
             }));
-            return result.ToEncodedString(o =>
-            {
-                o.Encoding = options.Encoding;
-                o.Preamble = options.Preamble;
-            });
+            return encoding.GetString(result);
         }
     }
 }
