@@ -26,7 +26,7 @@ namespace Cuemon.AspNetCore
     }
 
     /// <summary>
-    /// Provides a base-class for middleware implementation in ASP.NET Core with five dependency injected parameters.
+    /// Provides a base-class for middleware implementation in ASP.NET Core with one dependency injected parameters.
     /// </summary>
     /// <typeparam name="T">The type of the dependency injected parameter of <see cref="InvokeAsync"/>.</typeparam>
     /// <seealso cref="ConfigurableMiddleware{T,TOptions}" />
