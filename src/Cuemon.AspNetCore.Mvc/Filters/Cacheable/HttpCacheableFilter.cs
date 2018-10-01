@@ -29,20 +29,22 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
         public override async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
-            if (context.Result is ObjectResult result)
+            foreach (var filter in Options.Filters)
             {
-                foreach (var filter in Options.Filters)
-                {
-                    await filter.OnResultExecutionAsync(context, next);
-                }
-
-                if (result.Value is ICacheableObjectResult cacheableObjectResult)
-                {
-                    result.Value = cacheableObjectResult.Value;
-                    cacheableObjectResult.Value = null;
-                    if (!context.HttpContext.Response.HasStarted && Options.UseCacheControl) { context.HttpContext.Response.GetTypedHeaders().CacheControl = Options.CacheControl; }
-                }
+                await filter.OnResultExecutionAsync(context, next);
             }
+
+            if (context.Result is ObjectResult result && result.Value is ICacheableObjectResult cacheableObjectResult)
+            {
+                result.Value = cacheableObjectResult.Value;
+                cacheableObjectResult.Value = null;
+            }
+
+            if (!context.HttpContext.Response.HasStarted && Options.UseCacheControl)
+            {
+                context.HttpContext.Response.GetTypedHeaders().CacheControl = Options.CacheControl;
+            }
+
             if (!context.HttpContext.Response.HasStarted && context.HttpContext.Response.StatusCode != StatusCodes.Status304NotModified) { await next().ContinueWithSuppressedContext(); }
         }
     }
