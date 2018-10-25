@@ -129,17 +129,24 @@ namespace Cuemon.Serialization.Xml.Converters
         /// Adds an <see cref="ExceptionDescriptor"/> XML converter to the list.
         /// </summary>
         /// <param name="converters">The list of XML converters.</param>
-        public static void AddExceptionDescriptorConverter(this IList<XmlConverter> converters)
+        /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
+        public static void AddExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
+            var options = setup.ConfigureOptions();
             converters.AddXmlConverter<ExceptionDescriptor>((writer, descriptor, qe) =>
             {
                 writer.WriteStartElement("ExceptionDescriptor");
+                writer.WriteStartElement("Error");
                 writer.WriteElementString("Code", descriptor.Code);
                 writer.WriteElementString("Message", descriptor.Message);
-                writer.WriteStartElement("Failure");
-                writer.WriteObject(descriptor.Failure);
+                if (options.IncludeFailure)
+                {
+                    writer.WriteStartElement("Failure");
+                    writer.WriteObject(descriptor.Failure);
+                    writer.WriteEndElement();
+                }
                 writer.WriteEndElement();
-                if (descriptor.Evidence.Any())
+                if (options.IncludeEvidence && descriptor.Evidence.Any())
                 {
                     writer.WriteStartElement("Evidence");
                     foreach (var evidence in descriptor.Evidence)
@@ -148,10 +155,7 @@ namespace Cuemon.Serialization.Xml.Converters
                     }
                     writer.WriteEndElement();
                 }
-                if (descriptor.HelpLink != null)
-                {
-                    writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString);
-                }
+                if (descriptor.HelpLink != null) { writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString); }
                 if (!descriptor.RequestId.IsNullOrWhiteSpace()) { writer.WriteElementString("RequestId", descriptor.RequestId); }
                 writer.WriteEndElement();
             });

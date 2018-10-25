@@ -36,18 +36,26 @@ namespace Cuemon.Serialization.Json.Converters
         /// Adds an <see cref="ExceptionDescriptor"/> JSON converter to the list.
         /// </summary>
         /// <param name="converters">The list of JSON converters.</param>
-        public static void AddExceptionDescriptorConverter(this ICollection<JsonConverter> converters)
+        /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
+        public static void AddExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
+            var options = setup.ConfigureOptions();
             converters.Add(DynamicJsonConverter.Create<ExceptionDescriptor>((writer, descriptor) =>
             {
+                writer.WriteStartObject();
+                writer.WritePropertyName("error", () => DynamicJsonConverter.UseCamelCase);
                 writer.WriteStartObject();
                 writer.WritePropertyName("code", () => DynamicJsonConverter.UseCamelCase);
                 writer.WriteValue(descriptor.Code);
                 writer.WritePropertyName("message", () => DynamicJsonConverter.UseCamelCase);
                 writer.WriteValue(descriptor.Message);
-                writer.WritePropertyName("failure", () => DynamicJsonConverter.UseCamelCase);
-                writer.WriteObject(descriptor.Failure);
-                if (descriptor.Evidence.Any())
+                if (options.IncludeFailure)
+                {
+                    writer.WritePropertyName("failure", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WriteObject(descriptor.Failure);
+                }
+                writer.WriteEndObject();
+                if (options.IncludeEvidence && descriptor.Evidence.Any())
                 {
                     writer.WritePropertyName("evidence", () => DynamicJsonConverter.UseCamelCase);
                     writer.WriteStartObject();
