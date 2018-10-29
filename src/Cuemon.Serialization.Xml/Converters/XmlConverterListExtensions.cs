@@ -17,6 +17,20 @@ namespace Cuemon.Serialization.Xml.Converters
     /// </summary>
     public static class XmlConverterListExtensions
     {
+        static XmlConverterListExtensions()
+        {
+            XmlSerializerSettings.DefaultConverters += list =>
+            {
+                list.AddDateTimeConverter();
+                list.AddEnumerableConverter();
+                list.AddExceptionConverter(true);
+                list.AddExceptionDescriptorConverter();
+                list.AddStringConverter();
+                list.AddTimeSpanConverter();
+                list.AddUriConverter();
+            };
+        }
+
         /// <summary>
         /// Adds an XML converter to the list.
         /// </summary>
@@ -25,9 +39,10 @@ namespace Cuemon.Serialization.Xml.Converters
         /// <param name="writer">The delegate that converts <typeparamref name="T"/> to its XML representation.</param>
         /// <param name="reader">The delegate that generates <typeparamref name="T"/> from its XML representation.</param>
         /// <param name="canConvertPredicate">The delegate that determines if an object can be converted.</param>
-        public static void AddXmlConverter<T>(this IList<XmlConverter> converters, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null)
+        /// <param name="qe">The optional <seealso cref="XmlQualifiedEntity"/> that will provide the name of the root element.</param>
+        public static void AddXmlConverter<T>(this IList<XmlConverter> converters, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity qe = null)
         {
-            converters.Add(DynamicXmlConverter.Create(writer, reader, canConvertPredicate));
+            converters.Add(DynamicXmlConverter.Create(writer, reader, canConvertPredicate, qe));
         }
 
         /// <summary>
@@ -39,9 +54,10 @@ namespace Cuemon.Serialization.Xml.Converters
         /// <param name="writer">The delegate that converts <typeparamref name="T" /> to its XML representation.</param>
         /// <param name="reader">The delegate that generates <typeparamref name="T" /> from its XML representation.</param>
         /// <param name="canConvertPredicate">The delegate that determines if an object can be converted.</param>
-        public static void InsertXmlConverter<T>(this IList<XmlConverter> converters, int index, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null)
+        /// <param name="qe">The optional <seealso cref="XmlQualifiedEntity"/> that will provide the name of the root element.</param>
+        public static void InsertXmlConverter<T>(this IList<XmlConverter> converters, int index, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity qe = null)
         {
-            converters.Insert(index, DynamicXmlConverter.Create(writer, reader, canConvertPredicate));
+            converters.Insert(index, DynamicXmlConverter.Create(writer, reader, canConvertPredicate, qe));
         }
 
         /// <summary>
@@ -121,7 +137,7 @@ namespace Cuemon.Serialization.Xml.Converters
                             writer.WriteEndElement();
                         }
                     }
-                });
+                }, q);
             }, (reader, type) => type.IsDictionary() ? reader.ToHierarchy().UseDictionary(type.GetGenericArguments()) : reader.ToHierarchy().UseCollection(type.GetGenericArguments().First()), type => type != typeof(string));
         }
 
@@ -151,7 +167,8 @@ namespace Cuemon.Serialization.Xml.Converters
                     writer.WriteStartElement("Evidence");
                     foreach (var evidence in descriptor.Evidence)
                     {
-                        writer.WriteObject(evidence.Value);
+                        if (evidence.Value == null) { continue; }
+                        writer.WriteObject(evidence.Value, evidence.Value.GetType(), o => o.RootName = new XmlQualifiedEntity(evidence.Key));
                     }
                     writer.WriteEndElement();
                 }
