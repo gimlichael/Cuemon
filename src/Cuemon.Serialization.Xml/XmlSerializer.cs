@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using Cuemon.Serialization.Xml.Converters;
@@ -19,11 +18,11 @@ namespace Cuemon.Serialization.Xml
         /// <returns>
         /// A new <see cref="XmlSerializer"/> instance using the specified <see cref="XmlSerializerSettings"/>.
         /// </returns>
-        /// <remarks>If <paramref name="settings"/> is <c>null</c>, <seealso cref="XmlConvert.DefaultSettings"/> is tried invoked. Otherwise, as a fallback, a default instance of <seealso cref="XmlSerializerSettings"/> is created.</remarks>
+        /// <remarks>If <paramref name="settings"/> is <c>null</c>, <see cref="XmlConvert.DefaultSettings"/> is tried invoked. Otherwise, as a fallback, a default instance of <seealso cref="XmlSerializerSettings"/> is created.</remarks>
         public static XmlSerializer Create(XmlSerializerSettings settings)
         {
             var defaultSetup = settings ?? XmlConvert.DefaultSettings?.Invoke();
-            return new XmlSerializer(defaultSetup);
+            return new XmlSerializer(defaultSetup ?? new XmlSerializerSettings());
         }
 
         /// <summary>
@@ -95,7 +94,7 @@ namespace Cuemon.Serialization.Xml
             }
         }
 
-        internal XmlSerializer(XmlSerializerSettings settings)
+        private XmlSerializer(XmlSerializerSettings settings)
         {
             Settings = settings ?? new XmlSerializerSettings();
         }
@@ -112,17 +111,20 @@ namespace Cuemon.Serialization.Xml
 
         internal XmlSerializerSettings Settings { get; }
 
-        internal IList<XmlConverter> Converters => Settings.Converters;
-
         internal XmlConverter GetReaderConverter(Type objectType)
         {
-            var converter = Converters.FirstOrDefaultReaderConverter(objectType);
+            var converter = Settings.Converters.FirstOrDefaultReaderConverter(objectType);
             return converter ?? new DefaultXmlConverter(Settings.RootName, Settings.Converters);
         }
 
         internal XmlConverter GetWriterConverter(Type objectType)
         {
-            var converter = Converters.FirstOrDefaultWriterConverter(objectType);
+            var converter = Settings.Converters.FirstOrDefaultWriterConverter(objectType);
+            if (converter is DynamicXmlConverterCore dc)
+            {
+                if (Settings.RootName != null && dc.RootName == null) { dc.RootName = Settings.RootName; }
+                return dc;
+            }
             return converter ?? new DefaultXmlConverter(Settings.RootName, Settings.Converters);
         }
     }
