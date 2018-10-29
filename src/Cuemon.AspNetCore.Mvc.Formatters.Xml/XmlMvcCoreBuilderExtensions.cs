@@ -1,4 +1,6 @@
 ﻿using System;
+using Cuemon.AspNetCore.Mvc.Formatters.Xml.Converters;
+using Cuemon.Collections.Generic;
 using Cuemon.Serialization.Xml.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,7 +48,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             Validator.ThrowIfNull(setup, nameof(setup));
-            builder.Services.Configure(setup);
+            builder.Services.Configure(DefaultXmlFormatterOptions(setup));
             return builder;
         }
 
@@ -60,8 +62,27 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             Validator.ThrowIfNull(setup, nameof(setup));
-            builder.Services.Configure(setup);
+            builder.Services.Configure(DefaultXmlFormatterOptions(setup));
             return builder;
+        }
+
+        private static Action<XmlFormatterOptions> DefaultXmlFormatterOptions(Action<XmlFormatterOptions> setup)
+        {
+            var options = setup.ConfigureOptions();
+            return o =>
+            {
+                o.IncludeExceptionStackTrace = options.IncludeExceptionStackTrace;
+                o.SynchronizeWithXmlConvert = options.SynchronizeWithXmlConvert;
+                o.Settings.Writer = options.Settings.Writer;
+                o.Settings.RootName = options.Settings.RootName;
+                o.Settings.Reader = options.Settings.Reader;
+                o.Settings.Converters.AddRange(options.Settings.Converters);
+                o.Settings.Converters.AddStringValuesConverter();
+                o.Settings.Converters.AddHeaderDictionaryConverter();
+                o.Settings.Converters.AddQueryCollectionConverter();
+                o.Settings.Converters.AddFormCollectionConverter();
+                o.Settings.Converters.AddCookieCollectionConverter();
+            };
         }
     }
 }
