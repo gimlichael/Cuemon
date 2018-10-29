@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using Cuemon.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -28,8 +29,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///         <description>if an exception inherits from <see cref="ArgumentException"/>, is of type <see cref="ValidationException"/> or <see cref="FormatException"/>, a <see cref="HttpStatusCode.BadRequest"/> is returned; otherwise <see cref="HttpStatusCode.InternalServerError"/>.</description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="ExceptionDescriptorResolver"/></term>
+        ///         <term><see cref="ExceptionDescriptorHandler"/></term>
         ///         <description><c>null</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="ExceptionDescriptorResolver"/></term>
+        ///         <description><c>e => new ExceptionDescriptor(e, "UnhandledException", $"An exception was raised by {Assembly.GetEntryAssembly().GetName().Name}");</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ExceptionCallback"/></term>
@@ -54,7 +59,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             };
             ExceptionCallback = null;
             RequestBodyParser = null;
-            ExceptionDescriptorResolver = null;
+            ExceptionDescriptorResolver = e => new ExceptionDescriptor(e, "UnhandledException", $"An exception was raised by {Assembly.GetEntryAssembly().GetName().Name}");
             ExceptionDescriptorHandler = null;
         }
 
