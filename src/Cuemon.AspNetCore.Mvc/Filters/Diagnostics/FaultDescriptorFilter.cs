@@ -27,7 +27,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// Called after an action has thrown an <see cref="Exception" />.
         /// </summary>
         /// <param name="context">The <see cref="ExceptionContext" />.</param>
-        public void OnException(ExceptionContext context)
+        public virtual void OnException(ExceptionContext context)
         {
             if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
             {
@@ -41,11 +41,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 }
                 Options.ExceptionCallback?.Invoke(context.Exception, exceptionDescriptor);
                 if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
-
-                if (Options.IncludeRequest)
-                {
-                    exceptionDescriptor?.AddEvidence("Request", context.HttpContext.Request, request => new HttpRequestEvidence(request, Options.RequestBodyParser));
-                }
+                if (Options.IncludeRequest) { exceptionDescriptor?.AddEvidence("Request", context.HttpContext.Request, request => new HttpRequestEvidence(request, Options.RequestBodyParser)); }
+                Options.ExceptionDescriptorHandler?.Invoke(context, exceptionDescriptor);
                 context.Result = new ExceptionDescriptorResult(exceptionDescriptor);
             }
         }

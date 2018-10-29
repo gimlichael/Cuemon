@@ -52,10 +52,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 if (IsValidationException(e)) { return HttpStatusCode.BadRequest; }
                 return HttpStatusCode.InternalServerError;
             };
-            ExceptionDescriptorResolver = null;
             ExceptionCallback = null;
             RequestBodyParser = null;
+            ExceptionDescriptorResolver = null;
+            ExceptionDescriptorHandler = null;
         }
+
+        /// <summary>
+        /// Gets or sets the delegate that provides a way to handle and customize an <see cref="ExceptionDescriptor"/>.
+        /// In the default implementation, this is invoked just before the <see cref="ExceptionDescriptorResult"/> is assigned to <see cref="ExceptionContext.Result"/>.
+        /// </summary>
+        /// <value>The delegate that provides a way to handle and customize an <see cref="ExceptionDescriptor"/>.</value>
+        public Action<ExceptionContext, ExceptionDescriptor> ExceptionDescriptorHandler { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate that will resolve a <see cref="ExceptionDescriptor"/> from the specified <see cref="Exception"/>.
