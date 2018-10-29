@@ -11,6 +11,18 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml.Converters
     /// </summary>
     public static class XmlConverterListExtensions
     {
+        static XmlConverterListExtensions()
+        {
+            XmlSerializerSettings.DefaultConverters += list =>
+            {
+                list.AddStringValuesConverter();
+                list.AddHeaderDictionaryConverter();
+                list.AddQueryCollectionConverter();
+                list.AddFormCollectionConverter();
+                list.AddCookieCollectionConverter();
+            };
+        }
+
         /// <summary>
         /// Adds an <see cref="StringValues"/> XML converter to the list.
         /// </summary>
