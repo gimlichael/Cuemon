@@ -18,12 +18,13 @@ namespace Cuemon.Serialization.Xml
         /// <param name="writer">The delegate that converts <typeparamref name="T" /> to its XML representation.</param>
         /// <param name="reader">The delegate that generates <typeparamref name="T" /> from its XML representation.</param>
         /// <param name="canConvertPredicate">The predicate that determines if an <see cref="XmlConverter"/> can convert.</param>
+        /// <param name="rootEntity">The optional <seealso cref="XmlQualifiedEntity"/> that will provide the name of the root element.</param>
         /// <returns>An <see cref="XmlConverter" /> implementation of <typeparamref name="T" />.</returns>
-        public static XmlConverter Create<T>(Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null)
+        public static XmlConverter Create<T>(Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity rootEntity = null)
         {
             var castedWriter = writer == null ? (Action<XmlWriter, object, XmlQualifiedEntity>)null : (w, t, q) => writer(w, (T)t, q);
             var castedReader = reader == null ? (Func<XmlReader, Type, object>)null : (r, t) => reader(r, t);
-            return Create(typeof(T), castedWriter, castedReader, canConvertPredicate);
+            return Create(typeof(T), castedWriter, castedReader, canConvertPredicate, rootEntity);
         }
 
         /// <summary>
@@ -33,22 +34,26 @@ namespace Cuemon.Serialization.Xml
         /// <param name="writer">The delegate that converts an object to its XML representation.</param>
         /// <param name="reader">The delegate that generates an object from its XML representation.</param>
         /// <param name="canConvertPredicate">The predicate that determines if an <see cref="XmlConverter" /> can convert.</param>
+        /// <param name="rootEntity">The optional <seealso cref="XmlQualifiedEntity"/> that will provide the name of the root element.</param>
         /// <returns>An <see cref="XmlConverter" /> implementation of an object.</returns>
-        public static XmlConverter Create(Type objectType, Action<XmlWriter, object, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, object> reader = null, Func<Type, bool> canConvertPredicate = null)
+        public static XmlConverter Create(Type objectType, Action<XmlWriter, object, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, object> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity rootEntity = null)
         {
-            return new DynamicXmlConverterCore(objectType, writer, reader, canConvertPredicate);
+            return new DynamicXmlConverterCore(objectType, writer, reader, canConvertPredicate, rootEntity);
         }
     }
 
     internal class DynamicXmlConverterCore : XmlConverter
     {
-        internal DynamicXmlConverterCore(Type objectType, Action<XmlWriter, object, XmlQualifiedEntity> writer, Func<XmlReader, Type, object> reader, Func<Type, bool> secondaryCanConvertPredicate)
+        internal DynamicXmlConverterCore(Type objectType, Action<XmlWriter, object, XmlQualifiedEntity> writer, Func<XmlReader, Type, object> reader, Func<Type, bool> secondaryCanConvertPredicate, XmlQualifiedEntity rootName)
         {
+            RootName = rootName;
             ObjectType = objectType;
             Writer = writer;
             Reader = reader;
             CanConvertPredicate = secondaryCanConvertPredicate;
         }
+
+        internal XmlQualifiedEntity RootName { get; set; }
 
         private Func<Type, bool> CanConvertPredicate { get; }
 
@@ -76,7 +81,7 @@ namespace Cuemon.Serialization.Xml
         public override void WriteXml(XmlWriter writer, object value, XmlQualifiedEntity elementName = null)
         {
             if (Writer == null) { throw new NotImplementedException("Delegate writer is null."); }
-            Writer.Invoke(writer, value, elementName);
+            Writer.Invoke(writer, value, elementName ?? RootName);
         }
 
         public override bool CanRead => Reader != null;
