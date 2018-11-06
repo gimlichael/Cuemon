@@ -506,35 +506,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Executes the delegate associated with this instance as an asynchronous operation.
-        /// </summary>
-        public Task ExecuteMethodAsync()
-        {
-            return Task.Factory.FromAsync(Method.BeginInvoke, Method.EndInvoke, GenericArguments, null);
-        }
-
-        /// <summary>
-        /// Executes the specified delegate asynchronous operation with the specified arguments.
-        /// </summary>
-        /// <param name="callback">The method to be called when the operation has completed.</param>
-        /// <param name="state">An optional object that contains information about the asynchronous operation.</param>
-        public void BeginExecuteMethod(AsyncCallback callback, object state)
-        {
-            ThrowIfNoValidDelegate(Condition.IsNull(Method));
-            Method.BeginInvoke(GenericArguments, callback, state);
-        }
-
-        /// <summary>
-        /// Called when the asynchronous operation initiated by <see cref="BeginExecuteMethod"/> has completed.
-        /// </summary>
-        /// <param name="result">The <see cref="IAsyncResult"/> that represents a specific invoke asynchronous operation, returned when calling <see cref="BeginExecuteMethod"/>.</param>
-        public void EndExecuteMethod(IAsyncResult result)
-        {
-            ThrowIfNoValidDelegate(Condition.IsNull(Method));
-            Method.EndInvoke(result);
-        }
-
-        /// <summary>
         /// Creates a shallow copy of the current <see cref="ActionFactory{TTuple}"/> object.
         /// </summary>
         /// <returns>A new <see cref="ActionFactory{TTuple}"/> that is a copy of this instance.</returns>
