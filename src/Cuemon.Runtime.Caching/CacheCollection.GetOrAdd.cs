@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading;
 
 namespace Cuemon.Runtime.Caching
@@ -2163,37 +2162,10 @@ namespace Cuemon.Runtime.Caching
             return (TResult)GetOrAddCore(f1, key, group, null, null, f2).Value;
         }
 
-        private Cache GetOrAddCore<TTuple, TResult>(FuncFactory<TTuple, TResult> factory, string key, string group, Func<DateTime> absoluteExpiration = null, Func<TimeSpan> slidingExpiration = null, FuncFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
-            where TTuple : Template
-        {
-            return GetOrAddCore(factory.ExecuteMethod, key, group, absoluteExpiration, slidingExpiration, dependenciesFactory);
-        }
-
-        private Cache GetOrAddCore<TTuple, TResult>(Func<TResult> value, string key, string group, Func<DateTime> absoluteExpiration = null, Func<TimeSpan> slidingExpiration = null, FuncFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
+        private Cache GetOrAddCore<TTuple, TResult>(FuncFactory<TTuple, TResult> valueFactory, string key, string group, Func<DateTime> absoluteExpiration = null, Func<TimeSpan> slidingExpiration = null, FuncFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
             where TTuple : Template
         {
             Cache result;
-            TryGetOrAddCore(value, key, group, out result, absoluteExpiration, slidingExpiration, dependenciesFactory);
-            return result;
-        }
-
-        private bool TryGetOrAddCore<TResult>(Func<TResult> value, string key, string group, out TResult result, Func<DateTime> absoluteExpiration = null, Func<TimeSpan> slidingExpiration = null)
-        {
-            return TryGetOrAddCore<Template, TResult>(value, key, group, out result, absoluteExpiration, slidingExpiration);
-        }
-
-        private bool TryGetOrAddCore<TTuple, TResult>(Func<TResult> value, string key, string group, out TResult result, Func<DateTime> absoluteExpiration = null, Func<TimeSpan> slidingExpiration = null, FuncFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
-            where TTuple : Template
-        {
-            Cache innerResult;
-            bool wasAddedToCache = TryGetOrAddCore(value, key, group, out innerResult, absoluteExpiration, slidingExpiration, dependenciesFactory);
-            result = innerResult == null ? default(TResult) : (TResult)innerResult.Value;
-            return wasAddedToCache;
-        }
-
-        private bool TryGetOrAddCore<TTuple, TResult>(Func<TResult> value, string key, string group, out Cache result, Func<DateTime> absoluteExpiration = null, Func<TimeSpan> slidingExpiration = null, FuncFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
-            where TTuple : Template
-        {
             Validator.ThrowIfNull(key, nameof(key));
             if (slidingExpiration != null)
             {
@@ -2204,19 +2176,18 @@ namespace Cuemon.Runtime.Caching
             long groupKey = GenerateGroupKey(key, group);
             if (!TryGetCache(key, group, out result))
             {
-                result = WrapCacheInThreadSafeDelegate(value, key, group, absoluteExpiration, slidingExpiration, dependenciesFactory).Value;
-                return _innerCaches.TryAdd(groupKey, result);
+                result = WrapCacheInThreadSafeDelegate(valueFactory, key, group, absoluteExpiration, slidingExpiration, dependenciesFactory).Value;
+                _innerCaches.TryAdd(groupKey, result);
             }
-            result =_innerCaches.GetOrAdd(groupKey, gk => WrapCacheInThreadSafeDelegate(value, key, group, absoluteExpiration, slidingExpiration, dependenciesFactory).Value);
-            return false;
+            return _innerCaches.GetOrAdd(groupKey, gk => WrapCacheInThreadSafeDelegate(valueFactory, key, group, absoluteExpiration, slidingExpiration, dependenciesFactory).Value);
         }
 
-        private Lazy<Cache> WrapCacheInThreadSafeDelegate<TTuple, TResult>(Func<TResult> value, string key, string group, Func<DateTime> absoluteExpiration = null, Func<TimeSpan> slidingExpiration = null, FuncFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
+        private Lazy<Cache> WrapCacheInThreadSafeDelegate<TTuple, TResult>(FuncFactory<TTuple, TResult> valueFactory, string key, string group, Func<DateTime> absoluteExpiration = null, Func<TimeSpan> slidingExpiration = null, FuncFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
             where TTuple : Template
         {
             return new Lazy<Cache>(() =>
             {
-                Cache cache = new Cache(key, value(), group, dependenciesFactory == null ? null : dependenciesFactory.ExecuteMethod(), absoluteExpiration == null ? DateTime.MaxValue : absoluteExpiration(), slidingExpiration == null ? TimeSpan.Zero : slidingExpiration());
+                Cache cache = new Cache(key, valueFactory.ExecuteMethod(), group, dependenciesFactory == null ? null : dependenciesFactory.ExecuteMethod(), absoluteExpiration == null ? DateTime.MaxValue : absoluteExpiration(), slidingExpiration == null ? TimeSpan.Zero : slidingExpiration());
                 cache.Expired += CacheExpired;
                 cache.StartDependencies();
                 return cache;
