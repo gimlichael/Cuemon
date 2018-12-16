@@ -1,7 +1,7 @@
 ﻿namespace Cuemon.AspNetCore.Razor.TagHelpers
 {
     /// <summary>
-    /// Enum CdnUriScheme
+    /// Defines protocol URI schemes for CDN related operations.
     /// </summary>
     public enum CdnUriScheme
     {
