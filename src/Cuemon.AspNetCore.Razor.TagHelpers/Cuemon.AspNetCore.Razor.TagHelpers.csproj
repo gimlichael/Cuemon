@@ -17,6 +17,7 @@
     <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
     <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
     <PackageReleaseNotes>Supplies Razor tag helpers for CDN enabled websites.</PackageReleaseNotes>
+    <Version>5.0.2018.250</Version>
   </PropertyGroup>
 
   <ItemGroup>
