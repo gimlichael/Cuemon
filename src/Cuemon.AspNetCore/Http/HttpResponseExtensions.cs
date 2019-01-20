@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using Cuemon.AspNetCore.Integrity;
 using Cuemon.Collections.Generic;
 using Cuemon.Integrity;
+using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
@@ -63,6 +65,21 @@ namespace Cuemon.AspNetCore.Http
             Validator.ThrowIfNull(request, nameof(request));
             if (response.IsSuccessStatusCode() && request.IsClientSideResourceCached(lastModified)) { response.StatusCode = StatusCodes.Status304NotModified; }
             response.Headers.AddOrUpdate(HeaderNames.LastModified, new StringValues(lastModified.ToUniversalTime().ToString("R", DateTimeFormatInfo.InvariantInfo)));
+        }
+
+        /// <summary>
+        /// Asynchronously writes a sequence of bytes to the response body stream and advances the current position within this stream by the number of bytes written.    
+        /// </summary>
+        /// <param name="response">The <see cref="HttpResponse"/> to extend.</param>
+        /// <param name="body">The function delegate that resolves the bytes to write.</param>
+        /// <returns>A task that represents the asynchronous write operation.</returns>
+        public static async Task WriteBodyAsync(this HttpResponse response, Func<byte[]> body)
+        {
+            var bodyContent = body?.Invoke();
+            if (bodyContent != null)
+            {
+                await response.Body.WriteAsync(bodyContent, 0, bodyContent.Length).ContinueWithSuppressedContext();
+            }
         }
     }
 }
