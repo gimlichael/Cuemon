@@ -6,8 +6,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <FileVersion>5.0.2018.350</FileVersion>
-    <Version>5.0.2018.350</Version>
+    <FileVersion>5.0.2019.20</FileVersion>
+    <Version>5.0.2019.20</Version>
     <AssemblyVersion>5.0.2018.250</AssemblyVersion>
     <Authors>Michael Mortensen</Authors>
     <Company>Weubphoria</Company>
