@@ -1,7 +1,7 @@
 ﻿using System;
 using Cuemon.Messaging;
 
-namespace Cuemon.AspNetCore
+namespace Cuemon.AspNetCore.Http.Headers
 {
     /// <summary>
     /// Configuration options for <see cref="CorrelationIdentifierMiddleware"/>.

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Builder;
 using Cuemon.Collections.Generic;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace Cuemon.AspNetCore
+namespace Cuemon.AspNetCore.Http.Headers
 {
     /// <summary>
     /// Provides a Correlation ID middleware implementation for ASP.NET Core.
@@ -16,7 +14,7 @@ namespace Cuemon.AspNetCore
         /// <summary>
         /// The key from where the Correlation ID is stored throughout the request scope.
         /// </summary>
-        public const string HttpContextItemsKey = "Cuemon.AspNetCore.CorrelationMiddleware";
+        public const string HttpContextItemsKey = "Cuemon.AspNetCore.CorrelationIdentifierMiddleware";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CorrelationIdentifierMiddleware"/> class.
@@ -51,23 +49,6 @@ namespace Cuemon.AspNetCore
                 return Task.CompletedTask;
             });
             return Next(context);
-        }
-    }
-
-    /// <summary>
-    /// This is a factory implementation of the <see cref="CorrelationIdentifierMiddleware"/> class.
-    /// </summary>
-    public static class CorrelationBuilderExtension
-    {
-        /// <summary>
-        /// Adds a correlation identifier HTTP header to the <see cref="IApplicationBuilder"/> request execution pipeline.
-        /// </summary>
-        /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The <see cref="CorrelationIdentifierOptions"/> middleware which need to be configured.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseCorrelationIdentifierHeader(this IApplicationBuilder builder, Action<CorrelationIdentifierOptions> setup = null)
-        {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<CorrelationIdentifierMiddleware, CorrelationIdentifierOptions>(builder, setup);
         }
     }
 }
