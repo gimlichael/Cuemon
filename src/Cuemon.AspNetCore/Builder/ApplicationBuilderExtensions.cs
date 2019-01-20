@@ -31,5 +31,16 @@ namespace Cuemon.AspNetCore.Builder
         {
             return ApplicationBuilderFactory.UseMiddlewareConfigurable<CorrelationIdentifierMiddleware, CorrelationIdentifierOptions>(builder, setup);
         }
+
+        /// <summary>
+        /// Adds a HTTP User-Agent header parser to the <see cref="IApplicationBuilder"/> request execution pipeline.
+        /// </summary>
+        /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
+        /// <param name="setup">The <see cref="UserAgentParserOptions"/> middleware which need to be configured.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        public static IApplicationBuilder UseUserAgentParser(this IApplicationBuilder builder, Action<UserAgentParserOptions> setup = null)
+        {
+            return ApplicationBuilderFactory.UseMiddlewareConfigurable<UserAgentParserMiddleware, UserAgentParserOptions>(builder, setup);
+        }
     }
 }
