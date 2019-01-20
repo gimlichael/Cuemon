@@ -13,6 +13,17 @@ namespace Cuemon.Collections.Generic
         /// <typeparam name="T">The type of elements in the <see cref="ICollection{T}"/>.</typeparam>
         /// <param name="collection">The extended collection.</param>
         /// <param name="source">The sequence of elements that should be added to <paramref name="collection"/>.</param>
+        public static void AddRange<T>(this ICollection<T> collection, params T[] source)
+        {
+            AddRange(collection, (IEnumerable<T>)source);
+        }
+
+        /// <summary>
+        /// Adds the elements of the specified <paramref name="source"/> to the <paramref name="collection"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the <see cref="ICollection{T}"/>.</typeparam>
+        /// <param name="collection">The extended collection.</param>
+        /// <param name="source">The sequence of elements that should be added to <paramref name="collection"/>.</param>
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> source)
         {
             if (collection is List<T> list)
