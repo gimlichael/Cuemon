@@ -12,7 +12,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> value to be converted.</param>
         /// <returns>A <see cref="double"/> value that is equivalent to <paramref name="value"/>.</returns>
-        /// <remarks>This implementation converts the <paramref name="value"/> to an UTC representation ONLY if the <see cref="DateTime.Kind"/> eqauls <see cref="DateTimeKind.Local"/>.</remarks>
+        /// <remarks>This implementation converts the <paramref name="value"/> to an UTC representation ONLY if the <see cref="DateTime.Kind"/> equals <see cref="DateTimeKind.Local"/>.</remarks>
         public static double ToEpochTime(this DateTime value)
         {
             return DoubleConverter.FromEpochTime(value);
