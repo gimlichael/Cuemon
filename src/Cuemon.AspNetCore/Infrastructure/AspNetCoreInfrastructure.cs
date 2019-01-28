@@ -1,18 +1,35 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
+using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Infrastructure
 {
     internal static class AspNetCoreInfrastructure
     {
         private static readonly SemaphoreSlim ThrottleLocker = new SemaphoreSlim(1);
+
+        public static async Task InvokeUserAgentSentinelAsync(HttpContext context, UserAgentSentinelOptions options, Action<HttpResponseMessage, HttpResponse> transformer)
+        {
+            var userAgent = context.Request.Headers[HeaderNames.UserAgent].FirstOrDefault();
+            if (options.RequireUserAgentHeader)
+            {
+                var message = options.ResponseBroker?.Invoke(userAgent);
+                if (message != null)
+                {
+                    message.ToHttpResponse(context.Response, transformer);
+                    throw new UserAgentException((int)message.StatusCode, await message.Content.ReadAsStringAsync());
+                }
+            }
+        }
 
         public static async Task InvokeThrottlerSentinelAsync(HttpContext context, IThrottlingCache tc, ThrottlingSentinelOptions options, Action<HttpResponseMessage, HttpResponse> transformer)
         {

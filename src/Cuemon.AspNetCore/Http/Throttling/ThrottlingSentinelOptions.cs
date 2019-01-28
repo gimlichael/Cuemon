@@ -89,9 +89,9 @@ namespace Cuemon.AspNetCore.Http.Throttling
         }
 
         /// <summary>
-        /// Gets or sets the function delegate that configures the response of a sentinel.
+        /// Gets or sets the function delegate that configures the response in the form of a <see cref="HttpResponseMessage"/>.
         /// </summary>
-        /// <value>The function delegate that configures the response of a sentinel.</value>
+        /// <value>The function delegate that configures the response in the form of a <see cref="HttpResponseMessage"/>.</value>
         public Func<TimeSpan, DateTime, HttpResponseMessage> ResponseBroker { get; set; }
 
         /// <summary>
