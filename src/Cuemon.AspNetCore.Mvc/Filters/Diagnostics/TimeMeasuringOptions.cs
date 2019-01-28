@@ -32,12 +32,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///         <term><see cref="SuppressHeaderPredicate"/></term>
         ///         <description><c>_ => false</c></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="UseServerTimingHeader"/></term>
+        ///         <description><c>true</c></description>
+        ///     </item>
         /// </list>
         /// </remarks>
         public TimeMeasuringOptions()
         {
             HeaderName = "X-Action-Profiler";
             SuppressHeaderPredicate = _ => false;
+            UseServerTimingHeader = true;
         }
 
         /// <summary>
@@ -51,5 +56,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// </summary>
         /// <value>The function delegate that can determine if the time-measured HTTP header should be suppressed.</value>
         public Func<IHostingEnvironment, bool> SuppressHeaderPredicate { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to include a Server-Timing HTTP header specifying how long an action took to execute.
+        /// </summary>
+        /// <value><c>true</c> to include a Server-Timing HTTP header specifying how long an action took to execute; otherwise, <c>false</c>.</value>
+        public bool UseServerTimingHeader { get; set; }
     }
 }
