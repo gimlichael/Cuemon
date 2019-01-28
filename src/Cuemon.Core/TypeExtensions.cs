@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using Cuemon.Collections.Generic;
 
 namespace Cuemon
 {
@@ -10,6 +12,19 @@ namespace Cuemon
     /// </summary>
     public static class TypeExtensions
     {
+        /// <summary>
+        /// Retrieves a collection that represents all the properties defined on a specified <paramref name="type"/> except those defined on <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type to exclude properties on <paramref name="type"/>.</typeparam>
+        /// <param name="type">The type that contains the properties to include except those defined on <typeparamref name="T"/>.</param>
+        /// <returns>A collection of properties for the specified <paramref name="type"/> except those defined on <typeparamref name="T"/>.</returns>
+        public static IEnumerable<PropertyInfo> GetRuntimePropertiesExceptOf<T>(this Type type)
+        {
+            var baseProperties = typeof(T).GetRuntimeProperties();
+            var typeProperties = type.GetRuntimeProperties();
+            return typeProperties.Except(baseProperties, DynamicEqualityComparer.Create<PropertyInfo>(pi => $"{pi.Name}-{pi.PropertyType.Name}".GetHashCode32(), (x, y) => x.Name == y.Name && x.PropertyType.Name == y.PropertyType.Name));
+        }
+
         /// <summary>
         /// Converts the <see cref="Type"/> to its equivalent string representation.
         /// </summary>
