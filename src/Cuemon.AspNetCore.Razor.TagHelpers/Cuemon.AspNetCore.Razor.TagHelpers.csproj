@@ -6,19 +6,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <FileVersion>5.0.2019.20</FileVersion>
-    <Version>5.0.2019.20</Version>
+    <FileVersion>5.0.2019.30</FileVersion>
     <AssemblyVersion>5.0.2018.250</AssemblyVersion>
     <Authors>Michael Mortensen</Authors>
     <Company>Weubphoria</Company>
     <Product>Cuemon .NET Standard</Product>
     <Description>The Cuemon.AspNetCore.Razor.TagHelpers assembly is a supplement to the Microsoft ASP.NET Core Razor TagHelpers.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
+    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
     <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
     <PackageReleaseNotes>Supplies Razor tag helpers for CDN enabled websites.</PackageReleaseNotes>
-    <Version>5.0.2018.250</Version>
+    <Version>5.0.2018.30</Version>
   </PropertyGroup>
 
   <ItemGroup>

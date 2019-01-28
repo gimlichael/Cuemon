@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>The Cuemon.Core assembly is the patriarch of the Cuemon .NET Standard family and provides fundamental-, utility- and base-classes that define commonly-used value and reference data types, events and event handlers, interfaces, attribute, and feature rich delegates to greatly support functional programming. A great addition to the well established System namespace to make your daily operations easier to work with.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
+    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>The Cuemon.AspNetCore.Authentication assembly is a supplement to the Microsoft ASP.NET Core Authentication.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
+    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon.AspNetCore.Authentication</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>

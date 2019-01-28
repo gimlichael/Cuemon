@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>The Cuemon.Collections.Specialized assembly is a member of the Cuemon .NET Standard family and provides enhancements to the System.Collections.Specialized assembly.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
+    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon.Collections.Specialized</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>

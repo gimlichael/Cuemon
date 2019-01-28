@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>The Cuemon.Web assembly is a member of the Cuemon .NET Standard family and provides enhancements to the now deprecated System.Web namespace.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
-    <AssemblyTitle>Cuemon.Web</AssemblyTitle>
+    <Description>The Cuemon.Threading assembly is a member of the Cuemon .NET Standard family and provides enhancements to the System.Threading namespace.</Description>
+    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
+    <AssemblyTitle>Cuemon.Threading</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>
     <TargetFramework>netstandard1.4</TargetFramework>

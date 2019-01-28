@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>The Cuemon.Serialization.Json assembly is a member of the Cuemon .NET Standard family and provides JSON serialization using the highly acclaimed Newtonsoft.Json package.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
+    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon.Json</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>

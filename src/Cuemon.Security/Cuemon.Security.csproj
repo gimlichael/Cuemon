@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>The Cuemon.Security assembly is a member of the Cuemon .NET Standard family and provides enhancements to the System.Security namespace.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
+    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon.Security</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>

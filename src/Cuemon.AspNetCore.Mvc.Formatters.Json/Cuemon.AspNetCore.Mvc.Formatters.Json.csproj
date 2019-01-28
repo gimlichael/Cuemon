@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>The Cuemon.AspNetCore.Mvc.Formatters.Json assembly is a serialization supplement to the Microsoft ASP.NET Core MVC.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2018. All rights reserved.</Copyright>
+    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
     <AssemblyTitle>Cuemon.AspNetCore.Mvc.Formatters.Json</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>
