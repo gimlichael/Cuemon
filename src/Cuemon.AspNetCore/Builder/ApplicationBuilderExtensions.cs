@@ -48,11 +48,11 @@ namespace Cuemon.AspNetCore.Builder
         /// Adds a custom rate limiting / throttling to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The <see cref="ThrottlingOptions"/> middleware which need to be configured.</param>
+        /// <param name="setup">The <see cref="ThrottlingSentinelOptions"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseCustomThrottling(this IApplicationBuilder builder, Action<ThrottlingOptions> setup)
+        public static IApplicationBuilder UseCustomThrottlingSentinel(this IApplicationBuilder builder, Action<ThrottlingSentinelOptions> setup)
         {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<ThrottlingMiddleware, ThrottlingOptions>(builder, setup);
+            return ApplicationBuilderFactory.UseMiddlewareConfigurable<ThrottlingSentinelMiddleware, ThrottlingSentinelOptions>(builder, setup);
         }
     }
 }

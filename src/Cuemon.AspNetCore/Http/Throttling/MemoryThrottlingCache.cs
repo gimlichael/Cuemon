@@ -9,7 +9,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
     /// </summary>
     /// <seealso cref="ThrottleRequest" />
     /// <seealso cref="IThrottlingCache" />
-    /// <seealso cref="ThrottlingMiddleware" />
+    /// <seealso cref="ThrottlingSentinelMiddleware" />
     public sealed class MemoryThrottlingCache : ConcurrentDictionary<string, ThrottleRequest>, IThrottlingCache
     {
     }

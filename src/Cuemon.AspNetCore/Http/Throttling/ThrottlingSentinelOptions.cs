@@ -1,20 +1,22 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Http.Throttling
 {
     /// <summary>
-    /// Configuration options for <see cref="ThrottlingMiddleware"/>.
+    /// Configuration options for <see cref="ThrottlingSentinelMiddleware"/>.
     /// </summary>
-    public class ThrottlingOptions
+    public class ThrottlingSentinelOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ThrottlingOptions"/> class.
+        /// Initializes a new instance of the <see cref="ThrottlingSentinelOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="ThrottlingOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="ThrottlingSentinelOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -37,19 +39,12 @@ namespace Cuemon.AspNetCore.Http.Throttling
         ///         <description><c>true</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="RetryAfterResolver"/></term>
-        ///         <description><c>(dt, ts) => new RetryConditionHeaderValue(ts);</c></description>
+        ///         <term><see cref="RetryAfterHeader"/></term>
+        ///         <description><c>ThrottlingRetryAfterHeader.DeltaSeconds</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="TooManyRequestsBody"/></term>
-        ///         <description><c>() =>
-        /// {
-        /// return "Throttling rate limit quota violation. Quota limit exceeded.".ToByteArray(o =&gt;
-        /// {
-        /// o.Encoding = Encoding.UTF8;
-        /// o.Preamble = PreambleSequence.Remove;
-        /// });
-        /// };</c></description>
+        ///         <term><see cref="TooManyRequestsMessage"/></term>
+        ///         <description>Throttling rate limit quota violation. Quota limit exceeded.</description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ContextResolver"/></term>
@@ -59,24 +54,45 @@ namespace Cuemon.AspNetCore.Http.Throttling
         ///         <term><see cref="Quota"/></term>
         ///         <description><c>null</c></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="ResponseBroker"/></term>
+        ///         <description>A <see cref="HttpResponseMessage"/> initialized to a HTTP status code 429 with zero of one Retry-After header and a body of <see cref="TooManyRequestsMessage"/>.</description>
+        ///     </item>
         /// </list>
         /// </remarks>
-        public ThrottlingOptions()
+        public ThrottlingSentinelOptions()
         {
             RateLimitHeaderName = "X-RateLimit-Limit";
             RateLimitRemainingHeaderName = "X-RateLimit-Remaining";
             RateLimitResetHeaderName = "X-RateLimit-Reset";
             UseRetryAfterHeader = true;
-            RetryAfterResolver = (dt, ts) => new RetryConditionHeaderValue(ts);
-            TooManyRequestsBody =  () =>
+            RetryAfterHeader = ThrottlingRetryAfterHeader.DeltaSeconds;
+            TooManyRequestsMessage = "Throttling rate limit quota violation. Quota limit exceeded.";
+            ResponseBroker = (delta, reset) =>
             {
-                return "Throttling rate limit quota violation. Quota limit exceeded.".ToByteArray(o =>
+                var message = new HttpResponseMessage((HttpStatusCode) StatusCodes.Status429TooManyRequests);
+                if (UseRetryAfterHeader)
                 {
-                    o.Encoding = Encoding.UTF8;
-                    o.Preamble = PreambleSequence.Remove;
-                });
+                    switch (RetryAfterHeader)
+                    {
+                        case ThrottlingRetryAfterHeader.DeltaSeconds:
+                            message.Headers.Add(HeaderNames.RetryAfter, new RetryConditionHeaderValue(delta).ToString());
+                            break;
+                        case ThrottlingRetryAfterHeader.HttpDate:
+                            message.Headers.Add(HeaderNames.RetryAfter, new RetryConditionHeaderValue(reset).ToString());
+                            break;
+                    }
+                }
+                message.Content = new StringContent(TooManyRequestsMessage);
+                return message;
             };
         }
+
+        /// <summary>
+        /// Gets or sets the function delegate that configures the response of a sentinel.
+        /// </summary>
+        /// <value>The function delegate that configures the response of a sentinel.</value>
+        public Func<TimeSpan, DateTime, HttpResponseMessage> ResponseBroker { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate that will resolve a unique context of the throttling middleware (eg. IP-address, Authorization header, etc.).
@@ -91,10 +107,10 @@ namespace Cuemon.AspNetCore.Http.Throttling
         public ThrottleQuota Quota { get; set; }
 
         /// <summary>
-        /// Gets or sets the function delegate that retrieves the body of a throttled request that has exceeded the rate limit.
+        /// Gets or sets the message of a throttled request that has exceeded the rate limit.
         /// </summary>
-        /// <value>A <see cref="Func{TResult}"/> that retrieves the body of a throttled request that has exceeded the rate limit.</value>
-        public Func<byte[]> TooManyRequestsBody { get; set; }
+        /// <value>The message of a throttled request that has exceeded the rate limit.</value>
+        public string TooManyRequestsMessage { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the rate limit HTTP header.
@@ -115,15 +131,15 @@ namespace Cuemon.AspNetCore.Http.Throttling
         public string RateLimitResetHeaderName { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to include a Retry-After HTTP header indicating how long to wait before making a new request.
+        /// Gets or sets a value indicating whether to include a Retry-After HTTP header specifying how long to wait before making a new request.
         /// </summary>
-        /// <value><c>true</c> to include a Retry-After HTTP header indicating how long to wait before making a new request; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> to include a Retry-After HTTP header specifying how long to wait before making a new request; otherwise, <c>false</c>.</value>
         public bool UseRetryAfterHeader { get; set; }
 
         /// <summary>
-        /// Gets or sets the function delegate that will resolve a <see cref="RetryConditionHeaderValue"/> that conforms with RFC 2616.
+        /// Gets or sets the preferred Retry-After HTTP header value that conforms with RFC 2616.
         /// </summary>
-        /// <value>The function delegate that will resolve a <see cref="RetryConditionHeaderValue"/> that conforms with RFC 2616.</value>
-        public Func<DateTime, TimeSpan, RetryConditionHeaderValue> RetryAfterResolver { get; set; }
+        /// <value>The preferred Retry-After HTTP header value that conforms with RFC 2616.</value>
+        public ThrottlingRetryAfterHeader RetryAfterHeader { get; set; }
     }
 }
