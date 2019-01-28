@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using Cuemon.Xml;
@@ -113,6 +114,16 @@ namespace Cuemon.IO
                     writer.WriteString(XmlUtility.SanitizeElementText(entry.Value.ToString()));
                     writer.WriteEndElement();
                 }
+                writer.WriteEndElement();
+            }
+
+            var properties = exception.GetType().GetRuntimePropertiesExceptOf<Exception>().Where(pi => pi.PropertyType.IsSimple());
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(exception);
+                if (value == null) { continue; }
+                writer.WriteStartElement(property.Name);
+                writer.WriteValue(value);
                 writer.WriteEndElement();
             }
 

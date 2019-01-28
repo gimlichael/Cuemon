@@ -207,6 +207,15 @@ namespace Cuemon.Serialization.Json.Converters
                 writer.WriteEndObject();
             }
 
+            var properties = exception.GetType().GetRuntimePropertiesExceptOf<Exception>().Where(pi => pi.PropertyType.IsSimple());
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(exception);
+                if (value == null) { continue; }
+                writer.WritePropertyName(property.Name, () => DynamicJsonConverter.UseCamelCase);
+                writer.WriteValue(value);
+            }
+
             WriteInnerExceptions(writer, exception, includeStackTrace);
         }
 
