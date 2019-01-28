@@ -264,6 +264,19 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Determines whether the specified <paramref name="source"/> is a simple <see cref="Type"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to determine complexity for.</param>
+        /// <returns><c>true</c> if specified <paramref name="source"/> is a simple <see cref="Type"/>; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> is null.
+        /// </exception>
+        public static bool IsSimple(this Type source)
+        {
+            return !IsComplex(source);
+        }
+
+        /// <summary>
         /// Gets the default value of the specified <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The <see cref="Type"/> to retrieve its default value from.</param>
