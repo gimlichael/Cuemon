@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 namespace Cuemon.AspNetCore.Http.Headers
 {
     /// <summary>
-    /// Provides a HTTP User-Agent parser middleware implementation for ASP.NET Core.
+    /// Provides a HTTP User-Agent sentinel middleware implementation for ASP.NET Core.
     /// </summary>
     public class UserAgentSentinelMiddleware : ConfigurableMiddleware<UserAgentSentinelOptions>
     {
