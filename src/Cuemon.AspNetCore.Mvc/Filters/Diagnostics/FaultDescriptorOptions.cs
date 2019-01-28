@@ -3,7 +3,10 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using Cuemon.AspNetCore.Http.Headers;
+using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
@@ -54,12 +57,21 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         {
             HttpStatusCodeResolver = e =>
             {
-                if (IsValidationException(e)) { return HttpStatusCode.BadRequest; }
-                return HttpStatusCode.InternalServerError;
+                if (IsValidationException(e)) { return StatusCodes.Status400BadRequest; }
+                if (e is ThrottlingException te) { return te.StatusCode; }
+                if (e is UserAgentException ue) { return ue.StatusCode; }
+                return StatusCodes.Status500InternalServerError;
             };
             ExceptionCallback = null;
             RequestBodyParser = null;
-            ExceptionDescriptorResolver = e => new ExceptionDescriptor(e, "UnhandledException", $"An exception was raised by {Assembly.GetEntryAssembly().GetName().Name}");
+            ExceptionDescriptorResolver = e =>
+            {
+                var code = IsValidationException(e) ? "BadRequest" : 
+                    e is ThrottlingException ? "TooManyRequests" : 
+                    e is UserAgentException ue && ue.StatusCode == StatusCodes.Status403Forbidden ? "Forbidden" : "InternalServerError";
+                var message = code == "InternalServerError" ? $"An exception was raised by {Assembly.GetEntryAssembly().GetName().Name}" : e.Message;
+                return new ExceptionDescriptor(e, code, message);
+            };
             ExceptionDescriptorHandler = null;
         }
 
@@ -80,7 +92,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// Gets or sets the function delegate that will resolve a <see cref="HttpStatusCode"/> from the specified <see cref="Exception"/>.
         /// </summary>
         /// <value>The function delegate that will resolve a <see cref="HttpStatusCode"/> from the specified <see cref="Exception"/>.</value>
-        public Func<Exception, HttpStatusCode> HttpStatusCodeResolver { get; set; }
+        public Func<Exception, int> HttpStatusCodeResolver { get; set; }
 
         /// <summary>
         /// Gets or sets the callback delegate that is invoked when an exception has been thrown.
@@ -111,8 +123,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             if (exception == null) { return false; }
             bool match = false;
             match |= exception.GetType().HasTypes(typeof(ArgumentException));
-            match |= exception.Is<ValidationException>();
-            match |= exception.Is<FormatException>();
+            match |= exception is ValidationException;
+            match |= exception is FormatException;
+            match |= exception is UserAgentException ue && ue.StatusCode == StatusCodes.Status400BadRequest;
             return match;
         }
     }
