@@ -45,7 +45,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <summary>
         /// Creates an instance of the executable filter.
         /// </summary>
-        /// <param name="serviceProvider">The request <see cref="T:System.IServiceProvider" />.</param>
+        /// <param name="serviceProvider">The request <see cref="IServiceProvider" />.</param>
         /// <returns>An instance of the executable filter.</returns>
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
