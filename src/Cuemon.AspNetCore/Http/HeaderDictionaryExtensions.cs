@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net.Http.Headers;
 using Cuemon.Collections.Generic;
 using Cuemon.Text;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +25,20 @@ namespace Cuemon.AspNetCore.Http
             if (headerValue != StringValues.Empty)
             {
                 dic.AddOrUpdate(key, headerValue.ToString().Where(c => !char.IsControl(c)).FromChars());
+            }
+        }
+
+        /// <summary>
+        /// Adds or updates one or more elements from the provided collection of <paramref name="responseHeaders"/> to the <see cref="IHeaderDictionary"/>.
+        /// </summary>
+        /// <param name="dic">The <see cref="IHeaderDictionary"/> to extend.</param>
+        /// <param name="responseHeaders">The <see cref="HttpResponseHeaders"/> to copy.</param>
+        public static void AddOrUpdateHeaders(this IHeaderDictionary dic, HttpResponseHeaders responseHeaders)
+        {
+            if (dic == null || responseHeaders == null) { return; }
+            foreach (var header in responseHeaders)
+            {
+                dic.AddOrUpdate(header.Key, header.Value?.ToDelimitedString());
             }
         }
     }
