@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Cuemon.Xml")]
@@ -14,4 +13,3 @@ using System.Runtime.InteropServices;
 [assembly: Guid("a08a6112-ad0a-4767-b354-777ec2679acc")]
 [assembly: AssemblyFileVersion("5.0.2019.30")]
 [assembly: AssemblyVersion("5.0.2018.250")]
-[assembly: InternalsVisibleTo("Cuemon.Serialization.Xml")]
