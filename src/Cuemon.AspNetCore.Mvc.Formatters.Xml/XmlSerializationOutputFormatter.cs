@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Cuemon.IO;
 using Cuemon.Serialization.Xml.Formatters;
 using Cuemon.Threading.Tasks;
+using Cuemon.Xml;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 

@@ -1,156 +1,16 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
-using Cuemon.Xml;
+using Cuemon.IO;
 
-namespace Cuemon.IO
+namespace Cuemon.Xml
 {
     /// <summary>
     /// This utility class is designed to make XML <see cref="Stream"/> related conversions easier to work with.
     /// </summary>
     public static class XmlStreamConverter
     {
-        /// <summary>
-        /// Converts the specified <paramref name="exception"/> to an XML <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="exception">The <see cref="Exception"/> to convert into an XML <see cref="Stream"/>.</param>
-        /// <returns>An XML <see cref="Stream"/> variant of the specified <paramref name="exception"/>.</returns>
-        /// <remarks>The converted <paramref name="exception"/> defaults to using an instance of <see cref="UTF8Encoding"/> unless specified otherwise.</remarks>
-        public static Stream FromException(Exception exception)
-        {
-            return FromException(exception, Encoding.UTF8);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="exception"/> to an XML <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="exception">The <see cref="Exception"/> to convert into an XML <see cref="Stream"/>.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
-        /// <returns>An XML <see cref="Stream"/> variant of the specified <paramref name="exception"/>.</returns>
-        public static Stream FromException(Exception exception, Encoding encoding)
-        {
-            return FromException(exception, encoding, false);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="exception"/> to an XML <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="exception">The <see cref="Exception"/> to convert into an XML <see cref="Stream"/>.</param>
-        /// <param name="encoding">The preferred encoding to apply to the result.</param>
-        /// <param name="includeStackTrace">if set to <c>true</c> the stack trace of the exception is included in the converted result.</param>
-        /// <returns>An XML <see cref="Stream"/> variant of the specified <paramref name="exception"/>.</returns>
-        public static Stream FromException(Exception exception, Encoding encoding, bool includeStackTrace)
-        {
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (encoding == null) { throw new ArgumentNullException(nameof(encoding)); }
-            MemoryStream tempOutput = null;
-            MemoryStream output;
-            try
-            {
-                tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = encoding)))
-                {
-                    WriteException(writer, exception, includeStackTrace);
-                    writer.Flush();
-                    tempOutput.Position = 0;
-                    output = tempOutput;
-                    tempOutput = null;
-                }
-            }
-            finally
-            {
-                if (tempOutput != null) { tempOutput.Dispose(); }
-            }
-            output.Position = 0;
-            return output;
-        }
-
-        internal static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
-        {
-            Type exceptionType = exception.GetType();
-            writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.FullName));
-            WriteExceptionCore(writer, exception, includeStackTrace);
-            writer.WriteEndElement();
-        }
-
-        private static void WriteEndElement<T>(T counter, XmlWriter writer)
-        {
-            writer.WriteEndElement();
-        }
-
-        private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace)
-        {
-            if (!string.IsNullOrEmpty(exception.Source))
-            {
-                writer.WriteElementString("Source", exception.Source);
-            }
-
-            if (!string.IsNullOrEmpty(exception.Message))
-            {
-                writer.WriteElementString("Message", exception.Message);
-            }
-
-            if (exception.StackTrace != null && includeStackTrace)
-            {
-                writer.WriteStartElement("Stack");
-                string[] lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string line in lines)
-                {
-                    writer.WriteElementString("Frame", line.Trim());
-                }
-                writer.WriteEndElement();
-            }
-
-            if (exception.Data.Count > 0)
-            {
-                writer.WriteStartElement("Data");
-                foreach (DictionaryEntry entry in exception.Data)
-                {
-                    writer.WriteStartElement(XmlUtility.SanitizeElementName(entry.Key.ToString()));
-                    writer.WriteString(XmlUtility.SanitizeElementText(entry.Value.ToString()));
-                    writer.WriteEndElement();
-                }
-                writer.WriteEndElement();
-            }
-
-            var properties = exception.GetType().GetRuntimePropertiesExceptOf<Exception>().Where(pi => pi.PropertyType.IsSimple());
-            foreach (var property in properties)
-            {
-                var value = property.GetValue(exception);
-                if (value == null) { continue; }
-                writer.WriteStartElement(property.Name);
-                writer.WriteValue(value);
-                writer.WriteEndElement();
-            }
-
-            WriteInnerExceptions(writer, exception, includeStackTrace);
-        }
-
-        private static void WriteInnerExceptions(XmlWriter writer, Exception exception, bool includeStackTrace)
-        {
-            var aggregated = exception as AggregateException;
-            var innerExceptions = new List<Exception>();
-            if (aggregated != null) {  innerExceptions.AddRange(aggregated.InnerExceptions); }
-            if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
-            if (innerExceptions.Count > 0)
-            {
-                int endElementsToWrite = 0;
-                foreach (var inner in innerExceptions)
-                {
-                    Type exceptionType = inner.GetType();
-                    writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.Name));
-                    writer.WriteAttributeString("namespace", exceptionType.Namespace);
-                    WriteExceptionCore(writer, inner, includeStackTrace);
-                    endElementsToWrite++;
-                }
-                LoopUtility.For(endElementsToWrite, WriteEndElement, writer);
-            }
-        }
-
         /// <summary>
         /// Converts the entire XML <see cref="Stream"/> object from the resolved source encoding to the specified target encoding, preserving any preamble sequences.
         /// </summary>

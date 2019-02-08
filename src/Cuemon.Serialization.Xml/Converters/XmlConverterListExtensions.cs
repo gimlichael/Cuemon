@@ -7,6 +7,7 @@ using System.Xml;
 using Cuemon.Diagnostics;
 using Cuemon.IO;
 using Cuemon.Serialization.Formatters;
+using Cuemon.Xml;
 using Cuemon.Xml.Linq;
 using Cuemon.Xml.Serialization;
 
