@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
 using Cuemon.Diagnostics;
-using Cuemon.IO;
 using Cuemon.Serialization.Formatters;
 using Cuemon.Xml;
 using Cuemon.Xml.Linq;
@@ -18,20 +18,6 @@ namespace Cuemon.Serialization.Xml.Converters
     /// </summary>
     public static class XmlConverterListExtensions
     {
-        static XmlConverterListExtensions()
-        {
-            XmlSerializerSettings.DefaultConverters += list =>
-            {
-                list.AddDateTimeConverter();
-                list.AddEnumerableConverter();
-                list.AddExceptionConverter(true);
-                list.AddExceptionDescriptorConverter();
-                list.AddStringConverter();
-                list.AddTimeSpanConverter();
-                list.AddUriConverter();
-            };
-        }
-
         /// <summary>
         /// Adds an XML converter to the list.
         /// </summary>
@@ -95,7 +81,7 @@ namespace Cuemon.Serialization.Xml.Converters
                 {
                     var type = sequence.GetType();
                     var hasKeyValuePairType = type.GetGenericArguments().Any(gt => gt.IsKeyValuePair());
-                
+
                     if (type.IsDictionary() || hasKeyValuePairType)
                     {
                         foreach (var element in sequence)
@@ -174,9 +160,8 @@ namespace Cuemon.Serialization.Xml.Converters
                     writer.WriteEndElement();
                 }
                 if (descriptor.HelpLink != null) { writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString); }
-                if (!descriptor.RequestId.IsNullOrWhiteSpace()) { writer.WriteElementString("RequestId", descriptor.RequestId); }
                 writer.WriteEndElement();
-            });
+            }, canConvertPredicate: type => type == typeof(ExceptionDescriptor));
         }
 
         /// <summary>
@@ -189,11 +174,16 @@ namespace Cuemon.Serialization.Xml.Converters
             AddExceptionConverter(converters, () => includeStackTrace);
         }
 
-        internal static void AddExceptionConverter(this IList<XmlConverter> converters, Func<bool> includeStackTrace)
+        /// <summary>
+        /// Adds an <see cref="Exception" /> XML converter to the list.
+        /// </summary>
+        /// <param name="converters">The list of XML converters.</param>
+        /// <param name="includeStackTraceFactory">The function delegate that is invoked when it is needed to determine whether the stack of an exception is included in the converted result.</param>
+        public static void AddExceptionConverter(this IList<XmlConverter> converters, Func<bool> includeStackTraceFactory)
         {
             converters.AddXmlConverter<Exception>((writer, exception, qe) =>
             {
-                XmlStreamConverter.WriteException(writer, exception, includeStackTrace?.Invoke() ?? false);
+                WriteException(writer, exception, includeStackTraceFactory?.Invoke() ?? false);
             });
         }
 
@@ -212,7 +202,13 @@ namespace Cuemon.Serialization.Xml.Converters
         /// <param name="converters">The list of XML converters.</param>
         public static void AddDateTimeConverter(this IList<XmlConverter> converters)
         {
-            converters.AddXmlConverter(reader: (reader, type) => reader.ToHierarchy().UseDateTimeFormatter());
+            converters.AddXmlConverter((w, d, q) =>
+            {
+                w.WriteEncapsulatingElementIfNotNull(d, q, (writer, value) =>
+                {
+                    writer.WriteValue(value.ToString("u", CultureInfo.InvariantCulture));
+                });
+            },(reader, type) => reader.ToHierarchy().UseDateTimeFormatter());
         }
 
         /// <summary>
@@ -246,6 +242,86 @@ namespace Cuemon.Serialization.Xml.Converters
                     }
                 });
             });
+        }
+
+        private static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
+        {
+            Type exceptionType = exception.GetType();
+            writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.FullName));
+            WriteExceptionCore(writer, exception, includeStackTrace);
+            writer.WriteEndElement();
+        }
+
+        private static void WriteEndElement<T>(T counter, XmlWriter writer)
+        {
+            writer.WriteEndElement();
+        }
+
+        private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace)
+        {
+            if (!string.IsNullOrEmpty(exception.Source))
+            {
+                writer.WriteElementString("Source", exception.Source);
+            }
+
+            if (!string.IsNullOrEmpty(exception.Message))
+            {
+                writer.WriteElementString("Message", exception.Message);
+            }
+
+            if (exception.StackTrace != null && includeStackTrace)
+            {
+                writer.WriteStartElement("Stack");
+                string[] lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string line in lines)
+                {
+                    writer.WriteElementString("Frame", line.Trim());
+                }
+                writer.WriteEndElement();
+            }
+
+            if (exception.Data.Count > 0)
+            {
+                writer.WriteStartElement("Data");
+                foreach (DictionaryEntry entry in exception.Data)
+                {
+                    writer.WriteStartElement(XmlUtility.SanitizeElementName(entry.Key.ToString()));
+                    writer.WriteString(XmlUtility.SanitizeElementText(entry.Value.ToString()));
+                    writer.WriteEndElement();
+                }
+                writer.WriteEndElement();
+            }
+
+            var properties = exception.GetType().GetRuntimePropertiesExceptOf<Exception>().Where(pi => pi.PropertyType.IsSimple());
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(exception);
+                if (value == null) { continue; }
+                writer.WriteObject(value, value.GetType(), settings => settings.RootName = new XmlQualifiedEntity(property.Name));
+            }
+
+            WriteInnerExceptions(writer, exception, includeStackTrace);
+        }
+
+        private static void WriteInnerExceptions(XmlWriter writer, Exception exception, bool includeStackTrace)
+        {
+            var aggregated = exception as AggregateException;
+            var innerExceptions = new List<Exception>();
+            if (aggregated != null) { innerExceptions.AddRange(aggregated.InnerExceptions); }
+            if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
+            if (innerExceptions.Count > 0)
+            {
+                int endElementsToWrite = 0;
+                foreach (var inner in innerExceptions)
+                {
+                    Type exceptionType = inner.GetType();
+                    writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.Name));
+                    writer.WriteAttributeString("namespace", exceptionType.Namespace);
+                    WriteExceptionCore(writer, inner, includeStackTrace);
+                    endElementsToWrite++;
+                }
+                LoopUtility.For(endElementsToWrite, WriteEndElement, writer);
+            }
         }
     }
 }
