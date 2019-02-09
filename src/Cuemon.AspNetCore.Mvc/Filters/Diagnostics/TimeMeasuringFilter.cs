@@ -64,11 +64,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 TimeMeasure.CompletedCallback?.Invoke(Profiler);
                 if (!Options?.SuppressHeaderPredicate(Environment) ?? false)
                 {
-                    if (Options.UseServerTimingHeader)
-                    {
-                        context.HttpContext.Response.Headers.AddOrUpdateHeader("Server-Timing", $"CPU;dur={Profiler.Elapsed.TotalMilliseconds.ToString("N1", CultureInfo.InvariantCulture)}");
-                    }
-                    context.HttpContext.Response.Headers.AddOrUpdateHeader(Options.HeaderName, Profiler.ToString());
+                    if (Options.UseServerTimingHeader) { context.HttpContext.Response.Headers.AddOrUpdateHeader("Server-Timing", $"CPU;dur={Profiler.Elapsed.TotalMilliseconds.ToString("N1", CultureInfo.InvariantCulture)}"); }
+                    if (Options.UseCustomHeader) { context.HttpContext.Response.Headers.AddOrUpdateHeader(Options.HeaderName, Profiler.ToString()); }
                 }
             }
         }

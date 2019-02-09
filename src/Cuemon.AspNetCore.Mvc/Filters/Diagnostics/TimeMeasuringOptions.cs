@@ -43,18 +43,19 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             HeaderName = "X-Action-Profiler";
             SuppressHeaderPredicate = _ => false;
             UseServerTimingHeader = true;
+            UseCustomHeader = true;
         }
 
         /// <summary>
-        /// Gets or sets the name of the time-measured HTTP header.
+        /// Gets or sets the name of the custom time-measured HTTP header.
         /// </summary>
-        /// <value>The name of the time-measured HTTP header.</value>
+        /// <value>The name of the custom time-measured HTTP header.</value>
         public string HeaderName { get; set; }
 
         /// <summary>
-        /// Gets or sets the predicate that can suppress the time-measured HTTP header.
+        /// Gets or sets the predicate that can suppress either of the time-measured HTTP headers.
         /// </summary>
-        /// <value>The function delegate that can determine if the time-measured HTTP header should be suppressed.</value>
+        /// <value>The function delegate that can determine if either of the time-measured HTTP headers should be suppressed.</value>
         public Func<IHostingEnvironment, bool> SuppressHeaderPredicate { get; set; }
 
         /// <summary>
@@ -62,5 +63,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// </summary>
         /// <value><c>true</c> to include a Server-Timing HTTP header specifying how long an action took to execute; otherwise, <c>false</c>.</value>
         public bool UseServerTimingHeader { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to include the custom <see cref="HeaderName"/> specifying how long an action took to execute.
+        /// </summary>
+        /// <value><c>true</c> to include the custom <see cref="HeaderName"/> specifying how long an action took to execute; otherwise, <c>false</c>.</value>
+        public bool UseCustomHeader { get; set; }
     }
 }
