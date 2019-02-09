@@ -308,7 +308,14 @@ namespace Cuemon.Serialization.Xml.Converters
             }
             else if (hasElementAttribute)
             {
-                writer.WriteElementString(attributeOrElementName, value);
+                if (node.HasMemberReference)
+                {
+                    writer.WriteElementString(attributeOrElementName, value);
+                }
+                else
+                {
+                    writer.WriteValue(value);
+                }
             }
             else if (hasTextAttribute)
             {
