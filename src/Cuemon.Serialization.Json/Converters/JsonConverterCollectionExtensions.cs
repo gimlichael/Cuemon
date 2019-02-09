@@ -71,11 +71,6 @@ namespace Cuemon.Serialization.Json.Converters
                     writer.WritePropertyName("helpLink", () => DynamicJsonConverter.UseCamelCase);
                     writer.WriteValue(descriptor.HelpLink.OriginalString);
                 }
-                if (!descriptor.RequestId.IsNullOrWhiteSpace())
-                {
-                    writer.WritePropertyName("requestId", () => DynamicJsonConverter.UseCamelCase);
-                    writer.WriteValue(descriptor.RequestId);
-                }
                 writer.WriteEndObject();
             }));
         }
@@ -124,6 +119,19 @@ namespace Cuemon.Serialization.Json.Converters
         }
 
         /// <summary>
+        /// Adds an <see cref="Exception" /> JSON converter to the list.
+        /// </summary>
+        /// <param name="converters">The list of JSON converters.</param>
+        /// <param name="includeStackTraceFactory">The function delegate that is invoked when it is needed to determine whether the stack of an exception is included in the converted result.</param>
+        public static void AddExceptionConverter(this ICollection<JsonConverter> converters, Func<bool> includeStackTraceFactory)
+        {
+            converters.Add(DynamicJsonConverter.Create<Exception>((writer, exception) =>
+            {
+                WriteException(writer, exception, includeStackTraceFactory?.Invoke() ?? false);
+            }));
+        }
+
+        /// <summary>
         /// Adds an <see cref="DataPair" /> JSON converter to the list.
         /// </summary>
         /// <param name="converters">The list of JSON converters.</param>
@@ -143,14 +151,6 @@ namespace Cuemon.Serialization.Json.Converters
                 writer.WritePropertyName("type");
                 writer.WriteValue(dp.Type.ToFriendlyName());
                 writer.WriteEndObject();
-            }));
-        }
-
-        internal static void AddExceptionConverter(this ICollection<JsonConverter> converters, Func<bool> includeStackTrace)
-        {
-            converters.Add(DynamicJsonConverter.Create<Exception>((writer, exception) =>
-            {
-                WriteException(writer, exception, includeStackTrace?.Invoke() ?? false);
             }));
         }
 
@@ -202,7 +202,7 @@ namespace Cuemon.Serialization.Json.Converters
                 foreach (DictionaryEntry entry in exception.Data)
                 {
                     writer.WritePropertyName(entry.Key.ToString());
-                    writer.WriteValue(entry.Value);
+                    writer.WriteObject(entry.Value);
                 }
                 writer.WriteEndObject();
             }
@@ -213,7 +213,7 @@ namespace Cuemon.Serialization.Json.Converters
                 var value = property.GetValue(exception);
                 if (value == null) { continue; }
                 writer.WritePropertyName(property.Name, () => DynamicJsonConverter.UseCamelCase);
-                writer.WriteValue(value);
+                writer.WriteObject(value);
             }
 
             WriteInnerExceptions(writer, exception, includeStackTrace);
