@@ -142,6 +142,7 @@ namespace Cuemon.Serialization.Xml.Converters
                 writer.WriteStartElement("Error");
                 writer.WriteElementString("Code", descriptor.Code);
                 writer.WriteElementString("Message", descriptor.Message);
+                if (descriptor.HelpLink != null) { writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString); }
                 if (options.IncludeFailure)
                 {
                     writer.WriteStartElement("Failure");
@@ -159,7 +160,6 @@ namespace Cuemon.Serialization.Xml.Converters
                     }
                     writer.WriteEndElement();
                 }
-                if (descriptor.HelpLink != null) { writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString); }
                 writer.WriteEndElement();
             }, canConvertPredicate: type => type == typeof(ExceptionDescriptor));
         }

@@ -49,6 +49,11 @@ namespace Cuemon.Serialization.Json.Converters
                 writer.WriteValue(descriptor.Code);
                 writer.WritePropertyName("message", () => DynamicJsonConverter.UseCamelCase);
                 writer.WriteValue(descriptor.Message);
+                if (descriptor.HelpLink != null)
+                {
+                    writer.WritePropertyName("helpLink", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WriteValue(descriptor.HelpLink.OriginalString);
+                }
                 if (options.IncludeFailure)
                 {
                     writer.WritePropertyName("failure", () => DynamicJsonConverter.UseCamelCase);
@@ -65,11 +70,6 @@ namespace Cuemon.Serialization.Json.Converters
                         writer.WriteObject(evidence.Value);
                     }
                     writer.WriteEndObject();
-                }
-                if (descriptor.HelpLink != null)
-                {
-                    writer.WritePropertyName("helpLink", () => DynamicJsonConverter.UseCamelCase);
-                    writer.WriteValue(descriptor.HelpLink.OriginalString);
                 }
                 writer.WriteEndObject();
             }));
