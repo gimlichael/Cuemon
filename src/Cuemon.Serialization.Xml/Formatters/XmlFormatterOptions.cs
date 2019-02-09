@@ -34,15 +34,16 @@ namespace Cuemon.Serialization.Xml.Formatters
         public XmlFormatterOptions()
         {
             Settings = new XmlSerializerSettings();
-            Settings.Converters.AddExceptionDescriptorConverter();
-            Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
-            Settings.Converters.AddEnumerableConverter();
-            Settings.Converters.AddUriConverter();
-            Settings.Converters.AddDateTimeConverter();
-            Settings.Converters.AddTimeSpanConverter();
-            Settings.Converters.AddStringConverter();
-            SynchronizeWithXmlConvert = false;
-            IncludeExceptionStackTrace = false;
+            XmlSerializerSettings.DefaultConverters = list =>
+            {
+                list.AddExceptionDescriptorConverter();
+                list.AddExceptionConverter(() => IncludeExceptionStackTrace);
+                list.AddEnumerableConverter();
+                list.AddUriConverter();
+                list.AddDateTimeConverter();
+                list.AddTimeSpanConverter();
+                list.AddStringConverter();
+            };
         }
 
         /// <summary>
