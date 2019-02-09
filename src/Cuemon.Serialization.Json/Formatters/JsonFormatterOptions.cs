@@ -38,11 +38,13 @@ namespace Cuemon.Serialization.Json.Formatters
             Settings = new JsonSerializerSettings()
             {
                 CheckAdditionalContent = true,
+                Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
                 MissingMemberHandling = MissingMemberHandling.Ignore,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 DateParseHandling = DateParseHandling.DateTimeOffset,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             Settings.Converters.AddStringFlagsEnumConverter();
@@ -51,7 +53,6 @@ namespace Cuemon.Serialization.Json.Formatters
             Settings.Converters.AddExceptionDescriptorConverter();
             Settings.Converters.AddTimeSpanConverter();
             Settings.Converters.AddDataPairConverter();
-            SynchronizeWithJsonConvert = false;
         }
 
         /// <summary>
