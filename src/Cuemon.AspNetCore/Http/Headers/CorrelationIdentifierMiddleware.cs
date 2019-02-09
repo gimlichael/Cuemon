@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <summary>
         /// The key from where the Correlation ID is stored throughout the request scope.
         /// </summary>
-        public const string HttpContextItemsKey = "Cuemon.AspNetCore.CorrelationIdentifierMiddleware";
+        public const string HttpContextItemsKey = "Cuemon.AspNetCore.Http.Headers.CorrelationIdentifierMiddleware";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CorrelationIdentifierMiddleware"/> class.
