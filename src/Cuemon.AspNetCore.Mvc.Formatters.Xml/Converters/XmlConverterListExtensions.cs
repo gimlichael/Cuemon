@@ -1,6 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using Cuemon.AspNetCore.Http;
+using Cuemon.Diagnostics;
+using Cuemon.Serialization;
 using Cuemon.Serialization.Xml;
 using Cuemon.Serialization.Xml.Converters;
+using Cuemon.Xml.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
@@ -15,12 +22,52 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml.Converters
         {
             XmlSerializerSettings.DefaultConverters += list =>
             {
+                list.AddHttpExceptionDescriptorConverter();
                 list.AddStringValuesConverter();
                 list.AddHeaderDictionaryConverter();
-                list.AddQueryCollectionConverter();
                 list.AddFormCollectionConverter();
+                list.AddQueryCollectionConverter();
                 list.AddCookieCollectionConverter();
             };
+        }
+
+        /// <summary>
+        /// Adds an <see cref="ExceptionDescriptor"/> XML converter to the list.
+        /// </summary>
+        /// <param name="converters">The list of XML converters.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
+        public static void AddHttpExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
+        {
+            var options = setup.ConfigureOptions();
+            converters.AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, qe) =>
+            {
+                writer.WriteStartElement("HttpExceptionDescriptor");
+                writer.WriteStartElement("Error");
+                writer.WriteElementString("Status", descriptor.StatusCode.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("Code", descriptor.Code);
+                writer.WriteElementString("Message", descriptor.Message);
+                if (descriptor.HelpLink != null) { writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString); }
+                if (options.IncludeFailure)
+                {
+                    writer.WriteStartElement("Failure");
+                    writer.WriteObject(descriptor.Failure);
+                    writer.WriteEndElement();
+                }
+                writer.WriteEndElement();
+                if (options.IncludeEvidence && descriptor.Evidence.Any())
+                {
+                    writer.WriteStartElement("Evidence");
+                    foreach (var evidence in descriptor.Evidence)
+                    {
+                        if (evidence.Value == null) { continue; }
+                        writer.WriteObject(evidence.Value, evidence.Value.GetType(), o => o.RootName = new XmlQualifiedEntity(evidence.Key));
+                    }
+                    writer.WriteEndElement();
+                }
+                if (!descriptor.CorrelationId.IsNullOrWhiteSpace()) { writer.WriteElementString("CorrelationId", descriptor.CorrelationId); }
+                if (!descriptor.RequestId.IsNullOrWhiteSpace()) { writer.WriteElementString("RequestId", descriptor.RequestId); }
+                writer.WriteEndElement();
+            });
         }
 
         /// <summary>
