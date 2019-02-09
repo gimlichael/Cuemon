@@ -10,7 +10,7 @@ namespace Cuemon.Net.Http
     /// <summary>
     /// Provides ways for sending HTTP requests and receiving HTTP responses from a resource identified by a URI. This class cannot be inherited.
     /// </summary>
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="IDisposable" />
     public sealed class HttpManager : IDisposable
     {
         private volatile bool _isDisposed;
@@ -18,19 +18,22 @@ namespace Cuemon.Net.Http
         private const string HttpPatchVerb = "PATCH";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpManager"/> class.
+        /// Initializes a new instance of the <see cref="HttpManager" /> class.
         /// </summary>
+        /// <param name="setup">The <see cref="HttpManagerOptions"/> which need to be configured.</param>
         public HttpManager(Action<HttpManagerOptions> setup = null)
         {
             var options = setup.ConfigureOptions();
             _httpClient = new Lazy<HttpClient>(() =>
             {
-                var client = new HttpClient(options.Handler, options.DisposeHandler);
+                Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), $"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.SetHandlerFactory)}.");
+                var client = new HttpClient(options.HandlerFactory.Invoke(), options.DisposeHandler);
                 foreach (var header in options.DefaultRequestHeaders)
                 {
                     if (client.DefaultRequestHeaders.Contains(header.Key)) { continue; }
                     client.DefaultRequestHeaders.Add(header.Key, header.Value);
                 }
+                client.Timeout = options.Timeout;
                 return client;
             });
         }
@@ -50,11 +53,7 @@ namespace Cuemon.Net.Http
         public TimeSpan Timeout
         {
             get => Client.Timeout;
-            set
-            {
-                ValidateTimeout(value, nameof(value));
-                Client.Timeout = value;
-            }
+            set => Client.Timeout = value;
         }
 
         /// <summary>
@@ -260,13 +259,6 @@ namespace Cuemon.Net.Http
             var options = setup.ConfigureOptions();
             options.Request.RequestUri = location;
             return Client.SendAsync(options.Request, options.CompletionOption, options.CancellationToken);
-        }
-
-        private static void ValidateTimeout(TimeSpan timeout, string paramName)
-        {
-            Validator.ThrowIfNull(timeout, paramName);
-            Validator.ThrowIfLowerThanOrEqual(timeout.TotalMilliseconds, -1, paramName);
-            Validator.ThrowIfGreaterThan(timeout.TotalMilliseconds, int.MaxValue, paramName);
         }
 
         /// <summary>

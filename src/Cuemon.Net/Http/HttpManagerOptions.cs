@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 
@@ -9,8 +10,6 @@ namespace Cuemon.Net.Http
     /// </summary>
     public class HttpManagerOptions
     {
-        private HttpMessageHandler _handler;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpManagerOptions"/> class.
         /// </summary>
@@ -30,23 +29,28 @@ namespace Cuemon.Net.Http
         ///         <description>Connection: Keep-Alive</description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="Handler"/></term>
+        ///         <term><see cref="HandlerFactory"/></term>
         ///         <description><see cref="HttpClientHandler"/> initialized with <see cref="HttpClientHandler.AutomaticDecompression"/> for GZip|Deflate and <see cref="HttpClientHandler.MaxAutomaticRedirections"/> to 10.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="Timeout"/></term>
+        ///         <description>2 minutes</description>
         ///     </item>
         /// </list>
         /// </remarks>
         public HttpManagerOptions()
         {
-            Handler = new HttpClientHandler()
+            SetHandlerFactory<HttpClientHandler>(handler =>
             {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-                MaxAutomaticRedirections = 10
-            };
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                handler.MaxAutomaticRedirections = 10;
+            });
             DisposeHandler = true;
             DefaultRequestHeaders = new Dictionary<string, string>()
             {
                 { "Connection", "Keep-Alive" }
             };
+            Timeout = TimeSpan.FromMinutes(2);
         }
 
         /// <summary>
@@ -62,17 +66,25 @@ namespace Cuemon.Net.Http
         public Dictionary<string, string> DefaultRequestHeaders { get; }
 
         /// <summary>
-        /// Gets or sets the HTTP handler stack to use for sending requests.
+        /// Gets the HTTP handler stack to use for sending requests.
         /// </summary>
         /// <value>The HTTP handler stack to use for sending requests.</value>
-        public HttpMessageHandler Handler
+        public Func<HttpMessageHandler> HandlerFactory { get; private set; }
+
+        /// <summary>
+        /// Sets the <see cref="HandlerFactory"/> property using the specified <paramref name="setup"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="HttpMessageHandler"/> to use.</typeparam>
+        /// <param name="setup">The <typeparamref name="T"/> which need to be configured.</param>
+        public void SetHandlerFactory<T>(Action<T> setup) where T : HttpMessageHandler
         {
-            get => _handler;
-            set
-            {
-                Validator.ThrowIfNull(value, nameof(value));
-                _handler = value;
-            }
+            HandlerFactory = setup.ConfigureOptions;
         }
+
+        /// <summary>
+        /// Gets or sets the timespan to wait before the request times out. Default is 2 minutes.
+        /// </summary>
+        /// <value>The timespan to wait before the request times out.</value>
+        public TimeSpan Timeout { get; set; }
     }
 }
