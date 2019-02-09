@@ -72,10 +72,10 @@ namespace Cuemon.Diagnostics
         public string Message { get; private set; }
 
         /// <summary>
-        /// Gets a link to the help page associated with this failure.
+        /// Gets or sets a link to the help page associated with this failure.
         /// </summary>
         /// <value>The location of an optional help page associated with this failure.</value>
-        public Uri HelpLink { get; private set; }
+        public Uri HelpLink { get; set; }
 
         /// <summary>
         /// Gets the <see cref="Exception"/> that caused the current failure.
