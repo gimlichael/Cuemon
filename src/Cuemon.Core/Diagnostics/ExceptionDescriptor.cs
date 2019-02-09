@@ -7,7 +7,7 @@ using Cuemon.Collections.Generic;
 namespace Cuemon.Diagnostics
 {
     /// <summary>
-    /// Provides information about an <see cref="Exception"/>, in a developer friendly way, optimized for open- and otherwise public application programming interfaces (API).
+    /// Provides information about an <see cref="Exception"/>, in a developer friendly way.
     /// </summary>
     public class ExceptionDescriptor
     {
@@ -27,16 +27,16 @@ namespace Cuemon.Diagnostics
         /// <param name="failure">The <see cref="Exception"/> that caused the current failure.</param>
         /// <param name="code">The error code that uniquely identifies the type of failure.</param>
         /// <param name="message">The message that explains the reason for the failure.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which need to be configured.</param>
-        public ExceptionDescriptor(Exception failure, string code, string message, Action<ExceptionDescriptorOptions> setup = null)
+        /// <param name="helpLink">The optional link to a help page associated with this failure.</param>
+        /// <remarks><paramref name="code"/> will remove any spaces that might be present.</remarks>
+        public ExceptionDescriptor(Exception failure, string code, string message, Uri helpLink = null)
         {
             Validator.ThrowIfNull(failure, nameof(failure));
-            Validator.ThrowIfNullOrEmpty(message, nameof(message));
-            var options = setup.ConfigureOptions();
-            Code = code;
+            Validator.ThrowIfNullOrWhitespace(message, nameof(message));
+            Code = code.RemoveAll(' ');
             Message = message;
-            HelpLink = options.HelpLink;
-            Failure = options.UseBaseException ? failure.GetBaseException() : failure;
+            HelpLink = helpLink;
+            Failure = failure;
             _evidence = new Dictionary<string, object>();
             _lazyEvidence = new Lazy<IReadOnlyDictionary<string, object>>(() => new ReadOnlyDictionary<string, object>(_evidence));
         }
@@ -58,12 +58,6 @@ namespace Cuemon.Diagnostics
         {
             _evidence.AddIfNotContainsKey(context, evidenceProvider?.Invoke(evidence));
         }
-
-        /// <summary>
-        /// Gets or sets the request identifier that uniquely identifies the service request the caller made.
-        /// </summary>
-        /// <value>An identifier that uniquely identifies the service request the caller made.</value>
-        public string RequestId { get; set; }
 
         /// <summary>
         /// Gets an error code that uniquely identifies the type of failure.
@@ -106,7 +100,7 @@ namespace Cuemon.Diagnostics
             var attribute = attributes?.SingleOrDefault(eda => eda.FailureType == Failure.GetType());
             if (attribute != null)
             {
-                Code = attribute.Code;
+                if (!attribute.Code.IsNullOrWhiteSpace()) { Code = attribute.Code; }
                 if (!attribute.Message.IsNullOrWhiteSpace()) { Message = attribute.Message; }
                 if (!attribute.HelpLink.IsNullOrWhiteSpace()) { HelpLink = new Uri(attribute.HelpLink); }
             }
