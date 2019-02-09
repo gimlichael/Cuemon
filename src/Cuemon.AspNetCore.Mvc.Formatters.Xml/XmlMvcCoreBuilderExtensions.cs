@@ -82,6 +82,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
                 o.Settings.Converters.AddQueryCollectionConverter();
                 o.Settings.Converters.AddFormCollectionConverter();
                 o.Settings.Converters.AddCookieCollectionConverter();
+                o.Settings.Converters.AddHttpExceptionDescriptorConverter();
             };
         }
     }
