@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.Diagnostics;
+using Cuemon.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cuemon.AspNetCore.Mvc
@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// Initializes a new instance of the <see cref="ExceptionDescriptorResult"/> class.
         /// </summary>
         /// <param name="value">The descriptor value to return.</param>
-        public ExceptionDescriptorResult(ExceptionDescriptor value) : base(value)
+        public ExceptionDescriptorResult(HttpExceptionDescriptor value) : base(value)
         {
         }
     }
