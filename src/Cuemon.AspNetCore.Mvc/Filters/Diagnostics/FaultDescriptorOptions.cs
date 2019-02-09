@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Net;
 using System.Reflection;
+using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
-using Cuemon.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// <summary>
     /// Specifies options that is related to <see cref="FaultDescriptorFilter" /> operations.
     /// </summary>
-    /// <seealso cref="FaultDescriptorFilter"/>.
+    /// <seealso cref="FaultDescriptorFilter" />
     public class FaultDescriptorOptions
     {
         /// <summary>
@@ -28,16 +28,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="HttpStatusCodeResolver"/></term>
-        ///         <description>if an exception inherits from <see cref="ArgumentException"/>, is of type <see cref="ValidationException"/> or <see cref="FormatException"/>, a <see cref="HttpStatusCode.BadRequest"/> is returned; otherwise <see cref="HttpStatusCode.InternalServerError"/>.</description>
-        ///     </item>
-        ///     <item>
         ///         <term><see cref="ExceptionDescriptorHandler"/></term>
         ///         <description><c>null</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ExceptionDescriptorResolver"/></term>
-        ///         <description><c>e => new ExceptionDescriptor(e, "UnhandledException", $"An exception was raised by {Assembly.GetEntryAssembly().GetName().Name}");</c></description>
+        ///         <description>The default implementation iterates over <see cref="FaultResolvers"/> until a match is found from an <see cref="Exception"/>; then the associated <see cref="HttpExceptionDescriptor"/> is returned. If no match is found, a <see cref="HttpExceptionDescriptor"/> initialized to status 500 InternalServerError is returned</description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ExceptionCallback"/></term>
@@ -51,54 +47,83 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///         <term><see cref="RequestBodyParser"/></term>
         ///         <description><c>null</c></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="UseBaseException"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="RootHelpLink"/></term>
+        ///         <description><c>null</c></description>
+        ///     </item>
         /// </list>
         /// </remarks>
         public FaultDescriptorOptions()
         {
-            HttpStatusCodeResolver = e =>
-            {
-                if (IsValidationException(e)) { return StatusCodes.Status400BadRequest; }
-                if (e is ThrottlingException te) { return te.StatusCode; }
-                if (e is UserAgentException ue) { return ue.StatusCode; }
-                return StatusCodes.Status500InternalServerError;
-            };
+            FaultResolvers
+                .Add<ThrottlingException>()
+                .Add<UserAgentException>()
+                .Add<ValidationException>(StatusCodes.Status400BadRequest)
+                .Add<FormatException>(StatusCodes.Status400BadRequest)
+                .Add<ArgumentException>(StatusCodes.Status400BadRequest, exceptionValidator: ex => ex.GetType().HasTypes(typeof(ArgumentException)));
             ExceptionCallback = null;
             RequestBodyParser = null;
             ExceptionDescriptorResolver = e =>
             {
-                var code = IsValidationException(e) ? "BadRequest" : 
-                    e is ThrottlingException ? "TooManyRequests" : 
-                    e is UserAgentException ue && ue.StatusCode == StatusCodes.Status403Forbidden ? "Forbidden" : "InternalServerError";
-                var message = code == "InternalServerError" ? $"An exception was raised by {Assembly.GetEntryAssembly().GetName().Name}" : e.Message;
-                return new ExceptionDescriptor(e, code, message);
+                if (e != null)
+                {
+                    foreach (var descriptor in FaultResolvers)
+                    {
+                        if (descriptor.Validator.Invoke(e)) { return descriptor.Descriptor.Invoke(e); }
+                    }
+                }
+                return new HttpExceptionDescriptor(e, StatusCodes.Status500InternalServerError, message: $"An unhandled exception was raised by {Assembly.GetEntryAssembly().GetName().Name}.", helpLink: RootHelpLink);
             };
             ExceptionDescriptorHandler = null;
+            UseBaseException = false;
         }
 
         /// <summary>
-        /// Gets or sets the delegate that provides a way to handle and customize an <see cref="ExceptionDescriptor"/>.
+        /// Gets or sets the root link to a help file associated with an API.
+        /// </summary>
+        /// <value>The root link to a help file associated with an API.</value>
+        public Uri RootHelpLink { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is initialized with <see cref="RootHelpLink"/>.
+        /// </summary>
+        /// <value><c>true</c> if this instance is initialized with <see cref="RootHelpLink"/>; otherwise, <c>false</c>.</value>
+        public bool HasRootHelpLink => RootHelpLink != null;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to expose only the base exception that caused the faulted operation.
+        /// </summary>
+        /// <value><c>true</c> if only the base exception is exposed; otherwise, <c>false</c>, to include the entire exception tree.</value>
+        public bool UseBaseException { get; set; }
+
+        /// <summary>
+        /// Gets a collection of <see cref="FaultResolver"/> that can ease the usage of <see cref="ExceptionDescriptorResolver"/>.
+        /// </summary>
+        /// <value>The collection of <see cref="FaultResolver"/>.</value>
+        public IList<FaultResolver> FaultResolvers { get; } = new List<FaultResolver>();
+
+        /// <summary>
+        /// Gets or sets the delegate that provides a way to handle and customize an <see cref="HttpExceptionDescriptor"/>.
         /// In the default implementation, this is invoked just before the <see cref="ExceptionDescriptorResult"/> is assigned to <see cref="ExceptionContext.Result"/>.
         /// </summary>
-        /// <value>The delegate that provides a way to handle and customize an <see cref="ExceptionDescriptor"/>.</value>
-        public Action<ExceptionContext, ExceptionDescriptor> ExceptionDescriptorHandler { get; set; }
+        /// <value>The delegate that provides a way to handle and customize an <see cref="HttpExceptionDescriptor"/>.</value>
+        public Action<ExceptionContext, HttpExceptionDescriptor> ExceptionDescriptorHandler { get; set; }
 
         /// <summary>
-        /// Gets or sets the function delegate that will resolve a <see cref="ExceptionDescriptor"/> from the specified <see cref="Exception"/>.
+        /// Gets or sets the function delegate that will resolve a <see cref="HttpExceptionDescriptor"/> from the specified <see cref="Exception"/>.
         /// </summary>
-        /// <value>The function delegate that will resolve a <see cref="ExceptionDescriptor"/> from the specified <see cref="Exception"/>.</value>
-        public Func<Exception, ExceptionDescriptor> ExceptionDescriptorResolver { get; set; }
-
-        /// <summary>
-        /// Gets or sets the function delegate that will resolve a <see cref="HttpStatusCode"/> from the specified <see cref="Exception"/>.
-        /// </summary>
-        /// <value>The function delegate that will resolve a <see cref="HttpStatusCode"/> from the specified <see cref="Exception"/>.</value>
-        public Func<Exception, int> HttpStatusCodeResolver { get; set; }
+        /// <value>The function delegate that will resolve a <see cref="HttpExceptionDescriptor"/> from the specified <see cref="Exception"/>.</value>
+        public Func<Exception, HttpExceptionDescriptor> ExceptionDescriptorResolver { get; set; }
 
         /// <summary>
         /// Gets or sets the callback delegate that is invoked when an exception has been thrown.
         /// </summary>
         /// <value>A <see cref="Action{T}"/>. The default value is <c>null</c>.</value>
-        public Action<Exception, ExceptionDescriptor> ExceptionCallback { get; set; }
+        public Action<Exception, HttpExceptionDescriptor> ExceptionCallback { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to mark ASP.NET Core MVC <see cref="ExceptionContext.ExceptionHandled"/> to <c>true</c>.
@@ -117,16 +142,5 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// </summary>
         /// <value>The function delegate that determines the string result of a HTTP request body.</value>
         public Func<Stream, string> RequestBodyParser { get; set; }
-
-        private static bool IsValidationException(Exception exception)
-        {
-            if (exception == null) { return false; }
-            bool match = false;
-            match |= exception.GetType().HasTypes(typeof(ArgumentException));
-            match |= exception is ValidationException;
-            match |= exception is FormatException;
-            match |= exception is UserAgentException ue && ue.StatusCode == StatusCodes.Status400BadRequest;
-            return match;
-        }
     }
 }
