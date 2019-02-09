@@ -74,9 +74,10 @@ namespace Cuemon.Net
 				case UriScheme.File:
 				case UriScheme.Ftp:
 				case UriScheme.Http:
+                case UriScheme.Https:
 					break;
 				default:
-					throw new ArgumentException("The provided Uri does not have a valid scheme attached. Allowed schemes for now is File, FTP or HTTP.", nameof(requestUri));
+					throw new ArgumentException("The provided Uri does not have a valid scheme attached. Allowed schemes for now is File, FTP, HTTP or HTTPS.", nameof(requestUri));
 			}
 			RequestUri = requestUri;
 			Scheme = scheme;
