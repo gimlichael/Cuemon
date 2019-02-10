@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <FileVersion>5.0.2019.40</FileVersion>
+    <Version>5.0.2019.40</Version>
+    <AssemblyVersion>5.0.2018.250</AssemblyVersion>
+    <Authors>Michael Mortensen</Authors>
+    <Company>Weubphoria</Company>
+    <Product>Cuemon .NET Standard</Product>
+    <Description>The Cuemon.AspNetCore.Razor.TagHelpers assembly is a supplement to the Microsoft ASP.NET Core Razor TagHelpers.</Description>
+    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
+    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
+    <PackageReleaseNotes>Supplies Razor tag helpers for CDN enabled websites.</PackageReleaseNotes>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Cuemon.AspNetCore.Razor.TagHelpers.csproj.vspscc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+  </ItemGroup>
+
+</Project>
