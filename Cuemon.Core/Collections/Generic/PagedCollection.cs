@@ -46,7 +46,7 @@ namespace Cuemon.Collections.Generic
             Validator.ThrowIfNull(settings, nameof(settings));
 
             PagedCollection<T> pagedSource = source as PagedCollection<T>;
-            return new PagedCollection<T>(new List<T>(EnumerableUtility.FindAll(pagedSource == null ? source : pagedSource.OriginalSource, match, settings, comparison)), settings);
+            return new PagedCollection<T>(new List<T>((pagedSource == null ? source : pagedSource.OriginalSource).Where(src => match(src, settings, comparison))));
         }
 
         /// <summary>

@@ -96,7 +96,7 @@ namespace Cuemon
         public static TResult Parse<TResult>(IEnumerable<Exception> exceptions) where TResult : Exception
         {
             Validator.ThrowIfNull(exceptions, nameof(exceptions));
-            var matches = EnumerableUtility.FindAll(exceptions, e => e is TResult);
+            var matches = exceptions.Where(e => e is TResult);
             return matches.FirstOrDefault() as TResult;
         }
 

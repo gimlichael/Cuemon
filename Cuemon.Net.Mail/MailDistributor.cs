@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
@@ -97,7 +98,7 @@ namespace Cuemon.Net.Mail
             {
                 carriers.Add(TupleUtility.CreateTwo(distributor.Carrier, new List<MailMessage>(filter == null
                     ? partitionedMails
-                    : partitionedMails.FindAll(filter)
+                    : partitionedMails.Where(filter)
                 )));
             }
             return carriers;
