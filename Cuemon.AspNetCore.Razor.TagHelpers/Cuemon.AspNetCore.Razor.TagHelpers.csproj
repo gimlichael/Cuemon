@@ -9,9 +9,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <FileVersion>5.0.2019.40</FileVersion>
-    <Version>5.0.2019.40</Version>
-    <AssemblyVersion>5.0.2018.250</AssemblyVersion>
+    <FileVersion>5.1.2019.75</FileVersion>
+    <Version>5.1.2019.75</Version>
+    <AssemblyVersion>5.1.2019.75</AssemblyVersion>
     <Authors>Michael Mortensen</Authors>
     <Company>Weubphoria</Company>
     <Product>Cuemon .NET Standard</Product>
