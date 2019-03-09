@@ -282,7 +282,7 @@ namespace Cuemon.Reflection
         public static IHierarchy<object> GetObjectHierarchy(object source, Action<ObjectHierarchyOptions> setup = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             IDictionary<int, int> referenceSafeguards = new Dictionary<int, int>();
             Stack<Wrapper<object>> stack = new Stack<Wrapper<object>>();
 

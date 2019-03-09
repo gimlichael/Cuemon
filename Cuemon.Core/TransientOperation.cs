@@ -343,7 +343,7 @@ namespace Cuemon
 
         private static void WithActionCore<TTuple>(ActionFactory<TTuple> factory, Action<TransientOperationOptions> setup = null) where TTuple : Template
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             if (!options.EnableRecovery)
             {
                 factory.ExecuteMethod();
@@ -397,7 +397,7 @@ namespace Cuemon
 
         private static TResult WithFuncCore<TTuple, TResult>(FuncFactory<TTuple, TResult> factory, Action<TransientOperationOptions> setup) where TTuple : Template
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             if (!options.EnableRecovery) { return factory.ExecuteMethod(); }
             DateTime timestamp = DateTime.UtcNow;
             TimeSpan latency = TimeSpan.Zero;
@@ -459,7 +459,7 @@ namespace Cuemon
         private static TSuccess TryWithFuncCore<TTuple, TSuccess, TResult>(TesterFuncFactory<TTuple, TResult, TSuccess> factory, out TResult result, Action<TransientOperationOptions> setup) where TTuple : Template
         {
             result = default(TResult);
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             if (!options.EnableRecovery) { return factory.ExecuteMethod(out result); }
             DateTime timestamp = DateTime.UtcNow;
             TimeSpan latency = TimeSpan.Zero;

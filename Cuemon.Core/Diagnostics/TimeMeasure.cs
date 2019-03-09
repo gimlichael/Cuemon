@@ -534,7 +534,7 @@ namespace Cuemon.Diagnostics
 
         private static TimeMeasureProfiler WithActionCore<TTuple>(ActionFactory<TTuple> factory, Action<TimeMeasureOptions> setup) where TTuple : Template
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
             var profiler = new TimeMeasureProfiler()
             {
@@ -547,7 +547,7 @@ namespace Cuemon.Diagnostics
 
         private static TimeMeasureProfiler<TResult> WithFunctionCore<TTuple, TResult>(FuncFactory<TTuple, TResult> factory, Action<TimeMeasureOptions> setup) where TTuple : Template
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
             var profiler = new TimeMeasureProfiler<TResult>()
             {

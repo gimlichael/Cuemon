@@ -68,7 +68,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
 
         private static Action<XmlFormatterOptions> DefaultXmlFormatterOptions(Action<XmlFormatterOptions> setup)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return o =>
             {
                 o.IncludeExceptionStackTrace = options.IncludeExceptionStackTrace;

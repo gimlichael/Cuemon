@@ -23,7 +23,7 @@ namespace Cuemon.Serialization.Xml.Formatters
         /// Initializes a new instance of the <see cref="XmlFormatter"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="XmlFormatterOptions"/> which need to be configured.</param>
-        public XmlFormatter(Action<XmlFormatterOptions> setup) : this(setup.ConfigureOptions())
+        public XmlFormatter(Action<XmlFormatterOptions> setup) : this(setup.Configure())
         {
         }
 

@@ -38,7 +38,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
         public static void AddHttpExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             converters.AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, qe) =>
             {
                 writer.WriteStartElement("HttpExceptionDescriptor");

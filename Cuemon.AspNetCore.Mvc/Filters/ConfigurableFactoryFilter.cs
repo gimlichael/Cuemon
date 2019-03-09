@@ -17,7 +17,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// Initializes a new instance of the <see cref="ConfigurableFactoryFilter{TOptions}"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="Action{TOptions}"/> which need to be configured.</param>
-        protected ConfigurableFactoryFilter(Action<TOptions> setup) : base(setup.ConfigureOptions())
+        protected ConfigurableFactoryFilter(Action<TOptions> setup) : base(setup.Configure())
         {
         }
 

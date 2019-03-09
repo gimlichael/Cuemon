@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// <param name="setup">The <see cref="HttpLastModifiedHeaderOptions"/> which need to be configured.</param>
         public HttpLastModifiedHeader(Action<HttpLastModifiedHeaderOptions> setup)
         {
-            Options = setup.ConfigureOptions();
+            Options = setup.Configure();
         }
 
         /// <summary>

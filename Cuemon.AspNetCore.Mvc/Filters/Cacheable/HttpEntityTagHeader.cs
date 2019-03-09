@@ -23,7 +23,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// <param name="setup">The <see cref="HttpEntityTagHeaderOptions" /> which need to be configured.</param>
         public HttpEntityTagHeader(Action<HttpEntityTagHeaderOptions> setup)
         {
-            Options = setup.ConfigureOptions();
+            Options = setup.Configure();
         }
 
         /// <summary>

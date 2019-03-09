@@ -20,7 +20,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(Stream value, byte[] sharedKey, Action<StreamKeyedHashOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return ComputeHashCore(value, null, sharedKey, options.AlgorithmType, options.LeaveStreamOpen);
         }
 
@@ -33,7 +33,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(byte[] value, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return ComputeHashCore(null, value, sharedKey, options.AlgorithmType, false);
         }
 
@@ -46,7 +46,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(string value, byte[] sharedKey, Action<StringKeyedHashOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return ComputeKeyedHash(ByteConverter.FromString(value, o =>
             {
                 o.Encoding = options.Encoding;
@@ -63,7 +63,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(object value, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return ComputeKeyedHash(EnumerableConverter.AsArray(value), sharedKey, o => o.AlgorithmType = options.AlgorithmType);
         }
 
@@ -77,7 +77,7 @@ namespace Cuemon.Security.Cryptography
         public static HashResult ComputeKeyedHash(object[] values, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             long signature = StructUtility.GetHashCode64(EnumerableConverter.Parse(values, o => o.GetHashCode()));
             return ComputeKeyedHash(BitConverter.GetBytes(signature), sharedKey, o => o.AlgorithmType = options.AlgorithmType);
         }
@@ -91,7 +91,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of <paramref name="values"/>.</returns>
         public static HashResult ComputeKeyedHash(string[] values, byte[] sharedKey, Action<StringKeyedHashOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             Validator.ThrowIfNull(values, nameof(values));
             MemoryStream tempStream = null;
             try

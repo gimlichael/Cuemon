@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Infrastructure
         /// <param name="setup">The <see cref="Action{TOptions}"/> which need to be configured.</param>
         internal ConfigurableMiddlewareCore(RequestDelegate next, Action<TOptions> setup) : base(next)
         {
-            Options = setup.ConfigureOptions();
+            Options = setup.Configure();
         }
 
         /// <summary>

@@ -105,7 +105,7 @@ namespace Cuemon.Integrity
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(byte[] checksum, Action<ChecksumBuilderOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             AlgorithmType = options.AlgorithmType;
             Bytes = checksum == null ? new List<byte>() : new List<byte>(checksum);
         }

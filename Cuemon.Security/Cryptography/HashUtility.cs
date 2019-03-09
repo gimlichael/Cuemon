@@ -19,7 +19,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeHash(Stream value, Action<StreamHashOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return ComputeHashCore(value, null, options.AlgorithmType, options.LeaveStreamOpen);
         }
 
@@ -31,7 +31,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeHash(byte[] value, Action<HashOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return ComputeHashCore(null, value, options.AlgorithmType, false);
         }
 
@@ -43,7 +43,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeHash(string value, Action<StringHashOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return ComputeHash(ByteConverter.FromString(value, o =>
             {
                 o.Encoding = options.Encoding;
@@ -59,7 +59,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeHash(object value, Action<HashOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return ComputeHash(EnumerableConverter.AsArray(value), o => o.AlgorithmType = options.AlgorithmType);
         }
 
@@ -72,7 +72,7 @@ namespace Cuemon.Security.Cryptography
         public static HashResult ComputeHash(object[] values, Action<HashOptions> setup = null)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             long signature = StructUtility.GetHashCode64(EnumerableConverter.Parse(values, o => o.GetHashCode()));
             return ComputeHash(BitConverter.GetBytes(signature), o => o.AlgorithmType = options.AlgorithmType);
         }
@@ -86,7 +86,7 @@ namespace Cuemon.Security.Cryptography
         public static HashResult ComputeHash(string[] values, Action<StringHashOptions> setup = null)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             MemoryStream tempStream = null;
             try
             { 

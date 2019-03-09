@@ -19,7 +19,7 @@ namespace Cuemon
         public static char[] FromStream(Stream value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = options.DetectEncoding(value); }
             byte[] valueInBytes = ByteConverter.FromStream(value);
             switch (options.Preamble)
@@ -45,7 +45,7 @@ namespace Cuemon
         public static char[] FromString(string value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return options.Encoding.GetChars(ByteConverter.FromString(value, setup));
         }
     }

@@ -39,7 +39,7 @@ namespace Cuemon.Serialization.Json.Converters
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
         public static void AddExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             converters.Add(DynamicJsonConverter.Create<ExceptionDescriptor>((writer, descriptor) =>
             {
                 writer.WriteStartObject();

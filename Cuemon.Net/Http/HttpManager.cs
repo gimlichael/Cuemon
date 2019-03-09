@@ -23,7 +23,7 @@ namespace Cuemon.Net.Http
         /// <param name="setup">The <see cref="HttpManagerOptions"/> which need to be configured.</param>
         public HttpManager(Action<HttpManagerOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             _httpClient = new Lazy<HttpClient>(() =>
             {
                 Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), $"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.SetHandlerFactory)}.");
@@ -256,7 +256,7 @@ namespace Cuemon.Net.Http
         public Task<HttpResponseMessage> HttpAsync(Uri location, Action<HttpRequestOptions> setup)
         {
             Validator.ThrowIfNull(setup, nameof(setup));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             options.Request.RequestUri = location;
             return Client.SendAsync(options.Request, options.CompletionOption, options.CancellationToken);
         }

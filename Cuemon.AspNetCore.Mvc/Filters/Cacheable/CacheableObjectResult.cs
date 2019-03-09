@@ -17,7 +17,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// </summary>
         /// <param name="instance">The object to make cacheable.</param>
         /// <param name="setup">The <see cref="Action{TOptions}"/> which need to be configured.</param>
-        protected CacheableObjectResult(T instance, Action<TOptions> setup) : base(setup.ConfigureOptions())
+        protected CacheableObjectResult(T instance, Action<TOptions> setup) : base(setup.Configure())
         {
             Value = instance;
         }

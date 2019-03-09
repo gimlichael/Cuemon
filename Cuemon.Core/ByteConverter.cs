@@ -126,7 +126,7 @@ namespace Cuemon
         public static byte[] FromString(string value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
 
             byte[] valueInBytes;
             switch (options.Preamble)

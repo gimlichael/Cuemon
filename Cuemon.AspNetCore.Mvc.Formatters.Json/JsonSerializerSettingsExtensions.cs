@@ -14,10 +14,10 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
         /// <typeparam name="T">The type of the <see cref="JsonSerializerSettings"/> to use.</typeparam>
         /// <param name="s1">The <see cref="JsonSerializerSettings"/> to extend.</param>
         /// <param name="setup">The <see cref="JsonSerializerSettings"/> which need to be configured.</param>
-        public static void Use<T>(this JsonSerializerSettings s1, Action<T> setup = null) where T : JsonSerializerSettings
+        public static void Use<T>(this JsonSerializerSettings s1, Action<T> setup = null) where T : JsonSerializerSettings, new()
         {
             Validator.ThrowIfNull(s1, nameof(s1));
-            var s2 = setup.ConfigureOptions();
+            var s2 = setup.Configure();
             s1.CheckAdditionalContent = s2.CheckAdditionalContent;
             s1.ConstructorHandling = s2.ConstructorHandling;
             s1.Context = s2.Context;

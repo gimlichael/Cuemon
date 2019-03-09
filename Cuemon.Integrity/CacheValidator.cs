@@ -196,7 +196,7 @@ namespace Cuemon.Integrity
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, byte[] checksum, Action<CacheValidatorOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             bool isChecksumNullOrZeroLength = (checksum == null || checksum.Length == 0);
 
             Created = created.ToUniversalTime();

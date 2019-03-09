@@ -161,7 +161,7 @@ namespace Cuemon
         public static string FromBytes(byte[] value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = options.DetectEncoding(value); }
             switch (options.Preamble)
             {
@@ -818,7 +818,7 @@ namespace Cuemon
         public static string FromStream(Stream value, Action<EncodingOptions> setup, bool leaveStreamOpen)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = options.DetectEncoding(value); }
             if (options.Preamble < PreambleSequence.Keep || options.Preamble > PreambleSequence.Remove) { throw new ArgumentOutOfRangeException(nameof(setup), "The specified argument was out of the range of valid values."); }
             return FromBytes(ByteConverter.FromStream(value, leaveStreamOpen), setup);

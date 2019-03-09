@@ -16,7 +16,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
     {
         internal ContentTimeBasedObjectResult(T instance, DateTime created, byte[] checksum = null, Action<ContentTimeBasedOptions> setup = null) : base(instance, setup)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             Created = created;
             Checksum = new ChecksumResult(checksum);
             Modified = options.Modified;

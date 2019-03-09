@@ -32,7 +32,7 @@ namespace Cuemon.Serialization.Xml
         /// <param name="setup">The <see cref="XmlSerializerSettings"/> which need to be configured.</param>
         public static void WriteObject(this XmlWriter writer, object value, Type objectType, Action<XmlSerializerSettings> setup = null)
         {
-            var serializer = XmlSerializer.Create(setup?.ConfigureOptions());
+            var serializer = XmlSerializer.Create(setup?.Configure());
             serializer.Serialize(writer, value, objectType);
         }
 

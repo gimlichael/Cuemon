@@ -76,9 +76,9 @@ namespace Cuemon.Net.Http
         /// </summary>
         /// <typeparam name="T">The type of the <see cref="HttpMessageHandler"/> to use.</typeparam>
         /// <param name="setup">The <typeparamref name="T"/> which need to be configured.</param>
-        public void SetHandlerFactory<T>(Action<T> setup) where T : HttpMessageHandler
+        public void SetHandlerFactory<T>(Action<T> setup) where T : HttpMessageHandler, new()
         {
-            HandlerFactory = setup.ConfigureOptions;
+            HandlerFactory = setup.Configure;
         }
 
         /// <summary>

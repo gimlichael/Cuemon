@@ -135,7 +135,7 @@ namespace Cuemon.Serialization.Xml.Converters
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
         public static void AddExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             converters.AddXmlConverter<ExceptionDescriptor>((writer, descriptor, qe) =>
             {
                 writer.WriteStartElement("ExceptionDescriptor");

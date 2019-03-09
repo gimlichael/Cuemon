@@ -34,7 +34,7 @@ namespace Cuemon.Xml
             Validator.ThrowIfNull(value, nameof(value));
             if (encoding == null) { encoding = XmlEncodingUtility.ReadEncoding(value); }
             if (value.CanSeek) { value.Position = 0; }
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             XmlReader reader = XmlReader.Create(new StreamReader(value, encoding), options);
             return reader;
         }
@@ -58,7 +58,7 @@ namespace Cuemon.Xml
         public static XmlReader FromUri(Uri value, Action<XmlReaderSettings> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.ConfigureOptions();
+            var options = setup.Configure();
             return XmlReader.Create(value.ToString(), options);
         }
     }
