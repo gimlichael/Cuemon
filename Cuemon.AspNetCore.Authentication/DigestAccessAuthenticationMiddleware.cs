@@ -51,7 +51,7 @@ namespace Cuemon.AspNetCore.Authentication
                 var staledEntries = NonceCounter.Where(pair => pair.Value.Arg1 <= utcStaleTimestamp).ToList();
                 foreach (var staledEntry in staledEntries)
                 {
-                    TesterDoer.IgnoreResult<string, Template<DateTime, string>, bool>(NonceCounter.TryRemove, staledEntry.Key);
+                    NonceCounter.TryRemove(staledEntry.Key, out _);
                 }
             }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(2));
         }
