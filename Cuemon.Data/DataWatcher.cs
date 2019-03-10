@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 using Cuemon.Collections.Generic;
 using Cuemon.Runtime;
 
@@ -98,7 +99,7 @@ namespace Cuemon.Data
 						values.Add(readerValues);
 					}
 				}
-                long currentSignature = StructUtility.GetHashCode64(EnumerableConverter.Parse(values, o => o.GetHashCode()));
+                long currentSignature = StructUtility.GetHashCode64(values.Select(o => o.GetHashCode()));
                 values.Clear();
 
 				if (Signature == 0) { Signature = currentSignature; }

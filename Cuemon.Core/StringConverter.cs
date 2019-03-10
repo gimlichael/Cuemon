@@ -472,7 +472,7 @@ namespace Cuemon
         public static IEnumerable<string> ToEnumerable(IEnumerable<char> value)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            return EnumerableConverter.Parse(value, c => new string(c, 1));
+            return value.Select(c => new string(c, 1));
         }
 
         /// <summary>

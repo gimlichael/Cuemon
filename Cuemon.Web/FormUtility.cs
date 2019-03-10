@@ -1,6 +1,5 @@
 ﻿using System.Collections.Specialized;
 using System.Linq;
-using Cuemon.Collections.Generic;
 
 namespace Cuemon.Web
 {
@@ -17,7 +16,7 @@ namespace Cuemon.Web
         public static NameValueCollection Combine(params string[] values)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            return Combine(EnumerableConverter.Parse(values, FormConverter.FromString).ToArray());
+            return Combine(values.Select(FormConverter.FromString).ToArray());
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using Cuemon.Collections.Generic;
 using Cuemon.IO;
@@ -73,7 +74,7 @@ namespace Cuemon.Security.Cryptography
         {
             Validator.ThrowIfNull(values, nameof(values));
             var options = setup.Configure();
-            long signature = StructUtility.GetHashCode64(EnumerableConverter.Parse(values, o => o.GetHashCode()));
+            long signature = StructUtility.GetHashCode64(values.Select(o => o.GetHashCode()));
             return ComputeHash(BitConverter.GetBytes(signature), o => o.AlgorithmType = options.AlgorithmType);
         }
 
