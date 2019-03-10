@@ -29,9 +29,9 @@ namespace Cuemon.Data
             switch (direction)
             {
                 case SortOrder.Ascending:
-                    return EnumerableUtility.SortAscending(source, DataTransferRowComparison);
+                    return source.OrderBy(DataTransferRowComparison);
                 case SortOrder.Descending:
-                    return EnumerableUtility.SortDescending(source, DataTransferRowComparison);
+                    return source.OrderByDescending(DataTransferRowComparison);
                 default:
                     return source;
             }

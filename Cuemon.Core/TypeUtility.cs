@@ -233,7 +233,7 @@ namespace Cuemon
             if (assemblies == null) { throw new ArgumentNullException(nameof(assemblies)); }
             IEnumerable<Type> ancestorOrSelfTypes = GetAncestorOrSelfTypes(source);
             IEnumerable<Type> derivedOrSelfTypes = GetDescendantOrSelfTypes(source, assemblies);
-            return EnumerableUtility.SortDescending(EnumerableUtility.Concat(derivedOrSelfTypes, ancestorOrSelfTypes).Distinct(), new ReferenceComparer<Type>());
+            return derivedOrSelfTypes.Concat(ancestorOrSelfTypes).Distinct().OrderByDescending(new ReferenceComparer<Type>());
         }
 
         /// <summary>
