@@ -11,339 +11,16 @@ namespace Cuemon
     public static class Validator
     {
         /// <summary>
-        /// Validates from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>true</c>.
+        /// Validates and throws an <see cref="ArgumentException"/> (or a derived counterpart) from the specified delegate <paramref name="condition"/>.
         /// </summary>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
+        /// <param name="condition">The delegate that evaluates, creates and ultimately throws an <see cref="ArgumentException"/> (or a derived counterpart) from within a given scenario.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
+        /// <paramref name="condition"/> is null.
         /// </exception>
-        public static void ThrowIf(Func<bool> condition, Func<string, string, Exception> exception, string paramName, string message)
+        public static void ThrowIf(Action<ExceptionCondition<ArgumentException>> condition)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition()) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo()).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>true</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIf<TValue>(TValue value, Func<TValue, bool> condition, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>true</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T">The type of the parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg">The parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIf<TValue, T>(TValue value, Func<TValue, T, bool> condition, T arg, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>true</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIf<TValue, T1, T2>(TValue value, Func<TValue, T1, T2, bool> condition, T1 arg1, T2 arg2, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg1, arg2)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>true</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg3">The third parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIf<TValue, T1, T2, T3>(TValue value, Func<TValue, T1, T2, T3, bool> condition, T1 arg1, T2 arg2, T3 arg3, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg1, arg2, arg3)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>true</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg3">The third parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIf<TValue, T1, T2, T3, T4>(TValue value, Func<TValue, T1, T2, T3, T4, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg1, arg2, arg3, arg4)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>true</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T5">The type of the fifth parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg3">The third parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg5">The fifth parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIf<TValue, T1, T2, T3, T4, T5>(TValue value, Func<TValue, T1, T2, T3, T4, T5, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (condition(value, arg1, arg2, arg3, arg4, arg5)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4, arg5).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>false</c>.
-        /// </summary>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIfNot(Func<bool> condition, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition()) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo()).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>false</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIfNot<TValue>(TValue value, Func<TValue, bool> condition, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>false</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T">The type of the parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg">The parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIfNot<TValue, T>(TValue value, Func<TValue, T, bool> condition, T arg, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>false</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIfNot<TValue, T1, T2>(TValue value, Func<TValue, T1, T2, bool> condition, T1 arg1, T2 arg2, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg1, arg2)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>false</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg3">The third parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIfNot<TValue, T1, T2, T3>(TValue value, Func<TValue, T1, T2, T3, bool> condition, T1 arg1, T2 arg2, T3 arg3, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg1, arg2, arg3)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>false</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg3">The third parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIfNot<TValue, T1, T2, T3, T4>(TValue value, Func<TValue, T1, T2, T3, T4, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg1, arg2, arg3, arg4)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4).Unwrap(); }
-        }
-
-        /// <summary>
-        /// Validates the specified <paramref name="value"/> from the provided <paramref name="condition"/>.
-        /// An <paramref name="exception"/> is resolved and thrown if the <paramref name="condition"/> evaluates <c>false</c>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value to evaluate.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <typeparam name="T5">The type of the fifth parameter of the function delegate <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The value that will be evaluated by <paramref name="condition"/>.</param>
-        /// <param name="condition">The function delegate that determines if an <paramref name="exception"/> is thrown.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg3">The third parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="arg5">The fifth parameter of the function delegate <paramref name="condition"/>.</param>
-        /// <param name="exception">The function delegate that resolves the <see cref="Exception"/> to be thrown.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null -or- <paramref name="exception"/> is null.
-        /// </exception>
-        public static void ThrowIfNot<TValue, T1, T2, T3, T4, T5>(TValue value, Func<TValue, T1, T2, T3, T4, T5, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Func<string, string, Exception> exception, string paramName, string message)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            if (exception == null) { throw new ArgumentNullException(nameof(exception)); }
-            if (!condition(value, arg1, arg2, arg3, arg4, arg5)) { throw ExceptionUtility.Refine(exception(paramName, message), condition.GetMethodInfo(), value, arg1, arg2, arg3, arg4, arg5).Unwrap(); }
+            condition.CreateInstance();
         }
 
         /// <summary>
@@ -432,7 +109,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(value, Condition.IsNumeric, styles, provider, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsNumeric(value, styles, provider)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -510,7 +187,7 @@ namespace Cuemon
         {
             ThrowIfNotNumber(value, paramName, message, styles, CultureInfo.InvariantCulture);
         }
-        
+
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not a number.
         /// </summary>
@@ -526,7 +203,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIfNot(value, Condition.IsNumeric, styles, provider, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsFalse(() => Condition.IsNumeric(value, styles, provider)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -542,7 +219,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName) 
+        public static void ThrowIfNull<T>(T value, string paramName)
         {
             ThrowIfNull(value, paramName, "Value cannot be null.");
         }
@@ -556,11 +233,11 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName, string message) 
+        public static void ThrowIfNull<T>(T value, string paramName, string message)
         {
             try
             {
-                ThrowIf(value, Condition.IsNull, ExceptionUtility.CreateArgumentNullException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsNull(value)).Create(() => new ArgumentNullException(paramName, message)).TryThrow());
             }
             catch (ArgumentNullException ex)
             {
@@ -594,7 +271,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(value, Condition.IsTrue, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsTrue(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -628,7 +305,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(value, Condition.IsFalse, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsFalse(() => Condition.IsFalse(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -650,28 +327,28 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentEmptyException"/> if the specified <paramref name="value"/> is empty.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is empty.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentEmptyException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be empty.
         /// </exception>
         public static void ThrowIfEmpty(string value, string paramName, string message)
         {
             try
             {
-                ThrowIf(value, Condition.IsEmpty, ExceptionUtility.CreateArgumentEmptyException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsEmpty(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
-            catch (ArgumentEmptyException ex)
+            catch (ArgumentException ex)
             {
                 throw ex;
             }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentEmptyException"/> if the specified <paramref name="value"/> consist only of white-space characters.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> consist only of white-space characters.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
@@ -696,7 +373,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(value, Condition.IsWhiteSpace, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsWhiteSpace(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -705,14 +382,14 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentEmptyException"/> if the specified <paramref name="value"/> is respectively null or empty.
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null or empty.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        /// <exception cref="ArgumentEmptyException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be empty.
         /// </exception>
         public static void ThrowIfNullOrEmpty(string value, string paramName)
@@ -722,18 +399,14 @@ namespace Cuemon
                 ThrowIfNull(value, paramName);
                 ThrowIfEmpty(value, paramName);
             }
-            catch (ArgumentNullException ex)
-            {
-                throw ex;
-            }
-            catch (ArgumentEmptyException ex)
+            catch (Exception ex) when (ex is ArgumentException)
             {
                 throw ex;
             }
         }
 
         /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentEmptyException"/> if the specified <paramref name="value"/> is respectively null or empty.
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null or empty.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
@@ -741,7 +414,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        /// <exception cref="ArgumentEmptyException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be empty.
         /// </exception>
         public static void ThrowIfNullOrEmpty(string value, string paramName, string message)
@@ -751,29 +424,22 @@ namespace Cuemon
                 ThrowIfNull(value, paramName, message);
                 ThrowIfEmpty(value, paramName, message);
             }
-            catch (ArgumentNullException ex)
-            {
-                throw ex;
-            }
-            catch (ArgumentEmptyException ex)
+            catch (Exception ex) when (ex is ArgumentException)
             {
                 throw ex;
             }
         }
 
         /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/>, <see cref="ArgumentEmptyException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null, empty or consist only of white-space characters.
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null, empty or consist only of white-space characters.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="value"/> cannot be empty.
-        /// </exception>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot consist only of white-space characters.
+        /// <paramref name="value"/> cannot be empty or consist only of white-space characters.
         /// </exception>
         public static void ThrowIfNullOrWhitespace(string value, string paramName)
         {
@@ -783,22 +449,14 @@ namespace Cuemon
                 ThrowIfEmpty(value, paramName);
                 ThrowIfWhiteSpace(value, paramName);
             }
-            catch (ArgumentNullException ex)
-            {
-                throw ex;
-            }
-            catch (ArgumentEmptyException ex)
-            {
-                throw ex;
-            }
-            catch (ArgumentException ex)
+            catch (Exception ex) when (ex is ArgumentException)
             {
                 throw ex;
             }
         }
 
         /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/>, <see cref="ArgumentEmptyException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null, empty or consist only of white-space characters.
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null, empty or consist only of white-space characters.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
@@ -806,11 +464,8 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="value"/> cannot be empty.
-        /// </exception>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot consist only of white-space characters.
+        /// <paramref name="value"/> cannot be empty or consist only of white-space characters.
         /// </exception>
         public static void ThrowIfNullOrWhitespace(string value, string paramName, string message)
         {
@@ -820,15 +475,7 @@ namespace Cuemon
                 ThrowIfEmpty(value, paramName, message);
                 ThrowIfWhiteSpace(value, paramName, message);
             }
-            catch (ArgumentNullException ex)
-            {
-                throw ex;
-            }
-            catch (ArgumentEmptyException ex)
-            {
-                throw ex;
-            }
-            catch (ArgumentException ex)
+            catch (Exception ex) when (ex is ArgumentException)
             {
                 throw ex;
             }
@@ -842,11 +489,11 @@ namespace Cuemon
         /// <param name="y">The second object to compare.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are not of the same instance.
+        /// <paramref name="x" /> and <paramref name="y"/> are of the same instance.
         /// </exception>
         public static void ThrowIfSame<T>(T x, T y, string paramName)
         {
-            ThrowIfSame(x, y, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfSame(x, y, paramName, $"Specified arguments {nameof(x)} and {nameof(y)} are of the same instance.");
         }
 
         /// <summary>
@@ -864,7 +511,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(x, Condition.AreSame, y, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.AreSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, y, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -880,11 +527,11 @@ namespace Cuemon
         /// <param name="y">The second object to compare.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are of the same instance.
+        /// <paramref name="x" /> and <paramref name="y"/> are not of the same instance.
         /// </exception>
         public static void ThrowIfNotSame<T>(T x, T y, string paramName)
         {
-            ThrowIfNotSame(x, y, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfNotSame(x, y, paramName, $"Specified arguments {nameof(x)} and {nameof(y)} are not of the same instance.");
         }
 
         /// <summary>
@@ -902,7 +549,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(x, Condition.AreNotSame, y, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.AreNotSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, y, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -938,7 +585,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfEqual<T>(T x, T y, IEqualityComparer<T> comparer, string paramName)
         {
-            ThrowIfEqual(x, y, comparer, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfEqual(x, y, comparer, paramName, $"Specified arguments {nameof(x)} and {nameof(y)} are equal to one another.");
         }
 
         /// <summary>
@@ -974,7 +621,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(x, Condition.AreEqual, y, comparer, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.AreEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, y, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1010,7 +657,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotEqual<T>(T x, T y, IEqualityComparer<T> comparer, string paramName)
         {
-            ThrowIfNotEqual(x, y, comparer, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfNotEqual(x, y, comparer, paramName, $"Specified arguments {nameof(x)} and {nameof(y)} are not equal to one another.");
         }
 
         /// <summary>
@@ -1045,7 +692,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(x, Condition.AreNotEqual, y, comparer, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.AreNotEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, y, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1065,7 +712,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfGreaterThan<T>(T x, T y, string paramName) where T : struct, IConvertible
         {
-            ThrowIfGreaterThan(x, y, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfGreaterThan(x, y, paramName, $"Specified arguments {nameof(x)} is greater than {nameof(y)}.");
         }
 
         /// <summary>
@@ -1083,7 +730,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(x, Condition.IsGreaterThan, y, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsGreaterThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, y, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1104,7 +751,7 @@ namespace Cuemon
         public static void ThrowIfGreaterThanOrEqual<T>(T x, T y, string paramName)
             where T : struct, IConvertible
         {
-            ThrowIfGreaterThanOrEqual(x, y, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfGreaterThanOrEqual(x, y, paramName, $"Specified arguments {nameof(x)} is greater than or equal to {nameof(y)}.");
         }
 
         /// <summary>
@@ -1122,7 +769,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(x, Condition.IsGreaterThanOrEqual, y, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsGreaterThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, y, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1142,7 +789,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfLowerThan<T>(T x, T y, string paramName) where T : struct, IConvertible
         {
-            ThrowIfLowerThan(x, y, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfLowerThan(x, y, paramName, $"Specified arguments {nameof(x)} is lower than {nameof(y)}.");
         }
 
         /// <summary>
@@ -1160,7 +807,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(x, Condition.IsLowerThan, y, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsLowerThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, y, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1180,7 +827,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfLowerThanOrEqual<T>(T x, T y, string paramName) where T : struct, IConvertible
         {
-            ThrowIfLowerThanOrEqual(x, y, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfLowerThanOrEqual(x, y, paramName, $"Specified arguments {nameof(x)} is lower than or equal to {nameof(y)}.");
         }
 
         /// <summary>
@@ -1198,7 +845,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(x, Condition.IsLowerThanOrEqual, y, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsLowerThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, y, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1207,68 +854,68 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is hexadecimal.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is hexadecimal.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be hexadecimal.
         /// </exception>
         public static void ThrowIfHex(string value, string paramName)
         {
-            ThrowIfHex(value, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfHex(value, paramName, "Specified argument cannot be hexadecimal.");
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is hexadecimal.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is hexadecimal.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be hexadecimal.
         /// </exception>
         public static void ThrowIfHex(string value, string paramName, string message)
         {
             try
             {
-                ThrowIf(value, Condition.IsHex, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsHex(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
                 throw ex;
             }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not hexadecimal.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not hexadecimal.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be hexadecimal.
         /// </exception>
         public static void ThrowIfNotHex(string value, string paramName)
         {
-            ThrowIfNotHex(value, paramName, "Specified argument was out of the range of valid values.");
+            ThrowIfNotHex(value, paramName, "Value must be hexadecimal.");
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not hexadecimal.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not hexadecimal.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be hexadecimal.
         /// </exception>
         public static void ThrowIfNotHex(string value, string paramName, string message)
         {
             try
             {
-                ThrowIfNot(value, Condition.IsHex, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsFalse(() => Condition.IsHex(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
                 throw ex;
             }
@@ -1300,7 +947,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(value, Condition.IsEmailAddress, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsEmailAddress(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1334,7 +981,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIfNot(value, Condition.IsEmailAddress, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsFalse(() => Condition.IsEmailAddress(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1387,7 +1034,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(value, Condition.IsGuid, format, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => Condition.IsGuid(value, format)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1440,7 +1087,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIfNot(value, Condition.IsGuid, format, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsFalse(() => Condition.IsGuid(value, format)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1475,7 +1122,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(value, UriUtility.IsUri, uriKind, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => UriUtility.IsUri(value, uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1510,7 +1157,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIfNot(value, UriUtility.IsUri, uriKind, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsFalse(() => UriUtility.IsUri(value, uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1532,7 +1179,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType(Type value, string paramName, params Type[] types)
         {
-            ThrowIfContainsType(value, paramName, "Specified argument was out of the range of valid values.", types);
+            ThrowIfContainsType(value, paramName, $"Specified argument is contained within at least one of {nameof(types)}.", types);
         }
 
         /// <summary>
@@ -1554,9 +1201,9 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIf(value, TypeUtility.ContainsType, types, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types, message)).TryThrow());
             }
-            catch (Exception ex)
+            catch (ArgumentOutOfRangeException ex)
             {
                 throw ex;
             }
@@ -1576,7 +1223,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType(Type value, string paramName, params Type[] types)
         {
-            ThrowIfNotContainsType(value, paramName, "Specified argument was out of the range of valid values.", types);
+            ThrowIfNotContainsType(value, paramName, $"Specified argument is not contained within at least one of {nameof(types)}.", types);
         }
 
         /// <summary>
@@ -1598,9 +1245,9 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIfNot(value, TypeUtility.ContainsType, types, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types, message)).TryThrow());
             }
-            catch (Exception ex)
+            catch (ArgumentOutOfRangeException ex)
             {
                 throw ex;
             }
@@ -1620,7 +1267,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType(object value, string paramName, params Type[] types)
         {
-            ThrowIfContainsType(value, paramName, "Specified argument was out of the range of valid values.", types);
+            ThrowIfContainsType(value, paramName, $"Specified argument is contained within at least one of {nameof(types)}.", types);
         }
 
         /// <summary>
@@ -1642,9 +1289,9 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIf(value, TypeUtility.ContainsType, types, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types, message)).TryThrow());
             }
-            catch (Exception ex)
+            catch (ArgumentOutOfRangeException ex)
             {
                 throw ex;
             }
@@ -1664,7 +1311,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType(object value, string paramName, params Type[] types)
         {
-            ThrowIfNotContainsType(value, paramName, "Specified argument was out of the range of valid values.", types);
+            ThrowIfNotContainsType(value, paramName, $"Specified argument is not contained within at least one of {nameof(types)}.", types);
         }
 
         /// <summary>
@@ -1686,9 +1333,9 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIfNot(value, TypeUtility.ContainsType, types, ExceptionUtility.CreateArgumentOutOfRangeException, paramName, message);
+                ThrowIf(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types, message)).TryThrow());
             }
-            catch (Exception ex)
+            catch (ArgumentOutOfRangeException ex)
             {
                 throw ex;
             }
@@ -1707,7 +1354,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType<T>(string typeParamName, params Type[] types)
         {
-            ThrowIfContainsType<T>(typeParamName, "Specified type argument was out of the range of valid values.", types);
+            ThrowIfContainsType<T>(typeParamName, $"Specified argument is contained within at least one of {nameof(types)}.", types);
         }
 
         /// <summary>
@@ -1727,9 +1374,9 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIf(typeof(T), TypeUtility.ContainsType, types, ExceptionUtility.CreateTypeArgumentOutOfRangeException, typeParamName, message);
+                ThrowIf(c => c.IsTrue(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, types, message)).TryThrow());
             }
-            catch (Exception ex)
+            catch (TypeArgumentOutOfRangeException ex)
             {
                 throw ex;
             }
@@ -1748,7 +1395,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType<T>(string typeParamName, params Type[] types)
         {
-            ThrowIfNotContainsType<T>(typeParamName, "Specified type argument was out of the range of valid values.", types);
+            ThrowIfNotContainsType<T>(typeParamName, $"Specified argument is not contained within at least one of {nameof(types)}.", types);
         }
 
         /// <summary>
@@ -1768,9 +1415,9 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIfNot(typeof(T), TypeUtility.ContainsType, types, ExceptionUtility.CreateTypeArgumentException, typeParamName, message);
+                ThrowIf(c => c.IsFalse(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, types, message)).TryThrow());
             }
-            catch (Exception ex)
+            catch (TypeArgumentOutOfRangeException ex)
             {
                 throw ex;
             }
@@ -1820,9 +1467,9 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(value, EnumUtility.IsStringOf<TEnum>, ignoreCase, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsTrue(() => EnumUtility.IsStringOf<TEnum>(value, ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 throw ex;
             }
@@ -1872,9 +1519,9 @@ namespace Cuemon
         {
             try
             {
-                ThrowIfNot(value, EnumUtility.IsStringOf<TEnum>, ignoreCase, ExceptionUtility.CreateArgumentException, paramName, message);
+                ThrowIf(c => c.IsFalse(() => EnumUtility.IsStringOf<TEnum>(value, ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 throw ex;
             }
@@ -1906,9 +1553,9 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(DelegateUtility.DynamicWrap(typeof(TEnum).GetTypeInfo().IsEnum), ExceptionUtility.CreateTypeArgumentException, typeParamName, message);
+                ThrowIf(c => c.IsTrue(() => typeof(TEnum).GetTypeInfo().IsEnum).Create(() => new TypeArgumentException(typeParamName, message)).TryThrow());
             }
-            catch (Exception ex)
+            catch (TypeArgumentException ex)
             {
                 throw ex;
             }
@@ -1940,9 +1587,9 @@ namespace Cuemon
         {
             try
             {
-                ThrowIfNot(DelegateUtility.DynamicWrap(typeof(TEnum).GetTypeInfo().IsEnum), ExceptionUtility.CreateTypeArgumentException, typeParamName, message);
+                ThrowIf(c => c.IsFalse(() => typeof(TEnum).GetTypeInfo().IsEnum).Create(() => new TypeArgumentException(typeParamName, message)).TryThrow());
             }
-            catch (Exception ex)
+            catch (TypeArgumentException ex)
             {
                 throw ex;
             }
@@ -1958,10 +1605,46 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// There is a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
         /// </exception>
+        public static void ThrowIfDistinctDifference(string definite, string arbitrary, string paramName)
+        {
+            ThrowIfDistinctDifference(definite, arbitrary, paramName, $"Specified arguments has a distinct difference between {nameof(arbitrary)} and {nameof(definite)}.");
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if there is a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
+        /// </summary>
+        /// <param name="definite">The value that specifies valid characters.</param>
+        /// <param name="arbitrary">The value to distinctively compare with <paramref name="definite"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// There is a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
+        /// </exception>
         public static void ThrowIfDistinctDifference(string definite, string arbitrary, string paramName, string message)
         {
-            bool hasDiff = StringUtility.ParseDistinctDifference(definite, arbitrary, out var invalidCharacters);
-            if (hasDiff) { throw new ArgumentOutOfRangeException(paramName, invalidCharacters, message); }
+            try
+            {
+                ThrowIf(c => c.IsTrue((out string invalidCharacters) => StringUtility.ParseDistinctDifference(definite, arbitrary, out invalidCharacters)).Create(invalidCharacters => new ArgumentOutOfRangeException(paramName, invalidCharacters, message)).TryThrow());
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if there is not a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
+        /// </summary>
+        /// <param name="definite">The value that specifies valid characters.</param>
+        /// <param name="arbitrary">The value to distinctively compare with <paramref name="definite"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// There is not a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
+        /// </exception>
+        public static void ThrowIfNotDistinctDifference(string definite, string arbitrary, string paramName)
+        {
+            ThrowIfNotDistinctDifference(definite, arbitrary, paramName, $"Specified arguments does not have a distinct difference between {nameof(arbitrary)} and {nameof(definite)}.");
         }
 
         /// <summary>
@@ -1976,8 +1659,14 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotDistinctDifference(string definite, string arbitrary, string paramName, string message)
         {
-            bool hasDiff = StringUtility.ParseDistinctDifference(definite, arbitrary, out _);
-            if (!hasDiff) { throw new ArgumentOutOfRangeException(paramName, message); }
+            try
+            {
+                ThrowIf(c => c.IsFalse(() => StringUtility.ParseDistinctDifference(definite, arbitrary, out _)).Create(() => new ArgumentOutOfRangeException(paramName, message)).TryThrow());
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw ex;
+            }
         }
     }
 }

@@ -108,7 +108,7 @@ namespace Cuemon.Data
         public DataCommand(string textFormat, CommandType type, TimeSpan timeout, params object[] args)
         {
 			if (textFormat == null) { throw new ArgumentNullException(nameof(textFormat)); }
-			if (textFormat.Length == 0) { throw new ArgumentEmptyException(nameof(textFormat)); }
+			if (textFormat.Length == 0) { throw new ArgumentException("Value cannot be empty.", nameof(textFormat)); }
 			_text = args == null ? textFormat : string.Format(CultureInfo.InvariantCulture, textFormat, args);
             _type = type;
             _timeout = timeout;

@@ -32,8 +32,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <summary>
         /// Called after an action has thrown an <see cref="Exception" />.
         /// </summary>
-        /// <param name="context">The <see cref="ExceptionContext" />.</param>
-        public virtual void OnException(ExceptionContext context)
+        /// <param name="context">The <see cref="Microsoft.AspNetCore.Mvc.Filters.ExceptionContext" />.</param>
+        public virtual void OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext context)
         {
             if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
             {

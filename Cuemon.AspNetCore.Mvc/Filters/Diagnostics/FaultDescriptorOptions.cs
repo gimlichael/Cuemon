@@ -108,10 +108,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
         /// <summary>
         /// Gets or sets the delegate that provides a way to handle and customize an <see cref="HttpExceptionDescriptor"/>.
-        /// In the default implementation, this is invoked just before the <see cref="ExceptionDescriptorResult"/> is assigned to <see cref="ExceptionContext.Result"/>.
+        /// In the default implementation, this is invoked just before the <see cref="ExceptionDescriptorResult"/> is assigned to <see cref="Microsoft.AspNetCore.Mvc.Filters.ExceptionContext.Result"/>.
         /// </summary>
         /// <value>The delegate that provides a way to handle and customize an <see cref="HttpExceptionDescriptor"/>.</value>
-        public Action<ExceptionContext, HttpExceptionDescriptor> ExceptionDescriptorHandler { get; set; }
+        public Action<Microsoft.AspNetCore.Mvc.Filters.ExceptionContext, HttpExceptionDescriptor> ExceptionDescriptorHandler { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate that will resolve a <see cref="HttpExceptionDescriptor"/> from the specified <see cref="Exception"/>.
@@ -126,9 +126,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         public Action<Exception, HttpExceptionDescriptor> ExceptionCallback { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to mark ASP.NET Core MVC <see cref="ExceptionContext.ExceptionHandled"/> to <c>true</c>.
+        /// Gets or sets a value indicating whether to mark ASP.NET Core MVC <see cref="Microsoft.AspNetCore.Mvc.Filters.ExceptionContext.ExceptionHandled"/> to <c>true</c>.
         /// </summary>
-        /// <value><c>true</c> if <see cref="ExceptionContext.ExceptionHandled"/> should be set; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if <see cref="Microsoft.AspNetCore.Mvc.Filters.ExceptionContext.ExceptionHandled"/> should be set; otherwise, <c>false</c>.</value>
         public bool MarkExceptionHandled  { get; set; }
 
         /// <summary>

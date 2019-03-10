@@ -47,7 +47,7 @@ namespace Cuemon
         /// <param name="setup">The delegate that will initialize the public read-write properties of <typeparamref name="T"/>.</param>
         /// <returns>A default constructed instance of <typeparamref name="T"/> initialized with <paramref name="setup"/>.</returns>
         /// <remarks>This method is equivalent to <see cref="Configure{TOptions}"/>; but duplicated for more clear intend of use.</remarks>
-        public static T Initialize<T>(this Action<T> setup) where T : class, new()
+        public static T CreateInstance<T>(this Action<T> setup) where T : class, new()
         {
             return DelegateUtility.ConfigureAction(setup);
         }

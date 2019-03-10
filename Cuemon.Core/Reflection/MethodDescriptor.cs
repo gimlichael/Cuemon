@@ -97,7 +97,7 @@ namespace Cuemon.Reflection
         {
             if (caller == null) { throw new ArgumentNullException(nameof(caller)); }
             if (methodName == null) { throw new ArgumentNullException(nameof(methodName)); }
-            if (methodName.Length == 0) { throw new ArgumentEmptyException(nameof(methodName)); }
+            if (methodName.Length == 0) { throw new ArgumentException("Value cannot be empty", nameof(methodName)); }
 
             Caller = caller;
             MethodName = methodName;
