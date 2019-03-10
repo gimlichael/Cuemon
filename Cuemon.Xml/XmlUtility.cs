@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
@@ -143,10 +144,10 @@ namespace Cuemon.Xml
 		public static string SanitizeElementName(string elementName)
 		{
 			if (elementName == null) { throw new ArgumentNullException(nameof(elementName)); }
-			if (StringUtility.StartsWith(elementName, StringComparison.OrdinalIgnoreCase, EnumerableUtility.Concat(StringConverter.ToEnumerable(StringUtility.NumericCharacters), new[] { "." } )))
+			if (StringUtility.StartsWith(elementName, StringComparison.OrdinalIgnoreCase, StringConverter.ToEnumerable(StringUtility.NumericCharacters).Concat(new[] { "." } )))
 			{
 				int startIndex = 0;
-                IList<char> numericsAndPunctual = new List<char>(EnumerableUtility.Concat(StringUtility.NumericCharacters.ToCharArray(), new[] { '.' }));
+                IList<char> numericsAndPunctual = new List<char>(StringUtility.NumericCharacters.ToCharArray().Concat(new[] { '.' }));
 				foreach (char c in elementName)
 				{
 					if (numericsAndPunctual.Contains(c))
@@ -162,7 +163,7 @@ namespace Cuemon.Xml
 			StringBuilder validElementName = new StringBuilder();
 			foreach (char c in elementName)
 			{
-                IList<char> validCharacters = new List<char>(EnumerableUtility.Concat(StringUtility.AlphanumericCharactersCaseSensitive.ToCharArray(), new[] { '_', ':', '.', '-' }));
+                IList<char> validCharacters = new List<char>(StringUtility.AlphanumericCharactersCaseSensitive.ToCharArray().Concat(new[] { '_', ':', '.', '-' }));
 				if (validCharacters.Contains(c)) { validElementName.Append(c); }
 			}
 			return validElementName.ToString();

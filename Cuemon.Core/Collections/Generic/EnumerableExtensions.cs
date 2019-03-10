@@ -69,7 +69,7 @@ namespace Cuemon.Collections.Generic
         }
 
         /// <summary>
-        /// Returns asscending sorted elements from a sequence by using a specified <see cref="Comparison{T}"/> to compare values.
+        /// Returns ascending sorted elements from a sequence by using a specified <see cref="Comparison{T}"/> to compare values.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
         /// <param name="source">A sequence of values to order.</param>
@@ -119,6 +119,40 @@ namespace Cuemon.Collections.Generic
         public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source, Comparison<TSource> comparer)
         {
             return source.OrderBy(comparer).Reverse();
+        }
+
+        /// <summary>
+        /// Returns a random element of a sequence of elements, or a default value if no element is found.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to return a random element of.</param>
+        /// <returns>default(TSource) if source is empty; otherwise, a random element of <paramref name="source"/>.</returns>
+        public static TSource RandomOrDefault<TSource>(this IEnumerable<TSource> source)
+        {
+            return EnumerableUtility.RandomOrDefault(source);
+        }
+
+        /// <summary>
+        /// Returns a random element of a sequence of elements, or a default value if no element is found.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to return a random element of.</param>
+        /// <param name="randomizer">The function delegate that will select a random element of <paramref name="source"/>.</param>
+        /// <returns>default(TSource) if source is empty; otherwise, a random element of <paramref name="source"/>.</returns>
+        public static TSource RandomOrDefault<TSource>(this IEnumerable<TSource> source, Func<IEnumerable<TSource>, TSource> randomizer)
+        {
+            return EnumerableUtility.RandomOrDefault(source, randomizer);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> sequence with the specified <paramref name="source"/> as the only element.
+        /// </summary>
+        /// <typeparam name="TSource">The type of <paramref name="source"/>.</typeparam>
+        /// <param name="source">The value to yield into an <see cref="IEnumerable{T}"/> sequence.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence with the specified <paramref name="source"/> as the only element.</returns>
+        public static IEnumerable<TSource> Yield<TSource>(this TSource source)
+        {
+            yield return source;
         }
     }
 }

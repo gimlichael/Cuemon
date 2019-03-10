@@ -541,7 +541,7 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(oldValue, nameof(oldValue));
             Validator.ThrowIfNull(newValue, nameof(newValue));
-            return Replace(value, EnumerableUtility.Yield(new StringReplacePair(oldValue, newValue)), comparison);
+            return Replace(value, new StringReplacePair(oldValue, newValue).Yield(), comparison);
         }
 
         /// <summary>

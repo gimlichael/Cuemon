@@ -27,7 +27,7 @@ namespace Cuemon.Net
 		/// </summary>
 		/// <param name="value">The URI to monitor for changes.</param>
 		/// <remarks>The signaling is default delayed 15 seconds before first invoke.</remarks>
-		public NetDependency(Uri value) : this(EnumerableUtility.Yield(value), false)
+		public NetDependency(Uri value) : this(value.Yield(), false)
 		{
 		}
 

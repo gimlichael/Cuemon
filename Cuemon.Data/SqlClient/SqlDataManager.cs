@@ -211,7 +211,7 @@ namespace Cuemon.Data.SqlClient
 
         private static SqlException ParseException(Exception exception)
         {
-            IEnumerable<Exception> exceptions = EnumerableUtility.Concat(EnumerableUtility.Yield(exception), ExceptionUtility.Flatten(exception));
+            IEnumerable<Exception> exceptions = exception.Yield().Concat(ExceptionUtility.Flatten(exception));
             return exceptions.Where(ex => ex is SqlException).Cast<SqlException>().FirstOrDefault();
         }
         #endregion

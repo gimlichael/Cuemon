@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cuemon.Collections.Generic;
 
 namespace Cuemon
@@ -37,7 +38,7 @@ namespace Cuemon
     /// </summary>
     public static class GuidUtility
     {
-        private static readonly List<char> Hexadecimal = new List<char>(EnumerableUtility.Concat(StringUtility.HexadecimalCharacters.ToCharArray(), "abcdef".ToCharArray()));
+        private static readonly List<char> Hexadecimal = new List<char>(StringUtility.HexadecimalCharacters.ToCharArray().Concat("abcdef".ToCharArray()));
 
         /// <summary>
         /// Converts the string representation of a GUID to its equivalent <see cref="Guid"/> structure.

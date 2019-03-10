@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using Cuemon.Collections.Generic;
 
 namespace Cuemon
 {
@@ -17,8 +16,7 @@ namespace Cuemon
 		/// <returns>A variable number of <b>byte arrays</b> combined into one <b>byte array</b>.</returns>
 		public static byte[] CombineByteArrays(params byte[][] bytes)
 		{
-			List<byte> combinedBytes = new List<byte>(EnumerableUtility.Concat<byte>(bytes));
-			return combinedBytes.ToArray();
+            return bytes.SelectMany(x => x).ToArray();
 		}
 
 		/// <summary>
