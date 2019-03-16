@@ -8,8 +8,16 @@ namespace Cuemon
     /// <summary>
     /// Provides a generic way to validate different types of arguments passed to members.
     /// </summary>
-    public static class Validator
+    public sealed class Validator
     {
+        private static readonly Validator CustomValidator = new Validator();
+
+        /// <summary>
+        /// Gets the singleton instance of the Validator functionality allowing for custom extensions methods for this class.
+        /// </summary>
+        /// <value>The singleton instance of the Validator functionality.</value>
+        public static Validator Custom { get; } = CustomValidator;
+
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> (or a derived counterpart) from the specified delegate <paramref name="condition"/>.
         /// </summary>
@@ -314,11 +322,11 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentEmptyException"/> if the specified <paramref name="value"/> is empty.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is empty.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentEmptyException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be empty.
         /// </exception>
         public static void ThrowIfEmpty(string value, string paramName)
@@ -1601,7 +1609,6 @@ namespace Cuemon
         /// <param name="definite">The value that specifies valid characters.</param>
         /// <param name="arbitrary">The value to distinctively compare with <paramref name="definite"/>.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// There is a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
         /// </exception>
@@ -1638,7 +1645,6 @@ namespace Cuemon
         /// <param name="definite">The value that specifies valid characters.</param>
         /// <param name="arbitrary">The value to distinctively compare with <paramref name="definite"/>.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// There is not a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
         /// </exception>
