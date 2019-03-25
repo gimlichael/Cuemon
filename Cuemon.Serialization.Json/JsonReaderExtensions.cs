@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace Cuemon.Serialization.Json
 {
     /// <summary>
-    /// Extension methods for the <see cref="JsonReader"/>.
+    /// Extension methods for the <see cref="JsonReader"/> class.
     /// </summary>
     public static class JsonReaderExtensions
     {

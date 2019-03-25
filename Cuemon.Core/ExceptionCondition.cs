@@ -158,7 +158,7 @@ namespace Cuemon
         private bool Expected { get; }
 
         /// <summary>
-        /// Determines wether an <see cref="Exception"/> of type <typeparamref name="TException"/> should be thrown.
+        /// Determines whether an <see cref="Exception"/> of type <typeparamref name="TException"/> should be thrown.
         /// </summary>
         public void TryThrow()
         {

@@ -6,7 +6,7 @@ namespace Cuemon.Serialization.Json
     /// <summary>
     /// Specifies a result set of a JSON reader operation.
     /// </summary>
-    public class JsonReaderResult
+    public class JDataResult
     {
         /// <summary>
         /// Gets the path of the JSON token.
@@ -18,7 +18,7 @@ namespace Cuemon.Serialization.Json
         /// Gets the children of the JSON token.
         /// </summary>
         /// <value>The children of the JSON token.</value>
-        public IList<JsonReaderResult> Children { get; internal set; } = new List<JsonReaderResult>();
+        public IList<JDataResult> Children { get; internal set; } = new List<JDataResult>();
 
         /// <summary>
         /// Gets the name of the JSON token property.
@@ -42,7 +42,7 @@ namespace Cuemon.Serialization.Json
         /// Gets the parent of the JSON token.
         /// </summary>
         /// <value>The parent of the JSON token.</value>
-        public JsonReaderResult Parent { get; internal set; }
+        public JDataResult Parent { get; internal set; }
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.

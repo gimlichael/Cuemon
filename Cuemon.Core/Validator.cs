@@ -13,10 +13,10 @@ namespace Cuemon
         private static readonly Validator CustomValidator = new Validator();
 
         /// <summary>
-        /// Gets the singleton instance of the Validator functionality allowing for custom extensions methods for this class.
+        /// Gets the singleton instance of the Validator functionality allowing for extensions methods like: <c>Validator.Throw.IfNotValidJsonDocument()</c>.
         /// </summary>
         /// <value>The singleton instance of the Validator functionality.</value>
-        public static Validator Custom { get; } = CustomValidator;
+        public static Validator Throw { get; } = CustomValidator;
 
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> (or a derived counterpart) from the specified delegate <paramref name="condition"/>.
@@ -25,7 +25,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null.
         /// </exception>
-        public static void ThrowIf(Action<ExceptionCondition<ArgumentException>> condition)
+        public static void ThrowWhen(Action<ExceptionCondition<ArgumentException>> condition)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             condition.CreateInstance();
@@ -117,7 +117,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsNumeric(value, styles, provider)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsNumeric(value, styles, provider)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -211,7 +211,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsFalse(() => Condition.IsNumeric(value, styles, provider)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Condition.IsNumeric(value, styles, provider)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -245,7 +245,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsNull(value)).Create(() => new ArgumentNullException(paramName, message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsNull(value)).Create(() => new ArgumentNullException(paramName, message)).TryThrow());
             }
             catch (ArgumentNullException ex)
             {
@@ -279,7 +279,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsTrue(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsTrue(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -313,7 +313,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsFalse(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsFalse(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -347,7 +347,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsEmpty(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsEmpty(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -381,7 +381,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsWhiteSpace(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsWhiteSpace(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -519,7 +519,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.AreSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} <==> {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.AreSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} <==> {y}", message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -557,7 +557,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.AreNotSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} <!=> {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.AreNotSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} <!=> {y}", message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -629,7 +629,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.AreEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} == {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.AreEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} == {y}", message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -700,7 +700,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.AreNotEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} != {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.AreNotEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} != {y}", message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -738,7 +738,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsGreaterThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} > {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsGreaterThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} > {y}", message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -777,7 +777,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsGreaterThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} >= {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsGreaterThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} >= {y}", message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -815,7 +815,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsLowerThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} < {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsLowerThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} < {y}", message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -853,7 +853,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsLowerThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} <= {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsLowerThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} <= {y}", message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -887,7 +887,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsHex(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsHex(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -921,7 +921,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsFalse(() => Condition.IsHex(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Condition.IsHex(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -955,7 +955,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsEmailAddress(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsEmailAddress(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -989,7 +989,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsFalse(() => Condition.IsEmailAddress(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Condition.IsEmailAddress(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1042,7 +1042,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => Condition.IsGuid(value, format)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsGuid(value, format)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1095,7 +1095,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsFalse(() => Condition.IsGuid(value, format)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Condition.IsGuid(value, format)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1130,7 +1130,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => UriUtility.IsUri(value, uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => UriUtility.IsUri(value, uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1165,7 +1165,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsFalse(() => UriUtility.IsUri(value, uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => UriUtility.IsUri(value, uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1209,7 +1209,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIf(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1253,7 +1253,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIf(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1297,7 +1297,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIf(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1341,7 +1341,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIf(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1382,7 +1382,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIf(c => c.IsTrue(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, types.ToDelimitedString(), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
@@ -1423,7 +1423,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowIf(c => c.IsFalse(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, types.ToDelimitedString(), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
@@ -1475,7 +1475,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => EnumUtility.IsStringOf<TEnum>(value, ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => EnumUtility.IsStringOf<TEnum>(value, ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1527,7 +1527,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsFalse(() => EnumUtility.IsStringOf<TEnum>(value, ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => EnumUtility.IsStringOf<TEnum>(value, ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1561,7 +1561,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue(() => typeof(TEnum).GetTypeInfo().IsEnum).Create(() => new TypeArgumentException(typeParamName, message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => typeof(TEnum).GetTypeInfo().IsEnum).Create(() => new TypeArgumentException(typeParamName, message)).TryThrow());
             }
             catch (TypeArgumentException ex)
             {
@@ -1595,7 +1595,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsFalse(() => typeof(TEnum).GetTypeInfo().IsEnum).Create(() => new TypeArgumentException(typeParamName, message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => typeof(TEnum).GetTypeInfo().IsEnum).Create(() => new TypeArgumentException(typeParamName, message)).TryThrow());
             }
             catch (TypeArgumentException ex)
             {
@@ -1631,7 +1631,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsTrue((out string invalidCharacters) => StringUtility.ParseDistinctDifference(definite, arbitrary, out invalidCharacters)).Create(invalidCharacters => new ArgumentOutOfRangeException(paramName, invalidCharacters, message)).TryThrow());
+                ThrowWhen(c => c.IsTrue((out string invalidCharacters) => StringUtility.ParseDistinctDifference(definite, arbitrary, out invalidCharacters)).Create(invalidCharacters => new ArgumentOutOfRangeException(paramName, invalidCharacters, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1667,7 +1667,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowIf(c => c.IsFalse(() => StringUtility.ParseDistinctDifference(definite, arbitrary, out _)).Create(() => new ArgumentOutOfRangeException(paramName, message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => StringUtility.ParseDistinctDifference(definite, arbitrary, out _)).Create(() => new ArgumentOutOfRangeException(paramName, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
