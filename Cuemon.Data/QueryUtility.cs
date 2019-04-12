@@ -53,7 +53,7 @@ namespace Cuemon.Data
         /// <returns>A query fragment in the desired format.</returns>
         public static string GetQueryFragment(QueryFormat format, int[] values, bool distinct)
         {
-            return GetQueryFragment(format, StringConverter.ToDelimitedString(values).Split(','), distinct);
+            return GetQueryFragment(format, values.ToDelimitedString().Split(','), distinct);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Cuemon.Data
         /// <returns>A query fragment in the desired format.</returns>
         public static string GetQueryFragment(QueryFormat format, long[] values, bool distinct)
         {
-            return GetQueryFragment(format, StringConverter.ToDelimitedString(values).Split(','), distinct);
+            return GetQueryFragment(format, values.ToDelimitedString().Split(','), distinct);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Cuemon.Data
         /// <returns>A query fragment in the desired format.</returns>
         public static string GetQueryFragment(QueryFormat format, object[] values, bool distinct)
         {
-            return GetQueryFragment(format, StringConverter.ToDelimitedString(values).Split(','), distinct);
+            return GetQueryFragment(format, values.ToDelimitedString().Split(','), distinct);
         }
 
         /// <summary>
@@ -197,11 +197,11 @@ namespace Cuemon.Data
             switch (format)
             {
                 case QueryFormat.Delimited:
-                    return StringConverter.ToDelimitedString(values);
+                    return values.ToDelimitedString();
                 case QueryFormat.DelimitedString:
-                    return StringConverter.ToDelimitedString(values, ",", "'{0}'");
+                    return values.ToDelimitedString(",", s => $"'{s}'");
                 case QueryFormat.DelimitedSquareBracket:
-                    return StringConverter.ToDelimitedString(values, ",", "[{0}]");
+                    return values.ToDelimitedString(",", s => $"[{s}]");
                 default:
                     throw new ArgumentOutOfRangeException(nameof(format), string.Format(CultureInfo.InvariantCulture, "The specified query format value, {0}, is unsupported.", format));
             }

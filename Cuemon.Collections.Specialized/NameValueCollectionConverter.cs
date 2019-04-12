@@ -19,7 +19,7 @@ namespace Cuemon.Collections.Specialized
             NameValueCollection result = new NameValueCollection();
             foreach (var item in source)
             {
-                result.Add(item.Key, StringConverter.ToDelimitedString(item.Value));
+                result.Add(item.Key, item.Value.ToDelimitedString());
             }
             return result;
         }

@@ -19,7 +19,6 @@ namespace Cuemon.Reflection
         /// <returns>A collection of key/value pairs representing the specified <paramref name="methodName"/>.</returns>
         /// <remarks>This method will parse the specified <paramref name="methodName"/> for parameter names and tie them with <paramref name="methodParameters"/>.</remarks>
         /// <exception cref="ArgumentNullException">This exception is thrown if <paramref name="methodName"/> is null, if <paramref name="source"/> is null or if <paramref name="methodParameters"/> is null and method has resolved parameters.</exception>
-        /// <exception cref="ArgumentEmptyException">This exception is thrown if <paramref name="methodName"/> is empty.</exception>
         /// <exception cref="ArgumentException">
         /// This exception is thrown if either of the following is true:<br/>
         /// the size of <paramref name="methodParameters"/> does not match the resolved parameters size of <paramref name="methodName"/>,<br/>
@@ -41,7 +40,6 @@ namespace Cuemon.Reflection
         /// <returns>A collection of key/value pairs representing the specified <paramref name="methodName"/>.</returns>
         /// <remarks>This method will parse the specified <paramref name="methodName"/> for parameter names and tie them with <paramref name="methodParameters"/>.</remarks>
         /// <exception cref="ArgumentNullException">This exception is thrown if <paramref name="methodName"/> is null, if <paramref name="source"/> is null or if <paramref name="methodParameters"/> is null and method has resolved parameters.</exception>
-        /// <exception cref="ArgumentEmptyException">This exception is thrown if <paramref name="methodName"/> is empty.</exception>
         /// <exception cref="ArgumentException">
         /// This exception is thrown if either of the following is true:<br/>
         /// the size of <paramref name="methodParameters"/> does not match the resolved parameters size of <paramref name="methodName"/>,<br/>

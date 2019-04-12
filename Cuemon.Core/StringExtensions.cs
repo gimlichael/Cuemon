@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using System.Text;
 using Cuemon.Reflection;
 
 namespace Cuemon
@@ -10,6 +12,30 @@ namespace Cuemon
     /// </summary>
     public static class StringExtensions
     {
+        /// <summary>
+        /// Converts the specified <paramref name="source"/> to a string of <paramref name="delimiter"/> delimited values.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the sequence to convert.</typeparam>
+        /// <param name="source">A sequence of elements to be converted.</param>
+        /// <param name="delimiter">The delimiter specification.</param>
+        /// <param name="converter">The function delegate that converts <typeparamref name="T"/> to a string representation once per iteration.</param>
+        /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
+        public static string ToDelimitedString<T>(this IEnumerable<T> source, string delimiter = ",", Func<T, string> converter = null)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNullOrWhitespace(delimiter, nameof(delimiter));
+            if (converter == null) { converter = v => v.ToString(); }
+            var delimitedValues = new StringBuilder();
+            using (var enumerator = source.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    delimitedValues.Append($"{converter(enumerator.Current)}{delimiter}");
+                }
+            }
+            return delimitedValues.Length > 0 ? delimitedValues.ToString(0, delimitedValues.Length - delimiter.Length) : delimitedValues.ToString();
+        }
+
         /// <summary>
         /// Retrieves a substring from the specified <paramref name="value"/>. The substring starts at position 0 and continues until the first occurrence of <paramref name="match"/>.
         /// </summary>
