@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using Cuemon.IO;
 using Cuemon.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,16 +14,16 @@ namespace Cuemon.Serialization.Json
     /// </summary>
     public class JData
     {
-        public static IEnumerable<JDataResult> ReadAll(Stream json, bool leaveStreamOpen = false, Action<EncodingOptions> setup = null)
+        public static IEnumerable<JDataResult> ReadAll(Stream json, Action<StreamReaderOptions> setup = null)
         {
             Validator.ThrowIfNull(json, nameof(json));
             var options = setup.Configure();
-            using (var sr = new StreamReader(json, options.Encoding, false, 1024, leaveStreamOpen))
+            using (var sr = new StreamReader(json, options.Encoding, false, options.BufferSize, options.LeaveOpen))
             {
                 
                 using (var jr = new JsonTextReader(sr))
                 {
-                    jr.CloseInput = !leaveStreamOpen;
+                    jr.CloseInput = !options.LeaveOpen;
                     return ReadAll(jr);
                 }
             }

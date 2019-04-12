@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Xml;
-using Cuemon.Text;
+using Cuemon.IO;
 
 namespace Cuemon.Xml
 {
@@ -29,9 +28,8 @@ namespace Cuemon.Xml
         /// <returns>An <see cref="Encoding"/> object equivalent to the encoding used in the <paramref name="value"/>, or <paramref name="defaultEncoding"/> if unable to resolve the encoding.</returns>
         public static Encoding ReadEncoding(Stream value, Encoding defaultEncoding)
         {
-            if (value == null) throw new ArgumentNullException(nameof(value));
-            Encoding encoding;
-            if (!EncodingUtility.TryParse(value, out encoding))
+            Validator.ThrowIfNull(value, nameof(value));
+            if (!value.TryDetectUnicodeEncoding(out var encoding))
             {
                 long startingPosition = -1;
                 if (value.CanSeek)

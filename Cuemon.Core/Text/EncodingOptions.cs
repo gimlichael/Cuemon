@@ -1,24 +1,23 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 
 namespace Cuemon.Text
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="Encoding"/> operations.
+    /// Configuration options for <see cref="System.Text.Encoding"/>.
     /// </summary>
-    public class EncodingOptions
+    public class EncodingOptions : IEncodingOptions
     {
         /// <summary>
         /// Gets or sets the default preamble action of <see cref="EncodingOptions"/>. Default is <see cref="PreambleSequence.Remove"/>.
         /// </summary>
-        /// <value>The default preamble action to use in <see cref="Encoding"/> related operations.</value>
+        /// <value>The default preamble action to use in <see cref="System.Text.Encoding"/> related operations.</value>
         /// <remarks>Changing this value should be thought through carefully as it can change the behavior you have come to expect. Consider using local adjustment instead.</remarks>
         public static PreambleSequence DefaultPreambleSequence { get; set; } = PreambleSequence.Remove;
 
         /// <summary>
         /// Gets or sets the default encoding of <see cref="EncodingOptions"/>. Default is <see cref="System.Text.Encoding.UTF8"/>.
         /// </summary>
-        /// <value>The default encoding to use in <see cref="Encoding"/> related operations.</value>
+        /// <value>The default encoding to use in <see cref="System.Text.Encoding"/> related operations.</value>
         /// <remarks>Changing this value should be thought through carefully as it can change the behavior you have come to expect. Consider using local adjustment instead.</remarks>
         public static Encoding DefaultEncoding { get; set; } = Encoding.UTF8;
 
@@ -59,35 +58,5 @@ namespace Cuemon.Text
         /// </summary>
         /// <value>The encoding for the operation.</value>
         public Encoding Encoding { get; set; }
-
-        /// <summary>
-        /// Tries to detect an <see cref="System.Text.Encoding"/> object from the specified <paramref name="value"/>. If unsuccessful, the encoding of this instance is returned.
-        /// </summary>
-        /// <param name="value">The <see cref="Stream"/> to parse for an <see cref="System.Text.Encoding"/>.</param>
-        /// <returns>Either the detected encoding of <paramref name="value"/>  or the encoding of this instance.</returns>
-        public Encoding DetectEncoding(Stream value)
-        {
-            Encoding result;
-            if (EncodingUtility.TryParse(value, out result))
-            {
-                return result;
-            }
-            return Encoding;
-        }
-
-        /// <summary>
-        /// Tries to detect an <see cref="System.Text.Encoding"/> object from the specified <paramref name="value"/>. If unsuccessful, the encoding of this instance is returned.
-        /// </summary>
-        /// <param name="value">The <see cref="byte"/> array to parse for an <see cref="System.Text.Encoding"/>.</param>
-        /// <returns>Either the detected encoding of <paramref name="value"/> or the encoding of this instance.</returns>
-        public Encoding DetectEncoding(byte[] value)
-        {
-            Encoding result;
-            if (EncodingUtility.TryParse(value, out result))
-            {
-                return result;
-            }
-            return Encoding;
-        }
     }
 }

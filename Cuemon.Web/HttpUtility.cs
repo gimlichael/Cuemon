@@ -168,7 +168,7 @@ namespace Cuemon.Web
             int realLen = e.GetBytes(str, 0, str.Length, bytes, 0);
 
             var encodedBytes = UrlEncodeToBytes(bytes, 0, realLen);
-            return EncodingUtility.AsciiEncoding.GetString(encodedBytes, 0, encodedBytes.Length);
+            return Encoding.ASCII.GetString(encodedBytes, 0, encodedBytes.Length);
         }
 
         /// <summary>

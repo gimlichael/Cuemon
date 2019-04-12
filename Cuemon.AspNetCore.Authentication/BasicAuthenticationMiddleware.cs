@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
 using Cuemon.Text;
@@ -73,7 +74,7 @@ namespace Cuemon.AspNetCore.Authentication
                 {
                     string[] credentials = StringConverter.FromBytes(Convert.FromBase64String(base64Credentials), options =>
                     {
-                        options.Encoding = EncodingUtility.AsciiEncoding;
+                        options.Encoding = Encoding.ASCII;
                         options.Preamble = PreambleSequence.Remove;
                     }).Split(AuthenticationUtility.BasicAuthenticationCredentialSeparator);
                     if (credentials.Length == 2 &&
