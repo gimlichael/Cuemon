@@ -8,28 +8,6 @@ namespace Cuemon
     public static class DelegateUtility
     {
         /// <summary>
-        /// Provides an easy and reflection less way to get a value from a property or field that is delegate compatible (such as <see cref="Func{TResult}"/> and the likes thereof).
-        /// </summary>
-        /// <typeparam name="TResult">The type of the return value of <paramref name="output"/>.</typeparam>
-        /// <param name="output">The value of the member to be routed as output through this Wrap{TResult} method.</param>
-        /// <returns>The value from <paramref name="output"/>.</returns>
-        public static TResult Wrap<TResult>(TResult output)
-        {
-            return output;
-        }
-
-        /// <summary>
-        /// Provides a way to dynamically wrap a return value (typically from a property or field) inside an anonymous method.
-        /// </summary>
-        /// <typeparam name="TResult">The type of the return value of <paramref name="output" />.</typeparam>
-        /// <param name="output">The value to dynamically wrap as a return value (typically from a property of field) inside an anonymous method.</param>
-        /// <returns>An anonymous method that returns the value of <paramref name="output" />.</returns>
-        public static Func<TResult> DynamicWrap<TResult>(TResult output)
-        {
-            return () => output;
-        }
-
-        /// <summary>
         /// If the specified <paramref name="body"/> meets the condition of not being null, it will be invoked.
         /// </summary>
         /// <param name="body">The delegate to invoke when assigned a method.</param>
