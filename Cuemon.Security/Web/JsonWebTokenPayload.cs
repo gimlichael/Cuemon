@@ -92,19 +92,19 @@ namespace Cuemon.Security.Web
         public override string ToString()
         {
             List<string> payload = new List<string>();
-            if (!string.IsNullOrEmpty(Issuer)) { payload.Add("\"iss\": {0}".FormatWith(JsonConverter.ToString(Issuer))); }
-            if (!string.IsNullOrEmpty(Subject)) { payload.Add("\"sub\": {0}".FormatWith(JsonConverter.ToString(Subject))); }
-            if (!string.IsNullOrEmpty(Audience)) { payload.Add("\"aud\": {0}".FormatWith(JsonConverter.ToString(Audience))); }
-            if (!string.IsNullOrEmpty(JwtId)) { payload.Add("\"jti\": {0}".FormatWith(JsonConverter.ToString(JwtId))); }
-            if (ExpirationTime.HasValue) { payload.Add("\"exp\": {0}".FormatWith(JsonConverter.ToString(ExpirationTime.Value.ToEpochTime()))); }
-            if (NotBefore.HasValue) { payload.Add("\"nbf\": {0}".FormatWith(JsonConverter.ToString(NotBefore.Value.ToEpochTime()))); }
-            if (IssuedAt.HasValue) { payload.Add("\"iat\": {0}".FormatWith(JsonConverter.ToString(IssuedAt.Value.ToEpochTime()))); }
+            if (!string.IsNullOrEmpty(Issuer)) { payload.Add($"\"iss\": {JsonConverter.ToString(Issuer)}"); }
+            if (!string.IsNullOrEmpty(Subject)) { payload.Add($"\"sub\": {JsonConverter.ToString(Subject)}"); }
+            if (!string.IsNullOrEmpty(Audience)) { payload.Add($"\"aud\": {JsonConverter.ToString(Audience)}"); }
+            if (!string.IsNullOrEmpty(JwtId)) { payload.Add($"\"jti\": {JsonConverter.ToString(JwtId)}"); }
+            if (ExpirationTime.HasValue) { payload.Add($"\"exp\": {JsonConverter.ToString(ExpirationTime.Value.ToEpochTime())}"); }
+            if (NotBefore.HasValue) { payload.Add($"\"nbf\": {JsonConverter.ToString(NotBefore.Value.ToEpochTime())}"); }
+            if (IssuedAt.HasValue) { payload.Add($"\"iat\": {JsonConverter.ToString(IssuedAt.Value.ToEpochTime())}"); }
             foreach (var claim in Claims)
             {
                 if (ReservedClaims.Contains(claim.Name, StringComparer.OrdinalIgnoreCase)) { continue; }
-                payload.Add("\"{0}\": {1}".FormatWith(claim.Name, JsonConverter.ToString(claim.Value, claim.Type)));
+                payload.Add($"\"{claim.Name}\": {JsonConverter.ToString(claim.Value, claim.Type)}");
             }
-            return "{{ {0} }}".FormatWith(payload.ToDelimitedString(", "));
+            return $"{{ {payload.ToDelimitedString(", ")} }}";
         }
     }
 }

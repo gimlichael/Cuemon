@@ -50,7 +50,7 @@ namespace Cuemon.Serialization.Json
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return "{0} ({1}), Children: {2}".FormatWith(Path, Type.Name.ToLowerInvariant(), Children.Count);
+            return $"{Path} ({Type.Name.ToLowerInvariant()}), Children: {Children.Count}";
         }
     }
 }

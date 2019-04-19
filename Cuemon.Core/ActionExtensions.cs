@@ -3,9 +3,9 @@
 namespace Cuemon
 {
     /// <summary>
-    /// This is an extension implementation of the most common methods on the <see cref="DelegateUtility"/> class.
+    /// Extension methods for the <see cref="Action"/> delegates.
     /// </summary>
-    public static class DelegateUtilityExtensions
+    public static class ActionExtensions
     {
         /// <summary>
         /// Provides a generic way to support the options pattern which enables using custom options classes to represent a group of related settings.

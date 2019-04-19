@@ -8,7 +8,7 @@ namespace Cuemon
     /// <summary>
     /// This is an extension implementation of the most common methods on the <see cref="ExceptionUtility"/> class.
     /// </summary>
-    public static class ExceptionUtilityExtensions
+    public static class ExceptionExtensions
     {
         /// <summary>
         /// Unwraps the specified <paramref name="wrappedException"/>.

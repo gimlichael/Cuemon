@@ -46,7 +46,7 @@ namespace Cuemon.AspNetCore.Authentication
             if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
                 context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
-                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, "{0}".FormatWith(Options.AuthenticationScheme));
+                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, Options.AuthenticationScheme);
                 await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ContinueWithSuppressedContext();
                 return;
             }
@@ -55,7 +55,7 @@ namespace Cuemon.AspNetCore.Authentication
 
         private bool TryAuthenticate(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException("The {0} cannot be null.".FormatWith(nameof(Options.Authenticator))); }
+            if (Options.Authenticator == null) { throw new InvalidOperationException($"The {nameof(Options.Authenticator)} cannot be null."); }
             var requestBodyMd5 = context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()?.ComputeHash(o =>
             {
                 o.AlgorithmType = HashAlgorithmType.MD5;

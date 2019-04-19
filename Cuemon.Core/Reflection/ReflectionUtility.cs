@@ -78,7 +78,7 @@ namespace Cuemon.Reflection
             if (property?.GetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null ||
                 property?.SetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
             {
-                return property.DeclaringType.GetFields(BindingInstancePublicAndPrivateNoneInheritedIncludeStatic).Any(f => f.Name.Contains("<{0}>".FormatWith(property.Name)));
+                return property.DeclaringType.GetFields(BindingInstancePublicAndPrivateNoneInheritedIncludeStatic).Any(f => f.Name.Contains($"<{property.Name}>"));
             }
             return false;
         }

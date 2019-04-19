@@ -20,7 +20,7 @@ namespace Cuemon
         /// <param name="wrappedException">The exception that is wrapped to preserve details about an exception.</param>
         /// <param name="throwingMethod">The method that was the cause of the <paramref name="wrappedException"/>.</param>
         /// <param name="throwingMethodParameters">The runtime parameters of the <paramref name="wrappedException"/>.</param>
-        internal MethodWrappedException(Exception wrappedException, MethodDescriptor throwingMethod, IDictionary<string, object> throwingMethodParameters) : base("Exception of {0} was wrapped and thrown by {1}.".FormatWith(wrappedException.GetBaseException().GetType().FullName, throwingMethod), wrappedException)
+        internal MethodWrappedException(Exception wrappedException, MethodDescriptor throwingMethod, IDictionary<string, object> throwingMethodParameters) : base($"Exception of {wrappedException.GetBaseException().GetType().FullName} was wrapped and thrown by {throwingMethod}.", wrappedException)
         {
             ThrowingMethod = throwingMethod;
             Source = throwingMethod.ToString();
@@ -47,8 +47,8 @@ namespace Cuemon
         public override string ToString()
         {
             var builder = new StringBuilder();
-            builder.AppendLine("Throwing Method: {0}".FormatWith(Source));
-            builder.AppendLine("Runtime Parameters: {0}".FormatWith(Data.Cast<DictionaryEntry>().Select(de => new KeyValuePair<string, object>(de.Key.ToString(), de.Value)).ToDelimitedString(", ", pair => "{0}={1}".FormatWith(pair.Key, pair.Value))));
+            builder.AppendLine($"Throwing Method: {Source}");
+            builder.AppendLine($"Runtime Parameters: {Data.Cast<DictionaryEntry>().Select(de => new KeyValuePair<string, object>(de.Key.ToString(), de.Value)).ToDelimitedString(", ", pair => $"{pair.Key}={pair.Value}")}");
             return builder.ToString();
         }
     }

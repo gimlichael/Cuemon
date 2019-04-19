@@ -63,7 +63,7 @@ namespace Cuemon.Serialization.Formatters
 
         private static T UseGenericConverter<T>(this IHierarchy<DataPair> hierarchy)
         {
-            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString("{0}".FormatWith(hierarchy.Instance.Value));
+            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(hierarchy.Instance.Value.ToString());
         }
 
         /// <summary>

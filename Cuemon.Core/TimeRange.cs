@@ -111,12 +111,8 @@ namespace Cuemon
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public string ToString(string format, IFormatProvider provider)
         {
-            return "A duration of {0:D2}.{1:D2}:{2:D2}:{3:D2} between {4} and {5}.".FormatWith(provider,
-                Duration.Days,
-                Duration.Hours,
-                Duration.Minutes,
-                Duration.Seconds,
-                Start.ToString(format, provider), End.ToString(format, provider));
+            FormattableString fs = $"A duration of {Duration.Days:D2}.{Duration.Hours:D2}:{Duration.Minutes:D2}:{Duration.Seconds:D2} between {Start.ToString(format, provider)} and {End.ToString(format, provider)}.";
+            return fs.ToString(provider);
         }
     }
 }

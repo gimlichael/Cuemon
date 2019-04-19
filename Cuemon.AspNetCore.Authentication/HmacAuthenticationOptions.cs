@@ -21,13 +21,7 @@ namespace Cuemon.AspNetCore.Authentication
         {
             AuthenticationScheme = "HMAC";
             Algorithm = HmacAlgorithmType.SHA1;
-            MessageDescriptor = context => "{0}:{1}:{2}:{3}:{4}:{5}".FormatWith(
-                context.Request.Method,
-                context.Request.GetDisplayUrl(),
-                context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault(),
-                context.Request.Headers[HeaderNames.ContentType].FirstOrDefault(),
-                context.Request.Headers[HeaderNames.Date].FirstOrDefault(),
-                context.Request.Headers[HeaderNames.UserAgent].FirstOrDefault());
+            MessageDescriptor = context => $"{context.Request.Method}:{context.Request.GetDisplayUrl()}:{context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()}:{context.Request.Headers[HeaderNames.ContentType].FirstOrDefault()}:{context.Request.Headers[HeaderNames.Date].FirstOrDefault()}:{context.Request.Headers[HeaderNames.UserAgent].FirstOrDefault()}";
             HmacSigner = parameters => HmacUtility.ComputeKeyedHash(parameters.Message, parameters.PrivateKey, o =>
             {
                 o.AlgorithmType = parameters.Algorithm;

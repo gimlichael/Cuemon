@@ -38,16 +38,16 @@ namespace Cuemon.Security.Web
         public string Type { get; }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         /// <remarks>Calling this method provides the raw header information of the JSON Web Token.</remarks>
         public override string ToString()
         {
             List<string> header = new List<string>();
-            header.Add("\"alg\": {0}".FormatWith(JsonConverter.ToString(JsonWebTokenHashAlgorithmConverter.ToString(Algorithm))));
-            header.Add("\"typ\": {0}".FormatWith(JsonConverter.ToString(Type)));
-            return "{{ {0} }}".FormatWith(header.ToDelimitedString(", "));
+            header.Add($"\"alg\": {JsonConverter.ToString(JsonWebTokenHashAlgorithmConverter.ToString(Algorithm))}");
+            header.Add($"\"typ\": {JsonConverter.ToString(Type)}");
+            return $"{{ {header.ToDelimitedString(", ")} }}";
         }
     }
 }

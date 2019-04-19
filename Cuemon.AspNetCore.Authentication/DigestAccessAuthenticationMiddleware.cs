@@ -72,14 +72,7 @@ namespace Cuemon.AspNetCore.Authentication
                 Func<byte[]> nonceSecret = Options.NonceSecret;
                 Func<DateTime, string, byte[], string> nonceGenerator = Options.NonceGenerator;
                 string staleNonce = context.Items["staleNonce"] as string ?? "FALSE";
-                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, "{0} realm=\"{1}\", qop=\"{2}\", nonce=\"{3}\", opaque=\"{4}\", stale=\"{5}\", algorithm=\"{6}\"".FormatWith(
-                    AuthenticationScheme,
-                    Options.Realm,
-                    DigestAuthenticationUtility.CredentialQualityOfProtectionOptions,
-                    nonceGenerator(DateTime.UtcNow, etag, nonceSecret()),
-                    opaqueGenerator(),
-                    staleNonce,
-                    DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)));
+                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, $"{AuthenticationScheme} realm=\"{Options.Realm}\", qop=\"{DigestAuthenticationUtility.CredentialQualityOfProtectionOptions}\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)}\"");
                 await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ContinueWithSuppressedContext();
                 return;
             }
@@ -94,7 +87,7 @@ namespace Cuemon.AspNetCore.Authentication
 
         private bool TryAuthenticate(HttpContext context, Dictionary<string, string> credentials, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException("The {0} delegate cannot be null.".FormatWith(Options.Authenticator)); }
+            if (Options.Authenticator == null) { throw new InvalidOperationException($"The {nameof(Options.Authenticator)} delegate cannot be null."); }
             string password, userName, clientResponse, nonce, nonceCount;
             credentials.TryGetValue(DigestAuthenticationUtility.CredentialUserName, out userName);
             credentials.TryGetValue(DigestAuthenticationUtility.CredentialResponse, out clientResponse);

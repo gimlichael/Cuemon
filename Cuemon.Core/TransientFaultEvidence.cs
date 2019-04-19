@@ -60,13 +60,7 @@ namespace Cuemon
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return "{0} was invoked {1} time(s) over a period of {2}. Last recovery wait time was {3}, giving a total recovery wait time of {4}. Latency was {5}.".FormatWith(
-                Member,
-                Attempts,
-                Latency.Add(TotalRecoveryWaitTime),
-                RecoveryWaitTime,
-                TotalRecoveryWaitTime,
-                Latency);
+            return $"{Member} was invoked {Attempts} time(s) over a period of {Latency.Add(TotalRecoveryWaitTime)}. Last recovery wait time was {RecoveryWaitTime}, giving a total recovery wait time of {TotalRecoveryWaitTime}. Latency was {Latency}.";
         }
     }
 }

@@ -58,5 +58,75 @@ namespace Cuemon.IO
 
             return byteOrderMarks.TryDetectUnicodeEncoding(out result);
         }
+
+        /// <summary>
+        /// Converts the given <see cref="Stream"/> to a char array starting from position 0 (when supported).
+        /// </summary>
+        /// <param name="value">The <see cref="Stream"/> value to be converted.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A sequence of characters equivalent to the <see cref="Stream"/> value.</returns>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        public static char[] ToCharArray(this Stream value, Action<EncodingOptions> setup = null)
+        {
+            return CharConverter.FromStream(value, setup);
+        }
+
+        /// <summary>
+        /// Converts the given <see cref="String"/> to an equivalent sequence of characters.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> value to be converted.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A sequence of characters equivalent to the <see cref="String"/> value.</returns>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        public static char[] ToCharArray(this string value, Action<EncodingOptions> setup = null)
+        {
+            return CharConverter.FromString(value, setup);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to a string using the provided preferred encoding.
+        /// </summary>
+        /// <param name="value">The <see cref="System.IO.Stream"/> to be converted.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        public static string ToEncodedString(this Stream value, Action<EncodingOptions> setup = null)
+        {
+            return StringConverter.FromStream(value, setup);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to a string using the provided preferred encoding.
+        /// </summary>
+        /// <param name="value">The <see cref="System.IO.Stream"/> to be converted.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
+        /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        public static string ToEncodedString(this Stream value, Action<EncodingOptions> setup, bool leaveStreamOpen)
+        {
+            return StringConverter.FromStream(value, setup, leaveStreamOpen);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to a byte array always starting from position 0 (when supported).
+        /// </summary>
+        /// <param name="value">The <see cref="Stream"/> value to be converted.</param>
+        /// <returns>A <b>byte array</b> containing the data from the stream.</returns>
+        public static byte[] ToByteArray(this Stream value)
+        {
+            return ByteConverter.FromStream(value);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to a byte array.
+        /// </summary>
+        /// <param name="value">The <see cref="Stream"/> value to be converted.</param>
+        /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
+        /// <returns>A <b>byte array</b> containing the data from the stream.</returns>
+        public static byte[] ToByteArray(this Stream value, bool leaveStreamOpen)
+        {
+            return ByteConverter.FromStream(value, leaveStreamOpen);
+        }
     }
 }

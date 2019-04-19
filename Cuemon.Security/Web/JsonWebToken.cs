@@ -214,7 +214,7 @@ namespace Cuemon.Security.Web
         {
             ValidateJwtParameters(base64UrlEncodedHeader, base64UrlEncodedPayload, algorithm, secret);
             string tokenString = Tokenize(base64UrlEncodedHeader, base64UrlEncodedPayload);
-            return algorithm == JsonWebTokenHashAlgorithm.None ? tokenString : "{0}.{1}".FormatWith(tokenString, ComputeSignature(base64UrlEncodedHeader, base64UrlEncodedPayload, algorithm, secret));
+            return algorithm == JsonWebTokenHashAlgorithm.None ? tokenString : $"{tokenString}.{ComputeSignature(base64UrlEncodedHeader, base64UrlEncodedPayload, algorithm, secret)}";
         }
 
         private static void ValidateJwtParameters(string base64UrlEncodedHeader, string base64UrlEncodedPayload, JsonWebTokenHashAlgorithm algorithm, byte[] secret)

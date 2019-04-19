@@ -45,7 +45,7 @@ namespace Cuemon.AspNetCore.Authentication
             if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
                 context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
-                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, "{0} realm=\"{1}\"".FormatWith(AuthenticationScheme, Options.Realm));
+                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, $"{AuthenticationScheme} realm=\"{Options.Realm}\"");
                 await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ContinueWithSuppressedContext();
                 return;
             }
@@ -60,7 +60,7 @@ namespace Cuemon.AspNetCore.Authentication
 
         private bool TryAuthenticate(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException("The {0} cannot be null.".FormatWith(nameof(Options.Authenticator))); }
+            if (Options.Authenticator == null) { throw new InvalidOperationException($"The {nameof(Options.Authenticator)} cannot be null."); }
             result = Options.Authenticator(credentials.Arg1, credentials.Arg2);
             return Condition.IsNotNull(result);
         }

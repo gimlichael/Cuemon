@@ -32,13 +32,13 @@ namespace Cuemon.Serialization.Json
                         if (reader.TokenType == JsonToken.EndArray) { goto case JsonToken.EndArray; }
                         if (reader.TokenType != JsonToken.StartArray && reader.TokenType != JsonToken.StartObject && reader.TokenType != JsonToken.EndObject)
                         { 
-                            typeStrongValue = ObjectConverter.FromString("{0}".FormatWith(reader.Value));
+                            typeStrongValue = ObjectConverter.FromString(reader.Value.ToString());
                             array.Add(new DataPair(hierarchy[index].Data[PropertyNameKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
                         }
                         while (reader.Read()) { goto case JsonToken.StartArray; }
                         break;
                     case JsonToken.PropertyName:
-                        hierarchy[depthIndexes.GetDepthIndex(reader, index, dimension)].Add(new DataPair("{0}".FormatWith(reader.Value), null, typeof(string))).Data.Add(PropertyNameKey, "{0}".FormatWith(reader.Value));
+                        hierarchy[depthIndexes.GetDepthIndex(reader, index, dimension)].Add(new DataPair(reader.Value.ToString(), null, typeof(string))).Data.Add(PropertyNameKey, reader.Value.ToString());
                         index++;
                         break;
                     case JsonToken.EndArray:
@@ -60,7 +60,7 @@ namespace Cuemon.Serialization.Json
                     case JsonToken.Integer:
                     case JsonToken.Null:
                     case JsonToken.String:
-                        typeStrongValue = ObjectConverter.FromString("{0}".FormatWith(reader.Value));
+                        typeStrongValue = ObjectConverter.FromString(reader.Value.ToString());
                         hierarchy[index].Replace(new DataPair(hierarchy[index].Data[PropertyNameKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
                         hierarchy[index].Data.Remove(PropertyNameKey);
                         break;

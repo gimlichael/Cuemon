@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Cuemon.Collections.Generic;
+using Cuemon.Reflection;
 
 namespace Cuemon
 {
@@ -12,6 +14,63 @@ namespace Cuemon
     /// </summary>
     public static class TypeExtensions
     {
+        /// <summary>
+        /// Converts the specified caller information into an instance of a <see cref="MethodBase"/> object.
+        /// </summary>
+        /// <param name="caller">The <see cref="Type"/> to conduct a search for <paramref name="memberName"/>.</param>
+        /// <param name="memberName">The name of the member of <paramref name="caller"/>.</param>
+        /// <param name="types">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
+        /// <param name="flags">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
+        /// <returns>An object representing the method that matches the specified requirements, if found; otherwise, <c>null</c>.</returns>
+        public static MethodBase ToMethodBase(this Type caller, Type[] types = null, [CallerMemberName] string memberName = "", BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
+        {
+            return MethodBaseConverter.FromType(caller, types, memberName, flags);
+        }
+
+        /// <summary>
+        /// Converts the name of the <paramref name="source"/> with the intend to be understood by humans. 
+        /// </summary>
+        /// <param name="source">The type to sanitize the name from.</param>
+        /// <returns>A sanitized <see cref="String"/> representation of <paramref name="source"/>.</returns>
+        /// <remarks>Only the simple name of the <paramref name="source"/> is returned, not the fully qualified name.</remarks>
+        public static string ToFriendlyName(this Type source)
+        {
+            return StringConverter.FromType(source);
+        }
+
+        /// <summary>
+        /// Converts the name of the <paramref name="source"/> with the intend to be understood by humans. 
+        /// </summary>
+        /// <param name="source">The type to sanitize the name from.</param>
+        /// <param name="fullName">Specify <c>true</c> to use the fully qualified name of the <paramref name="source"/>; otherwise, <c>false</c> for the simple name of <paramref name="source"/>.</param>
+        /// <returns>A sanitized <see cref="String"/> representation of <paramref name="source"/>.</returns>
+        public static string ToFriendlyName(this Type source, bool fullName)
+        {
+            return StringConverter.FromType(source, fullName);
+        }
+
+        /// <summary>
+        /// Converts the name of the <paramref name="source"/> with the intend to be understood by humans. 
+        /// </summary>
+        /// <param name="source">The type to sanitize the name from.</param>
+        /// <param name="fullName">Specify <c>true</c> to use the fully qualified name of the <paramref name="source"/>; otherwise, <c>false</c> for the simple name of <paramref name="source"/>.</param>
+        /// <param name="excludeGenericArguments">Specify <c>true</c> to exclude generic arguments from the result; otherwise <c>false</c> to include generic arguments should the <paramref name="source"/> be a generic type.</param>
+        /// <returns>A sanitized <see cref="String"/> representation of <paramref name="source"/>.</returns>
+        public static string ToFriendlyName(this Type source, bool fullName, bool excludeGenericArguments)
+        {
+            return StringConverter.FromType(source, fullName, excludeGenericArguments);
+        }
+
+        /// <summary>
+        /// Gets the underlying type code of the specified <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The type whose underlying <see cref="TypeCode"/> to get.</param>
+        /// <returns>The code of the underlying type, or Empty if <paramref name="type"/> is null.</returns>
+        public static TypeCode AsCode(this Type type)
+        {
+            return TypeCodeConverter.FromType(type);
+        }
+
         /// <summary>
         /// Retrieves a collection that represents all the properties defined on a specified <paramref name="type"/> except those defined on <typeparamref name="T"/>.
         /// </summary>
@@ -32,7 +91,7 @@ namespace Cuemon
         /// <returns>A string that contains the fully qualified name of the type, including its namespace, comma delimited with the simple name of the assembly.</returns>
         public static string ToFullNameIncludingAssemblyName(this Type type)
         {
-            return "{0}, {1}".FormatWith(type.FullName, type.GetTypeInfo().Assembly.GetName().Name);
+            return $"{type.FullName}, {type.GetTypeInfo().Assembly.GetName().Name}";
         }
 
          /// <summary>

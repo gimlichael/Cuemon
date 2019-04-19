@@ -113,7 +113,7 @@ namespace Cuemon.AspNetCore.Authentication
         public static byte[] ComputeResponse(IDictionary<string, string> credentials, string hash1, string hash2, HashAlgorithmType algorithm)
         {
             ValidateCredentials(credentials, CredentialNonce, CredentialNonceCount, CredentialClientNonce, CredentialQualityOfProtection);
-            return HashUtility.ComputeHash("{0}:{1}:{2}:{3}:{4}:{5}".FormatWith(hash1, credentials[CredentialNonce], credentials[CredentialNonceCount], credentials[CredentialClientNonce], credentials[CredentialQualityOfProtection], hash2), o =>
+            return HashUtility.ComputeHash($"{hash1}:{credentials[CredentialNonce]}:{credentials[CredentialNonceCount]}:{credentials[CredentialClientNonce]}:{credentials[CredentialQualityOfProtection]}:{hash2}", o =>
             {
                 o.AlgorithmType = algorithm;
                 o.Encoding = Encoding.UTF8;

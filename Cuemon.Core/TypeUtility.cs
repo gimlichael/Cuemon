@@ -115,26 +115,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Determines whether the specified source is a nullable <see cref="ValueType"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the <paramref name="source"/> of <typeparamref name="T"/>.</typeparam>
-        /// <param name="source">The source type to check for nullable <see cref="ValueType"/>.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified source is nullable; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsNullable<T>(T source) { return false; }
-
-        /// <summary>
-        /// Determines whether the specified source is a nullable <see cref="ValueType"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the <paramref name="source"/> of <typeparamref name="T"/>.</typeparam>
-        /// <param name="source">The source type to check for nullable <see cref="ValueType"/>.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified source is nullable; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsNullable<T>(T? source) where T : struct { return true; }
-
-        /// <summary>
         /// Gets a sequence of derived types from the <paramref name="source"/> an it's associated <see cref="Assembly"/>.
         /// </summary>
         /// <param name="source">The source type to locate derived types from.</param>
