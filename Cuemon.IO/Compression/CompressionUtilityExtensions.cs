@@ -68,7 +68,7 @@ namespace Cuemon.IO.Compression
         /// <param name="compressionType">The compression algorithm to use for the decompression.</param>
         /// <param name="bufferSize">The size of the buffer. This value must be greater than zero. The default size is 2048.</param>
         /// <returns>A decompressed <see cref="System.IO.Stream"/> of the <paramref name="source"/>.</returns>
-        public static Stream DecompressStream(Stream source, CompressionType compressionType, int bufferSize)
+        public static Stream Decompress(Stream source, CompressionType compressionType, int bufferSize)
         {
             return CompressionUtility.DecompressStream(source, compressionType, bufferSize);
         }

@@ -49,4 +49,8 @@
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;D:\dlls\cuemon\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)$(ProjectName).xml&quot; &quot;D:\dlls\cuemon\$(ProjectName).xml&quot;" />
+  </Target>
+
 </Project>
