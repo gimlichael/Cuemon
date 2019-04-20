@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace Cuemon.IO
 {
@@ -9,18 +10,42 @@ namespace Cuemon.IO
     /// </summary>
     public static class StreamUtility
     {
-		/// <summary>
-		/// Reads all the bytes from the <paramref name="source"/> stream and writes them to the <paramref name="destination"/> stream.
-		/// </summary>
-		/// <param name="source">The stream to read the contents from.</param>
-		/// <param name="destination">The stream that will contain the contents of the <paramref name="source"/> stream.</param>
-		public static void CopyStream(Stream source, Stream destination)
+        /// <summary>
+        /// Tries to resolve the Unicode <see cref="Encoding"/> object from the specified <see cref="Stream"/> object.
+        /// </summary>
+        /// <param name="stream">The <see cref="Stream"/> object to resolve the Unicode <see cref="Encoding"/> object from.</param>
+        /// <param name="result">When this method returns, it contains the Unicode <see cref="Encoding"/> value equivalent to the encoding contained in <paramref name="stream"/>, if the conversion succeeded, or a null reference (Nothing in Visual Basic) if the conversion failed. The conversion fails if the <paramref name="stream"/> parameter is null, or does not contain a Unicode representation of an <see cref="Encoding"/>.</param>
+        /// <returns><c>true</c> if the <paramref name="stream"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>
+        public static bool TryDetectUnicodeEncoding(Stream stream, out Encoding result)
+        {
+            Validator.ThrowIfNull(stream, nameof(stream));
+            if (!stream.CanSeek)
+            {
+                result = null;
+                return false;
+            }
+
+            byte[] byteOrderMarks = new byte[] { 0, 0, 0, 0 };
+
+            long startingPosition = stream.Position;
+            stream.Position = 0;
+            stream.Read(byteOrderMarks, 0, 4); // only read the first 4 bytes
+            stream.Seek(startingPosition, SeekOrigin.Begin); // reset to original position}
+
+            return ByteUtility.TryDetectUnicodeEncoding(byteOrderMarks, out result);
+        }
+
+        /// <summary>
+        /// Reads all the bytes from the <paramref name="source"/> stream and writes them to the <paramref name="destination"/> stream.
+        /// </summary>
+        /// <param name="source">The stream to read the contents from.</param>
+        /// <param name="destination">The stream that will contain the contents of the <paramref name="source"/> stream.</param>
+        public static void CopyStream(Stream source, Stream destination)
 		{
 			CopyStream(source, destination, Infrastructure.DefaultBufferSize);
 		}
 
-
-		/// <summary>
+        /// <summary>
 		/// Reads all the bytes from the <paramref name="source"/> stream and writes them to the <paramref name="destination"/> stream, using the specified buffer size of <paramref name="bufferSize"/>.
 		/// </summary>
 		/// <param name="source">The stream to read the contents from.</param>

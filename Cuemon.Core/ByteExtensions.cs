@@ -93,53 +93,7 @@ namespace Cuemon
         /// <returns><c>true</c> if the <paramref name="bytes"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>
         public static bool TryDetectUnicodeEncoding(this byte[] bytes, out Encoding result)
         {
-            if (bytes == null) { throw new ArgumentNullException(nameof(bytes)); }
-            result = null;
-            if (bytes.Length >= 4)
-            {
-
-                if (bytes[0] == 0xEF &&
-                    bytes[1] == 0xBB &&
-                    bytes[2] == 0xBF)
-                {
-                    result = Encoding.GetEncoding("UTF-8");
-                }
-                else if (bytes[0] == 0x00 &&
-                         bytes[1] == 0x00 &&
-                         bytes[2] == 0xFE &&
-                         bytes[3] == 0xFF)
-                {
-                    result = Encoding.GetEncoding("UTF-32BE");
-                }
-                else if (bytes[0] == 0xFF &&
-                         bytes[1] == 0xFE &&
-                         bytes[2] == 0x00 &&
-                         bytes[3] == 0x00)
-                {
-                    result = Encoding.GetEncoding("UTF-32");
-                }
-                else if (bytes[0] == 0xFE &&
-                         bytes[1] == 0xFF)
-                {
-                    result = Encoding.GetEncoding("UNICODEFFFE");
-                }
-                else if (bytes[0] == 0xFF &&
-                         bytes[1] == 0xFE)
-                {
-                    result = Encoding.GetEncoding("UTF-16");
-                }
-                else if (bytes[0] == 0x2B &&
-                         bytes[1] == 0x2F &&
-                         bytes[2] == 0x76 &&
-                         (bytes[3] == 0x38 ||
-                          bytes[3] == 0x39 ||
-                          bytes[3] == 0x2B ||
-                          bytes[3] == 0x2F))
-                {
-                    result = Encoding.GetEncoding("UTF-7");
-                }
-            }
-            return (result != null);
+            return ByteUtility.TryDetectUnicodeEncoding(bytes, out result);
         }
 
         /// <summary>
