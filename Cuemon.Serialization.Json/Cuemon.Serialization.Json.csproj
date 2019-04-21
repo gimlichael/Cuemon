@@ -42,7 +42,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Serialization\Cuemon.Serialization.csproj" />
-    <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -57,7 +57,7 @@ namespace Cuemon.Serialization.Json.Formatters
             Validator.ThrowIfNull(objectType, nameof(objectType));
 
             var serializer = Options.SynchronizeWithJsonConvert ? JsonSerializer.CreateDefault() : JsonSerializer.Create(Options.Settings); // there is a bug in the JsonConvert.SerializeObject, why we had to make our own implementation
-            return StreamWriterUtility.CreateStream(writer =>
+            return StreamFactory.Create(writer =>
             {
                 using (var jsonWriter = new JsonTextWriter(writer))
                 {

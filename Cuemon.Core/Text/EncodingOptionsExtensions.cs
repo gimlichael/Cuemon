@@ -10,15 +10,15 @@ namespace Cuemon.Text
     public static class EncodingOptionsExtensions
     {
         /// <summary>
-        /// Tries to detect an <see cref="Encoding"/> object from the specified <paramref name="value"/>.
+        /// Tries to detect an <see cref="Encoding"/> object from the specified <paramref name="stream"/>.
         /// If unsuccessful, the <see cref="EncodingOptions.Encoding"/> value is returned.
         /// </summary>
-        /// <param name="options">The <see cref="EncodingOptions"/> to extend.</param>
-        /// <param name="value">The <see cref="Stream"/> to parse for an <see cref="Encoding"/>.</param>
-        /// <returns>Either the detected encoding of <paramref name="value"/>  or the encoding of this instance.</returns>
-        public static Encoding DetectEncoding(this EncodingOptions options, Stream value)
+        /// <param name="options">The <see cref="IEncodingOptions"/> to extend.</param>
+        /// <param name="stream">The <see cref="Stream"/> to parse for an <see cref="Encoding"/>.</param>
+        /// <returns>Either the detected encoding of <paramref name="stream"/>  or the encoding of this instance.</returns>
+        public static Encoding DetectEncoding(this IEncodingOptions options, Stream stream)
         {
-            if (value.TryDetectUnicodeEncoding(out var result))
+            if (StreamUtility.TryDetectUnicodeEncoding(stream, out var result))
             {
                 return result;
             }
@@ -26,15 +26,15 @@ namespace Cuemon.Text
         }
 
         /// <summary>
-        /// Tries to detect an <see cref="Encoding"/> object from the specified <paramref name="value"/>.
+        /// Tries to detect an <see cref="Encoding"/> object from the specified <paramref name="bytes"/>.
         /// If unsuccessful, the <see cref="EncodingOptions.Encoding"/> value is returned.
         /// </summary>
-        /// <param name="options">The <see cref="EncodingOptions"/> to extend.</param>
-        /// <param name="value">The <see cref="byte"/> array to parse for an <see cref="Encoding"/>.</param>
-        /// <returns>Either the detected encoding of <paramref name="value"/> or the encoding of this instance.</returns>
-        public static Encoding DetectEncoding(this EncodingOptions options, byte[] value)
+        /// <param name="options">The <see cref="IEncodingOptions"/> to extend.</param>
+        /// <param name="bytes">The <see cref="byte"/> array to parse for an <see cref="Encoding"/>.</param>
+        /// <returns>Either the detected encoding of <paramref name="bytes"/> or the encoding of this instance.</returns>
+        public static Encoding DetectEncoding(this IEncodingOptions options, byte[] bytes)
         {
-            if (value.TryDetectUnicodeEncoding(out var result))
+            if (bytes.TryDetectUnicodeEncoding(out var result))
             {
                 return result;
             }

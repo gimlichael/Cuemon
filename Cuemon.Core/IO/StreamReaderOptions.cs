@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text;
 using Cuemon.Text;
 
 namespace Cuemon.IO
@@ -7,7 +6,7 @@ namespace Cuemon.IO
     /// <summary>
     /// Configuration options for <see cref="StreamReader"/>.
     /// </summary>
-    public class StreamReaderOptions : StreamOptions, IEncodingOptions
+    public class StreamReaderOptions : StreamEncodingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StreamReaderOptions"/> class.
@@ -20,20 +19,21 @@ namespace Cuemon.IO
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="Preamble"/></term>
-        ///         <description><see cref="EncodingOptions.Preamble"/></description>
+        ///         <term><see cref="StreamEncodingOptions.Preamble"/></term>
+        ///         <description><see cref="EncodingOptions.DefaultPreambleSequence"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="Encoding"/></term>
-        ///         <description><see cref="EncodingOptions.Encoding"/></description>
+        ///         <term><see cref="StreamEncodingOptions.Encoding"/></term>
+        ///         <description><see cref="EncodingOptions.DefaultEncoding"/></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="BufferSize"/></term>
+        ///         <description><c>2048</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public StreamReaderOptions()
         {
-            var eo = new EncodingOptions();
-            Preamble = eo.Preamble;
-            Encoding = eo.Encoding;
             BufferSize = 2048;
         }
 
@@ -42,17 +42,5 @@ namespace Cuemon.IO
         /// </summary>
         /// <value>The minimum size of the buffer.</value>
         public int BufferSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the action to take in regards to encoding related preamble sequences.
-        /// </summary>
-        /// <value>A value that indicates whether to preserve or remove preamble sequences.</value>
-        public PreambleSequence Preamble { get; set; }
-
-        /// <summary>
-        /// Gets or sets the character encoding to use for the operation.
-        /// </summary>
-        /// <value>The character encoding to use for the operation.</value>
-        public Encoding Encoding { get; set; }
     }
 }

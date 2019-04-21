@@ -181,7 +181,7 @@ namespace Cuemon.Integrity
             Validator.ThrowIfNullOrWhitespace(fileName, nameof(fileName));
             try
             {
-                return FileInfoConverter.Convert(fileName, bytesToRead, (fi, checksumBytes) =>
+                return FileInfoConverter.FromFile(fileName, bytesToRead, (fi, checksumBytes) =>
                 {
                     if (checksumBytes.Length > 0)
                     {

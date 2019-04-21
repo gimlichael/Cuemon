@@ -202,9 +202,9 @@ namespace Cuemon.Web
             if (offset < 0 || offset >= blen) { throw new ArgumentOutOfRangeException(nameof(offset)); }
             if (count < 0 || count > blen - offset) { throw new ArgumentOutOfRangeException(nameof(count)); }
 
-            using (Stream result = StreamWriterUtility.CreateStream(UrlEncodeCharWriter, bytes, offset, count, preferUppercaseHexadecimalEncoding ? HexadecimalCharactersUpperCase : HexadecimalCharactersLowerCase, options => options.Encoding = encoding ?? new UTF8Encoding()))
+            using (Stream result = StreamFactory.Create(UrlEncodeCharWriter, bytes, offset, count, preferUppercaseHexadecimalEncoding ? HexadecimalCharactersUpperCase : HexadecimalCharactersLowerCase, options => options.Encoding = encoding ?? new UTF8Encoding()))
             {
-                return result.ToByteArray();
+                return ByteConverter.FromStream(result);
             }
         }
 

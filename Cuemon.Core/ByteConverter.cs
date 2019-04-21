@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using Cuemon.IO;
 using Cuemon.Text;
 
 namespace Cuemon
@@ -85,36 +83,26 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="value"/> to a byte array always starting from position 0 (when supported).
-        /// </summary>
-        /// <param name="value">The <see cref="Stream"/> value to be converted.</param>
-        /// <returns>A <b>byte array</b> containing the data from the stream.</returns>
-        public static byte[] FromStream(Stream value)
-        {
-            return FromStream(value, false);
-        }
-
-        /// <summary>
         /// Converts the specified <paramref name="value"/> to a byte array.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> value to be converted.</param>
-        /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
+        /// <param name="leaveOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
         /// <returns>A <b>byte array</b> containing the data from the stream.</returns>
-        public static byte[] FromStream(Stream value, bool leaveStreamOpen)
+        public static byte[] FromStream(Stream value, bool leaveOpen = false)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            return FromStreamCore(value, leaveStreamOpen);
-        }
-
-        private static byte[] FromStreamCore(Stream value, bool leaveStreamOpen)
-        {
-            MemoryStream s = value as MemoryStream;
-            if (s != null)
+            Validator.ThrowIfFalse(value.CanRead, nameof(value), "Source stream cannot be read from.");
+            Validator.ThrowIfGreaterThan(value.Length, int.MaxValue, nameof(value));
+            if (value is MemoryStream s)
             {
-                if (leaveStreamOpen) { return s.ToArray(); }
+                if (leaveOpen) { return s.ToArray(); }
                 using (s) { return s.ToArray(); }
             }
-            return ((MemoryStream)StreamUtility.CopyStream(value, leaveStreamOpen)).ToArray();
+            using (var memoryStream = new MemoryStream(new byte[value.Length]))
+            {
+                value.CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
 
         /// <summary>
@@ -159,22 +147,22 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Converts the specified sequence of <paramref name="values"/> to an array of bytes.
+        /// Converts the specified sequence of <paramref name="source"/> to an array of bytes.
         /// </summary>
-        /// <param name="values">A sequence of <see cref="IConvertible"/> values to convert.</param>
-        /// <returns>An array of bytes equivalent to the sequence of the <paramref name="values"/>.</returns>
+        /// <param name="source">A sequence of <see cref="IConvertible"/> values to convert.</param>
+        /// <returns>An array of bytes equivalent to the sequence of the <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="values"/> is outside the range of allowed types.<br/>
+        /// <paramref name="source"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="Boolean"/>, <see cref="Char"/>, <see cref="double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="ushort"/>, <see cref="UInt32"/> and <see cref="UInt64"/>.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="values"/> is null.
+        /// <paramref name="source"/> is null.
         /// </exception>
-        public static byte[] FromConvertibles<T>(IEnumerable<T> values) where T : struct, IConvertible
+        public static byte[] FromConvertibles<T>(IEnumerable<T> source) where T : struct, IConvertible
         {
-            Validator.ThrowIfNull(values, nameof(values));
-            List<byte> result = new List<byte>();
-            foreach (T value in values)
+            Validator.ThrowIfNull(source, nameof(source));
+            var result = new List<byte>();
+            foreach (var value in source)
             {
                 result.AddRange(FromConvertiblesCore(value));
             }
@@ -183,7 +171,7 @@ namespace Cuemon
 
         private static byte[] FromConvertiblesCore<T>(T value) where T : struct, IConvertible
         {
-            TypeCode code = value.GetTypeCode();
+            var code = value.GetTypeCode();
             byte[] result;
             switch (code)
             {

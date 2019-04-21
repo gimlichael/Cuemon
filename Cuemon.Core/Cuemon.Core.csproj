@@ -38,6 +38,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IO\StreamExtensions.cs" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
     <None Remove="Cuemon.Core.csproj.vspscc" />
   </ItemGroup>
 

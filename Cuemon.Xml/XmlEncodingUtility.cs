@@ -29,7 +29,7 @@ namespace Cuemon.Xml
         public static Encoding ReadEncoding(Stream value, Encoding defaultEncoding)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (!value.TryDetectUnicodeEncoding(out var encoding))
+            if (!StreamUtility.TryDetectUnicodeEncoding(value, out var encoding))
             {
                 long startingPosition = -1;
                 if (value.CanSeek)

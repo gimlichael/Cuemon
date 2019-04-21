@@ -73,6 +73,7 @@ namespace Cuemon
         /// <returns>A variable number of <b>byte arrays</b> combined into one <b>byte array</b>.</returns>
         public static byte[] CombineByteArrays(params byte[][] bytes)
 		{
+            Validator.ThrowIfNull(bytes, nameof(bytes));
             return bytes.SelectMany(x => x).ToArray();
 		}
 

@@ -6,14 +6,7 @@ namespace Cuemon
 {
     internal static class Infrastructure
     {
-        public static int DefaultBufferSize = 2048;
-
-        public static void WhileSourceReadDestinationWrite(Stream source, Stream destination, int bufferSize)
-        {
-            WhileSourceReadDestinationWrite(source, destination, bufferSize, false);
-        }
-
-        public static void WhileSourceReadDestinationWrite(Stream source, Stream destination, int bufferSize, bool changePosition)
+        public static void CopyStream(Stream source, Stream destination, int bufferSize = 81920, bool changePosition = true)
         {
             long lastPosition = 0;
             if (changePosition && source.CanSeek)
@@ -22,9 +15,8 @@ namespace Cuemon
                 if (source.CanSeek) { source.Position = 0; }
             }
 
-            byte[] buffer = new byte[bufferSize];
-            int read;
-            while ((read = source.Read(buffer, 0, buffer.Length)) != 0) { destination.Write(buffer, 0, read); }
+            source.CopyTo(destination, bufferSize);
+            destination.Flush();
 
             if (changePosition && source.CanSeek) { source.Position = lastPosition; }
             if (changePosition && destination.CanSeek) { destination.Position = 0; }

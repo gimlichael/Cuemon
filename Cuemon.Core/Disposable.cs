@@ -10,6 +10,42 @@ namespace Cuemon
     public abstract class Disposable : IDisposable
     {
         /// <summary>
+        /// Provides a generic way to abide the rule description of CA2000 (Dispose objects before losing scope).
+        /// </summary>
+        /// <typeparam name="TResult">The type of the return value of the function delegate <paramref name="initializer"/>.</typeparam>
+        /// <param name="initializer">The function delegate to invoke following the rule description of CA2000 (Dispose objects before losing scope).</param>
+        /// <param name="catcher">The delegate that will handle any exceptions might thrown by <paramref name="initializer"/>.</param>
+        /// <returns>The return value of the function delegate <paramref name="initializer"/>.</returns>
+        public static TResult SafeInvoke<TResult>(Func<TResult> initializer, Action<Exception> catcher = null) where TResult : class, IDisposable
+        {
+            Validator.ThrowIfNull(initializer, nameof(initializer));
+            TResult result = null;
+            TResult temp = null;
+            try
+            {
+                temp = initializer();
+                result = temp;
+                temp = null;
+            }
+            catch (Exception e)
+            {
+                if (catcher == null)
+                {
+                    throw;
+                }
+                else
+                {
+                    catcher(e);
+                }
+            }
+            finally
+            {
+                temp?.Dispose();
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Disposable"/> class.
         /// </summary>
         protected Disposable()

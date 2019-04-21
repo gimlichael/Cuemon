@@ -969,5 +969,17 @@ namespace Cuemon
         {
             return GuidConverter.FromString(value);
         }
+
+        /// <summary>
+        /// Converts the given <see cref="String"/> to an equivalent sequence of characters.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> value to be converted.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A sequence of characters equivalent to the <see cref="String"/> value.</returns>
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        public static char[] ToCharArray(this string value, Action<EncodingOptions> setup = null)
+        {
+            return CharConverter.FromString(value, setup);
+        }
     }
 }

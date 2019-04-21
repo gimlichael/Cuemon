@@ -63,11 +63,10 @@ namespace Cuemon.Xml.XPath
             Validator.ThrowIfNull(value, nameof(value));
             if (leaveStreamOpen)
             {
-                Stream copyOfValue = StreamUtility.CopyStream(value, true);
-                using (copyOfValue)
-                {
-                    return new XPathDocument(copyOfValue);
-                }
+                var reader = XmlReader.Create(value);
+                var document = new XPathDocument(reader);
+                value.Position = 0;
+                return document;
             }
             using (value)
             {

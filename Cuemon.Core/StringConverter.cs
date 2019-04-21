@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Cuemon.IO;
 using Cuemon.Reflection;
 using Cuemon.Text;
 
@@ -801,26 +802,17 @@ namespace Cuemon
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
-        public static string FromStream(Stream value, Action<EncodingOptions> setup = null)
-        {
-            return FromStream(value, setup, false);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="value"/> to a string using the provided preferred encoding.
-        /// </summary>
-        /// <param name="value">The <see cref="System.IO.Stream"/> to be converted.</param>
-        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
-        /// <param name="leaveStreamOpen">if <c>true</c>, the <see cref="Stream"/> object is being left open; otherwise it is being closed and disposed.</param>
-        /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
-        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
-        public static string FromStream(Stream value, Action<EncodingOptions> setup, bool leaveStreamOpen)
+        public static string FromStream(Stream value, Action<StreamEncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             var options = setup.Configure();
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = options.DetectEncoding(value); }
             if (options.Preamble < PreambleSequence.Keep || options.Preamble > PreambleSequence.Remove) { throw new ArgumentOutOfRangeException(nameof(setup), "The specified argument was out of the range of valid values."); }
-            return FromBytes(ByteConverter.FromStream(value, leaveStreamOpen), setup);
+            return FromBytes(ByteConverter.FromStream(value, options.LeaveOpen), o =>
+            {
+                o.Encoding = options.Encoding;
+                o.Preamble = options.Preamble;
+            });
         }
     }
 }
