@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
+using Cuemon.IO;
 
 namespace Cuemon.Text
 {

@@ -16,8 +16,8 @@ namespace Cuemon.Text
         /// <returns>A string that is ASCII encoded.</returns>
         public static string ToAsciiEncodedString(string value, Action<EncodingOptions> setup = null)
         {
-            var options = setup.Configure();
-            return Encoding.ASCII.ToEncodedString(value, o =>
+            var options = Patterns.Configure(setup);
+            return StringConverter.ChangeEncoding(value, Encoding.ASCII, o =>
             {
                 o.Encoding = options.Encoding;
                 o.Preamble = options.Preamble;
