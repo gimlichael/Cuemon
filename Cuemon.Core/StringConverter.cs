@@ -161,14 +161,14 @@ namespace Cuemon
         public static string FromBytes(byte[] value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.Configure();
-            if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = options.DetectEncoding(value); }
+            var options = Patterns.Configure(setup);
+            if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = ByteArrayUtility.DetectUnicodeEncoding(value, options.Encoding); }
             switch (options.Preamble)
             {
                 case PreambleSequence.Keep:
                     break;
                 case PreambleSequence.Remove:
-                    value = ByteUtility.RemovePreamble(value, options.Encoding); // remove preamble from the resolved source encoding value
+                    value = ByteArrayUtility.RemovePreamble(value, options.Encoding); // remove preamble from the resolved source encoding value
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(options), "The specified argument was out of the range of valid values.");
@@ -805,13 +805,51 @@ namespace Cuemon
         public static string FromStream(Stream value, Action<StreamEncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.Configure();
-            if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = options.DetectEncoding(value); }
+            var options = Patterns.Configure(setup);
+            if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = StreamUtility.DetectUnicodeEncoding(value, options.Encoding); }
             if (options.Preamble < PreambleSequence.Keep || options.Preamble > PreambleSequence.Remove) { throw new ArgumentOutOfRangeException(nameof(setup), "The specified argument was out of the range of valid values."); }
             return FromBytes(ByteConverter.FromStream(value, options.LeaveOpen), o =>
             {
                 o.Encoding = options.Encoding;
                 o.Preamble = options.Preamble;
+            });
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to its equivalent <paramref name="encoding"/> representation.
+        /// </summary>
+        /// <param name="value">The value to convert into the specified <paramref name="encoding"/>.</param>
+        /// <param name="encoding">The <see cref="Encoding"/> to use in the string that is returned.</param>
+        /// <param name="setup">The <see cref="FallbackEncodingOptions"/> which may be configured.</param>
+        /// <returns>A string that is encoded according to the value of <paramref name="encoding"/>.</returns>
+        /// <remarks>The inspiration for this method was retrieved @ SO: https://stackoverflow.com/a/135473/175073.</remarks>
+        public static string ChangeEncoding(string value, Encoding encoding, Action<FallbackEncodingOptions> setup = null)
+        {
+            Validator.ThrowIfNull(encoding, nameof(encoding));
+            if (value.IsNullOrEmpty()) { return value; }
+            var options = Patterns.Configure(setup);
+            var result = Encoding.Convert(options.Encoding, Encoding.GetEncoding(encoding.EncodingName, options.EncoderFallback, options.DecoderFallback), value.ToByteArray(o =>
+            {
+                o.Encoding = options.Encoding;
+                o.Preamble = options.Preamble;
+            }));
+            return encoding.GetString(result);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to its equivalent ASCII encoded representation.
+        /// </summary>
+        /// <param name="value">The value to apply with an ASCII encoding conversion.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
+        /// <returns>A string that is ASCII encoded.</returns>
+        public static string ChangeToAsciiEncoding(string value, Action<EncodingOptions> setup = null)
+        {
+            var options = Patterns.Configure(setup);
+            return ChangeEncoding(value, Encoding.ASCII, o =>
+            {
+                o.Encoding = options.Encoding;
+                o.Preamble = options.Preamble;
+                o.EncoderFallback = new EncoderReplacementFallback("");
             });
         }
     }

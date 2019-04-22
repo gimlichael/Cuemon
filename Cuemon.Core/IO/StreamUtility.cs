@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Cuemon.IO
 {
@@ -10,6 +12,22 @@ namespace Cuemon.IO
     /// </summary>
     public static class StreamUtility
     {
+        /// <summary>
+        /// Tries to detect an <see cref="Encoding"/> object from the specified <paramref name="value"/>.
+        /// If unsuccessful, the <paramref name="fallback"/> value is returned.
+        /// </summary>
+        /// <param name="value">The <see cref="Stream"/> to parse for an <see cref="Encoding"/>.</param>
+        /// <param name="fallback">The <see cref="Encoding"/> to use when conversion is unsuccessful.</param>
+        /// <returns>Either the detected encoding of <paramref name="value"/>  or the <paramref name="fallback"/> encoding.</returns>
+        public static Encoding DetectUnicodeEncoding(Stream value, Encoding fallback)
+        {
+            if (TryDetectUnicodeEncoding(value, out var result))
+            {
+                return result;
+            }
+            return fallback;
+        }
+
         /// <summary>
         /// Tries to resolve the Unicode <see cref="Encoding"/> object from the specified <see cref="Stream"/> object.
         /// </summary>
@@ -32,35 +50,41 @@ namespace Cuemon.IO
             value.Read(byteOrderMarks, 0, 4); // only read the first 4 bytes
             value.Seek(startingPosition, SeekOrigin.Begin); // reset to original position}
 
-            return ByteUtility.TryDetectUnicodeEncoding(byteOrderMarks, out result);
+            return ByteArrayUtility.TryDetectUnicodeEncoding(byteOrderMarks, out result);
         }
 
         /// <summary>
         /// Combines a variable number of streams into one stream.
         /// </summary>
-        /// <param name="leaveOpen">if <c>true</c>, each of the <see cref="Stream"/> in the <paramref name="streams"/> sequence is being left open; otherwise it is being closed and disposed.</param>
-        /// <param name="streams">The streams to combine.</param>
+        /// <param name="streams">The <see cref="T:Stream[]"/> to combine.</param>
         /// <returns>A variable number of <b>streams</b> combined into one <b>stream</b>.</returns>
-        public static Stream CombineStreams(bool leaveOpen = false, params Stream[] streams)
+        public static Stream CombineStreams(params Stream[] streams)
+        {
+            return CombineStreams(streams, false);
+        }
+
+        /// <summary>
+        /// Combines a variable number of streams into one stream.
+        /// </summary>
+        /// <param name="streams">The streams to combine.</param>
+        /// <param name="leaveOpen">if <c>true</c>, each of the <see cref="Stream"/> in the <paramref name="streams"/> sequence is being left open; otherwise it is being closed and disposed.</param>
+        /// <returns>A variable number of <b>streams</b> combined into one <b>stream</b>.</returns>
+        public static Stream CombineStreams(IEnumerable<Stream> streams, bool leaveOpen = false)
         {
             Validator.ThrowIfNull(streams, nameof(streams));
             var result = new MemoryStream();
             foreach (var stream in streams)
             {
-                var buffer = new byte[4096];
                 try
                 {
-                    int read;
-                    while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        result.Write(buffer, 0, read);
-                    }
+                    stream.CopyTo(result);
                 }
                 finally
                 {
                     if (!leaveOpen) { stream.Dispose(); }
                 }
             }
+            result.Flush();
             result.Position = 0;
             return result;
         }

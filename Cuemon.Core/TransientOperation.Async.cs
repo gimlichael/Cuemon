@@ -215,7 +215,7 @@ namespace Cuemon
 
         private static async Task WithActionAsyncCore<TTuple>(TaskActionFactory<TTuple> factory, Action<TransientOperationOptions> setup = null) where TTuple : Template
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             if (!options.EnableRecovery)
             {
                 await factory.ExecuteMethodAsync().ContinueWithSuppressedContext();
@@ -269,7 +269,7 @@ namespace Cuemon
 
         private static async Task<TResult> WithFuncAsyncCore<TTuple, TResult>(TaskFuncFactory<TTuple, TResult> factory, Action<TransientOperationOptions> setup) where TTuple : Template
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             if (!options.EnableRecovery) { return await factory.ExecuteMethodAsync().ContinueWithSuppressedContext(); }
             DateTime timestamp = DateTime.UtcNow;
             TimeSpan latency = TimeSpan.Zero;

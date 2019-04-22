@@ -253,27 +253,25 @@ namespace Cuemon.IO
 
         private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : Template<StreamWriter>
         {
-            var options = setup.Configure();
-            return Disposable.SafeInvoke(() =>
+            var options = Patterns.Configure(setup);
+            return Disposable.SafeInvoke(() => new MemoryStream(options.BufferSize),  ms =>
             {
-                var stream = new MemoryStream(options.BufferSize);
-                var writer = new InternalStreamWriter(stream, options);
+                var writer = new InternalStreamWriter(ms, options);
                 {
                     factory.GenericArguments.Arg1 = writer;
                     factory.ExecuteMethod();
                     writer.Flush();
                 }
-                stream.Flush();
-                stream.Position = 0;
+                ms.Flush();
+                ms.Position = 0;
                 if (options.Preamble == PreambleSequence.Remove)
                 {
                     var preamble = options.Encoding.GetPreamble();
                     if (preamble.Length > 0)
                     {
-                        return StreamConverter.RemovePreamble(stream, options.Encoding);
+                        ms = StreamConverter.RemovePreamble(ms, options.Encoding) as MemoryStream;
                     }
                 }
-                return stream;
             }, ex =>
             {
                 var parameters = new List<object>();

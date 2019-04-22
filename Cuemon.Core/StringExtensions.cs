@@ -888,7 +888,7 @@ namespace Cuemon
         /// <returns>The byte array containing the decoded URL string token.</returns>
         public static byte[] FromUrlEncodedBase64(this string value)
         {
-            return ByteConverter.FromUrlEncodedBase64(value);
+            return ByteConverter.FromUrlEncodedBase64String(value);
         }
 
         /// <summary>

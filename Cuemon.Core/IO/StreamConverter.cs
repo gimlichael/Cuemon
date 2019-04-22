@@ -20,9 +20,10 @@ namespace Cuemon.IO
         public static Stream RemovePreamble(Stream value, Encoding encoding, bool leaveOpen = false)
         {
             Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(encoding, nameof(encoding));
             byte[] bytes = ByteConverter.FromStream(value, leaveOpen);
-            bytes = ByteUtility.RemovePreamble(bytes, encoding);
-            return Disposable.SafeInvoke(() => new MemoryStream(bytes));
+            bytes = ByteArrayUtility.RemovePreamble(bytes, encoding);
+            return Disposable.SafeInvoke(() => new MemoryStream(bytes.Length), ms => ms.Write(bytes, 0, bytes.Length));
         }
 
         /// <summary>
@@ -32,7 +33,8 @@ namespace Cuemon.IO
         /// <returns>A <see cref="Stream"/> object.</returns>
         public static Stream FromBytes(byte[] value)
         {
-            return Disposable.SafeInvoke(() => new MemoryStream(value));
+            Validator.ThrowIfNull(value, nameof(value));
+            return Disposable.SafeInvoke(() => new MemoryStream(value.Length), ms => ms.Write(value, 0, value.Length));
         }
 
         /// <summary>
@@ -45,7 +47,11 @@ namespace Cuemon.IO
         public static Stream FromString(string value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            return Disposable.SafeInvoke(() => new MemoryStream(ByteConverter.FromString(value, setup)));
+            return Disposable.SafeInvoke(() => new MemoryStream(), ms =>
+            {
+                var bytes = ByteConverter.FromString(value, setup);
+                ms.Write(bytes, 0, bytes.Length);
+            });
         }
     }
 }

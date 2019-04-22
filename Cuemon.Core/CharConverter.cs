@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Cuemon.IO;
 using Cuemon.Text;
 
 namespace Cuemon
@@ -19,15 +20,15 @@ namespace Cuemon
         public static char[] FromStream(Stream value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.Configure();
-            if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = options.DetectEncoding(value); }
+            var options = Patterns.Configure(setup);
+            if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = StreamUtility.DetectUnicodeEncoding(value, options.Encoding); }
             byte[] valueInBytes = ByteConverter.FromStream(value);
             switch (options.Preamble)
             {
                 case PreambleSequence.Keep:
                     break;
                 case PreambleSequence.Remove:
-                    valueInBytes = ByteUtility.RemovePreamble(valueInBytes, options.Encoding);
+                    valueInBytes = ByteArrayUtility.RemovePreamble(valueInBytes, options.Encoding);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(options));
@@ -45,7 +46,7 @@ namespace Cuemon
         public static char[] FromString(string value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             return options.Encoding.GetChars(ByteConverter.FromString(value, setup));
         }
     }

@@ -87,7 +87,7 @@ namespace Cuemon
         /// <returns><c>true</c> if the <paramref name="value"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>
         public static bool TryParse<TEnum>(string value, bool ignoreCase, out TEnum result) where TEnum : struct, IConvertible
         {
-            return TesterFuncUtility.TryExecuteFunction(Parse<TEnum>, value, ignoreCase, out result);
+            return Patterns.TryParse(() => Parse<TEnum>(value, ignoreCase), out result);
         }
 
         /// <summary>

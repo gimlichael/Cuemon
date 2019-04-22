@@ -35,9 +35,11 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <RootNamespace>Cuemon</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ByteExtensions.cs" />
     <Compile Remove="IO\StreamExtensions.cs" />
   </ItemGroup>
 

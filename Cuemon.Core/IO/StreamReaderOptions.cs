@@ -28,13 +28,13 @@ namespace Cuemon.IO
         ///     </item>
         ///     <item>
         ///         <term><see cref="BufferSize"/></term>
-        ///         <description><c>2048</c></description>
+        ///         <description><c>81920</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public StreamReaderOptions()
         {
-            BufferSize = 2048;
+            BufferSize = 81920;
         }
 
         /// <summary>

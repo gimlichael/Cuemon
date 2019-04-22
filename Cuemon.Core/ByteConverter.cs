@@ -19,7 +19,7 @@ namespace Cuemon
         /// <remarks>
         /// Source: http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-08#appendix-C
         /// </remarks>
-        public static byte[] FromUrlEncodedBase64(string value)
+        public static byte[] FromUrlEncodedBase64String(string value)
         {
             Validator.ThrowIfNullOrEmpty(value, nameof(value));
             value = value.Replace('-', '+');
@@ -43,7 +43,7 @@ namespace Cuemon
         /// <summary>
         /// Converts the string representation of a Base64 to its equivalent <see cref="T:byte[]"/> array.
         /// </summary>
-        /// <param name="value">The Base64 to convert.</param>
+        /// <param name="value">The Base64 string to convert.</param>
         /// <param name="result">The array that will contain the parsed value.</param>
         /// <returns><c>true</c> if the parse operation was successful; otherwise, <c>false</c>.</returns>
         /// <remarks>
@@ -58,7 +58,7 @@ namespace Cuemon
         /// <summary>
         /// Converts the string representation of a Base64 to its equivalent <see cref="T:byte[]"/> array.
         /// </summary>
-        /// <param name="value">The Base64 to convert.</param>
+        /// <param name="value">The Base64 string to convert.</param>
         /// <param name="predicate">A function delegate that provides custom rules for bypassing the Base64 structure check.</param>
         /// <param name="result">The array that will contain the parsed value.</param>
         /// <returns><c>true</c> if the parse operation was successful; otherwise, <c>false</c>.</returns>
@@ -68,18 +68,15 @@ namespace Cuemon
         /// </remarks>
         public static bool TryFromBase64String(string value, Func<string, bool> predicate, out byte[] result)
         {
-            try
+            return Patterns.TryParse(() =>
             {
                 Validator.ThrowIfNullOrEmpty(value, nameof(value));
-                if (predicate != null && !predicate(value)) { throw new FormatException(); }
-                result = Convert.FromBase64String(value);
-                return true;
-            }
-            catch (Exception)
-            {
-                result = null;
-                return false;
-            }
+                if (predicate != null && !predicate(value))
+                {
+                    throw new FormatException();
+                }
+                return Convert.FromBase64String(value);
+            }, out result);
         }
 
         /// <summary>
@@ -115,13 +112,12 @@ namespace Cuemon
         public static byte[] FromString(string value, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var options = setup.Configure();
-
+            var options = Patterns.Configure(setup);
             byte[] valueInBytes;
             switch (options.Preamble)
             {
                 case PreambleSequence.Keep:
-                    valueInBytes = ByteUtility.CombineByteArrays(options.Encoding.GetPreamble(), options.Encoding.GetBytes(value));
+                    valueInBytes = ByteArrayUtility.CombineByteArrays(options.Encoding.GetPreamble(), options.Encoding.GetBytes(value));
                     break;
                 case PreambleSequence.Remove:
                     valueInBytes = options.Encoding.GetBytes(value);

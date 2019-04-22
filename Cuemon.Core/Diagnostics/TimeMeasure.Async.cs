@@ -527,7 +527,7 @@ namespace Cuemon.Diagnostics
 
         private static async Task<TimeMeasureProfiler> WithActionAsyncCore<TTuple>(TaskActionFactory<TTuple> factory, Action<TimeMeasureOptions> setup) where TTuple : Template
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
             var profiler = new TimeMeasureProfiler()
             {
@@ -540,7 +540,7 @@ namespace Cuemon.Diagnostics
 
         private static async Task<TimeMeasureProfiler<TResult>> WithFunctionAsyncCore<TTuple, TResult>(TaskFuncFactory<TTuple, TResult> factory, Action<TimeMeasureOptions> setup) where TTuple : Template
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
             var profiler = new TimeMeasureProfiler<TResult>()
             {

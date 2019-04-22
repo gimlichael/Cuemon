@@ -64,13 +64,13 @@ namespace Cuemon
         {
             try
             {
-                Type resultType = typeof(T);
-                TypeConverter converter = TypeDescriptor.GetConverter(resultType);
-                T result = (T)converter.ConvertFromString(context, culture, value);
+                var resultType = typeof(T);
+                var converter = TypeDescriptor.GetConverter(resultType);
+                var result = (T)converter.ConvertFromString(context, culture, value);
                 if (resultType == typeof(Uri)) // for reasons unknown to me, MS allows all sorts of string to be constructed on a Uri - check if valid (quick-fix until more knowledge of ITypeDescriptorContext)
                 {
-                    Uri resultAsUri = result as Uri;
-                    string[] segments = resultAsUri?.Segments;
+                    var resultAsUri = result as Uri;
+                    var segments = resultAsUri?.Segments;
                 }
                 return result;
             }
@@ -167,7 +167,7 @@ namespace Cuemon
         {
             if (value is TResult) { return (TResult)value; }
             object o;
-            bool success = TesterFuncUtility.TryExecuteFunction(ObjectConverter.ChangeType, value, typeof(TResult), provider, out o);
+            var success = Patterns.TryParse(() => ObjectConverter.ChangeType(value, typeof(TResult), provider), out o);
             return success ? (TResult)o : resultOnConversionNotPossible;
         }
 

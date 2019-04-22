@@ -10,13 +10,13 @@ namespace Cuemon
     /// </summary>
     public sealed class Validator
     {
-        private static readonly Validator CustomValidator = new Validator();
+        private static readonly Validator ExtendedValidator = new Validator();
 
         /// <summary>
         /// Gets the singleton instance of the Validator functionality allowing for extensions methods like: <c>Validator.Throw.IfNotValidJsonDocument()</c>.
         /// </summary>
         /// <value>The singleton instance of the Validator functionality.</value>
-        public static Validator Throw { get; } = CustomValidator;
+        public static Validator Throw { get; } = ExtendedValidator;
 
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> (or a derived counterpart) from the specified delegate <paramref name="condition"/>.
@@ -25,10 +25,22 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null.
         /// </exception>
-        public static void ThrowWhen(Action<ExceptionCondition<ArgumentException>> condition)
+        public void ThrowWhenCondition(Action<ExceptionCondition<ArgumentException>> condition)
+        {
+            ThrowWhen(condition);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> (or a derived counterpart) from the specified delegate <paramref name="condition"/>.
+        /// </summary>
+        /// <param name="condition">The delegate that evaluates, creates and ultimately throws an <see cref="ArgumentException"/> (or a derived counterpart) from within a given scenario.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="condition"/> is null.
+        /// </exception>
+        internal static void ThrowWhen(Action<ExceptionCondition<ArgumentException>> condition)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            condition.CreateInstance();
+            Patterns.Configure(condition);
         }
 
         /// <summary>
