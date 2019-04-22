@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Cuemon.Extensions.Xml.Serialization.Converters;
-using Cuemon.Runtime.Serialization;
 using Cuemon.Runtime.Serialization.Formatters;
 
 namespace Cuemon.Extensions.Xml.Serialization.Formatters

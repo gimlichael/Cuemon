@@ -6,9 +6,9 @@ using System.Linq;
 using System.Xml;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Runtime.Serialization;
+using Cuemon.Extensions.Xml.Linq;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Xml;
-using Cuemon.Xml.Linq;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Converters;
 

@@ -41,10 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Runtime.Serialization\Cuemon.Extensions.Runtime.Serialization.csproj" />
-    <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Xml\Cuemon.Extensions.Xml.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

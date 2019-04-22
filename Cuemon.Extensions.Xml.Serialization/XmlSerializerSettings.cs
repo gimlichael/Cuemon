@@ -4,6 +4,7 @@ using System.Xml;
 using Cuemon.Extensions.Xml.Serialization.Converters;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
+using Cuemon.Xml.Serialization.Converters;
 
 namespace Cuemon.Extensions.Xml.Serialization
 {
