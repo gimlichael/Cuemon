@@ -132,7 +132,7 @@ namespace Cuemon.Xml
                         byte[] valueInBytes = ((MemoryStream)tempStream).ToArray();
                         using (tempStream)
                         {
-                            valueInBytes = ByteUtility.RemovePreamble(valueInBytes, targetEncoding);
+                            valueInBytes = ByteArrayUtility.RemovePreamble(valueInBytes, targetEncoding);
                         }
                         tempStream = StreamConverter.FromBytes(valueInBytes);
                         stream = tempStream;

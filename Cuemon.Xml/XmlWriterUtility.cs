@@ -16,7 +16,7 @@ namespace Cuemon.Xml
         /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data.</param>
         /// <param name="setup">The <see cref="XmlCopyOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="Stream"/> holding an exact copy of the source <paramref name="reader"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
         public static Stream Copy(XmlReader reader, Action<XmlCopyOptions> setup = null)
@@ -29,9 +29,9 @@ namespace Cuemon.Xml
         /// </summary>
         /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data.</param>
         /// <param name="copier">The delegate that will create an in-memory copy of <paramref name="reader"/> as a XML stream.</param>
-        /// <param name="setup">The <see cref="XmlCopyOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlCopyOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Stream"/> holding the XML copied by the delegate <paramref name="copier"/> from the source <paramref name="reader"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings"/>.</remarks>
@@ -39,7 +39,7 @@ namespace Cuemon.Xml
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(copier, nameof(copier));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = Patterns.Configure(setup);
             try
             {
                 return CreateXml(copier, reader, options.WriterSettings);
@@ -57,9 +57,9 @@ namespace Cuemon.Xml
         /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data.</param>
         /// <param name="copier">The delegate that will create an in-memory copy of <paramref name="reader"/> as a XML stream.</param>
         /// <param name="arg">The parameter of the delegate <paramref name="copier"/>.</param>
-        /// <param name="setup">The <see cref="XmlCopyOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlCopyOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Stream"/> holding the XML copied by the delegate <paramref name="copier"/> from the source <paramref name="reader"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings"/>.</remarks>
@@ -67,7 +67,7 @@ namespace Cuemon.Xml
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(copier, nameof(copier));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = Patterns.Configure(setup);
             try
             {
                 return CreateXml(copier, reader, arg, options.WriterSettings);
@@ -87,9 +87,9 @@ namespace Cuemon.Xml
         /// <param name="copier">The delegate that will create an in-memory copy of <paramref name="reader"/> as a XML stream.</param>
         /// <param name="arg1">The first parameter of the delegate <paramref name="copier"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="copier"/>.</param>
-        /// <param name="setup">The <see cref="XmlCopyOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlCopyOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Stream"/> holding the XML copied by the delegate <paramref name="copier"/> from the source <paramref name="reader"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings"/>.</remarks>
@@ -97,7 +97,7 @@ namespace Cuemon.Xml
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(copier, nameof(copier));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = Patterns.Configure(setup);
             try
             {
                 return CreateXml(copier, reader, arg1, arg2, options.WriterSettings);
@@ -119,9 +119,9 @@ namespace Cuemon.Xml
         /// <param name="arg1">The first parameter of the delegate <paramref name="copier"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="copier"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="copier"/>.</param>
-        /// <param name="setup">The <see cref="XmlCopyOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlCopyOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Stream"/> holding the XML copied by the delegate <paramref name="copier"/> from the source <paramref name="reader"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings"/>.</remarks>
@@ -129,7 +129,7 @@ namespace Cuemon.Xml
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(copier, nameof(copier));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = Patterns.Configure(setup);
             try
             {
                 return CreateXml(copier, reader, arg1, arg2, arg3, options.WriterSettings);
@@ -153,9 +153,9 @@ namespace Cuemon.Xml
         /// <param name="arg2">The second parameter of the delegate <paramref name="copier"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="copier"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="copier"/>.</param>
-        /// <param name="setup">The <see cref="XmlCopyOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlCopyOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Stream"/> holding the XML copied by the delegate <paramref name="copier"/> from the source <paramref name="reader"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings"/>.</remarks>
@@ -163,7 +163,7 @@ namespace Cuemon.Xml
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(copier, nameof(copier));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = Patterns.Configure(setup);
             try
             {
                 return CreateXml(copier, reader, arg1, arg2, arg3, arg4, options.WriterSettings);
@@ -189,9 +189,9 @@ namespace Cuemon.Xml
         /// <param name="arg3">The third parameter of the delegate <paramref name="copier"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="copier"/>.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="copier"/>.</param>
-        /// <param name="setup">The <see cref="XmlCopyOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlCopyOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Stream"/> holding the XML copied by the delegate <paramref name="copier"/> from the source <paramref name="reader"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
         /// </exception>
         /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings"/>.</remarks>
@@ -199,7 +199,7 @@ namespace Cuemon.Xml
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(copier, nameof(copier));
-            var options = DelegateUtility.ConfigureAction(setup);
+            var options = Patterns.Configure(setup);
             try
             {
                 return CreateXml(copier, reader, arg1, arg2, arg3, arg4, arg5, options.WriterSettings);
@@ -537,7 +537,7 @@ namespace Cuemon.Xml
 
         private static Stream CreateXmlCore<TTuple>(ActionFactory<TTuple> factory, Action<XmlWriterSettings> setup) where TTuple : Template<XmlWriter>
         {
-            var options = DelegateUtility.ConfigureAction(setup, OverrideDefaultSettings);
+            var options = Patterns.Configure(setup);
             Stream output;
             MemoryStream tempOutput = null;
             try

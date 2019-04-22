@@ -26,10 +26,10 @@ namespace Cuemon.Xml
         /// <param name="size">The amount of XML node elements allowed per <see cref="XmlReader"/> object. Default is 128 XML node element.</param>
         /// <param name="setup">The <see cref="XmlWriterSettings"/> which need to be configured.</param>
         /// <returns>An sequence of <see cref="XmlReader"/> objects that contains no more than the specified <paramref name="size"/> of XML node elements from the <paramref name="reader" /> object.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentException">
         /// The <see cref="XmlReader.Read"/> method of the <paramref name="reader"/> object has already been called.
         /// </exception>
         public static IEnumerable<XmlReader> Chunk(this XmlReader reader, int size, Action<XmlWriterSettings> setup = null)
