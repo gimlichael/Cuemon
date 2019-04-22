@@ -32,7 +32,7 @@ namespace Cuemon.Xml.XPath
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(encoding, nameof(encoding));
-            using (Stream stream = StreamConverter.FromString(value, options =>
+            using (var stream = StreamConverter.FromString(value, options =>
             {
                 options.Encoding = encoding;
                 options.Preamble = PreambleSequence.Keep;
@@ -43,25 +43,15 @@ namespace Cuemon.Xml.XPath
         }
 
         /// <summary>
-        /// Converts the given stream to an <see cref="IXPathNavigable"/> object. The stream is closed and disposed of afterwards.
-        /// </summary>
-        /// <param name="value">The <see cref="Stream"/> to be converted.</param>
-        /// <returns>An <see cref="IXPathNavigable"/> object.</returns>
-        public static IXPathNavigable FromStream(Stream value)
-        {
-            return FromStream(value, false);
-        }
-
-        /// <summary>
         /// Converts the given stream to an <see cref="IXPathNavigable"/> object.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to be converted.</param>
-        /// <param name="leaveStreamOpen">if <c>true</c>, the source <see cref="Stream"/> is being left open; otherwise it is being closed and disposed.</param>
+        /// <param name="leaveOpen">if <c>true</c>, the source <see cref="Stream"/> is being left open; otherwise it is being closed and disposed.</param>
         /// <returns>An <see cref="IXPathNavigable"/> object.</returns>
-        public static IXPathNavigable FromStream(Stream value, bool leaveStreamOpen)
+        public static IXPathNavigable FromStream(Stream value, bool leaveOpen = false)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (leaveStreamOpen)
+            if (leaveOpen)
             {
                 var reader = XmlReader.Create(value);
                 var document = new XPathDocument(reader);

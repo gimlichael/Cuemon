@@ -97,10 +97,10 @@ namespace Cuemon.Security
 			MemoryStream tempOutput = null;
 			try
 			{
-				XmlDocument document = XmlDocumentConverter.FromStream(mapping);
+				var document = XmlDocumentConverter.FromStream(mapping);
 				var mappingNode = document.DocumentElement;
                 
-				XmlNode encryptedNode = mappingNode.GetElementsByTagName(MappingEncryptedElement).Item(0);
+				var encryptedNode = mappingNode.GetElementsByTagName(MappingEncryptedElement).Item(0);
 				if (encryptedNode != null)
 				{
 					mappingNode.InnerXml = StringConverter.FromBytes(AdvancedEncryptionStandardUtility.Decrypt(Convert.FromBase64String(encryptedNode.InnerText), Key, InitializationVector), options =>
@@ -111,7 +111,7 @@ namespace Cuemon.Security
 				}
 
 				tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
+                using (var writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
 				{
 					document.WriteTo(writer);
 				}
@@ -137,20 +137,20 @@ namespace Cuemon.Security
 			MemoryStream tempOutput = null;
 			try
 			{
-				XmlDocument document = XmlDocumentConverter.FromStream(base.CreateMapping());
+				var document = XmlDocumentConverter.FromStream(base.CreateMapping());
 				XmlNode mappingNode = document.DocumentElement;
-				string innerXmlOfMappingNode = mappingNode.InnerXml;
-				byte[] innerXmlOfMappingNodeBytes = ByteConverter.FromString(innerXmlOfMappingNode, options =>
+				var innerXmlOfMappingNode = mappingNode.InnerXml;
+				var innerXmlOfMappingNodeBytes = ByteConverter.FromString(innerXmlOfMappingNode, options =>
                 {
                     options.Encoding = Encoding;
                     options.Preamble = PreambleSequence.Remove;
                 });
-				XmlElement encryptedNode = document.CreateElement(MappingEncryptedElement);
+				var encryptedNode = document.CreateElement(MappingEncryptedElement);
 				encryptedNode.InnerText = Convert.ToBase64String(AdvancedEncryptionStandardUtility.Encrypt(innerXmlOfMappingNodeBytes, Key, InitializationVector));
 				mappingNode.InnerXml = "";
 				mappingNode.AppendChild(encryptedNode);
 				tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
+                using (var writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
 				{
 					document.WriteTo(writer);
 				}

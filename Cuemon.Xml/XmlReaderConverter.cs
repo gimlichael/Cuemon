@@ -15,38 +15,29 @@ namespace Cuemon.Xml
         /// Converts the given stream to an XmlReader object.
         /// </summary>
         /// <param name="value">The stream to be converted.</param>
-        /// <returns>An <see cref="XmlReader"/> object.</returns>
-        public static XmlReader FromStream(Stream value)
-        {
-            return FromStream(value, null);
-        }
-
-        /// <summary>
-        /// Converts the given stream to an XmlReader object.
-        /// </summary>
-        /// <param name="value">The stream to be converted.</param>
         /// <param name="encoding">The text encoding to use.</param>
         /// <param name="setup">The <see cref="XmlReaderSettings"/> which may be configured.</param>
         /// <returns>An <see cref="XmlReader"/> object.</returns>
         /// <remarks>If <paramref name="encoding"/> is null, an <see cref="Encoding"/> object will be attempted resolved by <see cref="XmlEncodingUtility.ReadEncoding(Stream)"/>.</remarks>
-        public static XmlReader FromStream(Stream value, Encoding encoding, Action<XmlReaderSettings> setup = null)
+        public static XmlReader FromStream(Stream value, Encoding encoding = null, Action<XmlReaderSettings> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (encoding == null) { encoding = XmlEncodingUtility.ReadEncoding(value); }
+            if (encoding == null) { encoding = XmlUtility.ReadEncoding(value); }
             if (value.CanSeek) { value.Position = 0; }
             var options = Patterns.Configure(setup);
-            XmlReader reader = XmlReader.Create(new StreamReader(value, encoding), options);
+            var reader = XmlReader.Create(new StreamReader(value, encoding), options);
             return reader;
         }
 
         /// <summary>
         /// Converts the given byte array to an XmlReader object.
         /// </summary>
-        /// <param name="value">The byte array to be converted.</param>
+        /// <param name="bytes">The byte array to be converted.</param>
         /// <returns>An <see cref="XmlReader"/> object.</returns>
-        public static XmlReader FromBytes(byte[] value)
+        public static XmlReader FromBytes(byte[] bytes)
         {
-            return FromStream(StreamConverter.FromBytes(value));
+            Validator.ThrowIfNull(bytes, nameof(bytes));
+            return FromStream(StreamConverter.FromBytes(bytes));
         }
 
         /// <summary>

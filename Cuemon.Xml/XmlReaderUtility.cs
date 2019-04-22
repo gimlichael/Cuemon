@@ -15,6 +15,7 @@ namespace Cuemon.Xml
         /// <summary>
         /// Specifies a set of features to support the <see cref="XmlReader"/> object.
         /// </summary>
+        /// <param name="setup">The <see cref="XmlReaderSettings"/> which may be configured.</param>
         /// <returns>A <see cref="XmlReaderSettings"/> instance that specifies a set of features to support the <see cref="XmlReader"/> object.</returns>
         /// <remarks>
         /// The following table shows the overridden initial property values for an instance of <see cref="XmlReaderSettings"/>.<br/>
@@ -32,29 +33,13 @@ namespace Cuemon.Xml
         /// </remarks>
         public static XmlReaderSettings CreateSettings(Action<XmlReaderSettings> setup = null)
         {
-            var settings = new XmlReaderSettings();
-            OverrideDefaultSettings(settings);
+            var settings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
             setup?.Invoke(settings);
             return settings;
         }
 
-        private static void OverrideDefaultSettings(XmlReaderSettings settings)
-        {
-            settings.DtdProcessing = DtdProcessing.Ignore;
-        }
-
         /// <summary>
-        /// Creates and returns a chunked sequence of <see cref="XmlReader"/> objects with a maximum of 128 XML node elements located on a depth of 1.
-        /// </summary>
-        /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data to chunk into smaller <see cref="XmlReader"/> objects for a batch run or similar.</param>
-        /// <returns>An sequence of <see cref="XmlReader"/> objects that contains no more than 128 XML node elements from the <paramref name="reader" /> object.</returns>
-        public static IEnumerable<XmlReader> Chunk(XmlReader reader)
-        {
-            return Chunk(reader, 128);
-        }
-
-        /// <summary>
-        /// Creates and returns a chunked sequence of <see cref="XmlReader"/> objects with a maximum of the specified <paramref name="size"/> of XML node elements located on a depth of 1.
+        /// Creates and returns a sequence of chunked <see cref="XmlReader"/> objects with a maximum of the specified <paramref name="size"/> of XML node elements located on a depth of 1.
         /// </summary>
         /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data to chunk into smaller <see cref="XmlReader"/> objects for a batch run or similar.</param>
         /// <param name="size">The amount of XML node elements allowed per <see cref="XmlReader"/> object. Default is 128 XML node element.</param>
@@ -66,16 +51,16 @@ namespace Cuemon.Xml
         /// <exception cref="ArgumentException">
         /// The <see cref="XmlReader.Read"/> method of the <paramref name="reader"/> object has already been called.
         /// </exception>
-        public static IEnumerable<XmlReader> Chunk(XmlReader reader, int size, Action<XmlWriterSettings> setup = null)
+        public static IEnumerable<XmlReader> Chunk(XmlReader reader, int size = 128, Action<XmlWriterSettings> setup = null)
         {
-            if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
-            if (reader.ReadState != ReadState.Initial) { throw new ArgumentException("The Read method of the XmlReader object has already been called.", nameof(reader)); }
-            List<XmlReader> outerReaders = new List<XmlReader>();
-            XmlReaderSettings readerSettings = reader.Settings;
+            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfTrue(reader.ReadState != ReadState.Initial, nameof(reader), "The Read method of the XmlReader object has already been called.");
+            var outerReaders = new List<XmlReader>();
+            var readerSettings = reader.Settings;
             if (MoveToFirstElement(reader))
             {
-                XmlQualifiedEntity rootElement = new XmlQualifiedEntity(reader.Prefix, reader.LocalName, reader.NamespaceURI);
-                List<XmlReader> innerReaders = new List<XmlReader>();
+                var rootElement = new XmlQualifiedEntity(reader.Prefix, reader.LocalName, reader.NamespaceURI);
+                var innerReaders = new List<XmlReader>();
                 Stream result;
                 while (reader.Read())
                 {
@@ -83,22 +68,22 @@ namespace Cuemon.Xml
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element:
-                            XPathDocument document = new XPathDocument(reader.ReadSubtree());
-                            XPathNavigator navigator = document.CreateNavigator();
+                            var document = new XPathDocument(reader.ReadSubtree());
+                            var navigator = document.CreateNavigator();
                             innerReaders.Add(navigator.ReadSubtree());
                             break;
                     }
 
                     if (innerReaders.Count != size) { continue; }
 
-                    result = XmlWriterUtility.CreateXml(ChunkCore, innerReaders, rootElement, setup);
+                    result = XmlWriterUtility.CreateStream(writer => ChunkCore(writer, innerReaders, rootElement), setup);
                     outerReaders.Add(XmlReader.Create(result, readerSettings));
                     innerReaders.Clear();
                 }
 
                 if (innerReaders.Count > 0)
                 {
-                    result = XmlWriterUtility.CreateXml(ChunkCore, innerReaders, rootElement, setup);
+                    result = XmlWriterUtility.CreateStream(writer => ChunkCore(writer, innerReaders, rootElement), setup);
                     outerReaders.Add(XmlReader.Create(result, readerSettings));
                     innerReaders.Clear();
                 }
@@ -108,10 +93,10 @@ namespace Cuemon.Xml
 
         private static void ChunkCore(XmlWriter writer, IEnumerable<XmlReader> readers, XmlQualifiedEntity rootElement)
         {
-            if (readers == null) { throw new ArgumentNullException(nameof(readers)); }
-            if (writer == null) { throw new ArgumentNullException(nameof(writer)); }
+            Validator.ThrowIfNull(writer, nameof(writer));
+            Validator.ThrowIfNull(readers, nameof(readers));
             writer.WriteStartElement(rootElement.Prefix, rootElement.LocalName, rootElement.Namespace);
-            foreach (XmlReader reader in readers)
+            foreach (var reader in readers)
             {
                 try
                 {
@@ -123,6 +108,94 @@ namespace Cuemon.Xml
                 }
             }
             writer.WriteEndDocument();
+        }
+
+        /// <summary>
+        /// Copies everything from the specified <paramref name="reader"/> and returns the result as an XML stream.
+        /// </summary>
+        /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data.</param>
+        /// <param name="setup">The <see cref="XmlCopyOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="Stream"/> holding an exact copy of the source <paramref name="reader"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="reader"/> is null.
+        /// </exception>
+        public static Stream CopyToStream(XmlReader reader, Action<XmlCopyOptions> setup = null)
+        {
+            return CopyToStream(reader, (w, r, o) =>
+            {
+                try
+                {
+                    while (r.Read())
+                    {
+                        switch (r.NodeType)
+                        {
+                            case XmlNodeType.CDATA:
+                                w.WriteCData(r.Value);
+                                break;
+                            case XmlNodeType.Comment:
+                                w.WriteComment(r.Value);
+                                break;
+                            case XmlNodeType.DocumentType:
+                                w.WriteDocType(r.Name, r.GetAttribute("PUBLIC"), r.GetAttribute("SYSTEM"), r.Value);
+                                break;
+                            case XmlNodeType.Element:
+                                w.WriteStartElement(r.Prefix, r.LocalName, r.NamespaceURI);
+                                w.WriteAttributes(r, true);
+                                if (r.IsEmptyElement) { w.WriteEndElement(); }
+                                break;
+                            case XmlNodeType.EndElement:
+                                w.WriteFullEndElement();
+                                break;
+                            case XmlNodeType.Attribute:
+                            case XmlNodeType.Document:
+                            case XmlNodeType.DocumentFragment:
+                            case XmlNodeType.EndEntity:
+                            case XmlNodeType.None:
+                            case XmlNodeType.Notation:
+                            case XmlNodeType.Entity:
+                                break;
+                            case XmlNodeType.EntityReference:
+                                w.WriteEntityRef(r.Name);
+                                break;
+                            case XmlNodeType.Whitespace:
+                            case XmlNodeType.SignificantWhitespace:
+                                w.WriteWhitespace(r.Value);
+                                break;
+                            case XmlNodeType.Text:
+                                w.WriteString(r.Value);
+                                break;
+                            case XmlNodeType.ProcessingInstruction:
+                            case XmlNodeType.XmlDeclaration:
+                                w.WriteProcessingInstruction(r.Name, r.Value);
+                                break;
+                        }
+                    }
+                }
+                finally
+                {
+                    if (!o.LeaveOpen) { r?.Dispose(); }
+                }
+
+            }, setup);
+        }
+
+        /// <summary>
+        /// Copies the specified <paramref name="reader"/> using the specified delegate <paramref name="copier"/> and returns the result as an XML stream.
+        /// </summary>
+        /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data.</param>
+        /// <param name="copier">The delegate that will create an in-memory copy of <paramref name="reader"/> as a XML stream.</param>
+        /// <param name="setup">The <see cref="XmlCopyOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="Stream"/> holding the XML copied by the delegate <paramref name="copier"/> from the source <paramref name="reader"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="reader"/> is null - or - <paramref name="copier"/> is null.
+        /// </exception>
+        /// <remarks>This method uses a default implementation of <see cref="XmlWriterSettings"/> as specified by <see cref="CreateSettings"/>.</remarks>
+        public static Stream CopyToStream(XmlReader reader, Action<XmlWriter, XmlReader, DisposableOptions> copier, Action<XmlCopyOptions> setup = null)
+        {
+            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(copier, nameof(copier));
+            var options = Patterns.Configure(setup);
+            return XmlWriterUtility.CreateStream(writer => copier(writer, reader, options), options.WriterSettings);
         }
 
         /// <summary>
@@ -138,7 +211,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static bool MoveToFirstElement(XmlReader reader)
         {
-            if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
+            Validator.ThrowIfNull(reader, nameof(reader));
             if (reader.ReadState != ReadState.Initial) { throw new ArgumentException("The Read method of the XmlReader object has already been called.", nameof(reader)); }
             while (reader.Read())
             {

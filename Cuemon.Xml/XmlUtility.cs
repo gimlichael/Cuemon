@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using Cuemon.Collections.Generic;
+using Cuemon.IO;
 using Cuemon.Xml.XPath;
 
 namespace Cuemon.Xml
@@ -18,67 +18,49 @@ namespace Cuemon.Xml
 		private static readonly string[][] EscapeStringPairs = new[] { new[] { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" }, new[] {"<", ">", "\"", "'", "&"} };
         private static readonly char[] InvalidXmlCharacters = new[] { '\x0001', '\x0002', '\x0003', '\x0004', '\x0005', '\x0006', '\x0007', '\x0008', '\x0011', '\x0012', '\x0014', '\x0015', '\x0016', '\x0017', '\x0018', '\x0019' };
 
-		/// <summary>
-		/// Remove the namespace declarations from the specified <see cref="Stream"/> <paramref name="value"/>.
-		/// </summary>
-		/// <param name="value">An XML <see cref="Stream"/> to purge namespace declarations from.</param>
-		/// <returns>A <see cref="Stream"/> object representing the specified <paramref name="value"/> but with no namespace declarations.</returns>
-		public static Stream RemoveNamespaceDeclarations(Stream value)
-		{
-			return RemoveNamespaceDeclarations(value, false);
-		}
-
         /// <summary>
-        /// Remove the namespace declarations from the specified <see cref="Stream"/> <paramref name="value"/>.
+        /// Remove the namespace declarations from the specified <paramref name="stream"/>.
         /// </summary>
-        /// <param name="value">An XML <see cref="Stream"/> to purge namespace declarations from.</param>
+        /// <param name="stream">An XML <see cref="Stream"/> to purge namespace declarations from.</param>
         /// <param name="omitXmlDeclaration">if set to <c>true</c> omit the XML declaration; otherwise <c>false</c>. The default is false.</param>
-        /// <returns>A <see cref="Stream"/> object representing the specified <paramref name="value"/> but with no namespace declarations.</returns>
-        public static Stream RemoveNamespaceDeclarations(Stream value, bool omitXmlDeclaration)
+        /// <returns>A <see cref="Stream"/> object representing the specified <paramref name="stream"/> but with no namespace declarations.</returns>
+        public static Stream RemoveNamespaceDeclarations(Stream stream, bool omitXmlDeclaration = false)
 		{
-			return RemoveNamespaceDeclarations(value, omitXmlDeclaration, Encoding.Unicode);
+			return RemoveNamespaceDeclarations(stream, omitXmlDeclaration, Encoding.Unicode);
 		}
 
         /// <summary>
-        /// Remove the namespace declarations from the specified <see cref="Stream"/> <paramref name="value"/>.
+        /// Remove the namespace declarations from the specified <see cref="Stream"/> <paramref name="stream"/>.
         /// </summary>
-        /// <param name="value">An XML <see cref="Stream"/> to purge namespace declarations from.</param>
+        /// <param name="stream">An XML <see cref="Stream"/> to purge namespace declarations from.</param>
         /// <param name="omitXmlDeclaration">if set to <c>true</c> omit the XML declaration; otherwise <c>false</c>. The default is false.</param>
         /// <param name="encoding">The text encoding to use.</param>
-        /// <returns>A <see cref="Stream"/> object representing the specified <paramref name="value"/> but with no namespace declarations.</returns>
-        public static Stream RemoveNamespaceDeclarations(Stream value, bool omitXmlDeclaration, Encoding encoding)
+        /// <returns>A <see cref="Stream"/> object representing the specified <paramref name="stream"/> but with no namespace declarations.</returns>
+        public static Stream RemoveNamespaceDeclarations(Stream stream, bool omitXmlDeclaration, Encoding encoding)
 		{
-			if (value == null) { throw new ArgumentNullException(nameof(value)); }
-			IXPathNavigable navigable = XPathNavigableConverter.FromStream(value, true); // todo: leaveStreamOpen
-			XPathNavigator navigator = navigable.CreateNavigator();
-			MemoryStream output;
-			MemoryStream tempOutput = null;
-			try
-			{
-				tempOutput = new MemoryStream();
-				using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o =>
-				{
-				    o.Encoding = encoding;
-				    o.OmitXmlDeclaration = omitXmlDeclaration;
-				})))
-				{
-					WriteElements(navigator, writer);
-					writer.Flush();
-				}
-				output = tempOutput;
-				output.Position = 0;
-				tempOutput = null;
-			}
-			finally
-			{
-				if (tempOutput != null) { tempOutput.Dispose(); }
-			}
-			return output;
-		}
+			Validator.ThrowIfNull(stream, nameof(stream));
+            Validator.ThrowIfNull(encoding, nameof(encoding));
+			var navigable = XPathNavigableConverter.FromStream(stream, true); // todo: leaveStreamOpen
+			var navigator = navigable.CreateNavigator();
+            return Disposable.SafeInvoke(() => new MemoryStream(), ms => 
+            {
+                using (var writer = XmlWriter.Create(ms, XmlWriterUtility.CreateSettings(o =>
+                {
+                    o.Encoding = encoding;
+                    o.OmitXmlDeclaration = omitXmlDeclaration;
+                })))
+                {
+                    WriteElements(navigator, writer);
+                    writer.Flush();
+                }
+                ms.Position = 0;
+                return ms;
+            });
+        }
 
 		private static void WriteAttributes(XPathNavigator navigator, XmlWriter writer)
 		{
-			XPathNodeIterator attributeIterator = navigator.Select("@*");
+			var attributeIterator = navigator.Select("@*");
 
 			while (attributeIterator.MoveNext())
 			{
@@ -88,7 +70,7 @@ namespace Cuemon.Xml
 
 		private static void WriteElements(XPathNavigator navigator, XmlWriter writer)
 		{
-			XPathNodeIterator childrenIterator = navigator.Select("*");
+			var childrenIterator = navigator.Select("*");
 			while (childrenIterator.MoveNext())
 			{
 				writer.WriteStartElement(childrenIterator.Current.LocalName);
@@ -99,15 +81,15 @@ namespace Cuemon.Xml
 			}
 		}
 
-		/// <summary>
-		/// Escapes the given XML <see cref="string"/>.
-		/// </summary>
-		/// <param name="value">The XML <see cref="string"/> to escape.</param>
-		/// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
-		public static string Escape(string value)
+        /// <summary>
+        /// Escapes the given XML <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The XML <see cref="string"/> to escape.</param>
+        /// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
+        public static string Escape(string value)
 		{
 			if (value == null) throw new ArgumentNullException(nameof(value));
-			List<StringReplacePair> replacePairs = new List<StringReplacePair>();
+			var replacePairs = new List<StringReplacePair>();
 			for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
 			{
 				replacePairs.Add(new StringReplacePair(EscapeStringPairs[1][b], EscapeStringPairs[0][b]));
@@ -117,13 +99,13 @@ namespace Cuemon.Xml
 
 
 		/// <summary>
-		/// Unescapes the given XML <see cref="string"/>.
+		/// Unescapes the given XML <paramref name="value"/>.
 		/// </summary>
 		/// <param name="value">The XML <see cref="string"/> to unescape.</param>
 		/// <returns>The input <paramref name="value"/> with an unescaped equivalent.</returns>
 		public static string Unescape(string value)
 		{
-			StringBuilder builder = new StringBuilder(value);
+			var builder = new StringBuilder(value);
 			for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
 			{
 				builder.Replace(EscapeStringPairs[0][b], EscapeStringPairs[1][b]);
@@ -131,24 +113,24 @@ namespace Cuemon.Xml
 			return builder.ToString();
 		}
 
-		/// <summary>
-		/// Sanitizes the <paramref name="elementName"/> for any invalid characters.
-		/// </summary>
-		/// <param name="elementName">The name of the XML element to sanitize.</param>
-		/// <returns>A sanitized <see cref="String"/> of <paramref name="elementName"/>.</returns>
-		/// <remarks>Sanitation rules are as follows:<br/>
-		/// 1. Names can contain letters, numbers, and these 4 characters: _ | : | . | -<br/>
-		/// 2. Names cannot start with a number or punctuation character<br/>
-		/// 3. Names cannot contain spaces<br/>
-		/// </remarks>
-		public static string SanitizeElementName(string elementName)
+        /// <summary>
+        /// Sanitizes the <paramref name="value"/> for any invalid characters.
+        /// </summary>
+        /// <param name="value">The name of the XML element to sanitize.</param>
+        /// <returns>A sanitized <see cref="string"/> of <paramref name="value"/>.</returns>
+        /// <remarks>Sanitation rules are as follows:<br/>
+        /// 1. Names can contain letters, numbers, and these 4 characters: _ | : | . | -<br/>
+        /// 2. Names cannot start with a number or punctuation character<br/>
+        /// 3. Names cannot contain spaces<br/>
+        /// </remarks>
+        public static string SanitizeElementName(string value)
 		{
-			if (elementName == null) { throw new ArgumentNullException(nameof(elementName)); }
-			if (StringUtility.StartsWith(elementName, StringComparison.OrdinalIgnoreCase, StringConverter.ToEnumerable(StringUtility.NumericCharacters).Concat(new[] { "." } )))
+			if (value == null) { throw new ArgumentNullException(nameof(value)); }
+			if (StringUtility.StartsWith(value, StringComparison.OrdinalIgnoreCase, StringConverter.ToEnumerable(StringUtility.NumericCharacters).Concat(new[] { "." } )))
 			{
-				int startIndex = 0;
+				var startIndex = 0;
                 IList<char> numericsAndPunctual = new List<char>(StringUtility.NumericCharacters.ToCharArray().Concat(new[] { '.' }));
-				foreach (char c in elementName)
+				foreach (var c in value)
 				{
 					if (numericsAndPunctual.Contains(c))
 					{
@@ -157,11 +139,11 @@ namespace Cuemon.Xml
 					}
 					break;
 				}
-				return SanitizeElementName(elementName.Substring(startIndex));
+				return SanitizeElementName(value.Substring(startIndex));
 			}
 
-			StringBuilder validElementName = new StringBuilder();
-			foreach (char c in elementName)
+			var validElementName = new StringBuilder();
+			foreach (var c in value)
 			{
                 IList<char> validCharacters = new List<char>(StringUtility.AlphanumericCharactersCaseSensitive.ToCharArray().Concat(new[] { '_', ':', '.', '-' }));
 				if (validCharacters.Contains(c)) { validElementName.Append(c); }
@@ -170,31 +152,61 @@ namespace Cuemon.Xml
 		}
 
         /// <summary>
-        /// Sanitizes the <paramref name="text"/> for any invalid characters.
+        /// Sanitizes the <paramref name="value"/> for any invalid characters.
         /// </summary>
-        /// <param name="text">The content of an XML element to sanitize.</param>
-        /// <returns>A sanitized <see cref="String"/> of <paramref name="text"/>.</returns>
-        /// <remarks>The <paramref name="text"/> is sanitized for characters less or equal to a Unicode value of U+0019 (except U+0009, U+0010, U+0013).</remarks>
-	    public static string SanitizeElementText(string text)
-	    {
-	        return SanitizeElementText(text, false);
-	    }
+        /// <param name="value">The content of an XML element to sanitize.</param>
+        /// <param name="cdataSection">if set to <c>true</c> supplemental CDATA-section rules is applied to <paramref name="value"/>.</param>
+        /// <returns>A sanitized <see cref="string"/> of <paramref name="value"/>.</returns>
+        /// <remarks>Sanitation rules are as follows:<br/>
+        /// 1. The <paramref name="value"/> cannot contain characters less or equal to a Unicode value of U+0019 (except U+0009, U+0010, U+0013)<br/>
+        /// 2. The <paramref name="value"/> cannot contain the string "]]&lt;" if <paramref name="cdataSection"/> is <c>true</c>.<br/>
+        /// </remarks>
+        public static string SanitizeElementText(string value, bool cdataSection = false)
+        {
+            if (string.IsNullOrEmpty(value)) { return value; }
+            value = StringUtility.RemoveAll(value, InvalidXmlCharacters);
+            return cdataSection ? StringUtility.RemoveAll(value, "]]>") : value;
+        }
 
         /// <summary>
-        /// Sanitizes the <paramref name="text"/> for any invalid characters.
+        /// Reads the <see cref="Encoding"/> from the specified XML <see cref="Stream"/>. If an encoding cannot be resolved, UTF-8 encoding is assumed for the <see cref="Encoding"/>.
         /// </summary>
-        /// <param name="text">The content of an XML element to sanitize.</param>
-        /// <param name="cdataSection">if set to <c>true</c> supplemental CDATA-section rules is applied to <paramref name="text"/>.</param>
-        /// <returns>A sanitized <see cref="String"/> of <paramref name="text"/>.</returns>
-        /// <remarks>Sanitation rules are as follows:<br/>
-        /// 1. The <paramref name="text"/> cannot contain characters less or equal to a Unicode value of U+0019 (except U+0009, U+0010, U+0013)<br/>
-        /// 2. The <paramref name="text"/> cannot contain the string "]]&lt;" if <paramref name="cdataSection"/> is <c>true</c>.<br/>
-        /// </remarks>
-        public static string SanitizeElementText(string text, bool cdataSection)
+        /// <param name="value">The <see cref="Stream"/> to resolve an <see cref="Encoding"/> object from.</param>
+        /// <returns>An <see cref="Encoding"/> object equivalent to the encoding used in the <paramref name="value"/>, or <see cref="Encoding.UTF8"/> if unable to resolve the encoding.</returns>
+        public static Encoding ReadEncoding(Stream value)
         {
-            if (string.IsNullOrEmpty(text)) { return text; }
-            text = StringUtility.RemoveAll(text, InvalidXmlCharacters);
-            return cdataSection ? StringUtility.RemoveAll(text, "]]>") : text;
+            return ReadEncoding(value, Encoding.UTF8);
         }
-	}
+
+        /// <summary>
+        /// Reads the <see cref="Encoding"/> from the specified XML <see cref="Stream"/>. If an encoding cannot be resolved, <paramref name="defaultEncoding"/> encoding is assumed for the <see cref="Encoding"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="Stream"/> to resolve an <see cref="Encoding"/> object from.</param>
+        /// <param name="defaultEncoding">The preferred default <see cref="Encoding"/> to use if an encoding cannot be resolved automatically.</param>
+        /// <returns>An <see cref="Encoding"/> object equivalent to the encoding used in the <paramref name="value"/>, or <paramref name="defaultEncoding"/> if unable to resolve the encoding.</returns>
+        public static Encoding ReadEncoding(Stream value, Encoding defaultEncoding)
+        {
+            Validator.ThrowIfNull(value, nameof(value));
+            if (!StreamUtility.TryDetectUnicodeEncoding(value, out var encoding))
+            {
+                long startingPosition = -1;
+                if (value.CanSeek)
+                {
+                    startingPosition = value.Position;
+                    value.Position = 0;
+                }
+
+                var document = new XmlDocument();
+                document.Load(value);
+                if (document.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
+                {
+                    var declaration = (XmlDeclaration)document.FirstChild;
+                    if (!string.IsNullOrEmpty(declaration.Encoding)) { encoding = Encoding.GetEncoding(declaration.Encoding); }
+                }
+
+                if (value.CanSeek) { value.Seek(startingPosition, SeekOrigin.Begin); }
+            }
+            return encoding ?? defaultEncoding;
+        }
+    }
 }

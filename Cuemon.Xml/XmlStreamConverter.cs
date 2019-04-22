@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using System.Xml;
-using Cuemon.IO;
 
 namespace Cuemon.Xml
 {
@@ -14,139 +13,91 @@ namespace Cuemon.Xml
         /// <summary>
         /// Converts the entire XML <see cref="Stream"/> object from the resolved source encoding to the specified target encoding, preserving any preamble sequences.
         /// </summary>
-        /// <param name="source">The <see cref="Stream"/> to apply the conversion to.</param>
+        /// <param name="stream">The <see cref="Stream"/> to apply the conversion to.</param>
         /// <param name="targetEncoding">The target encoding format.</param>
         /// <returns>A <see cref="Stream"/> object containing the results of converting bytes from the resolved source encoding to the specified targetEncoding.</returns>
-        public static Stream ChangeEncoding(Stream source, Encoding targetEncoding)
+        public static Stream ChangeEncoding(Stream stream, Encoding targetEncoding)
         {
-            return ChangeEncoding(source, targetEncoding, PreambleSequence.Keep);
+            return ChangeEncoding(stream, targetEncoding, PreambleSequence.Keep);
         }
 
         /// <summary>
-        /// Converts the entire XML <see cref="Stream"/> object from the resolved encoding of <paramref name="source"/> to the specified encoding.
-        /// If an encoding cannot be resolved from <paramref name="source"/>, UTF-8 encoding is assumed.
+        /// Converts the entire XML <see cref="Stream"/> object from the resolved encoding of <paramref name="stream"/> to the specified encoding.
+        /// If an encoding cannot be resolved from <paramref name="stream"/>, UTF-8 encoding is assumed.
         /// </summary>
-        /// <param name="source">The <see cref="Stream"/> to apply the conversion to.</param>
+        /// <param name="stream">The <see cref="Stream"/> to apply the conversion to.</param>
         /// <param name="targetEncoding">The target encoding format.</param>
         /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
         /// <returns>A <see cref="Stream"/> object containing the results of converting bytes from the resolved source encoding to the specified targetEncoding.</returns>
-        public static Stream ChangeEncoding(Stream source, Encoding targetEncoding, PreambleSequence sequence)
+        public static Stream ChangeEncoding(Stream stream, Encoding targetEncoding, PreambleSequence sequence)
         {
-            return ChangeEncoding(source, XmlEncodingUtility.ReadEncoding(source), targetEncoding, sequence);
+            return ChangeEncoding(stream, XmlUtility.ReadEncoding(stream), o =>
+            {
+                o.Encoding = targetEncoding;
+                o.Preamble = sequence;
+            });
         }
 
         /// <summary>
-        /// Converts the entire XML <see cref="Stream"/> object from the resolved encoding of <paramref name="source"/> to the specified encoding.
-        /// If an encoding cannot be resolved from <paramref name="source"/>, UTF-8 encoding is assumed.
+        /// Converts the entire XML <see cref="Stream"/> object from one <paramref name="encoding"/> to what is defined in <paramref name="setup"/>.
         /// </summary>
-        /// <param name="source">The <see cref="Stream"/> to apply the conversion to.</param>
-        /// <param name="targetEncoding">The target encoding format.</param>
-        /// <param name="omitXmlDeclaration">if set to <c>true</c> omit the XML declaration; otherwise <c>false</c>. The default is false.</param>
-        /// <returns>A <see cref="Stream"/> object containing the results of converting bytes from the resolved source encoding to the specified targetEncoding.</returns>
-        public static Stream ChangeEncoding(Stream source, Encoding targetEncoding, bool omitXmlDeclaration)
+        /// <param name="stream">The <see cref="Stream"/> to apply the conversion to.</param>
+        /// <param name="encoding">The source encoding format.</param>
+        /// <param name="setup">The <see cref="XmlEncodingOptions"/> which need to be configured.</param>
+        /// <returns>A <see cref="Stream"/> object containing the results of converting bytes from <paramref name="encoding"/> to what is defined in <paramref name="setup"/>.</returns>
+        public static Stream ChangeEncoding(Stream stream, Encoding encoding, Action<XmlEncodingOptions> setup)
         {
-            return ChangeEncoding(source, XmlEncodingUtility.ReadEncoding(source), targetEncoding, PreambleSequence.Keep, omitXmlDeclaration);
-        }
+            Validator.ThrowIfNull(stream, nameof(stream));
+            Validator.ThrowIfNull(encoding, nameof(encoding));
+            Validator.ThrowIfNull(setup, nameof(setup));
 
-        /// <summary>
-        /// Converts the entire XML <see cref="Stream"/> object from one encoding to another.
-        /// </summary>
-        /// <param name="source">The <see cref="Stream"/> to apply the conversion to.</param>
-        /// <param name="sourceEncoding">The source encoding format.</param>
-        /// <param name="targetEncoding">The target encoding format.</param>
-        /// <param name="omitXmlDeclaration">if set to <c>true</c> omit the XML declaration; otherwise <c>false</c>. The default is false.</param>
-        /// <returns>A <see cref="Stream"/> object containing the results of converting bytes from sourceEncoding to targetEncoding.</returns>
-        public static Stream ChangeEncoding(Stream source, Encoding sourceEncoding, Encoding targetEncoding, bool omitXmlDeclaration)
-        {
-            return ChangeEncoding(source, sourceEncoding, targetEncoding, PreambleSequence.Keep, omitXmlDeclaration);
-        }
-
-        /// <summary>
-        /// Converts the entire XML <see cref="Stream"/> object from one encoding to another.
-        /// </summary>
-        /// <param name="source">The <see cref="Stream"/> to apply the conversion to.</param>
-        /// <param name="sourceEncoding">The source encoding format.</param>
-        /// <param name="targetEncoding">The target encoding format.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <returns>A <see cref="Stream"/> object containing the results of converting bytes from sourceEncoding to targetEncoding.</returns>
-        public static Stream ChangeEncoding(Stream source, Encoding sourceEncoding, Encoding targetEncoding, PreambleSequence sequence)
-        {
-            return ChangeEncoding(source, sourceEncoding, targetEncoding, sequence, false);
-        }
-
-        /// <summary>
-        /// Converts the entire XML <see cref="Stream"/> object from one encoding to another.
-        /// </summary>
-        /// <param name="source">The <see cref="Stream"/> to apply the conversion to.</param>
-        /// <param name="sourceEncoding">The source encoding format.</param>
-        /// <param name="targetEncoding">The target encoding format.</param>
-        /// <param name="sequence">Determines whether too keep or remove any preamble sequences.</param>
-        /// <param name="omitXmlDeclaration">if set to <c>true</c> omit the XML declaration; otherwise <c>false</c>. The default is false.</param>
-        /// <returns>A <see cref="Stream"/> object containing the results of converting bytes from sourceEncoding to targetEncoding.</returns>
-        public static Stream ChangeEncoding(Stream source, Encoding sourceEncoding, Encoding targetEncoding, PreambleSequence sequence, bool omitXmlDeclaration)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (sourceEncoding == null) throw new ArgumentNullException(nameof(sourceEncoding));
-            if (targetEncoding == null) throw new ArgumentNullException(nameof(targetEncoding));
-            if (sourceEncoding.Equals(targetEncoding)) { return source; }
+            var options = Patterns.Configure(setup);
+            if (encoding.Equals(options.Encoding)) { return stream; }
 
             long startingPosition = -1;
-            if (source.CanSeek)
+            if (stream.CanSeek)
             {
-                startingPosition = source.Position;
-                source.Position = 0;
+                startingPosition = stream.Position;
+                stream.Position = 0;
             }
 
-            Stream stream;
-            Stream tempStream = null;
-            try
+            return Disposable.SafeInvoke(() => new MemoryStream(), ms =>
             {
-                tempStream = new MemoryStream();
-                XmlDocument document = new XmlDocument();
-                document.Load(source);
+                var document = new XmlDocument();
+                document.Load(stream);
                 if (document.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
                 {
-                    XmlDeclaration declaration = (XmlDeclaration)document.FirstChild;
-                    declaration.Encoding = targetEncoding.WebName;
+                    var declaration = (XmlDeclaration)document.FirstChild;
+                    declaration.Encoding = options.Encoding.WebName;
                 }
-                XmlWriterSettings settings = new XmlWriterSettings();
-                settings.Encoding = targetEncoding;
+                var settings = new XmlWriterSettings();
+                settings.Encoding = options.Encoding;
                 settings.Indent = true;
-                settings.OmitXmlDeclaration = omitXmlDeclaration;
-                using (XmlWriter writer = XmlWriter.Create(tempStream, settings))
+                settings.OmitXmlDeclaration = options.OmitXmlDeclaration;
+                using (var writer = XmlWriter.Create(ms, settings))
                 {
                     document.Save(writer);
                     writer.Flush();
                 }
 
-                if (source.CanSeek) { source.Seek(startingPosition, SeekOrigin.Begin); } // reset to original position
-                tempStream.Position = 0;
+                if (stream.CanSeek) { stream.Seek(startingPosition, SeekOrigin.Begin); } // reset to original position
+                ms.Position = 0;
 
-                switch (sequence)
+                switch (options.Preamble)
                 {
                     case PreambleSequence.Keep:
-                        stream = tempStream;
-                        tempStream = null;
-                        break;
+                        return ms;
                     case PreambleSequence.Remove:
-                        byte[] valueInBytes = ((MemoryStream)tempStream).ToArray();
-                        using (tempStream)
+                        var valueInBytes = ms.ToArray();
+                        using (ms)
                         {
-                            valueInBytes = ByteArrayUtility.RemovePreamble(valueInBytes, targetEncoding);
+                            valueInBytes = ByteArrayUtility.RemovePreamble(valueInBytes, options.Encoding);
                         }
-                        tempStream = StreamConverter.FromBytes(valueInBytes);
-                        stream = tempStream;
-                        tempStream = null;
-                        break;
+                        return new MemoryStream(valueInBytes);
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(sequence));
+                        throw new ArgumentOutOfRangeException(nameof(options.Preamble));
                 }
-            }
-            finally
-            {
-                if (tempStream != null) { tempStream.Dispose(); }
-            }
-            return stream;
+            });
         }
     }
 }

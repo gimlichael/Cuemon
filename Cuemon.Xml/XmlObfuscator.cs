@@ -65,7 +65,7 @@ namespace Cuemon.Security
         protected override IList<char> InitializePermutationCharacters()
         {
             byte charatersToRemove = 10;
-            List<char> baseCharacters = new List<char>(base.InitializePermutationCharacters());
+            var baseCharacters = new List<char>(base.InitializePermutationCharacters());
             baseCharacters.RemoveRange(baseCharacters.Count - charatersToRemove, charatersToRemove);
             return baseCharacters.AsReadOnly();
         }
@@ -81,12 +81,12 @@ namespace Cuemon.Security
             try
             {
                 tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
+                using (var writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
                 {
                     writer.WriteStartDocument();
                     writer.WriteComment(string.Format(CultureInfo.InvariantCulture, " Legend: {0}=Obfuscated, {1}=Value, {2}=mapsTo ", MappingRootElement, MappingValueElement, MappingMapsToAttribute));
                     writer.WriteStartElement(MappingRootElement);
-                    foreach (KeyValuePair<string, ObfuscatorMapping> obfuscatedMappingPair in Mappings)
+                    foreach (var obfuscatedMappingPair in Mappings)
                     {
                         writer.WriteStartElement(MappingValueElement);
                         writer.WriteAttributeString(MappingMapsToAttribute, obfuscatedMappingPair.Value.Obfuscated);
@@ -116,7 +116,7 @@ namespace Cuemon.Security
         public override Stream Obfuscate(Stream value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
-            long startingPosition = value.Position;
+            var startingPosition = value.Position;
             if (value.CanSeek) { value.Position = 0; }
 
             MemoryStream output;
@@ -124,13 +124,13 @@ namespace Cuemon.Security
             try
             {
                 tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
+                using (var writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
                 {
-                    using (XmlReader reader = XmlReader.Create(value))
+                    using (var reader = XmlReader.Create(value))
                     {
                         while (reader.Read())
                         {
-                            bool writeEndElement = false;
+                            var writeEndElement = false;
                             switch (reader.NodeType)
                             {
                                 case XmlNodeType.Attribute:
@@ -221,22 +221,22 @@ namespace Cuemon.Security
                 mapping.Position = 0;
             }
 
-            IXPathNavigable document = XPathNavigableConverter.FromStream(mapping);
-            XPathNavigator navigator = document.CreateNavigator();
-            string mappingXpath = string.Format(CultureInfo.InvariantCulture, "{0}/{1}[@{2}='{3}']", MappingRootElement, MappingValueElement, MappingMapsToAttribute, "{0}");
+            var document = XPathNavigableConverter.FromStream(mapping);
+            var navigator = document.CreateNavigator();
+            var mappingXpath = string.Format(CultureInfo.InvariantCulture, "{0}/{1}[@{2}='{3}']", MappingRootElement, MappingValueElement, MappingMapsToAttribute, "{0}");
 
             MemoryStream output;
             MemoryStream tempOutput = null;
             try
             {
                 tempOutput = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
+                using (var writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
                 {
-                    using (XmlReader reader = XmlReader.Create(value))
+                    using (var reader = XmlReader.Create(value))
                     {
                         while (reader.Read())
                         {
-                            bool writeEndElement = false;
+                            var writeEndElement = false;
                             switch (reader.NodeType)
                             {
                                 case XmlNodeType.Attribute:
@@ -301,8 +301,8 @@ namespace Cuemon.Security
 
         private ObfuscatorMapping ManageStructureMappings(string nodeName, XmlNodeType nodeType)
         {
-            bool existing = true;
-            string nodeNameHash = ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}s@t£r$u%{1}", nodeName, nodeType));
+            var existing = true;
+            var nodeNameHash = ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}s@t£r$u%{1}", nodeName, nodeType));
             if (!Mappings.ContainsKey(nodeNameHash))
             {
                 lock (Mappings)
@@ -323,8 +323,8 @@ namespace Cuemon.Security
 
         private ObfuscatorMapping ManageDataMappings(string nodeValue, XmlNodeType nodeType)
         {
-            bool existing = true;
-            string nodeValueHash = ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}%d$a£t@a{1}", nodeValue, nodeType));
+            var existing = true;
+            var nodeValueHash = ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}%d$a£t@a{1}", nodeValue, nodeType));
             if (!Mappings.ContainsKey(nodeValueHash))
             {
                 lock (Mappings)
@@ -347,26 +347,26 @@ namespace Cuemon.Security
 
         private void WriteAttributeString(XmlWriter writer, XmlReader reader)
         {
-            ObfuscatorMapping structureMapping = ManageStructureMappings(reader.LocalName, reader.NodeType);
-            ObfuscatorMapping mapping = ManageDataMappings(reader.Value, reader.NodeType);
+            var structureMapping = ManageStructureMappings(reader.LocalName, reader.NodeType);
+            var mapping = ManageDataMappings(reader.Value, reader.NodeType);
             writer.WriteAttributeString(reader.Prefix, Exclusions.Contains(structureMapping.Original) ? structureMapping.Original : structureMapping.Obfuscated, reader.NamespaceURI, Exclusions.Contains(mapping.Original) ? mapping.Original : mapping.Obfuscated);
         }
 
         private void WriteStartElement(XmlWriter writer, XmlReader reader)
         {
-            ObfuscatorMapping mapping = ManageStructureMappings(reader.LocalName, reader.NodeType);
+            var mapping = ManageStructureMappings(reader.LocalName, reader.NodeType);
             writer.WriteStartElement(reader.Prefix, Exclusions.Contains(mapping.Original) ? mapping.Original : mapping.Obfuscated, reader.NamespaceURI);
         }
 
         private void WriteCData(XmlWriter writer, XmlReader reader)
         {
-            ObfuscatorMapping mapping = ManageDataMappings(reader.Value, reader.NodeType);
+            var mapping = ManageDataMappings(reader.Value, reader.NodeType);
             writer.WriteCData(Exclusions.Contains(mapping.Original) ? mapping.Original : mapping.Obfuscated);
         }
         
         private void WriteString(XmlWriter writer, XmlReader reader)
         {
-            ObfuscatorMapping mapping = ManageDataMappings(reader.Value, reader.NodeType);
+            var mapping = ManageDataMappings(reader.Value, reader.NodeType);
             writer.WriteString(Exclusions.Contains(mapping.Original) ? mapping.Original : mapping.Obfuscated);
         }
         #endregion
