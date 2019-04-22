@@ -25,9 +25,9 @@ namespace Cuemon.Extensions.Xml.Serialization
         {
             if (node == null) { throw new ArgumentNullException(nameof(node)); }
             if (qualifiedRootEntity != null && !qualifiedRootEntity.LocalName.IsNullOrWhiteSpace()) { return qualifiedRootEntity; }
-            bool hasRootAttribute = TypeUtility.ContainsAttributeType(node.InstanceType, true, typeof(XmlRootAttribute));
-            bool hasElementAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlElementAttribute));
-            string rootOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : StringConverter.FromType(node.InstanceType, false, true));
+            var hasRootAttribute = TypeUtility.ContainsAttributeType(node.InstanceType, true, typeof(XmlRootAttribute));
+            var hasElementAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlElementAttribute));
+            var rootOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : StringConverter.FromType(node.InstanceType, false, true));
             string ns = null;
 
             if (hasRootAttribute || hasElementAttribute)
@@ -35,14 +35,14 @@ namespace Cuemon.Extensions.Xml.Serialization
                 string elementName = null;
                 if (hasRootAttribute)
                 {
-                    XmlRootAttribute rootAttribute = node.InstanceType.GetTypeInfo().GetCustomAttribute<XmlRootAttribute>(true);
+                    var rootAttribute = node.InstanceType.GetTypeInfo().GetCustomAttribute<XmlRootAttribute>(true);
                     elementName = rootAttribute.ElementName;
                     ns = rootAttribute.Namespace;
                 }
 
                 if (hasElementAttribute)
                 {
-                    XmlElementAttribute elementAttribute = node.MemberReference.GetCustomAttribute<XmlElementAttribute>();
+                    var elementAttribute = node.MemberReference.GetCustomAttribute<XmlElementAttribute>();
                     elementName = elementAttribute.ElementName;
                     ns = elementAttribute.Namespace;
                 }
@@ -53,7 +53,7 @@ namespace Cuemon.Extensions.Xml.Serialization
                 }
             }
 
-            XmlQualifiedEntity instance = node.Instance as XmlQualifiedEntity;
+            var instance = node.Instance as XmlQualifiedEntity;
             return instance ?? new XmlQualifiedEntity(XmlUtility.SanitizeElementName(rootOrElementName), ns);
         }
 
@@ -61,9 +61,9 @@ namespace Cuemon.Extensions.Xml.Serialization
         {
             var attributes = new List<IHierarchy<T>>();
             var rest = new List<IHierarchy<T>>();
-            foreach (IHierarchy<T> value in sequence)
+            foreach (var value in sequence)
             {
-                XmlAttributeAttribute attribute = value.MemberReference?.GetCustomAttribute<XmlAttributeAttribute>();
+                var attribute = value.MemberReference?.GetCustomAttribute<XmlAttributeAttribute>();
                 if (attribute != null)
                 {
                     attributes.Add(value);

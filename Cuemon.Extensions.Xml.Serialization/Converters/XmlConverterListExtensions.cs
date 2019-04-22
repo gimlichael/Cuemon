@@ -10,6 +10,7 @@ using Cuemon.Runtime.Serialization;
 using Cuemon.Xml;
 using Cuemon.Xml.Linq;
 using Cuemon.Xml.Serialization;
+using Cuemon.Xml.Serialization.Converters;
 
 namespace Cuemon.Extensions.Xml.Serialization.Converters
 {
@@ -246,7 +247,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
         private static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
-            Type exceptionType = exception.GetType();
+            var exceptionType = exception.GetType();
             writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.FullName));
             WriteExceptionCore(writer, exception, includeStackTrace);
             writer.WriteEndElement();
@@ -272,8 +273,8 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             if (exception.StackTrace != null && includeStackTrace)
             {
                 writer.WriteStartElement("Stack");
-                string[] lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string line in lines)
+                var lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
                 {
                     writer.WriteElementString("Frame", line.Trim());
                 }
@@ -311,10 +312,10 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
             if (innerExceptions.Count > 0)
             {
-                int endElementsToWrite = 0;
+                var endElementsToWrite = 0;
                 foreach (var inner in innerExceptions)
                 {
-                    Type exceptionType = inner.GetType();
+                    var exceptionType = inner.GetType();
                     writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.Name));
                     writer.WriteAttributeString("namespace", exceptionType.Namespace);
                     WriteExceptionCore(writer, inner, includeStackTrace);

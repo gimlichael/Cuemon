@@ -11,6 +11,7 @@ using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
+using Cuemon.Xml.Serialization.Converters;
 
 namespace Cuemon.Extensions.Xml.Serialization.Converters
 {
@@ -198,7 +199,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             var properties = valueType.GetProperties(ReflectionUtility.BindingInstancePublicAndPrivate).Where(info => info.CanWrite).ToDictionary(info => info.Name);
             var propertyNames = properties.Select(info => info.Key).Intersect(values.Select(pair => pair.Key), StringComparer.OrdinalIgnoreCase).ToList();
 
-            List<object> args = new List<object>();
+            var args = new List<object>();
             foreach (var ctr in constructors)
             {
                 var arguments = ctr.GetParameters();
@@ -269,13 +270,13 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 return;
             }
 
-            bool hasAttributeAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlAttributeAttribute));
-            bool hasElementAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlElementAttribute));
-            bool hasTextAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlTextAttribute));
+            var hasAttributeAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlAttributeAttribute));
+            var hasElementAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlElementAttribute));
+            var hasTextAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlTextAttribute));
 
-            bool isType = node.Instance is Type;
-            Type nodeType = isType ? (Type)node.Instance : node.InstanceType;
-            string attributeOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : StringConverter.FromType(nodeType));
+            var isType = node.Instance is Type;
+            var nodeType = isType ? (Type)node.Instance : node.InstanceType;
+            var attributeOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : StringConverter.FromType(nodeType));
 
             if (!hasAttributeAttribute && !hasElementAttribute && !hasTextAttribute)
             {
@@ -325,7 +326,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
         private void WriteXmlChildren(XmlWriter writer, IHierarchy<object> node)
         {
-            foreach (IHierarchy<object> childNode in node.GetChildren().OrderByXmlAttributes())
+            foreach (var childNode in node.GetChildren().OrderByXmlAttributes())
             {
                 if (childNode.HasXmlIgnoreAttribute()) { continue; }
                 if (!childNode.InstanceType.GetTypeInfo().IsValueType && childNode.Instance == null) { continue; }
@@ -334,7 +335,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                     var i = childNode.Instance as IEnumerable;
                     if (i == null || i.Cast<object>().Count() == 0) { continue; }
                 }
-                XmlQualifiedEntity qualifiedEntity = childNode.LookupXmlStartElement();
+                var qualifiedEntity = childNode.LookupXmlStartElement();
                 if (childNode.HasChildren && TypeUtility.IsComplex(childNode.InstanceType)) { writer.WriteStartElement(qualifiedEntity); }
                 var converter = Converters.FirstOrDefaultWriterConverter(childNode.InstanceType);
                 if (converter != null)
