@@ -34,7 +34,7 @@ namespace Cuemon.Text
         /// <returns>Either the detected encoding of <paramref name="bytes"/> or the encoding of this instance.</returns>
         public static Encoding DetectEncoding(this IEncodingOptions options, byte[] bytes)
         {
-            if (bytes.TryDetectUnicodeEncoding(out var result))
+            if (ByteArrayUtility.TryDetectUnicodeEncoding(bytes, out var result))
             {
                 return result;
             }
