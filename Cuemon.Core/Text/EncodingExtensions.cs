@@ -20,7 +20,7 @@ namespace Cuemon.Text
         {
             Validator.ThrowIfNull(encoding, nameof(encoding));
             if (value.IsNullOrEmpty()) { return value; }
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             var result = Encoding.Convert(options.Encoding, Encoding.GetEncoding(encoding.EncodingName, options.EncoderFallback, options.DecoderFallback), value.ToByteArray(o =>
             {
                 o.Encoding = options.Encoding;
