@@ -4,7 +4,7 @@ using System.Xml;
 using Cuemon.Reflection;
 using Cuemon.Xml.Serialization;
 
-namespace Cuemon.Serialization.Xml
+namespace Cuemon.Extensions.Xml.Serialization
 {
     /// <summary>
     /// Extension methods for the <see cref="XmlWriter"/>.

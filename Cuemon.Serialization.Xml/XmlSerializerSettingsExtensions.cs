@@ -1,4 +1,4 @@
-﻿namespace Cuemon.Serialization.Xml
+﻿namespace Cuemon.Extensions.Xml.Serialization
 {
     /// <summary>
     /// Extension methods for the <see cref="XmlSerializerSettings"/>.

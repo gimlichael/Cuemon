@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using Cuemon.Serialization.Xml.Converters;
+using Cuemon.Extensions.Xml.Serialization.Converters;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 
-namespace Cuemon.Serialization.Xml
+namespace Cuemon.Extensions.Xml.Serialization
 {
     /// <summary>
     /// Specifies options that is related to <see cref="XmlSerializer"/> operations.

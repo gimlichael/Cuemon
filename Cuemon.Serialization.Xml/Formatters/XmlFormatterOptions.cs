@@ -1,6 +1,6 @@
-﻿using Cuemon.Serialization.Xml.Converters;
+﻿using Cuemon.Extensions.Xml.Serialization.Converters;
 
-namespace Cuemon.Serialization.Xml.Formatters
+namespace Cuemon.Extensions.Xml.Serialization.Formatters
 {
     /// <summary>
     /// Specifies options that is related to <see cref="XmlFormatter"/> operations.

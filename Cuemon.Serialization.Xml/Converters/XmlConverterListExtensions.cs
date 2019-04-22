@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 using Cuemon.Diagnostics;
-using Cuemon.Serialization.Formatters;
+using Cuemon.Extensions.Runtime.Serialization;
+using Cuemon.Runtime.Serialization;
 using Cuemon.Xml;
 using Cuemon.Xml.Linq;
 using Cuemon.Xml.Serialization;
 
-namespace Cuemon.Serialization.Xml.Converters
+namespace Cuemon.Extensions.Xml.Serialization.Converters
 {
     /// <summary>
     /// Extension methods for the <see cref=" IList{XmlConverter}"/>.
@@ -132,7 +132,7 @@ namespace Cuemon.Serialization.Xml.Converters
         /// Adds an <see cref="ExceptionDescriptor"/> XML converter to the list.
         /// </summary>
         /// <param name="converters">The list of XML converters.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which may be configured.</param>
         public static void AddExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
             var options = setup.Configure();

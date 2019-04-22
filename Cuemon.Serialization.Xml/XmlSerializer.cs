@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using Cuemon.Serialization.Xml.Converters;
+using Cuemon.Extensions.Xml.Serialization.Converters;
 using Cuemon.Xml;
 
-namespace Cuemon.Serialization.Xml
+namespace Cuemon.Extensions.Xml.Serialization
 {
     /// <summary>
     /// Serializes and deserializes objects into and from the XML format.

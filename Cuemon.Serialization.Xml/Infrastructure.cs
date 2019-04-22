@@ -7,7 +7,7 @@ using Cuemon.Reflection;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 
-namespace Cuemon.Serialization.Xml
+namespace Cuemon.Extensions.Xml.Serialization
 {
     internal static class Infrastructure
     {

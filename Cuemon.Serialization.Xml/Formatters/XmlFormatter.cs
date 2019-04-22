@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using Cuemon.Serialization.Formatters;
-using Cuemon.Serialization.Xml.Converters;
+using Cuemon.Extensions.Xml.Serialization.Converters;
+using Cuemon.Runtime.Serialization;
 
-namespace Cuemon.Serialization.Xml.Formatters
+namespace Cuemon.Extensions.Xml.Serialization.Formatters
 {
     /// <summary>
     /// Serializes and deserializes an object in XML format.
