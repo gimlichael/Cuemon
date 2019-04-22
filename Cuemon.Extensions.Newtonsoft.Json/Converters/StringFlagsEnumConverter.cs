@@ -78,7 +78,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         /// <returns>The object value.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            int result = 0;
+            var result = 0;
             while (reader.Read())
             {
                 switch (reader.TokenType)

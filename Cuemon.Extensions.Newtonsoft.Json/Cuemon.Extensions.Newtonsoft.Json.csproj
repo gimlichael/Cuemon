@@ -43,7 +43,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
-    <ProjectReference Include="..\Cuemon.Serialization\Cuemon.Serialization.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Runtime.Serialization\Cuemon.Extensions.Runtime.Serialization.csproj" />
   </ItemGroup>
 
   <ItemGroup>

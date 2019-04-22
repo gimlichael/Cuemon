@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cuemon.Diagnostics;
-using Cuemon.Serialization;
-using Cuemon.Serialization.Formatters;
+using Cuemon.Extensions.Runtime.Serialization;
+using Cuemon.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Cuemon.Extensions.Newtonsoft.Json.Converters
 {
@@ -30,7 +31,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         /// <param name="converters">The list of JSON converters.</param>
         public static void AddStringFlagsEnumConverter(this ICollection<JsonConverter> converters)
         {
-            converters.Add(new StringFlagsEnumConverter());
+            converters.Add(new StringFlagsEnumConverter(new CamelCaseNamingStrategy()));
         }
 
         /// <summary>
@@ -157,7 +158,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
 
         private static void WriteException(JsonWriter writer, Exception exception, bool includeStackTrace)
         {
-            Type exceptionType = exception.GetType();
+            var exceptionType = exception.GetType();
             writer.WriteStartObject();
             writer.WritePropertyName("type", () => DynamicJsonConverter.UseCamelCase);
             writer.WriteValue(exceptionType.FullName);
@@ -188,8 +189,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             {
                 writer.WritePropertyName("stack", () => DynamicJsonConverter.UseCamelCase);
                 writer.WriteStartArray();
-                string[] lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string line in lines)
+                var lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
                 {
                     writer.WriteValue(line.Trim());
                 }
@@ -228,11 +229,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
             if (innerExceptions.Count > 0)
             {
-                int endElementsToWrite = 0;
+                var endElementsToWrite = 0;
                 foreach (var inner in innerExceptions)
                 {
                     writer.WritePropertyName("inner", () => DynamicJsonConverter.UseCamelCase);
-                    Type exceptionType = inner.GetType();
+                    var exceptionType = inner.GetType();
                     writer.WriteStartObject();
                     writer.WritePropertyName("type", () => DynamicJsonConverter.UseCamelCase);
                     writer.WriteValue(exceptionType.FullName);

@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// Creates a sequence of <see cref="T:IEnumerable{JDataResult}"/> from the specified <paramref name="json"/>.
         /// </summary>
         /// <param name="json">A <see cref="Stream"/> that represents a JSON data structure.</param>
-        /// <param name="setup">The <see cref="StreamReaderOptions" /> which can be configured.</param>
+        /// <param name="setup">The <see cref="StreamReaderOptions" /> which may be configured.</param>
         /// <returns>An <see cref="T:IEnumerable{JDataResult}"/> sequence from the specified <see cref="Stream"/>.</returns>
         public static IEnumerable<JDataResult> ReadAll(Stream json, Action<StreamReaderOptions> setup = null)
         {

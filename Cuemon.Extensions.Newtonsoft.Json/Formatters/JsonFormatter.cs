@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Cuemon.IO;
-using Cuemon.Serialization.Formatters;
+using Cuemon.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
@@ -80,7 +80,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             Validator.ThrowIfNull(objectType, nameof(objectType));
             var serializer = JsonSerializer.Create(Options.Settings);
             var sr = new StreamReader(value, true);
-            using (JsonTextReader reader = new JsonTextReader(sr))
+            using (var reader = new JsonTextReader(sr))
             {
                 reader.CloseInput = false;
                 return serializer.Deserialize(reader, objectType);
