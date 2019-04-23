@@ -6,7 +6,7 @@ namespace Cuemon.Runtime
     /// <summary>
     /// An abstract class for establishing a watcher, that can monitor and signal changes of a resource by raising the <see cref="Changed"/> event.
     /// </summary>
-    public abstract class Watcher : IDisposable
+    public abstract class Watcher : Disposable
     {
         #region Constructors
         /// <summary>
@@ -115,11 +115,28 @@ namespace Cuemon.Runtime
         private Timer Timer { get; set; }
 
         private Timer TimerPostponing { get; set; }
-
-        private bool IsDisposed { get; set; }
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.
+        /// </summary>
+        protected override void OnDisposeManagedResources()
+        {
+            Timer?.Dispose();
+            TimerPostponing?.Dispose();
+        }
+
+        /// <summary>
+        /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.
+        /// </summary>
+        protected override void OnDisposeUnmanagedResources()
+        {
+            Timer = null;
+            TimerPostponing = null;
+        }
+
         /// <summary>
         /// Marks the time when a resource being monitored was last changed.
         /// </summary>
@@ -174,32 +191,6 @@ namespace Cuemon.Runtime
         {
             EventHandler<WatcherEventArgs> handler = Changed;
             EventUtility.Raise(handler, this, e);
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (IsDisposed) { return; }
-            IsDisposed = true;
-            if (disposing)
-            {
-                if (Timer != null) { Timer.Dispose(); }
-                if (TimerPostponing != null) { TimerPostponing.Dispose(); }
-            }
-            Timer = null;
-            TimerPostponing = null;
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
         #endregion
     }
