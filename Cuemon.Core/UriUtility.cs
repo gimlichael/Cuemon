@@ -141,9 +141,6 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="uriString"/> is null.
         /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="uriString"/> is empty.
-        /// </exception>
         public static Uri Parse(string uriString, UriKind uriKind)
         {
             return Parse(uriString, uriKind, AllUriSchemes);
@@ -158,9 +155,6 @@ namespace Cuemon
         /// <returns>An <see cref="Uri"/> that is equivalent to the value contained in <paramref name="uriString"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="uriString"/> is null - or - <paramref name="uriSchemes"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="uriString"/> is empty.
         /// </exception>
         public static Uri Parse(string uriString, UriKind uriKind, IEnumerable<UriScheme> uriSchemes)
         {

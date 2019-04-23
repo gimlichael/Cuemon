@@ -20,9 +20,6 @@ namespace Cuemon.Reflection
         /// <paramref name="parameterType"/> is null or <br/>
         /// <paramref name="parameterName"/> is null.
         /// </exception>
-        /// <exception cref="Cuemon.ArgumentEmptyException">
-        /// <paramref name="parameterName"/> is empty.
-        /// </exception>
         public ParameterSignature(Type parameterType, string parameterName)
         {
             Validator.ThrowIfNull(parameterType, nameof(parameterType));

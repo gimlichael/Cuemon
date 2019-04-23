@@ -88,10 +88,6 @@ namespace Cuemon.Reflection
         /// <paramref name="caller"/> is null or <br/>
         /// <paramref name="methodName"/> is null.
         /// </exception>
-        /// <exception cref="Cuemon.ArgumentEmptyException">
-        /// <paramref name="caller"/> is empty or <br/>
-        /// <paramref name="methodName"/> is empty.
-        /// </exception>
         /// <remarks>This represents a method with one or more parameters or a property indexer.</remarks>
         public MethodDescriptor(Type caller, string methodName, bool isProperty, params ParameterSignature[] parameters)
         {
