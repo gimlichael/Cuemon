@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 
-namespace Cuemon.Collections.Specialized
+namespace Cuemon.Extensions.Collections.Specialized
 {
     /// <summary>
     /// Extension methods for the <see cref="NameValueCollection"/> class.
@@ -25,6 +26,22 @@ namespace Cuemon.Collections.Specialized
                 return nvc.AllKeys.Contains(key, StringComparer.OrdinalIgnoreCase);
             }
             return true;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="IDictionary{TKey,TValue}"/> from the specified <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">A <see cref="NameValueCollection"/> to convert into an <see cref="IDictionary{TKey,TValue}"/> equivalent.</param>
+        /// <returns>A <see cref="IDictionary{TKey,TValue}"/> that is equivalent to the specified <paramref name="source"/>.</returns>
+        public static IDictionary<string, string[]> ToDictionary(this NameValueCollection source)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            var result = new Dictionary<string, string[]>();
+            foreach (string item in source)
+            {
+                result.Add(item, source[item].Split(','));
+            }
+            return result;
         }
     }
 }
