@@ -12,7 +12,7 @@ namespace Cuemon.Net.Http
 
         private static IDictionary<string, HttpMethods> InitStringToHttpMethodLookupTable()
         {
-            Dictionary<string, HttpMethods> result = new Dictionary<string, HttpMethods>();
+            var result = new Dictionary<string, HttpMethods>();
             foreach (var pair in EnumUtility.ToEnumerable<HttpMethods>())
             {
                 result.Add(pair.Value, EnumUtility.Parse<HttpMethods>(pair.Value));
@@ -27,8 +27,7 @@ namespace Cuemon.Net.Http
         /// <returns>A <see cref="HttpMethods"/> representation of the specified <paramref name="source"/>.</returns>
         public static HttpMethods ToHttpMethod(HttpMethod source)
         {
-            HttpMethods result;
-            if (!StringToHttpMethodLookupTable.TryGetValue(source.Method, out result))
+            if (!StringToHttpMethodLookupTable.TryGetValue(source.Method, out var result))
             {
                 result = HttpMethods.Get;
             }

@@ -78,7 +78,7 @@ namespace Cuemon.Net.Http
         /// <param name="setup">The <typeparamref name="T"/> which need to be configured.</param>
         public void SetHandlerFactory<T>(Action<T> setup) where T : HttpMessageHandler, new()
         {
-            HandlerFactory = setup.Configure;
+            HandlerFactory = () => Patterns.Configure(setup);
         }
 
         /// <summary>

@@ -91,8 +91,10 @@ namespace Cuemon.Net
 		/// <remarks>The <paramref name="checkResponseData"/> is useful when the web server you are probing does not contain the Last-Modified header.</remarks>
 		public NetDependency(IEnumerable<Uri> values, bool checkResponseData, TimeSpan dueTime, TimeSpan period)
 		{
-			if (values == null) { throw new ArgumentNullException(nameof(values)); }
-		    Uris = values;
+            Validator.ThrowIfNull(values, nameof(values));
+            Validator.ThrowIfNull(dueTime, nameof(dueTime));
+            Validator.ThrowIfNull(period, nameof(period));
+            Uris = values;
 		    CheckResponseData = checkResponseData;
 		    DueTime = dueTime;
 		    Period = period;
@@ -315,8 +317,8 @@ namespace Cuemon.Net
 	    private static IEnumerable<Uri> ToUriSequence(IEnumerable<string> uriStrings)
 	    {
 	        if (uriStrings == null) { return null; }
-            List<Uri> uris = new List<Uri>();
-            foreach (string uri in uriStrings)
+            var uris = new List<Uri>();
+            foreach (var uri in uriStrings)
             {
                 Uri realUri;
                 if (UriUtility.TryParse(uri, UriKind.Absolute, out realUri)) { uris.Add(realUri); }
@@ -327,30 +329,22 @@ namespace Cuemon.Net
         /// <summary>
         /// Starts and performs the necessary dependency tasks of this instance.
         /// </summary>
-        /// <exception cref="System.ArgumentException">The provided Uri does not have a valid scheme attached. Allowed schemes for now is File, FTP or HTTP.;uris</exception>
+        /// <exception cref="ArgumentException">The provided Uri does not have a valid scheme attached. Allowed schemes for now is File, HTTP or HTTPS.</exception>
 		public override void Start()
 		{
-            List<NetWatcher> watchers = new List<NetWatcher>();
-            foreach (Uri uri in Uris)
+            var watchers = new List<NetWatcher>();
+            foreach (var uri in Uris)
             {
                 switch (UriSchemeConverter.FromString(uri.Scheme))
                 {
                     case UriScheme.File:
                     case UriScheme.Http:
                     case UriScheme.Https:
-                        NetWatcher watcher;
-                        NetWatcher tempWatcher = null;
-                        try
+                        var watcher = Disposable.SafeInvoke(() => new NetWatcher(uri, DueTime, Period, CheckResponseData), nw =>
                         {
-                            tempWatcher = new NetWatcher(uri, DueTime, Period, CheckResponseData);
-                            tempWatcher.Changed += WatcherChanged;
-                            watcher = tempWatcher;
-                            tempWatcher = null;
-                        }
-                        finally
-                        {
-                            if (tempWatcher != null) { tempWatcher.Dispose(); }
-                        }
+                            nw.Changed += WatcherChanged;
+                            return nw;
+                        });
                         watchers.Add(watcher);
                         break;
                     default:
@@ -372,7 +366,7 @@ namespace Cuemon.Net
 				{
 					if (Watchers != null)
 					{
-                        foreach (NetWatcher watcher in Watchers)
+                        foreach (var watcher in Watchers)
                         {
                             watcher.Changed -= WatcherChanged;
                             watcher.Dispose();

@@ -8,22 +8,21 @@ using System.Threading.Tasks;
 namespace Cuemon.Net.Http
 {
     /// <summary>
-    /// Provides ways for sending HTTP requests and receiving HTTP responses from a resource identified by a URI. This class cannot be inherited.
+    /// Provides ways for sending HTTP requests and receiving HTTP responses from a resource identified by a URI.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    public sealed class HttpManager : IDisposable
+    public class HttpManager : Disposable
     {
-        private volatile bool _isDisposed;
         private readonly Lazy<HttpClient> _httpClient;
         private const string HttpPatchVerb = "PATCH";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpManager" /> class.
         /// </summary>
-        /// <param name="setup">The <see cref="HttpManagerOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="HttpManagerOptions"/> which may be configured.</param>
         public HttpManager(Action<HttpManagerOptions> setup = null)
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             _httpClient = new Lazy<HttpClient>(() =>
             {
                 Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), $"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.SetHandlerFactory)}.");
@@ -36,6 +35,14 @@ namespace Cuemon.Net.Http
                 client.Timeout = options.Timeout;
                 return client;
             });
+        }
+
+        /// <summary>
+        /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.
+        /// </summary>
+        protected override void OnDisposeManagedResources()
+        {
+            Client?.Dispose();
         }
 
         private HttpClient Client => _httpClient.Value;
@@ -62,7 +69,7 @@ namespace Cuemon.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpDeleteAsync(Uri location, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpDeleteAsync(Uri location, CancellationToken ct = default)
         {
             return HttpAsync(location, o =>
             {
@@ -77,7 +84,7 @@ namespace Cuemon.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpGetAsync(Uri location, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpGetAsync(Uri location, CancellationToken ct = default)
         {
             return HttpAsync(location, o =>
             {
@@ -92,7 +99,7 @@ namespace Cuemon.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpHeadAsync(Uri location, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpHeadAsync(Uri location, CancellationToken ct = default)
         {
             return HttpAsync(location, o =>
             {
@@ -107,7 +114,7 @@ namespace Cuemon.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpOptionsAsync(Uri location, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpOptionsAsync(Uri location, CancellationToken ct = default)
         {
             return HttpAsync(location, o =>
             {
@@ -122,7 +129,7 @@ namespace Cuemon.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpTraceAsync(Uri location, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpTraceAsync(Uri location, CancellationToken ct = default)
         {
             return HttpAsync(location, o =>
             {
@@ -139,7 +146,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpPostAsync(Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpPostAsync(Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(HttpMethod.Post, location, contentType, content, ct);
         }
@@ -152,7 +159,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpPostAsync(Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpPostAsync(Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(HttpMethod.Post, location, contentType, content, ct);
         }
@@ -165,7 +172,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpPutAsync(Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpPutAsync(Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(HttpMethod.Put, location, contentType, content, ct);
         }
@@ -178,7 +185,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpPutAsync(Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpPutAsync(Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(HttpMethod.Put, location, contentType, content, ct);
         }
@@ -191,7 +198,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpPatchAsync(Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpPatchAsync(Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(new HttpMethod(HttpPatchVerb), location, contentType, content, ct);
         }
@@ -204,7 +211,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpPatchAsync(Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpPatchAsync(Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(new HttpMethod(HttpPatchVerb), location, contentType, content, ct);
         }
@@ -218,7 +225,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpAsync(HttpMethod method, Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpAsync(HttpMethod method, Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             Validator.ThrowIfNullOrEmpty(contentType, nameof(contentType));
             return HttpAsync(method, location, MediaTypeHeaderValue.Parse(contentType), content, ct);
@@ -233,7 +240,7 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpAsync(HttpMethod method, Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public Task<HttpResponseMessage> HttpAsync(HttpMethod method, Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             Validator.ThrowIfNull(method, nameof(method));
             Validator.ThrowIfNull(contentType, nameof(contentType));
@@ -253,31 +260,12 @@ namespace Cuemon.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="setup">The <see cref="HttpRequestOptions"/> which need to be configured.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public Task<HttpResponseMessage> HttpAsync(Uri location, Action<HttpRequestOptions> setup)
+        public virtual Task<HttpResponseMessage> HttpAsync(Uri location, Action<HttpRequestOptions> setup)
         {
             Validator.ThrowIfNull(setup, nameof(setup));
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             options.Request.RequestUri = location;
             return Client.SendAsync(options.Request, options.CompletionOption, options.CancellationToken);
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        private void Dispose(bool disposing)
-        {
-            if (_isDisposed || !disposing) { return; }
-            _isDisposed = true;
-            Client?.Dispose();
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
         }
     }
 }

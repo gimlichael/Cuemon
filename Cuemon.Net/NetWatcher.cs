@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Net.Http;
 using Cuemon.Net.Http;
 using Cuemon.Runtime;
 using Cuemon.Security.Cryptography;
 
 namespace Cuemon.Net
 {
-	/// <summary>
-	/// A <see cref="Watcher"/> implementation, that can monitor and signal changes of one or more URI locations by raising the <see cref="Watcher.Changed"/> event.
-	/// </summary>
-	public sealed class NetWatcher : Watcher
+    /// <summary>
+    /// A <see cref="Watcher"/> implementation, that can monitor and signal changes of one or more URI locations by raising the <see cref="Watcher.Changed"/> event.
+    /// </summary>
+    public sealed class NetWatcher : Watcher
 	{
 		private readonly object _locker = new object();
         private static readonly string SignatureDefault = StringUtility.CreateRandomString(32);
@@ -68,7 +67,7 @@ namespace Cuemon.Net
 		public NetWatcher(Uri requestUri, TimeSpan dueTime, TimeSpan period, bool checkResponseData) : base(dueTime, period)
 		{
 			if (requestUri == null) throw new ArgumentNullException(nameof(requestUri));
-			UriScheme scheme = UriSchemeConverter.FromString(requestUri.Scheme);
+			var scheme = UriSchemeConverter.FromString(requestUri.Scheme);
 			switch (scheme)
 			{
 				case UriScheme.File:
@@ -119,16 +118,16 @@ namespace Cuemon.Net
 		{
 			lock (_locker)
 			{
-                string currentSignature = SignatureDefault;
-                string listenerHeader = string.Format(CultureInfo.InvariantCulture, "Cuemon.Net.NetWatcher; Interval={0} seconds", Period.TotalSeconds);
-				DateTime utcLastModified = DateTime.UtcNow;
+                var currentSignature = SignatureDefault;
+                var listenerHeader = string.Format(CultureInfo.InvariantCulture, "Cuemon.Net.NetWatcher; Interval={0} seconds", Period.TotalSeconds);
+				var utcLastModified = DateTime.UtcNow;
 				switch (Scheme)
 				{
 					case UriScheme.File:
 						utcLastModified = File.GetLastWriteTimeUtc(RequestUri.LocalPath);
 						if (CheckResponseData)
 						{
-							using (FileStream stream = new FileStream(RequestUri.LocalPath, FileMode.Open, FileAccess.Read))
+							using (var stream = new FileStream(RequestUri.LocalPath, FileMode.Open, FileAccess.Read))
 							{
 								stream.Position = 0;
 								currentSignature = HashUtility.ComputeHash(stream).ToHexadecimal();
@@ -137,10 +136,10 @@ namespace Cuemon.Net
 						break;
 					case UriScheme.Http:
                     case UriScheme.Https:
-				        using (HttpManager manager = new HttpManager())
+				        using (var manager = new HttpManager())
 				        {
 				            manager.DefaultRequestHeaders.Add("Listener-Object", listenerHeader);
-				            using (HttpResponseMessage response = CheckResponseData ? manager.HttpGetAsync(RequestUri).Result : manager.HttpHeadAsync(RequestUri).Result)
+				            using (var response = CheckResponseData ? manager.HttpGetAsync(RequestUri).Result : manager.HttpHeadAsync(RequestUri).Result)
 				            {
 				                switch (HttpMethodConverter.ToHttpMethod(response.RequestMessage.Method))
 				                {
@@ -149,7 +148,7 @@ namespace Cuemon.Net
                                         currentSignature = string.IsNullOrEmpty(etag.Tag) ? HashUtility.ComputeHash(response.Content.ReadAsByteArrayAsync().Result).ToHexadecimal() : etag.Tag;
                                         break;
                                     case HttpMethods.Head:
-                                        utcLastModified = response.Content.Headers.LastModified.HasValue ? response.Content.Headers.LastModified.Value.UtcDateTime : DateTime.MaxValue;
+                                        utcLastModified = response.Content.Headers.LastModified?.UtcDateTime ?? DateTime.MaxValue;
                                         break;
 				                }
 				            }
