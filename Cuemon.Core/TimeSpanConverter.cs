@@ -36,7 +36,7 @@ namespace Cuemon
                 case TimeUnit.Milliseconds:
                     return TimeSpan.FromMilliseconds(value);
                 case TimeUnit.Ticks:
-                    if (value < Int64.MinValue || value > Int64.MaxValue) { throw new OverflowException(string.Format(CultureInfo.InvariantCulture, "The specified value, {0}, having a time unit specified as Ticks cannot be less than {1} or be greater than {2}.", value, Int64.MinValue, Int64.MaxValue)); }
+                    if (value < Int64.MinValue || value > Int64.MaxValue) { throw new OverflowException(String.Format(CultureInfo.InvariantCulture, "The specified value, {0}, having a time unit specified as Ticks cannot be less than {1} or be greater than {2}.", value, Int64.MinValue, Int64.MaxValue)); }
                     return TimeSpan.FromTicks((long)value);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(timeUnit));

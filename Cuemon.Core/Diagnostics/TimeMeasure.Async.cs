@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using Cuemon.Reflection;
-using Cuemon.Threading.Tasks;
 
 namespace Cuemon.Diagnostics
 {
@@ -534,7 +533,7 @@ namespace Cuemon.Diagnostics
                 Member = descriptor.ToString(),
                 Data = descriptor.MergeParameters(options.RuntimeParameters ?? factory.GenericArguments.ToArray())
             };
-            await PerformTimeMeasuringAsync(profiler, options, async p => await factory.ExecuteMethodAsync().ContinueWithSuppressedContext()).ContinueWithSuppressedContext();
+            await PerformTimeMeasuringAsync(profiler, options, async p => await factory.ExecuteMethodAsync().ConfigureAwait(false)).ConfigureAwait(false);
             return profiler;
         }
 
@@ -547,7 +546,7 @@ namespace Cuemon.Diagnostics
                 Member = descriptor.ToString(),
                 Data = descriptor.MergeParameters(options.RuntimeParameters ?? factory.GenericArguments.ToArray())
             };
-            await PerformTimeMeasuringAsync(profiler, options, async p => p.Result = await factory.ExecuteMethodAsync().ContinueWithSuppressedContext()).ContinueWithSuppressedContext();
+            await PerformTimeMeasuringAsync(profiler, options, async p => p.Result = await factory.ExecuteMethodAsync().ConfigureAwait(false)).ConfigureAwait(false);
             return profiler;
         }
 
@@ -556,7 +555,7 @@ namespace Cuemon.Diagnostics
             try
             {
                 profiler.Timer.Start();
-                await handler(profiler).ContinueWithSuppressedContext();
+                await handler(profiler).ConfigureAwait(false);
             }
             catch (TargetInvocationException ex)
             {

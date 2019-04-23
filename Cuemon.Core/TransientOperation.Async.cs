@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Cuemon.Reflection;
-using Cuemon.Threading.Tasks;
 
 namespace Cuemon
 {
@@ -218,7 +217,7 @@ namespace Cuemon
             var options = Patterns.Configure(setup);
             if (!options.EnableRecovery)
             {
-                await factory.ExecuteMethodAsync().ContinueWithSuppressedContext();
+                await factory.ExecuteMethodAsync().ConfigureAwait(false);
                 return;
             }
             DateTime timestamp = DateTime.UtcNow;
@@ -234,7 +233,7 @@ namespace Cuemon
                 try
                 {
                     if (latency > options.MaximumAllowedLatency) { throw new LatencyException(string.Format(CultureInfo.InvariantCulture, "The latency of the operation exceeded the allowed maximum value of {0} seconds. Actual latency was: {1} seconds.", options.MaximumAllowedLatency.TotalSeconds, latency.TotalSeconds)); }
-                    await factory.ExecuteMethodAsync().ContinueWithSuppressedContext();
+                    await factory.ExecuteMethodAsync().ConfigureAwait(false);
                     return;
                 }
                 catch (Exception ex)
@@ -248,7 +247,7 @@ namespace Cuemon
                         lastWaitTime = waitTime;
                         totalWaitTime = totalWaitTime.Add(waitTime);
                         attempts++;
-                        await Task.Delay(waitTime).ContinueWithSuppressedContext();
+                        await Task.Delay(waitTime).ConfigureAwait(false);
                         latency = DateTime.UtcNow.Subtract(timestamp).Subtract(totalWaitTime);
                     }
                     catch (Exception)
@@ -270,7 +269,7 @@ namespace Cuemon
         private static async Task<TResult> WithFuncAsyncCore<TTuple, TResult>(TaskFuncFactory<TTuple, TResult> factory, Action<TransientOperationOptions> setup) where TTuple : Template
         {
             var options = Patterns.Configure(setup);
-            if (!options.EnableRecovery) { return await factory.ExecuteMethodAsync().ContinueWithSuppressedContext(); }
+            if (!options.EnableRecovery) { return await factory.ExecuteMethodAsync().ConfigureAwait(false); }
             DateTime timestamp = DateTime.UtcNow;
             TimeSpan latency = TimeSpan.Zero;
             TimeSpan totalWaitTime = TimeSpan.Zero;
@@ -286,7 +285,7 @@ namespace Cuemon
                 try
                 {
                     if (latency > options.MaximumAllowedLatency) { throw new LatencyException(string.Format(CultureInfo.InvariantCulture, "The latency of the operation exceeded the allowed maximum value of {0} seconds. Actual latency was: {1} seconds.", options.MaximumAllowedLatency.TotalSeconds, latency.TotalSeconds)); }
-                    return await factory.ExecuteMethodAsync().ContinueWithSuppressedContext();
+                    return await factory.ExecuteMethodAsync().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -299,7 +298,7 @@ namespace Cuemon
                         lastWaitTime = waitTime;
                         totalWaitTime = totalWaitTime.Add(waitTime);
                         attempts++;
-                        await Task.Delay(waitTime).ContinueWithSuppressedContext();
+                        await Task.Delay(waitTime).ConfigureAwait(false);
                         latency = DateTime.UtcNow.Subtract(timestamp).Subtract(totalWaitTime);
                     }
                     catch (Exception)

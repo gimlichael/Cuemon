@@ -269,9 +269,10 @@ namespace Cuemon.IO
                     var preamble = options.Encoding.GetPreamble();
                     if (preamble.Length > 0)
                     {
-                        ms = StreamConverter.RemovePreamble(ms, options.Encoding) as MemoryStream;
+                        return StreamConverter.RemovePreamble(ms, options.Encoding) as MemoryStream;
                     }
                 }
+                return ms;
             }, ex =>
             {
                 var parameters = new List<object>();

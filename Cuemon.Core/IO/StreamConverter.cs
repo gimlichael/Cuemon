@@ -23,7 +23,12 @@ namespace Cuemon.IO
             Validator.ThrowIfNull(encoding, nameof(encoding));
             byte[] bytes = ByteConverter.FromStream(value, leaveOpen);
             bytes = ByteArrayUtility.RemovePreamble(bytes, encoding);
-            return Disposable.SafeInvoke(() => new MemoryStream(bytes.Length), ms => ms.Write(bytes, 0, bytes.Length));
+            return Disposable.SafeInvoke(() => new MemoryStream(bytes.Length), ms =>
+            {
+                ms.Write(bytes, 0, bytes.Length);
+                ms.Position = 0;
+                return ms;
+            });
         }
 
         /// <summary>
@@ -34,7 +39,12 @@ namespace Cuemon.IO
         public static Stream FromBytes(byte[] value)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            return Disposable.SafeInvoke(() => new MemoryStream(value.Length), ms => ms.Write(value, 0, value.Length));
+            return Disposable.SafeInvoke(() => new MemoryStream(value.Length), ms =>
+            {
+                ms.Write(value, 0, value.Length);
+                ms.Position = 0;
+                return ms;
+            });
         }
 
         /// <summary>
@@ -51,6 +61,8 @@ namespace Cuemon.IO
             {
                 var bytes = ByteConverter.FromString(value, setup);
                 ms.Write(bytes, 0, bytes.Length);
+                ms.Position = 0;
+                return ms;
             });
         }
     }

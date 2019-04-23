@@ -98,7 +98,7 @@ namespace Cuemon
         {
             if (definite == null) { definite = string.Empty; }
             if (arbitrary == null) { arbitrary = string.Empty; }
-            difference = arbitrary.Distinct().Except(definite.Distinct()).FromChars();
+            difference = StringConverter.FromChars(arbitrary.Distinct().Except(definite.Distinct()));
             return difference.Any();
         }
 

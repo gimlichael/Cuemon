@@ -23,7 +23,7 @@ namespace Cuemon.Reflection
         public static MethodBase FromType(Type caller, Type[] types = null, [CallerMemberName] string memberName = "", BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
         {
             Validator.ThrowIfNull(caller, nameof(caller));
-            Validator.ThrowIfNullOrEmpty(memberName, nameof(memberName));
+            Validator.ThrowIfNullOrWhitespace(memberName, nameof(memberName));
             var methods = caller.GetMethods(flags).Where(info => info.Name.Equals(memberName)).ToList();
             var matchedMethod = Parse(methods, types);
             if (matchedMethod != null) { return matchedMethod; }

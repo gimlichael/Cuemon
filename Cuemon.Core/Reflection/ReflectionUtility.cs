@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Cuemon.Collections.Generic;
 
 namespace Cuemon.Reflection
 {
@@ -358,7 +357,6 @@ namespace Cuemon.Reflection
         /// <returns>A collection of key/value pairs representing the specified <paramref name="methodName"/>.</returns>
         /// <remarks>This method will parse the specified <paramref name="methodName"/> for parameter names and tie them with <paramref name="methodParameters"/>.</remarks>
         /// <exception cref="ArgumentNullException">This exception is thrown if <paramref name="methodName"/> is null, if <paramref name="source"/> is null or if <paramref name="methodParameters"/> is null and method has resolved parameters.</exception>
-        /// <exception cref="ArgumentEmptyException">This exception is thrown if <paramref name="methodName"/> is empty.</exception>
         /// <exception cref="ArgumentException">
         /// This exception is thrown if either of the following is true:<br/>
         /// the size of <paramref name="methodParameters"/> does not match the resolved parameters size of <paramref name="methodName"/>,<br/>
@@ -468,9 +466,6 @@ namespace Cuemon.Reflection
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="fieldName"/> is null.
         /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="fieldName"/> is empty.
-        /// </exception>
         /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
         public static FieldInfo GetField(Type source, string fieldName)
         {
@@ -486,9 +481,6 @@ namespace Cuemon.Reflection
         /// <returns>An object representing the field with the specified name, if found; otherwise, null.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="fieldName"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="fieldName"/> is empty.
         /// </exception>
         public static FieldInfo GetField(Type source, string fieldName, BindingFlags bindings)
         {
@@ -557,9 +549,6 @@ namespace Cuemon.Reflection
         /// <returns>An object representing the method with the specified name, if found; otherwise, null.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="methodName"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="methodName"/> is empty.
         /// </exception>
         public static MethodInfo GetMethod(Type source, string methodName, BindingFlags bindings)
         {
@@ -646,9 +635,6 @@ namespace Cuemon.Reflection
         /// <returns>An object representing the property with the specified name, if found; otherwise, null.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null -or- <paramref name="propertyName"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="propertyName"/> is empty.
         /// </exception>
         public static PropertyInfo GetProperty(Type source, string propertyName, BindingFlags bindings)
         {

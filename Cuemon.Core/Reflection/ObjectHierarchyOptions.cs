@@ -85,7 +85,7 @@ namespace Cuemon.Reflection
         /// <value>The maximum depth to safely traverse an object hierarchy.</value>
         public int MaxDepth
         {
-            get { return _maxDepth; }
+            get => _maxDepth;
             set
             {
                 Validator.ThrowIfLowerThan(value, 0, nameof(value));
@@ -99,7 +99,7 @@ namespace Cuemon.Reflection
         /// <value>The maximum amount of times an object is allowed to make circular calls.</value>
         public int MaxCircularCalls
         {
-            get { return _maxCircularCalls; }
+            get => _maxCircularCalls;
             set
             {
                 Validator.ThrowIfLowerThan(value, 0, nameof(value));
@@ -113,7 +113,7 @@ namespace Cuemon.Reflection
         /// <value>A <see cref="Func{TResult}"/> that determines if a given property <see cref="Type"/> should be skipped or not.</value>
         public Func<Type, bool> SkipPropertyType
         {
-            get { return _skipPropertyType; }
+            get => _skipPropertyType;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));
@@ -127,7 +127,7 @@ namespace Cuemon.Reflection
         /// <value>A <see cref="Func{TResult}"/> that determines if a given <see cref="PropertyInfo"/> should be skipped or not.</value>
         public Func<PropertyInfo, bool> SkipProperty
         {
-            get { return _skipProperty; }
+            get => _skipProperty;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));
@@ -141,7 +141,7 @@ namespace Cuemon.Reflection
         /// <value>A <see cref="Func{TResult}"/> that determines if an object is suggesting a circular reference.</value>
         public Func<object, bool> HasCircularReference
         {
-            get { return _hasCircularReference; }
+            get => _hasCircularReference;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));
@@ -155,7 +155,7 @@ namespace Cuemon.Reflection
         /// <value>A <see cref="Func{TResult}"/> that will resolve the index parameters of a <see cref="PropertyInfo"/>.</value>
         public Func<ParameterInfo[], object[]> PropertyIndexParametersResolver
         {
-            get { return _propertyIndexParametersResolver; }
+            get => _propertyIndexParametersResolver;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));
