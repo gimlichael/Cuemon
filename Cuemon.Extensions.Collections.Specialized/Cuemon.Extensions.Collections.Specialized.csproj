@@ -13,9 +13,9 @@
     <AssemblyTitle>Cuemon.Collections.Specialized</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyName>Cuemon.Collections.Specialized</AssemblyName>
+    <AssemblyName>Cuemon.Extensions.Collections.Specialized</AssemblyName>
     <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <None Remove="Cuemon.Collections.Specialized.csproj.vspscc" />
+    <None Remove="Cuemon.Extensions.Collections.Specialized.csproj.vspscc" />
   </ItemGroup>
 
   <ItemGroup>
