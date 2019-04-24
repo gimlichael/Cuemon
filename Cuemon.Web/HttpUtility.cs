@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Cuemon.IO;
-using Cuemon.Text;
 
 namespace Cuemon.Web
 {
     /// <summary>
-    /// This utility class is a light-weight implementation of the now deprecated HttpUtility class. Was made for backward compatibility in terms of <see cref="UrlEncode(string,System.Text.Encoding)"/> and <see cref="UrlDecode(string,System.Text.Encoding)"/>.
+    /// This utility class is a light-weight implementation of the now deprecated HttpUtility class. Was made for backward compatibility in terms of <see cref="UrlEncode(string,Encoding)"/> and <see cref="UrlDecode(string,Encoding)"/>.
     /// </summary>
     /// <remarks>
     /// Kudos to the mono-project team for this class. I only modified some of the original code to fit into this class. For the original code, have a visit here for the source code: https://github.com/mono/mono/blob/master/mcs/class/System.Web/System.Web/HttpUtility.cs or here for the mono-project website: http://www.mono-project.com/.
@@ -139,11 +138,8 @@ namespace Cuemon.Web
         /// <returns>An encoded array of bytes.</returns>
         public static string UrlEncode(string str, Encoding e)
         {
-            if (str == null)
-                return null;
-
-            if (str == String.Empty)
-                return String.Empty;
+            if (str == null)  { return null;}
+            if (str == string.Empty) { return string.Empty; }
 
             bool needEncode = false;
             int len = str.Length;

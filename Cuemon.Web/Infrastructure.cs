@@ -62,12 +62,12 @@ namespace Cuemon.Web
         }
 
         /// <summary>
-        /// Parses a query string, header or a form-data into a <see cref="String"/> equivalent field-value pairs as specified by the W3C.
+        /// Parses a query string, header or a form-data into a <see cref="string"/> equivalent field-value pairs as specified by the W3C.
         /// </summary>
         /// <param name="fieldValuePairs">The query string, header or form-data values to parse.</param>
         /// <param name="separator">The <see cref="FieldValueSeparator"/> to use in the conversion.</param>
         /// <param name="urlEncode">Encodes the output URL string. Default is true.</param>
-        /// <returns>A <see cref="String"/> value equivalent to the values in the <paramref name="fieldValuePairs"/>.</returns>
+        /// <returns>A <see cref="string"/> value equivalent to the values in the <paramref name="fieldValuePairs"/>.</returns>
         internal static string ParseFieldValuePairs(NameValueCollection fieldValuePairs, FieldValueSeparator separator, bool urlEncode)
         {
             if (fieldValuePairs == null) throw new ArgumentNullException(nameof(fieldValuePairs));
