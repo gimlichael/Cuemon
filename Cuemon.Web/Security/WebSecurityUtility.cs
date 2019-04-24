@@ -151,24 +151,24 @@ namespace Cuemon.Web.Security
 
 			int foundArguments;
 			if (!StringUtility.ParseFormat(secureUriFormat, 3, out foundArguments)) { throw new ArgumentException("You must - in this order - specify three arguments for; 'token', 'iv' and 'salt'. This value cannot be exceeded nor the opposite. 'token', 'iv' and 'salt' is the default values."); }
-			NameValueCollection formatedQuerytring = QueryStringConverter.FromString(secureUriFormat);
+			var formatedQuerytring = QueryStringConverter.FromString(secureUriFormat);
 
-			SecurityToken securityToken = SecurityToken.Create(settings);
-			byte[] iv = AdvancedEncryptionStandardUtility.GenerateInitializationVector();
-			byte[] encryptedSecurityToken = SecurityUtility.CreateEncryptedSecurityToken(securityToken, securityKey, iv);
-			string ivAsString = HttpUtility.UrlEncode(Encoding.UTF8.GetString(iv, 0, iv.Length));
-			string encryptedSecurityTokenAsString = HttpUtility.UrlEncode(Convert.ToBase64String(encryptedSecurityToken));
-			string salt = HttpUtility.UrlEncode(StringUtility.CreateRandomString(18));
-			int indexOfQuestionMark = uriLocation.IndexOf('?');
-			string uriLocationQuerystring = indexOfQuestionMark > 0 ? uriLocation.Substring(indexOfQuestionMark) : "";
+			var securityToken = SecurityToken.Create(settings);
+			var iv = AdvancedEncryptionStandardUtility.GenerateInitializationVector();
+			var encryptedSecurityToken = SecurityUtility.CreateEncryptedSecurityToken(securityToken, securityKey, iv);
+			var ivAsString = HttpUtility.UrlEncode(Encoding.UTF8.GetString(iv, 0, iv.Length));
+			var encryptedSecurityTokenAsString = HttpUtility.UrlEncode(Convert.ToBase64String(encryptedSecurityToken));
+			var salt = HttpUtility.UrlEncode(StringUtility.CreateRandomString(18));
+			var indexOfQuestionMark = uriLocation.IndexOf('?');
+			var uriLocationQuerystring = indexOfQuestionMark > 0 ? uriLocation.Substring(indexOfQuestionMark) : "";
 			uriLocation = indexOfQuestionMark > 0 ? uriLocation.Substring(0, indexOfQuestionMark) : uriLocation;
 
-			NameValueCollection querystring = QueryStringConverter.FromString(uriLocationQuerystring);
-			NameValueCollection secureQuerystring = QueryStringConverter.FromString(string.Format(CultureInfo.InvariantCulture, secureUriFormat, encryptedSecurityTokenAsString, ivAsString, salt));
+			var querystring = QueryStringConverter.FromString(uriLocationQuerystring);
+			var secureQuerystring = QueryStringConverter.FromString(string.Format(CultureInfo.InvariantCulture, secureUriFormat, encryptedSecurityTokenAsString, ivAsString, salt));
 			secureQuerystring.Add(querystring);
 			querystring = QueryStringUtility.RemoveDublets(secureQuerystring, formatedQuerytring.AllKeys);
 
-			string secureUri = string.Format(CultureInfo.InvariantCulture, "{0}{1}", uriLocation, QueryStringConverter.FromNameValueCollection(querystring));
+			var secureUri = string.Format(CultureInfo.InvariantCulture, "{0}{1}", uriLocation, QueryStringConverter.FromNameValueCollection(querystring));
 			secureUri += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", querystringParameterHashName, HashUtility.ComputeHash(secureUri + salt + securityToken.Token, o =>
 			{
 			    o.AlgorithmType = algorithmType;
@@ -188,7 +188,7 @@ namespace Cuemon.Web.Security
         public static SecurityToken ParseTamperingProtectedUri(Uri protectedUri, byte[] securityKey)
 		{
 			if (protectedUri == null) { throw new ArgumentNullException(nameof(protectedUri)); }
-			NameValueCollection querystring = QueryStringConverter.FromString(protectedUri.Query);
+			var querystring = QueryStringConverter.FromString(protectedUri.Query);
 			return ParseTamperingProtectedUri(protectedUri, securityKey, HttpUtility.UrlDecode(querystring["token"]));
 		}
 
@@ -203,7 +203,7 @@ namespace Cuemon.Web.Security
         public static SecurityToken ParseTamperingProtectedUri(Uri protectedUri, byte[] securityKey, string token)
 		{
 			if (protectedUri == null) { throw new ArgumentNullException(nameof(protectedUri)); }
-			NameValueCollection querystring = QueryStringConverter.FromString(protectedUri.Query);
+			var querystring = QueryStringConverter.FromString(protectedUri.Query);
 			return ParseTamperingProtectedUri(protectedUri, securityKey, token, HttpUtility.UrlDecode(querystring["iv"]));
 		}
 
@@ -219,7 +219,7 @@ namespace Cuemon.Web.Security
         public static SecurityToken ParseTamperingProtectedUri(Uri protectedUri, byte[] securityKey, string token, string iv)
 		{
 			if (protectedUri == null) { throw new ArgumentNullException(nameof(protectedUri)); }
-			NameValueCollection querystring = QueryStringConverter.FromString(protectedUri.Query);
+			var querystring = QueryStringConverter.FromString(protectedUri.Query);
             return ParseTamperingProtectedUri(protectedUri, securityKey, token, iv, HttpUtility.UrlDecode(querystring["salt"]));
 		}
 
@@ -236,7 +236,7 @@ namespace Cuemon.Web.Security
         public static SecurityToken ParseTamperingProtectedUri(Uri protectedUri, byte[] securityKey, string token, string iv, string salt)
 		{
 			if (protectedUri == null) { throw new ArgumentNullException(nameof(protectedUri)); }
-			NameValueCollection querystring = QueryStringConverter.FromString(protectedUri.Query);
+			var querystring = QueryStringConverter.FromString(protectedUri.Query);
             return ParseTamperingProtectedUri(protectedUri, securityKey, token, iv, salt, HttpUtility.UrlDecode(querystring["hash"]));
 		}
 
@@ -300,17 +300,17 @@ namespace Cuemon.Web.Security
 			try
 			{
 				securityToken = SecurityUtility.ParseEncryptedSecurityToken(Convert.FromBase64String(token), securityKey, Encoding.UTF8.GetBytes(iv));
-				string originalUriString = string.Format(CultureInfo.InvariantCulture, protectedUri.IsDefaultPort ? "{0}{1}{2}{4}" : "{0}{1}{2}:{3}{4}",
+				var originalUriString = string.Format(CultureInfo.InvariantCulture, protectedUri.IsDefaultPort ? "{0}{1}{2}{4}" : "{0}{1}{2}:{3}{4}",
 					protectedUri.Scheme,
 					"://",
 					protectedUri.Host,
 					protectedUri.Port,
 					protectedUri.PathAndQuery);
-				string querystring = QueryStringConverter.FromNameValueCollection(QueryStringUtility.Remove(protectedUri.Query, querystringParameterHashName));
-				Uri originalUriWithRemovedChecksum = new Uri(originalUriString);
+				var querystring = QueryStringConverter.FromNameValueCollection(QueryStringUtility.Remove(protectedUri.Query, querystringParameterHashName));
+				var originalUriWithRemovedChecksum = new Uri(originalUriString);
 
-                string urlToCompute = string.Format(CultureInfo.InvariantCulture, "{0}{1}", new Uri(originalUriWithRemovedChecksum, originalUriWithRemovedChecksum.AbsolutePath), querystring);
-				string computedChecksum = HashUtility.ComputeHash(urlToCompute + salt + securityToken.Token, o =>
+                var urlToCompute = string.Format(CultureInfo.InvariantCulture, "{0}{1}", new Uri(originalUriWithRemovedChecksum, originalUriWithRemovedChecksum.AbsolutePath), querystring);
+				var computedChecksum = HashUtility.ComputeHash(urlToCompute + salt + securityToken.Token, o =>
 				{
 				    o.AlgorithmType = algorithmType;
 				    o.Encoding = Encoding.UTF8;
