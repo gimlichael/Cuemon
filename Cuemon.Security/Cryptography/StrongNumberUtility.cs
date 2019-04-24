@@ -37,16 +37,16 @@ namespace Cuemon.Security.Cryptography
         /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
         /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A 32-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="minValue"/> is greater than <paramref name="maxValue"/>
         /// </exception>
         public static int GetRandomNumber(int minValue, int maxValue)
         {
             if (minValue > maxValue) { throw new ArgumentOutOfRangeException(nameof(minValue)); }
-            Random localRandomizer = _simpleRandomizerLocal;
+            var localRandomizer = _simpleRandomizerLocal;
             if (localRandomizer == null)
             {
-                byte[] randomNumbers = new byte[4];
+                var randomNumbers = new byte[4];
                 StrongRandomizerGlobal.GetBytes(randomNumbers);
                 var seed = BitConverter.ToInt32(randomNumbers, 0);
                 _simpleRandomizerLocal = localRandomizer = new Random(seed);

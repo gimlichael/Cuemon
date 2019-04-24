@@ -24,20 +24,20 @@ namespace Cuemon.Security.Cryptography
         ///         <description><see cref="HashAlgorithmType.MD5"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="LeaveStreamOpen"/></term>
+        ///         <term><see cref="LeaveOpen"/></term>
         ///         <description><c>false</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public StreamHashOptions()
         {
-            LeaveStreamOpen = false;
+            LeaveOpen = false;
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="Stream"/> is being left open or to have it being closed and disposed.
         /// </summary>
         /// <value><c>true</c> if the <see cref="Stream"/> is being left open; otherwise, <c>false</c> to have it being closed and disposed of.</value>
-        public bool LeaveStreamOpen { get; set; }
+        public bool LeaveOpen { get; set; }
     }
 }

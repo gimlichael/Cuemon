@@ -10,10 +10,6 @@ namespace Cuemon.Security.Cryptography
     {
         private static readonly object Sync = new object();
         private static readonly IDictionary<string, IList<long>> LookupTables = new Dictionary<string, IList<long>>();
-        private long _hashCoreResult;
-        private long _polynomial;
-        private string _lookupTableKey;
-        private readonly PolynomialRepresentation _representation;
 
         #region Contructors
         /// <summary>
@@ -29,7 +25,7 @@ namespace Cuemon.Security.Cryptography
         /// <param name="representation">The CRC generator polynomial representation.</param>
         protected CyclicRedundancyCheck(PolynomialRepresentation representation)
         {
-            _representation = representation;
+            Representation = representation;
             Initialize();
         }
         #endregion
@@ -38,7 +34,7 @@ namespace Cuemon.Security.Cryptography
         /// <summary>
         /// Initializes an implementation of the <see cref="T:System.Security.Cryptography.HashAlgorithm" /> class.
         /// </summary>
-        public override sealed void Initialize()
+        public sealed override void Initialize()
         {
             lock (Sync)
             {
@@ -64,28 +60,20 @@ namespace Cuemon.Security.Cryptography
         /// Initializes the implementation details of a <see cref="CyclicRedundancyCheck"/> related polynomial lookup table.
         /// </summary>
         /// <param name="currentBit">The current bit ranging from 0 to 7.</param>
-        /// <param name="currentTableIndex">The current index of the associated polynomial <see cref="CyclicRedundancyCheck.LookupTable"/> ranging from 0 to 255.</param>
-        /// <remarks>This method is - on first run - invoked 8 times per entry in the associated polynomial <see cref="CyclicRedundancyCheck.LookupTable"/>, given a total of 2048 times.</remarks>
+        /// <param name="currentTableIndex">The current index of the associated polynomial <see cref="LookupTable"/> ranging from 0 to 255.</param>
+        /// <remarks>This method is - on first run - invoked 8 times per entry in the associated polynomial <see cref="LookupTable"/>, given a total of 2048 times.</remarks>
         protected abstract void InitializePolynomialLookupTable(byte currentBit, ushort currentTableIndex);
 
         #endregion
 
         #region Properties
-        private string LookupTableKey
-        {
-            get { return _lookupTableKey; }
-            set { _lookupTableKey = value; }
-        }
+        private string LookupTableKey { get; set; }
 
         /// <summary>
         /// Gets or sets the resolved hash result.
         /// </summary>
         /// <value>The resolved hash result.</value>
-        protected long HashCoreResult
-        {
-            get { return _hashCoreResult; }
-            set { _hashCoreResult = value; }
-        }
+        protected long HashCoreResult { get; set; }
 
         /// <summary>
         /// Gets the lookup table for the associated CRC implementation.
@@ -95,7 +83,7 @@ namespace Cuemon.Security.Cryptography
         {
             get
             {
-                string key = string.Concat(LookupTableKey, Representation.ToString());
+                var key = string.Concat(LookupTableKey, Representation.ToString());
                 IList<long> result;
                 if (!LookupTables.TryGetValue(key, out result))
                 {
@@ -110,20 +98,13 @@ namespace Cuemon.Security.Cryptography
         /// Gets the CRC polynomial generator representation.
         /// </summary>
         /// <value>The CRC polynomial generator representation.</value>
-        public PolynomialRepresentation Representation
-        {
-            get { return _representation; }
-        }
+        public PolynomialRepresentation Representation { get; }
 
         /// <summary>
         /// Gets the CRC polynomial hexadecimal value equal to CRC implementation and <see cref="Representation"/>.
         /// </summary>
         /// <value>The CRC polynomial hexadecimal value equal to CRC implementation and <see cref="Representation"/>.</value>
-        public long Polynomial
-        {
-            get { return _polynomial; }
-            protected set { _polynomial = value; }
-        }
+        public long Polynomial { get; protected set; }
 
         /// <summary>
         /// Gets the CRC default seed value.

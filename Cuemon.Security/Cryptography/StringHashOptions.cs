@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using Cuemon.Text;
 
 namespace Cuemon.Security.Cryptography
 {
@@ -7,7 +8,7 @@ namespace Cuemon.Security.Cryptography
     /// Specifies options that is related to <see cref="HashAlgorithm"/> operations. This class cannot be inherited.
     /// </summary>
     /// <seealso cref="HashOptions" />
-    public sealed class StringHashOptions : HashOptions
+    public sealed class StringHashOptions : HashOptions, IEncodingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StringHashOptions"/> class.
@@ -21,7 +22,7 @@ namespace Cuemon.Security.Cryptography
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="HashOptions.AlgorithmType"/></term>
-        ///         <description><see cref="HashAlgorithmType.MD5"/></description>
+        ///         <description><see cref="HashAlgorithmType.SHA256"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="Encoding"/></term>

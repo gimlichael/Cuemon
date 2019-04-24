@@ -61,82 +61,71 @@ namespace Cuemon.Security.Cryptography
 		private static byte[] CryptoTransformCore(byte[] value, byte[] key, byte[] initializationVector, AdvancedEncryptionStandardCommand command)
 		{
 			ValidateInput(value, key, initializationVector);
-			byte[] output = null;
-
-			using (Aes rijndael = Aes.Create())
+			using (var aes = Aes.Create())
 			{
-				
-				rijndael.BlockSize = BlockSize;
-				rijndael.Key = key;
-				rijndael.IV = initializationVector;
-				rijndael.Padding = PaddingMode.PKCS7;
-				rijndael.Mode = CipherMode.CBC;
+                aes.BlockSize = BlockSize;
+                aes.Key = key;
+                aes.IV = initializationVector;
+                aes.Padding = PaddingMode.PKCS7;
+                aes.Mode = CipherMode.CBC;
 
-				MemoryStream tempStream = null;
-				CryptoStream cryptoStream = null;
-				try
-				{
-					switch (command)
-					{
-						case AdvancedEncryptionStandardCommand.Decrypt:
-							tempStream = new MemoryStream(value);
-							cryptoStream = new CryptoStream(tempStream, rijndael.CreateDecryptor(), CryptoStreamMode.Read);
-							output = new byte[value.Length];
-							cryptoStream.Read(output, 0, output.Length);
-							tempStream = null;
-							output = ByteUtility.RemoveTrailingZeros(output);
-							break;
-						case AdvancedEncryptionStandardCommand.Encrypt:
-							tempStream = new MemoryStream();
-							cryptoStream = new CryptoStream(tempStream, rijndael.CreateEncryptor(), CryptoStreamMode.Write);
-							cryptoStream.Write(value, 0, value.Length);
-							cryptoStream.FlushFinalBlock();
-							output = tempStream.ToArray();
-							tempStream = null;
-							break;
-					}
-				}
-				finally
-				{
-					if (cryptoStream != null) { cryptoStream.Dispose(); }
-					if (tempStream != null) { tempStream.Dispose(); }
-				}
-			}
-			return output;
-		}
+                using (var sms = Disposable.SafeInvoke(() => new MemoryStream(), (ms, rijndael, bytes) =>
+                {
+                    CryptoStream cryptoStream;
+                    switch (command)
+                    {
+                        case AdvancedEncryptionStandardCommand.Decrypt:
+                            ms.Write(bytes, 0, bytes.Length);
+                            cryptoStream = new CryptoStream(ms, rijndael.CreateDecryptor(), CryptoStreamMode.Read);
+                            var cryptoBytes = new byte[bytes.Length];
+                            cryptoStream.Read(cryptoBytes, 0, cryptoBytes.Length);
+                            return new MemoryStream(ByteArrayUtility.RemoveTrailingZeros(cryptoBytes));
+                        case AdvancedEncryptionStandardCommand.Encrypt:
+                            cryptoStream = new CryptoStream(ms, rijndael.CreateEncryptor(), CryptoStreamMode.Write);
+                            cryptoStream.Write(bytes, 0, bytes.Length);
+                            cryptoStream.FlushFinalBlock();
+                            return ms;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(command), command, null);
+                    }
+                }, aes, value))
+                {
+                    return sms.ToArray();
+                }
+            }
+        }
 
 		/// <summary>
 		/// Encrypts the specified value from the provided <paramref name="key"/> and <paramref name="initializationVector"/>.
 		/// </summary>
-		/// <param name="value">The value to encrypt.</param>
+		/// <param name="bytes">The value to encrypt.</param>
 		/// <param name="key">The key to use in the encryption algorithm.</param>
 		/// <param name="initializationVector">The initialization vector (IV) to use in the encryption algorithm.</param>
 		/// <returns>The encrypted value.</returns>
-		public static byte[] Encrypt(byte[] value, byte[] key, byte[] initializationVector)
+		public static byte[] Encrypt(byte[] bytes, byte[] key, byte[] initializationVector)
 		{
-			return CryptoTransformCore(value, key, initializationVector, AdvancedEncryptionStandardCommand.Encrypt);
+			return CryptoTransformCore(bytes, key, initializationVector, AdvancedEncryptionStandardCommand.Encrypt);
 		}
 
 		/// <summary>
 		/// Decrypts the specified value from the provided <paramref name="key"/> and <paramref name="initializationVector"/>.
 		/// </summary>
-		/// <param name="value">The value to decrypt.</param>
+		/// <param name="bytes">The value to decrypt.</param>
 		/// <param name="key">The key to use in the decryption algorithm.</param>
 		/// <param name="initializationVector">The initialization vector (IV) to use in the decryption algorithm.</param>
 		/// <returns>The decrypted value.</returns>
-		public static byte[] Decrypt(byte[] value, byte[] key, byte[] initializationVector)
+		public static byte[] Decrypt(byte[] bytes, byte[] key, byte[] initializationVector)
 		{
-			return CryptoTransformCore(value, key, initializationVector, AdvancedEncryptionStandardCommand.Decrypt);
+			return CryptoTransformCore(bytes, key, initializationVector, AdvancedEncryptionStandardCommand.Decrypt);
 		}
 
-		private static void ValidateInput(byte[] value, byte[] key, byte[] initializationVector)
+		private static void ValidateInput(byte[] bytes, byte[] key, byte[] initializationVector)
 		{
-			if (value == null) { throw new ArgumentNullException(nameof(value)); }
-			if (key == null) { throw new ArgumentNullException(nameof(key)); }
-			if (initializationVector == null) { throw new ArgumentNullException(nameof(initializationVector)); }
-
-			int keyBits = key.Length * 8;
-			int initializationVectorBits = initializationVector.Length * 8;
+            Validator.ThrowIfNull(bytes, nameof(bytes));
+			Validator.ThrowIfNull(key, nameof(key));
+			Validator.ThrowIfNull(initializationVector, nameof(initializationVector));
+            var keyBits = key.Length * 8;
+			var initializationVectorBits = initializationVector.Length * 8;
 			if (!(keyBits == 128 || keyBits == 192 || keyBits == 256)) { throw new CryptographicException("The key does not meet the required size of either 128 bits, 192 bits or 256 bits."); }
 			if (initializationVectorBits != BlockSize) { throw new CryptographicException("The initialization vector does not meet the required size of 128 bits."); }
 		}

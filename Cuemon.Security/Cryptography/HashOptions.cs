@@ -19,13 +19,13 @@ namespace Cuemon.Security.Cryptography
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="AlgorithmType"/></term>
-        ///         <description><see cref="HashAlgorithmType.MD5"/></description>
+        ///         <description><see cref="HashAlgorithmType.SHA256"/></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public HashOptions()
         {
-            AlgorithmType = HashAlgorithmType.MD5;
+            AlgorithmType = HashAlgorithmType.SHA256;
         }
 
         /// <summary>

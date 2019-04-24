@@ -30,7 +30,7 @@ namespace Cuemon.Security.Cryptography
         /// <summary>
         /// Initializes the implementation of the polynomial representation details.
         /// </summary>
-        /// <exception cref="System.InvalidOperationException">
+        /// <exception cref="InvalidOperationException">
         /// The <see cref="CyclicRedundancyCheck.Representation"/> property has an invalid value.
         /// </exception>
         protected override void InitializePolynomial()
@@ -59,9 +59,9 @@ namespace Cuemon.Security.Cryptography
         /// <remarks>This method is - on first run - invoked 8 times per entry in the associated polynomial <see cref="CyclicRedundancyCheck.LookupTable"/>, given a total of 2048 times.</remarks>
         protected override void InitializePolynomialLookupTable(byte currentBit, ushort currentTableIndex)
         {
-            bool hasIndex = ListUtility.HasIndex(currentTableIndex, LookupTable);
+            var hasIndex = ListUtility.HasIndex(currentTableIndex, LookupTable);
             if (!hasIndex) { LookupTable.Add(currentTableIndex); }
-            long value = LookupTable[currentTableIndex];
+            var value = LookupTable[currentTableIndex];
             if ((value & 1) == 1)
             {
                 value = (value >> 1) ^ Polynomial;
@@ -84,7 +84,7 @@ namespace Cuemon.Security.Cryptography
             if (array == null) { throw new ArgumentNullException(nameof(array)); }
             unchecked
             {
-                for (int i = ibStart; i < cbSize; i++)
+                for (var i = ibStart; i < cbSize; i++)
                 {
                     HashCoreResult = ((HashCoreResult) >> 8) ^ LookupTable[(int)((array[i]) ^ ((HashCoreResult) & 0x000000FF))];
                 }
@@ -111,19 +111,14 @@ namespace Cuemon.Security.Cryptography
         /// </summary>
         /// <value>The size of the hash.</value>
         /// <returns>The size, in bits, of the computed hash code.</returns>
-        public override int HashSize
-        {
-            get { return 32; }
-        }
+        public override int HashSize => 32;
 
         /// <summary>
         /// Gets the CRC default seed value.
         /// </summary>
         /// <value>The CRC default seed value.</value>
-        public override long DefaultSeed
-        {
-            get { return 0xFFFFFFFF; }
-        }
+        public override long DefaultSeed => 0xFFFFFFFF;
+
         #endregion
     }
 }

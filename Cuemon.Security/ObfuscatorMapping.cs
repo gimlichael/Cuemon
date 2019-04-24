@@ -26,22 +26,19 @@ namespace Cuemon.Security
         /// Gets the obfuscated value of <see cref="Original"/>.
         /// </summary>
         /// <value>The obfuscated value of <see cref="Original"/>.</value>
-        public string Obfuscated { get; private set; }
+        public string Obfuscated { get; }
 
         /// <summary>
         /// Gets the original value of <see cref="Obfuscated"/>.
         /// </summary>
         /// <value>The original value of <see cref="Obfuscated"/>.</value>
-        public string Original { get; private set; }
+        public string Original { get; }
 
         /// <summary>
         /// Gets the total representation count of this mapping.
         /// </summary>
         /// <value>The total representation count of this mapping.</value>
-        public int Count
-        {
-            get { return _count; }
-        }
+        public int Count => _count;
 
         /// <summary>
         /// Increments the representation count of this mapping.

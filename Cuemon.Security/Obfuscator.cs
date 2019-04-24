@@ -11,12 +11,8 @@ namespace Cuemon.Security
     /// </summary>
     public abstract class Obfuscator
     {
-        private Encoding _encoding;
         private readonly List<string> _obfuscatedValues;
         private readonly List<string> _exclusions;
-        private readonly Dictionary<string, ObfuscatorMapping> _mappings;
-        private byte _currentCombinationLength;
-        private int _currentPermutationSize;
         private IList<char> _permutationCharacters;
         private static readonly object PadLock = new object();
 
@@ -52,10 +48,10 @@ namespace Cuemon.Security
         /// <param name="exclusions">A sequence of <see cref="string"/> values used for excluding matching original values in the obfuscation process.</param>
         protected Obfuscator(Encoding encoding, IEnumerable<string> exclusions)
         {
-            if (encoding == null) throw new ArgumentNullException(nameof(encoding));
-            _encoding = encoding;
+            Validator.ThrowIfNull(encoding, nameof(encoding));
+            Encoding = encoding;
             _exclusions = exclusions == null ? new List<string>() : new List<string>(exclusions);
-            _mappings = new Dictionary<string, ObfuscatorMapping>();
+            Mappings = new Dictionary<string, ObfuscatorMapping>();
             _obfuscatedValues = new List<string>();
         }
         #endregion
@@ -65,65 +61,43 @@ namespace Cuemon.Security
         /// Gets the length of the current combination used in conjuction with <see cref="CurrentPermutationSize"/>.
         /// </summary>
         /// <value>The length of the current combination used in conjuction with <see cref="CurrentPermutationSize"/>.</value>
-        protected byte CurrentCombinationLength
-        {
-            get { return _currentCombinationLength; }
-        }
+        protected byte CurrentCombinationLength { get; private set; }
 
         /// <summary>
         /// Gets the calculated size of the current permutation used in conjuction with <see cref="CurrentCombinationLength"/>.
         /// </summary>
         /// <value>The calculated size of the current permutation used in conjuction with <see cref="CurrentCombinationLength"/>.</value>
-        protected int CurrentPermutationSize
-        {
-            get { return _currentPermutationSize; }
-        }
+        protected int CurrentPermutationSize { get; private set; }
 
         /// <summary>
         /// Gets or sets the character encoding to use.
         /// </summary>
         /// <value>The character encoding to use. The default is <see cref="System.Text.Encoding.Unicode"/>.</value>
-        public Encoding Encoding
-        {
-            get { return _encoding; }
-            set { _encoding = value; }
-        }
+        public Encoding Encoding { get; set; }
 
         /// <summary>
         /// Gets an <see cref="IList{T}"/> compatible object holding the characters initialized by <see cref="InitializePermutationCharacters()"/>.
         /// </summary>
         /// <value>An <see cref="IList{T}"/> compatible object holding the characters initialized by <see cref="InitializePermutationCharacters()"/>.</value>
-        protected IList<char> PermutationCharacters
-        {
-            get { return _permutationCharacters ?? (_permutationCharacters = InitializePermutationCharacters()); }
-        }
+        protected IList<char> PermutationCharacters => _permutationCharacters ?? (_permutationCharacters = InitializePermutationCharacters());
 
         /// <summary>
         /// Gets a <see cref="ICollection{T}"/> of the generated obfuscated values.
         /// </summary>
         /// <value>A <see cref="ICollection{T}"/> of the generated obfuscated values.</value>
-        private ICollection<string> ObfuscatedValues
-        {
-            get { return _obfuscatedValues; }
-        }
+        private ICollection<string> ObfuscatedValues => _obfuscatedValues;
 
         /// <summary>
         /// Gets a list of exclusions for the obfuscation process.
         /// </summary>
         /// <value>A list of exclusions for the obfuscation process.</value>
-        protected ICollection<string> Exclusions
-        {
-            get { return _exclusions; }
-        }
+        protected ICollection<string> Exclusions => _exclusions;
 
         /// <summary>
         /// Gets the generated mapping values associated with the obfuscated content.
         /// </summary>
         /// <value>The original values gathered in a mappable structure.</value>
-        protected Dictionary<string, ObfuscatorMapping> Mappings
-        {
-            get { return _mappings; }
-        }
+        protected Dictionary<string, ObfuscatorMapping> Mappings { get; }
         #endregion
 
         #region Methods
@@ -137,8 +111,8 @@ namespace Cuemon.Security
         /// </remarks>
         protected virtual IList<char> InitializePermutationCharacters()
         {
-            StringBuilder builder = new StringBuilder(StringUtility.AlphanumericCharactersCaseSensitive);
-            List<char> characters = new List<char>(builder.ToString().ToCharArray());
+            var builder = new StringBuilder(StringUtility.AlphanumericCharactersCaseSensitive);
+            var characters = new List<char>(builder.ToString().ToCharArray());
             return characters.AsReadOnly();
         }
 
@@ -159,7 +133,7 @@ namespace Cuemon.Security
         
         private string GeneratePermutationValue()
         {
-            StringBuilder values = new StringBuilder(CurrentCombinationLength);
+            var values = new StringBuilder(CurrentCombinationLength);
             for (byte i = 0; i < CurrentCombinationLength; i++)
             {
                 values.Append(PermutationCharacters[StrongNumberUtility.GetRandomNumber(0, PermutationCharacters.Count)].ToString());
@@ -178,7 +152,7 @@ namespace Cuemon.Security
         protected string GenerateObfuscatedValue()
         {
             HandlePermutationCalculation();
-            string obfuscatedValue = GenerateObfuscatedValue(GeneratePermutationValue());
+            var obfuscatedValue = GenerateObfuscatedValue(GeneratePermutationValue());
             lock (ObfuscatedValues)
             {
                 ObfuscatedValues.Add(obfuscatedValue);
@@ -215,12 +189,12 @@ namespace Cuemon.Security
 
         private void IncrementCurrentCombinationLength()
         {
-            _currentCombinationLength++;
+            CurrentCombinationLength++;
         }
 
         private void IncreaseCurrentPermutationSize()
         {
-            _currentPermutationSize = (int)Math.Round((NumberUtility.Factorial(PermutationCharacters.Count) / NumberUtility.Factorial(PermutationCharacters.Count - CurrentCombinationLength)));
+            CurrentPermutationSize = (int)Math.Round((NumberUtility.Factorial(PermutationCharacters.Count) / NumberUtility.Factorial(PermutationCharacters.Count - CurrentCombinationLength)));
         }
 
         /// <summary>

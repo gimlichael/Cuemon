@@ -30,16 +30,16 @@ namespace Cuemon.Security
             Validator.ThrowIfNullOrEmpty(securityToken, nameof(securityToken));
             Validator.ThrowIfLowerThan(securityToken.Length, 34, nameof(securityToken));
 
-		    string[] tokenSegments = StringUtility.Split(securityToken, ";");
+		    var tokenSegments = StringUtility.Split(securityToken, ";");
             Validator.ThrowIfLowerThan(tokenSegments.Length, 4, nameof(securityToken));
             Validator.ThrowIfGreaterThan(tokenSegments.Length, 5, nameof(securityToken));
 
-            TimeSpan timeToLive = new TimeSpan(long.Parse(tokenSegments[0].Trim('"'), CultureInfo.InvariantCulture));
-            DateTime utcCreated = DateTime.Parse(tokenSegments[1].Trim('"'), CultureInfo.InvariantCulture).ToUniversalTime();
-			string token = tokenSegments[2].Trim('"');
-            string reference = tokenSegments[3].Trim('"');
+            var timeToLive = new TimeSpan(long.Parse(tokenSegments[0].Trim('"'), CultureInfo.InvariantCulture));
+            var utcCreated = DateTime.Parse(tokenSegments[1].Trim('"'), CultureInfo.InvariantCulture).ToUniversalTime();
+			var token = tokenSegments[2].Trim('"');
+            var reference = tokenSegments[3].Trim('"');
 
-            SecurityTokenSettings settings = new SecurityTokenSettings(timeToLive, token.Length, reference);
+            var settings = new SecurityTokenSettings(timeToLive, token.Length, reference);
 		    Settings = settings;
 		    Token = token;
 		    UtcCreated = utcCreated;
@@ -88,15 +88,15 @@ namespace Cuemon.Security
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
         /// <returns>
-        /// 	<c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// 	<c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
-            SecurityToken token = obj as SecurityToken;
+            var token = obj as SecurityToken;
             if (token == null) { return false; }
             return Equals(token);
         } 
@@ -238,7 +238,7 @@ namespace Cuemon.Security
         /// </returns>
         public override string ToString()
 		{
-		    bool enableBackwardCompatibility = string.IsNullOrEmpty(Settings.Reference);
+		    var enableBackwardCompatibility = string.IsNullOrEmpty(Settings.Reference);
             return string.Format(CultureInfo.InvariantCulture, enableBackwardCompatibility ? "\"{0}\";\"{1}\";\"{2}\";" : "\"{0}\";\"{1}\";\"{2}\";\"{3}\";", Settings.TimeToLive.Ticks, UtcCreated.ToString("u", CultureInfo.InvariantCulture), Token, Settings.Reference);
 		}
 		#endregion

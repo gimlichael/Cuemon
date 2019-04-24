@@ -20,8 +20,9 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeHash(Stream value, Action<StreamHashOptions> setup = null)
         {
-            var options = setup.Configure();
-            return ComputeHashCore(value, null, options.AlgorithmType, options.LeaveStreamOpen);
+            Validator.ThrowIfNull(value, nameof(value));
+            var options = Patterns.Configure(setup);
+            return ComputeHashCore(value, null, options.AlgorithmType, options.LeaveOpen);
         }
 
         /// <summary>
@@ -32,7 +33,8 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeHash(byte[] value, Action<HashOptions> setup = null)
         {
-            var options = setup.Configure();
+            Validator.ThrowIfNull(value, nameof(value));
+            var options = Patterns.Configure(setup);
             return ComputeHashCore(null, value, options.AlgorithmType, false);
         }
 
@@ -44,7 +46,8 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeHash(string value, Action<StringHashOptions> setup = null)
         {
-            var options = setup.Configure();
+            Validator.ThrowIfNull(value, nameof(value));
+            var options = Patterns.Configure(setup);
             return ComputeHash(ByteConverter.FromString(value, o =>
             {
                 o.Encoding = options.Encoding;
@@ -60,7 +63,8 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeHash(object value, Action<HashOptions> setup = null)
         {
-            var options = setup.Configure();
+            Validator.ThrowIfNull(value, nameof(value));
+            var options = Patterns.Configure(setup);
             return ComputeHash(EnumerableConverter.AsArray(value), o => o.AlgorithmType = options.AlgorithmType);
         }
 
@@ -73,8 +77,8 @@ namespace Cuemon.Security.Cryptography
         public static HashResult ComputeHash(object[] values, Action<HashOptions> setup = null)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            var options = setup.Configure();
-            long signature = StructUtility.GetHashCode64(values.Select(o => o.GetHashCode()));
+            var options = Patterns.Configure(setup);
+            var signature = StructUtility.GetHashCode64(values.Select(o => o.GetHashCode()));
             return ComputeHash(BitConverter.GetBytes(signature), o => o.AlgorithmType = options.AlgorithmType);
         }
 
@@ -87,46 +91,43 @@ namespace Cuemon.Security.Cryptography
         public static HashResult ComputeHash(string[] values, Action<StringHashOptions> setup = null)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            var options = setup.Configure();
-            MemoryStream tempStream = null;
-            try
-            { 
-                tempStream = new MemoryStream();
-                using (StreamWriter writer = new StreamWriter(tempStream, options.Encoding))
+            var options = Patterns.Configure(setup);
+            var stream = Disposable.SafeInvoke(() => new MemoryStream(), (ms, strings) =>
+            {
+                
+                using (var writer = new StreamWriter(ms, options.Encoding))
                 {
-                    foreach (string value in values)
+                    foreach (var value in strings)
                     {
                         if (value == null) { continue; }
                         writer.Write(value);
                     }
                     writer.Flush();
-                    tempStream.Position = 0;
-                    Stream stream = StreamConverter.RemovePreamble(tempStream, options.Encoding);
-                    tempStream = null;
-                    return ComputeHash(stream, o => o.AlgorithmType = options.AlgorithmType);
+                    ms.Position = 0;
+                    if (options.Preamble == PreambleSequence.Keep)
+                    {
+                        return ms;
+                    }
+                    return StreamConverter.RemovePreamble(ms, options.Encoding) as MemoryStream;
                 }
-            }
-            finally 
-            {
-                if (tempStream != null) { tempStream.Dispose(); }
-            }
+            }, values);
+            return ComputeHash(stream, o => o.AlgorithmType = options.AlgorithmType);
         }
 
         private static HashResult ComputeHashCore(Stream value, byte[] hash, HashAlgorithmType algorithmType, bool leaveStreamOpen)
         {
             if (algorithmType > HashAlgorithmType.CRC32 || algorithmType < HashAlgorithmType.MD5) { throw new ArgumentOutOfRangeException(nameof(algorithmType), "Specified argument was out of the range of valid values."); }
-            
             HashAlgorithm algorithm;
             switch (algorithmType)
             {
                 case HashAlgorithmType.MD5:
-                    goto default;
+                    algorithm = MD5.Create();
+                    break;
                 case HashAlgorithmType.SHA1:
                     algorithm = SHA1.Create();
                     break;
                 case HashAlgorithmType.SHA256:
-                    algorithm = SHA256.Create();
-                    break;
+                    goto default;
                 case HashAlgorithmType.SHA384:
                     algorithm = SHA384.Create();
                     break;
@@ -137,10 +138,9 @@ namespace Cuemon.Security.Cryptography
                     algorithm = new CyclicRedundancyCheck32(PolynomialRepresentation.Reversed);
                     break;
                 default:
-                    algorithm = MD5.Create();
+                    algorithm = SHA256.Create();
                     break;
             }
-
             return ComputeHashCore(value, hash, leaveStreamOpen, algorithm);
         }
 
@@ -150,7 +150,7 @@ namespace Cuemon.Security.Cryptography
             {
                 if (value != null)
                 {
-                    long startingPosition = value.Position;
+                    var startingPosition = value.Position;
 
                     if (value.CanSeek) { value.Position = 0; }
                     hash = algorithm.ComputeHash(value);

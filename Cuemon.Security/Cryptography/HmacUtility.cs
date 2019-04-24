@@ -21,8 +21,9 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(Stream value, byte[] sharedKey, Action<StreamKeyedHashOptions> setup = null)
         {
-            var options = setup.Configure();
-            return ComputeHashCore(value, null, sharedKey, options.AlgorithmType, options.LeaveStreamOpen);
+            Validator.ThrowIfNull(value, nameof(value));
+            var options = Patterns.Configure(setup);
+            return ComputeHashCore(value, null, sharedKey, options.AlgorithmType, options.LeaveOpen);
         }
 
         /// <summary>
@@ -34,7 +35,8 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(byte[] value, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
         {
-            var options = setup.Configure();
+            Validator.ThrowIfNull(value, nameof(value));
+            var options = Patterns.Configure(setup);
             return ComputeHashCore(null, value, sharedKey, options.AlgorithmType, false);
         }
 
@@ -47,7 +49,8 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(string value, byte[] sharedKey, Action<StringKeyedHashOptions> setup = null)
         {
-            var options = setup.Configure();
+            Validator.ThrowIfNull(value, nameof(value));
+            var options = Patterns.Configure(setup);
             return ComputeKeyedHash(ByteConverter.FromString(value, o =>
             {
                 o.Encoding = options.Encoding;
@@ -64,7 +67,8 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
         public static HashResult ComputeKeyedHash(object value, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
         {
-            var options = setup.Configure();
+            Validator.ThrowIfNull(value, nameof(value));
+            var options = Patterns.Configure(setup);
             return ComputeKeyedHash(EnumerableConverter.AsArray(value), sharedKey, o => o.AlgorithmType = options.AlgorithmType);
         }
 
@@ -78,8 +82,8 @@ namespace Cuemon.Security.Cryptography
         public static HashResult ComputeKeyedHash(object[] values, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            var options = setup.Configure();
-            long signature = StructUtility.GetHashCode64(values.Select(o => o.GetHashCode()));
+            var options = Patterns.Configure(setup);
+            var signature = StructUtility.GetHashCode64(values.Select(o => o.GetHashCode()));
             return ComputeKeyedHash(BitConverter.GetBytes(signature), sharedKey, o => o.AlgorithmType = options.AlgorithmType);
         }
 
@@ -92,30 +96,27 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of <paramref name="values"/>.</returns>
         public static HashResult ComputeKeyedHash(string[] values, byte[] sharedKey, Action<StringKeyedHashOptions> setup = null)
         {
-            var options = setup.Configure();
             Validator.ThrowIfNull(values, nameof(values));
-            MemoryStream tempStream = null;
-            try
+            var options = Patterns.Configure(setup);
+            var stream = Disposable.SafeInvoke(() => new MemoryStream(), (ms, strings) =>
             {
-                tempStream = new MemoryStream();
-                using (StreamWriter writer = new StreamWriter(tempStream, options.Encoding))
+                using (var writer = new StreamWriter(ms, options.Encoding))
                 {
-                    foreach (string value in values)
+                    foreach (var value in strings)
                     {
                         if (value == null) { continue; }
                         writer.Write(value);
                     }
                     writer.Flush();
-                    tempStream.Position = 0;
-                    Stream stream = StreamConverter.RemovePreamble(tempStream, options.Encoding);
-                    tempStream = null;
-                    return ComputeKeyedHash(stream, sharedKey, o => o.AlgorithmType = options.AlgorithmType);
+                    ms.Position = 0;
+                    if (options.Preamble == PreambleSequence.Keep)
+                    {
+                        return ms;
+                    }
+                    return StreamConverter.RemovePreamble(ms, options.Encoding) as MemoryStream;
                 }
-            }
-            finally
-            {
-                if (tempStream != null) { tempStream.Dispose(); }
-            }
+            }, values);
+            return ComputeKeyedHash(stream, sharedKey, o => o.AlgorithmType = options.AlgorithmType);
         }
 
         private static HashResult ComputeHashCore(Stream value, byte[] hash, byte[] sharedKey, HmacAlgorithmType algorithmType, bool leaveStreamOpen)
@@ -126,10 +127,10 @@ namespace Cuemon.Security.Cryptography
             switch (algorithmType)
             {
                 case HmacAlgorithmType.SHA1:
-                    goto default;
-                case HmacAlgorithmType.SHA256:
-                    algorithm = new HMACSHA256(sharedKey);
+                    algorithm = new HMACSHA1(sharedKey);
                     break;
+                case HmacAlgorithmType.SHA256:
+                    goto default;
                 case HmacAlgorithmType.SHA384:
                     algorithm = new HMACSHA384(sharedKey);
                     break;
@@ -137,10 +138,9 @@ namespace Cuemon.Security.Cryptography
                     algorithm = new HMACSHA512(sharedKey);
                     break;
                 default:
-                    algorithm = new HMACSHA1(sharedKey);
+                    algorithm = new HMACSHA256(sharedKey);
                     break;
             }
-
             return HashUtility.ComputeHashCore(value, hash, leaveStreamOpen, algorithm);
         }
     }

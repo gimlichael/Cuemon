@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using Cuemon.Text;
 
 namespace Cuemon.Security.Cryptography
 {
@@ -7,7 +8,7 @@ namespace Cuemon.Security.Cryptography
     /// Specifies options that is related to <see cref="KeyedHashAlgorithm"/> operations. This class cannot be inherited.
     /// </summary>
     /// <seealso cref="KeyedHashOptions" />
-    public sealed class StringKeyedHashOptions : KeyedHashOptions
+    public sealed class StringKeyedHashOptions : KeyedHashOptions, IEncodingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StringKeyedHashOptions"/> class.
@@ -21,7 +22,7 @@ namespace Cuemon.Security.Cryptography
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="KeyedHashOptions.AlgorithmType"/></term>
-        ///         <description><see cref="HmacAlgorithmType.SHA1"/></description>
+        ///         <description><see cref="HmacAlgorithmType.SHA256"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="Encoding"/></term>

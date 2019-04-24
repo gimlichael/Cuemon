@@ -19,13 +19,13 @@ namespace Cuemon.Security.Cryptography
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="AlgorithmType"/></term>
-        ///         <description><see cref="HmacAlgorithmType.SHA1"/></description>
+        ///         <description><see cref="HmacAlgorithmType.SHA256"/></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public KeyedHashOptions()
         {
-            AlgorithmType = HmacAlgorithmType.SHA1;
+            AlgorithmType = HmacAlgorithmType.SHA256;
         }
 
         /// <summary>
