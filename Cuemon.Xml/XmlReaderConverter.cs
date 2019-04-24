@@ -18,7 +18,7 @@ namespace Cuemon.Xml
         /// <param name="encoding">The text encoding to use.</param>
         /// <param name="setup">The <see cref="XmlReaderSettings"/> which may be configured.</param>
         /// <returns>An <see cref="XmlReader"/> object.</returns>
-        /// <remarks>If <paramref name="encoding"/> is null, an <see cref="Encoding"/> object will be attempted resolved by <see cref="XmlEncodingUtility.ReadEncoding(Stream)"/>.</remarks>
+        /// <remarks>If <paramref name="encoding"/> is null, an <see cref="Encoding"/> object will be attempted resolved by <see cref="XmlUtility.ReadEncoding(Stream)"/>.</remarks>
         public static XmlReader FromStream(Stream value, Encoding encoding = null, Action<XmlReaderSettings> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
