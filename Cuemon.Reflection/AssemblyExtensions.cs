@@ -4,9 +4,9 @@ using System.Reflection;
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// This is an extension implementation of the most common methods on the <see cref="AssemblyUtility"/> class.
+    /// Extension methods for the <see cref="AssemblyUtility"/> class.
     /// </summary>
-    public static class AssemblyUtilityExtensions
+    public static class AssemblyExtensions
     {
         /// <summary>
         /// Returns a <see cref="Version"/> that represents the version number of the specified <paramref name="assembly"/>.
