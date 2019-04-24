@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <None Remove="Cuemon.DependencyInjection.csproj.vspscc" />
+    <None Remove="Cuemon.Extensions.DependencyInjection.csproj.vspscc" />
   </ItemGroup>
 
   <ItemGroup>

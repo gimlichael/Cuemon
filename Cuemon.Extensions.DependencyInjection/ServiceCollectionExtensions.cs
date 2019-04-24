@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Cuemon.DependencyInjection
+namespace Cuemon.Extensions.DependencyInjection
 {
     /// <summary>
     /// Extension methods for the <see cref="IServiceCollection"/> interface.
