@@ -40,9 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Collections.Specialized\Cuemon.Extensions.Collections.Specialized.csproj" />
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
-    <ProjectReference Include="..\Cuemon.Integrity\Cuemon.Integrity.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Collections.Specialized\Cuemon.Extensions.Collections.Specialized.csproj" />
+    <ProjectReference Include="..\Cuemon.Security\Cuemon.Security.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

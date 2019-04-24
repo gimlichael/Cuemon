@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Globalization;
 using System.Security;
 using System.Text;
@@ -149,8 +148,7 @@ namespace Cuemon.Web.Security
             Validator.ThrowIfEqual(securityKey.Length, 0, nameof(securityKey));
             Validator.ThrowIfNullOrEmpty(secureUriFormat, nameof(secureUriFormat));
 
-			int foundArguments;
-			if (!StringUtility.ParseFormat(secureUriFormat, 3, out foundArguments)) { throw new ArgumentException("You must - in this order - specify three arguments for; 'token', 'iv' and 'salt'. This value cannot be exceeded nor the opposite. 'token', 'iv' and 'salt' is the default values."); }
+            if (!StringUtility.ParseFormat(secureUriFormat, 3, out var foundArguments)) { throw new ArgumentException("You must - in this order - specify three arguments for; 'token', 'iv' and 'salt'. This value cannot be exceeded nor the opposite. 'token', 'iv' and 'salt' is the default values."); }
 			var formatedQuerytring = QueryStringConverter.FromString(secureUriFormat);
 
 			var securityToken = SecurityToken.Create(settings);
