@@ -45,13 +45,6 @@
     <ProjectReference Include="..\Cuemon.Runtime.Caching\Cuemon.Runtime.Caching.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XPath" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;D:\dlls\cuemon\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)$(ProjectName).xml&quot; &quot;D:\dlls\cuemon\$(ProjectName).xml&quot;" />
   </Target>
