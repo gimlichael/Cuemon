@@ -31,7 +31,7 @@ namespace Cuemon
             Validator.ThrowIfNullOrEmpty(value, nameof(value));
             Validator.ThrowIfNullOrEmpty(relativeReference, nameof(relativeReference));
             Validator.ThrowIfFalse(value.StartsWith(relativeReference, StringComparison.OrdinalIgnoreCase), nameof(value), string.Format(CultureInfo.InvariantCulture, "The specified value did not start with the the expected value of: {0}.", relativeReference));
-            int relativeReferenceLength = relativeReference.Length;
+            var relativeReferenceLength = relativeReference.Length;
             return new Uri(value.Remove(0, relativeReferenceLength).Insert(0, string.Format(CultureInfo.InvariantCulture, "{0}://", StringConverter.FromUriScheme(protocol))));
         }
     }

@@ -45,7 +45,7 @@ namespace Cuemon.Web
             int xchar;
             char ch;
 
-            for (int i = 0; i < len; i++)
+            for (var i = 0; i < len; i++)
             {
                 ch = value[i];
                 if (ch == '%' && i + 2 < len && value[i + 1] != '%')
@@ -79,7 +79,7 @@ namespace Cuemon.Web
                     WriteCharBytes(bytes, ch, e);
             }
 
-            byte[] buf = bytes.ToArray();
+            var buf = bytes.ToArray();
             bytes = null;
             return e.GetString(buf, 0, buf.Length);
 
@@ -89,7 +89,7 @@ namespace Cuemon.Web
         {
             if (ch > 255)
             {
-                foreach (byte b in e.GetBytes(new char[] { ch }))
+                foreach (var b in e.GetBytes(new char[] { ch }))
                     buf.Add(b);
             }
             else
@@ -98,7 +98,7 @@ namespace Cuemon.Web
 
         private static int GetInt(byte b)
         {
-            char c = (char)b;
+            var c = (char)b;
             if (c >= '0' && c <= '9') { return c - '0'; }
             if (c >= 'a' && c <= 'f') { return c - 'a' + 10; }
             if (c >= 'A' && c <= 'F') { return c - 'A' + 10; }
@@ -107,13 +107,13 @@ namespace Cuemon.Web
         
         private static int GetChar(string str, int offset, int length)
         {
-            int val = 0;
-            int end = length + offset;
-            for (int i = offset; i < end; i++)
+            var val = 0;
+            var end = length + offset;
+            for (var i = offset; i < end; i++)
             {
-                char c = str[i];
+                var c = str[i];
                 if (c > 127) { return -1; }
-                int current = GetInt((byte)c);
+                var current = GetInt((byte)c);
                 if (current == -1) { return -1; }
                 val = (val << 4) + current;
             }
@@ -141,11 +141,11 @@ namespace Cuemon.Web
             if (value == null)  { return null;}
             if (value == string.Empty) { return string.Empty; }
 
-            bool needEncode = false;
-            int len = value.Length;
-            for (int i = 0; i < len; i++)
+            var needEncode = false;
+            var len = value.Length;
+            for (var i = 0; i < len; i++)
             {
-                char c = value[i];
+                var c = value[i];
                 if ((c < '0') || (c < 'A' && c > '9') || (c > 'Z' && c < 'a') || (c > 'z'))
                 {
                     if (NotEncoded(c))
@@ -160,8 +160,8 @@ namespace Cuemon.Web
                 return value;
 
             // avoided GetByteCount call
-            byte[] bytes = new byte[e.GetMaxByteCount(value.Length)];
-            int realLen = e.GetBytes(value, 0, value.Length, bytes, 0);
+            var bytes = new byte[e.GetMaxByteCount(value.Length)];
+            var realLen = e.GetBytes(value, 0, value.Length, bytes, 0);
 
             var encodedBytes = UrlEncodeToBytes(bytes, 0, realLen);
             return Encoding.ASCII.GetString(encodedBytes, 0, encodedBytes.Length);
@@ -192,13 +192,13 @@ namespace Cuemon.Web
         {
             if (bytes == null) { throw new ArgumentNullException(nameof(bytes)); }
 
-            int blen = bytes.Length;
+            var blen = bytes.Length;
             if (blen == 0) { return new byte[0]; } 
 
             if (offset < 0 || offset >= blen) { throw new ArgumentOutOfRangeException(nameof(offset)); }
             if (count < 0 || count > blen - offset) { throw new ArgumentOutOfRangeException(nameof(count)); }
 
-            using (Stream result = StreamFactory.Create(UrlEncodeCharWriter, bytes, offset, count, preferUppercaseHexadecimalEncoding ? HexadecimalCharactersUpperCase : HexadecimalCharactersLowerCase, options => options.Encoding = encoding ?? new UTF8Encoding()))
+            using (var result = StreamFactory.Create(UrlEncodeCharWriter, bytes, offset, count, preferUppercaseHexadecimalEncoding ? HexadecimalCharactersUpperCase : HexadecimalCharactersLowerCase, options => options.Encoding = encoding ?? new UTF8Encoding()))
             {
                 return ByteConverter.FromStream(result);
             }
@@ -206,10 +206,10 @@ namespace Cuemon.Web
 
         private static void UrlEncodeCharWriter(StreamWriter writer, byte[] bytes, int offset, int count, char[] hexadecimalCharacters)
         {
-            int end = offset + count;
-            for (int i = offset; i < end; i++)
+            var end = offset + count;
+            for (var i = offset; i < end; i++)
             {
-                char c = (char)bytes[i];
+                var c = (char)bytes[i];
                 if (c > 255)
                 {
                     int idx;
@@ -244,7 +244,7 @@ namespace Cuemon.Web
                     (c > 'z'))
                 {
                     writer.Write('%');
-                    int idx = ((int)c) >> 4;
+                    var idx = ((int)c) >> 4;
                     writer.Write(hexadecimalCharacters[idx]);
                     idx = ((int)c) & 0x0F;
                     writer.Write(hexadecimalCharacters[idx]);

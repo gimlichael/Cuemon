@@ -135,11 +135,11 @@ namespace Cuemon
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             if (assemblies == null) { throw new ArgumentNullException(nameof(assemblies)); }
-            List<Type> derivedTypes = new List<Type>();
-            foreach (Assembly assembly in assemblies)
+            var derivedTypes = new List<Type>();
+            foreach (var assembly in assemblies)
             {
-                IEnumerable<Type> assemblyDerivedTypes = ReflectionUtility.GetAssemblyTypes(assembly, null, source);
-                foreach (Type derivedType in assemblyDerivedTypes)
+                var assemblyDerivedTypes = ReflectionUtility.GetAssemblyTypes(assembly, null, source);
+                foreach (var derivedType in assemblyDerivedTypes)
                 {
                     derivedTypes.Add(derivedType);
                 }
@@ -153,7 +153,7 @@ namespace Cuemon
         /// <param name="source">The source type to traverse.</param>
         /// <param name="sourceBaseLimit">The base limit of <paramref name="source"/>.</param>
         /// <returns>The ancestor-or-self type from the specified <paramref name="source"/> that is derived or equal to <paramref name="sourceBaseLimit"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> - or - <paramref name="sourceBaseLimit"/> is null.
         /// </exception>
         public static Type GetAncestorOrSelf(Type source, Type sourceBaseLimit)
@@ -162,10 +162,10 @@ namespace Cuemon
             if (sourceBaseLimit == null) { throw new ArgumentNullException(nameof(sourceBaseLimit)); }
             if (source == sourceBaseLimit) { return source; }
 
-            Type sourceBase = source.GetTypeInfo().BaseType;
+            var sourceBase = source.GetTypeInfo().BaseType;
             while (sourceBase != null)
             {
-                TypeInfo sourceBaseInfo = sourceBase.GetTypeInfo();
+                var sourceBaseInfo = sourceBase.GetTypeInfo();
                 if (sourceBaseInfo.BaseType == sourceBaseLimit) { break; }
                 sourceBase = sourceBaseInfo.BaseType;
             }
@@ -180,8 +180,8 @@ namespace Cuemon
         public static IEnumerable<Type> GetAncestorOrSelfTypes(Type source)
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            List<Type> parentTypes = new List<Type>();
-            Type currentType = source;
+            var parentTypes = new List<Type>();
+            var currentType = source;
             while (currentType != null)
             {
                 parentTypes.Add(currentType);
@@ -211,8 +211,8 @@ namespace Cuemon
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             if (assemblies == null) { throw new ArgumentNullException(nameof(assemblies)); }
-            IEnumerable<Type> ancestorOrSelfTypes = GetAncestorOrSelfTypes(source);
-            IEnumerable<Type> derivedOrSelfTypes = GetDescendantOrSelfTypes(source, assemblies);
+            var ancestorOrSelfTypes = GetAncestorOrSelfTypes(source);
+            var derivedOrSelfTypes = GetDescendantOrSelfTypes(source, assemblies);
             return derivedOrSelfTypes.Concat(ancestorOrSelfTypes).Distinct().OrderByDescending(new ReferenceComparer<Type>());
         }
 
@@ -272,11 +272,11 @@ namespace Cuemon
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (targets == null) throw new ArgumentNullException(nameof(targets));
             var sourceInterfaces = source.GetTypeInfo().IsInterface ? source.Yield().Concat(source.GetInterfaces()).ToList() : source.GetInterfaces().ToList();
-            foreach (Type targetType in targets)
+            foreach (var targetType in targets)
             {
                 if (inherit) // search all inheritance chains
                 {
-                    foreach (Type interfaceType in sourceInterfaces)
+                    foreach (var interfaceType in sourceInterfaces)
                     {
                         if (interfaceType.GetTypeInfo().IsGenericType)
                         {
@@ -288,7 +288,7 @@ namespace Cuemon
                 }
                 else // search this type only
                 {
-                    Type interfaceType = Converter.Parse(sourceInterfaces, InterfaceParser, targetType);
+                    var interfaceType = Converter.Parse(sourceInterfaces, InterfaceParser, targetType);
                     if (interfaceType != null)
                     {
                         if (interfaceType.GetTypeInfo().IsGenericType)
@@ -365,12 +365,12 @@ namespace Cuemon
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (targets == null) throw new ArgumentNullException(nameof(targets));
-            foreach (Type targetType in targets)
+            foreach (var targetType in targets)
             {
                 if (source.GetTypeInfo().GetCustomAttributes(targetType, inherit).Any()) { return true; }
             }
 
-            foreach (MemberInfo member in source.GetMembers())
+            foreach (var member in source.GetMembers())
             {
                 if (ContainsAttributeType(member, inherit, targets)) { return true; }
             }
@@ -404,7 +404,7 @@ namespace Cuemon
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (targets == null) throw new ArgumentNullException(nameof(targets));
-            foreach (Type targetType in targets)
+            foreach (var targetType in targets)
             {
                 if (source.GetCustomAttributes(targetType, inherit)?.Any() ?? false) { return true; }
             }
@@ -422,7 +422,7 @@ namespace Cuemon
         private static bool ContainsType(IEnumerable sources, params Type[] targets)
         {
             if (sources == null) throw new ArgumentNullException(nameof(sources));
-            foreach (object source in sources)
+            foreach (var source in sources)
             {
                 if (ContainsType(source.GetType(), targets)) { return true; }
             }
@@ -440,9 +440,9 @@ namespace Cuemon
         public static bool ContainsType(Type source, params Type[] targets)
         {
             if (targets == null) throw new ArgumentNullException(nameof(targets));
-            foreach (Type targetType in targets)
+            foreach (var targetType in targets)
             {
-                Type sourceTypeCopy = source;
+                var sourceTypeCopy = source;
                 while (sourceTypeCopy != typeof(object) && sourceTypeCopy != null) // recursively loop through all inheritance types of the source
                 {
                     if (sourceTypeCopy.GetTypeInfo().IsGenericType)
@@ -499,13 +499,13 @@ namespace Cuemon
 	    public static bool IsComplex(params Type[] sources)
         {
             Validator.ThrowIfNull(sources, nameof(sources));
-            bool result = true;
+            var result = true;
             foreach (var source in sources)
             {
                 bool isPrimitive;
                 if (!ComplexValueTypeLookup.TryGetValue(source.AssemblyQualifiedName, out isPrimitive))
                 {
-                    TypeInfo sourceInfo = source.GetTypeInfo();
+                    var sourceInfo = source.GetTypeInfo();
                     if (sourceInfo.IsGenericType)
                     {
                         var generics = source.GetGenericArguments().ToList();
@@ -530,7 +530,7 @@ namespace Cuemon
         private static bool IsSimpleValueType(Type source)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            bool simple = source.GetTypeInfo().IsPrimitive;
+            var simple = source.GetTypeInfo().IsPrimitive;
             if (!simple)
             {
                 var constructors = source.GetConstructors(ReflectionUtility.BindingInstancePublic);

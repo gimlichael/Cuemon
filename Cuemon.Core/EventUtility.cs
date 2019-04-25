@@ -33,12 +33,12 @@ namespace Cuemon
         public static void AddEvent<TEventArgs>(EventHandler<TEventArgs> handler, ref EventHandler<TEventArgs> backingFieldHandler) where TEventArgs : EventArgs
         {
             EventHandler<TEventArgs> previousHandler;
-            EventHandler<TEventArgs> newBackingFieldHandler = backingFieldHandler;
+            var newBackingFieldHandler = backingFieldHandler;
             do
             {
                 previousHandler = newBackingFieldHandler;
-                EventHandler<TEventArgs> newHandler = (EventHandler<TEventArgs>)Delegate.Combine(previousHandler, handler);
-                newBackingFieldHandler = Interlocked.CompareExchange<EventHandler<TEventArgs>>(ref backingFieldHandler, newHandler, previousHandler);
+                var newHandler = (EventHandler<TEventArgs>)Delegate.Combine(previousHandler, handler);
+                newBackingFieldHandler = Interlocked.CompareExchange(ref backingFieldHandler, newHandler, previousHandler);
 
             } while (newBackingFieldHandler != previousHandler);
         }
@@ -54,12 +54,12 @@ namespace Cuemon
         public static void RemoveEvent<TEventArgs>(EventHandler<TEventArgs> handler, ref EventHandler<TEventArgs> backingFieldHandler) where TEventArgs : EventArgs
         {
             EventHandler<TEventArgs> previousHandler;
-            EventHandler<TEventArgs> newBackingFieldHandler = backingFieldHandler;
+            var newBackingFieldHandler = backingFieldHandler;
             do
             {
                 previousHandler = newBackingFieldHandler;
-                EventHandler<TEventArgs> newHandler = (EventHandler<TEventArgs>)Delegate.Remove(previousHandler, handler);
-                newBackingFieldHandler = Interlocked.CompareExchange<EventHandler<TEventArgs>>(ref backingFieldHandler, newHandler, previousHandler);
+                var newHandler = (EventHandler<TEventArgs>)Delegate.Remove(previousHandler, handler);
+                newBackingFieldHandler = Interlocked.CompareExchange(ref backingFieldHandler, newHandler, previousHandler);
 
             } while (newBackingFieldHandler != previousHandler);
         }

@@ -16,12 +16,12 @@ namespace Cuemon
         /// <typeparam name="TSource">The type of the <c>counter</c> in the encapsulated for-loop.</typeparam>
         /// <param name="repeats">The amount of repeats to do.</param>
         /// <param name="method">The delegate that is invoked once per iteration.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource>(TSource repeats, Action<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -38,12 +38,12 @@ namespace Cuemon
         /// <param name="relational">One of the enumeration values that specifies the rules to apply for the <c>condition</c> relational operator of the for-loop.</param>
         /// <param name="repeats">The amount of repeats to do according to the rules specified by <paramref name="relational"/>.</param>
         /// <param name="method">The delegate that is invoked once per iteration.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -62,12 +62,12 @@ namespace Cuemon
         /// <param name="assignment">One of the enumeration values that specifies the rules to apply for the <c>iterator</c> assignment operator of the for-loop.</param>
         /// <param name="step">The value to assign the <c>counter</c> according to the rule specified by <paramref name="assignment"/>.</param>
         /// <param name="method">The delegate that is invoked once per iteration.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -84,12 +84,12 @@ namespace Cuemon
         /// <param name="repeats">The amount of repeats to do.</param>
         /// <param name="method">The delegate that is invoked once per iteration.</param>
         /// <param name="arg">The parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T>(TSource repeats, Action<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -108,12 +108,12 @@ namespace Cuemon
         /// <param name="repeats">The amount of repeats to do according to the rules specified by <paramref name="relational"/>.</param>
         /// <param name="method">The delegate that is invoked once per iteration.</param>
         /// <param name="arg">The parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -134,12 +134,12 @@ namespace Cuemon
         /// <param name="step">The value to assign the <c>counter</c> according to the rule specified by <paramref name="assignment"/>.</param>
         /// <param name="method">The delegate that is invoked once per iteration.</param>
         /// <param name="arg">The first parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -158,12 +158,12 @@ namespace Cuemon
         /// <param name="method">The delegate that is invoked once per iteration.</param>
         /// <param name="arg1">The first parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2>(TSource repeats, Action<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -184,12 +184,12 @@ namespace Cuemon
         /// <param name="method">The delegate that is invoked once per iteration.</param>
         /// <param name="arg1">The first parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -212,12 +212,12 @@ namespace Cuemon
         /// <param name="method">The delegate that is invoked once per iteration.</param>
         /// <param name="arg1">The first parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -238,12 +238,12 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3>(TSource repeats, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -266,12 +266,12 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -296,12 +296,12 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -324,12 +324,12 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3, T4>(TSource repeats, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -354,12 +354,12 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3, T4>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -386,12 +386,12 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3, T4>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -416,12 +416,12 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3, T4, T5>(TSource repeats, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -448,12 +448,12 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3, T4, T5>(TSource initial, RelationalOperator relational, TSource repeats, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -482,12 +482,12 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="method"/>.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="method"/>.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3, T4, T5>(TSource initial, RelationalOperator relational, TSource repeats, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -512,7 +512,7 @@ namespace Cuemon
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource> method) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -541,7 +541,7 @@ namespace Cuemon
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T> method, T arg) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -572,7 +572,7 @@ namespace Cuemon
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2> method, T1 arg1, T2 arg2) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -606,7 +606,7 @@ namespace Cuemon
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -641,7 +641,7 @@ namespace Cuemon
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3, T4>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -678,7 +678,7 @@ namespace Cuemon
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="TSource"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <remarks>Do not use this method for time critical operations as there are quite some overhead do to validation of generic parameter <typeparamref name="TSource"/>.</remarks>
         public static void For<TSource, T1, T2, T3, T4, T5>(Func<TSource, RelationalOperator, TSource, bool> condition, TSource initial, RelationalOperator relational, TSource repeats, Func<TSource, AssignmentOperator, TSource, TSource> iterator, AssignmentOperator assignment, TSource step, Action<TSource, T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
@@ -700,7 +700,7 @@ namespace Cuemon
             where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
             where TTuple : Template<TSource>
         {
-            for (TSource i = initial; condition(i, relational, repeats); i = iterator(i, assignment, step))
+            for (var i = initial; condition(i, relational, repeats); i = iterator(i, assignment, step))
             {
                 factory.GenericArguments.Arg1 = i;
                 factory.ExecuteMethod();
@@ -841,7 +841,7 @@ namespace Cuemon
 
         private static void ForEachCore<TTuple, TSource>(ActionFactory<TTuple> factory, IEnumerable<TSource> elements) where TTuple : Template<TSource>
         {
-            foreach (TSource element in elements)
+            foreach (var element in elements)
             {
                 factory.GenericArguments.Arg1 = element;
                 factory.ExecuteMethod();
@@ -1019,8 +1019,8 @@ namespace Cuemon
 
         internal static void ValidateWhileReference<TSource>(TSource source, Func<bool> condition)
         {
-            Type conditionType = condition.Target.GetType();
-            Type sourceType = source.GetType();
+            var conditionType = condition.Target.GetType();
+            var sourceType = source.GetType();
             if (!conditionType.FullName.Equals(sourceType.FullName, StringComparison.OrdinalIgnoreCase)) { throw new TypeArgumentException("source", string.Format(CultureInfo.InvariantCulture, "The specified TSource, {0}, does not match the source of the condition delegate target, {1}.", sourceType.FullName, conditionType.FullName)); }            
         }
 

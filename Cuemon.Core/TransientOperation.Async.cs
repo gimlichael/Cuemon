@@ -220,16 +220,16 @@ namespace Cuemon
                 await factory.ExecuteMethodAsync().ConfigureAwait(false);
                 return;
             }
-            DateTime timestamp = DateTime.UtcNow;
-            TimeSpan latency = TimeSpan.Zero;
-            TimeSpan totalWaitTime = TimeSpan.Zero;
-            TimeSpan lastWaitTime = TimeSpan.Zero;
-            bool isTransientFault = false;
+            var timestamp = DateTime.UtcNow;
+            var latency = TimeSpan.Zero;
+            var totalWaitTime = TimeSpan.Zero;
+            var lastWaitTime = TimeSpan.Zero;
+            var isTransientFault = false;
             bool throwExceptions;
-            List<Exception> aggregatedExceptions = new List<Exception>();
-            for (int attempts = 0; ;)
+            var aggregatedExceptions = new List<Exception>();
+            for (var attempts = 0; ;)
             {
-                TimeSpan waitTime = options.RetryStrategy(attempts);
+                var waitTime = options.RetryStrategy(attempts);
                 try
                 {
                     if (latency > options.MaximumAllowedLatency) { throw new LatencyException(string.Format(CultureInfo.InvariantCulture, "The latency of the operation exceeded the allowed maximum value of {0} seconds. Actual latency was: {1} seconds.", options.MaximumAllowedLatency.TotalSeconds, latency.TotalSeconds)); }
@@ -270,18 +270,18 @@ namespace Cuemon
         {
             var options = Patterns.Configure(setup);
             if (!options.EnableRecovery) { return await factory.ExecuteMethodAsync().ConfigureAwait(false); }
-            DateTime timestamp = DateTime.UtcNow;
-            TimeSpan latency = TimeSpan.Zero;
-            TimeSpan totalWaitTime = TimeSpan.Zero;
-            TimeSpan lastWaitTime = TimeSpan.Zero;
-            bool isTransientFault = false;
+            var timestamp = DateTime.UtcNow;
+            var latency = TimeSpan.Zero;
+            var totalWaitTime = TimeSpan.Zero;
+            var lastWaitTime = TimeSpan.Zero;
+            var isTransientFault = false;
             bool throwExceptions;
-            List<Exception> aggregatedExceptions = new List<Exception>();
-            TResult result = default(TResult);
-            for (int attempts = 0; ;)
+            var aggregatedExceptions = new List<Exception>();
+            var result = default(TResult);
+            for (var attempts = 0; ;)
             {
-                bool exceptionThrown = false;
-                TimeSpan waitTime = options.RetryStrategy(attempts);
+                var exceptionThrown = false;
+                var waitTime = options.RetryStrategy(attempts);
                 try
                 {
                     if (latency > options.MaximumAllowedLatency) { throw new LatencyException(string.Format(CultureInfo.InvariantCulture, "The latency of the operation exceeded the allowed maximum value of {0} seconds. Actual latency was: {1} seconds.", options.MaximumAllowedLatency.TotalSeconds, latency.TotalSeconds)); }
@@ -318,7 +318,7 @@ namespace Cuemon
                 {
                     if (exceptionThrown)
                     {
-                        IDisposable disposable = result as IDisposable;
+                        var disposable = result as IDisposable;
                         disposable?.Dispose();
                     }
                 }

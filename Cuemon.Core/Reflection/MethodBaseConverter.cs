@@ -40,8 +40,8 @@ namespace Cuemon.Reflection
                 var parameters = method.GetParameters();
                 if (parameters.Length == types.Length)
                 {
-                    bool match = true;
-                    for (int i = 0; i < parameters.Length; i++)
+                    var match = true;
+                    for (var i = 0; i < parameters.Length; i++)
                     {
                         match &= parameters[i].ParameterType == types[i];
                     }

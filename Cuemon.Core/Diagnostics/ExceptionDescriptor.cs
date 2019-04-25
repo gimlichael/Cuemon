@@ -33,7 +33,7 @@ namespace Cuemon.Diagnostics
         {
             Validator.ThrowIfNull(failure, nameof(failure));
             Validator.ThrowIfNullOrWhitespace(message, nameof(message));
-            Code = code.RemoveAll(' ');
+            Code = StringUtility.RemoveAll(code, ' ');
             Message = message;
             HelpLink = helpLink;
             Failure = failure;
@@ -100,9 +100,9 @@ namespace Cuemon.Diagnostics
             var attribute = attributes?.SingleOrDefault(eda => eda.FailureType == Failure.GetType());
             if (attribute != null)
             {
-                if (!attribute.Code.IsNullOrWhiteSpace()) { Code = attribute.Code; }
-                if (!attribute.Message.IsNullOrWhiteSpace()) { Message = attribute.Message; }
-                if (!attribute.HelpLink.IsNullOrWhiteSpace()) { HelpLink = new Uri(attribute.HelpLink); }
+                if (!string.IsNullOrWhiteSpace(attribute.Code)) { Code = attribute.Code; }
+                if (!string.IsNullOrWhiteSpace(attribute.Message)) { Message = attribute.Message; }
+                if (!string.IsNullOrWhiteSpace(attribute.HelpLink)) { HelpLink = new Uri(attribute.HelpLink); }
             }
         }
     }

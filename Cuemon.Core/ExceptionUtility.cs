@@ -37,7 +37,7 @@ namespace Cuemon
         /// <param name="method">The method to extract valuable meta information from.</param>
         /// <param name="parameters">The optional parameters to accompany <paramref name="method"/>.</param>
         /// <returns>The specified <paramref name="exception"/> refined with valuable meta information within a <see cref="MethodWrappedException"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
         public static MethodWrappedException Refine(Exception exception, MethodBase method, params object[] parameters)
@@ -53,7 +53,7 @@ namespace Cuemon
         /// <param name="method">The method signature containing valuable meta information.</param>
         /// <param name="parameters">The optional parameters to accompany <paramref name="method"/>.</param>
         /// <returns>The specified <paramref name="exception"/> refined with valuable meta information within a <see cref="MethodWrappedException"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
         public static MethodWrappedException Refine(Exception exception, MethodDescriptor method, params object[] parameters)
@@ -69,16 +69,16 @@ namespace Cuemon
         /// <typeparam name="TResult">The type of the <paramref name="exception"/> to find a match on.</typeparam>
         /// <param name="exception">The exception to parse for a match on <typeparamref name="TResult"/>.</param>
         /// <returns>The matched <paramref name="exception"/> cast as <typeparamref name="TResult"/> or <c>null</c> if no match could be resolved.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="exception"/> is null.
         /// </exception>
         public static TResult Parse<TResult>(Exception exception) where TResult : Exception
         {
-            Type resultType = typeof(TResult);
+            var resultType = typeof(TResult);
             var exceptions = Flatten(exception);
             foreach (var e in exceptions)
             {
-                Type sourceType = e.GetType();
+                var sourceType = e.GetType();
                 if (TypeUtility.ContainsType(sourceType, resultType)) { return e as TResult; }
             }
             return null;
@@ -90,7 +90,7 @@ namespace Cuemon
         /// <typeparam name="TResult">The type of the <see cref="Exception"/> to find a match within <paramref name="exceptions"/>.</typeparam>
         /// <param name="exceptions">A sequence of exceptions to parse for a match on <typeparamref name="TResult"/>.</param>
         /// <returns>The first matched <see cref="Exception"/> of <typeparamref name="TResult"/> from the sequence of <paramref name="exceptions"/> or <c>null</c> if no match could be resolved.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="exceptions"/> is null.
         /// </exception>
         public static TResult Parse<TResult>(IEnumerable<Exception> exceptions) where TResult : Exception
@@ -105,7 +105,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="exception">The exception to flatten.</param>
         /// <returns>An empty <see cref="IEnumerable{T}"/> sequence if no inner exceptions was specified; otherwise any inner exceptions rooted to the specified <paramref name="exception"/> as well as it's descendants.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="exception"/> is null.
         /// </exception>
         /// <remarks>
@@ -124,7 +124,7 @@ namespace Cuemon
         /// <param name="exception">The exception to flatten.</param>
         /// <param name="exceptionType">The type of the specified <paramref name="exception"/>.</param>
         /// <returns>An empty <see cref="IEnumerable{T}"/> sequence if no inner exceptions was referenced; otherwise any inner exceptions descendant-or-self from the specified <paramref name="exception"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="exception"/> -or <paramref name="exceptionType"/> is null.
         /// </exception>
         /// <remarks>
@@ -135,14 +135,14 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(exception, nameof(exception));
             Validator.ThrowIfNull(exceptionType, nameof(exceptionType));
-            PropertyInfo innerExceptionsProperty = ReflectionUtility.GetProperty(exceptionType, "InnerExceptions");
+            var innerExceptionsProperty = ReflectionUtility.GetProperty(exceptionType, "InnerExceptions");
             if (innerExceptionsProperty != null) { return innerExceptionsProperty.GetValue(exception, null) as IEnumerable<Exception>; }
             return HierarchyUtility.WhileSourceTraversalHasElements(exception, FlattenCallback).Skip(1);
         }
 
         private static IEnumerable<Exception> FlattenCallback(Exception source)
         {
-            PropertyInfo innerExceptionsProperty = ReflectionUtility.GetProperty(source.GetType(), "InnerExceptions");
+            var innerExceptionsProperty = ReflectionUtility.GetProperty(source.GetType(), "InnerExceptions");
             if (innerExceptionsProperty != null) { return innerExceptionsProperty.GetValue(source, null) as IEnumerable<Exception>; }
             return source.InnerException == null ? Enumerable.Empty<Exception>() : source.InnerException.Yield();
         }

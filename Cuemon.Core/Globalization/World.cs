@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Cuemon.Reflection;
 
@@ -28,7 +29,7 @@ namespace Cuemon.Globalization
                 return cultures.Values;
             }
 
-            using (var lfdSpecificCultures = ReflectionUtility.GetEmbeddedResource(typeof(World), "CultureInfo.SpecificCultures.dsv", ResourceMatch.ContainsName))
+            using (var lfdSpecificCultures = ReflectionUtility.GetEmbeddedResources(typeof(World), "CultureInfo.SpecificCultures.dsv", EmbeddedResourceMatch.ContainsName).Single())
             {
                 using (var reader = new StreamReader(lfdSpecificCultures))
                 {

@@ -184,16 +184,16 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="depth"/> is less than zero.
         /// </exception>
         public static IEnumerable<IHierarchy<T>> SiblingsAndSelfAt<T>(this IHierarchy<T> node, int depth)
         {
             Validator.ThrowIfNull(node, nameof(node));
             Validator.ThrowIfLowerThan(depth, 0, nameof(depth));
-            IHierarchy<T> root = AncestorsAndSelf(node).FirstOrDefault();
-            IEnumerable<IHierarchy<T>> descendantsFromRoot = DescendantsAndSelf(root);
-            foreach (IHierarchy<T> descendantItem in descendantsFromRoot)
+            var root = AncestorsAndSelf(node).FirstOrDefault();
+            var descendantsFromRoot = DescendantsAndSelf(root);
+            foreach (var descendantItem in descendantsFromRoot)
             {
                 if (descendantItem.Depth == depth) { yield return descendantItem; }
             }
@@ -209,7 +209,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="index"/> is less than zero - or - <paramref name="index"/> exceeded the count of nodes in the hierarchical structure.
         /// </exception>
         public static IHierarchy<T> NodeAt<T>(this IHierarchy<T> node, int index)
@@ -217,8 +217,8 @@ namespace Cuemon
             Validator.ThrowIfNull(node, nameof(node));
             Validator.ThrowIfLowerThan(index, 0, nameof(index));
             if (node.Index == index) { return node; }
-            IEnumerable<IHierarchy<T>> allNodes = FlattenAll(node);
-            foreach (IHierarchy<T> element in allNodes)
+            var allNodes = FlattenAll(node);
+            foreach (var element in allNodes)
             {
                 if (element.Index == index) { return element; }
             }
@@ -237,7 +237,7 @@ namespace Cuemon
         public static IEnumerable<IHierarchy<T>> FlattenAll<T>(this IHierarchy<T> node)
         {
             Validator.ThrowIfNull(node, nameof(node));
-            IHierarchy<T> root = AncestorsAndSelf(node).FirstOrDefault();
+            var root = AncestorsAndSelf(node).FirstOrDefault();
             return DescendantsAndSelf(root);
         }
     }

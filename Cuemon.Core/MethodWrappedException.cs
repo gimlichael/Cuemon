@@ -8,7 +8,7 @@ using Cuemon.Reflection;
 namespace Cuemon
 {
     /// <summary>
-    /// Wraps an exception that was refined with meta information from either <see cref="ExceptionUtility.Refine(Exception,System.Reflection.MethodBase,object[])"/> or <see cref="ExceptionUtility.Refine(Exception,Reflection.MethodDescriptor,object[])"/>. 
+    /// Wraps an exception that was refined with meta information from either <see cref="ExceptionUtility.Refine(Exception,System.Reflection.MethodBase,object[])"/> or <see cref="ExceptionUtility.Refine(Exception,MethodDescriptor,object[])"/>. 
     /// This class cannot be inherited.
     /// </summary>
     /// <seealso cref="Exception" />
@@ -26,9 +26,9 @@ namespace Cuemon
             Source = throwingMethod.ToString();
             if (throwingMethodParameters.Count > 0)
             {
-                foreach (KeyValuePair<string, object> item in throwingMethodParameters)
+                foreach (var item in throwingMethodParameters)
                 {
-                    string key = item.Key;
+                    var key = item.Key;
                     if (!Data.Contains(key)) { Data.Add(key, StringConverter.FromObject(item.Value)); }
                 }
             }
@@ -41,9 +41,9 @@ namespace Cuemon
         public MethodDescriptor ThrowingMethod { get; }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             var builder = new StringBuilder();

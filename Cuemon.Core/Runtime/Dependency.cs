@@ -150,7 +150,7 @@ namespace Cuemon.Runtime
         /// <param name="e">The <see cref="DependencyEventArgs"/> instance containing the event data.</param>
         protected virtual void OnDependencyChangedRaised(DependencyEventArgs e)
         {
-            EventHandler<DependencyEventArgs> handler = DependencyChanged;
+            var handler = DependencyChanged;
             EventUtility.Raise(handler, this, e);
         }
 

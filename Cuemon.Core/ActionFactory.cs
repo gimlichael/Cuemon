@@ -458,7 +458,7 @@ namespace Cuemon
         /// <param name="tuple">The n-tuple argument of <paramref name="method"/>.</param>
         public static void Invoke<TTuple>(Action<TTuple> method, TTuple tuple) where TTuple : Template
         {
-            ActionFactory<TTuple> factory = new ActionFactory<TTuple>(method, tuple);
+            var factory = new ActionFactory<TTuple>(method, tuple);
             factory.ExecuteMethod();
         }
     }

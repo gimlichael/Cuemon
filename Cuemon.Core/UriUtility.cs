@@ -161,8 +161,8 @@ namespace Cuemon
             Validator.ThrowIfNullOrEmpty(uriString, nameof(uriString));
             Validator.ThrowIfNull(uriSchemes, nameof(uriSchemes));
 
-            bool isValid = false;
-            foreach (UriScheme scheme in uriSchemes)
+            var isValid = false;
+            foreach (var scheme in uriSchemes)
             {
                 switch (scheme)
                 {
@@ -176,7 +176,7 @@ namespace Cuemon
                     case UriScheme.NetTcp:
                     case UriScheme.News:
                     case UriScheme.Nntp:
-                        string validUriScheme = StringConverter.FromUriScheme(scheme);
+                        var validUriScheme = StringConverter.FromUriScheme(scheme);
                         isValid = uriString.StartsWith(validUriScheme, StringComparison.OrdinalIgnoreCase);
                         break;
                     default:

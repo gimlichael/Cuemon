@@ -27,13 +27,13 @@ namespace Cuemon
         /// Gets a n-tuple representation of a <see cref="Template"/> that represents the generic arguments passed to this instance.
         /// </summary>
         /// <value>The n-tuple representation of a <see cref="Template"/> that represents the generic arguments passed to this instance.</value>
-        public TTuple GenericArguments { get; private set; }
+        public TTuple GenericArguments { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance has an assigned delegate.
         /// </summary>
         /// <value><c>true</c> if this instance an assigned delegate; otherwise, <c>false</c>.</value>
-        public virtual bool HasDelegate { get; private set; }
+        public virtual bool HasDelegate { get; }
 
         /// <summary>
         /// Gets the method represented by the delegate.
@@ -49,7 +49,7 @@ namespace Cuemon
         {
             if (HasDelegate)
             {
-                MethodDescriptor descriptor = new MethodDescriptor(DelegateInfo);
+                var descriptor = new MethodDescriptor(DelegateInfo);
                 return descriptor.ToString();
             }
             return base.ToString();

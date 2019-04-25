@@ -63,14 +63,14 @@ namespace Cuemon.Reflection
             HasCircularReference = ReflectionUtility.HasCircularReference;
             PropertyIndexParametersResolver = infos =>
             {
-                List<object> resolvedParameters = new List<object>();
-                for (int i = 0; i < infos.Length; i++)
+                var resolvedParameters = new List<object>();
+                for (var i = 0; i < infos.Length; i++)
                 {
                     // because we don't know the values to pass to an indexer we will try to do some assumptions on a "normal" indexer
                     // however; this has it flaws: an indexer does not necessarily have an item on 0, 1, 2 etc., so must handle the possible
                     // TargetInvocationException.
                     // more info? check here: http://blog.nkadesign.com/2006/net-the-limits-of-using-reflection/comment-page-1/#comment-10813
-                    if (TypeUtility.ContainsType(infos[i].ParameterType, typeof(Byte), typeof(Int16), typeof(Int32), typeof(Int64))) // check to see if we have a "normal" indexer
+                    if (TypeUtility.ContainsType(infos[i].ParameterType, typeof(byte), typeof(short), typeof(int), typeof(long))) // check to see if we have a "normal" indexer
                     {
                         resolvedParameters.Add(0);
                     }

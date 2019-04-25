@@ -28,8 +28,8 @@ namespace Cuemon.Collections.Generic
 		/// </returns>
 		public override int Compare(T x, T y)
 		{
-			int depthOfX = x.OfType<T>().Count();
-            int depthOfY = y.OfType<T>().Count();
+			var depthOfX = x.OfType<T>().Count();
+            var depthOfY = y.OfType<T>().Count();
 
 			if (depthOfX > depthOfY) { return 1; }
 			if (depthOfX < depthOfY) { return -1; }

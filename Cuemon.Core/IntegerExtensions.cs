@@ -61,7 +61,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The positive integer to determine whether is a prime number.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> is a prime number; otherwise, <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> has a value smaller than 0.
         /// </exception>
         public static bool IsPrime(this int value)

@@ -20,7 +20,7 @@ namespace Cuemon
 
         private static RegexOptions ToRegExOptions(StringComparison comparison)
         {
-            RegexOptions options = RegexOptions.None;
+            var options = RegexOptions.None;
             switch (comparison)
             {
                 case StringComparison.CurrentCulture:
@@ -39,11 +39,11 @@ namespace Cuemon
         private static string ToRegExPattern(IEnumerable<StringReplacePair> replacePairs, out IDictionary<string, string> lookupTable)
         {
             lookupTable = new Dictionary<string, string>();
-            StringBuilder pattern = new StringBuilder();
-            foreach (StringReplacePair replacePair in replacePairs)
+            var pattern = new StringBuilder();
+            foreach (var replacePair in replacePairs)
             {
-                char[] characters = replacePair.OldValue.ToCharArray();
-                foreach (char character in characters)
+                var characters = replacePair.OldValue.ToCharArray();
+                foreach (var character in characters)
                 {
                     pattern.AppendFormat(CultureInfo.InvariantCulture, @"\u{0:x4}", (uint)character);
                 }
@@ -57,17 +57,17 @@ namespace Cuemon
         private string RenderReplacement()
         {
             IDictionary<string, string> lookupTable;
-            Regex regex = new Regex(ToRegExPattern(ReplacePairs, out lookupTable), ToRegExOptions(Comparison));
-            MatchCollection matches = regex.Matches(Value);
+            var regex = new Regex(ToRegExPattern(ReplacePairs, out lookupTable), ToRegExOptions(Comparison));
+            var matches = regex.Matches(Value);
             foreach (Match match in matches)
             {
                 ReplaceCoordinates.Add(new StringReplaceCoordinate(match.Index, match.Length, lookupTable[match.Value.ToUpperInvariant()]));
             }
 
-            int startIndex = 0;
+            var startIndex = 0;
             if (ReplaceCoordinates.Count == 0) { return Value; }
-            StringBuilder builder = new StringBuilder();
-            foreach (StringReplaceCoordinate replaceCoordinate in ReplaceCoordinates)
+            var builder = new StringBuilder();
+            foreach (var replaceCoordinate in ReplaceCoordinates)
             {
                 var currentIndex = replaceCoordinate.StartIndex;
                 var currentLength = replaceCoordinate.Length;
@@ -80,7 +80,7 @@ namespace Cuemon
                 {
                     if (currentIndex > LastStartIndex)
                     {
-                        int lastPosition = LastStartIndex + LastLength;
+                        var lastPosition = LastStartIndex + LastLength;
                         builder.Append(Value.Substring(lastPosition, currentIndex - lastPosition));
                     }
                 }

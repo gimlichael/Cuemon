@@ -34,7 +34,7 @@ namespace Cuemon.Diagnostics
         {
             Validator.ThrowIfNull(fvi, nameof(fvi));
             var version = propertySelector(fvi);
-            return new Version(version.IsNullOrEmpty() ? "0.0.0.0" : version);
+            return new Version(string.IsNullOrWhiteSpace(version) ? "0.0.0.0" : version);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Cuemon.Reflection
         /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
         /// </summary>
         /// <param name="method">The method to extract a signature for.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         public MethodDescriptor(MethodBase method) : this(method == null ? null : method.DeclaringType, method)
@@ -35,8 +35,8 @@ namespace Cuemon.Reflection
         public MethodDescriptor(Type caller, MethodBase method)
         {
             if (method == null) { throw new ArgumentNullException(nameof(method)); }
-            string methodName = string.IsNullOrEmpty(method.Name) ? "NotAvailable" : method.Name;
-            bool isPresumedProperty = methodName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) | methodName.StartsWith("set_", StringComparison.OrdinalIgnoreCase);
+            var methodName = string.IsNullOrEmpty(method.Name) ? "NotAvailable" : method.Name;
+            var isPresumedProperty = methodName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) | methodName.StartsWith("set_", StringComparison.OrdinalIgnoreCase);
 
             IsProperty = isPresumedProperty;
             MethodName = isPresumedProperty ? methodName.Remove(0, 4) : methodName;
@@ -84,7 +84,7 @@ namespace Cuemon.Reflection
         /// <param name="methodName">The name of the method.</param>
         /// <param name="isProperty">A value indicating whether the method is a property. Default is <c>false</c>.</param>
         /// <param name="parameters">A sequence of <see cref="ParameterSignature" /> that represent the parameter signature of the method.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="caller"/> is null or <br/>
         /// <paramref name="methodName"/> is null.
         /// </exception>
@@ -226,12 +226,12 @@ namespace Cuemon.Reflection
         /// <returns>An <see cref="IDictionary{TKey,TValue}"/> containing the merged result of the <paramref name="parameters"/> signature and <paramref name="runtimeParameterValues"/>.</returns>
         public static IDictionary<string, object> MergeParameters(IEnumerable<ParameterSignature> parameters, params object[] runtimeParameterValues)
         {
-            Dictionary<string, object> wrapper = new Dictionary<string, object>();
+            var wrapper = new Dictionary<string, object>();
             if (runtimeParameterValues != null)
             {
-                ParameterSignature[] methodParameters = parameters.ToArray();
-                bool hasEqualNumberOfParameters = methodParameters.Length == runtimeParameterValues.Length;
-                for (int i = 0; i < runtimeParameterValues.Length; i++)
+                var methodParameters = parameters.ToArray();
+                var hasEqualNumberOfParameters = methodParameters.Length == runtimeParameterValues.Length;
+                for (var i = 0; i < runtimeParameterValues.Length; i++)
                 {
                     wrapper.Add(string.Format(CultureInfo.InvariantCulture, "{0}", hasEqualNumberOfParameters ? methodParameters[i].ParameterName : string.Format(CultureInfo.InvariantCulture, "arg{0}", i + 1)), runtimeParameterValues[i]);
                 }
@@ -240,19 +240,19 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents the method signature.
+        /// Returns a <see cref="string" /> that represents the method signature.
         /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents the method signature.</returns>
+        /// <returns>A <see cref="string" /> that represents the method signature.</returns>
         public override string ToString()
         {
             return ToString(true);
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents the method signature.
+        /// Returns a <see cref="string" /> that represents the method signature.
         /// </summary>
         /// <param name="fullName">Specify <c>true</c> to use the fully qualified name of the <see cref="Caller"/>; otherwise, <c>false</c> for the simple name.</param>
-        /// <returns>A <see cref="System.String" /> that represents the method signature.</returns>
+        /// <returns>A <see cref="string" /> that represents the method signature.</returns>
         /// <remarks>
         /// The returned string has the following format: <br/>
         /// Method without parameters: [<see cref="Caller"/>].[<see cref="MethodName"/>]()<br/>
@@ -263,14 +263,14 @@ namespace Cuemon.Reflection
         public string ToString(bool fullName)
         {
             var className = Caller == null ? "NotAvailable" : StringConverter.FromType(Caller, fullName);
-            StringBuilder signature = new StringBuilder(string.Concat(className, ".", MethodName));
+            var signature = new StringBuilder(string.Concat(className, ".", MethodName));
             if (!IsProperty) { signature.Append("("); }
             if (Parameters.Any())
             {
                 if (IsProperty) { signature.Append("["); }
-                int parameterCount = Parameters.Count();
-                int i = 1;
-                foreach (ParameterSignature parameter in Parameters)
+                var parameterCount = Parameters.Count();
+                var i = 1;
+                foreach (var parameter in Parameters)
                 {
                     signature.AppendFormat(CultureInfo.InvariantCulture, "{0} {1}", parameter.ParameterType.Name, parameter.ParameterName);
                     if (i < parameterCount) { signature.Append(", "); }

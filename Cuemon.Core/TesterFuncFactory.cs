@@ -496,7 +496,7 @@ namespace Cuemon
         /// <returns>The return value that indicates success of the tester function delegate <paramref name="method"/>.</returns>
         public static TSuccess Invoke<TTuple, TResult, TSuccess>(TesterFunc<TTuple, TResult, TSuccess> method, TTuple tuple, out TResult result) where TTuple : Template
         {
-            TesterFuncFactory<TTuple, TResult, TSuccess> factory = new TesterFuncFactory<TTuple, TResult, TSuccess>(method, tuple);
+            var factory = new TesterFuncFactory<TTuple, TResult, TSuccess>(method, tuple);
             return factory.ExecuteMethod(out result);
         }
     }

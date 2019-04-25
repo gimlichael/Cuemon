@@ -58,11 +58,11 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
         /// <returns>
-        /// 	<c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// 	<c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
@@ -110,7 +110,7 @@ namespace Cuemon
         /// <remarks>The string representation consists of the string representations of the oldValue and newValue, separated by a comma and a space, and enclosed in square brackets. For example, the ToString method for a <see cref="StringReplacePair"/> structure with the string OldValue "Test1" and the string NewValue "Test2" returns the string "[Test1, Test2]".</remarks>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append('[');
             if (OldValue != null)
             {

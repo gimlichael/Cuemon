@@ -6,7 +6,7 @@ using Cuemon.Text;
 namespace Cuemon
 {
     /// <summary>
-    /// This utility class is designed to make <see cref="Char"/> related conversions easier to work with.
+    /// This utility class is designed to make <see cref="char"/> related conversions easier to work with.
     /// </summary>
     public static class CharConverter
     {
@@ -22,7 +22,7 @@ namespace Cuemon
             Validator.ThrowIfNull(value, nameof(value));
             var options = Patterns.Configure(setup);
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = StreamUtility.DetectUnicodeEncoding(value, options.Encoding); }
-            byte[] valueInBytes = ByteConverter.FromStream(value);
+            var valueInBytes = ByteConverter.FromStream(value);
             switch (options.Preamble)
             {
                 case PreambleSequence.Keep:

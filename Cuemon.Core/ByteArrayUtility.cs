@@ -10,15 +10,15 @@ namespace Cuemon
     public static class ByteArrayUtility
 	{
         /// <summary>
-        /// Tries to detect an <see cref="Encoding"/> object from the specified <paramref name="value"/>.
+        /// Tries to detect an <see cref="Encoding"/> object from the specified <paramref name="bytes"/>.
         /// If unsuccessful, the <paramref name="fallback"/> value is returned.
         /// </summary>
-        /// <param name="value">The <see cref="T:byte[]"/> to parse for an <see cref="Encoding"/>.</param>
+        /// <param name="bytes">The <see cref="T:byte[]"/> to parse for an <see cref="Encoding"/>.</param>
         /// <param name="fallback">The <see cref="Encoding"/> to use when conversion is unsuccessful.</param>
-        /// <returns>Either the detected encoding of <paramref name="value"/>  or the <paramref name="fallback"/> encoding.</returns>
-        public static Encoding DetectUnicodeEncoding(byte[] value, Encoding fallback)
+        /// <returns>Either the detected encoding of <paramref name="bytes"/>  or the <paramref name="fallback"/> encoding.</returns>
+        public static Encoding DetectUnicodeEncoding(byte[] bytes, Encoding fallback)
         {
-            if (TryDetectUnicodeEncoding(value, out var result))
+            if (TryDetectUnicodeEncoding(bytes, out var result))
             {
                 return result;
             }

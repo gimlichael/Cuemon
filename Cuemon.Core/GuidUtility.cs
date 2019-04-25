@@ -75,10 +75,10 @@ namespace Cuemon
             if (value.Length < 32) { return false; }
             if (value.Length > 38) { return false; }
 
-            int startPosition = 0;
-            bool hasDashes = (value.IndexOf('-') > 0);
-            bool hasBraces = (value.StartsWith("{", StringComparison.OrdinalIgnoreCase) && value.EndsWith("}", StringComparison.OrdinalIgnoreCase));
-            bool hasParenthesis = (value.StartsWith("(", StringComparison.OrdinalIgnoreCase) && value.EndsWith(")", StringComparison.OrdinalIgnoreCase));
+            var startPosition = 0;
+            var hasDashes = (value.IndexOf('-') > 0);
+            var hasBraces = (value.StartsWith("{", StringComparison.OrdinalIgnoreCase) && value.EndsWith("}", StringComparison.OrdinalIgnoreCase));
+            var hasParenthesis = (value.StartsWith("(", StringComparison.OrdinalIgnoreCase) && value.EndsWith(")", StringComparison.OrdinalIgnoreCase));
 
 
             if (hasBraces || hasParenthesis) // BraceFormat or ParenthesisFormat
@@ -136,7 +136,7 @@ namespace Cuemon
             if (hasDashes) { value = value.Replace("-", ""); }
             if (hasParenthesis) { value = value.Replace("(", "").Replace(")", ""); }
             if (hasBraces) { value = value.Replace("{", "").Replace("}", ""); }
-            for (int i = 0; i < value.Length; i++)
+            for (var i = 0; i < value.Length; i++)
             {
                 if (!Hexadecimal.Contains(value[i]))
                 {

@@ -22,16 +22,16 @@ namespace Cuemon
         /// </summary>
         /// <param name="convertibles">A sequence of structs implementing the <see cref="IConvertible"/> interface.</param>
         /// <returns>A 32-bit signed integer that is the hash code of <paramref name="convertibles"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="convertibles"/> is null.
         /// </exception>
         public static int GetHashCode32<T>(IEnumerable<T> convertibles) where T : struct, IConvertible
         {
             if (convertibles == null) { throw new ArgumentNullException(nameof(convertibles)); }
-            long hash = GetHashCode64(convertibles);
-            byte[] temp = ByteConverter.FromConvertibles(hash);
-            byte[] result = new byte[4];
-            for (int i = (result.Length - 1); i >= 0; i--)
+            var hash = GetHashCode64(convertibles);
+            var temp = ByteConverter.FromConvertibles(hash);
+            var result = new byte[4];
+            for (var i = (result.Length - 1); i >= 0; i--)
             {
                 result[i] = temp[temp.Length - (4 - i)];
             }
@@ -43,18 +43,18 @@ namespace Cuemon
         /// </summary>
         /// <param name="convertibles">A sequence of structs implementing the <see cref="IConvertible"/> interface.</param>
         /// <returns>A 64-bit signed integer that is the hash code of <paramref name="convertibles"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="convertibles"/> is null.
         /// </exception>
         public static long GetHashCode64<T>(IEnumerable<T> convertibles) where T : IConvertible
         {
             if (convertibles == null) { throw new ArgumentNullException(nameof(convertibles)); }
-            TypeCode code = TypeCodeConverter.FromType(typeof(T));
+            var code = TypeCodeConverter.FromType(typeof(T));
             unchecked
             {
-                bool skipFnvPrimeMultiplication = false;
-                long hash = FnvOffset;
-                foreach (T convertible in convertibles)
+                var skipFnvPrimeMultiplication = false;
+                var hash = FnvOffset;
+                foreach (var convertible in convertibles)
                 {
                     switch (code)
                     {
@@ -93,14 +93,14 @@ namespace Cuemon
                             hash ^= unchecked((long)convertible.ToSingle(CultureInfo.InvariantCulture));
                             break;
                         case TypeCode.String:
-                            string value = convertible as string;
+                            var value = convertible as string;
                             if (value == null)
                             {
                                 hash ^= HashCodeForNullValue;
                             }
                             else
                             {
-                                for (int i = 0; i < value.Length; i++)
+                                for (var i = 0; i < value.Length; i++)
                                 {
                                     hash ^= value[i];
                                     hash *= FnvPrime;

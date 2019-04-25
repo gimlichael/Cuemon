@@ -80,7 +80,7 @@ namespace Cuemon
         /// <returns>An array of bytes equivalent to the data of the <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Boolean"/>, <see cref="Char"/>, <see cref="double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="ushort"/>, <see cref="UInt32"/> and <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
         /// </exception>
         public static byte[] ToByteArray<T>(this T value) where T : struct, IConvertible
         {
@@ -94,7 +94,7 @@ namespace Cuemon
         /// <returns>An array of bytes equivalent to the sequence of the <paramref name="values"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="values"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Boolean"/>, <see cref="Char"/>, <see cref="double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="ushort"/>, <see cref="UInt32"/> and <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="values"/> is null.

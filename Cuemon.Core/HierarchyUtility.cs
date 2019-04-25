@@ -15,18 +15,18 @@ namespace Cuemon
         /// <param name="source">The source to travel until the <paramref name="traversal"/> path is obstructed by a null value.</param>
         /// <param name="traversal">The function delegate that is invoked until the traveled path is obstructed by a null value.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to the traveled path of <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> -or- <paramref name="traversal"/> is null.
         /// </exception>
         public static IEnumerable<TSource> WhileSourceTraversalIsNotNull<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             if (traversal == null) { throw new ArgumentNullException(nameof(traversal)); }
-            Stack<TSource> stack = new Stack<TSource>();
+            var stack = new Stack<TSource>();
             stack.Push(traversal(source));
             while (stack.Count != 0)
             {
-                TSource current = stack.Pop();
+                var current = stack.Pop();
                 if (current == null) { yield break; }
                 stack.Push(traversal(current));
                 yield return current;
@@ -40,17 +40,17 @@ namespace Cuemon
         /// <param name="source">The source to travel until the <paramref name="traversal"/> path is obstructed by an empty sequence.</param>
         /// <param name="traversal">The function delegate that is invoked until the traveled path is obstructed by an empty sequence.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to the traveled path of <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> -or- <paramref name="traversal"/> is null.
         /// </exception>
         public static IEnumerable<TSource> WhileSourceTraversalHasElements<TSource>(TSource source, Func<TSource, IEnumerable<TSource>> traversal) where TSource : class
         {
-            Stack<TSource> stack = new Stack<TSource>();
+            var stack = new Stack<TSource>();
             stack.Push(source);
             while (stack.Count != 0)
             {
-                TSource current = stack.Pop();
-                foreach (TSource element in traversal(current))
+                var current = stack.Pop();
+                foreach (var element in traversal(current))
                 {
                     stack.Push(element);
                 }

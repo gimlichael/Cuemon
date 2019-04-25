@@ -10,7 +10,7 @@
         /// </summary>
         Deflate,
         /// <summary>
-        /// A slower but otherwise identical compression to the <see cref="CompressionType.Deflate"/> with cyclic redundancy check value for data corruption detection.
+        /// A slower but otherwise identical compression to the <see cref="Deflate"/> with cyclic redundancy check value for data corruption detection.
         /// </summary>
         GZip
     }

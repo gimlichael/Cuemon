@@ -27,7 +27,7 @@ namespace Cuemon
         /// <param name="method">The method to extract valuable meta information from.</param>
         /// <param name="parameters">The optional parameters to accompany <paramref name="method"/>.</param>
         /// <returns>The specified <paramref name="exception"/> refined with valuable meta information within a <see cref="MethodWrappedException"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
         public static MethodWrappedException Refine(this Exception exception, MethodBase method, params object[] parameters)
@@ -42,7 +42,7 @@ namespace Cuemon
         /// <param name="method">The method signature containing valuable meta information.</param>
         /// <param name="parameters">The optional parameters to accompany <paramref name="method"/>.</param>
         /// <returns>The specified <paramref name="exception"/> refined with valuable meta information within a <see cref="MethodWrappedException"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="exception"/> is null - or - <paramref name="method"/> is null.
         /// </exception>
         public static MethodWrappedException Refine(this Exception exception, MethodDescriptor method, params object[] parameters)
@@ -56,7 +56,7 @@ namespace Cuemon
         /// <typeparam name="TResult">The type of the <paramref name="exception"/> to find a match on.</typeparam>
         /// <param name="exception">The exception to parse for a match on <typeparamref name="TResult"/>.</param>
         /// <returns>The matched <paramref name="exception"/> cast as <typeparamref name="TResult"/> or <c>null</c> if no match could be resolved.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="exception"/> is null.
         /// </exception>
         public static TResult ParseException<TResult>(this Exception exception) where TResult : Exception

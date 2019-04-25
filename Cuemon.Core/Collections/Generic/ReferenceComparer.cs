@@ -28,8 +28,8 @@ namespace Cuemon.Collections.Generic
 		/// </returns>
 		public override int Compare(T x, T y)
 		{
-			int depthOfX = GetDepthOfType(x);
-			int depthOfY = GetDepthOfType(y);
+			var depthOfX = GetDepthOfType(x);
+			var depthOfY = GetDepthOfType(y);
 
 			if (depthOfX > depthOfY) { return 1; }
 			if (depthOfX < depthOfY) { return -1; }
@@ -39,8 +39,8 @@ namespace Cuemon.Collections.Generic
 
 		private static int GetDepthOfType(T source)
 		{
-			int i = 0;
-			Type currentType = source as Type;
+			var i = 0;
+			var currentType = source as Type;
 			if (source == null) { currentType = source.GetType(); }
 			while (currentType != null)
 			{

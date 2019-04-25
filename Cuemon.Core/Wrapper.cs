@@ -16,7 +16,7 @@ namespace Cuemon
         /// <typeparam name="T">The type of the encapsulated instance of <paramref name="wrapper"/>.</typeparam>
         /// <param name="wrapper">The wrapper object to parse the instance.</param>
         /// <returns>A human-readable <see cref="string"/> representation of the wrapped instance in the <see cref="Wrapper{T}"/> object.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="wrapper"/> is null.
         /// </exception>
         public static string ParseInstance<T>(IWrapper<T> wrapper)
@@ -45,10 +45,10 @@ namespace Cuemon
                 default:
                     if (TypeUtility.IsKeyValuePair(wrapper.InstanceType))
                     {
-                        PropertyInfo keyProperty = wrapper.InstanceType.GetProperty("Key");
-                        PropertyInfo valueProperty = wrapper.InstanceType.GetProperty("Value");
-                        object keyValue = keyProperty.GetValue(wrapper.Instance, null) ?? "null";
-                        object valueValue = valueProperty.GetValue(wrapper.Instance, null) ?? "null";
+                        var keyProperty = wrapper.InstanceType.GetProperty("Key");
+                        var valueProperty = wrapper.InstanceType.GetProperty("Value");
+                        var keyValue = keyProperty.GetValue(wrapper.Instance, null) ?? "null";
+                        var valueValue = valueProperty.GetValue(wrapper.Instance, null) ?? "null";
                         return string.Format(CultureInfo.InvariantCulture, "[{0},{1}]", keyValue, valueValue);
                     }
 

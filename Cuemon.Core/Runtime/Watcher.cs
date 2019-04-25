@@ -38,7 +38,7 @@ namespace Cuemon.Runtime
         /// </summary>
         /// <param name="dueTime">A <see cref="TimeSpan"/> representing the amount of time to delay before the <see cref="Watcher"/> starts signaling. Specify negative one (-1) milliseconds to prevent the signaling from starting. Specify zero (0) to start the signaling immediately.</param>
         /// <param name="period">The time interval between periodic signaling. Specify negative one (-1) milliseconds to disable periodic signaling.</param>
-        /// <param name="dueTimeOnChanged">The amount of time to postpone a <see cref="Watcher.Changed"/> event. Specify zero (0) to disable postponing.</param>
+        /// <param name="dueTimeOnChanged">The amount of time to postpone a <see cref="Changed"/> event. Specify zero (0) to disable postponing.</param>
         protected Watcher(TimeSpan dueTime, TimeSpan period, TimeSpan dueTimeOnChanged)
         {
             DueTime = dueTime;
@@ -84,7 +84,7 @@ namespace Cuemon.Runtime
         protected TimeSpan Period { get; private set; }
 
         /// <summary>
-        /// Gets the amount of time to postpone a <see cref="Watcher.Changed"/> event.
+        /// Gets the amount of time to postpone a <see cref="Changed"/> event.
         /// </summary>
         protected TimeSpan DueTimeOnChanged { get; private set; }
 
@@ -189,7 +189,7 @@ namespace Cuemon.Runtime
 
         private void OnChangedRaisedCore(WatcherEventArgs e)
         {
-            EventHandler<WatcherEventArgs> handler = Changed;
+            var handler = Changed;
             EventUtility.Raise(handler, this, e);
         }
         #endregion

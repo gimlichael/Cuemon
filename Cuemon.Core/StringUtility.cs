@@ -111,7 +111,7 @@ namespace Cuemon
         /// <returns><c>true</c> if the specified <paramref name="value"/> contains at least one of the succession <paramref name="characters"/> of <paramref name="length"/>; otherwise, <c>false</c>.</returns>
         public static bool HasConsecutiveCharacters(string value, IEnumerable<char> characters, int length = 2)
         {
-            if (value.IsNullOrEmpty()) { return false; }
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
             if (value.Length == 1) { return false; }
             if (characters == null) { return false; }
             foreach (var sc in characters)
@@ -131,7 +131,7 @@ namespace Cuemon
         public static bool HasConsecutiveCharacters(string value, char character, int length = 2)
         {
             if (length < 2) { length = 2; }
-            if (value.IsNullOrEmpty()) { return false; }
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
             if (value.Length == 1) { return false; }
             return value.Contains(new string(character, length));
         }
@@ -258,7 +258,7 @@ namespace Cuemon
             if (textQualifier == null) { textQualifier = "\""; }
 
             Regex compiledSplit;
-            string key = string.Concat(delimiter, textQualifier);
+            var key = string.Concat(delimiter, textQualifier);
             lock (PadLock)
             {
                 if (!CompiledSplitExpressions.TryGetValue(key, out compiledSplit))
@@ -306,10 +306,10 @@ namespace Cuemon
             }
             else
             {
-                int index = 0;
+                var index = 0;
                 while (index < value.Length)
                 {
-                    int smallestLength = Math.Min(length, value.Length - index);
+                    var smallestLength = Math.Min(length, value.Length - index);
                     yield return value.Substring(index, smallestLength);
                     index += smallestLength;
                 }
@@ -337,13 +337,13 @@ namespace Cuemon
         /// </exception>
         public static string TrimAll(string value, params char[] trimChars)
         {
-            if (value == null) { throw new ArgumentNullException(nameof(value)); }
+            Validator.ThrowIfNull(value, nameof(value));
             if (trimChars == null || trimChars.Length == 0) { trimChars = WhiteSpaceCharacters.ToCharArray(); }
-            List<char> result = new List<char>();
-            foreach (char c in value)
+            var result = new List<char>();
+            foreach (var c in value)
             {
-                bool skip = false;
-                foreach (char t in trimChars)
+                var skip = false;
+                foreach (var t in trimChars)
                 {
                     if (c.Equals(t))
                     {
@@ -361,7 +361,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">A <see cref="string"/> value.</param>
         /// <returns>A 32-bit signed integer that is the hash code of <paramref name="value"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null.
         /// </exception>
         public static int GetHashCode(string value)
@@ -371,65 +371,65 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Counts the occurrences of <paramref name="character"/> in the specified <paramref name="source"/>.
+        /// Counts the occurrences of <paramref name="character"/> in the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="source">The source to count occurrences of <paramref name="character"/>.</param>
-        /// <param name="character">The <see cref="char"/> value to count in <paramref name="source"/>.</param>
-        /// <returns>The number of times the <paramref name="character"/> was found in the <paramref name="source"/>.</returns>
+        /// <param name="value">The source to count occurrences of <paramref name="character"/>.</param>
+        /// <param name="character">The <see cref="char"/> value to count in <paramref name="value"/>.</param>
+        /// <returns>The number of times the <paramref name="character"/> was found in the <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null.
+        /// <paramref name="value"/> is null.
         /// </exception>
-        public static int Count(string source, char character)
+        public static int Count(string value, char character)
         {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            int count = 0;
-            for (int i = 0; i < source.Length; i++)
+            Validator.ThrowIfNull(value, nameof(value));
+            var count = 0;
+            for (var i = 0; i < value.Length; i++)
             {
-                if (source[i] == character) { count++; }
+                if (value[i] == character) { count++; }
             }
             return count;
         }
 
         /// <summary>
-        /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="source"/>.
+        /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="source">The source to delete occurrences found in <paramref name="filter"/>.</param>
+        /// <param name="value">The source to delete occurrences found in <paramref name="filter"/>.</param>
         /// <param name="filter">The filter containing the characters and/or words to delete.</param>
-        /// <returns>A new string that is equivalent to <paramref name="source"/> except for the removed characters and/or words.</returns>
+        /// <returns>A new string that is equivalent to <paramref name="value"/> except for the removed characters and/or words.</returns>
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
-        public static string RemoveAll(string source, params string[] filter)
+        public static string RemoveAll(string value, params string[] filter)
         {
-            return RemoveAll(source, StringComparison.Ordinal, filter);
+            return RemoveAll(value, StringComparison.Ordinal, filter);
         }
         /// <summary>
-        /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="source"/>.
+        /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="source">The source to delete occurrences found in <paramref name="filter"/>.</param>
+        /// <param name="value">The source to delete occurrences found in <paramref name="filter"/>.</param>
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <param name="filter">The filter containing the characters and/or words to delete.</param>
-        /// <returns>A new string that is equivalent to <paramref name="source"/> except for the removed characters and/or words.</returns>
-        public static string RemoveAll(string source, StringComparison comparison, params string[] filter)
+        /// <returns>A new string that is equivalent to <paramref name="value"/> except for the removed characters and/or words.</returns>
+        public static string RemoveAll(string value, StringComparison comparison, params string[] filter)
         {
-            if (string.IsNullOrEmpty(source)) { return source; }
-            if (filter == null || filter.Length == 0) { return source; }
-            foreach (string f in filter)
+            if (string.IsNullOrEmpty(value)) { return value; }
+            if (filter == null || filter.Length == 0) { return value; }
+            foreach (var f in filter)
             {
-                source = Replace(source, f, "", comparison);
+                value = Replace(value, f, "", comparison);
             }
-            return source;
+            return value;
         }
 
         /// <summary>
-        /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="source"/>.
+        /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="source">The source to delete occurrences found in <paramref name="filter"/>.</param>
+        /// <param name="value">The source to delete occurrences found in <paramref name="filter"/>.</param>
         /// <param name="filter">The filter containing the characters and/or words to delete.</param>
-        /// <returns>A new string that is equivalent to <paramref name="source"/> except for the removed characters.</returns>
-        public static string RemoveAll(string source, params char[] filter)
+        /// <returns>A new string that is equivalent to <paramref name="value"/> except for the removed characters.</returns>
+        public static string RemoveAll(string value, params char[] filter)
         {
-            if (string.IsNullOrEmpty(source)) { return source; }
-            StringBuilder result = new StringBuilder(source.Length);
-            foreach (char c in source)
+            if (string.IsNullOrEmpty(value)) { return value; }
+            var result = new StringBuilder(value.Length);
+            foreach (var c in value)
             {
                 if (filter.Contains(c)) { continue; }
                 result.Append(c);
@@ -460,8 +460,8 @@ namespace Cuemon
         {
             if (source == null || source.Length == 0) { return source; }
             if (filter == null || filter.Length == 0) { return source; }
-            List<string> result = new List<string>();
-            foreach (string s in source)
+            var result = new List<string>();
+            foreach (var s in source)
             {
                 result.Add(RemoveAll(s, comparison, filter));
             }
@@ -473,27 +473,27 @@ namespace Cuemon
         /// </summary>
         /// <param name="values">The values to be shuffled in the randomization process.</param>
         /// <returns>A random string from the shuffled <paramref name="values"/> provided.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="values"/> is null.
         /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="values"/> is empty.
         /// </exception>
         public static string Shuffle(params string[] values)
         {
-            if (values == null) { throw new ArgumentNullException(nameof(values)); }
-            if (values.Length == 0) { throw new ArgumentOutOfRangeException(nameof(values), "You must specify at least one string value to shuffle."); }
+            Validator.ThrowIfNull(values, nameof(values));
+            Validator.ThrowIfEqual(0, values.Length, nameof(values), "You must specify at least one string value to shuffle.");
 
-            List<char> allChars = new List<char>();
-            foreach (string value in values) { allChars.AddRange(value); }
+            var allChars = new List<char>();
+            foreach (var value in values) { allChars.AddRange(value); }
 
-            char[] result = allChars.ToArray();
-            int allCharsLength = result.Length;
+            var result = allChars.ToArray();
+            var allCharsLength = result.Length;
             while (allCharsLength > 1)
             {
                 allCharsLength--;
-                int random = NumberUtility.GetRandomNumber(0, allCharsLength + 1);
-                char shuffledChar = result[random];
+                var random = NumberUtility.GetRandomNumber(0, allCharsLength + 1);
+                var shuffledChar = result[random];
                 result[random] = result[allCharsLength];
                 result[allCharsLength] = shuffledChar;
             }
@@ -505,10 +505,10 @@ namespace Cuemon
         /// </summary>
         /// <param name="values">The values to be shuffled in the randomization process.</param>
         /// <returns>A random string from the shuffled <paramref name="values"/> provided.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="values"/> is null.
         /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="values"/> is empty.
         /// </exception>
         public static string Shuffle(IEnumerable<string> values)
@@ -555,7 +555,7 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(replacePairs, nameof(replacePairs));
-            StringReplaceEngine replaceEngine = new StringReplaceEngine(value, replacePairs, comparison);
+            var replaceEngine = new StringReplaceEngine(value, replacePairs, comparison);
             return replaceEngine.ToString();
         }
 
@@ -569,7 +569,7 @@ namespace Cuemon
         public static bool IsNullOrEmpty(IEnumerable<string> values)
         {
             if (values == null) { throw new ArgumentNullException(nameof(values)); }
-            foreach (string value in values)
+            foreach (var value in values)
             {
                 if (string.IsNullOrEmpty(value)) { return true; }
             }
@@ -618,62 +618,30 @@ namespace Cuemon
         public static string CreateRandomString(int length, params string[] values)
         {
             if (values == null) { throw new ArgumentNullException(nameof(values)); }
-            StringBuilder result = new StringBuilder(length);
-            for (int i = 0; i < length; i++)
+            var result = new StringBuilder(length);
+            for (var i = 0; i < length; i++)
             {
-                int index = NumberUtility.GetRandomNumber(values.Length);
-                int indexLength = values[index].Length;
+                var index = NumberUtility.GetRandomNumber(values.Length);
+                var indexLength = values[index].Length;
                 result.Append(values[index][NumberUtility.GetRandomNumber(indexLength)]);
             }
             return result.ToString();
         }
-
+        
         /// <summary>
-        /// Parses the given string for any format arguments (eg. Text{0}-{1}.).
-        /// </summary>
-        /// <param name="format">The desired string format to parse.</param>
-        /// <param name="foundArguments">The number of arguments found in the string format.</param>
-        /// <returns>
-        /// 	<c>true</c> if one or more format arguments is found; otherwise <c>false</c>.
-        /// </returns>
-        public static bool ParseFormat(string format, out int foundArguments)
-        {
-            return ParseFormat(format, -1, out foundArguments);
-        }
-
-        /// <summary>
-        /// Parses the given string for any format arguments (eg. Text{0}-{1}.).
-        /// </summary>
-        /// <param name="format">The desired string format to parse.</param>
-        /// <param name="maxArguments">The maximum allowed arguments in the string format.</param>
-        /// <param name="foundArguments">The number of arguments found in the string format.</param>
-        /// <returns>
-        /// 	<c>true</c> if one or more format arguments is found and the found arguments does not exceed the maxArguments parameter; otherwise <c>false</c>.
-        /// </returns>
-        public static bool ParseFormat(string format, int maxArguments, out int foundArguments)
-        {
-            Regex rx = new Regex(@"{[\d]*?}");
-            MatchCollection matches = rx.Matches(format);
-            foundArguments = matches.Count;
-            if (maxArguments == -1 && foundArguments == 0) { return false; }
-            if (maxArguments == -1 && foundArguments > 0) { return true; }
-            return (foundArguments == maxArguments);
-        }
-
-        /// <summary>
-        /// Escapes the given <see cref="string"/> the same way as the well known JavaScrip escape() function.
+        /// Escapes the given <see cref="string"/> the same way as the well known JavaScript escape() function.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to escape.</param>
         /// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
         public static string Escape(string value)
         {
             if (value == null) { throw new ArgumentNullException(nameof(value)); }
-            StringBuilder builder = new StringBuilder(value.Length);
-            foreach (char character in value)
+            var builder = new StringBuilder(value.Length);
+            foreach (var character in value)
             {
                 if (DoEscapeOrUnescape(character))
                 {
-                    builder.AppendFormat(CultureInfo.InvariantCulture, character < Byte.MaxValue ? "%{0:x2}" : "%u{0:x4}", (uint)character);
+                    builder.AppendFormat(CultureInfo.InvariantCulture, character < byte.MaxValue ? "%{0:x2}" : "%u{0:x4}", (uint)character);
                 }
                 else
                 {
@@ -691,15 +659,15 @@ namespace Cuemon
         public static string Unescape(string value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
-            StringBuilder builder = new StringBuilder(value);
-            Regex unicode = new Regex("%u([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])", RegexOptions.IgnoreCase);
-            MatchCollection matches = unicode.Matches(value);
+            var builder = new StringBuilder(value);
+            var unicode = new Regex("%u([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])", RegexOptions.IgnoreCase);
+            var matches = unicode.Matches(value);
             foreach (Match unicodeMatch in matches)
             {
-                builder.Replace(unicodeMatch.Value, Convert.ToChar(Int32.Parse(unicodeMatch.Value.Remove(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)).ToString());
+                builder.Replace(unicodeMatch.Value, Convert.ToChar(int.Parse(unicodeMatch.Value.Remove(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)).ToString());
             }
 
-            for (byte i = Byte.MinValue; i < Byte.MaxValue; i++)
+            for (var i = byte.MinValue; i < byte.MaxValue; i++)
             {
                 if (DoEscapeOrUnescape(i))
                 {
@@ -739,8 +707,8 @@ namespace Cuemon
         /// </returns>
         public static bool Contains(string source, string value, StringComparison comparison)
         {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (value == null) { throw new ArgumentNullException(nameof(value)); }
+            if (source == null) { return false; }
+            if (value == null) { return false; }
             return (source.IndexOf(value, comparison) >= 0);
         }
 
@@ -769,7 +737,7 @@ namespace Cuemon
         /// </returns>
         public static bool Contains(string source, char value, StringComparison comparison)
         {
-            if (source == null) { throw new ArgumentNullException(nameof(value)); }
+            if (source == null) { return false; }
             return (source.IndexOf(new string(value, 1), 0, source.Length, comparison) >= 0);
         }
 
@@ -798,9 +766,9 @@ namespace Cuemon
         /// </returns>
         public static bool Contains(string source, StringComparison comparison, params string[] values)
         {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (values == null) { throw new ArgumentNullException(nameof(values)); }
-            foreach (string valueToFind in values)
+            if (source == null) { return false; }
+            if (values == null) { return false; }
+            foreach (var valueToFind in values)
             {
                 if (Contains(source, valueToFind, comparison)) { return true; }
             }
@@ -832,9 +800,9 @@ namespace Cuemon
         /// </returns>
         public static bool Contains(string source, StringComparison comparison, params char[] values)
         {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (values == null) { throw new ArgumentNullException(nameof(values)); }
-            foreach (char value in values)
+            if (source == null) { return false; }
+            if (values == null) { return false; }
+            foreach (var value in values)
             {
                 if (Contains(source, value, comparison)) { return true; }
             }
@@ -847,7 +815,7 @@ namespace Cuemon
         /// <param name="source">The <see cref="string"/> to seek.</param>
         /// <param name="values">The <see cref="string"/> sequence to search within <paramref name="source"/>.</param>
         /// <returns><c>true</c> if one the <paramref name="values"/> is the same as the <paramref name="source"/>; otherwise <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="values"/> is null.
         /// </exception>
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
@@ -863,14 +831,14 @@ namespace Cuemon
         /// <param name="values">The <see cref="string"/> sequence to search within <paramref name="source"/>.</param>
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <returns><c>true</c> if one the <paramref name="values"/> is the same as the <paramref name="source"/>; otherwise <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="values"/> is null.
         /// </exception>
         public static bool Equals(string source, StringComparison comparison, params string[] values)
         {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (values == null) { throw new ArgumentNullException(nameof(values)); }
-            foreach (string value in values)
+            if (source == null) { return false; }
+            if (values == null) { return false; }
+            foreach (var value in values)
             {
                 if (source.Equals(value, comparison)) { return true; }
             }
@@ -898,9 +866,9 @@ namespace Cuemon
         /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
         public static bool StartsWith(string value, StringComparison comparison, IEnumerable<string> startWithValues)
         {
-            if (value == null) { throw new ArgumentNullException(nameof(value)); }
-            if (startWithValues == null) { throw new ArgumentNullException(nameof(startWithValues)); }
-            foreach (string startWithValue in startWithValues)
+            if (value == null) { return false; }
+            if (startWithValues == null) { return false; }
+            foreach (var startWithValue in startWithValues)
             {
                 if (value.StartsWith(startWithValue, comparison)) { return true; }
             }
@@ -997,9 +965,9 @@ namespace Cuemon
         private static bool IsSequenceOfCore<T>(IEnumerable<string> source, CultureInfo culture, ITypeDescriptorContext context, Func<string, CultureInfo, bool> parser)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            bool converterHasValue = (parser != null);
-            bool valid = true;
-            foreach (string substring in source)
+            var converterHasValue = (parser != null);
+            var valid = true;
+            foreach (var substring in source)
             {
                 valid &= converterHasValue ? parser(substring, culture) : Converter.Parse(substring, CanConvertString<T>, culture, context);
             }

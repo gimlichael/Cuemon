@@ -7,10 +7,27 @@ using Cuemon.Text;
 namespace Cuemon
 {
     /// <summary>
-    /// This utility class is designed to make <see cref="Byte"/> related conversions easier to work with.
+    /// This utility class is designed to make <see cref="byte"/> related conversions easier to work with.
     /// </summary>
     public static class ByteConverter
     {
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to its equivalent <see cref="T:byte[]"/> representation.
+        /// </summary>
+        /// <param name="value">The extended <see cref="string"/>.</param>
+        /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="value"/>.</returns>
+        public static byte[] FromBinaryString(string value)
+        {
+            Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+            Validator.ThrowIfNotBinaryDigits(value, nameof(value));
+            var bytes = new List<byte>();
+            for (var i = 0; i < value.Length; i += 8)
+            {
+                bytes.Add(Convert.ToByte(value.Substring(i, 8), 2));
+            }
+            return bytes.ToArray();
+        }
+
         /// <summary>
         /// Decodes a URL string token to its equivalent byte array using base 64 digits.
         /// </summary>
@@ -21,7 +38,7 @@ namespace Cuemon
         /// </remarks>
         public static byte[] FromUrlEncodedBase64String(string value)
         {
-            Validator.ThrowIfNullOrEmpty(value, nameof(value));
+            Validator.ThrowIfNullOrWhitespace(value, nameof(value));
             value = value.Replace('-', '+');
             value = value.Replace('_', '/');
             switch (value.Length % 4)
@@ -135,7 +152,7 @@ namespace Cuemon
         /// <returns>An array of bytes equivalent to the data of the <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Boolean"/>, <see cref="Char"/>, <see cref="double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="ushort"/>, <see cref="UInt32"/> and <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
         /// </exception>
         public static byte[] FromConvertibles<T>(T value) where T : struct, IConvertible
         {
@@ -149,7 +166,7 @@ namespace Cuemon
         /// <returns>An array of bytes equivalent to the sequence of the <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="source"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Boolean"/>, <see cref="Char"/>, <see cref="double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="ushort"/>, <see cref="UInt32"/> and <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null.

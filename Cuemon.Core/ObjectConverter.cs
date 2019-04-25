@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Cuemon
 {
     /// <summary>
-    /// This utility class is designed to make <see cref="Object"/> related conversions easier to work with.
+    /// This utility class is designed to make <see cref="object"/> related conversions easier to work with.
     /// </summary>
     public static class ObjectConverter
     {
@@ -16,7 +16,7 @@ namespace Cuemon
         /// <param name="value">The object to convert the underlying type.</param>
         /// <param name="conversionType">The <see cref="Type"/> of object to return.</param>
         /// <returns>An object whose type is <paramref name="conversionType"/> and whose value is equivalent to <paramref name="value"/>.</returns>
-        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,System.Type)"/> is, that this converter supports generics and enums somewhat automated.</remarks>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums somewhat automated.</remarks>
         public static object ChangeType(object value, Type conversionType)
         {
             return ChangeType(value, conversionType, CultureInfo.InvariantCulture);
@@ -29,7 +29,7 @@ namespace Cuemon
         /// <param name="conversionType">The <see cref="Type"/> of object to return.</param>
         /// <param name="provider">An object that supplies culture-specific formatting information.</param>
         /// <returns>An object whose type is <paramref name="conversionType"/> and whose value is equivalent to <paramref name="value"/>.</returns>
-        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,System.Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/>.</remarks>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/>.</remarks>
         public static object ChangeType(object value, Type conversionType, IFormatProvider provider)
         {
             Validator.ThrowIfNull(conversionType, nameof(conversionType));
@@ -37,8 +37,8 @@ namespace Cuemon
 
             try
             {
-                bool isEnum = conversionType.GetTypeInfo().IsEnum;
-                bool isNullable = TypeUtility.IsNullable(conversionType);
+                var isEnum = conversionType.GetTypeInfo().IsEnum;
+                var isNullable = TypeUtility.IsNullable(conversionType);
                 return Convert.ChangeType(isEnum ? Enum.Parse(conversionType, value.ToString()) : value, isNullable ? Nullable.GetUnderlyingType(conversionType) : conversionType, provider);
             }
             catch (Exception first)
@@ -82,11 +82,11 @@ namespace Cuemon
             DateTime dateTimeValue;
             Guid guidValue;
 
-            if (Boolean.TryParse(value, out boolValue)) { return boolValue; }
-            if (Byte.TryParse(value, NumberStyles.None, provider, out byteValue)) { return byteValue; }
-            if (Int32.TryParse(value, NumberStyles.None, provider, out intValue)) { return intValue; }
-            if (Int64.TryParse(value, NumberStyles.None, provider, out longValue)) { return longValue; }
-            if (Double.TryParse(value, NumberStyles.Number, provider, out doubleValue)) { return doubleValue; }
+            if (bool.TryParse(value, out boolValue)) { return boolValue; }
+            if (byte.TryParse(value, NumberStyles.None, provider, out byteValue)) { return byteValue; }
+            if (int.TryParse(value, NumberStyles.None, provider, out intValue)) { return intValue; }
+            if (long.TryParse(value, NumberStyles.None, provider, out longValue)) { return longValue; }
+            if (double.TryParse(value, NumberStyles.Number, provider, out doubleValue)) { return doubleValue; }
             if (value.Length > 6 && DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out dateTimeValue)) { return dateTimeValue; }
             if (value.Length > 31 && GuidUtility.TryParse(value, out guidValue)) { return guidValue; }
 

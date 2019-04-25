@@ -39,13 +39,13 @@ namespace Cuemon
         public static bool IsCountableSequence(IEnumerable<long> source)
         {
             if (source == null) { return false; }
-            List<long> numbers = new List<long>(source);
+            var numbers = new List<long>(source);
 
-            long x = numbers[0];
-            long y = numbers[1];
+            var x = numbers[0];
+            var y = numbers[1];
 
-            long difference = y - x;
-            for (int i = 2; i < numbers.Count; i++)
+            var difference = y - x;
+            for (var i = 2; i < numbers.Count; i++)
             {
                 x = numbers[i];
                 y = numbers[i - 1];
@@ -133,7 +133,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The positive integer to determine whether is a prime number.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> is a prime number; otherwise, <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="value"/> has a value smaller than 0.
         /// </exception>
         public static bool IsPrime(int value)
@@ -164,80 +164,80 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Gets the highest <see cref="Int32"/> value of the specified <see cref="Int32"/> values.
+        /// Gets the highest <see cref="int"/> value of the specified <see cref="int"/> values.
         /// </summary>
-        /// <param name="values">A variable number of <see cref="Int32"/> values to parse for the highest value.</param>
-        /// <returns>The highest <see cref="Int32"/> value of the specified <see cref="Int32"/> values.</returns>
+        /// <param name="values">A variable number of <see cref="int"/> values to parse for the highest value.</param>
+        /// <returns>The highest <see cref="int"/> value of the specified <see cref="int"/> values.</returns>
         public static int GetHighestValue(params int[] values)
         {
             return values.Max();
         }
 
         /// <summary>
-        /// Gets the highest <see cref="Int64"/> value of the specified <see cref="Int64"/> values.
+        /// Gets the highest <see cref="long"/> value of the specified <see cref="long"/> values.
         /// </summary>
-        /// <param name="values">A variable number of <see cref="Int64"/> values to parse for the highest value.</param>
-        /// <returns>The highest <see cref="Int64"/> value of the specified <see cref="Int64"/> values.</returns>
+        /// <param name="values">A variable number of <see cref="long"/> values to parse for the highest value.</param>
+        /// <returns>The highest <see cref="long"/> value of the specified <see cref="long"/> values.</returns>
         public static long GetHighestValue(params long[] values)
         {
             return values.Max();
         }
 
         /// <summary>
-        /// Gets the highest <see cref="Double"/> value of the specified <see cref="Double"/> values.
+        /// Gets the highest <see cref="double"/> value of the specified <see cref="double"/> values.
         /// </summary>
-        /// <param name="values">A variable number of <see cref="Double"/> values to parse for the highest value.</param>
-        /// <returns>The highest <see cref="Double"/> value of the specified <see cref="Double"/> values.</returns>
+        /// <param name="values">A variable number of <see cref="double"/> values to parse for the highest value.</param>
+        /// <returns>The highest <see cref="double"/> value of the specified <see cref="double"/> values.</returns>
         public static double GetHighestValue(params double[] values)
         {
             return values.Max();
         }
 
         /// <summary>
-        /// Gets the highest <see cref="Decimal"/> value of the specified <see cref="Decimal"/> values.
+        /// Gets the highest <see cref="decimal"/> value of the specified <see cref="decimal"/> values.
         /// </summary>
-        /// <param name="values">A variable number of <see cref="Decimal"/> values to parse for the highest value.</param>
-        /// <returns>The highest <see cref="Decimal"/> value of the specified <see cref="Decimal"/> values.</returns>
+        /// <param name="values">A variable number of <see cref="decimal"/> values to parse for the highest value.</param>
+        /// <returns>The highest <see cref="decimal"/> value of the specified <see cref="decimal"/> values.</returns>
         public static decimal GetHighestValue(params decimal[] values)
         {
             return values.Max();
         }
 
         /// <summary>
-        /// Gets the lowest <see cref="Int32"/> value of the specified <see cref="Int32"/> values.
+        /// Gets the lowest <see cref="int"/> value of the specified <see cref="int"/> values.
         /// </summary>
-        /// <param name="values">A variable number of <see cref="Int32"/> values to parse for the lowest value.</param>
-        /// <returns>The lowest <see cref="Int32"/> value of the specified <see cref="Int32"/> values.</returns>
+        /// <param name="values">A variable number of <see cref="int"/> values to parse for the lowest value.</param>
+        /// <returns>The lowest <see cref="int"/> value of the specified <see cref="int"/> values.</returns>
         public static int GetLowestValue(params int[] values)
         {
             return values.Min();
         }
 
         /// <summary>
-        /// Gets the lowest <see cref="Int64"/> value of the specified <see cref="Int64"/> values.
+        /// Gets the lowest <see cref="long"/> value of the specified <see cref="long"/> values.
         /// </summary>
-        /// <param name="values">A variable number of <see cref="Int64"/> values to parse for the lowest value.</param>
-        /// <returns>The lowest <see cref="Int64"/> value of the specified <see cref="Int64"/> values.</returns>
+        /// <param name="values">A variable number of <see cref="long"/> values to parse for the lowest value.</param>
+        /// <returns>The lowest <see cref="long"/> value of the specified <see cref="long"/> values.</returns>
         public static long GetLowestValue(params long[] values)
         {
             return values.Min();
         }
 
         /// <summary>
-        /// Gets the lowest <see cref="Double"/> value of the specified <see cref="Double"/> values.
+        /// Gets the lowest <see cref="double"/> value of the specified <see cref="double"/> values.
         /// </summary>
-        /// <param name="values">A variable number of <see cref="Double"/> values to parse for the lowest value.</param>
-        /// <returns>The lowest <see cref="Double"/> value of the specified <see cref="Double"/> values.</returns>
+        /// <param name="values">A variable number of <see cref="double"/> values to parse for the lowest value.</param>
+        /// <returns>The lowest <see cref="double"/> value of the specified <see cref="double"/> values.</returns>
         public static double GetLowestValue(params double[] values)
         {
             return values.Min();
         }
 
         /// <summary>
-        /// Gets the lowest <see cref="Decimal"/> value of the specified <see cref="Decimal"/> values.
+        /// Gets the lowest <see cref="decimal"/> value of the specified <see cref="decimal"/> values.
         /// </summary>
-        /// <param name="values">A variable number of <see cref="Decimal"/> values to parse for the lowest value.</param>
-        /// <returns>The lowest <see cref="Decimal"/> value of the specified <see cref="Decimal"/> values.</returns>
+        /// <param name="values">A variable number of <see cref="decimal"/> values to parse for the lowest value.</param>
+        /// <returns>The lowest <see cref="decimal"/> value of the specified <see cref="decimal"/> values.</returns>
         public static decimal GetLowestValue(params decimal[] values)
         {
             return values.Min();
@@ -284,7 +284,7 @@ namespace Cuemon
         {
             if (minValue > maxValue) { throw new ArgumentOutOfRangeException(nameof(minValue)); }
             int seed;
-            Random localRandomizer = _simpleRandomizerLocal;
+            var localRandomizer = _simpleRandomizerLocal;
             switch (severity)
             {
                 case RandomSeverity.Simple:
@@ -297,7 +297,7 @@ namespace Cuemon
                 case RandomSeverity.Strong:
                     if (localRandomizer == null)
                     {
-                        byte[] randomNumbers = new byte[4];
+                        var randomNumbers = new byte[4];
                         StrongRandomizerGlobal.GetBytes(randomNumbers);
                         seed = BitConverter.ToInt32(randomNumbers, 0);
                         _simpleRandomizerLocal = localRandomizer = new Random(seed);

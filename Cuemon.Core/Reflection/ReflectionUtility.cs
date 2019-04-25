@@ -68,7 +68,7 @@ namespace Cuemon.Reflection
         /// </summary>
         /// <param name="property">The property to check for automatic property implementation.</param>
         /// <returns><c>true</c> if the specified <paramref name="property"/> is considered an automatic property implementation; otherwise, <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="property"/> is null.
         /// </exception>
 	    public static bool IsAutoProperty(PropertyInfo property)
@@ -117,19 +117,19 @@ namespace Cuemon.Reflection
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             if (maxDepth <= 0) { throw new ArgumentOutOfRangeException(nameof(maxDepth)); }
-            bool hasCircularReference = false;
-            int currentDepth = 0;
-            Stack<T> stack = new Stack<T>();
+            var hasCircularReference = false;
+            var currentDepth = 0;
+            var stack = new Stack<T>();
             stack.Push(source);
             while (stack.Count != 0 && currentDepth <= maxDepth)
             {
-                T current = stack.Pop();
-                Type currentType = current.GetType();
-                foreach (PropertyInfo property in currentType.GetProperties())
+                var current = stack.Pop();
+                var currentType = current.GetType();
+                foreach (var property in currentType.GetProperties())
                 {
                     if (property.CanRead && property.PropertyType == currentType)
                     {
-                        T propertyValue = (T)GetPropertyValue(current, property, propertyIndexParametersResolver);
+                        var propertyValue = (T)GetPropertyValue(current, property, propertyIndexParametersResolver);
                         stack.Push(propertyValue);
                         hasCircularReference = currentDepth == maxDepth;
                     }
@@ -145,7 +145,7 @@ namespace Cuemon.Reflection
         /// <param name="source">The source whose property value will be returned.</param>
         /// <param name="property">The <see cref="PropertyInfo"/> to access it's value from.</param>
         /// <returns>The property value of the specified <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="property"/> is null.
         /// </exception>
 	    public static object GetPropertyValue(object source, PropertyInfo property)
@@ -160,7 +160,7 @@ namespace Cuemon.Reflection
         /// <param name="property">The <see cref="PropertyInfo"/> to access it's value from.</param>
         /// <param name="propertyIndexParametersResolver">The function delegate that is invoked if a property has one or more index parameters.</param>
         /// <returns>The property value of the specified <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null - or - <paramref name="property"/> is null - or - <paramref name="propertyIndexParametersResolver"/> is null.
         /// </exception>
         public static object GetPropertyValue(object source, PropertyInfo property, Func<ParameterInfo[], object[]> propertyIndexParametersResolver)
@@ -170,7 +170,7 @@ namespace Cuemon.Reflection
             if (propertyIndexParametersResolver == null) { throw new ArgumentNullException(nameof(propertyIndexParametersResolver)); }
             if (!property.CanRead) { return null; }
 
-            ParameterInfo[] indexParameters = property.GetIndexParameters();
+            var indexParameters = property.GetIndexParameters();
             if (indexParameters.Length == 0)
             {
                 try
@@ -182,12 +182,12 @@ namespace Cuemon.Reflection
                 }
             }
 
-            object[] indexValues = propertyIndexParametersResolver(indexParameters);
+            var indexValues = propertyIndexParametersResolver(indexParameters);
             if (indexValues != null && indexValues.Length > 0)
             {
                 try
                 {
-                    IEnumerable currentAsEnumerable = source as IEnumerable;
+                    var currentAsEnumerable = source as IEnumerable;
                     if (currentAsEnumerable != null)
                     {
                         if (!currentAsEnumerable.Cast<object>().Any()) { return null; }
@@ -254,14 +254,14 @@ namespace Cuemon.Reflection
 
         private static object[] DefaultPropertyIndexParametersResolver(ParameterInfo[] infos)
         {
-            List<object> resolvedParameters = new List<object>();
-            for (int i = 0; i < infos.Length; i++)
+            var resolvedParameters = new List<object>();
+            for (var i = 0; i < infos.Length; i++)
             {
                 // because we don't know the values to pass to an indexer we will try to do some assumptions on a "normal" indexer
                 // however; this has it flaws: an indexer does not necessarily have an item on 0, 1, 2 etc., so must handle the possible
                 // TargetInvocationException.
                 // more info? check here: http://blog.nkadesign.com/2006/net-the-limits-of-using-reflection/comment-page-1/#comment-10813
-                if (TypeUtility.ContainsType(infos[i].ParameterType, typeof(Byte), typeof(Int16), typeof(Int32), typeof(Int64))) // check to see if we have a "normal" indexer
+                if (TypeUtility.ContainsType(infos[i].ParameterType, typeof(byte), typeof(short), typeof(int), typeof(long))) // check to see if we have a "normal" indexer
                 {
                     resolvedParameters.Add(0);
                 }
@@ -283,22 +283,22 @@ namespace Cuemon.Reflection
             Validator.ThrowIfNull(source, nameof(source));
             var options = Patterns.Configure(setup);
             IDictionary<int, int> referenceSafeguards = new Dictionary<int, int>();
-            Stack<Wrapper<object>> stack = new Stack<Wrapper<object>>();
+            var stack = new Stack<Wrapper<object>>();
 
-            int index = 0;
-            int maxCircularCalls = options.MaxCircularCalls;
+            var index = 0;
+            var maxCircularCalls = options.MaxCircularCalls;
 
-            Wrapper<object> current = new Wrapper<object>(source);
+            var current = new Wrapper<object>(source);
             current.Data.Add(IndexKey, index);
             stack.Push(current);
 
-            Hierarchy<object> result = new Hierarchy<object>();
+            var result = new Hierarchy<object>();
             result.Add(source);
 
             while (stack.Count != 0)
             {
                 current = stack.Pop();
-                Type currentType = current.Instance.GetType();
+                var currentType = current.Instance.GetType();
                 if (options.SkipPropertyType(currentType))
                 {
                     if (index == 0) { continue; }
@@ -307,7 +307,7 @@ namespace Cuemon.Reflection
                     continue;
                 }
 
-                foreach (PropertyInfo property in currentType.GetProperties(BindingInstancePublic))
+                foreach (var property in currentType.GetProperties(BindingInstancePublic))
                 {
                     if (options.SkipProperty(property)) { continue; }
                     if (!property.CanRead) { continue; }
@@ -320,24 +320,24 @@ namespace Cuemon.Reflection
                         }
                     }
 
-                    object propertyValue = GetPropertyValue(current.Instance, property, options.PropertyIndexParametersResolver);
+                    var propertyValue = GetPropertyValue(current.Instance, property, options.PropertyIndexParametersResolver);
                     if (propertyValue == null) { continue; }
                     index++;
                     result[(int)current.Data[IndexKey]].Add(propertyValue, property);
                     if (TypeUtility.IsComplex(property.PropertyType))
                     {
-                        int circularCalls = 0;
+                        var circularCalls = 0;
                         if (current.Data.ContainsKey(CircularReferenceKey))
                         {
                             circularCalls = (int)current.Data[CircularReferenceKey];
                         }
-                        int safetyHashCode = propertyValue.GetHashCode();
+                        var safetyHashCode = propertyValue.GetHashCode();
                         int calls;
                         if (!referenceSafeguards.TryGetValue(safetyHashCode, out calls)) { referenceSafeguards.Add(safetyHashCode, 0); }
                         if (calls <= maxCircularCalls && result[index].Depth < options.MaxDepth)
                         {
                             referenceSafeguards[safetyHashCode]++;
-                            Wrapper<object> wrapper = new Wrapper<object>(propertyValue);
+                            var wrapper = new Wrapper<object>(propertyValue);
                             wrapper.Data.Add(IndexKey, index);
                             wrapper.Data.Add(CircularReferenceKey, circularCalls + 1);
                             stack.Push(wrapper);
@@ -365,10 +365,10 @@ namespace Cuemon.Reflection
         /// <remarks>This method auto resolves the associated <see cref="Type"/> for each object in <paramref name="methodParameters"/>. In case of a null referenced parameter, an <see cref="ArgumentNullException"/> is thrown, and you are encouraged to use the overloaded method instead.</remarks>
         public static IDictionary<string, object> ParseMethodParameters(Type source, string methodName, params object[] methodParameters)
         {
-            List<Type> methodSignature = new List<Type>();
+            var methodSignature = new List<Type>();
             if (methodParameters != null)
             {
-                foreach (object parameter in methodParameters)
+                foreach (var parameter in methodParameters)
                 {
                     if (parameter == null) { throw new ArgumentNullException(nameof(methodParameters), "One or more method parameters has a null value. Unable to auto resolve associated types for method signature."); }
                     methodSignature.Add(parameter.GetType());
@@ -401,17 +401,17 @@ namespace Cuemon.Reflection
             if (methodSignature == null) { throw new ArgumentNullException(nameof(methodSignature)); }
             if (methodParameters != null) { if (methodSignature.Length != methodParameters.Length) { throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "There is a size mismatch between the method signature and provided parameters. Expected size of the method signature: {0}.", methodParameters.Length), nameof(methodSignature)); } }
             IDictionary<string, object> parsedParameters = new Dictionary<string, object>();
-            MethodInfo method = GetMethod(source, methodName, methodSignature);
+            var method = GetMethod(source, methodName, methodSignature);
             if (method != null)
             {
-                ParameterInfo[] parameters = method.GetParameters();
+                var parameters = method.GetParameters();
                 if (parameters.Length == 0) { return parsedParameters; }
                 if (methodParameters == null) { throw new ArgumentNullException(nameof(methodParameters), "Value cannot be null when method has one or more resolved parameters."); }
                 if (methodParameters.Length != parameters.Length) { throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "There is a size mismatch between resolved method parameter names and provided parameter values. Expected parameters: {0}.", parameters.Length), nameof(methodParameters)); }
-                for (int i = 0; i < parameters.Length; i++)
+                for (var i = 0; i < parameters.Length; i++)
                 {
-                    Type parameterType = parameters[i].ParameterType;
-                    Type methodParameterType = methodSignature[i];
+                    var parameterType = parameters[i].ParameterType;
+                    var methodParameterType = methodSignature[i];
                     if (parameterType != typeof(object))
                     {
                         if (parameterType != methodParameterType) { throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "There is a type mismatch between resolved method parameters and provided parameters. First mismatch: {0} != {1}.", parameterType.Name, methodParameterType.Name), nameof(methodParameters)); }
@@ -446,12 +446,12 @@ namespace Cuemon.Reflection
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
             IDictionary<PropertyInfo, TDecoration[]> attributeDecorations = new Dictionary<PropertyInfo, TDecoration[]>();
-            PropertyInfo[] properties = source.GetProperties(bindings);
-            foreach (PropertyInfo property in properties)
+            var properties = source.GetProperties(bindings);
+            foreach (var property in properties)
             {
-                Attribute[] attributes = (Attribute[])property.GetCustomAttributes(typeof(TDecoration), false);
-                List<TDecoration> decorations = new List<TDecoration>();
-                for (int i = 0; i < attributes.Length; i++) { decorations.Add((TDecoration)attributes[i]); }
+                var attributes = (Attribute[])property.GetCustomAttributes(typeof(TDecoration), false);
+                var decorations = new List<TDecoration>();
+                for (var i = 0; i < attributes.Length; i++) { decorations.Add((TDecoration)attributes[i]); }
                 attributeDecorations.Add(property, decorations.ToArray());
             }
             return attributeDecorations;
@@ -509,8 +509,8 @@ namespace Cuemon.Reflection
         public static IEnumerable<FieldInfo> GetFields(Type source, BindingFlags bindings)
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            FieldInfo[] fields = source.GetFields(bindings);
-            foreach (FieldInfo field in fields) { yield return field; }
+            var fields = source.GetFields(bindings);
+            foreach (var field in fields) { yield return field; }
         }
 
         /// <summary>
@@ -577,8 +577,8 @@ namespace Cuemon.Reflection
         public static IEnumerable<MethodInfo> GetMethods(Type source, BindingFlags bindings)
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            MethodInfo[] methods = source.GetMethods(bindings);
-            foreach (MethodInfo method in methods) { yield return method; }
+            var methods = source.GetMethods(bindings);
+            foreach (var method in methods) { yield return method; }
         }
 
         /// <summary>
@@ -663,8 +663,8 @@ namespace Cuemon.Reflection
         public static IEnumerable<PropertyInfo> GetProperties(Type source, BindingFlags bindings)
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            PropertyInfo[] properties = source.GetProperties(bindings);
-            foreach (PropertyInfo property in properties) { yield return property; }
+            var properties = source.GetProperties(bindings);
+            foreach (var property in properties) { yield return property; }
         }
 
         /// <summary>
@@ -687,8 +687,8 @@ namespace Cuemon.Reflection
 	    public static IEnumerable<ConstructorInfo> GetConstructors(Type source, BindingFlags bindings)
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            ConstructorInfo[] constructors = source.GetConstructors(bindings);
-            foreach (ConstructorInfo constructor in constructors) { yield return constructor; }
+            var constructors = source.GetConstructors(bindings);
+            foreach (var constructor in constructors) { yield return constructor; }
         }
 
         /// <summary>
@@ -722,8 +722,8 @@ namespace Cuemon.Reflection
         public static IEnumerable<Type> GetAssemblyTypes(Assembly assembly, string namespaceFilter, Type typeFilter)
         {
             if (assembly == null) { throw new ArgumentNullException(nameof(assembly)); }
-            bool hasNamespaceFilter = !string.IsNullOrEmpty(namespaceFilter);
-            bool hasTypeFilter = (typeFilter != null);
+            var hasNamespaceFilter = !string.IsNullOrEmpty(namespaceFilter);
+            var hasTypeFilter = (typeFilter != null);
             IEnumerable<Type> types = assembly.GetTypes();
             if (hasNamespaceFilter || hasTypeFilter)
             {
@@ -738,7 +738,7 @@ namespace Cuemon.Reflection
 
         private static IEnumerable<Type> GetAssemblyTypesByInterfaceType(IEnumerable<Type> types, Type typeFilter)
         {
-            foreach (Type type in types)
+            foreach (var type in types)
             {
                 if (TypeUtility.ContainsInterface(type, true, typeFilter))
                 {
@@ -749,7 +749,7 @@ namespace Cuemon.Reflection
 
         private static IEnumerable<Type> GetAssemblyTypesByBaseType(IEnumerable<Type> types, Type typeFilter)
         {
-            foreach (Type type in types)
+            foreach (var type in types)
             {
                 if (TypeUtility.ContainsType(type, typeFilter))
                 {
@@ -760,7 +760,7 @@ namespace Cuemon.Reflection
 
         private static IEnumerable<Type> GetAssemblyTypesByNamespace(IEnumerable<Type> types, string namespaceFilter)
         {
-            foreach (Type type in types)
+            foreach (var type in types)
             {
                 if (type.Namespace == null) { continue; }
                 if (type.Namespace.Equals(namespaceFilter, StringComparison.OrdinalIgnoreCase))
@@ -771,177 +771,17 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
-        /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <see cref="Type"/> following the <see cref="ResourceMatch"/> ruleset of <paramref name="match"/>.
+        /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <paramref name="type"/>.
         /// </summary>
-        /// <param name="source">The source type to load the resource from.</param>
-        /// <param name="name">The name of the resource being requested.</param>
-        /// <param name="match">The match ruleset to apply.</param>
-        /// <returns>A <see cref="Stream"/> representing the loaded resources; null if no resources were specified during compilation, or if the resource is not visible to the caller.</returns>
-        public static IEnumerable<Stream> GetEmbeddedResources(Type source, string name, ResourceMatch match)
+        /// <param name="type">The <see cref="Type"/> to load the resources from.</param>
+        /// <param name="name">The case-sensitive name of the resource being requested.</param>
+        /// <param name="match">The ruleset to apply.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence that contains <see cref="Stream"/> objects representing the loaded resources; null if no resources were specified during compilation, or if the resources is not visible to the caller.</returns>
+        public static IEnumerable<Stream> GetEmbeddedResources(Type type, string name, EmbeddedResourceMatch match = EmbeddedResourceMatch.Name)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(type, nameof(type));
             Validator.ThrowIfNullOrEmpty(name, nameof(name));
-
-            List<Stream> resources = new List<Stream>();
-
-            switch (match)
-            {
-                case ResourceMatch.Name:
-                    resources.Add(GetEmbeddedResource(source, name));
-                    break;
-                case ResourceMatch.Extension:
-                case ResourceMatch.ContainsName:
-                case ResourceMatch.ContainsExtension:
-                    string[] resourceNames = source.GetTypeInfo().Assembly.GetManifestResourceNames();
-                    string matchExtension = Path.GetExtension(name).ToUpperInvariant();
-                    switch (match)
-                    {
-                        case ResourceMatch.ContainsName:
-                            foreach (string resourceName in resourceNames)
-                            {
-                                if (resourceName.IndexOf(name, StringComparison.OrdinalIgnoreCase) > 0)
-                                {
-                                    resources.Add(GetEmbeddedResource(source, resourceName));
-                                }
-                            }
-                            break;
-                        case ResourceMatch.Extension:
-                            foreach (string resourceName in resourceNames)
-                            {
-                                string extension = Path.GetExtension(resourceName).ToUpperInvariant();
-                                if (extension == matchExtension)
-                                {
-                                    resources.Add(GetEmbeddedResource(source, resourceName));
-                                }
-                            }
-                            break;
-                        case ResourceMatch.ContainsExtension:
-                            foreach (string resourceName in resourceNames)
-                            {
-                                string extension = Path.GetExtension(resourceName);
-                                if (extension.IndexOf(matchExtension, StringComparison.OrdinalIgnoreCase) > 0)
-                                {
-                                    resources.Add(GetEmbeddedResource(source, resourceName));
-                                }
-                            }
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(match));
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(match));
-            }
-
-            return resources;
+            return AssemblyUtility.GetEmbeddedResources(type.Assembly, name, match);
         }
-
-
-        /// <summary>
-        /// Loads the embedded resource from the associated <see cref="Assembly"/> of the specified <see cref="Type"/>.
-        /// </summary>
-        /// <param name="source">The source type to load the resource from.</param>
-        /// <param name="name">The case-sensitive name of the resource being requested.</param>
-        /// <returns>A <see cref="Stream"/> representing the loaded resource; null if no resources were specified during compilation, or if the resource is not visible to the caller.</returns>
-        public static Stream GetEmbeddedResource(Type source, string name)
-        {
-            return GetEmbeddedResource(source, name, ResourceMatch.Name);
-        }
-
-        /// <summary>
-        /// Loads the embedded resource from the associated <see cref="Assembly"/> of the specified <see cref="Type"/>.
-        /// </summary>
-        /// <param name="source">The source type to load the resource from.</param>
-        /// <param name="name">The case-sensitive name of the resource being requested.</param>
-        /// <param name="match">The match ruleset to apply.</param>
-        /// <returns>A <see cref="Stream"/> representing the loaded resource; null if no resources were specified during compilation, or if the resource is not visible to the caller.</returns>
-        public static Stream GetEmbeddedResource(Type source, string name, ResourceMatch match)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source), "This parameter cannot be null!"); }
-            if (name == null) { throw new ArgumentNullException(nameof(name), "This parameter cannot be null!"); }
-            if (string.IsNullOrEmpty(name)) { throw new ArgumentException("This parameter cannot be empty!", nameof(name)); }
-
-            Stream resource = null;
-            switch (match)
-            {
-                case ResourceMatch.Name:
-                    resource = GetEmbeddedResourceCore(source, name);
-                    break;
-                case ResourceMatch.Extension:
-                case ResourceMatch.ContainsName:
-                case ResourceMatch.ContainsExtension:
-                    string[] resourceNames = source.GetTypeInfo().Assembly.GetManifestResourceNames();
-                    string matchExtension = Path.GetExtension(name).ToUpperInvariant();
-                    switch (match)
-                    {
-                        case ResourceMatch.ContainsName:
-                            foreach (string resourceName in resourceNames)
-                            {
-                                if (resourceName.IndexOf(name, StringComparison.OrdinalIgnoreCase) > 0)
-                                {
-                                    resource = GetEmbeddedResourceCore(source, resourceName);
-                                    break;
-                                }
-                            }
-                            break;
-                        case ResourceMatch.Extension:
-                            foreach (string resourceName in resourceNames)
-                            {
-                                string extension = Path.GetExtension(resourceName).ToUpperInvariant();
-                                if (extension == matchExtension)
-                                {
-                                    resource = GetEmbeddedResourceCore(source, resourceName);
-                                    break;
-                                }
-                            }
-                            break;
-                        case ResourceMatch.ContainsExtension:
-                            foreach (string resourceName in resourceNames)
-                            {
-                                string extension = Path.GetExtension(resourceName);
-                                if (extension.IndexOf(matchExtension, StringComparison.OrdinalIgnoreCase) > 0)
-                                {
-                                    resource = GetEmbeddedResourceCore(source, resourceName);
-                                    break;
-                                }
-                            }
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(match));
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(match));
-            }
-            return resource;
-        }
-
-        private static Stream GetEmbeddedResourceCore(Type source, string name)
-        {
-            return source.GetTypeInfo().Assembly.GetManifestResourceStream(name);
-        }
-    }
-
-    /// <summary>
-    /// Specifies the way of finding and returning an embedded resource.
-    /// </summary>
-    public enum ResourceMatch
-    {
-        /// <summary>
-        /// Specifies an exact match on the file name of the embedded resource.
-        /// </summary>
-        Name = 0,
-        /// <summary>
-        /// Specifies a partial match on the file name of the embedded resource.
-        /// </summary>
-        ContainsName = 1,
-        /// <summary>
-        /// Specifies an exact match on the file extension contained within the file name of the embedded resource.
-        /// </summary>
-        Extension = 2,
-        /// <summary>
-        /// Specifies a partial match on the file extension contained within the file name of the embedded resource.
-        /// </summary>
-        ContainsExtension = 3
     }
 }

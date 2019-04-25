@@ -45,7 +45,7 @@ namespace Cuemon
             int totalMonths, deltaMonths;
             GetMonths(out deltaMonths, out totalMonths);
 
-			TimeSpan timespan = (Highest - Lowest);
+			var timespan = (Highest - Lowest);
 			Hours = timespan.Hours;
 			TotalHours = (long)timespan.TotalHours;
 			Milliseconds = timespan.Milliseconds;
@@ -70,8 +70,8 @@ namespace Cuemon
 		/// <value>Calculates the number of weeks represented by the current <see cref="DateSpan"/> structure.</value>
 		public int GetWeeks()
 		{
-			TimeSpan range = Highest.Subtract(Lowest);
-			int totalDays = 0;
+			var range = Highest.Subtract(Lowest);
+			var totalDays = 0;
 			if (range.Days <= 7)
 			{
 				totalDays = Lowest.DayOfWeek > Highest.DayOfWeek ? 2 : 1;
@@ -94,14 +94,14 @@ namespace Cuemon
 			return Highest.GetHashCode() ^ Lowest.GetHashCode() ^ Calendar.GetHashCode();
 		}
 
-		/// <summary>
-		/// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
-		/// </summary>
-		/// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
-		/// <returns>
-		/// 	<c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-		/// </returns>
-		public override bool Equals(object obj)
+        /// <summary>
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
 		{
 			if (!(obj is DateSpan)) { return false; }
 			return Equals((DateSpan)obj); 
@@ -177,7 +177,7 @@ namespace Cuemon
 		{
 			totalMonths = 0;
             deltaMonths = Highest.Month;
-			for (int year = Lowest.Year; year < Highest.Year; year++)
+			for (var year = Lowest.Year; year < Highest.Year; year++)
 			{
 				totalMonths += Calendar.GetMonthsInYear(year);
 			}
@@ -186,7 +186,7 @@ namespace Cuemon
 
 		private int GetYears(DateTime start, DateTime end)
 		{
-			int years = start.Year - end.Year;
+			var years = start.Year - end.Year;
 			if (start.DayOfYear < end.DayOfYear)
 			{
 				years--;

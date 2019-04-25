@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace Cuemon
 {
@@ -477,7 +476,7 @@ namespace Cuemon
         /// <returns>The result of the the function delegate <paramref name="method"/>.</returns>
         public static TResult Invoke<TTuple, TResult>(Func<TTuple, TResult> method, TTuple tuple) where TTuple : Template
         {
-            FuncFactory<TTuple, TResult> factory = new FuncFactory<TTuple, TResult>(method, tuple);
+            var factory = new FuncFactory<TTuple, TResult>(method, tuple);
             return factory.ExecuteMethod();
         }
     }
@@ -514,7 +513,7 @@ namespace Cuemon
         /// Gets the function delegate to invoke.
         /// </summary>
         /// <value>The function delegate to invoke.</value>
-        private Func<TTuple, TResult> Method { get; set; }
+        private Func<TTuple, TResult> Method { get; }
 
         /// <summary>
         /// Executes the function delegate associated with this instance.

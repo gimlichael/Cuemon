@@ -14,18 +14,18 @@ namespace Cuemon
         /// <typeparam name="T">The type of the expected return <paramref name="value"/> after conversion.</typeparam>
         /// <param name="value">The value to convert into an <see cref="IConvertible"/>.</param>
         /// <returns>An <see cref="IConvertible"/> primitive formed by n-bytes beginning at 0.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null.
         /// </exception>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Boolean"/>, <see cref="Char"/>, <see cref="double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="ushort"/>, <see cref="UInt32"/> and <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
         /// </exception>
         public static T FromBytes<T>(byte[] value) where T : struct, IConvertible
         {
             Validator.ThrowIfNull(value, nameof(value));
             if (BitConverter.IsLittleEndian) { Array.Reverse(value); }
-            TypeCode code = TypeCodeConverter.FromType(typeof(T));
+            var code = TypeCodeConverter.FromType(typeof(T));
 
             object result;
             switch (code)

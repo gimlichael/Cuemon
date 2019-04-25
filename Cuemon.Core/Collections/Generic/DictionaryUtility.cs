@@ -36,7 +36,7 @@ namespace Cuemon.Collections.Generic
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(keys, nameof(keys));
             Validator.ThrowIfLowerThan(keys.Length, 1, nameof(keys), "You must specify at least one key.");
-			foreach (TKey key in keys)
+			foreach (var key in keys)
 			{
 				if (key == null) { continue; }
 				if (source.ContainsKey(key)) { return source[key]; }

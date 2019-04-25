@@ -45,8 +45,8 @@ namespace Cuemon.Collections.Generic
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(comparer, nameof(comparer));
 
-            Dictionary<TKey, TValue> result = new Dictionary<TKey, TValue>(comparer);
-            foreach (KeyValuePair<TKey, TValue> item in source)
+            var result = new Dictionary<TKey, TValue>(comparer);
+            foreach (var item in source)
             {
                 result.Add(item.Key, item.Value);
             }

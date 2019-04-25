@@ -15,7 +15,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="index">The index to find.</param>
         /// <param name="elements">The elements of the <see cref="IList{T}"/>.</param>
         /// <returns><c>true</c> if the specified <paramref name="index"/> is within the range of the <paramref name="elements"/>; otherwise, <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="elements"/> is null.
         /// </exception>
         public static bool HasIndex<TSource>(int index, IList<TSource> elements)
@@ -38,7 +38,7 @@ namespace Cuemon.Collections.Generic
 		{
             Validator.ThrowIfNull(elements, nameof(elements));
             Validator.ThrowIfLowerThan(index, 0, nameof(index));
-            int nextIndex = index + 1;
+            var nextIndex = index + 1;
             if (nextIndex >= elements.Count) { return default(TSource); }
 		    return elements[nextIndex];
 		}
@@ -57,7 +57,7 @@ namespace Cuemon.Collections.Generic
         {
             Validator.ThrowIfNull(elements, nameof(elements));
             Validator.ThrowIfLowerThan(index, 0, nameof(index));
-            int previousIndex = index - 1;
+            var previousIndex = index - 1;
             if (previousIndex < 0) { return default(TSource); }
             if (previousIndex >= elements.Count) { return default(TSource); }
             return elements[previousIndex];

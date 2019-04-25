@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
@@ -1680,6 +1681,40 @@ namespace Cuemon
             try
             {
                 ThrowWhen(c => c.IsFalse(() => StringUtility.ParseDistinctDifference(definite, arbitrary, out _)).Create(() => new ArgumentOutOfRangeException(paramName, message)).TryThrow());
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> consist of anything besides binary digits.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> must consist only of binary digits.
+        /// </exception>
+        public static void ThrowIfNotBinaryDigits(string value, string paramName)
+        {
+            ThrowIfNotBinaryDigits(value, paramName, "Value must consist only of binary digits.");
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> consist of anything besides binary digits.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> must consist only of binary digits.
+        /// </exception>
+        public static void ThrowIfNotBinaryDigits(string value, string paramName, string message)
+        {
+            try
+            {
+                ThrowWhen(c => c.IsFalse(() => Condition.IsBinaryDigits(value)).Create(() => new ArgumentOutOfRangeException(paramName, value, message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {

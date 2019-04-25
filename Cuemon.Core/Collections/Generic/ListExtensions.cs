@@ -17,7 +17,7 @@ namespace Cuemon.Collections.Generic
         /// <returns><c>true</c> if item was successfully removed from the <paramref name="list"/>, <c>false</c> otherwise.</returns>
         public static bool Remove<T>(this IList<T> list, Func<T, bool> predicate)
         {
-            for (int i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
                 if (predicate(list[i]))
                 {
@@ -35,7 +35,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="elements">The elements of the <see cref="IList{T}"/>.</param>
         /// <param name="index">The index to find.</param>
         /// <returns><c>true</c> if the specified <paramref name="index"/> is within the range of the <paramref name="elements"/>; otherwise, <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="elements"/> is null.
         /// </exception>
         public static bool HasIndex<TSource>(this IList<TSource> elements, int index)

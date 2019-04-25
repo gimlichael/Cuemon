@@ -17,7 +17,7 @@ namespace Cuemon
         /// <returns>The sum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <exception cref="OverflowException">
         /// The sum of <paramref name="x"/> and <paramref name="y"/> is less than or greater than the by <typeparamref name="T"/> valid <c>MinValue</c> and <c>MaxValue</c>.
@@ -36,7 +36,7 @@ namespace Cuemon
         /// <returns>The result of <paramref name="x"/> AND <paramref name="y"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         public static T And<T>(T x, T y) where T : struct, IConvertible
         {
@@ -52,7 +52,7 @@ namespace Cuemon
         /// <returns>The value of <paramref name="y"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         public static T Assign<T>(T x, T y) where T : struct, IConvertible
         {
@@ -68,7 +68,7 @@ namespace Cuemon
         /// <returns>The result of dividing <paramref name="x"/> by <paramref name="y"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <exception cref="DivideByZeroException">
         /// <paramref name="y"/> is zero.
@@ -90,7 +90,7 @@ namespace Cuemon
         /// <returns>The result of <paramref name="x"/> XOR <paramref name="y"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         public static T ExclusiveOr<T>(T x, T y) where T : struct, IConvertible
         {
@@ -106,7 +106,7 @@ namespace Cuemon
         /// <returns>The result of shifting the bit pattern.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="SByte"/>, <see cref="UInt16"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="short"/>, <see cref="int"/>, <see cref="sbyte"/>, <see cref="ushort"/>.
         /// </exception>
         public static T LeftShift<T>(T x, T y) where T : struct, IConvertible
         {
@@ -122,7 +122,7 @@ namespace Cuemon
         /// <returns>The result of multiplying <paramref name="x"/> and <paramref name="y"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <exception cref="OverflowException">
         /// The sum of <paramref name="x"/> and <paramref name="y"/> is less than or greater than the by <typeparamref name="T"/> valid <c>MinValue</c> and <c>MaxValue</c>.
@@ -141,7 +141,7 @@ namespace Cuemon
         /// <returns>The result of <paramref name="x"/> OR <paramref name="y"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         public static T Or<T>(T x, T y) where T : struct, IConvertible
         {
@@ -157,7 +157,7 @@ namespace Cuemon
         /// <returns>The remainder after dividing <paramref name="x"/> by <paramref name="y"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <exception cref="DivideByZeroException">
         /// <paramref name="y"/> is zero.
@@ -179,7 +179,7 @@ namespace Cuemon
         /// <returns>The result of shifting the bit pattern.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="SByte"/>, <see cref="UInt16"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="short"/>, <see cref="int"/>, <see cref="sbyte"/>, <see cref="ushort"/>.
         /// </exception>
         public static T RightShift<T>(T x, T y) where T : struct, IConvertible
         {
@@ -195,7 +195,7 @@ namespace Cuemon
         /// <returns>The result of subtracting <paramref name="y"/> from <paramref name="x"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         /// <exception cref="OverflowException">
         /// The sum of <paramref name="x"/> and <paramref name="y"/> is less than or greater than the by <typeparamref name="T"/> valid <c>MinValue</c> and <c>MaxValue</c>.
@@ -215,7 +215,7 @@ namespace Cuemon
         /// <returns>The result of the <paramref name="assignment"/> for <paramref name="x"/> and <paramref name="y"/>.</returns>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         public static T Calculate<T>(T x, AssignmentOperator assignment, T y) where T : struct, IConvertible
         {
@@ -251,8 +251,8 @@ namespace Cuemon
         private static T AssignmentCore<T>(T x, T y, AssignmentOperator assignment) where T : struct, IConvertible
         {
             IFormatProvider provider = CultureInfo.InvariantCulture;
-            Type assignmentType = typeof(T);
-            TypeCode assignmentCode = x.GetTypeCode();
+            var assignmentType = typeof(T);
+            var assignmentCode = x.GetTypeCode();
             switch (assignmentCode)
             {
                 case TypeCode.Byte:
@@ -572,14 +572,14 @@ namespace Cuemon
         /// Validates if the specified <typeparamref name="T"/> is within the allowed range of numeric operands.
         /// </summary>
         /// <typeparam name="T">The type of the value for an operand operation.</typeparam>
-        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="Byte"/>, <see cref="Decimal"/>, <see cref="Double"/>, <see cref="Int16"/>, <see cref="Int32"/>, <see cref="Int64"/>, <see cref="SByte"/>, <see cref="Single"/>, <see cref="UInt16"/>, <see cref="UInt32"/> or <see cref="UInt64"/>.
+        /// Allowed types are: <see cref="byte"/>, <see cref="decimal"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="long"/>, <see cref="sbyte"/>, <see cref="float"/>, <see cref="ushort"/>, <see cref="uint"/> or <see cref="ulong"/>.
         /// </exception>
         public static void ValidAsNumericOperand<T>() where T : struct, IComparable<T>, IEquatable<T>, IConvertible
         {
-            Type valueType = typeof(T);
-            TypeCode valueCode = TypeCodeConverter.FromType(valueType);
+            var valueType = typeof(T);
+            var valueCode = TypeCodeConverter.FromType(valueType);
             switch (valueCode)
             {
                 case TypeCode.Byte:

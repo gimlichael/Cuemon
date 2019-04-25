@@ -7,7 +7,7 @@ namespace Cuemon.Diagnostics
     /// <summary>
     /// Provides information about an <see cref="Exception"/>, in a developer friendly way, optimized for open- and otherwise public application programming interfaces (API).
     /// </summary>
-    /// <seealso cref="System.Attribute" />
+    /// <seealso cref="Attribute" />
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class ExceptionDescriptorAttribute : Attribute, IMessageLocalizer
     {
@@ -26,7 +26,7 @@ namespace Cuemon.Diagnostics
             FailureType = failureType;
             _messageResolver = new Lazy<string>(() =>
             {
-                if (!MessageResourceName.IsNullOrWhiteSpace() && MessageResourceType != null)
+                if (!string.IsNullOrWhiteSpace(MessageResourceName) && MessageResourceType != null)
                 {
                     var property = MessageResourceType.GetProperty(MessageResourceName, BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic);
                     var getMethod = property?.GetGetMethod(true);

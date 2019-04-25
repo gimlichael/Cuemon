@@ -92,7 +92,7 @@ namespace Cuemon
         /// <returns>A reference to the newly added hierarchical node.</returns>
         public IHierarchy<T> Add(T instance)
         {
-            Type instanceType = instance.GetType();
+            var instanceType = instance.GetType();
             return Add(instance, instanceType);
         }
 
@@ -145,7 +145,7 @@ namespace Cuemon
                 return this;
             }
 
-            Hierarchy<T> child = new Hierarchy<T>();
+            var child = new Hierarchy<T>();
             child.Instance = instance;
             child.InstanceType = instanceType;
             child.Parent = this;
@@ -159,8 +159,8 @@ namespace Cuemon
 
         private static int CalculateIndex(Hierarchy<T> newItem)
         {
-            IHierarchy<T> rootItem = newItem.Root();
-            IEnumerable<IHierarchy<T>> allItems = rootItem.DescendantsAndSelf();
+            var rootItem = newItem.Root();
+            var allItems = rootItem.DescendantsAndSelf();
             return allItems.Count();
         }
 
@@ -180,7 +180,7 @@ namespace Cuemon
         /// <returns>A <see cref="string" /> that identifies the hierarchical path relative to the current node.</returns>
         public string GetPath(Func<IHierarchy<T>, string> pathResolver)
         {
-            StringBuilder path = new StringBuilder();
+            var path = new StringBuilder();
             IHierarchy<T> current = this;
             while (current != null && current.Depth >= 0)
             {

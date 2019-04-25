@@ -29,9 +29,9 @@ namespace Cuemon
         public static IEnumerable<KeyValuePair<T, string>> ToEnumerable<T, TEnum>() where TEnum : struct, IConvertible where T : struct, IConvertible
         {
             Validator.ThrowIfNotEnumType<TEnum>("TEnum");
-            Validator.ThrowIfNotContainsType<T>("T", typeof(Int16), typeof(Int32), typeof(Int64), typeof(UInt16), typeof(UInt32), typeof(UInt64));
+            Validator.ThrowIfNotContainsType<T>("T", typeof(short), typeof(int), typeof(long), typeof(ushort), typeof(uint), typeof(ulong));
 
-            Array values = Enum.GetValues(typeof(TEnum));
+            var values = Enum.GetValues(typeof(TEnum));
             foreach (var value in values)
             {
                 yield return new KeyValuePair<T, string>((T)value, value.ToString());
@@ -121,9 +121,9 @@ namespace Cuemon
         {
             Validator.ThrowIfNotEnumType<TEnum>("TEnum");
             Validator.ThrowIfNullOrEmpty(value, nameof(value));
-            Type enumType = typeof(TEnum);
-            bool hasFlags = enumType.GetTypeInfo().IsDefined(typeof(FlagsAttribute), false);
-            TEnum result = (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
+            var enumType = typeof(TEnum);
+            var hasFlags = enumType.GetTypeInfo().IsDefined(typeof(FlagsAttribute), false);
+            var result = (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
             if (hasFlags && value.IndexOf(',') > 0) { return result; }
             if (Enum.IsDefined(typeof(TEnum), result)) { return result; }
             throw new ArgumentException("Value does not represents an enumeration.");
@@ -142,14 +142,14 @@ namespace Cuemon
 
             try
             {
-                long signedSource = source.ToInt64(CultureInfo.InvariantCulture);
-                long signedValue = value.ToInt64(CultureInfo.InvariantCulture);
+                var signedSource = source.ToInt64(CultureInfo.InvariantCulture);
+                var signedValue = value.ToInt64(CultureInfo.InvariantCulture);
                 return ((signedSource & signedValue) == signedValue);
             }
             catch (OverflowException)
             {
-                ulong unsignedSource = source.ToUInt64(CultureInfo.InvariantCulture);
-                ulong unsignedValue = value.ToUInt64(CultureInfo.InvariantCulture);
+                var unsignedSource = source.ToUInt64(CultureInfo.InvariantCulture);
+                var unsignedValue = value.ToUInt64(CultureInfo.InvariantCulture);
                 return ((unsignedSource & unsignedValue) == unsignedValue);
             }
         }

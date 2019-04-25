@@ -12,12 +12,12 @@ namespace Cuemon
 
         private static IDictionary<Type, TypeCode> InitTypeToTypeCodeLookupTable()
         {
-            Dictionary<Type, TypeCode> result = new Dictionary<Type, TypeCode>();
+            var result = new Dictionary<Type, TypeCode>();
             foreach (var pair in EnumUtility.ToEnumerable<TypeCode>())
             {
                 try
                 {
-                    Type validType = Type.GetType(string.Format("System.{0}", pair.Value), false);
+                    var validType = Type.GetType(string.Format("System.{0}", pair.Value), false);
                     if (validType != null) { result.Add(validType, EnumUtility.Parse<TypeCode>(pair.Value)); }
                 }
                 catch (Exception)

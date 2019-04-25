@@ -31,7 +31,7 @@ namespace Cuemon
         /// Converts the name of the <paramref name="source"/> with the intend to be understood by humans. 
         /// </summary>
         /// <param name="source">The type to sanitize the name from.</param>
-        /// <returns>A sanitized <see cref="String"/> representation of <paramref name="source"/>.</returns>
+        /// <returns>A sanitized <see cref="string"/> representation of <paramref name="source"/>.</returns>
         /// <remarks>Only the simple name of the <paramref name="source"/> is returned, not the fully qualified name.</remarks>
         public static string ToFriendlyName(this Type source)
         {
@@ -43,7 +43,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="source">The type to sanitize the name from.</param>
         /// <param name="fullName">Specify <c>true</c> to use the fully qualified name of the <paramref name="source"/>; otherwise, <c>false</c> for the simple name of <paramref name="source"/>.</param>
-        /// <returns>A sanitized <see cref="String"/> representation of <paramref name="source"/>.</returns>
+        /// <returns>A sanitized <see cref="string"/> representation of <paramref name="source"/>.</returns>
         public static string ToFriendlyName(this Type source, bool fullName)
         {
             return StringConverter.FromType(source, fullName);
@@ -55,7 +55,7 @@ namespace Cuemon
         /// <param name="source">The type to sanitize the name from.</param>
         /// <param name="fullName">Specify <c>true</c> to use the fully qualified name of the <paramref name="source"/>; otherwise, <c>false</c> for the simple name of <paramref name="source"/>.</param>
         /// <param name="excludeGenericArguments">Specify <c>true</c> to exclude generic arguments from the result; otherwise <c>false</c> to include generic arguments should the <paramref name="source"/> be a generic type.</param>
-        /// <returns>A sanitized <see cref="String"/> representation of <paramref name="source"/>.</returns>
+        /// <returns>A sanitized <see cref="string"/> representation of <paramref name="source"/>.</returns>
         public static string ToFriendlyName(this Type source, bool fullName, bool excludeGenericArguments)
         {
             return StringConverter.FromType(source, fullName, excludeGenericArguments);
@@ -203,7 +203,7 @@ namespace Cuemon
         /// <param name="source">The source type to traverse.</param>
         /// <param name="sourceBaseLimit">The base limit of <paramref name="source"/>.</param>
         /// <returns>The ancestor-or-self type from the specified <paramref name="source"/> that is derived or equal to <paramref name="sourceBaseLimit"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> - or - <paramref name="sourceBaseLimit"/> is null.
         /// </exception>
         public static Type GetAncestorsAndSelf(this Type source, Type sourceBaseLimit)

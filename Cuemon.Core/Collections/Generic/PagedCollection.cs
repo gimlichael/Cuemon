@@ -45,7 +45,7 @@ namespace Cuemon.Collections.Generic
             Validator.ThrowIfNull(match, nameof(match));
             Validator.ThrowIfNull(settings, nameof(settings));
 
-            PagedCollection<T> pagedSource = source as PagedCollection<T>;
+            var pagedSource = source as PagedCollection<T>;
             return new PagedCollection<T>(new List<T>((pagedSource == null ? source : pagedSource.OriginalSource).Where(src => match(src, settings, comparison))));
         }
 
@@ -62,7 +62,7 @@ namespace Cuemon.Collections.Generic
             Validator.ThrowIfNull(sorter, nameof(sorter));
             Validator.ThrowIfNull(settings, nameof(settings));
 
-            PagedCollection<T> pagedSource = source as PagedCollection<T>;
+            var pagedSource = source as PagedCollection<T>;
             return  new PagedCollection<T>(sorter(pagedSource == null ? source : pagedSource.OriginalSource, settings), settings);
         }
     }
@@ -168,7 +168,7 @@ namespace Cuemon.Collections.Generic
         {
             get
             {
-                int currentHashCodeForSettings = Settings.GetHashCode();
+                var currentHashCodeForSettings = Settings.GetHashCode();
                 if (_pageableCollection == null || _lastHashCodeForSettings != currentHashCodeForSettings)
                 {
                     _pageableCollection = GetPageableCollection(OriginalSource);
@@ -239,7 +239,7 @@ namespace Cuemon.Collections.Generic
         /// Gets the first number of the next page range relative to the specified <paramref name="page"/>.
         /// </summary>
         /// <param name="page">The page to calculate the first number of the next page range.</param>
-        /// <returns>An <see cref="Int32"/> that represents the first number of the next page range.</returns>
+        /// <returns>An <see cref="int"/> that represents the first number of the next page range.</returns>
         public int GetStartOfNextPageRange(int page)
         {
             return (((page * Settings.PageSize) - Settings.PageSize) + 1);
@@ -249,18 +249,18 @@ namespace Cuemon.Collections.Generic
         /// Gets the last number of the next page range relative to the specified <paramref name="page"/>.
         /// </summary>
         /// <param name="page">The page to calculate the last number of the next page range.</param>
-        /// <returns>An <see cref="Int32"/> that represents the last number of the next page range.</returns>
+        /// <returns>An <see cref="int"/> that represents the last number of the next page range.</returns>
         public int GetEndOfNextPageRange(int page)
         {
-            int sonp = GetStartOfNextPageRange(page);
-            int eonp = page >= PageCount ? ((page * Settings.PageSize) + (Count - Settings.PageSize)) : (page * Settings.PageSize);
+            var sonp = GetStartOfNextPageRange(page);
+            var eonp = page >= PageCount ? ((page * Settings.PageSize) + (Count - Settings.PageSize)) : (page * Settings.PageSize);
             if (eonp < sonp) { eonp = TotalElementCount; }
             return eonp;
         }
 
         private List<T> GetPageableCollection(IEnumerable<T> source)
         {
-            List<T> pagedSource = new List<T>();
+            var pagedSource = new List<T>();
             if (TotalElementCount > 0)
             {
                 pagedSource.AddRange(Settings.PageNumber == 1
@@ -277,7 +277,7 @@ namespace Cuemon.Collections.Generic
         private int GetPageCount()
         {
             if (TotalElementCount == 0) { return 0; }
-            double presult = TotalElementCount / Converter.FromObject<double>(Settings.PageSize);
+            var presult = TotalElementCount / Converter.FromObject<double>(Settings.PageSize);
             return Converter.FromObject<int>(Math.Ceiling(presult));
         }
 
@@ -300,9 +300,9 @@ namespace Cuemon.Collections.Generic
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             return string.Format(CultureInfo.InvariantCulture, "Count: {0}, PageCount: {1}, PageNumber: {2}, PageSize: {3}, TotalElementCount: {4}", Count,

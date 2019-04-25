@@ -26,7 +26,7 @@ namespace Cuemon.Integrity
         /// Converts the <see cref="Value"/> to its equivalent hexadecimal representation.
         /// </summary>
         /// <returns>A <see cref="string"/> representation, in hexadecimal, of the contents of <see cref="Value"/>.</returns>
-        public virtual string ToHexadecimal()
+        public virtual string ToHexadecimalString()
         {
             return StringConverter.ToHexadecimal(Value);
         }
@@ -35,7 +35,7 @@ namespace Cuemon.Integrity
         /// Converts the <see cref="Value"/> to its equivalent string representation that is encoded with base-64 digits.
         /// </summary>
         /// <returns>A <see cref="string"/> representation, in base 64, of the contents of <see cref="Value"/>.</returns>
-        public virtual string ToBase64()
+        public virtual string ToBase64String()
         {
             return Convert.ToBase64String(Value);
         }
@@ -44,7 +44,7 @@ namespace Cuemon.Integrity
         /// Converts the <see cref="Value"/> to its equivalent string representation that is encoded with base-64 digits, which is usable for transmission on the URL.
         /// </summary>
         /// <returns>A <see cref="string"/> representation, in base 64 which is usable for transmission on the URL, of the contents of <see cref="Value"/>.</returns>
-        public virtual string ToUrlEncodedBase64()
+        public virtual string ToUrlEncodedBase64String()
         {
             return StringConverter.ToUrlEncodedBase64(Value);
         }
@@ -53,7 +53,7 @@ namespace Cuemon.Integrity
         /// Converts the <see cref="Value"/> to its equivalent binary representation.
         /// </summary>
         /// <returns>A <see cref="string"/> representation, in binary, of the contents of <see cref="Value"/>.</returns>
-        public virtual string ToBinary()
+        public virtual string ToBinaryString()
         {
             return StringConverter.ToBinary(Value);
         }
@@ -73,7 +73,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return ToHexadecimal();
+            return ToHexadecimalString();
         }
     }
 }

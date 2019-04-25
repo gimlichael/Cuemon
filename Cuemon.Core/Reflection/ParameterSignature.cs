@@ -16,7 +16,7 @@ namespace Cuemon.Reflection
         /// </summary>
         /// <param name="parameterType">The type of the parameter.</param>
         /// <param name="parameterName">The name of the parameter.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="parameterType"/> is null or <br/>
         /// <paramref name="parameterName"/> is null.
         /// </exception>
@@ -50,7 +50,7 @@ namespace Cuemon.Reflection
         /// </summary>
         /// <param name="method">The <see cref="MethodBase"/> to extract parameter information from.</param>
         /// <returns>An <see cref="IEnumerable{ParameterSignature}"/> that is equivalent to the <see cref="ParameterInfo"/> sequence in <see cref="MethodBase.GetParameters"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
         public static IEnumerable<ParameterSignature> Parse(MethodBase method)
@@ -64,17 +64,17 @@ namespace Cuemon.Reflection
         /// </summary>
         /// <param name="parameters">A sequence of <see cref="ParameterInfo"/>.</param>
         /// <returns>An <see cref="IEnumerable{ParameterSignature}" /> that is equivalent to the <see cref="ParameterInfo" /> sequence.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="parameters" /> is null.
         /// </exception>
         public static IEnumerable<ParameterSignature> Parse(IEnumerable<ParameterInfo> parameters)
         {
             Validator.ThrowIfNull(parameters, nameof(parameters));
-            List<ParameterInfo> safeParameters = new List<ParameterInfo>(parameters);
+            var safeParameters = new List<ParameterInfo>(parameters);
             if (safeParameters.Count == 0) { yield break; }
 
-            int i = 0;
-            foreach (ParameterInfo parameter in safeParameters)
+            var i = 0;
+            foreach (var parameter in safeParameters)
             {
                 i++;
                 yield return new ParameterSignature(parameter.ParameterType, string.IsNullOrEmpty(parameter.Name) ? string.Format(CultureInfo.InvariantCulture, "arg{0}", i) : parameter.Name);

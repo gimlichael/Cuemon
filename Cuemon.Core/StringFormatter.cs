@@ -63,7 +63,7 @@ namespace Cuemon
         /// <returns>Returns a string expression representing a date- and time value.</returns>
         public static string FromDateTime(DateTime value, DateTimeFormatPattern pattern, IFormatProvider provider)
         {
-            DateTimeFormatInfo formatInfo = DateTimeFormatInfo.GetInstance(provider);
+            var formatInfo = DateTimeFormatInfo.GetInstance(provider);
             switch (pattern)
             {
                 case DateTimeFormatPattern.LongDate:

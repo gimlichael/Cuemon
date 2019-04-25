@@ -135,7 +135,7 @@ namespace Cuemon
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="value">The object to convert the underlying type.</param>
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
-        /// <remarks>This method first checks if <paramref name="value"/> is compatible with <typeparamref name="TResult"/>; if not compatible the method continues with <see cref="ObjectConverter.ChangeType(object,System.Type,IFormatProvider)"/> for the operation.</remarks>
+        /// <remarks>This method first checks if <paramref name="value"/> is compatible with <typeparamref name="TResult"/>; if not compatible the method continues with <see cref="ObjectConverter.ChangeType(object,Type,IFormatProvider)"/> for the operation.</remarks>
         public static TResult FromObject<TResult>(object value)
         {
             return FromObject(value, default(TResult));
@@ -148,7 +148,7 @@ namespace Cuemon
         /// <param name="value">The object to convert the underlying type.</param>
         /// <param name="resultOnConversionNotPossible">The value to return if the conversion is not possible.</param>
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
-        /// <remarks>This method first checks if <paramref name="value"/> is compatible with <typeparamref name="TResult"/>; if not compatible the method continues with <see cref="ObjectConverter.ChangeType(object,System.Type,IFormatProvider)"/> for the operation.</remarks>
+        /// <remarks>This method first checks if <paramref name="value"/> is compatible with <typeparamref name="TResult"/>; if not compatible the method continues with <see cref="ObjectConverter.ChangeType(object,Type,IFormatProvider)"/> for the operation.</remarks>
         public static TResult FromObject<TResult>(object value, TResult resultOnConversionNotPossible)
         {
             return FromObject(value, resultOnConversionNotPossible, CultureInfo.InvariantCulture);
@@ -162,7 +162,7 @@ namespace Cuemon
         /// <param name="resultOnConversionNotPossible">The value to return if the conversion is not possible.</param>
         /// <param name="provider">An object that supplies culture-specific formatting information.</param>
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
-        /// <remarks>This method first checks if <paramref name="value"/> is compatible with <typeparamref name="TResult"/>; if not compatible the method continues with <see cref="ObjectConverter.ChangeType(object,System.Type,IFormatProvider)"/> for the operation.</remarks>
+        /// <remarks>This method first checks if <paramref name="value"/> is compatible with <typeparamref name="TResult"/>; if not compatible the method continues with <see cref="ObjectConverter.ChangeType(object,Type,IFormatProvider)"/> for the operation.</remarks>
         public static TResult FromObject<TResult>(object value, TResult resultOnConversionNotPossible, IFormatProvider provider)
         {
             if (value is TResult) { return (TResult)value; }
@@ -179,7 +179,7 @@ namespace Cuemon
         /// <param name="source">The source to parse and convert using the function delegate <paramref name="converter"/>.</param>
         /// <param name="converter">The function delegate that converts <typeparamref name="TSource"/> to a <typeparamref name="TResult"/> representation.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, TResult>(TSource source, Func<TSource, TResult> converter)
@@ -199,7 +199,7 @@ namespace Cuemon
         /// <param name="converter">The function delegate that converts <typeparamref name="TSource"/> to a <typeparamref name="TResult"/> representation.</param>
         /// <param name="arg">The parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, T, TResult>(TSource source, Func<TSource, T, TResult> converter, T arg)
@@ -221,7 +221,7 @@ namespace Cuemon
         /// <param name="arg1">The first parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, T1, T2, TResult>(TSource source, Func<TSource, T1, T2, TResult> converter, T1 arg1, T2 arg2)
@@ -245,7 +245,7 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, T1, T2, T3, TResult>(TSource source, Func<TSource, T1, T2, T3, TResult> converter, T1 arg1, T2 arg2, T3 arg3)
@@ -271,7 +271,7 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, T1, T2, T3, T4, TResult>(TSource source, Func<TSource, T1, T2, T3, T4, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
@@ -299,7 +299,7 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, T1, T2, T3, T4, T5, TResult>(TSource source, Func<TSource, T1, T2, T3, T4, T5, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
@@ -329,7 +329,7 @@ namespace Cuemon
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg6">The sixth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, T1, T2, T3, T4, T5, T6, TResult>(TSource source, Func<TSource, T1, T2, T3, T4, T5, T6, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
@@ -361,7 +361,7 @@ namespace Cuemon
         /// <param name="arg6">The sixth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg7">The seventh parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, T1, T2, T3, T4, T5, T6, T7, TResult>(TSource source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
@@ -395,7 +395,7 @@ namespace Cuemon
         /// <param name="arg7">The seventh parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg8">The eighth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult>(TSource source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
@@ -431,7 +431,7 @@ namespace Cuemon
         /// <param name="arg8">The eighth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <param name="arg9">The ninth parameter of the function delegate <paramref name="converter"/>.</param>
         /// <returns>A <typeparamref name="TResult"/> that is equivalent to the <typeparamref name="TSource"/> contained in <paramref name="source"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="converter"/> is null.
         /// </exception>
         public static TResult Parse<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(TSource source, Func<TSource, T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> converter, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)

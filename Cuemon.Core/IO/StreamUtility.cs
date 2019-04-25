@@ -45,7 +45,7 @@ namespace Cuemon.IO
 
             byte[] byteOrderMarks = { 0, 0, 0, 0 };
 
-            long startingPosition = value.Position;
+            var startingPosition = value.Position;
             value.Position = 0;
             value.Read(byteOrderMarks, 0, 4); // only read the first 4 bytes
             value.Seek(startingPosition, SeekOrigin.Begin); // reset to original position}

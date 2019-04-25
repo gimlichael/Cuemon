@@ -10,19 +10,19 @@ namespace Cuemon
         /// <summary>
         /// Converts the specified <paramref name="value"/> of a GUID to its equivalent <see cref="Guid"/> structure.
         /// </summary>
-        /// <param name="value">The GUID to be converted.</param>   
+        /// <param name="value">The GUID to be converted.</param>
+        /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
         /// <returns>A <see cref="Guid"/> that is equivalent to <paramref name="value"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null.
         /// </exception>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="FormatException">
         /// The specified <paramref name="value"/> was not recognized to be a GUID.
         /// </exception>
-        public static Guid FromString(string value)
+        public static Guid FromString(string value, GuidFormats format = GuidFormats.BraceFormat | GuidFormats.DigitFormat | GuidFormats.ParenthesisFormat)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            Guid result;
-            if (!GuidUtility.TryParse(value, out result)) { throw new FormatException("The specified value was not recognized to be a GUID."); }
+            if (!GuidUtility.TryParse(value, format, out var result)) { throw new FormatException("The specified value was not recognized to be a GUID."); }
             return result;
         }
     }

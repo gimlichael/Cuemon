@@ -21,7 +21,7 @@ namespace Cuemon.IO
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(encoding, nameof(encoding));
-            byte[] bytes = ByteConverter.FromStream(value, leaveOpen);
+            var bytes = ByteConverter.FromStream(value, leaveOpen);
             bytes = ByteArrayUtility.RemovePreamble(bytes, encoding);
             return Disposable.SafeInvoke(() => new MemoryStream(bytes.Length), ms =>
             {
@@ -34,7 +34,7 @@ namespace Cuemon.IO
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a <see cref="Stream"/>.
         /// </summary>
-        /// <param name="value">The byte array to be converted.</param>
+        /// <param name="value">The <see cref="T:byte[]"/> to be converted.</param>
         /// <returns>A <see cref="Stream"/> object.</returns>
         public static Stream FromBytes(byte[] value)
         {

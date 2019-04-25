@@ -50,6 +50,10 @@
     <None Include="TransientOperation.Async.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Security\Cryptography\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;D:\dlls\cuemon\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)$(ProjectName).xml&quot; &quot;D:\dlls\cuemon\$(ProjectName).xml&quot;" />
   </Target>

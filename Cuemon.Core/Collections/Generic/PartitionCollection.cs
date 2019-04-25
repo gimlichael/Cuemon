@@ -66,7 +66,7 @@ namespace Cuemon.Collections.Generic
         /// <returns>The total amount of partitions for the elements in this sequence.</returns>
         public int PartitionCount()
         {
-            double presult = Count / Converter.FromObject<double>(PartitionSize);
+            var presult = Count / Converter.FromObject<double>(PartitionSize);
             return Converter.FromObject<int>(Math.Ceiling(presult));
         }
 
@@ -77,7 +77,7 @@ namespace Cuemon.Collections.Generic
         public IEnumerator<T> GetEnumerator()
         {
             int count;
-            IEnumerable<T> result = EnumerableUtility.Chunk(ref _source, PartitionSize, out count);
+            var result = EnumerableUtility.Chunk(ref _source, PartitionSize, out count);
             Interlocked.Add(ref _iteratedCount, count);
             return result.GetEnumerator();
         }

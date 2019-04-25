@@ -16,6 +16,17 @@ namespace Cuemon
 RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
 
         /// <summary>
+        /// Determines whether the specified <paramref name="value"/> consists only of binary digits.
+        /// </summary>
+        /// <param name="value">The string to verify consist only of binary digits.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> consists only of binary digits; otherwise, <c>false</c>.</returns>
+        public static bool IsBinaryDigits(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
+            return !value.Any(ch => ch < '0' || ch > '1');
+        }
+
+        /// <summary>
         /// Determines whether the specified <paramref name="value"/> has a valid format of an email address.
         /// </summary>
         /// <param name="value">The string to verify has a valid format of an email address.</param>
@@ -25,7 +36,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// </remarks>
         public static bool IsEmailAddress(string value)
         {
-            if (string.IsNullOrEmpty(value)) { return false; }
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
             return (RegExEmailAddressValidator.Match(value).Length > 0);
         }
 
@@ -51,35 +62,8 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> has a format of a <see cref="Guid"/>; otherwise, <c>false</c>.</returns>
         public static bool IsGuid(string value, GuidFormats format)
         {
-            if (string.IsNullOrEmpty(value)) { return false; }
-            Guid result;
-            return GuidUtility.TryParse(value, format, out result);
-        }
-
-        /// <summary>
-        /// Determines whether the specified value can be evaluated as a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <returns><c>true</c> if the specified value can be evaluated as a number; otherwise, <c>false</c>.</returns>
-        /// <remarks>
-        /// This method implements a default permitted format of <paramref name="value"/> as <see cref="NumberStyles.Number"/>.<br/>
-        /// This method implements a default culture-specific formatting information about <paramref name="value"/> specified to <see cref="CultureInfo.InvariantCulture"/>.
-        /// </remarks>
-        public static bool IsNumeric(string value)
-        {
-            return IsNumeric(value, NumberStyles.Number);
-        }
-
-        /// <summary>
-        /// Determines whether the specified value can be evaluated as a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
-        /// <returns><c>true</c> if the specified value can be evaluated as a number; otherwise, <c>false</c>.</returns>
-        /// <remarks>This method implements a default culture-specific formatting information about <paramref name="value"/> specified to <see cref="CultureInfo.InvariantCulture"/>.</remarks>
-        public static bool IsNumeric(string value, NumberStyles styles)
-        {
-            return IsNumeric(value, styles, CultureInfo.InvariantCulture);
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
+            return GuidUtility.TryParse(value, format, out _);
         }
 
         /// <summary>
@@ -89,12 +73,13 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
         /// <param name="provider">An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about <paramref name="value"/>.</param>
         /// <returns><c>true</c> if the specified value can be evaluated as a number; otherwise, <c>false</c>.</returns>
-        public static bool IsNumeric(string value, NumberStyles styles, IFormatProvider provider)
+        public static bool IsNumeric(string value, NumberStyles styles = NumberStyles.Number, IFormatProvider provider = null)
         {
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
             if (string.Equals(value, "NaN", StringComparison.OrdinalIgnoreCase)) { return false; }
             if (string.Equals(value, "Infinity", StringComparison.OrdinalIgnoreCase)) { return false; }
-            double outValue;
-            return Double.TryParse(value, styles, provider, out outValue);
+            if (provider == null) { provider = CultureInfo.InvariantCulture; }
+            return double.TryParse(value, styles, provider, out _);
         }
 
         /// <summary>
@@ -105,7 +90,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> has its initial default value; otherwise, <c>false</c>.</returns>
         public static bool IsDefault<T>(T value)
         {
-            return EqualityComparer<T>.Default.Equals(value, default(T));
+            return EqualityComparer<T>.Default.Equals(value, default);
         }
 
         /// <summary>
@@ -139,12 +124,12 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="y">The second object to compare.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing <paramref name="x"/> and <paramref name="y"/>.</param>
         /// <returns><c>true</c> if <paramref name="x"/> are equal to <paramref name="y"/>; otherwise <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="comparer"/> is null.
         /// </exception>
         public static bool AreEqual<T>(T x, T y, IEqualityComparer<T> comparer)
         {
-            if (comparer == null) { throw new ArgumentNullException(nameof(comparer)); }
+            Validator.ThrowIfNull(comparer, nameof(comparer));
             return comparer.Equals(x, y);
         }
 
@@ -168,12 +153,12 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="y">The second object to compare.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing <paramref name="x"/> and <paramref name="y"/>.</param>
         /// <returns><c>true</c> if <paramref name="x"/> are different from <paramref name="y"/>; otherwise <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="comparer"/> is null.
         /// </exception>
         public static bool AreNotEqual<T>(T x, T y, IEqualityComparer<T> comparer)
         {
-            if (comparer == null) { throw new ArgumentNullException(nameof(comparer)); }
+            Validator.ThrowIfNull(comparer, nameof(comparer));
             return !AreEqual(x, y, comparer);
         }
 
@@ -252,13 +237,13 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         {
             if (string.IsNullOrEmpty(value)) { return false; }
             if (!NumberUtility.IsEven(value.Length)) { return false; }
-            using (StringReader reader = new StringReader(value))
+            using (var reader = new StringReader(value))
             {
-                int even = value.Length / 2;
-                for (int i = 0; i < even; ++i)
+                var even = value.Length / 2;
+                for (var i = 0; i < even; ++i)
                 {
-                    char char1 = (char)reader.Read();
-                    char char2 = (char)reader.Read();
+                    var char1 = (char)reader.Read();
+                    var char2 = (char)reader.Read();
                     if (!IsHexDigit(char1) || !IsHexDigit(char2)) { return false; }
                 }
             }

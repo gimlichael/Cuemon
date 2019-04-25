@@ -21,9 +21,9 @@ namespace Cuemon.Collections.Generic
         {
             Validator.ThrowIfNull(typeSelector, nameof(typeSelector));
             Validator.ThrowIfNull(valueSelector, nameof(valueSelector));
-            object xValue = valueSelector(x);
-            object yValue = valueSelector(y);
-            TypeCode code = TypeCodeConverter.FromType(typeSelector(x));
+            var xValue = valueSelector(x);
+            var yValue = valueSelector(y);
+            var code = TypeCodeConverter.FromType(typeSelector(x));
             switch (code)
             {
                 case TypeCode.Boolean:
