@@ -10,11 +10,10 @@ namespace Cuemon
     /// </summary>
     public static class NumberUtility
     {
-        private static readonly Random SimpleRandomizerGlobal = new Random();
-        private static readonly RandomNumberGenerator StrongRandomizerGlobal = RandomNumberGenerator.Create();
-
         [ThreadStatic]
         private static Random _simpleRandomizerLocal;
+        private static readonly Random SimpleRandomizerGlobal = new Random();
+        private static readonly RandomNumberGenerator StrongRandomizerGlobal = RandomNumberGenerator.Create();
 
         /// <summary>
         /// Determines whether the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence).
@@ -282,7 +281,7 @@ namespace Cuemon
         /// <returns>A 32-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
         public static int GetRandomNumber(int minValue, int maxValue, RandomSeverity severity)
         {
-            if (minValue > maxValue) { throw new ArgumentOutOfRangeException(nameof(minValue)); }
+            Validator.ThrowIfGreaterThan(minValue, maxValue, nameof(minValue));
             int seed;
             var localRandomizer = _simpleRandomizerLocal;
             switch (severity)
