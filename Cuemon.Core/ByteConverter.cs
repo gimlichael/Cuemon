@@ -154,35 +154,7 @@ namespace Cuemon
         /// <paramref name="value"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
         /// </exception>
-        public static byte[] FromConvertibles<T>(T value) where T : struct, IConvertible
-        {
-            return FromConvertiblesCore(value);
-        }
-
-        /// <summary>
-        /// Converts the specified sequence of <paramref name="source"/> to an array of bytes.
-        /// </summary>
-        /// <param name="source">A sequence of <see cref="IConvertible"/> values to convert.</param>
-        /// <returns>An array of bytes equivalent to the sequence of the <paramref name="source"/>.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="source"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null.
-        /// </exception>
-        public static byte[] FromConvertibles<T>(IEnumerable<T> source) where T : struct, IConvertible
-        {
-            Validator.ThrowIfNull(source, nameof(source));
-            var result = new List<byte>();
-            foreach (var value in source)
-            {
-                result.AddRange(FromConvertiblesCore(value));
-            }
-            return result.ToArray();
-        }
-
-        private static byte[] FromConvertiblesCore<T>(T value) where T : struct, IConvertible
+        public static byte[] FromConvertible<T>(T value) where T : struct, IConvertible
         {
             var code = value.GetTypeCode();
             byte[] result;
@@ -219,11 +191,34 @@ namespace Cuemon
                     result = BitConverter.GetBytes(value.ToUInt64(CultureInfo.InvariantCulture));
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(value), string.Format(CultureInfo.InvariantCulture, "Value appears to contain an invalid type. Expected type is one of the following: Boolean, Char, Double, Int16, Int32, Int64, UInt16, UInt32 or UInt64. Actually type was {0}.", code));
+                    throw new ArgumentOutOfRangeException(nameof(value), code, "Value appears to contain an invalid type. Expected type is one of the following: Boolean, Char, Double, Int16, Int32, Int64, UInt16, UInt32 or UInt64.");
             }
 
             if (BitConverter.IsLittleEndian) { Array.Reverse(result); }
             return result;
+        }
+
+        /// <summary>
+        /// Converts the specified sequence of <paramref name="source"/> to an array of bytes.
+        /// </summary>
+        /// <param name="source">A sequence of <see cref="IConvertible"/> values to convert.</param>
+        /// <returns>An array of bytes equivalent to the sequence of the <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="source"/> is outside the range of allowed types.<br/>
+        /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> is null.
+        /// </exception>
+        public static byte[] FromConvertibles<T>(IEnumerable<T> source) where T : struct, IConvertible
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            var result = new List<byte>();
+            foreach (var value in source)
+            {
+                result.AddRange(FromConvertible(value));
+            }
+            return result.ToArray();
         }
     }
 }
