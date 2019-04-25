@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
+using Cuemon.Web;
 
-namespace Cuemon.Web
+namespace Cuemon.Extensions.Web
 {
     internal static class Infrastructure
     {

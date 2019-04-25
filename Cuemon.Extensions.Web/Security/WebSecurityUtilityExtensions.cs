@@ -3,12 +3,12 @@ using System.Security;
 using Cuemon.Security;
 using Cuemon.Security.Cryptography;
 
-namespace Cuemon.Web.Security
+namespace Cuemon.Extensions.Web.Security
 {
     /// <summary>
     /// This is an extension implementation of the most common methods on the <see cref="WebSecurityUtility"/> class.
     /// </summary>
-    public static class WebSecurityUtilityExtensions
+    public static class WebSecurityUtilityExtensions// todo refactor
     {
         /// <summary>
         /// Converts the specified <paramref name="location"/> to a tampering protected <see cref="Uri"/>.

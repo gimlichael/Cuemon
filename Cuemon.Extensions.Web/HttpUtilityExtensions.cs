@@ -1,6 +1,7 @@
 ﻿using System.Text;
+using Cuemon.Web;
 
-namespace Cuemon.Web
+namespace Cuemon.Extensions.Web
 {
     /// <summary>
     /// This is an extension implementation of the most common methods on the <see cref="HttpUtility"/> class.

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Specialized;
 using System.Linq;
+using Cuemon.Web;
 
-namespace Cuemon.Web
+namespace Cuemon.Extensions.Web
 {
     /// <summary>
     /// This utility class is designed to make HTTP request querystring operations easier to work with.

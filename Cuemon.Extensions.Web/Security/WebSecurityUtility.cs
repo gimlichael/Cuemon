@@ -4,11 +4,12 @@ using System.Security;
 using System.Text;
 using Cuemon.Security;
 using Cuemon.Security.Cryptography;
+using Cuemon.Web;
 
-namespace Cuemon.Web.Security
+namespace Cuemon.Extensions.Web.Security
 {
 	/// <summary>This utility class is designed to make web related security operations easier to work with.</summary>
-	public static class WebSecurityUtility
+	public static class WebSecurityUtility // todo refactor
 	{
 		/// <summary>
 		/// Converts the specified <paramref name="location"/> to a tampering protected <see cref="Uri"/>.

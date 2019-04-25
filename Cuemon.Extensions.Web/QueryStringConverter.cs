@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using Cuemon.Extensions.Collections.Specialized;
+using Cuemon.Web;
 
-namespace Cuemon.Web
+namespace Cuemon.Extensions.Web
 {
     /// <summary>
     /// This utility class is designed to make HTTP request querystring specific <see cref="NameValueCollection"/> related conversions easier to work with.

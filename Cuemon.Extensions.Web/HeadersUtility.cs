@@ -1,7 +1,8 @@
 ﻿using System.Collections.Specialized;
 using System.Linq;
+using Cuemon.Web;
 
-namespace Cuemon.Web
+namespace Cuemon.Extensions.Web
 {
 
     /// <summary>
