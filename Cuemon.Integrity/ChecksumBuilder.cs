@@ -140,7 +140,7 @@ namespace Cuemon.Integrity
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return Checksum.ToHexadecimal().GetHashCode();
+            return Checksum.ToHexadecimalString().GetHashCode();
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Cuemon.Integrity
         public bool Equals(ChecksumBuilder other)
         {
             if (other == null) { return false; }
-            return (Checksum.ToHexadecimal() == other.Checksum.ToHexadecimal());
+            return (Checksum.ToHexadecimalString() == other.Checksum.ToHexadecimalString());
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Cuemon.Integrity
         /// <returns>A hexadecimal representation of this instance.</returns>
         public override string ToString()
         {
-            return Checksum.ToHexadecimal();
+            return Checksum.ToHexadecimalString();
         }
     }
 }
