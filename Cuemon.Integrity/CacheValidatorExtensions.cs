@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using Cuemon.IO;
-using Cuemon.Reflection;
 
 namespace Cuemon.Integrity
 {
@@ -206,18 +205,9 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="CacheValidator" /> that fully represents the integrity of the specified <paramref name="assembly" />.</returns>
         public static CacheValidator GetCacheValidator(this Assembly assembly, bool readByteForByteChecksum = false, Action<CacheValidatorOptions> setup = null)
         {
-            if ((assembly == null) || (assembly.ManifestModule is ModuleBuilder)) { return CacheValidator.Default; }
+            if (assembly == null || assembly.IsDynamic) { return CacheValidator.Default; }
             var assemblyHashCode64 = assembly.FullName.GetHashCode64();
-            var assemblyLocation = "";
-            try
-            {
-                assemblyLocation = assembly.GetLocation();
-            }
-            catch (Exception)
-            {
-                // ignored because of potential reflection exception; don't want us to crash the framework
-            }
-
+            var assemblyLocation = assembly.Location;
             return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : GetCacheValidator(assemblyLocation, readByteForByteChecksum ? int.MaxValue : 0, setup).CombineWith(assemblyHashCode64);
         }
     }

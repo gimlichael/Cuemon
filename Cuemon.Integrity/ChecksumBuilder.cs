@@ -102,10 +102,10 @@ namespace Cuemon.Integrity
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
         /// <param name="checksum">An array of bytes containing a checksum of the data this instance represents.</param>
-        /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which may be configured.</param>
         public ChecksumBuilder(byte[] checksum, Action<ChecksumBuilderOptions> setup = null)
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             AlgorithmType = options.AlgorithmType;
             Bytes = checksum == null ? new List<byte>() : new List<byte>(checksum);
         }

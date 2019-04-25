@@ -193,16 +193,16 @@ namespace Cuemon.Integrity
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
         /// <param name="checksum">An array of bytes containing a checksum of the data this instance represents.</param>
-        /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="CacheValidatorOptions"/> which may be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, byte[] checksum, Action<CacheValidatorOptions> setup = null)
         {
-            var options = setup.Configure();
-            bool isChecksumNullOrZeroLength = (checksum == null || checksum.Length == 0);
+            var options = Patterns.Configure(setup);
+            var isChecksumNullOrZeroLength = (checksum == null || checksum.Length == 0);
 
             Created = created.ToUniversalTime();
             Modified = modified?.ToUniversalTime();
 
-            ChecksumStrength strength = isChecksumNullOrZeroLength ? ChecksumStrength.None : ChecksumStrength.Strong;
+            var strength = isChecksumNullOrZeroLength ? ChecksumStrength.None : ChecksumStrength.Strong;
             switch (options.Method)
             {
                 case ChecksumMethod.Default:
@@ -309,8 +309,8 @@ namespace Cuemon.Integrity
         public static CacheValidator GetMostSignificant(params CacheValidator[] sequence)
         {
             Validator.ThrowIfNull(sequence, nameof(sequence));
-            CacheValidator mostSignificant = Default;
-            foreach (CacheValidator candidate in sequence)
+            var mostSignificant = Default;
+            foreach (var candidate in sequence)
             {
                 if (candidate.GetMostSignificant().Ticks > mostSignificant.GetMostSignificant().Ticks) { mostSignificant = candidate; }
             }
