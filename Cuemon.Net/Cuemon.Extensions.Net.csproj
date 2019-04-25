@@ -15,7 +15,7 @@
     <Authors>Michael Mortensen</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyName>Cuemon.Net</AssemblyName>
+    <AssemblyName>Cuemon.Extensions.Net</AssemblyName>
     <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
@@ -36,6 +36,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Cuemon.Extensions.Net.csproj.vspscc" />
     <None Remove="Cuemon.Net.csproj.vspscc" />
   </ItemGroup>
 
