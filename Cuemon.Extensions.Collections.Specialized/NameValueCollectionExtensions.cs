@@ -13,7 +13,7 @@ namespace Cuemon.Extensions.Collections.Specialized
         /// <summary>
         /// Determines whether the specified <paramref name="nvc"/> contains an entry with the specified <paramref name="key"/>.
         /// </summary>
-        /// <param name="nvc">The <see cref="NameValueCollection"/> to search for <paramref name="key"/>.</param>
+        /// <param name="nvc">The <see cref="NameValueCollection"/> to extend.</param>
         /// <param name="key">The key to locate in <paramref name="nvc"/>.</param>
         /// <returns><c>true</c> if the specified <paramref name="nvc"/> contains an entry with the <paramref name="key"/>; otherwise, <c>false</c>.</returns>
         /// <remarks>This method performs an <see cref="StringComparison.OrdinalIgnoreCase"/> search for <paramref name="key"/>.</remarks>
@@ -29,17 +29,17 @@ namespace Cuemon.Extensions.Collections.Specialized
         }
 
         /// <summary>
-        /// Creates a <see cref="IDictionary{TKey,TValue}"/> from the specified <paramref name="source"/>.
+        /// Creates a <see cref="IDictionary{TKey,TValue}"/> from the specified <paramref name="nvc"/>.
         /// </summary>
-        /// <param name="source">A <see cref="NameValueCollection"/> to convert into an <see cref="IDictionary{TKey,TValue}"/> equivalent.</param>
-        /// <returns>A <see cref="IDictionary{TKey,TValue}"/> that is equivalent to the specified <paramref name="source"/>.</returns>
-        public static IDictionary<string, string[]> ToDictionary(this NameValueCollection source)
+        /// <param name="nvc">The <see cref="NameValueCollection"/> to extend.</param>
+        /// <returns>A <see cref="IDictionary{TKey,TValue}"/> that is equivalent to the specified <paramref name="nvc"/>.</returns>
+        public static IDictionary<string, string[]> ToDictionary(this NameValueCollection nvc)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(nvc, nameof(nvc));
             var result = new Dictionary<string, string[]>();
-            foreach (string item in source)
+            foreach (string item in nvc)
             {
-                result.Add(item, source[item].Split(','));
+                result.Add(item, nvc[item].Split(','));
             }
             return result;
         }

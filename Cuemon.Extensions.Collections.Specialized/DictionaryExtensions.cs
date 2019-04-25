@@ -23,7 +23,5 @@ namespace Cuemon.Extensions.Collections.Specialized
             }
             return result;
         }
-
-
     }
 }
