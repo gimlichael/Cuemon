@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using Cuemon.Reflection;
 
-namespace Cuemon.Reflection
+namespace Cuemon.Extensions.Reflection
 {
     /// <summary>
     /// Extension methods for the <see cref="AssemblyUtility"/> class.
@@ -23,7 +25,7 @@ namespace Cuemon.Reflection
         /// </summary>
         /// <param name="assembly">The assembly to resolve a <see cref="Version"/> from.</param>
         /// <returns>A <see cref="Version"/> that represents the file version number of the specified <paramref name="assembly"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="assembly"/> is null.
         /// </exception>
         public static Version GetFileVersion(this Assembly assembly)
@@ -36,7 +38,7 @@ namespace Cuemon.Reflection
         /// </summary>
         /// <param name="assembly">The assembly to resolve a <see cref="Version"/> from.</param>
         /// <returns>A <see cref="Version"/> that represents the version of the product this <paramref name="assembly"/> is distributed with.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="assembly"/> is null.
         /// </exception>
         public static Version GetProductVersion(this Assembly assembly)
@@ -52,6 +54,18 @@ namespace Cuemon.Reflection
         public static bool IsDebugBuild(this Assembly assembly)
         {
             return AssemblyUtility.IsDebugBuild(assembly);
+        }
+
+        /// <summary>
+        /// Gets the types contained within the specified <paramref name="assembly"/>.
+        /// </summary>
+        /// <param name="assembly">The <see cref="Assembly"/> to search the types from.</param>
+        /// <param name="namespaceFilter">The namespace filter to apply on the types in the <paramref name="assembly"/>.</param>
+        /// <param name="typeFilter">The type filter to apply on the types in the <paramref name="assembly"/>.</param>
+        /// <returns>A sequence of <see cref="Type"/> elements, matching the applied filters, from the specified <paramref name="assembly"/>.</returns>
+        public static IEnumerable<Type> GetAssemblyTypes(this Assembly assembly, string namespaceFilter = null, Type typeFilter = null)
+        {
+            return ReflectionUtility.GetAssemblyTypes(assembly, namespaceFilter, typeFilter);
         }
     }
 }

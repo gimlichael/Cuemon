@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Cuemon.Reflection;
 
-namespace Cuemon.Reflection
+namespace Cuemon.Extensions.Reflection
 {
     /// <summary>
-    /// This is an extension implementation of the most common methods on the <see cref="ReflectionUtility"/> class.
+    /// Extension methods for the <see cref="Type"/> class.
     /// </summary>
-    public static class ReflectionUtilityExtensions
+    public static class TypeExtensions
     {
         /// <summary>
         /// Parses and returns a collection of key/value pairs representing the specified <paramref name="methodName"/>.
@@ -75,85 +76,15 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
-        /// Gets the types contained within the specified <paramref name="assembly"/>.
-        /// </summary>
-        /// <param name="assembly">The <see cref="Assembly"/> to search the types from.</param>
-        /// <returns>A sequence of all <see cref="Type"/> elements from the specified <paramref name="assembly"/>.</returns>
-        public static IEnumerable<Type> GetAssemblyTypes(this Assembly assembly)
-        {
-            return ReflectionUtility.GetAssemblyTypes(assembly);
-        }
-
-        /// <summary>
-        /// Gets the types contained within the specified <paramref name="assembly"/>.
-        /// </summary>
-        /// <param name="assembly">The <see cref="Assembly"/> to search the types from.</param>
-        /// <param name="namespaceFilter">The namespace filter to apply on the types in the <paramref name="assembly"/>.</param>
-        /// <returns>A sequence of <see cref="Type"/> elements, matching the applied filter, from the specified <paramref name="assembly"/>.</returns>
-        public static IEnumerable<Type> GetAssemblyTypes(this Assembly assembly, string namespaceFilter)
-        {
-            return ReflectionUtility.GetAssemblyTypes(assembly, namespaceFilter);
-        }
-
-        /// <summary>
-        /// Gets the types contained within the specified <paramref name="assembly"/>.
-        /// </summary>
-        /// <param name="assembly">The <see cref="Assembly"/> to search the types from.</param>
-        /// <param name="namespaceFilter">The namespace filter to apply on the types in the <paramref name="assembly"/>.</param>
-        /// <param name="typeFilter">The type filter to apply on the types in the <paramref name="assembly"/>.</param>
-        /// <returns>A sequence of <see cref="Type"/> elements, matching the applied filters, from the specified <paramref name="assembly"/>.</returns>
-        public static IEnumerable<Type> GetAssemblyTypes(this Assembly assembly, string namespaceFilter, Type typeFilter)
-        {
-            return ReflectionUtility.GetAssemblyTypes(assembly, namespaceFilter, typeFilter);
-        }
-
-        /// <summary>
-        /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <see cref="Type"/> following the <see cref="ResourceMatch"/> ruleset of <paramref name="match"/>.
+        /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <see cref="Type"/> following the <see cref="EmbeddedResourceMatch"/> ruleset of <paramref name="match"/>.
         /// </summary>
         /// <param name="source">The source type to load the resource from.</param>
         /// <param name="name">The name of the resource being requested.</param>
         /// <param name="match">The match ruleset to apply.</param>
         /// <returns>A <see cref="Stream"/> representing the loaded resources; null if no resources were specified during compilation, or if the resource is not visible to the caller.</returns>
-        public static IEnumerable<Stream> GetEmbeddedResources(this Type source, string name, ResourceMatch match)
+        public static IEnumerable<Stream> GetEmbeddedResources(this Type source, string name, EmbeddedResourceMatch match)
         {
             return ReflectionUtility.GetEmbeddedResources(source, name, match);
-        }
-
-
-        /// <summary>
-        /// Loads the embedded resource from the associated <see cref="Assembly"/> of the specified <see cref="Type"/>.
-        /// </summary>
-        /// <param name="source">The source type to load the resource from.</param>
-        /// <param name="name">The case-sensitive name of the resource being requested.</param>
-        /// <returns>A <see cref="Stream"/> representing the loaded resource; null if no resources were specified during compilation, or if the resource is not visible to the caller.</returns>
-        public static Stream GetEmbeddedResource(this Type source, string name)
-        {
-            return ReflectionUtility.GetEmbeddedResource(source, name);
-        }
-
-        /// <summary>
-        /// Loads the embedded resource from the associated <see cref="Assembly"/> of the specified <see cref="Type"/>.
-        /// </summary>
-        /// <param name="source">The source type to load the resource from.</param>
-        /// <param name="name">The case-sensitive name of the resource being requested.</param>
-        /// <param name="match">The match ruleset to apply.</param>
-        /// <returns>A <see cref="Stream"/> representing the loaded resource; null if no resources were specified during compilation, or if the resource is not visible to the caller.</returns>
-        public static Stream GetEmbeddedResource(this Type source, string name, ResourceMatch match)
-        {
-            return ReflectionUtility.GetEmbeddedResource(source, name, match);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="property"/> is considered an automatic property implementation.
-        /// </summary>
-        /// <param name="property">The property to check for automatic property implementation.</param>
-        /// <returns><c>true</c> if the specified <paramref name="property"/> is considered an automatic property implementation; otherwise, <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="property"/> is null.
-        /// </exception>
-        public static bool IsAutoProperty(this PropertyInfo property)
-        {
-            return ReflectionUtility.IsAutoProperty(property);
         }
     }
 }

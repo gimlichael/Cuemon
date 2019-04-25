@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using Cuemon.Security.Cryptography;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Extensions.Security.Cryptography
 {
     /// <summary>
     /// This is an extension implementation of the most common methods on the <see cref="HashUtility"/> class.
@@ -9,25 +10,25 @@ namespace Cuemon.Security.Cryptography
     public static class HashUtilityExtensions
     {
         /// <summary>
-        /// Computes a hash value of the specified <paramref name="value"/>.
+        /// Computes a hash value of the specified <paramref name="stream"/>.
         /// </summary>
-        /// <param name="value">The <see cref="Stream"/> object to compute a hash code for.</param>
+        /// <param name="stream">The <see cref="Stream"/> object to compute a hash code for.</param>
         /// <param name="setup">The <see cref="StreamHashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(this Stream value, Action<StreamHashOptions> setup = null)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="stream"/>.</returns>
+        public static HashResult ComputeHash(this Stream stream, Action<StreamHashOptions> setup = null)
         {
-            return HashUtility.ComputeHash(value, setup);
+            return HashUtility.ComputeHash(stream, setup);
         }
 
         /// <summary>
-        /// Computes a hash value of the specified <paramref name="value"/>.
+        /// Computes a hash value of the specified <paramref name="bytes"/>.
         /// </summary>
-        /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
+        /// <param name="bytes">The <see cref="byte"/> array to compute a hash code for.</param>
         /// <param name="setup">The <see cref="HashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(this byte[] value, Action<HashOptions> setup = null)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="bytes"/>.</returns>
+        public static HashResult ComputeHash(this byte[] bytes, Action<HashOptions> setup = null)
         {
-            return HashUtility.ComputeHash(value, setup);
+            return HashUtility.ComputeHash(bytes, setup);
         }
 
         /// <summary>

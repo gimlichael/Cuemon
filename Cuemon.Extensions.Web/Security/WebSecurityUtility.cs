@@ -148,7 +148,8 @@ namespace Cuemon.Web.Security
             Validator.ThrowIfEqual(securityKey.Length, 0, nameof(securityKey));
             Validator.ThrowIfNullOrEmpty(secureUriFormat, nameof(secureUriFormat));
 
-            if (!StringUtility.ParseFormat(secureUriFormat, 3, out var foundArguments)) { throw new ArgumentException("You must - in this order - specify three arguments for; 'token', 'iv' and 'salt'. This value cannot be exceeded nor the opposite. 'token', 'iv' and 'salt' is the default values."); }
+            // todo refactor options patterns
+            //if (!StringUtility.ParseFormat(secureUriFormat, 3, out var foundArguments)) { throw new ArgumentException("You must - in this order - specify three arguments for; 'token', 'iv' and 'salt'. This value cannot be exceeded nor the opposite. 'token', 'iv' and 'salt' is the default values."); }
 			var formatedQuerytring = QueryStringConverter.FromString(secureUriFormat);
 
 			var securityToken = SecurityToken.Create(settings);
@@ -171,7 +172,7 @@ namespace Cuemon.Web.Security
 			{
 			    o.AlgorithmType = algorithmType;
 			    o.Encoding = Encoding.UTF8;
-			}).ToHexadecimal());
+			}).ToHexadecimalString());
 			return new Uri(secureUri);
 		}
 
@@ -312,7 +313,7 @@ namespace Cuemon.Web.Security
 				{
 				    o.AlgorithmType = algorithmType;
 				    o.Encoding = Encoding.UTF8;
-				}).ToHexadecimal();
+				}).ToHexadecimalString();
 				if (!string.Equals(hash, computedChecksum)) { throw new SecurityException("Security checksum is invalid."); }
 				if (securityToken.HasExpired) { throw new SecurityException("Security token is expired."); }
 			}

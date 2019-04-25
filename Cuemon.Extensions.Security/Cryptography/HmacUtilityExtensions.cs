@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using Cuemon.Security.Cryptography;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Extensions.Security.Cryptography
 {
     /// <summary>
     /// This is an extension implementation of the most common methods on the <see cref="HmacUtility"/> class.
@@ -9,27 +10,27 @@ namespace Cuemon.Security.Cryptography
     public static class HmacUtilityExtensions
     {
         /// <summary>
-        /// Computes a keyed-hash value of the specified <paramref name="value"/>.
+        /// Computes a keyed-hash value of the specified <paramref name="stream"/>.
         /// </summary>
-        /// <param name="value">The <see cref="Stream"/> to compute a hash code for.</param>
+        /// <param name="stream">The <see cref="Stream"/> to compute a hash code for.</param>
         /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length, but it is strongly recommended to use a size of either 64 bytes (for <see cref="HmacAlgorithmType.SHA1"/> and <see cref="HmacAlgorithmType.SHA256"/>) or 128 bytes (for <see cref="HmacAlgorithmType.SHA384"/> and <see cref="HmacAlgorithmType.SHA512"/>).</param>
         /// <param name="setup">The <see cref="StreamKeyedHashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeKeyedHash(this Stream value, byte[] sharedKey, Action<StreamKeyedHashOptions> setup = null)
+        /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="stream"/>.</returns>
+        public static HashResult ComputeKeyedHash(this Stream stream, byte[] sharedKey, Action<StreamKeyedHashOptions> setup = null)
         {
-            return HmacUtility.ComputeKeyedHash(value, sharedKey, setup);
+            return HmacUtility.ComputeKeyedHash(stream, sharedKey, setup);
         }
 
         /// <summary>
-        /// Computes a keyed-hash value of the specified <paramref name="value"/>.
+        /// Computes a keyed-hash value of the specified <paramref name="bytes"/>.
         /// </summary>
-        /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
+        /// <param name="bytes">The <see cref="byte"/> array to compute a hash code for.</param>
         /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length, but it is strongly recommended to use a size of either 64 bytes (for <see cref="HmacAlgorithmType.SHA1"/> and <see cref="HmacAlgorithmType.SHA256"/>) or 128 bytes (for <see cref="HmacAlgorithmType.SHA384"/> and <see cref="HmacAlgorithmType.SHA512"/>).</param>
         /// <param name="setup">The <see cref="KeyedHashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeKeyedHash(this byte[] value, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
+        /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="bytes"/>.</returns>
+        public static HashResult ComputeKeyedHash(this byte[] bytes, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
         {
-            return HmacUtility.ComputeKeyedHash(value, sharedKey, setup);
+            return HmacUtility.ComputeKeyedHash(bytes, sharedKey, setup);
         }
 
         /// <summary>

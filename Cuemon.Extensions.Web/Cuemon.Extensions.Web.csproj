@@ -8,18 +8,18 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>The Cuemon.Security assembly is a member of the Cuemon .NET Standard family and provides enhancements to the System.Security namespace.</Description>
+    <Description>The Cuemon.Web assembly is a member of the Cuemon .NET Standard family and provides enhancements to the now deprecated System.Web namespace.</Description>
     <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
-    <AssemblyTitle>Cuemon.Security</AssemblyTitle>
+    <AssemblyTitle>Cuemon.Web</AssemblyTitle>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Michael Mortensen</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyName>Cuemon.Security</AssemblyName>
+    <AssemblyName>Cuemon.Extensions.Web</AssemblyName>
     <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <PackageId>Cuemon.Security</PackageId>
+    <PackageId>Cuemon.Web</PackageId>
     <PackageReleaseNotes>The .NET Platform Standard release of the ported Cuemon .NET Framework.</PackageReleaseNotes>
     <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
     <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
@@ -36,11 +36,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Cuemon.Security.csproj.vspscc" />
+    <None Remove="Cuemon.Extensions.Web.csproj.vspscc" />
+    <None Remove="Cuemon.Web.csproj.vspscc" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Collections.Specialized\Cuemon.Extensions.Collections.Specialized.csproj" />
+    <ProjectReference Include="..\Cuemon.Security\Cuemon.Extensions.Security.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
