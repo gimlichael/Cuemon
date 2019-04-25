@@ -136,7 +136,7 @@ namespace Cuemon.Security
             var values = new StringBuilder(CurrentCombinationLength);
             for (byte i = 0; i < CurrentCombinationLength; i++)
             {
-                values.Append(PermutationCharacters[StrongNumberUtility.GetRandomNumber(0, PermutationCharacters.Count)].ToString());
+                values.Append(PermutationCharacters[NumberUtility.GetRandomNumber(0, PermutationCharacters.Count, RandomSeverity.Strong)].ToString());
             }
             return values.ToString();
         }
