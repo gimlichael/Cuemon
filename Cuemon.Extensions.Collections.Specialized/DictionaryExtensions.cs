@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using Cuemon.Extensions.Core;
 
 namespace Cuemon.Extensions.Collections.Specialized
 {

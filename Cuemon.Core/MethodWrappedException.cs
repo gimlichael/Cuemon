@@ -48,7 +48,7 @@ namespace Cuemon
         {
             var builder = new StringBuilder();
             builder.AppendLine($"Throwing Method: {Source}");
-            builder.AppendLine($"Runtime Parameters: {Data.Cast<DictionaryEntry>().Select(de => new KeyValuePair<string, object>(de.Key.ToString(), de.Value)).ToDelimitedString(", ", pair => $"{pair.Key}={pair.Value}")}");
+            builder.AppendLine($"Runtime Parameters: {StringConverter.ToDelimitedString(Data.Cast<DictionaryEntry>().Select(de => new KeyValuePair<string, object>(de.Key.ToString(), de.Value)), ", ", pair => $"{pair.Key}={pair.Value}")}");
             return builder.ToString();
         }
     }

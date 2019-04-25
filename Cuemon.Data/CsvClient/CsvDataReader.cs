@@ -22,9 +22,6 @@ namespace Cuemon.Data.CsvClient
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null -or- <paramref name="header"/> is null.
         /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="header"/> is empty.
-        /// </exception>
         public CsvDataReader(StreamReader reader, string header) : this(reader, header, ",")
         {
         }
@@ -40,9 +37,6 @@ namespace Cuemon.Data.CsvClient
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null -or- <paramref name="header"/> is null -or- <paramref name="delimiter"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="header"/> is empty -or- <paramref name="delimiter"/> is empty.
         /// </exception>
         /// <remarks>The default implementation uses comma (",") as <paramref name="delimiter"/>.</remarks>
         public CsvDataReader(StreamReader reader, string header, string delimiter) : this(reader, header, delimiter, ObjectConverter.FromString)
@@ -61,9 +55,6 @@ namespace Cuemon.Data.CsvClient
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null -or- <paramref name="header"/> is null -or- <paramref name="delimiter"/> is null -or- <paramref name="parser"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentEmptyException">
-        /// <paramref name="header"/> is empty -or- <paramref name="delimiter"/> is empty.
         /// </exception>
         /// <remarks>The default implementation uses <see cref="ObjectConverter.FromString(string)"/> as <paramref name="parser"/>.</remarks>
         public CsvDataReader(StreamReader reader, string header, string delimiter, Func<string, object> parser) : base(parser)

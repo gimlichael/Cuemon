@@ -27,9 +27,9 @@ namespace Cuemon
         /// </exception>
         public static int GetHashCode32<T>(IEnumerable<T> convertibles) where T : struct, IConvertible
         {
-            if (convertibles == null) { throw new ArgumentNullException(nameof(convertibles)); }
+            Validator.ThrowIfNull(convertibles, nameof(convertibles));
             var hash = GetHashCode64(convertibles);
-            var temp = ByteConverter.FromConvertibles(hash);
+            var temp = ByteConverter.FromConvertible(hash);
             var result = new byte[4];
             for (var i = (result.Length - 1); i >= 0; i--)
             {
@@ -48,7 +48,7 @@ namespace Cuemon
         /// </exception>
         public static long GetHashCode64<T>(IEnumerable<T> convertibles) where T : IConvertible
         {
-            if (convertibles == null) { throw new ArgumentNullException(nameof(convertibles)); }
+            Validator.ThrowIfNull(convertibles, nameof(convertibles));
             var code = TypeCodeConverter.FromType(typeof(T));
             unchecked
             {

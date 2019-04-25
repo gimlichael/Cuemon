@@ -716,7 +716,7 @@ namespace Cuemon
             var instanceType = instance.GetType();
             var instanceSignature = new StringBuilder(string.Format(provider, "{0}", FromType(instanceType, true)));
             var properties = propertiesReader(instanceType, propertiesReaderBindingAttr).Where(IndexParametersLengthIsZeroPredicate);
-            instanceSignature.AppendFormat(" {{ {0} }}", properties.ToDelimitedString(delimiter, pi => propertyConverter(pi, instance, provider)));
+            instanceSignature.AppendFormat(" {{ {0} }}", ToDelimitedString(properties, delimiter, pi => propertyConverter(pi, instance, provider)));
             return instanceSignature.ToString();
         }
 
@@ -778,7 +778,7 @@ namespace Cuemon
             var parameters = source.GetGenericArguments();
             var indexOfGraveAccent = typeName.IndexOf('`');
             typeName = indexOfGraveAccent >= 0 ? typeName.Remove(indexOfGraveAccent) : typeName;
-            return excludeGenericArguments ? typeName : string.Format(CultureInfo.InvariantCulture, "{0}<{1}>", typeName, parameters.ToDelimitedString(", ", type => FromTypeConverter(type, fullName)));
+            return excludeGenericArguments ? typeName : string.Format(CultureInfo.InvariantCulture, "{0}<{1}>", typeName, ToDelimitedString(parameters, ", ", type => FromTypeConverter(type, fullName)));
         }
 
         private static readonly char[] InvalidCharacters = StringUtility.PunctuationMarks.Replace(".", "").ToCharArray();
@@ -851,6 +851,30 @@ namespace Cuemon
                 o.Preamble = options.Preamble;
                 o.EncoderFallback = new EncoderReplacementFallback("");
             });
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="source"/> to a string of <paramref name="delimiter"/> delimited values.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the sequence to convert.</typeparam>
+        /// <param name="source">A sequence of elements to be converted.</param>
+        /// <param name="delimiter">The delimiter specification.</param>
+        /// <param name="converter">The function delegate that converts <typeparamref name="T"/> to a string representation once per iteration.</param>
+        /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
+        public static string ToDelimitedString<T>(IEnumerable<T> source, string delimiter = ",", Func<T, string> converter = null)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNullOrWhitespace(delimiter, nameof(delimiter));
+            if (converter == null) { converter = v => v.ToString(); }
+            var delimitedValues = new StringBuilder();
+            using (var enumerator = source.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    delimitedValues.Append($"{converter(enumerator.Current)}{delimiter}");
+                }
+            }
+            return delimitedValues.Length > 0 ? delimitedValues.ToString(0, delimitedValues.Length - delimiter.Length) : delimitedValues.ToString();
         }
     }
 }

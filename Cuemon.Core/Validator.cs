@@ -1222,7 +1222,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, StringConverter.ToDelimitedString(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1266,7 +1266,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, StringConverter.ToDelimitedString(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1310,7 +1310,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, StringConverter.ToDelimitedString(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1354,7 +1354,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, StringConverter.ToDelimitedString(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1395,7 +1395,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, StringConverter.ToDelimitedString(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
@@ -1436,7 +1436,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, types.ToDelimitedString(), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, StringConverter.ToDelimitedString(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {

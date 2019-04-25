@@ -81,7 +81,7 @@ namespace Cuemon
         {
             var baseProperties = typeof(T).GetRuntimeProperties();
             var typeProperties = type.GetRuntimeProperties();
-            return typeProperties.Except(baseProperties, DynamicEqualityComparer.Create<PropertyInfo>(pi => $"{pi.Name}-{pi.PropertyType.Name}".GetHashCode32(), (x, y) => x.Name == y.Name && x.PropertyType.Name == y.PropertyType.Name));
+            return typeProperties.Except(baseProperties, DynamicEqualityComparer.Create<PropertyInfo>(pi => StructUtility.GetHashCode32($"{pi.Name}-{pi.PropertyType.Name}"), (x, y) => x.Name == y.Name && x.PropertyType.Name == y.PropertyType.Name));
         }
 
         /// <summary>

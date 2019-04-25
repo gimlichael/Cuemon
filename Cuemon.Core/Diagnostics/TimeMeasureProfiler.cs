@@ -42,7 +42,7 @@ namespace Cuemon.Diagnostics
             if (Data.Count > 0)
             {
                 result.Append(" Parameters: { ");
-                result.Append(Data.ToDelimitedString(", ", pair => $"{pair.Key}={StringConverter.FromObject(pair.Value)}"));
+                result.Append(StringConverter.ToDelimitedString(Data, ", ", pair => $"{pair.Key}={StringConverter.FromObject(pair.Value)}"));
                 result.Append(" }");
             }
             return result.ToString();
