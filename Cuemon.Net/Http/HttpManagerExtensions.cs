@@ -4,8 +4,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.Net.Http;
 
-namespace Cuemon.Net.Http
+namespace Cuemon.Extensions.Net.Http
 {
     /// <summary>
     /// This is an extension implementation of the most common methods on the <see cref="HttpManager"/> class.

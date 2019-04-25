@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
+using Cuemon.Net.Http;
 
-namespace Cuemon.Net.Http
+namespace Cuemon.Extensions.Net.Http
 {
     /// <summary>
     /// This is an extension implementation of the <see cref="HttpMethod"/> class.
