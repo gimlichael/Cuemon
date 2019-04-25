@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Cuemon.Integrity;
 
-namespace Cuemon.Integrity
+namespace Cuemon.Extensions.Integrity
 {
     /// <summary>
     /// Extension methods for the <see cref="ChecksumBuilder"/>.
@@ -16,7 +17,7 @@ namespace Cuemon.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params double[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, ByteConverter.FromConvertibles<double>(additionalChecksum));
+            return CombineWith(cb, ByteConverter.FromConvertibles(additionalChecksum));
         }
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace Cuemon.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params short[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, ByteConverter.FromConvertibles<short>(additionalChecksum));
+            return CombineWith(cb, ByteConverter.FromConvertibles(additionalChecksum));
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace Cuemon.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params int[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, ByteConverter.FromConvertibles<int>(additionalChecksum));
+            return CombineWith(cb, ByteConverter.FromConvertibles(additionalChecksum));
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace Cuemon.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params long[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, ByteConverter.FromConvertibles<long>(additionalChecksum));
+            return CombineWith(cb, ByteConverter.FromConvertibles(additionalChecksum));
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace Cuemon.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params float[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, ByteConverter.FromConvertibles<float>(additionalChecksum));
+            return CombineWith(cb, ByteConverter.FromConvertibles(additionalChecksum));
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace Cuemon.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params ushort[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, ByteConverter.FromConvertibles<ushort>(additionalChecksum));
+            return CombineWith(cb, ByteConverter.FromConvertibles(additionalChecksum));
         }
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace Cuemon.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params uint[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, ByteConverter.FromConvertibles<uint>(additionalChecksum));
+            return CombineWith(cb, ByteConverter.FromConvertibles(additionalChecksum));
         }
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace Cuemon.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params ulong[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, ByteConverter.FromConvertibles<ulong>(additionalChecksum));
+            return CombineWith(cb, ByteConverter.FromConvertibles(additionalChecksum));
         }
 
         /// <summary>
@@ -138,8 +139,7 @@ namespace Cuemon.Integrity
         {
             if (additionalChecksum == null) { return cb; }
             if (additionalChecksum.Length == 0) { return cb; }
-            cb.ComputedChecksum = null;
-            cb.Bytes.AddRange(additionalChecksum);
+            cb.AppendChecksum(additionalChecksum);
             return cb;
         }
     }

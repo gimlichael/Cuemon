@@ -15,7 +15,7 @@
     <Authors>Michael Mortensen</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyName>Cuemon.Integrity</AssemblyName>
+    <AssemblyName>Cuemon.Extensions.Integrity</AssemblyName>
     <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
@@ -36,13 +36,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Cuemon.Extensions.Integrity.csproj.vspscc" />
     <None Remove="Cuemon.Integrity.csproj.vspscc" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
-    <ProjectReference Include="..\Cuemon.Security\Cuemon.Security.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

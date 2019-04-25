@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using System.Reflection.Emit;
+using Cuemon.Extensions.Core;
+using Cuemon.Integrity;
 using Cuemon.IO;
 
-namespace Cuemon.Integrity
+namespace Cuemon.Extensions.Integrity
 {
     /// <summary>
     /// This is an extension implementation of the most common methods on the <see cref="CacheValidator"/> class.
