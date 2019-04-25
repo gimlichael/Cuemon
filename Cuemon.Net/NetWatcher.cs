@@ -130,7 +130,7 @@ namespace Cuemon.Net
 							using (var stream = new FileStream(RequestUri.LocalPath, FileMode.Open, FileAccess.Read))
 							{
 								stream.Position = 0;
-								currentSignature = HashUtility.ComputeHash(stream).ToHexadecimal();
+								currentSignature = HashUtility.ComputeHash(stream).ToHexadecimalString();
 							}
 						}
 						break;
@@ -145,7 +145,7 @@ namespace Cuemon.Net
 				                {
                                     case HttpMethods.Get:
                                         var etag = response.Headers.ETag;
-                                        currentSignature = string.IsNullOrEmpty(etag.Tag) ? HashUtility.ComputeHash(response.Content.ReadAsByteArrayAsync().Result).ToHexadecimal() : etag.Tag;
+                                        currentSignature = string.IsNullOrEmpty(etag.Tag) ? HashUtility.ComputeHash(response.Content.ReadAsByteArrayAsync().Result).ToHexadecimalString() : etag.Tag;
                                         break;
                                     case HttpMethods.Head:
                                         utcLastModified = response.Content.Headers.LastModified?.UtcDateTime ?? DateTime.MaxValue;
