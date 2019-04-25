@@ -128,7 +128,7 @@ namespace Cuemon.Security
             {
                 o.AlgorithmType = HashAlgorithmType.SHA1;
                 o.Encoding = Encoding;
-            }).ToHexadecimal();
+            }).ToHexadecimalString();
         }
         
         private string GeneratePermutationValue()
