@@ -74,34 +74,52 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="value"/> to an array of bytes.
+        /// Converts the specified <paramref name="value"/> to a <see cref="T:byte[]"/>.
         /// </summary>
         /// <param name="value">The <see cref="IConvertible"/> value to convert.</param>
-        /// <returns>An array of bytes equivalent to the data of the <paramref name="value"/>.</returns>
+        /// <returns>A <see cref="T:byte[]"/> equivalent to the <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
         /// </exception>
-        public static byte[] ToByteArray<T>(this T value) where T : struct, IConvertible
+        public static byte[] ToConvertibleByteArray<T>(this T value) where T : struct, IConvertible
         {
-            return ByteConverter.FromConvertibles(value);
+            return ByteConverter.FromConvertible(value);
         }
 
         /// <summary>
-        /// Converts the specified sequence of <paramref name="values"/> to an array of bytes.
+        /// Converts the specified sequence of <see cref="IConvertible"/> to a <see cref="T:byte[]"/>.
         /// </summary>
-        /// <param name="values">A sequence of <see cref="IConvertible"/> values to convert.</param>
-        /// <returns>An array of bytes equivalent to the sequence of the <paramref name="values"/>.</returns>
+        /// <param name="source">A sequence of <see cref="IConvertible"/> values to convert.</param>
+        /// <returns>A <see cref="T:byte[]"/> equivalent to the sequence of <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="values"/> is outside the range of allowed types.<br/>
+        /// <paramref name="source"/> is outside the range of allowed types.<br/>
         /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="values"/> is null.
+        /// <paramref name="source"/> is null.
         /// </exception>
-        public static byte[] ToByteArray<T>(this IEnumerable<T> values) where T : struct, IConvertible
+        public static byte[] ToConvertibleByteArray<T>(this IEnumerable<T> source) where T : struct, IConvertible
         {
-            return ByteConverter.FromConvertibles(values);
+            return ByteConverter.FromConvertibles(source);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="IConvertible"/> primitive converted from the specified array of <paramref name="bytes"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the expected <see cref="IConvertible"/> after conversion.</typeparam>
+        /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
+        /// <returns>An <see cref="IConvertible"/> primitive formed by n-bytes beginning at 0.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="bytes"/> is null.
+        /// </exception>
+        /// <exception cref="TypeArgumentException">
+        /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
+        /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
+        /// </exception>
+        public static T FromConvertibleByteArray<T>(this byte[] bytes) where T : struct, IConvertible
+        {
+            return ConvertibleConverter.FromBytes<T>(bytes);
         }
 
         /// <summary>
@@ -142,16 +160,7 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNullOrWhitespace(delimiter, nameof(delimiter));
-            if (converter == null) { converter = v => v.ToString(); }
-            var delimitedValues = new StringBuilder();
-            using (var enumerator = source.GetEnumerator())
-            {
-                while (enumerator.MoveNext())
-                {
-                    delimitedValues.Append($"{converter(enumerator.Current)}{delimiter}");
-                }
-            }
-            return delimitedValues.Length > 0 ? delimitedValues.ToString(0, delimitedValues.Length - delimiter.Length) : delimitedValues.ToString();
+            return StringConverter.ToDelimitedString(source, delimiter, converter);
         }
 
         /// <summary>
