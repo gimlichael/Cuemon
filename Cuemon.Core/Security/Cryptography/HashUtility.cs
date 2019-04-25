@@ -13,29 +13,29 @@ namespace Cuemon.Security.Cryptography
     public static class HashUtility
     {
         /// <summary>
-        /// Computes a hash value of the specified <paramref name="value"/>.
+        /// Computes a hash value of the specified <paramref name="stream"/>.
         /// </summary>
-        /// <param name="value">The <see cref="Stream"/> to compute a hash code for.</param>
+        /// <param name="stream">The <see cref="Stream"/> to compute a hash code for.</param>
         /// <param name="setup">The <see cref="StreamHashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(Stream value, Action<StreamHashOptions> setup = null)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="stream"/>.</returns>
+        public static HashResult ComputeHash(Stream stream, Action<StreamHashOptions> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(stream, nameof(stream));
             var options = Patterns.Configure(setup);
-            return ComputeHashCore(value, null, options.AlgorithmType, options.LeaveOpen);
+            return ComputeHashCore(stream, null, options.AlgorithmType, options.LeaveOpen);
         }
 
         /// <summary>
-        /// Computes a hash value of the specified <paramref name="value"/>.
+        /// Computes a hash value of the specified <paramref name="bytes"/>.
         /// </summary>
-        /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
+        /// <param name="bytes">The <see cref="byte"/> array to compute a hash code for.</param>
         /// <param name="setup">The <see cref="HashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(byte[] value, Action<HashOptions> setup = null)
+        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="bytes"/>.</returns>
+        public static HashResult ComputeHash(byte[] bytes, Action<HashOptions> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(bytes, nameof(bytes));
             var options = Patterns.Configure(setup);
-            return ComputeHashCore(null, value, options.AlgorithmType, false);
+            return ComputeHashCore(null, bytes, options.AlgorithmType, false);
         }
 
         /// <summary>

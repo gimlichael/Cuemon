@@ -13,31 +13,31 @@ namespace Cuemon.Security.Cryptography
     public static class HmacUtility
     {
         /// <summary>
-        /// Computes a keyed-hash value of the specified <paramref name="value"/>.
+        /// Computes a keyed-hash value of the specified <paramref name="stream"/>.
         /// </summary>
-        /// <param name="value">The <see cref="Stream"/> to compute a hash code for.</param>
+        /// <param name="stream">The <see cref="Stream"/> to compute a hash code for.</param>
         /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length, but it is strongly recommended to use a size of either 64 bytes (for <see cref="HmacAlgorithmType.SHA1"/> and <see cref="HmacAlgorithmType.SHA256"/>) or 128 bytes (for <see cref="HmacAlgorithmType.SHA384"/> and <see cref="HmacAlgorithmType.SHA512"/>).</param>
         /// <param name="setup">The <see cref="StreamKeyedHashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeKeyedHash(Stream value, byte[] sharedKey, Action<StreamKeyedHashOptions> setup = null)
+        /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="stream"/>.</returns>
+        public static HashResult ComputeKeyedHash(Stream stream, byte[] sharedKey, Action<StreamKeyedHashOptions> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(stream, nameof(stream));
             var options = Patterns.Configure(setup);
-            return ComputeHashCore(value, null, sharedKey, options.AlgorithmType, options.LeaveOpen);
+            return ComputeHashCore(stream, null, sharedKey, options.AlgorithmType, options.LeaveOpen);
         }
 
         /// <summary>
-        /// Computes a keyed-hash value of the specified <paramref name="value"/>.
+        /// Computes a keyed-hash value of the specified <paramref name="bytes"/>.
         /// </summary>
-        /// <param name="value">The <see cref="byte"/> array to compute a hash code for.</param>
+        /// <param name="bytes">The <see cref="byte"/> array to compute a hash code for.</param>
         /// <param name="sharedKey">The secret key for the hashed encryption. The key can be any length, but it is strongly recommended to use a size of either 64 bytes (for <see cref="HmacAlgorithmType.SHA1"/> and <see cref="HmacAlgorithmType.SHA256"/>) or 128 bytes (for <see cref="HmacAlgorithmType.SHA384"/> and <see cref="HmacAlgorithmType.SHA512"/>).</param>
         /// <param name="setup">The <see cref="KeyedHashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeKeyedHash(byte[] value, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
+        /// <returns>A <see cref="HashResult"/> containing the computed keyed-hash value of the specified <paramref name="bytes"/>.</returns>
+        public static HashResult ComputeKeyedHash(byte[] bytes, byte[] sharedKey, Action<KeyedHashOptions> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(bytes, nameof(bytes));
             var options = Patterns.Configure(setup);
-            return ComputeHashCore(null, value, sharedKey, options.AlgorithmType, false);
+            return ComputeHashCore(null, bytes, sharedKey, options.AlgorithmType, false);
         }
 
         /// <summary>
