@@ -2,6 +2,7 @@
 using System.IO;
 using Cuemon.IO;
 using Cuemon.Runtime.Serialization;
+using Cuemon.Runtime.Serialization.Formatters;
 using Newtonsoft.Json;
 
 namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
