@@ -2163,14 +2163,14 @@ namespace Cuemon.Threading
             where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
             where TTuple : Template<TSource>
         {
-            bool breakout = false;
-            CancellationTokenSource cts = new CancellationTokenSource(timeout);
-            List<Exception> aggregatedExceptions = new List<Exception>();
+            var breakout = false;
+            var cts = new CancellationTokenSource(timeout);
+            var aggregatedExceptions = new List<Exception>();
             while (true)
             {
-                int partitioned = partitionSize;
-                List<Task> queue = new List<Task>();
-                for (TSource i = initial; condition(i, relational, repeats); i = iterator(i, assignment, step))
+                var partitioned = partitionSize;
+                var queue = new List<Task>();
+                for (var i = initial; condition(i, relational, repeats); i = iterator(i, assignment, step))
                 {
                     factory.GenericArguments.Arg1 = i;
                     var shallowFactory = factory.Clone();

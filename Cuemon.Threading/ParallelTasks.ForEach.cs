@@ -883,13 +883,13 @@ namespace Cuemon.Threading
 
         private static void ForEachCore<TTuple, TSource>(ActionFactory<TTuple> factory, IEnumerable<TSource> source, int partitionSize, TimeSpan timeout) where TTuple : Template<TSource>
         {
-            PartitionCollection<TSource> partition = new PartitionCollection<TSource>(source, partitionSize);
-            CancellationTokenSource cts = new CancellationTokenSource(timeout);
-            List<Exception> aggregatedExceptions = new List<Exception>();
+            var partition = new PartitionCollection<TSource>(source, partitionSize);
+            var cts = new CancellationTokenSource(timeout);
+            var aggregatedExceptions = new List<Exception>();
             while (partition.HasPartitions)
             {
-                List<Task> queue = new List<Task>();
-                foreach (TSource element in partition)
+                var queue = new List<Task>();
+                foreach (var element in partition)
                 {
                     factory.GenericArguments.Arg1 = element;
                     var shallowFactory = factory.Clone();

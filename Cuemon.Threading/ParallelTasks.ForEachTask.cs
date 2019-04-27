@@ -22,7 +22,7 @@ namespace Cuemon.Threading
         /// <paramref name="source"/> is null -or- <paramref name="body"/> is null.
         /// </exception>
         /// <remarks>
-        /// The following table shows the initial overloaded arguments for <see cref="ForEachTask{TSource,TResult}(System.Collections.Generic.IEnumerable{TSource},System.Func{TSource,TResult})"/>.
+        /// The following table shows the initial overloaded arguments for <see cref="ForEachTask{TSource,TResult}(IEnumerable{TSource},Func{TSource,TResult})"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Argument</term>
@@ -952,14 +952,14 @@ namespace Cuemon.Threading
         private static IReadOnlyCollection<TResult> ForEachTaskCore<TTuple, TSource, TResult>(FuncFactory<TTuple, TResult> factory, IEnumerable<TSource> source, int partitionSize, TimeSpan timeout) where TTuple : Template<TSource>
         {
             long sorter = 0;
-            SortedDictionary<long, TResult> result = new SortedDictionary<long, TResult>();
-            PartitionCollection<TSource> partition = new PartitionCollection<TSource>(source, partitionSize);
-            CancellationTokenSource cts = new CancellationTokenSource(timeout);
-            List<Exception> aggregatedExceptions = new List<Exception>();
+            var result = new SortedDictionary<long, TResult>();
+            var partition = new PartitionCollection<TSource>(source, partitionSize);
+            var cts = new CancellationTokenSource(timeout);
+            var aggregatedExceptions = new List<Exception>();
             while (partition.HasPartitions)
             {
-                List<Task> queue = new List<Task>();
-                foreach (TSource element in partition)
+                var queue = new List<Task>();
+                foreach (var element in partition)
                 {
                     factory.GenericArguments.Arg1 = element;
                     var shallowFactory = factory.Clone();
