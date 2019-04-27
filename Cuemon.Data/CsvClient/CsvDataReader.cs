@@ -31,15 +31,8 @@ namespace Cuemon.Data.CsvClient
         /// </summary>
         /// <param name="reader">The <see cref="StreamReader"/> object that contains the CSV data.</param>
         /// <param name="header">The header defining the columns of the CSV data.</param>
-        /// <param name="delimiter">The delimiter specification.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/>.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="reader"/> is null -or- <paramref name="header"/> is null -or- <paramref name="delimiter"/> is null.
-        /// </exception>
-        /// <remarks>The default implementation uses comma (",") as <paramref name="delimiter"/>.</remarks>
-        public CsvDataReader(StreamReader reader, string header, string delimiter) : this(reader, header, delimiter, ObjectConverter.FromString)
+        /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
+        public CsvDataReader(StreamReader reader, string header, string delimiter) : this(reader, header, delimiter, "\"")
         {
         }
 
@@ -48,42 +41,67 @@ namespace Cuemon.Data.CsvClient
         /// </summary>
         /// <param name="reader">The <see cref="StreamReader"/> object that contains the CSV data.</param>
         /// <param name="header">The header defining the columns of the CSV data.</param>
-        /// <param name="delimiter">The delimiter specification.</param>
-        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="String"/> value.</param>
+        /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
+        /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
+        public CsvDataReader(StreamReader reader, string header, string delimiter, string qualifier) : this(reader, header, delimiter, qualifier, ObjectConverter.FromString)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CsvDataReader"/> class.
+        /// </summary>
+        /// <param name="reader">The <see cref="StreamReader"/> object that contains the CSV data.</param>
+        /// <param name="header">The header defining the columns of the CSV data.</param>
+        /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
+        /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
+        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="ObjectConverter.FromString(string)"/>.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/>.
+        /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/> -or-
+        /// <paramref name="delimiter"/> is empty or consist only of white-space characters -or-
+        /// <paramref name="qualifier"/> is empty or consist only of white-space characters.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="reader"/> is null -or- <paramref name="header"/> is null -or- <paramref name="delimiter"/> is null -or- <paramref name="parser"/> is null.
+        /// <paramref name="reader"/> is null -or-
+        /// <paramref name="header"/> is null -or-
+        /// <paramref name="delimiter"/> is null -or-
+        /// <paramref name="qualifier"/> is null -or-
+        /// <paramref name="parser"/> is null.
         /// </exception>
-        /// <remarks>The default implementation uses <see cref="ObjectConverter.FromString(string)"/> as <paramref name="parser"/>.</remarks>
-        public CsvDataReader(StreamReader reader, string header, string delimiter, Func<string, object> parser) : base(parser)
+        public CsvDataReader(StreamReader reader, string header, string delimiter, string qualifier, Func<string, object> parser) : base(parser)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
-            Validator.ThrowIfNullOrEmpty(header, nameof(header));
-            Validator.ThrowIfNullOrEmpty(delimiter, nameof(delimiter));
+            Validator.ThrowIfNullOrWhitespace(header, nameof(header));
+            Validator.ThrowIfNullOrWhitespace(delimiter, nameof(delimiter));
+            Validator.ThrowIfNullOrWhitespace(qualifier, nameof(qualifier));
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
             
             Reader = reader;
-            Header = StringUtility.Split(header, delimiter);
+            Header = StringUtility.SplitDsv(header, delimiter, qualifier);
             Delimiter = delimiter;
+            Qualifier = qualifier;
         }
         #endregion
 
         #region Properties
-        private StreamReader Reader { get; set; }
+        private StreamReader Reader { get; }
 
         /// <summary>
         /// Gets the delimiter used to separate fields of this instance.
         /// </summary>
         /// <value>The delimiter used to separate fields of this instance.</value>
-        public string Delimiter { get; private set; }
+        public string Delimiter { get; }
 
         /// <summary>
         /// Gets the header that defines the field names of this instance.
         /// </summary>
         /// <value>The header that defines the field names of this instance.</value>
-        public string[] Header { get; private set; }
+        public string[] Header { get; }
+
+        /// <summary>
+        /// Gets the qualifier that surrounds a field.
+        /// </summary>
+        /// <value>The qualifier that surrounds a field.</value>
+        public string Qualifier { get;  }
         #endregion
 
         #region Methods
@@ -99,18 +117,18 @@ namespace Cuemon.Data.CsvClient
         private bool ReadNextCore(string currentLine)
         {
             if (currentLine == null) { return false; }
-            string[] columns = StringUtility.Split(currentLine, Delimiter);
+            var columns = StringUtility.SplitDsv(currentLine, Delimiter, Qualifier);
             if (columns.Length != Header.Length)
             {
-                InvalidOperationException invalidOperation = new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "The current line does not match the expected numbers of columns. Actual columns: {0}. Expected: {1}.", columns.Length, Header.Length));
-                invalidOperation.Data.Add("CsvDataReader.Header", String.Join(Delimiter, Header));
+                var invalidOperation = new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "The current line does not match the expected numbers of columns. Actual columns: {0}. Expected: {1}.", columns.Length, Header.Length));
+                invalidOperation.Data.Add("CsvDataReader.Header", string.Join(Delimiter, Header));
                 invalidOperation.Data.Add("CsvDataReader.Columns", currentLine);
                 invalidOperation.Data.Add("CsvDataReader.LineNumber", RowCount + 1);
                 throw invalidOperation;
             }
 
-            OrderedDictionary fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
-            for (int i = 0; i < columns.Length; i++)
+            var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
+            for (var i = 0; i < columns.Length; i++)
             {
                 if (fields.Contains(Header[i]))
                 {
@@ -121,7 +139,7 @@ namespace Cuemon.Data.CsvClient
                     fields.Add(Header[i], StringParser(columns[i]));
                 }
             }
-            this.SetFields(fields);
+            SetFields(fields);
             return (fields.Count > 0);
         }
 
