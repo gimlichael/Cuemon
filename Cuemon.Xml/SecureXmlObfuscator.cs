@@ -4,9 +4,8 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using Cuemon.Security.Cryptography;
-using Cuemon.Xml;
 
-namespace Cuemon.Security
+namespace Cuemon.Xml
 {
 	/// <summary>
 	/// Provides methods for secure obfuscation (based on AES) of the otherwise similar class <see cref="XmlObfuscator"/>.
@@ -14,9 +13,7 @@ namespace Cuemon.Security
 	/// <remarks>Logic used from the <see cref="AdvancedEncryptionStandardUtility"/> class.</remarks>
 	public sealed class SecureXmlObfuscator : XmlObfuscator
 	{
-		private byte[] _key;
-		private byte[] _initializationVector;
-		private const string MappingEncryptedElement = "E";
+        private const string MappingEncryptedElement = "E";
 
 		#region Constructors
 		/// <summary>
@@ -57,8 +54,8 @@ namespace Cuemon.Security
 		/// <param name="exclusions">A sequence of <see cref="T:System.String"/> values used for excluding matching original values in the obfuscation process.</param>
 		public SecureXmlObfuscator(byte[] key, byte[] initializationVector, Encoding encoding, IEnumerable<string> exclusions) : base(encoding, exclusions)
 		{
-			_key = key;
-			_initializationVector = initializationVector;
+			Key = key;
+			InitializationVector = initializationVector;
 		}
 		#endregion
 
@@ -66,19 +63,14 @@ namespace Cuemon.Security
 		/// <summary>
 		/// Gets the secret key for the AES algorithm.
 		/// </summary>
-		public byte[] Key
-		{
-			get { return _key; }
-		}
+		public byte[] Key { get; }
 
-		/// <summary>
+        /// <summary>
 		/// Gets the initialization vector (IV) for the AES algorithm.
 		/// </summary>
-		public byte[] InitializationVector
-		{
-			get { return _initializationVector; }
-		}
-		#endregion
+		public byte[] InitializationVector { get; }
+
+        #endregion
 
 		#region Methods
 		/// <summary>
@@ -91,38 +83,32 @@ namespace Cuemon.Security
 		/// </returns>
 		public override Stream Revert(Stream value, Stream mapping)
 		{
-			if (value == null) { throw new ArgumentNullException(nameof(value)); }
-			if (mapping == null) { throw new ArgumentNullException(nameof(mapping)); }
+            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(mapping, nameof(mapping));
 
-			MemoryStream tempOutput = null;
-			try
-			{
-				var document = XmlDocumentConverter.FromStream(mapping);
-				var mappingNode = document.DocumentElement;
-                
-				var encryptedNode = mappingNode.GetElementsByTagName(MappingEncryptedElement).Item(0);
-				if (encryptedNode != null)
-				{
-					mappingNode.InnerXml = StringConverter.FromBytes(AdvancedEncryptionStandardUtility.Decrypt(Convert.FromBase64String(encryptedNode.InnerText), Key, InitializationVector), options =>
+            mapping = Disposable.SafeInvoke(() => new MemoryStream(), (ms, m) =>
+            {
+                var document = XmlDocumentConverter.FromStream(m);
+                var mappingNode = document.DocumentElement;
+
+                var encryptedNode = mappingNode.GetElementsByTagName(MappingEncryptedElement).Item(0);
+                if (encryptedNode != null)
+                {
+                    mappingNode.InnerXml = StringConverter.FromBytes(AdvancedEncryptionStandardUtility.Decrypt(Convert.FromBase64String(encryptedNode.InnerText), Key, InitializationVector), options =>
                     {
                         options.Encoding = Encoding;
                         options.Preamble = PreambleSequence.Remove;
                     });
-				}
+                }
 
-				tempOutput = new MemoryStream();
-                using (var writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
-				{
-					document.WriteTo(writer);
-				}
-				tempOutput.Position = 0;
-				mapping = tempOutput;
-				tempOutput = null;
-			}
-			finally
-			{
-				if (tempOutput != null) { tempOutput.Dispose(); }
-			}
+                using (var writer = XmlWriter.Create(ms, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
+                {
+                    document.WriteTo(writer);
+                }
+
+                ms.Position = 0;
+                return ms;
+            }, mapping);
 
 			return base.Revert(value, mapping);
 		}
@@ -132,38 +118,29 @@ namespace Cuemon.Security
 		/// </summary>
 		/// <returns>A mappable XML document of the original values and the obfuscated values.</returns>
 		public override Stream CreateMapping()
-		{
-			MemoryStream output;
-			MemoryStream tempOutput = null;
-			try
-			{
-				var document = XmlDocumentConverter.FromStream(base.CreateMapping());
-				XmlNode mappingNode = document.DocumentElement;
-				var innerXmlOfMappingNode = mappingNode.InnerXml;
-				var innerXmlOfMappingNodeBytes = ByteConverter.FromString(innerXmlOfMappingNode, options =>
+        {
+            return Disposable.SafeInvoke(() => new MemoryStream(), ms =>
+            {
+                var document = XmlDocumentConverter.FromStream(base.CreateMapping());
+                XmlNode mappingNode = document.DocumentElement;
+                var innerXmlOfMappingNode = mappingNode.InnerXml;
+                var innerXmlOfMappingNodeBytes = ByteConverter.FromString(innerXmlOfMappingNode, options =>
                 {
                     options.Encoding = Encoding;
                     options.Preamble = PreambleSequence.Remove;
                 });
-				var encryptedNode = document.CreateElement(MappingEncryptedElement);
-				encryptedNode.InnerText = Convert.ToBase64String(AdvancedEncryptionStandardUtility.Encrypt(innerXmlOfMappingNodeBytes, Key, InitializationVector));
-				mappingNode.InnerXml = "";
-				mappingNode.AppendChild(encryptedNode);
-				tempOutput = new MemoryStream();
-                using (var writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
-				{
-					document.WriteTo(writer);
-				}
-				tempOutput.Position = 0;
-				output = tempOutput;
-				tempOutput = null;
-			}
-			finally 
-			{
-				if (tempOutput != null) { tempOutput.Dispose(); }
-			}
-			return output;
-		}
+                var encryptedNode = document.CreateElement(MappingEncryptedElement);
+                encryptedNode.InnerText = Convert.ToBase64String(AdvancedEncryptionStandardUtility.Encrypt(innerXmlOfMappingNodeBytes, Key, InitializationVector));
+                mappingNode.InnerXml = "";
+                mappingNode.AppendChild(encryptedNode);
+                using (var writer = XmlWriter.Create(ms, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
+                {
+                    document.WriteTo(writer);
+                }
+                ms.Position = 0;
+                return ms;
+            });
+        }
 		#endregion
 	}
 }

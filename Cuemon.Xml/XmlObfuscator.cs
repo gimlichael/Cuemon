@@ -4,11 +4,10 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
-using Cuemon.Xml;
+using Cuemon.Security;
 using Cuemon.Xml.XPath;
 
-namespace Cuemon.Security
+namespace Cuemon.Xml
 {
     /// <summary>
     /// Provides methods for obfuscation and size reduction of human readable XML documents.
