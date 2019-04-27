@@ -21,123 +21,130 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var factory = FuncFactory.Create(tester, null);
-            return SafeInvokeCore(factory, initializer, catcher);
+            var f1 = FuncFactory.Create(tester, default);
+            var f2 = ActionFactory.Create(catcher, default);
+            return SafeInvokeCore(f1, initializer, f2);
         }
 
         /// <summary>
         /// Provides a generic way to abide the rule description of CA2000 (Dispose objects before losing scope).
         /// </summary>
-        /// <typeparam name="T">The type of the parameter of the function delegate <paramref name="tester"/>.</typeparam>
+        /// <typeparam name="T">The type of the parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
         /// <typeparam name="TResult">The type of the return value of the function delegate <paramref name="initializer"/>.</typeparam>
         /// <param name="initializer">The function delegate that initializes an object implementing the <see cref="IDisposable"/> interface.</param>
         /// <param name="tester">The function delegate that is used to ensure that operations performed on <typeparamref name="TResult"/> abides CA2000.</param>
-        /// <param name="arg">The parameter of the function delegate <paramref name="tester"/>.</param>
+        /// <param name="arg">The parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
         /// <param name="catcher">The delegate that will handle any exceptions might thrown by <paramref name="tester"/>.</param>
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
-        public static TResult SafeInvoke<T, TResult>(Func<TResult> initializer, Func<TResult, T, TResult> tester, T arg, Action<Exception> catcher = null) where TResult : class, IDisposable
+        public static TResult SafeInvoke<T, TResult>(Func<TResult> initializer, Func<TResult, T, TResult> tester, T arg, Action<Exception, T> catcher = null) where TResult : class, IDisposable
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var factory = FuncFactory.Create(tester, null, arg);
-            return SafeInvokeCore(factory, initializer, catcher);
+            var f1 = FuncFactory.Create(tester, null, arg);
+            var f2 = ActionFactory.Create(catcher, null, arg);
+            return SafeInvokeCore(f1, initializer, f2);
         }
 
         /// <summary>
         /// Provides a generic way to abide the rule description of CA2000 (Dispose objects before losing scope).
         /// </summary>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="tester"/>.</typeparam>
+        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
         /// <typeparam name="TResult">The type of the return value of the function delegate <paramref name="initializer"/>.</typeparam>
         /// <param name="initializer">The function delegate that initializes an object implementing the <see cref="IDisposable"/> interface.</param>
         /// <param name="tester">The function delegate that is used to ensure that operations performed on <typeparamref name="TResult"/> abides CA2000.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="tester"/>.</param>
+        /// <param name="arg1">The first parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg2">The second parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
         /// <param name="catcher">The delegate that will handle any exceptions might thrown by <paramref name="tester"/>.</param>
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
-        public static TResult SafeInvoke<T1, T2, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, TResult> tester, T1 arg1, T2 arg2, Action<Exception> catcher = null) where TResult : class, IDisposable
+        public static TResult SafeInvoke<T1, T2, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, TResult> tester, T1 arg1, T2 arg2, Action<Exception, T1, T2> catcher = null) where TResult : class, IDisposable
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var factory = FuncFactory.Create(tester, null, arg1, arg2);
-            return SafeInvokeCore(factory, initializer, catcher);
+            var f1 = FuncFactory.Create(tester, null, arg1, arg2);
+            var f2 = ActionFactory.Create(catcher, null, arg1, arg2);
+            return SafeInvokeCore(f1, initializer, f2);
         }
 
         /// <summary>
         /// Provides a generic way to abide the rule description of CA2000 (Dispose objects before losing scope).
         /// </summary>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="tester"/>.</typeparam>
+        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
         /// <typeparam name="TResult">The type of the return value of the function delegate <paramref name="initializer"/>.</typeparam>
         /// <param name="initializer">The function delegate that initializes an object implementing the <see cref="IDisposable"/> interface.</param>
         /// <param name="tester">The function delegate that is used to ensure that operations performed on <typeparamref name="TResult"/> abides CA2000.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg3">The third parameter of the function delegate <paramref name="tester"/>.</param>
+        /// <param name="arg1">The first parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg2">The second parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg3">The third parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
         /// <param name="catcher">The delegate that will handle any exceptions might thrown by <paramref name="tester"/>.</param>
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
-        public static TResult SafeInvoke<T1, T2, T3, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, TResult> tester, T1 arg1, T2 arg2, T3 arg3, Action<Exception> catcher = null) where TResult : class, IDisposable
+        public static TResult SafeInvoke<T1, T2, T3, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, TResult> tester, T1 arg1, T2 arg2, T3 arg3, Action<Exception, T1, T2, T3> catcher = null) where TResult : class, IDisposable
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var factory = FuncFactory.Create(tester, null, arg1, arg2, arg3);
-            return SafeInvokeCore(factory, initializer, catcher);
+            var f1 = FuncFactory.Create(tester, null, arg1, arg2, arg3);
+            var f2 = ActionFactory.Create(catcher, null, arg1, arg2, arg3);
+            return SafeInvokeCore(f1, initializer, f2);
         }
 
         /// <summary>
         /// Provides a generic way to abide the rule description of CA2000 (Dispose objects before losing scope).
         /// </summary>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter of the function delegate <paramref name="tester"/>.</typeparam>
+        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
         /// <typeparam name="TResult">The type of the return value of the function delegate <paramref name="initializer"/>.</typeparam>
         /// <param name="initializer">The function delegate that initializes an object implementing the <see cref="IDisposable"/> interface.</param>
         /// <param name="tester">The function delegate that is used to ensure that operations performed on <typeparamref name="TResult"/> abides CA2000.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg3">The third parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="tester"/>.</param>
+        /// <param name="arg1">The first parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg2">The second parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg3">The third parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
         /// <param name="catcher">The delegate that will handle any exceptions might thrown by <paramref name="tester"/>.</param>
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
-        public static TResult SafeInvoke<T1, T2, T3, T4, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, TResult> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<Exception> catcher = null) where TResult : class, IDisposable
+        public static TResult SafeInvoke<T1, T2, T3, T4, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, TResult> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<Exception, T1, T2, T3, T4> catcher = null) where TResult : class, IDisposable
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var factory = FuncFactory.Create(tester, null, arg1, arg2, arg3, arg4);
-            return SafeInvokeCore(factory, initializer, catcher);
+            var f1 = FuncFactory.Create(tester, null, arg1, arg2, arg3, arg4);
+            var f2 = ActionFactory.Create(catcher, null, arg1, arg2, arg3, arg4);
+            return SafeInvokeCore(f1, initializer, f2);
         }
 
         /// <summary>
         /// Provides a generic way to abide the rule description of CA2000 (Dispose objects before losing scope).
         /// </summary>
-        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter of the function delegate <paramref name="tester"/>.</typeparam>
-        /// <typeparam name="T5">The type of the fifth parameter of the function delegate <paramref name="tester"/>.</typeparam>
+        /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
+        /// <typeparam name="T5">The type of the fifth parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</typeparam>
         /// <typeparam name="TResult">The type of the return value of the function delegate <paramref name="initializer"/>.</typeparam>
         /// <param name="initializer">The function delegate that initializes an object implementing the <see cref="IDisposable"/> interface.</param>
         /// <param name="tester">The function delegate that is used to ensure that operations performed on <typeparamref name="TResult"/> abides CA2000.</param>
-        /// <param name="arg1">The first parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg2">The second parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg3">The third parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="tester"/>.</param>
-        /// <param name="arg5">The fifth parameter of the function delegate <paramref name="tester"/>.</param>
+        /// <param name="arg1">The first parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg2">The second parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg3">The third parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
+        /// <param name="arg5">The fifth parameter of the function delegate <paramref name="tester"/> and delegate <paramref name="catcher"/>.</param>
         /// <param name="catcher">The delegate that will handle any exceptions might thrown by <paramref name="tester"/>.</param>
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
-        public static TResult SafeInvoke<T1, T2, T3, T4, T5, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, T5, TResult> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<Exception> catcher = null) where TResult : class, IDisposable
+        public static TResult SafeInvoke<T1, T2, T3, T4, T5, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, T5, TResult> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<Exception, T1, T2, T3, T4, T5> catcher = null) where TResult : class, IDisposable
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var factory = FuncFactory.Create(tester, null, arg1, arg2, arg3, arg4, arg5);
-            return SafeInvokeCore(factory, initializer, catcher);
+            var f1 = FuncFactory.Create(tester, null, arg1, arg2, arg3, arg4, arg5);
+            var f2 = ActionFactory.Create(catcher, null, arg1, arg2, arg3, arg4, arg5);
+            return SafeInvokeCore(f1, initializer, f2);
         }
 
-        private static TResult SafeInvokeCore<TTuple, TResult>(FuncFactory<TTuple, TResult> testerFactory, Func<TResult> initializer, Action<Exception> catcher = null)
+        private static TResult SafeInvokeCore<TTester, TResult, TCatcher>(FuncFactory<TTester, TResult> testerFactory, Func<TResult> initializer, ActionFactory<TCatcher> catcherFactory)
             where TResult : class, IDisposable
-            where TTuple : Template<TResult>
+            where TTester : Template<TResult>
+            where TCatcher : Template<Exception>
         {
             TResult result = null;
             try
@@ -149,13 +156,14 @@ namespace Cuemon
             }
             catch (Exception e)
             {
-                if (catcher == null)
+                if (!catcherFactory.HasDelegate)
                 {
                     throw;
                 }
                 else
                 {
-                    catcher(e);
+                    catcherFactory.GenericArguments.Arg1 = e;
+                    catcherFactory.ExecuteMethod();
                 }
             }
             finally
