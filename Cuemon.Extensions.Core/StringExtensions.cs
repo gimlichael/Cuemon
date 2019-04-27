@@ -213,7 +213,7 @@ namespace Cuemon.Extensions.Core
         /// <summary>
         /// Returns a <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> that may be quoted by <paramref name="qualifier"/>.
         /// </summary>
-        /// <param name="value">The value containing substrings and delimiters.</param>
+        /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="delimiter">The delimiter that seperates the fields.</param>
         /// <param name="qualifier">The qualifier placed around each field to signify that it is the same field.</param>
         /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> and optionally surrounded within <paramref name="qualifier"/>.</returns>
@@ -223,11 +223,11 @@ namespace Cuemon.Extensions.Core
         }
 
         /// <summary>
-        /// Returns a string array that contains the substrings of <paramref name="value"/> that are delimited by a comma (",").
+        /// Returns a string array that contains the substrings of <paramref name="value"/> delimited by a comma (",") that may be quoted with double quotes ("").
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <returns>An array whose elements contain the substrings of <paramref name="value"/> that are delimited by a comma (",").</returns>
-        /// <remarks>Conforms with the RFC-4180 standard</remarks>
+        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> that are delimited by a comma (",").</returns>
+        /// <remarks>Conforms with the RFC-4180 standard.</remarks>
         public static string[] SplitCsvQuoted(this string value)
         {
             return StringUtility.SplitCsvQuoted(value);
@@ -236,7 +236,7 @@ namespace Cuemon.Extensions.Core
         /// <summary>
         /// Returns a string array that contains the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> that may be quoted with double quotes ("").
         /// </summary>
-        /// <param name="value">The value containing substrings and delimiters.</param>
+        /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="delimiter">The delimiter that seperates the fields.</param>
         /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> that are delimited by a <paramref name="delimiter"/>.</returns>
         public static string[] SplitDsvQuoted(this string value, string delimiter)
