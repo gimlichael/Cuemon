@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -14,8 +15,7 @@ namespace Cuemon
     /// </summary>
     public static class StringUtility
     {
-        private static readonly object PadLock = new object();
-        private static readonly Dictionary<string, Regex> CompiledSplitExpressions = new Dictionary<string, Regex>();
+        private static readonly ConcurrentDictionary<string, Regex> CompiledSplitExpressions = new ConcurrentDictionary<string, Regex>();
 
         #region Constants
         /// <summary>
@@ -186,89 +186,72 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Returns a string array that contains the substrings of <paramref name="value"/> that are delimited by a comma (",").
+        /// Returns a <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> that may be quoted by <paramref name="qualifier"/>.
         /// </summary>
         /// <param name="value">The value containing substrings and delimiters.</param>
-        /// <returns>An array whose elements contain the substrings of <paramref name="value"/> that are delimited by a comma (",").</returns>
+        /// <param name="delimiter">The delimiter that seperates the fields.</param>
+        /// <param name="qualifier">The qualifier placed around each field to signify that it is the same field.</param>
+        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> and optionally surrounded within <paramref name="qualifier"/>.</returns>
         /// <remarks>
-        /// The following table shows the default values for the overloads of this method.
-        /// <list type="table">
-        ///     <listheader>
-        ///         <term>Parameter</term>
-        ///         <description>Default Value</description>
-        ///     </listheader>
-        ///     <item>
-        ///         <term>delimiter</term>
-        ///         <description><c>,</c></description>
-        ///     </item>
-        ///     <item>
-        ///         <term>textQualifier</term>
-        ///         <description><c>"</c></description>
-        ///     </item>
-        ///     <item>
-        ///         <term>provider</term>
-        ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
-        ///     </item>
-        /// </list>
+        /// This method was inspired by two articles on StackOverflow @ http://stackoverflow.com/questions/2807536/split-string-in-c-sharp and https://stackoverflow.com/questions/3776458/split-a-comma-separated-string-with-both-quoted-and-unquoted-strings.
         /// </remarks>
-        public static string[] Split(string value)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null -or-
+        /// <paramref name="delimiter"/> is null -or-
+        /// <paramref name="qualifier"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is empty or consist only of white-space characters -or-
+        /// <paramref name="delimiter"/> is empty or consist only of white-space characters -or-
+        /// <paramref name="qualifier"/> is empty or consist only of white-space characters.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// An error occured while splitting <paramref name="value"/> into substrings seperated by <paramref name="delimiter"/> and quoted with <paramref name="qualifier"/>.
+        /// This is typically related to data corruption, eg. a field has not been properly closed with the <paramref name="qualifier"/> specified.
+        /// </exception>
+        public static string[] SplitDsv(string value, string delimiter, string qualifier)
         {
-            return Split(value, ",");
-        }
+            Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+            Validator.ThrowIfNullOrWhitespace(delimiter, nameof(delimiter));
+            Validator.ThrowIfNullOrWhitespace(qualifier, nameof(qualifier));
 
-        /// <summary>
-        /// Returns a string array that contains the substrings of <paramref name="value"/> that are delimited by <paramref name="delimiter"/>.
-        /// </summary>
-        /// <param name="value">The value containing substrings and delimiters.</param>
-        /// <param name="delimiter">The delimiter specification.</param>
-        /// <returns>An array whose elements contain the substrings of <paramref name="value"/> that are delimited by <paramref name="delimiter"/>.</returns>
-        public static string[] Split(string value, string delimiter)
-        {
-            return Split(value, delimiter, "\"");
-        }
-
-        /// <summary>
-        /// Returns a string array that contains the substrings of <paramref name="value"/> that are delimited by <paramref name="delimiter"/>. A parameter specifies the <paramref name="textQualifier"/> that surrounds a field.
-        /// </summary>
-        /// <param name="value">The value containing substrings and delimiters.</param>
-        /// <param name="delimiter">The delimiter specification.</param>
-        /// <param name="textQualifier">The text qualifier specification that surrounds a field.</param>
-        /// <returns>An array whose elements contain the substrings of <paramref name="value"/> that are delimited by <paramref name="delimiter"/>.</returns>
-        public static string[] Split(string value, string delimiter, string textQualifier)
-        {
-            return Split(value, delimiter, textQualifier, CultureInfo.InvariantCulture);
-        }
-
-
-        /// <summary>
-        /// Returns a string array that contains the substrings of <paramref name="value"/> that are delimited by <paramref name="delimiter"/>. A parameter specifies the <paramref name="textQualifier"/> that surrounds a field.
-        /// </summary>
-        /// <param name="value">The value containing substrings and delimiters.</param>
-        /// <param name="delimiter">The delimiter specification.</param>
-        /// <param name="textQualifier">The text qualifier specification that surrounds a field.</param>
-        /// <param name="provider">An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.</param>
-        /// <returns>An array whose elements contain the substrings of <paramref name="value"/> that are delimited by <paramref name="delimiter"/>.</returns>
-        /// <remarks>
-        /// This method was inspired by an article on StackOverflow @ http://stackoverflow.com/questions/2807536/split-string-in-c-sharp.
-        /// </remarks>
-        public static string[] Split(string value, string delimiter, string textQualifier, IFormatProvider provider)
-        {
-            if (value == null) { return new string[] { null }; }
-            if (delimiter == null) { delimiter = ","; }
-            if (textQualifier == null) { textQualifier = "\""; }
-
-            Regex compiledSplit;
-            var key = string.Concat(delimiter, textQualifier);
-            lock (PadLock)
+            var key = string.Concat(delimiter, "<-dq->", qualifier);
+            if (!CompiledSplitExpressions.TryGetValue(key, out var compiledSplit))
             {
-                if (!CompiledSplitExpressions.TryGetValue(key, out compiledSplit))
-                {
-                    compiledSplit = new Regex(string.Format(provider, @"{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", Regex.Escape(delimiter), Regex.Escape(textQualifier)),
-                        RegexOptions.IgnoreCase | RegexOptions.Compiled);
-                    CompiledSplitExpressions.Add(key, compiledSplit);
-                }
+                compiledSplit = new Regex(string.Format(CultureInfo.InvariantCulture, "(?:^|{0})({1}(?:[^{1}]+|{1}{1})*{1}|[^{0}]*)", Regex.Escape(delimiter), Regex.Escape(qualifier)), RegexOptions.IgnoreCase | RegexOptions.Compiled, TimeSpan.FromSeconds(2));
+                CompiledSplitExpressions.TryAdd(key, compiledSplit);
             }
-            return compiledSplit.Split(value);
+
+            try
+            {
+                return compiledSplit.Matches(value).Cast<Match>().Where(m => m.Length > 0).Select(m => m.Value.TrimStart(delimiter.ToCharArray())).ToArray();
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                throw new InvalidOperationException($"An error occured while splitting '{value}' into substrings seperated by '{delimiter}' and quoted with '{qualifier}'. This is typically related to data corruption, eg. a field has not been properly closed with the {nameof(qualifier)} specified.");
+            }
+        }
+
+        /// <summary>
+        /// Returns a string array that contains the substrings of <paramref name="value"/> delimited by a comma (",") that may be quoted with double quotes ("").
+        /// </summary>
+        /// <param name="value">The value containing substrings and delimiters.</param>
+        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> that are delimited by a comma (",").</returns>
+        /// <remarks>Conforms with the RFC-4180 standard.</remarks>
+        public static string[] SplitCsvQuoted(string value)
+        {
+            return SplitDsv(value, ",", "\"");
+        }
+
+        /// <summary>
+        /// Returns a string array that contains the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> that may be quoted with double quotes ("").
+        /// </summary>
+        /// <param name="value">The value containing substrings and delimiters.</param>
+        /// <param name="delimiter">The delimiter that seperates the fields.</param>
+        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> that are delimited by a <paramref name="delimiter"/>.</returns>
+        public static string[] SplitDsvQuoted(string value, string delimiter)
+        {
+            return SplitDsv(value, delimiter, "\"");
         }
 
         /// <summary>
@@ -627,7 +610,7 @@ namespace Cuemon
             }
             return result.ToString();
         }
-        
+
         /// <summary>
         /// Escapes the given <see cref="string"/> the same way as the well known JavaScript escape() function.
         /// </summary>
