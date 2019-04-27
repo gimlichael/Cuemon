@@ -106,7 +106,7 @@ namespace Cuemon.Data
         /// </summary>
 		public override void Start()
 		{
-			List<DataWatcher> watchers = new List<DataWatcher>();
+			var watchers = new List<DataWatcher>();
 			DataWatcher watcher;
 			DataWatcher tempWatcher = null;
 			try
@@ -136,7 +136,7 @@ namespace Cuemon.Data
 				{
 					if (Watchers != null)
 					{
-                        foreach (DataWatcher watcher in Watchers)
+                        foreach (var watcher in Watchers)
                         {
                             watcher.Changed -= WatcherChanged;
                             watcher.Dispose();

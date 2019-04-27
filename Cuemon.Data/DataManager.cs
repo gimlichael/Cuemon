@@ -9,7 +9,7 @@ using System.Text;
 namespace Cuemon.Data
 {
     /// <summary>
-    /// The DataManager is an abstract class in the <see cref="Cuemon.Data"/> namespace that can be used to implement execute commands of different database providers.
+    /// The DataManager is an abstract class in the <see cref="Data"/> namespace that can be used to implement execute commands of different database providers.
     /// </summary>
     public abstract class DataManager
     {
@@ -66,11 +66,11 @@ namespace Cuemon.Data
                 case DbType.Guid:
                     return typeof(Guid);
                 case DbType.Int64:
-                    return typeof(Int64);
+                    return typeof(long);
                 case DbType.Int32:
-                    return typeof(Int32);
+                    return typeof(int);
                 case DbType.Int16:
-                    return typeof(Int16);
+                    return typeof(short);
                 case DbType.Object:
                     return typeof(object);
                 case DbType.AnsiString:
@@ -81,11 +81,11 @@ namespace Cuemon.Data
                 case DbType.Single:
                     return typeof(float);
                 case DbType.UInt64:
-                    return typeof(UInt64);
+                    return typeof(ulong);
                 case DbType.UInt32:
-                    return typeof(UInt32);
+                    return typeof(uint);
                 case DbType.UInt16:
-                    return typeof(UInt16);
+                    return typeof(ushort);
                 case DbType.Decimal:
                 case DbType.VarNumeric:
                     return typeof(decimal);
@@ -104,8 +104,8 @@ namespace Cuemon.Data
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (reader.IsClosed) { throw new ArgumentException("Reader is closed.", nameof(reader)); }
-            IEnumerable<KeyValuePair<string, object>> columns = GetReaderColumns(reader);
-            foreach (KeyValuePair<string, object> column in columns)
+            var columns = GetReaderColumns(reader);
+            foreach (var column in columns)
             {
                 yield return column.Key;
             }
@@ -120,8 +120,8 @@ namespace Cuemon.Data
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (reader.IsClosed) { throw new ArgumentException("Reader is closed.", nameof(reader)); }
-            IEnumerable<KeyValuePair<string, object>> columns = GetReaderColumns(reader);
-            foreach (KeyValuePair<string, object> column in columns)
+            var columns = GetReaderColumns(reader);
+            foreach (var column in columns)
             {
                 yield return column.Value;
             }
@@ -136,7 +136,7 @@ namespace Cuemon.Data
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (reader.IsClosed) { throw new ArgumentException("Reader is closed.", nameof(reader)); }
-            for (int f = 0; f < reader.FieldCount; f++)
+            for (var f = 0; f < reader.FieldCount; f++)
             {
                 yield return new KeyValuePair<string, object>(reader.GetName(f), reader.GetValue(f));
             }
@@ -147,7 +147,7 @@ namespace Cuemon.Data
         /// Note: DbDataReader must return only one field (for instance, a XML field), otherwise an exception is thrown!
         /// </summary>
         /// <param name="value">The <see cref="DbDataReader"/> to build a stream from.</param>
-        /// <returns>A <b><see cref="System.IO.Stream"/></b> object.</returns>
+        /// <returns>A <b><see cref="Stream"/></b> object.</returns>
         public static Stream ReaderToStream(DbDataReader value)
         {
             if (value == null) { throw new ArgumentNullException(nameof(value)); }
@@ -165,7 +165,7 @@ namespace Cuemon.Data
                 tempStream = new MemoryStream();
                 while (value.Read())
                 {
-                    byte[] bytes = ByteConverter.FromString(value.GetString(0));
+                    var bytes = ByteConverter.FromString(value.GetString(0));
                     tempStream.Write(bytes, 0, bytes.Length);
                 }
                 tempStream.Position = 0;
@@ -185,7 +185,7 @@ namespace Cuemon.Data
         /// Note: DbDataReader must return only one field, otherwise an exception is thrown!
         /// </summary>
         /// <param name="value">The <see cref="DbDataReader"/> to build a string from.</param>
-        /// <returns>A <b><see cref="System.String"/></b> object.</returns>
+        /// <returns>A <b><see cref="string"/></b> object.</returns>
         public static string ReaderToString(DbDataReader value)
         {
             if (value == null) { throw new ArgumentNullException(nameof(value)); }
@@ -195,7 +195,7 @@ namespace Cuemon.Data
                     "The executed command statement appears to contain invalid fields. Expected field count is 1. Actually field count was {0}.",
                     value.FieldCount));
             }
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             while (value.Read())
             {
                 stringBuilder.Append(value.GetString(0));
@@ -217,7 +217,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>
-        /// A <b><see cref="System.Int32"/></b> value.
+        /// A <b><see cref="int"/></b> value.
         /// </returns>
         public int Execute(IDataCommand dataCommand, params DbParameter[] parameters)
         {
@@ -240,11 +240,11 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>
-        /// A <b><see cref="System.Boolean"/></b> value.
+        /// A <b><see cref="bool"/></b> value.
         /// </returns>
         public bool ExecuteExists(IDataCommand dataCommand, params DbParameter[] parameters)
         {
-            using (DbDataReader reader = ExecuteReader(dataCommand, parameters))
+            using (var reader = ExecuteReader(dataCommand, parameters))
             {
                 return reader.Read();
             }
@@ -255,7 +255,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns><see cref="Int32"/></returns>
+        /// <returns><see cref="int"/></returns>
         public abstract int ExecuteIdentityInt32(IDataCommand dataCommand, params DbParameter[] parameters);
 
         /// <summary>
@@ -263,7 +263,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns><see cref="Int64"/></returns>
+        /// <returns><see cref="long"/></returns>
         public abstract long ExecuteIdentityInt64(IDataCommand dataCommand, params DbParameter[] parameters);
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns><see cref="Decimal"/></returns>
+        /// <returns><see cref="decimal"/></returns>
         public abstract decimal ExecuteIdentityDecimal(IDataCommand dataCommand, params DbParameter[] parameters);
 
         /// <summary>
@@ -293,11 +293,11 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>
-        /// An <b><see cref="System.String"/></b> object.
+        /// An <b><see cref="string"/></b> object.
         /// </returns>
         public virtual string ExecuteXmlString(IDataCommand dataCommand, params DbParameter[] parameters)
         {
-            using (DbDataReader reader = ExecuteReader(dataCommand, parameters))
+            using (var reader = ExecuteReader(dataCommand, parameters))
             {
                 return ReaderToString(reader);
             }
@@ -590,7 +590,7 @@ namespace Cuemon.Data
         /// <returns>System.Data.Common.DbCommand</returns>
         /// <remarks>
         /// If <see cref="TransientFaultHandlingOptionsCallback"/> has the <see cref="TransientOperationOptions.EnableRecovery"/> set to <c>true</c>, this method will with it's default implementation try to gracefully recover from transient faults when the following condition is met:<br/>
-        /// <see cref="TransientOperationOptions.RetryAttempts"/> is less than the current attempt starting from 1 with a maximum of <see cref="Byte.MaxValue"/> retries<br/>
+        /// <see cref="TransientOperationOptions.RetryAttempts"/> is less than the current attempt starting from 1 with a maximum of <see cref="byte.MaxValue"/> retries<br/>
         /// <see cref="TransientOperationOptions.DetectionStrategy"/> must evaluate to <c>true</c><br/>
         /// In case of a transient failure the default implementation will use <see cref="TransientOperationOptions.RetryStrategy"/>.<br/>
         /// In any other case the originating exception is thrown.

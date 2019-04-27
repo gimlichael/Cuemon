@@ -80,12 +80,12 @@ namespace Cuemon.Data.SqlClient
         private void BuildInsertQuery(string tableName)
         {
             byte i = 0;
-            string[] columns = new string[Columns.Keys.Count];
-            string[] parameters = new string[Columns.Values.Count];
+            var columns = new string[Columns.Keys.Count];
+            var parameters = new string[Columns.Values.Count];
 
             Columns.Keys.CopyTo(columns, 0);
 
-            foreach (string parameter in Columns.Values)
+            foreach (var parameter in Columns.Values)
             {
                 parameters[i] = parameter;
                 i++;
@@ -108,7 +108,7 @@ namespace Cuemon.Data.SqlClient
         {
             byte i = 1;
             Append(EnableTableAndColumnEncapsulation ? "UPDATE [{0}] SET" : "UPDATE {0} SET", string.IsNullOrEmpty(tableName) ? TableName : tableName);
-            foreach (KeyValuePair<string, string> column in Columns)
+            foreach (var column in Columns)
             {
                 Append(EnableTableAndColumnEncapsulation ? "[{0}]={1}" : "{0}={1}", column.Key, column.Value);
                 if (i < Columns.Count) { Append(","); }
@@ -119,8 +119,8 @@ namespace Cuemon.Data.SqlClient
 
         private void BuildSelectQuery(string tableName)
         {
-            bool enableSquareBracketEncapsulationOnTable = EnableTableAndColumnEncapsulation;
-            string[] columns = new string[KeyColumns.Count + Columns.Count];
+            var enableSquareBracketEncapsulationOnTable = EnableTableAndColumnEncapsulation;
+            var columns = new string[KeyColumns.Count + Columns.Count];
             KeyColumns.Keys.CopyTo(columns, 0);
             Columns.Keys.CopyTo(columns, KeyColumns.Count);
 
@@ -141,7 +141,7 @@ namespace Cuemon.Data.SqlClient
 
         private void BuildSelectCheckExistsQuery(string tableName)
         {
-            string[] columns = new string[KeyColumns.Count];
+            var columns = new string[KeyColumns.Count];
             KeyColumns.Keys.CopyTo(columns, 0);
 
             Append("SELECT 1 ");
@@ -154,7 +154,7 @@ namespace Cuemon.Data.SqlClient
         {
             byte i = 1;
             if (KeyColumns.Count > 0) { Append(" WHERE"); }
-            foreach (KeyValuePair<string, string> keyColumn in KeyColumns)
+            foreach (var keyColumn in KeyColumns)
             {
                 Append(EnableTableAndColumnEncapsulation ? " [{0}]{2}{1}" : " {0}{2}{1}", keyColumn.Key, keyColumn.Value ?? "", keyColumn.Value == null ? " IS NULL" : "=");
                 if (i < KeyColumns.Count) { Append(" AND"); }

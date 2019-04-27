@@ -34,7 +34,7 @@ namespace Cuemon.Data
 
         private void Init()
         {
-            foreach (Mapping mapping in Mappings)
+            foreach (var mapping in Mappings)
             {
                 if (string.IsNullOrEmpty(mapping.Source)) { continue; }
                 Fields.Add(mapping.Source, null);
@@ -146,7 +146,7 @@ namespace Cuemon.Data
                         }
                         else
                         {
-                            foreach (Mapping mapping in Mappings)
+                            foreach (var mapping in Mappings)
                             {
                                 _defaultFields.Add(mapping.Source, null);
                             }
@@ -159,7 +159,7 @@ namespace Cuemon.Data
 
         private IOrderedDictionary Reset(IOrderedDictionary source)
         {
-            OrderedDictionary result = UseOrdinal ? new OrderedDictionary(source.Count, EqualityComparer<int>.Default) : new OrderedDictionary(source.Count, StringComparer.OrdinalIgnoreCase);
+            var result = UseOrdinal ? new OrderedDictionary(source.Count, EqualityComparer<int>.Default) : new OrderedDictionary(source.Count, StringComparer.OrdinalIgnoreCase);
             foreach (DictionaryEntry o in source)
             {
                 result.Add(o.Key, o.Value);
@@ -175,8 +175,8 @@ namespace Cuemon.Data
         {
             if (Reader.Read())
             {
-                IOrderedDictionary fields = GetDefault();
-                for (int i = 0; i < Reader.FieldCount; i++)
+                var fields = GetDefault();
+                for (var i = 0; i < Reader.FieldCount; i++)
                 {
                     if (UseOrdinal)
                     {
@@ -205,7 +205,7 @@ namespace Cuemon.Data
 
         private bool IsMatch(string localName)
         {
-            foreach (Mapping mapping in Mappings)
+            foreach (var mapping in Mappings)
             {
                 if (mapping.Source.Equals(localName, StringComparison.OrdinalIgnoreCase)) { return true; }
             }
@@ -290,7 +290,7 @@ namespace Cuemon.Data
         /// Returns an <see cref="T:System.Collections.IEnumerator" /> that can be used to iterate through the rows in the data reader.
         /// </summary>
         /// <returns>An <see cref="T:System.Collections.IEnumerator" /> that can be used to iterate through the rows in the data reader.</returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override IEnumerator GetEnumerator()
         {
             throw new NotImplementedException();
@@ -363,8 +363,8 @@ namespace Cuemon.Data
         /// <returns>The name of the field or the empty string (""), if there is no value to return.</returns>
         public override string GetName(int i)
         {
-            int current = 0;
-            foreach (Mapping mapping in Mappings)
+            var current = 0;
+            foreach (var mapping in Mappings)
             {
                 if (i == current) { return mapping.Source; }
                 current++;
@@ -377,7 +377,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="name">The name of the field to find.</param>
         /// <returns>The index of the named field.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="name"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -386,8 +386,8 @@ namespace Cuemon.Data
         public override int GetOrdinal(string name)
         {
             Validator.ThrowIfNull(name, nameof(name));
-            int current = 0;
-            foreach (Mapping mapping in Mappings)
+            var current = 0;
+            foreach (var mapping in Mappings)
             {
                 if (mapping.Source.Equals(name, StringComparison.OrdinalIgnoreCase)) { return current; }
                 current++;
@@ -464,8 +464,8 @@ namespace Cuemon.Data
         public override int GetValues(object[] values)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            int length = FieldCount;
-            for (int i = 0; i < length; i++)
+            var length = FieldCount;
+            for (var i = 0; i < length; i++)
             {
                 values[i] = GetValue(i);
             }
@@ -506,13 +506,13 @@ namespace Cuemon.Data
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents the current row of this instance.
+        /// Returns a <see cref="string" /> that represents the current row of this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents the current row of this instance.</returns>
+        /// <returns>A <see cref="string" /> that represents the current row of this instance.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < FieldCount; i++)
+            var builder = new StringBuilder();
+            for (var i = 0; i < FieldCount; i++)
             {
                 builder.AppendFormat("{0}={1}, ", GetName(i), GetValue(i));
             }

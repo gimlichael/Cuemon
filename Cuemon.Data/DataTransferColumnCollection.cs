@@ -15,11 +15,11 @@ namespace Cuemon.Data
         /// <param name="record">The record to convert.</param>
         internal DataTransferColumnCollection(IDataRecord record)
         {
-            int fieldCount = record == null ? 0 : record.FieldCount;
-            for (int i = 0; i < fieldCount; i++)
+            var fieldCount = record == null ? 0 : record.FieldCount;
+            for (var i = 0; i < fieldCount; i++)
             {
-                string columnName = record.GetName(i);
-                Type columnType = record.GetFieldType(i);
+                var columnName = record.GetName(i);
+                var columnType = record.GetFieldType(i);
                 Add(new DataTransferColumn(i, columnName, columnType));
                 Names.Add(columnName);
             }
@@ -44,7 +44,7 @@ namespace Cuemon.Data
         internal int? GetIndex(string name)
         {
             if (name == null) { return null; }
-            int index = Names.IndexOf(name);
+            var index = Names.IndexOf(name);
             return index < 0 ? null : (int?)index;
         }
     }

@@ -87,19 +87,19 @@ namespace Cuemon.Data
 		{
 			lock (_locker)
 			{
-				DateTime utcLastModified = DateTime.UtcNow;
-                List<object[]> values = new List<object[]>();
-			    DataManager manager = Manager.Clone();
-				using (DbDataReader reader = manager.ExecuteReader(Command, Parameters))
+				var utcLastModified = DateTime.UtcNow;
+                var values = new List<object[]>();
+			    var manager = Manager.Clone();
+				using (var reader = manager.ExecuteReader(Command, Parameters))
 				{
 					while (reader.Read())
 					{
-						object[] readerValues = new object[reader.FieldCount];
+						var readerValues = new object[reader.FieldCount];
 						reader.GetValues(readerValues);
 						values.Add(readerValues);
 					}
 				}
-                long currentSignature = StructUtility.GetHashCode64(values.Select(o => o.GetHashCode()));
+                var currentSignature = StructUtility.GetHashCode64(values.Select(o => o.GetHashCode()));
                 values.Clear();
 
 				if (Signature == 0) { Signature = currentSignature; }

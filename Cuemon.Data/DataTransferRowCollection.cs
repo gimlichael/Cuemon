@@ -23,17 +23,17 @@ namespace Cuemon.Data
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
 
-            int rowNumber = 1;
+            var rowNumber = 1;
             while (reader.Read())
             {
                 if (Columns == null) { Columns = new DataTransferColumnCollection(reader); }
                 DataTransferRows.Add(new DataTransferRow(this, rowNumber));
-                int fieldCount = reader.FieldCount;
+                var fieldCount = reader.FieldCount;
                 var values = new object[fieldCount];
                 reader.GetValues(values);
-                for (int i = 0; i < fieldCount; i++)
+                for (var i = 0; i < fieldCount; i++)
                 {
-                    Type columnType = reader[i].GetType();
+                    var columnType = reader[i].GetType();
                     Data.Add(values[i] == null ? TypeUtility.GetDefaultValue(columnType) : DBNull.Value.Equals(values[i]) ? null : values[i]);
                 }
                 rowNumber++;

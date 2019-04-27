@@ -16,7 +16,7 @@ namespace Cuemon.Data
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="reader"/> is closed.
         /// </exception>
         public static DataTransferRowCollection ToRows(this IDataReader reader)
@@ -32,7 +32,7 @@ namespace Cuemon.Data
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentException">
         /// <paramref name="reader"/> is closed.
         /// </exception>
         /// <exception cref="InvalidOperationException">

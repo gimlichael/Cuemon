@@ -111,8 +111,8 @@ namespace Cuemon.Data
         public TResult As<TResult>(int index)
         {
             if (index < 0) { return default(TResult); }
-            Type target = typeof(TResult);
-            Type source = Main.Columns[index].DataType;
+            var target = typeof(TResult);
+            var source = Main.Columns[index].DataType;
             if (source != target) { throw new TypeArgumentOutOfRangeException("TResult", string.Format(CultureInfo.InvariantCulture, "There is a mismatch between the specified column referenced by 'index' and the type parameter 'TResult'. Expected type of 'TResult' was '{0}'.", StringConverter.FromType(source, true))); }
             return (TResult)this[index];
         }
@@ -123,8 +123,8 @@ namespace Cuemon.Data
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < Columns.Count; i++)
+            var builder = new StringBuilder();
+            for (var i = 0; i < Columns.Count; i++)
             {
                 var column = Columns[i];
                 builder.AppendFormat("{0}={1} [{2}],", column.Name, Main.Data[GetIndexLocation(column.Ordinal)], column.DataType.Name);

@@ -34,7 +34,7 @@ namespace Cuemon.Data
         /// Gets the data manager for this object.
         /// Please be aware, that you should only use this for custom methods as you will loose event control on Entity classes by using the manager directly.
         /// </summary>
-        /// <value>A <b><see cref="Cuemon.Data.DataManager"/></b> object.</value>
+        /// <value>A <b><see cref="DataManager"/></b> object.</value>
         public DataManager Manager { get; private set; }
         #endregion
 
@@ -84,80 +84,80 @@ namespace Cuemon.Data
         /// <summary>
         /// Raises the <see cref="Deleted"/> event.
         /// </summary>
-        /// <param name="e">The <see cref="Cuemon.Data.DataAdapterEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="DataAdapterEventArgs"/> instance containing the event data.</param>
         protected virtual void OnDeletedRaised(DataAdapterEventArgs e)
         {
-            EventHandler<DataAdapterEventArgs> handler = Deleting;
+            var handler = Deleting;
             EventUtility.Raise(handler, this, e);
         }
 
         /// <summary>
         /// Raises the <see cref="Deleting"/> event.
         /// </summary>
-        /// <param name="e">The <see cref="Cuemon.Data.DataAdapterEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="DataAdapterEventArgs"/> instance containing the event data.</param>
         protected virtual void OnDeletingRaised(DataAdapterEventArgs e)
         {
-            EventHandler<DataAdapterEventArgs> handler = Deleted;
+            var handler = Deleted;
             EventUtility.Raise(handler, this, e);
         }
 
         /// <summary>
         /// Raises the <see cref="Inserted"/> event.
         /// </summary>
-        /// <param name="e">The <see cref="Cuemon.Data.DataAdapterEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="DataAdapterEventArgs"/> instance containing the event data.</param>
         protected virtual void OnInsertedRaised(DataAdapterEventArgs e)
         {
-            EventHandler<DataAdapterEventArgs> handler = Inserted;
+            var handler = Inserted;
             EventUtility.Raise(handler, this, e);
         }
 
         /// <summary>
         /// Raises the <see cref="Inserting"/> event.
         /// </summary>
-        /// <param name="e">The <see cref="Cuemon.Data.DataAdapterEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="DataAdapterEventArgs"/> instance containing the event data.</param>
         protected virtual void OnInsertingRaised(DataAdapterEventArgs e)
         {
-            EventHandler<DataAdapterEventArgs> handler = Inserting;
+            var handler = Inserting;
             EventUtility.Raise(handler, this, e);
         }
 
         /// <summary>
         /// Raises the <see cref="Selected"/> event.
         /// </summary>
-        /// <param name="e">The <see cref="Cuemon.Data.DataAdapterEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="DataAdapterEventArgs"/> instance containing the event data.</param>
         protected virtual void OnSelectedRaised(DataAdapterEventArgs e)
         {
-            EventHandler<DataAdapterEventArgs> handler = Selected;
+            var handler = Selected;
             EventUtility.Raise(handler, this, e);
         }
 
         /// <summary>
         /// Raises the <see cref="Selecting"/> event.
         /// </summary>
-        /// <param name="e">The <see cref="Cuemon.Data.DataAdapterEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="DataAdapterEventArgs"/> instance containing the event data.</param>
         protected virtual void OnSelectingRaised(DataAdapterEventArgs e)
         {
-            EventHandler<DataAdapterEventArgs> handler = Selecting;
+            var handler = Selecting;
             EventUtility.Raise(handler, this, e);
         }
 
         /// <summary>
         /// Raises the <see cref="Updated"/> event.
         /// </summary>
-        /// <param name="e">The <see cref="Cuemon.Data.DataAdapterEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="DataAdapterEventArgs"/> instance containing the event data.</param>
         protected virtual void OnUpdatedRaised(DataAdapterEventArgs e)
         {
-            EventHandler<DataAdapterEventArgs> handler = Updated;
+            var handler = Updated;
             EventUtility.Raise(handler, this, e);
         }
 
         /// <summary>
         /// Raises the <see cref="Updating"/> event.
         /// </summary>
-        /// <param name="e">The <see cref="Cuemon.Data.DataAdapterEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="DataAdapterEventArgs"/> instance containing the event data.</param>
         protected virtual void OnUpdatingRaised(DataAdapterEventArgs e)
         {
-            EventHandler<DataAdapterEventArgs> handler = Updating;
+            var handler = Updating;
             EventUtility.Raise(handler, this, e);
         }
 
@@ -176,7 +176,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>A <see cref="System.Void"/> object.</returns>
+        /// <returns>A <see cref="void"/> object.</returns>
         protected object Insert(IDataCommand dataCommand, params DbParameter[] parameters)
         {
             return ExecuteInsert(dataCommand, QueryInsertAction.AffectedRows, parameters);
@@ -188,7 +188,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="action">The insert action you wish to apply.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>A <see cref="System.Void"/> object.</returns>
+        /// <returns>A <see cref="void"/> object.</returns>
         protected object Insert(IDataCommand dataCommand, QueryInsertAction action, params DbParameter[] parameters)
         {
             return ExecuteInsert(dataCommand, action, parameters);
@@ -276,7 +276,7 @@ namespace Cuemon.Data
             lock (_padLock)
             {
                 OnSelectingRaised(DataAdapterEventArgs.Empty);
-                DbDataReader reader = Manager.ExecuteReader(dataCommand, parameters);
+                var reader = Manager.ExecuteReader(dataCommand, parameters);
                 OnSelectedRaised(DataAdapterEventArgs.Empty);
                 return reader;
             }

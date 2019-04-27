@@ -120,7 +120,7 @@ namespace Cuemon.Data
         /// Gets or sets the default wait time before terminating the attempt to execute a command and generating an error.
         /// </summary>
         /// <value>
-        /// The <see cref="System.TimeSpan"/> to wait for the command to execute. Default value is 1 minute and 30 seconds.
+        /// The <see cref="TimeSpan"/> to wait for the command to execute. Default value is 1 minute and 30 seconds.
         /// </value>
         public static TimeSpan DefaultTimeout
         {

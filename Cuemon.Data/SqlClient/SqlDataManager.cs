@@ -10,7 +10,7 @@ using Cuemon.Collections.Generic;
 namespace Cuemon.Data.SqlClient
 {
     /// <summary>
-    /// The SqlDataManager is the primary class of the <see cref="Cuemon.Data.SqlClient"/> namespace that can be used to execute commands targeted Microsoft SQL Server.
+    /// The SqlDataManager is the primary class of the <see cref="SqlClient"/> namespace that can be used to execute commands targeted Microsoft SQL Server.
     /// </summary>
     public class SqlDataManager : DataManager
     {
@@ -55,7 +55,7 @@ namespace Cuemon.Data.SqlClient
             {
                 if (exception == null) { return false; }
 
-                SqlException sqlException = ParseException(exception);
+                var sqlException = ParseException(exception);
                 if (sqlException != null)
                 {
                     switch (sqlException.Number)
@@ -87,7 +87,7 @@ namespace Cuemon.Data.SqlClient
                     }
                 }
 
-                bool fault = exception.Message.StartsWith("Timeout expired.", StringComparison.OrdinalIgnoreCase);
+                var fault = exception.Message.StartsWith("Timeout expired.", StringComparison.OrdinalIgnoreCase);
                 fault |= StringUtility.Contains(exception.Message, "The wait operation timed out", StringComparison.OrdinalIgnoreCase);
                 fault |= StringUtility.Contains(exception.Message, "The semaphore timeout period has expired", StringComparison.OrdinalIgnoreCase);
 
@@ -211,7 +211,7 @@ namespace Cuemon.Data.SqlClient
 
         private static SqlException ParseException(Exception exception)
         {
-            IEnumerable<Exception> exceptions = exception.Yield().Concat(ExceptionUtility.Flatten(exception));
+            var exceptions = exception.Yield().Concat(ExceptionUtility.Flatten(exception));
             return exceptions.Where(ex => ex is SqlException).Cast<SqlException>().FirstOrDefault();
         }
         #endregion
