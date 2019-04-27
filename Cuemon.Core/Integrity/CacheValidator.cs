@@ -65,7 +65,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
-        /// <param name="checksum">A <see cref="Double"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="double"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, double checksum, Action<CacheValidatorOptions> setup = null)
             : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
@@ -77,7 +77,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
-        /// <param name="checksum">A <see cref="Int16"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="short"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, short checksum, Action<CacheValidatorOptions> setup = null)
             : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
@@ -90,7 +90,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
-        /// <param name="checksum">A <see cref="String"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="string"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, string checksum, Action<CacheValidatorOptions> setup = null)
             : this(created, modified, checksum == null ? StructUtility.HashCodeForNullValue : StructUtility.GetHashCode64(checksum), setup)
@@ -102,7 +102,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
-        /// <param name="checksum">A <see cref="Int32"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="int"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, int checksum, Action<CacheValidatorOptions> setup = null)
             : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
@@ -114,7 +114,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
-        /// <param name="checksum">A <see cref="Int64"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="long"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, long checksum, Action<CacheValidatorOptions> setup = null)
             : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
@@ -126,7 +126,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
-        /// <param name="checksum">A <see cref="Single"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="float"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, float checksum, Action<CacheValidatorOptions> setup = null)
             : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
@@ -138,7 +138,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
-        /// <param name="checksum">A <see cref="UInt16"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="ushort"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, ushort checksum, Action<CacheValidatorOptions> setup = null)
             : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
@@ -150,7 +150,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
-        /// <param name="checksum">A <see cref="UInt32"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="uint"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, uint checksum, Action<CacheValidatorOptions> setup = null)
             : this(created, modified, ByteConverter.FromConvertible(checksum), setup)
@@ -162,7 +162,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="created">A <see cref="DateTime"/> value for when data this instance represents was first created.</param>
         /// <param name="modified">A <see cref="DateTime"/> value for when data this instance represents was last modified.</param>
-        /// <param name="checksum">A <see cref="UInt64"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="ulong"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, ulong checksum, Action<CacheValidatorOptions> setup = null) 
             : this(created, modified, ByteConverter.FromConvertible(checksum), setup)

@@ -785,7 +785,7 @@ namespace Cuemon
 
         private static string FromTypeConverter(Type source, bool fullName)
         {
-            if (source.IsAnonymousMethod())
+            if (TypeUtility.IsAnonymousMethod(source))
             {
                 var namespaceSegments = source.FullName.Split('.');
                 var className = StringUtility.RemoveAll(namespaceSegments.Last().Replace(source.Name, ""), InvalidCharacters);

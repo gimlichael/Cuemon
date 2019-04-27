@@ -56,7 +56,8 @@ namespace Cuemon.Diagnostics
         /// <param name="evidenceProvider">The function delegate that provides the evidence.</param>
         public void AddEvidence<T>(string context, T evidence, Func<T, object> evidenceProvider)
         {
-            _evidence.AddIfNotContainsKey(context, evidenceProvider?.Invoke(evidence));
+            if (_evidence.ContainsKey(context)) { return; }
+            _evidence.Add(context, evidenceProvider?.Invoke(evidence));
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace Cuemon.Diagnostics
         /// </summary>
         public void PostInitializeWith(ExceptionDescriptorAttribute attribute)
         {
-            PostInitializeWith(attribute.Yield());
+            PostInitializeWith(EnumerableUtility.Yield(attribute));
         }
 
         /// <summary>

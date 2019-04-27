@@ -31,7 +31,7 @@ namespace Cuemon.Security
             Validator.ThrowIfNullOrEmpty(securityToken, nameof(securityToken));
             Validator.ThrowIfLowerThan(securityToken.Length, 34, nameof(securityToken));
 
-		    var tokenSegments = StringUtility.Split(securityToken, ";");
+		    var tokenSegments = securityToken.Split(';');
             Validator.ThrowIfLowerThan(tokenSegments.Length, 4, nameof(securityToken));
             Validator.ThrowIfGreaterThan(tokenSegments.Length, 5, nameof(securityToken));
 
@@ -221,12 +221,12 @@ namespace Cuemon.Security
 			return new SecurityToken(settings);
 		}
 
-		/// <summary>
-		/// Converts the <see cref="String"/> representation to its <see cref="SecurityToken"/> equivalent.
-		/// </summary>
-		/// <param name="securityToken">The <see cref="SecurityToken"/> equivalent created by <see cref="ToString"/>.</param>
-		/// <returns>A <see cref="SecurityToken"/> instance.</returns>
-		public static SecurityToken Parse(string securityToken)
+        /// <summary>
+        /// Converts the <see cref="string"/> representation to its <see cref="SecurityToken"/> equivalent.
+        /// </summary>
+        /// <param name="securityToken">The <see cref="SecurityToken"/> equivalent created by <see cref="ToString"/>.</param>
+        /// <returns>A <see cref="SecurityToken"/> instance.</returns>
+        public static SecurityToken Parse(string securityToken)
 		{
             return new SecurityToken(securityToken);
 		}

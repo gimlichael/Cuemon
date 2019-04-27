@@ -144,7 +144,7 @@ namespace Cuemon
         {
             var innerExceptionsProperty = ReflectionUtility.GetProperty(source.GetType(), "InnerExceptions");
             if (innerExceptionsProperty != null) { return innerExceptionsProperty.GetValue(source, null) as IEnumerable<Exception>; }
-            return source.InnerException == null ? Enumerable.Empty<Exception>() : source.InnerException.Yield();
+            return source.InnerException == null ? Enumerable.Empty<Exception>() : EnumerableUtility.Yield(source.InnerException);
         }
     }
 }

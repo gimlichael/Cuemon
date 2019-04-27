@@ -40,7 +40,7 @@ namespace Cuemon.Collections.Generic
         /// Gets the number of elements a partition can hold.
         /// </summary>
         /// <value>The number of elements a partition can hold.</value>
-        public int PartitionSize { get; private set; }
+        public int PartitionSize { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance has partitions remaining to be iterated.
@@ -52,7 +52,7 @@ namespace Cuemon.Collections.Generic
         /// Gets the total number of elements in the sequence before partitioning is applied.
         /// </summary>
         /// <value>The total number of elements in the sequence before partitioning is applied.</value>
-        public int Count { get; private set; }
+        public int Count { get; }
 
         /// <summary>
         /// Gets the number of elements remaining in the partitioned sequence.
@@ -76,8 +76,7 @@ namespace Cuemon.Collections.Generic
         /// <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            int count;
-            var result = EnumerableUtility.Chunk(ref _source, PartitionSize, out count);
+            var result = EnumerableUtility.Chunk(ref _source, PartitionSize, out var count);
             Interlocked.Add(ref _iteratedCount, count);
             return result.GetEnumerator();
         }

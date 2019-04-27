@@ -37,9 +37,9 @@ namespace Cuemon.Collections.Generic
 
         private static TSource DefaultRandomizer<TSource>(IEnumerable<TSource> source)
 	    {
-            if (source == null) { return default(TSource); }
+            if (source == null) { return default; }
             var collection = source as ICollection<TSource> ?? new List<TSource>(source);
-            return collection.Count == 0 ? default(TSource) : collection.ElementAt(NumberUtility.GetRandomNumber(collection.Count));
+            return collection.Count == 0 ? default : collection.ElementAt(NumberUtility.GetRandomNumber(collection.Count));
 	    }
 
         /// <summary>
@@ -90,8 +90,18 @@ namespace Cuemon.Collections.Generic
         /// <remarks>The original <paramref name="source"/> is reduced equivalent to the number of elements in the returned sequence.</remarks>
         public static IEnumerable<TSource> Chunk<TSource>(ref IEnumerable<TSource> source, int size)
         {
-            int processedCount;
-            return Chunk(ref source, size, out processedCount);
+            return Chunk(ref source, size, out _);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> sequence with the specified <paramref name="value"/> as the only element.
+        /// </summary>
+        /// <typeparam name="T">The type of the element of <see cref="IEnumerable{T}"/>.</typeparam>
+        /// <param name="value">The value to yield into an <see cref="IEnumerable{T}"/> sequence.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence with the specified <paramref name="value"/> as the only element.</returns>
+        public static IEnumerable<T> Yield<T>(T value)
+        {
+            yield return value;
         }
 
         internal static IEnumerable<TSource> Chunk<TSource>(ref IEnumerable<TSource> source, int size, out int processedCount)

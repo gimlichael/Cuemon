@@ -254,12 +254,12 @@ namespace Cuemon.IO
         private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : Template<StreamWriter>
         {
             var options = Patterns.Configure(setup);
-            return Disposable.SafeInvoke(() => new MemoryStream(options.BufferSize),  ms =>
+            return Disposable.SafeInvoke(() => new MemoryStream(options.BufferSize),  (ms, f) =>
             {
                 var writer = new InternalStreamWriter(ms, options);
                 {
-                    factory.GenericArguments.Arg1 = writer;
-                    factory.ExecuteMethod();
+                    f.GenericArguments.Arg1 = writer;
+                    f.ExecuteMethod();
                     writer.Flush();
                 }
                 ms.Flush();
@@ -273,12 +273,12 @@ namespace Cuemon.IO
                     }
                 }
                 return ms;
-            }, ex =>
+            }, factory, (ex, f) =>
             {
                 var parameters = new List<object>();
-                parameters.AddRange(factory.GenericArguments.ToArray());
+                parameters.AddRange(f.GenericArguments.ToArray());
                 parameters.Add(options);
-                throw ExceptionUtility.Refine(new InvalidOperationException("There is an error in the Stream being written.", ex), factory.DelegateInfo, parameters.ToArray()).Unwrap();
+                throw ExceptionUtility.Unwrap(ExceptionUtility.Refine(new InvalidOperationException("There is an error in the Stream being written.", ex), f.DelegateInfo, parameters.ToArray()));
             });
         }
     }

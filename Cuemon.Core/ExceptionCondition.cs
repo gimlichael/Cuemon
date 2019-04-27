@@ -162,7 +162,7 @@ namespace Cuemon
         /// </summary>
         public void TryThrow()
         {
-            if (Condition() == Expected) { throw ExceptionUtility.Refine(Handler(), Condition.GetMethodInfo()).Unwrap(); }
+            if (Condition() == Expected) { throw ExceptionUtility.Unwrap(ExceptionUtility.Refine(Handler(), Condition.GetMethodInfo())); }
         }
     }
 
@@ -191,7 +191,7 @@ namespace Cuemon
         /// </summary>
         public void TryThrow()
         {
-            if (TesterCondition(out var result) == Expected) { throw ExceptionUtility.Refine(Handler(result), TesterCondition.GetMethodInfo()).Unwrap(); }
+            if (TesterCondition(out var result) == Expected) { throw ExceptionUtility.Unwrap(ExceptionUtility.Refine(Handler(result), TesterCondition.GetMethodInfo())); }
         }
     }
 }

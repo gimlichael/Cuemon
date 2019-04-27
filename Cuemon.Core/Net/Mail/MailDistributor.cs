@@ -42,7 +42,7 @@ namespace Cuemon.Net.Mail
         public Task SendOneAsync(MailMessage mail, Func<MailMessage, bool> filter = null)
         {
             Validator.ThrowIfNull(mail, nameof(mail));
-            return SendAsync(mail.Yield(), filter);
+            return SendAsync(EnumerableUtility.Yield(mail), filter);
         }
 
         /// <summary>

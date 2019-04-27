@@ -77,7 +77,7 @@ namespace Cuemon
             catch (Exception ex)
             {
                 if (ex.GetType() == typeof(NotSupportedException)) { throw; }
-                throw ExceptionUtility.Refine(new ArgumentException(nameof(value), ex.Message, ex.InnerException), MethodBaseConverter.FromType(typeof(Converter), EnumerableConverter.AsArray(typeof(string), typeof(CultureInfo), typeof(ITypeDescriptorContext))), value, culture, context).Unwrap();
+                throw ExceptionUtility.Unwrap(ExceptionUtility.Refine(new ArgumentException(nameof(value), ex.Message, ex.InnerException), MethodBaseConverter.FromType(typeof(Converter), EnumerableConverter.AsArray(typeof(string), typeof(CultureInfo), typeof(ITypeDescriptorContext))), value, culture, context));
             }
         }
 

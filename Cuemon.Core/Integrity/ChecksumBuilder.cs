@@ -19,7 +19,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
-        /// <param name="checksum">A <see cref="Double"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="double"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(double checksum, Action<ChecksumBuilderOptions> setup = null) : this(ByteConverter.FromConvertible(checksum), setup)
         {
@@ -28,7 +28,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
-        /// <param name="checksum">A <see cref="Int16"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="short"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(short checksum, Action<ChecksumBuilderOptions> setup = null) : this(ByteConverter.FromConvertible(checksum), setup)
         {
@@ -38,7 +38,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
-        /// <param name="checksum">A <see cref="String"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="string"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(string checksum, Action<ChecksumBuilderOptions> setup = null) : this(checksum == null ? StructUtility.HashCodeForNullValue : StructUtility.GetHashCode64(checksum), setup)
         {
@@ -47,7 +47,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
-        /// <param name="checksum">A <see cref="Int32"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="int"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(int checksum, Action<ChecksumBuilderOptions> setup = null) : this(ByteConverter.FromConvertible(checksum), setup)
         {
@@ -56,7 +56,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
-        /// <param name="checksum">A <see cref="Int64"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="long"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(long checksum, Action<ChecksumBuilderOptions> setup = null) : this(ByteConverter.FromConvertible(checksum), setup)
         {
@@ -65,7 +65,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
-        /// <param name="checksum">A <see cref="Single"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="float"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(float checksum, Action<ChecksumBuilderOptions> setup = null) : this(ByteConverter.FromConvertible(checksum), setup)
         {
@@ -74,7 +74,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
-        /// <param name="checksum">A <see cref="UInt16"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="ushort"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(ushort checksum, Action<ChecksumBuilderOptions> setup = null) : this(ByteConverter.FromConvertible(checksum), setup)
         {
@@ -83,7 +83,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
-        /// <param name="checksum">A <see cref="UInt32"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="uint"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(uint checksum, Action<ChecksumBuilderOptions> setup = null) : this(ByteConverter.FromConvertible(checksum), setup)
         {
@@ -92,7 +92,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
         /// </summary>
-        /// <param name="checksum">A <see cref="UInt64"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
+        /// <param name="checksum">A <see cref="ulong"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
         public ChecksumBuilder(ulong checksum, Action<ChecksumBuilderOptions> setup = null) : this(ByteConverter.FromConvertible(checksum), setup)
         {

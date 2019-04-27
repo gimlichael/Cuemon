@@ -213,7 +213,7 @@ namespace Cuemon
             if (assemblies == null) { throw new ArgumentNullException(nameof(assemblies)); }
             var ancestorOrSelfTypes = GetAncestorOrSelfTypes(source);
             var derivedOrSelfTypes = GetDescendantOrSelfTypes(source, assemblies);
-            return derivedOrSelfTypes.Concat(ancestorOrSelfTypes).Distinct().OrderByDescending(new ReferenceComparer<Type>());
+            return derivedOrSelfTypes.Concat(ancestorOrSelfTypes).Distinct().OrderByDescending(t => t, new ReferenceComparer<Type>());
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace Cuemon
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (targets == null) throw new ArgumentNullException(nameof(targets));
-            var sourceInterfaces = source.GetTypeInfo().IsInterface ? source.Yield().Concat(source.GetInterfaces()).ToList() : source.GetInterfaces().ToList();
+            var sourceInterfaces = source.GetTypeInfo().IsInterface ? EnumerableUtility.Yield(source).Concat(source.GetInterfaces()).ToList() : source.GetInterfaces().ToList();
             foreach (var targetType in targets)
             {
                 if (inherit) // search all inheritance chains
@@ -520,7 +520,10 @@ namespace Cuemon
                     isPrimitive |= sourceInfo.IsValueType && IsSimpleValueType(source);
                     isPrimitive |= source == typeof(string);
                     isPrimitive |= source == typeof(decimal);
-                    ComplexValueTypeLookup.AddIfNotContainsKey(source.AssemblyQualifiedName, isPrimitive);
+                    if (!ComplexValueTypeLookup.ContainsKey(sourceInfo.AssemblyQualifiedName))
+                    {
+                        ComplexValueTypeLookup.TryAdd(source.AssemblyQualifiedName, isPrimitive);
+                    }
                 }
                 result &= isPrimitive;
             }

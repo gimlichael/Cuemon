@@ -141,7 +141,7 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(node, nameof(node));
             IList<IHierarchy<T>> result = new List<IHierarchy<T>>(HierarchyUtility.WhileSourceTraversalIsNotNull(node, HierarchyUtility.AncestorsAndSelf));
-            return result.Count > 0 ? result.Reverse() : node.Yield();
+            return result.Count > 0 ? result.Reverse() : EnumerableUtility.Yield(node);
         }
 
         /// <summary>
