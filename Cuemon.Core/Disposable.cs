@@ -40,8 +40,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var f1 = FuncFactory.Create(tester, null, arg);
-            var f2 = ActionFactory.Create(catcher, null, arg);
+            var f1 = FuncFactory.Create(tester, default, arg);
+            var f2 = ActionFactory.Create(catcher, default, arg);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
@@ -61,8 +61,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var f1 = FuncFactory.Create(tester, null, arg1, arg2);
-            var f2 = ActionFactory.Create(catcher, null, arg1, arg2);
+            var f1 = FuncFactory.Create(tester, default, arg1, arg2);
+            var f2 = ActionFactory.Create(catcher, default, arg1, arg2);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
@@ -84,8 +84,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var f1 = FuncFactory.Create(tester, null, arg1, arg2, arg3);
-            var f2 = ActionFactory.Create(catcher, null, arg1, arg2, arg3);
+            var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3);
+            var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
@@ -109,8 +109,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var f1 = FuncFactory.Create(tester, null, arg1, arg2, arg3, arg4);
-            var f2 = ActionFactory.Create(catcher, null, arg1, arg2, arg3, arg4);
+            var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3, arg4);
+            var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
@@ -136,8 +136,8 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(initializer, nameof(initializer));
             Validator.ThrowIfNull(tester, nameof(tester));
-            var f1 = FuncFactory.Create(tester, null, arg1, arg2, arg3, arg4, arg5);
-            var f2 = ActionFactory.Create(catcher, null, arg1, arg2, arg3, arg4, arg5);
+            var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3, arg4, arg5);
+            var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4, arg5);
             return SafeInvokeCore(f1, initializer, f2);
         }
 
