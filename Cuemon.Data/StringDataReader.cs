@@ -24,7 +24,7 @@ namespace Cuemon.Data
         /// Initializes a new instance of the <see cref="StringDataReader"/> class.
         /// </summary>
         /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value.</param>
-        /// <remarks>The default implementation uses <see cref="ObjectConverter.FromString(System.String)"/> as <paramref name="parser"/>.</remarks>
+        /// <remarks>The default implementation uses <see cref="ObjectConverter.FromString(string)"/> as <paramref name="parser"/>.</remarks>
         protected StringDataReader(Func<string, object> parser)
         {
             Validator.ThrowIfNull(parser, nameof(parser));
@@ -50,29 +50,20 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="name">The name of the column to find.</param>
         /// <returns>The column with the specified name as an <see cref="object"/>.</returns>
-        public override object this[string name]
-        {
-            get { return Fields[name]; }
-        }
+        public override object this[string name] => Fields[name];
 
         /// <summary>
         /// Gets the column located at the specified index.
         /// </summary>
         /// <param name="i">The zero-based index of the column to get.</param>
         /// <returns>The column located at the specified index as an <see cref="object"/>.</returns>
-        public override object this[int i]
-        {
-            get { return Fields[i]; }
-        }
+        public override object this[int i] => Fields[i];
 
         /// <summary>
         /// Gets the number of rows changed, inserted, or deleted by execution of the SQL statement.
         /// </summary>
         /// <value>The records affected.</value>
-        public override int RecordsAffected
-        {
-            get { return -1; }
-        }
+        public override int RecordsAffected => -1;
 
         private IOrderedDictionary Fields { get; set; }
 
@@ -80,10 +71,7 @@ namespace Cuemon.Data
         /// Gets a value indicating whether the data reader is closed.
         /// </summary>
         /// <value><c>true</c> if this instance is closed; otherwise, <c>false</c>.</value>
-        public override bool IsClosed
-        {
-            get { return IsDisposed; }
-        }
+        public override bool IsClosed => IsDisposed;
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
@@ -108,21 +96,19 @@ namespace Cuemon.Data
         /// Gets the number of columns in the current row.
         /// </summary>
         /// <value>When not positioned in a valid recordset, 0; otherwise, the number of columns in the current record.</value>
-        public override int FieldCount
-        {
-            get { return Fields.Count; }
-        }
+        public override int FieldCount => Fields.Count;
+
         #endregion
 
         #region Methods
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents the current row of this instance.
+        /// Returns a <see cref="string" /> that represents the current row of this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents the current row of this instance.</returns>
+        /// <returns>A <see cref="string" /> that represents the current row of this instance.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < FieldCount; i++)
+            var builder = new StringBuilder();
+            for (var i = 0; i < FieldCount; i++)
             {
                 builder.AppendFormat("{0}={1}, ", GetName(i), GetValue(i));
             }
@@ -136,7 +122,7 @@ namespace Cuemon.Data
         /// <returns><c>true</c> if there are more rows; otherwise, <c>false</c>.</returns>
         public override bool Read()
         {
-            bool next = ReadNext();
+            var next = ReadNext();
             if (next) { RowCount++; }
             return next;
         }
@@ -297,7 +283,7 @@ namespace Cuemon.Data
         /// <returns>The name of the field or the empty string (""), if there is no value to return.</returns>
         public override string GetName(int i)
         {
-            int current = 0;
+            var current = 0;
             foreach (string name in Fields.Keys)
             {
                 if (i == current) { return name; }
@@ -311,7 +297,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="name">The name of the field to find.</param>
         /// <returns>The index of the named field.</returns>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="name"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -320,7 +306,7 @@ namespace Cuemon.Data
         public override int GetOrdinal(string name)
         {
             Validator.ThrowIfNull(name, nameof(name));
-            int current = 0;
+            var current = 0;
             foreach (string columnName in Fields.Keys)
             {
                 if (columnName.Equals(name, StringComparison.OrdinalIgnoreCase)) { return current; }
@@ -383,10 +369,7 @@ namespace Cuemon.Data
         /// Gets a value indicating the depth of nesting for the current row.
         /// </summary>
         /// <value>The level of nesting.</value>
-        public override int Depth
-        {
-            get { return 0; }
-        }
+        public override int Depth => 0;
 
         /// <summary>
         /// Populates an array of objects with the column values of the current record.
@@ -396,8 +379,8 @@ namespace Cuemon.Data
         public override int GetValues(object[] values)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            int length = FieldCount;
-            for (int i = 0; i < length; i++)
+            var length = FieldCount;
+            for (var i = 0; i < length; i++)
             {
                 values[i] = GetValue(i);
             }
@@ -441,7 +424,7 @@ namespace Cuemon.Data
         /// Returns an <see cref="T:System.Collections.IEnumerator" /> that can be used to iterate through the rows in the data reader.
         /// </summary>
         /// <returns>An <see cref="T:System.Collections.IEnumerator" /> that can be used to iterate through the rows in the data reader.</returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override IEnumerator GetEnumerator()
         {
             throw new NotImplementedException();
