@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Cuemon.Extensions.Core.Reflection
+namespace Cuemon.Extensions.Reflection
 {
     /// <summary>
     /// Extension methods for the <see cref="MemberInfo"/>.

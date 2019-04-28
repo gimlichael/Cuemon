@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Cuemon.Extensions.Core.Collections.Generic
+namespace Cuemon.Extensions.Collections.Generic
 {
     /// <summary>
     /// Extension methods for the <see cref="ICollection{T}"/> interface.

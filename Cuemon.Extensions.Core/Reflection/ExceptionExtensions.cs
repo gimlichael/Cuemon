@@ -2,7 +2,7 @@
 using System.Reflection;
 using Cuemon.Reflection;
 
-namespace Cuemon.Extensions.Core.Reflection
+namespace Cuemon.Extensions.Reflection
 {
     /// <summary>
     /// Extension methods for the <see cref="Exception"/> class.

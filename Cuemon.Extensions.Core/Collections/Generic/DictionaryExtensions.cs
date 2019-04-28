@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Cuemon.Collections.Generic;
 
-namespace Cuemon.Extensions.Core.Collections.Generic
+namespace Cuemon.Extensions.Collections.Generic
 {
     /// <summary>
     /// Extension methods for the <see cref="IDictionary{TKey,TValue}"/> interface.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cuemon.Collections.Generic;
 
-namespace Cuemon.Extensions.Core.Collections.Generic
+namespace Cuemon.Extensions.Collections.Generic
 {
     /// <summary>
     /// Extension methods for the <see cref="IEnumerable{T}"/> interface.
@@ -78,11 +78,7 @@ namespace Cuemon.Extensions.Core.Collections.Generic
         /// <returns>An <see cref="IEnumerable{T}"/> that contains asscending sorted elements from the source sequence.</returns>
         public static IEnumerable<TSource> OrderBy<TSource>(this IEnumerable<TSource> source, Comparison<TSource> comparer)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(comparer, nameof(comparer));
-            var sorter = new List<TSource>(source);
-            sorter.Sort(comparer);
-            return sorter;
+            return EnumerableUtility.OrderBy(source, comparer);
         }
 
         /// <summary>
@@ -119,7 +115,7 @@ namespace Cuemon.Extensions.Core.Collections.Generic
         /// <returns>An <see cref="IEnumerable{T}"/> that contains descending sorted elements from the source sequence.</returns>
         public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source, Comparison<TSource> comparer)
         {
-            return source.OrderBy(comparer).Reverse();
+            return EnumerableUtility.OrderByDescending(source, comparer);
         }
 
         /// <summary>

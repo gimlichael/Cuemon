@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Cuemon.Extensions.Core
+namespace Cuemon.Extensions
 {
     /// <summary>
     /// Extension methods for the <see cref="object"/> class.

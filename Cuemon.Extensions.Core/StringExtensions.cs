@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using Cuemon.Text;
 
-namespace Cuemon.Extensions.Core
+namespace Cuemon.Extensions
 {
     /// <summary>
     /// Extension methods for the <see cref="string"/> class.

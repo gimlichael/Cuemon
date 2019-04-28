@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cuemon.Extensions.Core
+namespace Cuemon.Extensions
 {
     /// <summary>
     /// Extension methods for the <see cref="Exception"/> class.

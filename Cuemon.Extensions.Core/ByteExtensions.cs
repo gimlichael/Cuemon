@@ -2,7 +2,7 @@
 using System.Text;
 using Cuemon.Text;
 
-namespace Cuemon
+namespace Cuemon.Extensions
 {
     /// <summary>
     /// Extension methods for the <see cref="byte"/> struct.

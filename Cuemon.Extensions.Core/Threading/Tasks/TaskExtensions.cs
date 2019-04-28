@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Cuemon.Extensions.Core.Threading.Tasks
+namespace Cuemon.Extensions.Threading.Tasks
 {
     /// <summary>
     /// Extension methods for the <see cref="Task"/>.

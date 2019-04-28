@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon
+namespace Cuemon.Extensions
 {
     /// <summary>
     /// Extension methods for the <see cref="Action"/> delegates.

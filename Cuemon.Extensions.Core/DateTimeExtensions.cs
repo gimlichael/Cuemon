@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon.Extensions.Core
+namespace Cuemon.Extensions
 {
     /// <summary>
     /// Extension methods for the <see cref="DateTime"/> struct.
