@@ -16,7 +16,6 @@ namespace Cuemon.Security
         private IList<char> _permutationCharacters;
         private static readonly object PadLock = new object();
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="Obfuscator"/> class using <see cref="System.Text.Encoding.Unicode"/> for the character encoding.
         /// </summary>
@@ -54,9 +53,7 @@ namespace Cuemon.Security
             Mappings = new Dictionary<string, ObfuscatorMapping>();
             _obfuscatedValues = new List<string>();
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets the length of the current combination used in conjuction with <see cref="CurrentPermutationSize"/>.
         /// </summary>
@@ -98,9 +95,7 @@ namespace Cuemon.Security
         /// </summary>
         /// <value>The original values gathered in a mappable structure.</value>
         protected Dictionary<string, ObfuscatorMapping> Mappings { get; }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Initializes the permutation characters used in the obfuscation process.
         /// </summary>
@@ -211,12 +206,11 @@ namespace Cuemon.Security
         public abstract Stream Obfuscate(Stream value);
 
         /// <summary>
-        /// Revert the obfuscated value of <paramref name="value"/> to its original state by applying the mappaple values of <paramref name="mapping"/>.
+        /// Revert the obfuscated value of <paramref name="obfuscated"/> to its original state by applying the mappaple values of <paramref name="mapping"/>.
         /// </summary>
-        /// <param name="value">The obfuscated <see cref="Stream"/> to revert.</param>
-        /// <param name="mapping">A <see cref="Stream"/> containing mappaple values necessary to revert <paramref name="value"/> to its original state.</param>
+        /// <param name="obfuscated">The obfuscated <see cref="Stream"/> to revert.</param>
+        /// <param name="mapping">A <see cref="Stream"/> containing mappaple values necessary to revert <paramref name="obfuscated"/> to its original state.</param>
         /// <returns>A <see cref="Stream"/> object where the obfuscated value has been reverted to its original value.</returns>
-        public abstract Stream Revert(Stream value, Stream mapping);
-        #endregion
+        public abstract Stream Revert(Stream obfuscated, Stream mapping);
     }
 }
