@@ -197,22 +197,22 @@ namespace Cuemon.Xml
         }
 
         /// <summary>
-        /// Revert the obfuscated XML document of <paramref name="value"/> to its original state by applying the mappaple XML document of <paramref name="mapping"/>.
+        /// Revert the obfuscated XML document of <paramref name="obfuscated"/> to its original state by applying the mappaple XML document of <paramref name="mapping"/>.
         /// </summary>
-        /// <param name="value">The obfuscated <see cref="Stream"/> to revert.</param>
-        /// <param name="mapping">A <see cref="Stream"/> containing mappaple values necessary to revert <paramref name="value"/> to its original state.</param>
+        /// <param name="obfuscated">The obfuscated <see cref="Stream"/> to revert.</param>
+        /// <param name="mapping">A <see cref="Stream"/> containing mappaple values necessary to revert <paramref name="obfuscated"/> to its original state.</param>
         /// <returns>A <see cref="Stream"/> object where the obfuscated XML document has been reverted to its original XML document.</returns>
-        public override Stream Revert(Stream value, Stream mapping)
+        public override Stream Revert(Stream obfuscated, Stream mapping)
         {
-            if (value == null) throw new ArgumentNullException(nameof(value));
+            if (obfuscated == null) throw new ArgumentNullException(nameof(obfuscated));
             if (mapping == null) throw new ArgumentNullException(nameof(mapping));
             long obfustatedStartingPosition = -1;
             long mappingStartingPosition = -1;
 
-            if (value.CanSeek)
+            if (obfuscated.CanSeek)
             {
-                obfustatedStartingPosition = value.Position;
-                value.Position = 0;
+                obfustatedStartingPosition = obfuscated.Position;
+                obfuscated.Position = 0;
             }
             if (mapping.CanSeek)
             {
@@ -231,7 +231,7 @@ namespace Cuemon.Xml
                 tempOutput = new MemoryStream();
                 using (var writer = XmlWriter.Create(tempOutput, XmlWriterUtility.CreateSettings(o => o.Encoding = Encoding)))
                 {
-                    using (var reader = XmlReader.Create(value))
+                    using (var reader = XmlReader.Create(obfuscated))
                     {
                         while (reader.Read())
                         {
@@ -292,7 +292,7 @@ namespace Cuemon.Xml
                if (tempOutput != null) { tempOutput.Dispose(); }
             }
 
-            if (value.CanSeek) { value.Seek(obfustatedStartingPosition, SeekOrigin.Begin); }
+            if (obfuscated.CanSeek) { obfuscated.Seek(obfustatedStartingPosition, SeekOrigin.Begin); }
             if (mapping.CanSeek) { mapping.Seek(mappingStartingPosition, SeekOrigin.Begin); }
 
             return output;
