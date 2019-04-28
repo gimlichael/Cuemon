@@ -8,7 +8,6 @@ namespace Cuemon.Xml.Serialization
     /// </summary>
     public sealed class XmlQualifiedEntity
     {
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlQualifiedEntity"/> class.
         /// </summary>
@@ -70,9 +69,7 @@ namespace Cuemon.Xml.Serialization
             LocalName = localName;
             Namespace = ns;
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets the local name of the entity.
         /// </summary>
@@ -90,14 +87,11 @@ namespace Cuemon.Xml.Serialization
         /// </summary>
         /// <value>The namespace prefix of the entity.</value>
         public string Prefix { get; private set; }
-        #endregion
 
-        #region Methods
         private static T ValidateArguments<T>(T attribute) where T : Attribute
         {
-            if (attribute == null) { throw new ArgumentNullException(nameof(attribute)); }
+            Validator.ThrowIfNull(attribute, nameof(attribute));
             return attribute;
         }
-        #endregion
     }
 }
