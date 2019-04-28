@@ -41,9 +41,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Xml.Serialization\Cuemon.Extensions.Xml.Serialization.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Xml\Cuemon.Extensions.Xml.csproj" />
     <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
-    <ProjectReference Include="..\Cuemon.Serialization\Cuemon.Serialization.csproj" />
-    <ProjectReference Include="..\Cuemon.Serialization.Xml\Cuemon.Serialization.Xml.csproj" />
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
   </ItemGroup>
 

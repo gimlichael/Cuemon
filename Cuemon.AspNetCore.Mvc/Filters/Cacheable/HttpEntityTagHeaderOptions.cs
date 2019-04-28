@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Cuemon.AspNetCore.Http;
+using Cuemon.Extensions.Security.Cryptography;
 using Cuemon.Integrity;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
@@ -67,7 +68,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                 var builder = new ChecksumBuilder(body.ComputeHash(o =>
                 {
                     o.AlgorithmType = HashAlgorithmType.MD5;
-                    o.LeaveStreamOpen = true;
+                    o.LeaveOpen = true;
                 }).Value);
                 response.SetEntityTagHeaderInformation(request, builder);
             };

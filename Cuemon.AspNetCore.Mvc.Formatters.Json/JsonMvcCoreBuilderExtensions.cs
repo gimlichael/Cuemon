@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.Serialization.Json.Formatters;
+using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

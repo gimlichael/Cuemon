@@ -17,7 +17,7 @@ namespace Cuemon.AspNetCore.Integrity
         public static EntityTagHeaderValue ToEntityTag(this ChecksumBuilder builder, bool isWeak = false)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            return new EntityTagHeaderValue(string.Concat("\"", builder.Checksum.ToHexadecimal(), "\""), isWeak);
+            return new EntityTagHeaderValue(string.Concat("\"", builder.Checksum.ToHexadecimalString(), "\""), isWeak);
         }
     }
 }

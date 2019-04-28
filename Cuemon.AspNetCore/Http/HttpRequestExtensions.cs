@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Cuemon.Extensions;
 using Cuemon.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Headers;
@@ -46,7 +47,7 @@ namespace Cuemon.AspNetCore.Http
                     clientSideEntityTag = clientSideEntityTag.Remove(indexOfEndQuote, 1);
                     clientSideEntityTag = clientSideEntityTag.Remove(indexOfStartQuote, 1);
                 }
-                return builder.Checksum.ToHexadecimal().Equals(clientSideEntityTag);
+                return builder.Checksum.ToHexadecimalString().Equals(clientSideEntityTag);
             }
             return false;
         }

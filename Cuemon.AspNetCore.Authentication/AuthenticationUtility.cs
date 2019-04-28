@@ -2,7 +2,7 @@
 using System.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Cuemon.Threading.Tasks;
+using Cuemon.Extensions.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
@@ -90,7 +90,7 @@ namespace Cuemon.AspNetCore.Authentication
             principal = null;
             string authorizationHeader = context.Request.Headers[HeaderNames.Authorization];
             if (string.IsNullOrEmpty(authorizationHeader)) { return false; }
-            T credentials = authorizationParser(context, authorizationHeader);
+            var credentials = authorizationParser(context, authorizationHeader);
             if (credentials != null && principalParser(context, credentials, out principal)) { return true; }
             return false;
         }

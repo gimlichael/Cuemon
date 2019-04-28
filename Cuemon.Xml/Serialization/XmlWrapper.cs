@@ -30,20 +30,14 @@ namespace Cuemon.Xml.Serialization
         /// </summary>
         /// <value>An object that implements the <see cref="IDictionary{TKey,TValue}"/> interface and contains a collection of user-defined key/value pairs.</value>
         [XmlIgnore]
-        public override IDictionary<string, object> Data
-        {
-            get { return base.Data; }
-        }
+        public override IDictionary<string, object> Data => base.Data;
 
         /// <summary>
         /// Gets a value indicating whether this instance has a member reference.
         /// </summary>
         /// <value><c>true</c> if this instance has a member reference; otherwise, <c>false</c>.</value>
         [XmlIgnore]
-        public override bool HasMemberReference
-        {
-            get { return base.HasMemberReference; }
-        }
+        public override bool HasMemberReference => base.HasMemberReference;
 
         /// <summary>
         /// Gets the type of the object that this wrapper represents.
@@ -52,9 +46,8 @@ namespace Cuemon.Xml.Serialization
         [XmlIgnore]
         public override Type InstanceType
         {
-            get
-            { return base.InstanceType; }
-            protected set { base.InstanceType = value; }
+            get => base.InstanceType;
+            protected set => base.InstanceType = value;
         }
 
         /// <summary>
@@ -64,8 +57,8 @@ namespace Cuemon.Xml.Serialization
         [XmlIgnore]
         public override MemberInfo MemberReference
         {
-            get { return base.MemberReference; }
-            set { base.MemberReference = value; }
+            get => base.MemberReference;
+            set => base.MemberReference = value;
         }
     }
 }

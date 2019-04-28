@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Core;
+using Cuemon.Extensions.Reflection;
 using Cuemon.Extensions.Runtime.Serialization;
 using Cuemon.Runtime.Serialization;
 using Newtonsoft.Json;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Infrastructure;
-using Cuemon.IO;
-using Cuemon.Threading.Tasks;
+using Cuemon.Extensions.IO;
+using Cuemon.Extensions.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Configuration;
+using Cuemon.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 

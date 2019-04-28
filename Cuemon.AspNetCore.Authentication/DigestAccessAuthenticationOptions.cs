@@ -22,8 +22,8 @@ namespace Cuemon.AspNetCore.Authentication
             NonceSecret = () => DigestAuthenticationUtility.DefaultPrivateKey;
             DigestAccessSigner = parameters =>
             {
-                string ha1 = DigestAuthenticationUtility.ComputeHash1(parameters.Credentials, parameters.Password, parameters.Algorithm);
-                string ha2 = DigestAuthenticationUtility.ComputeHash2(parameters.Credentials, parameters.HttpMethod, parameters.Algorithm);
+                var ha1 = DigestAuthenticationUtility.ComputeHash1(parameters.Credentials, parameters.Password, parameters.Algorithm);
+                var ha2 = DigestAuthenticationUtility.ComputeHash2(parameters.Credentials, parameters.HttpMethod, parameters.Algorithm);
                 return DigestAuthenticationUtility.ComputeResponse(parameters.Credentials, ha1, ha2, parameters.Algorithm);
             };
         }

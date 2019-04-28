@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Cuemon.Serialization.Json.Formatters;
-using Cuemon.Threading.Tasks;
+using Cuemon.Extensions.IO;
+using Cuemon.Extensions.Newtonsoft.Json.Formatters;
+using Cuemon.Extensions.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
@@ -42,11 +43,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
                 JsonFormatter formatter = new JsonFormatter(FormatterOptions);
                 using (var streamReader = new StreamReader(formatter.Serialize(value)))
                 {
-                    int bytesRead;
-                    while ((bytesRead = await streamReader.ReadAsync(buffer, 0, buffer.Length).ContinueWithSuppressedContext()) > 0)
-                    {
-                        await textWriter.WriteAsync(buffer, 0, bytesRead).ContinueWithSuppressedContext();
-                    }
+                    await streamReader.CopyToAsync(textWriter).ContinueWithSuppressedContext();
                 }
                 await textWriter.FlushAsync().ContinueWithSuppressedContext();
             }

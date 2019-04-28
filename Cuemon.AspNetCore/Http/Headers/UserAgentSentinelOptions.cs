@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using Cuemon.Extensions;
 
 namespace Cuemon.AspNetCore.Http.Headers
 {

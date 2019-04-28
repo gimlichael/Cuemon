@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Xml;
 using Cuemon.Reflection;
+using Cuemon.Runtime.Serialization;
 using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Extensions.Xml.Serialization
@@ -17,8 +18,8 @@ namespace Cuemon.Extensions.Xml.Serialization
         /// <typeparam name="T">The type of the object to serialize.</typeparam>
         /// <param name="writer">The writer used in the serialization process.</param>
         /// <param name="value">The object to serialize.</param>
-        /// <param name="setup">The <see cref="XmlSerializerSettings"/> which need to be configured.</param>
-        public static void WriteObject<T>(this XmlWriter writer, T value, Action<XmlSerializerSettings> setup = null)
+        /// <param name="setup">The <see cref="XmlSerializerOptions"/> which need to be configured.</param>
+        public static void WriteObject<T>(this XmlWriter writer, T value, Action<XmlSerializerOptions> setup = null)
         {
             WriteObject(writer, value, typeof(T), setup);
         }
@@ -29,8 +30,8 @@ namespace Cuemon.Extensions.Xml.Serialization
         /// <param name="writer">The writer used in the serialization process.</param>
         /// <param name="value">The object to serialize.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
-        /// <param name="setup">The <see cref="XmlSerializerSettings"/> which need to be configured.</param>
-        public static void WriteObject(this XmlWriter writer, object value, Type objectType, Action<XmlSerializerSettings> setup = null)
+        /// <param name="setup">The <see cref="XmlSerializerOptions"/> which need to be configured.</param>
+        public static void WriteObject(this XmlWriter writer, object value, Type objectType, Action<XmlSerializerOptions> setup = null)
         {
             var serializer = XmlSerializer.Create(setup?.Configure());
             serializer.Serialize(writer, value, objectType);

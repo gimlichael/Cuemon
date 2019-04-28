@@ -4,10 +4,12 @@ using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Diagnostics;
-using Cuemon.Serialization;
-using Cuemon.Serialization.Xml;
-using Cuemon.Serialization.Xml.Converters;
+using Cuemon.Extensions;
+using Cuemon.Extensions.Xml.Serialization;
+using Cuemon.Extensions.Xml.Serialization.Converters;
+using Cuemon.Runtime.Serialization;
 using Cuemon.Xml.Serialization;
+using Cuemon.Xml.Serialization.Converters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
@@ -20,7 +22,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml.Converters
     {
         static XmlConverterListExtensions()
         {
-            XmlSerializerSettings.DefaultConverters += list =>
+            XmlSerializerOptions.DefaultConverters += list =>
             {
                 list.AddHttpExceptionDescriptorConverter();
                 list.AddStringValuesConverter();

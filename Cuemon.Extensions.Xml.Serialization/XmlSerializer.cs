@@ -14,17 +14,17 @@ namespace Cuemon.Extensions.Xml.Serialization
     public class XmlSerializer
     {
         /// <summary>
-        /// Creates a new <see cref="XmlSerializer"/> instance using the specified <see cref="XmlSerializerSettings"/>.
+        /// Creates a new <see cref="XmlSerializer"/> instance using the specified <see cref="XmlSerializerOptions"/>.
         /// </summary>
         /// <param name="settings">The settings to be applied to the <see cref="XmlSerializer"/>.</param>
         /// <returns>
-        /// A new <see cref="XmlSerializer"/> instance using the specified <see cref="XmlSerializerSettings"/>.
+        /// A new <see cref="XmlSerializer"/> instance using the specified <see cref="XmlSerializerOptions"/>.
         /// </returns>
-        /// <remarks>If <paramref name="settings"/> is <c>null</c>, <see cref="XmlConvert.DefaultSettings"/> is tried invoked. Otherwise, as a fallback, a default instance of <seealso cref="XmlSerializerSettings"/> is created.</remarks>
-        public static XmlSerializer Create(XmlSerializerSettings settings)
+        /// <remarks>If <paramref name="settings"/> is <c>null</c>, <see cref="XmlConvert.DefaultSettings"/> is tried invoked. Otherwise, as a fallback, a default instance of <seealso cref="XmlSerializerOptions"/> is created.</remarks>
+        public static XmlSerializer Create(XmlSerializerOptions settings)
         {
             var defaultSetup = settings ?? XmlConvert.DefaultSettings?.Invoke();
-            return new XmlSerializer(defaultSetup ?? new XmlSerializerSettings());
+            return new XmlSerializer(defaultSetup ?? new XmlSerializerOptions());
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.Xml.Serialization
         /// <returns>A stream of the serialized object.</returns>
         public Stream Serialize(object value, Type objectType)
         {
-            return XmlWriterUtility.CreateXml(writer =>
+            return XmlWriterUtility.CreateStream(writer =>
             {
                 Serialize(writer, value, objectType);
             }, settings =>
@@ -96,9 +96,9 @@ namespace Cuemon.Extensions.Xml.Serialization
             }
         }
 
-        private XmlSerializer(XmlSerializerSettings settings)
+        private XmlSerializer(XmlSerializerOptions settings)
         {
-            Settings = settings ?? new XmlSerializerSettings();
+            Settings = settings ?? new XmlSerializerOptions();
         }
 
         internal void Serialize(XmlWriter writer, object value, Type objectType)
@@ -111,7 +111,7 @@ namespace Cuemon.Extensions.Xml.Serialization
             return GetReaderConverter(objectType).ReadXml(reader, objectType);
         }
 
-        internal XmlSerializerSettings Settings { get; }
+        internal XmlSerializerOptions Settings { get; }
 
         internal XmlConverter GetReaderConverter(Type objectType)
         {

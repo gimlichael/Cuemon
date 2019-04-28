@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params double[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, ByteConverter.FromConvertibles(additionalChecksum));
+            return CombineWith(cb, additionalChecksum.ToConvertibleByteArray());
         }
 
         /// <summary>

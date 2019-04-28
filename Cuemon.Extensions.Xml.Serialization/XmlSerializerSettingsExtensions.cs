@@ -1,17 +1,17 @@
 ﻿namespace Cuemon.Extensions.Xml.Serialization
 {
     /// <summary>
-    /// Extension methods for the <see cref="XmlSerializerSettings"/>.
+    /// Extension methods for the <see cref="XmlSerializerOptions"/>.
     /// </summary>
     public static class XmlSerializerSettingsExtensions
     {
         /// <summary>
-        /// Applies the specified <paramref name="settings"/> to the function delegate <see cref="XmlConvert.DefaultSettings"/>.
+        /// Applies the specified <paramref name="options"/> to the function delegate <see cref="XmlConvert.DefaultSettings"/>.
         /// </summary>
-        /// <param name="settings">The XML serializer settings.</param>
-        public static void ApplyToDefaultSettings(this XmlSerializerSettings settings)
+        /// <param name="options">The XML serializer settings.</param>
+        public static void ApplyToDefaultSettings(this XmlSerializerOptions options)
         {
-            XmlConvert.DefaultSettings = () => settings;
+            XmlConvert.DefaultSettings = () => options;
         }
     }
 }

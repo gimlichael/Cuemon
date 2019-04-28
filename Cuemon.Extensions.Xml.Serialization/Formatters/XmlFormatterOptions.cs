@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Formatters
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="Settings"/></term>
-        ///         <description><see cref="XmlSerializerSettings"/></description>
+        ///         <description><see cref="XmlSerializerOptions"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="SynchronizeWithXmlConvert"/></term>
@@ -33,8 +33,8 @@ namespace Cuemon.Extensions.Xml.Serialization.Formatters
         /// </remarks>
         public XmlFormatterOptions()
         {
-            Settings = new XmlSerializerSettings();
-            XmlSerializerSettings.DefaultConverters = list =>
+            Settings = new XmlSerializerOptions();
+            XmlSerializerOptions.DefaultConverters = list =>
             {
                 list.AddExceptionDescriptorConverter();
                 list.AddExceptionConverter(() => IncludeExceptionStackTrace);
@@ -61,7 +61,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Formatters
         /// <summary>
         /// Gets or sets the settings to support the <see cref="XmlFormatter"/>.
         /// </summary>
-        /// <returns>A <see cref="XmlSerializerSettings"/> instance that specifies a set of features to support the <see cref="XmlFormatter"/> object.</returns>
-        public XmlSerializerSettings Settings { get; }
+        /// <returns>A <see cref="XmlSerializerOptions"/> instance that specifies a set of features to support the <see cref="XmlFormatter"/> object.</returns>
+        public XmlSerializerOptions Settings { get; }
     }
 }

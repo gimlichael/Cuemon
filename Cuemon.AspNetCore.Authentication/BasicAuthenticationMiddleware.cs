@@ -3,8 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
+using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Text;
-using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -69,10 +69,10 @@ namespace Cuemon.AspNetCore.Authentication
         {
             if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, AuthenticationScheme))
             {
-                string base64Credentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
+                var base64Credentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
                 if (StringUtility.IsBase64(base64Credentials))
                 {
-                    string[] credentials = StringConverter.FromBytes(Convert.FromBase64String(base64Credentials), options =>
+                    var credentials = StringConverter.FromBytes(Convert.FromBase64String(base64Credentials), options =>
                     {
                         options.Encoding = Encoding.ASCII;
                         options.Preamble = PreambleSequence.Remove;

@@ -224,7 +224,7 @@ namespace Cuemon
 
             try
             {
-                return compiledSplit.Matches(value).Cast<Match>().Where(m => m.Length > 0).Select(m => m.Value.TrimStart(delimiter.ToCharArray())).ToArray();
+                return compiledSplit.Matches(value).Cast<Match>().Where(m => m.Length > 0).Select(m => m.Value.TrimStart(delimiter.ToCharArray()).TrimStart(qualifier.ToCharArray()).TrimEnd(qualifier.ToCharArray())).ToArray();
             }
             catch (RegexMatchTimeoutException)
             {

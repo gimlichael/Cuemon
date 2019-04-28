@@ -1,5 +1,6 @@
 ﻿using System;
 using Cuemon.Configuration;
+using Cuemon.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Cuemon.AspNetCore.Mvc.Configuration

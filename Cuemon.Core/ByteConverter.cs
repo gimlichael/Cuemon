@@ -114,7 +114,9 @@ namespace Cuemon
             }
             using (var memoryStream = new MemoryStream(new byte[value.Length]))
             {
+                var oldPosition = value.Position;
                 value.CopyTo(memoryStream);
+                if (value.CanSeek) { value.Position = oldPosition; }
                 return memoryStream.ToArray();
             }
         }

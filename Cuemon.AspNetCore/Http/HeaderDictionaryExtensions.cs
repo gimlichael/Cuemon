@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Net.Http.Headers;
 using Cuemon.Collections.Generic;
+using Cuemon.Extensions;
+using Cuemon.Extensions.Collections.Generic;
 using Cuemon.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
@@ -21,7 +23,7 @@ namespace Cuemon.AspNetCore.Http
         /// <param name="useAsciiEncodingConversion">if set to <c>true</c> an ASCII encoding conversion is applied to the <paramref name="value"/>.</param>
         public static void AddOrUpdateHeader(this IHeaderDictionary dic, string key, StringValues value, bool useAsciiEncodingConversion = true)
         {
-            var headerValue = useAsciiEncodingConversion ? new StringValues(EncodingConverter.ToAsciiEncodedString(value)) : value;
+            var headerValue = useAsciiEncodingConversion ? new StringValues(StringConverter.ChangeToAsciiEncoding(value)) : value;
             if (headerValue != StringValues.Empty)
             {
                 dic.AddOrUpdate(key, headerValue.ToString().Where(c => !char.IsControl(c)).FromChars());

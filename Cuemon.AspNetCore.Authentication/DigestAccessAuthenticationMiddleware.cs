@@ -7,7 +7,8 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
-using Cuemon.Threading.Tasks;
+using Cuemon.Extensions;
+using Cuemon.Extensions.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -47,7 +48,7 @@ namespace Cuemon.AspNetCore.Authentication
         {
             _nonceCounterSweeper = new Timer(s =>
             {
-                DateTime utcStaleTimestamp = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5));
+                var utcStaleTimestamp = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5));
                 var staledEntries = NonceCounter.Where(pair => pair.Value.Arg1 <= utcStaleTimestamp).ToList();
                 foreach (var staledEntry in staledEntries)
                 {
@@ -68,10 +69,10 @@ namespace Cuemon.AspNetCore.Authentication
                 context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
                 string etag = context.Response.Headers[HeaderNames.ETag];
                 if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
-                Func<string> opaqueGenerator = Options.OpaqueGenerator;
-                Func<byte[]> nonceSecret = Options.NonceSecret;
-                Func<DateTime, string, byte[], string> nonceGenerator = Options.NonceGenerator;
-                string staleNonce = context.Items["staleNonce"] as string ?? "FALSE";
+                var opaqueGenerator = Options.OpaqueGenerator;
+                var nonceSecret = Options.NonceSecret;
+                var nonceGenerator = Options.NonceGenerator;
+                var staleNonce = context.Items["staleNonce"] as string ?? "FALSE";
                 context.Response.Headers.Add(HeaderNames.WWWAuthenticate, $"{AuthenticationScheme} realm=\"{Options.Realm}\", qop=\"{DigestAuthenticationUtility.CredentialQualityOfProtectionOptions}\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)}\"");
                 await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ContinueWithSuppressedContext();
                 return;
@@ -95,8 +96,8 @@ namespace Cuemon.AspNetCore.Authentication
             if (credentials.TryGetValue(DigestAuthenticationUtility.CredentialNonce, out nonce))
             {
                 result = null;
-                Func<string, TimeSpan, bool> nonceExpiredParser = Options.NonceExpiredParser;
-                bool staleNonce = nonceExpiredParser(nonce, TimeSpan.FromSeconds(30));
+                var nonceExpiredParser = Options.NonceExpiredParser;
+                var staleNonce = nonceExpiredParser(nonce, TimeSpan.FromSeconds(30));
                 context.Items["staleNonce"] = staleNonce.ToString().ToUpperInvariant();
                 if (staleNonce) { return false; }
                 Template<DateTime, string> previousNonce;
@@ -111,7 +112,7 @@ namespace Cuemon.AspNetCore.Authentication
             }
             result = Options.Authenticator(userName, out password);
 
-            string serverResponse = Options?.DigestAccessSigner(new DigestAccessAuthenticationParameters(credentials.ToImmutableDictionary(), context.Request.Method, password, Options.Algorithm))?.ToHexadecimal();
+            var serverResponse = Options?.DigestAccessSigner(new DigestAccessAuthenticationParameters(credentials.ToImmutableDictionary(), context.Request.Method, password, Options.Algorithm))?.ToHexadecimal();
             return serverResponse != null && (serverResponse.Equals(clientResponse, StringComparison.Ordinal) && Condition.IsNotNull(result));
         }
 
@@ -119,14 +120,14 @@ namespace Cuemon.AspNetCore.Authentication
         {
             if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, AuthenticationScheme))
             {
-                string digestCredentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
-                string[] credentials = digestCredentials.Split(AuthenticationUtility.DigestAuthenticationCredentialSeparator);
+                var digestCredentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
+                var credentials = digestCredentials.Split(AuthenticationUtility.DigestAuthenticationCredentialSeparator);
                 if (IsDigestCredentialsValid(credentials))
                 {
-                    Dictionary<string, string> result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                    for (int i = 0; i < credentials.Length; i++)
+                    var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                    for (var i = 0; i < credentials.Length; i++)
                     {
-                        string[] credentialPair = StringUtility.Split(credentials[i], "=");
+                        var credentialPair = StringUtility.SplitDsvQuoted(credentials[i], "=");
                         result.Add(credentialPair[0].Trim(), Converter.Parse(credentialPair[1], QuotedStringParser));
                     }
                     return IsDigestCredentialsValid(result) ? result : null;
@@ -137,7 +138,7 @@ namespace Cuemon.AspNetCore.Authentication
 
         private static bool IsDigestCredentialsValid(Dictionary<string, string> credentials)
         {
-            bool valid = credentials.ContainsKey("username");
+            var valid = credentials.ContainsKey("username");
             valid |= credentials.ContainsKey("realm");
             valid |= credentials.ContainsKey("nonce");
             valid |= credentials.ContainsKey("uri");
@@ -157,8 +158,8 @@ namespace Cuemon.AspNetCore.Authentication
 
         private static bool IsDigestCredentialsValid(string[] credentials)
         {
-            bool valid = (credentials.Length >= 5 && credentials.Length <= 10);
-            for (int i = 0; i < credentials.Length; i++)
+            var valid = (credentials.Length >= 5 && credentials.Length <= 10);
+            for (var i = 0; i < credentials.Length; i++)
             {
                 valid |= !string.IsNullOrEmpty(credentials[i]);
             }

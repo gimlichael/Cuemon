@@ -4,8 +4,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
+using Cuemon.Extensions;
+using Cuemon.Extensions.Security.Cryptography;
+using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Security.Cryptography;
-using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -60,8 +62,8 @@ namespace Cuemon.AspNetCore.Authentication
             {
                 o.AlgorithmType = HashAlgorithmType.MD5;
                 o.Encoding = Encoding.UTF8;
-            }).ToHexadecimal();
-            if (!requestBodyMd5.IsNullOrWhiteSpace() && !context.Request.Body.ComputeHash(o => o.AlgorithmType = HashAlgorithmType.MD5).ToHexadecimal().Equals(requestBodyMd5, StringComparison.Ordinal))
+            }).ToHexadecimalString();
+            if (!requestBodyMd5.IsNullOrWhiteSpace() && !context.Request.Body.ComputeHash(o => o.AlgorithmType = HashAlgorithmType.MD5).ToHexadecimalString().Equals(requestBodyMd5, StringComparison.Ordinal))
             {
                 result = null;
                 return false;
@@ -69,7 +71,7 @@ namespace Cuemon.AspNetCore.Authentication
             var publicKey = credentials.Arg1;
             var signature = credentials.Arg2;
             var stringToSign = Options.MessageDescriptor(context);
-            byte[] privateKey = new byte[0];
+            var privateKey = new byte[0];
             result = Options?.Authenticator(publicKey, out privateKey);
             if (privateKey == null)
             {

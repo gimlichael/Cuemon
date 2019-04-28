@@ -1,5 +1,6 @@
 ﻿using System;
 using Cuemon.Configuration;
+using Cuemon.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 

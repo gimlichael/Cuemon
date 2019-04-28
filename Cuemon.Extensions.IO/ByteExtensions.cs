@@ -11,7 +11,7 @@ namespace Cuemon.Extensions.IO
         /// <summary>
         /// Converts the specified <paramref name="bytes"/> to a <see cref="Stream"/>.
         /// </summary>
-        /// <param name="bytes">The byte array to extend.</param>
+        /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
         /// <returns>A <see cref="Stream"/> object.</returns>
         public static Stream ToStream(this byte[] bytes)
         {

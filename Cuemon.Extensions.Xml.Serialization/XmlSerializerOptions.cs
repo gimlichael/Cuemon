@@ -9,12 +9,12 @@ using Cuemon.Xml.Serialization.Converters;
 namespace Cuemon.Extensions.Xml.Serialization
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="XmlSerializer"/> operations.
+    /// Configuration options for <see cref="XmlSerializer"/>.
     /// </summary>
-    public class XmlSerializerSettings
+    public class XmlSerializerOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="XmlSerializerSettings"/> class.
+        /// Initializes a new instance of the <see cref="XmlSerializerOptions"/> class.
         /// </summary>
         /// <remarks>
         /// The following table shows the initial property values for an instance of <see cref="DefaultXmlConverter"/>.
@@ -41,7 +41,7 @@ namespace Cuemon.Extensions.Xml.Serialization
         ///     </item>
         /// </list>
         /// </remarks>
-        public XmlSerializerSettings()
+        public XmlSerializerOptions()
         {
             Writer = XmlWriterUtility.CreateSettings();
             Reader = XmlReaderUtility.CreateSettings();
@@ -50,9 +50,9 @@ namespace Cuemon.Extensions.Xml.Serialization
         }
 
         /// <summary>
-        /// Gets or sets a delegate that  is invoked when <see cref="XmlSerializerSettings"/> is initialized and propagates registered <see cref="XmlConverter"/> implementations.
+        /// Gets or sets a delegate that  is invoked when <see cref="XmlSerializerOptions"/> is initialized and propagates registered <see cref="XmlConverter"/> implementations.
         /// </summary>
-        /// <value>The delegate which propagates registered <see cref="XmlConverter"/> implementations when <see cref="XmlSerializerSettings"/> is initialized.</value>
+        /// <value>The delegate which propagates registered <see cref="XmlConverter"/> implementations when <see cref="XmlSerializerOptions"/> is initialized.</value>
         public static Action<IList<XmlConverter>> DefaultConverters { get; set; }
 
         /// <summary>

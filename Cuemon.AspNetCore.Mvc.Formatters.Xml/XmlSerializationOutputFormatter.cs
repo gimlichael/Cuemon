@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Cuemon.Serialization.Xml.Formatters;
-using Cuemon.Threading.Tasks;
+using Cuemon.Extensions.IO;
+using Cuemon.Extensions.Threading.Tasks;
+using Cuemon.Extensions.Xml.Serialization.Formatters;
 using Cuemon.Xml;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
@@ -44,11 +45,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
                 var raw = XmlStreamConverter.ChangeEncoding(formatter.Serialize(value), selectedEncoding);
                 using (var streamReader = new StreamReader(raw, selectedEncoding))
                 {
-                    int bytesRead;
-                    while ((bytesRead = await streamReader.ReadAsync(buffer, 0, buffer.Length).ContinueWithSuppressedContext()) > 0)
-                    {
-                        await textWriter.WriteAsync(buffer, 0, bytesRead).ContinueWithSuppressedContext();
-                    }
+                    await streamReader.CopyToAsync(textWriter).ContinueWithSuppressedContext();
                 }
                 await textWriter.FlushAsync().ContinueWithSuppressedContext();
             }

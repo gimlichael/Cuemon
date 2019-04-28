@@ -14,19 +14,18 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>obj\Release\netstandard2.0\Cuemon.Extensions.IO.xml</DocumentationFile>
+    <DocumentationFile>obj\Release\netstandard2.0\Cuemon.Extensions.Text.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>obj\Debug\netstandard2.0\Cuemon.Extensions.IO.xml</DocumentationFile>
+    <DocumentationFile>obj\Debug\netstandard2.0\Cuemon.Extensions.Text.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Cuemon.Extensions.IO.csproj.vspscc" />
+    <None Remove="Cuemon.Extensions.Text.csproj.vspscc" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
   </ItemGroup>
 

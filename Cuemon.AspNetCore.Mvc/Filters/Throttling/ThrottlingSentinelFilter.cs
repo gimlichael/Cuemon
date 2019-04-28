@@ -2,7 +2,7 @@
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.AspNetCore.Infrastructure;
-using Cuemon.Threading.Tasks;
+using Cuemon.Extensions.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 

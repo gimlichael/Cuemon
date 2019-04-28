@@ -1,5 +1,5 @@
 ﻿using Cuemon.AspNetCore.Mvc.Formatters.Json.Converters;
-using Cuemon.Serialization.Json.Converters;
+using Cuemon.Extensions.Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 

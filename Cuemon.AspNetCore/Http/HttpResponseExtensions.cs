@@ -2,9 +2,10 @@
 using System.Globalization;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Integrity;
-using Cuemon.Collections.Generic;
+using Cuemon.Extensions.Collections.Generic;
+using Cuemon.Extensions.Integrity;
+using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Integrity;
-using Cuemon.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;

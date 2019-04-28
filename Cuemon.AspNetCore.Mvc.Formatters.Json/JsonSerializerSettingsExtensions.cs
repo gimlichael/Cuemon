@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Extensions;
 using Newtonsoft.Json;
 
 namespace Cuemon.AspNetCore.Mvc.Formatters.Json

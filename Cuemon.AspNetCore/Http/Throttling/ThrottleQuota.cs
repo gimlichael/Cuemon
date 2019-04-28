@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Extensions;
 
 namespace Cuemon.AspNetCore.Http.Throttling
 {
