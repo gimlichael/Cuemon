@@ -104,6 +104,34 @@ namespace Cuemon.Collections.Generic
             yield return value;
         }
 
+        /// <summary>
+        /// Returns ascending sorted elements from a sequence by using a specified <see cref="Comparison{T}"/> to compare values.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">A sequence of values to order.</param>
+        /// <param name="comparer">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains asscending sorted elements from the source sequence.</returns>
+        public static IEnumerable<TSource> OrderBy<TSource>(IEnumerable<TSource> source, Comparison<TSource> comparer)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(comparer, nameof(comparer));
+            var sorter = new List<TSource>(source);
+            sorter.Sort(comparer);
+            return sorter;
+        }
+
+        /// <summary>
+        /// Returns descending sorted elements from a sequence by using a specified <see cref="Comparison{T}"/> to compare values.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">A sequence of values to order.</param>
+        /// <param name="comparer">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains descending sorted elements from the source sequence.</returns>
+        public static IEnumerable<TSource> OrderByDescending<TSource>(IEnumerable<TSource> source, Comparison<TSource> comparer)
+        {
+            return OrderBy(source, comparer).Reverse();
+        }
+
         internal static IEnumerable<TSource> Chunk<TSource>(ref IEnumerable<TSource> source, int size, out int processedCount)
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
