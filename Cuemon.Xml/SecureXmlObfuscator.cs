@@ -74,16 +74,16 @@ namespace Cuemon.Xml
 
 		#region Methods
 		/// <summary>
-		/// Revert the obfuscated XML document of <paramref name="value"/> to its original state by applying the mappable XML document of <paramref name="mapping"/>.
+		/// Revert the obfuscated XML document of <paramref name="obfuscated"/> to its original state by applying the mappable XML document of <paramref name="mapping"/>.
 		/// </summary>
-		/// <param name="value">The obfuscated <see cref="Stream"/> to revert.</param>
-		/// <param name="mapping">A <see cref="Stream"/> containing mappable values necessary to revert <paramref name="value"/> to its original state.</param>
+		/// <param name="obfuscated">The obfuscated <see cref="Stream"/> to revert.</param>
+		/// <param name="mapping">A <see cref="Stream"/> containing mappable values necessary to revert <paramref name="obfuscated"/> to its original state.</param>
 		/// <returns>
 		/// A <see cref="Stream"/> object where the obfuscated XML document has been reverted to its original XML document.
 		/// </returns>
-		public override Stream Revert(Stream value, Stream mapping)
+		public override Stream Revert(Stream obfuscated, Stream mapping)
 		{
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(obfuscated, nameof(obfuscated));
             Validator.ThrowIfNull(mapping, nameof(mapping));
 
             mapping = Disposable.SafeInvoke(() => new MemoryStream(), (ms, m) =>
@@ -110,7 +110,7 @@ namespace Cuemon.Xml
                 return ms;
             }, mapping);
 
-			return base.Revert(value, mapping);
+			return base.Revert(obfuscated, mapping);
 		}
 		
 		/// <summary>
