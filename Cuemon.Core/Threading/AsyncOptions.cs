@@ -12,7 +12,7 @@ namespace Cuemon.Threading
         /// </summary>
         public AsyncOptions()
         {
-            CancellationToken = default(CancellationToken);
+            CancellationToken = default;
         }
 
         /// <summary>
