@@ -18,7 +18,7 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync(Func<bool> condition, Action worker, Action<TaskFactoryOptions> setup = null)
+        public static async Task WhileAsync(Func<Task<bool>> condition, Action worker, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             Validator.ThrowIfNull(worker, nameof(worker));
@@ -36,7 +36,7 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<T>(Func<T, bool> condition, T arg, Action<T> worker, Action<TaskFactoryOptions> setup = null)
+        public static async Task WhileAsync<T>(Func<T, Task<bool>> condition, T arg, Action<T> worker, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             Validator.ThrowIfNull(worker, nameof(worker));
@@ -56,7 +56,7 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<T1, T2>(Func<T1, T2, bool> condition, T1 arg1, T2 arg2, Action<T1, T2> worker, Action<TaskFactoryOptions> setup = null)
+        public static async Task WhileAsync<T1, T2>(Func<T1, T2, Task<bool>> condition, T1 arg1, T2 arg2, Action<T1, T2> worker, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             Validator.ThrowIfNull(worker, nameof(worker));
@@ -78,7 +78,7 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<T1, T2, T3>(Func<T1, T2, T3, bool> condition, T1 arg1, T2 arg2, T3 arg3, Action<T1, T2, T3> worker, Action<TaskFactoryOptions> setup = null)
+        public static async Task WhileAsync<T1, T2, T3>(Func<T1, T2, T3, Task<bool>> condition, T1 arg1, T2 arg2, T3 arg3, Action<T1, T2, T3> worker, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             Validator.ThrowIfNull(worker, nameof(worker));
@@ -102,7 +102,7 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<T1, T2, T3, T4>(Func<T1, T2, T3, T4, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<T1, T2, T3, T4> worker, Action<TaskFactoryOptions> setup = null)
+        public static async Task WhileAsync<T1, T2, T3, T4>(Func<T1, T2, T3, T4, Task<bool>> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<T1, T2, T3, T4> worker, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             Validator.ThrowIfNull(worker, nameof(worker));
@@ -128,7 +128,7 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5, bool> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<T1, T2, T3, T4, T5> worker, Action<TaskFactoryOptions> setup = null)
+        public static async Task WhileAsync<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5, Task<bool>> condition, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<T1, T2, T3, T4, T5> worker, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
             Validator.ThrowIfNull(worker, nameof(worker));
@@ -137,18 +137,25 @@ namespace Cuemon.Threading
             await WhileAsyncCore(f1, f2, setup);
         }
 
-        private static async Task WhileAsyncCore<TCondition, TWorker>(FuncFactory<TCondition, bool> conditionFactory, ActionFactory<TWorker> workerFactory, Action<TaskFactoryOptions> setup)
+        private static async Task WhileAsyncCore<TCondition, TWorker>(FuncFactory<TCondition, Task<bool>> conditionFactory, ActionFactory<TWorker> workerFactory, Action<TaskFactoryOptions> setup)
             where TCondition : Template
             where TWorker : Template
         {
+            var counter = 0;
             var options = Patterns.Configure(setup);
             var exceptions = new ConcurrentBag<Exception>();
             for (;;)
             {
+                if (counter > 1000000)
+                {
+                    Console.WriteLine("Endless loop");
+                    break;
+                }
                 var workChunks = options.ChunkSize;
                 var queue = new List<Task>();
-                while (workChunks > 1 && conditionFactory.ExecuteMethod())
+                while (workChunks > 1 && await conditionFactory.ExecuteMethod())
                 {
+                    Interlocked.Increment(ref counter);
                     queue.Add(Task.Factory.StartNew(() =>
                     {
                         try
@@ -162,10 +169,17 @@ namespace Cuemon.Threading
                         }
                     }, options.CancellationToken, options.CreationOptions, options.Scheduler));
                 }
-                if (queue.Count == 0) { break; }
+
+                if (queue.Count == 0) {  break;  }
                 await Task.WhenAll(queue).ConfigureAwait(false);
-                if (workChunks > 0) { break; }
+                if (workChunks > 1)
+                {
+                    Console.WriteLine("workChunks is greater than 0.");
+                    break;
+                }
+                
             }
+            Console.WriteLine($"Count inside While: {counter}");
             if (exceptions.Count > 0) { throw new AggregateException(exceptions); }
         }
     }
