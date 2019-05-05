@@ -22,13 +22,14 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that will perform work while <paramref name="condition" /> evaluates <c>true</c>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions" /> which may be configured.</param>
         /// <returns>A <see cref="Task" /> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<TReader, TResult>(TReader reader, Func<Task<bool>> condition, Func<TReader, TResult> provider, Action<TResult> worker, Action<TaskFactoryOptions> setup = null)
+        public static Task WhileAsync<TReader, TResult>(TReader reader, Func<Task<bool>> condition, Func<TReader, TResult> provider, Action<TResult> worker, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
+            Validator.ThrowIfNull(provider, nameof(provider));
             Validator.ThrowIfNull(worker, nameof(worker));
-            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template, Template<TReader>>(FuncFactory.Create(condition), FuncFactory.Create(provider, reader)));
+            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader>>(condition, FuncFactory.Create(provider, reader)));
             var f2 = ActionFactory.Create(worker, default);
-            await WhileAsyncCore(f1, f2, setup);
+            return WhileAsyncCore(f1, f2, setup);
         }
 
         /// <summary>
@@ -36,21 +37,22 @@ namespace Cuemon.Threading
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
-        /// <typeparam name="T">The type of the parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
+        /// <typeparam name="T">The type of the parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
         /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
-        /// <param name="arg">The parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
+        /// <param name="arg">The parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<TReader, TResult, T>(TReader reader, Func<T, Task<bool>> condition, Func<TReader, T, TResult> provider, Action<TResult, T> worker, T arg, Action<TaskFactoryOptions> setup = null)
+        public static Task WhileAsync<TReader, TResult, T>(TReader reader, Func<Task<bool>> condition, Func<TReader, T, TResult> provider, Action<TResult, T> worker, T arg, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
+            Validator.ThrowIfNull(provider, nameof(provider));
             Validator.ThrowIfNull(worker, nameof(worker));
-            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<T>, Template<TReader, T>>(FuncFactory.Create(condition, arg), FuncFactory.Create(provider, reader, arg)));
+            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T>>(condition, FuncFactory.Create(provider, reader, arg)));
             var f2 = ActionFactory.Create(worker, default, arg);
-            await WhileAsyncCore(f1, f2, setup);
+            return WhileAsyncCore(f1, f2, setup);
         }
 
         /// <summary>
@@ -58,23 +60,24 @@ namespace Cuemon.Threading
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
+        /// <typeparam name="T1">The type of the first parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
         /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
-        /// <param name="arg1">The first parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg2">The second parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
+        /// <param name="arg1">The first parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg2">The second parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<TReader, TResult, T1, T2>(TReader reader, Func<T1, T2, Task<bool>> condition, Func<TReader, T1, T2, TResult> provider, Action<TResult, T1, T2> worker, T1 arg1, T2 arg2, Action<TaskFactoryOptions> setup = null)
+        public static Task WhileAsync<TReader, TResult, T1, T2>(TReader reader, Func<Task<bool>> condition, Func<TReader, T1, T2, TResult> provider, Action<TResult, T1, T2> worker, T1 arg1, T2 arg2, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
+            Validator.ThrowIfNull(provider, nameof(provider));
             Validator.ThrowIfNull(worker, nameof(worker));
-            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<T1, T2>, Template<TReader, T1, T2>>(FuncFactory.Create(condition, arg1, arg2), FuncFactory.Create(provider, reader, arg1, arg2)));
+            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T1, T2>>(condition, FuncFactory.Create(provider, reader, arg1, arg2)));
             var f2 = ActionFactory.Create(worker, default, arg1, arg2);
-            await WhileAsyncCore(f1, f2, setup);
+            return WhileAsyncCore(f1, f2, setup);
         }
 
         /// <summary>
@@ -82,23 +85,24 @@ namespace Cuemon.Threading
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
+        /// <typeparam name="T1">The type of the first parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
         /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
-        /// <param name="arg1">The first parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg2">The second parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg3">The third parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
+        /// <param name="arg1">The first parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg2">The second parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg3">The third parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<TReader, TResult, T1, T2, T3>(TReader reader, Func<T1, T2, T3, Task<bool>> condition, Func<TReader, T1, T2, T3, TResult> provider, Action<TResult, T1, T2, T3> worker, T1 arg1, T2 arg2, T3 arg3, Action<TaskFactoryOptions> setup = null)
+        public static async Task WhileAsync<TReader, TResult, T1, T2, T3>(TReader reader, Func<Task<bool>> condition, Func<TReader, T1, T2, T3, TResult> provider, Action<TResult, T1, T2, T3> worker, T1 arg1, T2 arg2, T3 arg3, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
+            Validator.ThrowIfNull(provider, nameof(provider));
             Validator.ThrowIfNull(worker, nameof(worker));
-            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<T1, T2, T3>, Template<TReader, T1, T2, T3>>(FuncFactory.Create(condition, arg1, arg2, arg3), FuncFactory.Create(provider, reader, arg1, arg2, arg3)));
+            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T1, T2, T3>>(condition, FuncFactory.Create(provider, reader, arg1, arg2, arg3)));
             var f2 = ActionFactory.Create(worker, default, arg1, arg2, arg3);
             await WhileAsyncCore(f1, f2, setup);
         }
@@ -108,27 +112,28 @@ namespace Cuemon.Threading
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
+        /// <typeparam name="T1">The type of the first parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
         /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
-        /// <param name="arg1">The first parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg2">The second parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg3">The third parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg4">The fourth parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
+        /// <param name="arg1">The first parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg2">The second parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg3">The third parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<TReader, TResult, T1, T2, T3, T4>(TReader reader, Func<T1, T2, T3, T4, Task<bool>> condition, Func<TReader, T1, T2, T3, T4, TResult> provider, Action<TResult, T1, T2, T3, T4> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<TaskFactoryOptions> setup = null)
+        public static Task WhileAsync<TReader, TResult, T1, T2, T3, T4>(TReader reader, Func<Task<bool>> condition, Func<TReader, T1, T2, T3, T4, TResult> provider, Action<TResult, T1, T2, T3, T4> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
+            Validator.ThrowIfNull(provider, nameof(provider));
             Validator.ThrowIfNull(worker, nameof(worker));
-            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<T1, T2, T3, T4>, Template<TReader, T1, T2, T3, T4>>(FuncFactory.Create(condition, arg1, arg2, arg3, arg4), FuncFactory.Create(provider, reader, arg1, arg2, arg3, arg4)));
+            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T1, T2, T3, T4>>(condition, FuncFactory.Create(provider, reader, arg1, arg2, arg3, arg4)));
             var f2 = ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4);
-            await WhileAsyncCore(f1, f2, setup);
+            return WhileAsyncCore(f1, f2, setup);
         }
 
         /// <summary>
@@ -136,34 +141,34 @@ namespace Cuemon.Threading
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
-        /// <typeparam name="T1">The type of the first parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
-        /// <typeparam name="T5">The type of the fifth parameter <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</typeparam>
+        /// <typeparam name="T1">The type of the first parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
+        /// <typeparam name="T5">The type of the fifth parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
         /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
-        /// <param name="arg1">The first parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg2">The second parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg3">The third parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg4">The fourth parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
-        /// <param name="arg5">The fifth parameter of the <paramref name="condition"/> function delegate, <paramref name="provider"/> function delegate and <paramref name="worker"/> delegate.</param>
+        /// <param name="arg1">The first parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg2">The second parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg3">The third parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg4">The fourth parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
+        /// <param name="arg5">The fifth parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static async Task WhileAsync<TReader, TResult, T1, T2, T3, T4, T5>(TReader reader, Func<T1, T2, T3, T4, T5, Task<bool>> condition, Func<TReader, T1, T2, T3, T4, T5, TResult> provider, Action<TResult, T1, T2, T3, T4, T5> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<TaskFactoryOptions> setup = null)
+        public static Task WhileAsync<TReader, TResult, T1, T2, T3, T4, T5>(TReader reader, Func<Task<bool>> condition, Func<TReader, T1, T2, T3, T4, T5, TResult> provider, Action<TResult, T1, T2, T3, T4, T5> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<TaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(condition, nameof(condition));
+            Validator.ThrowIfNull(provider, nameof(provider));
             Validator.ThrowIfNull(worker, nameof(worker));
-            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<T1, T2, T3, T4, T5>, Template<TReader, T1, T2, T3, T4, T5>>(FuncFactory.Create(condition, arg1, arg2, arg3, arg4, arg5), FuncFactory.Create(provider, reader, arg1, arg2, arg3, arg4, arg5)));
+            var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T1, T2, T3, T4, T5>>(condition, FuncFactory.Create(provider, reader, arg1, arg2, arg3, arg4, arg5)));
             var f2 = ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5);
-            await WhileAsyncCore(f1, f2, setup);
+            return WhileAsyncCore(f1, f2, setup);
         }
 
-        private static async Task WhileAsyncCore<TReader, TResult, TIterator, TCondition, TProvider, TWorker>(FuncFactory<TIterator, ForwardIterator<TReader, TResult, TCondition, TProvider>> iteratorFactory, ActionFactory<TWorker> workerFactory, Action<TaskFactoryOptions> setup)
+        private static async Task WhileAsyncCore<TReader, TResult, TIterator, TProvider, TWorker>(FuncFactory<TIterator, ForwardIterator<TReader, TResult, TProvider>> iteratorFactory, ActionFactory<TWorker> workerFactory, Action<TaskFactoryOptions> setup)
             where TIterator : Template
-            where TCondition : Template
             where TProvider : Template<TReader>
             where TWorker : Template<TResult>
         {

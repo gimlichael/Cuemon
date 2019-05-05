@@ -1,18 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Cuemon.Threading
 {
-    internal class ForwardIterator<TReader, TResult, TCondition, TProvider> 
-        where TCondition : Template
+    internal class ForwardIterator<TReader, TResult, TProvider>
         where TProvider : Template<TReader>
     {
-        internal ForwardIterator(FuncFactory<TCondition, Task<bool>> conditionFactory, FuncFactory<TProvider, TResult> providerFactory)
+        internal ForwardIterator(Func<Task<bool>> condition, FuncFactory<TProvider, TResult> providerFactory)
         {
-            ConditionFactory = conditionFactory;
+            Condition = condition;
             ProviderFactory = providerFactory;
         }
 
-        private FuncFactory<TCondition, Task<bool>> ConditionFactory { get; }
+        private Func<Task<bool>> Condition { get; }
 
         private FuncFactory<TProvider, TResult> ProviderFactory { get; }
 
@@ -20,7 +20,7 @@ namespace Cuemon.Threading
 
         public async Task<bool> ReadAsync()
         {
-            if (await ConditionFactory.ExecuteMethod())
+            if (await Condition())
             {
                 Current = ProviderFactory.ExecuteMethod();
                 return true;
