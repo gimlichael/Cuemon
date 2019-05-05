@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cuemon.Threading
 {
+    /// <summary>
+    /// Provides ways to encapsulate and re-use existing code while adding support for parallel loops and regions.
+    /// </summary>
     public static partial class ParallelFactory
     {
         /// <summary>
@@ -18,6 +21,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync(int fromInclusive, int toExclusive, Action<int> worker, Action<TaskFactoryOptions> setup = null)
         {
+            Validator.ThrowIfNull(worker, nameof(worker));
             return ForAsync(fromInclusive, RelationalOperator.LessThan, toExclusive, AssignmentOperator.Addition, 1, worker, setup: setup);
         }
 
@@ -33,6 +37,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T>(int fromInclusive, int toExclusive, Action<int, T> worker, T arg, Action<TaskFactoryOptions> setup = null)
         {
+            Validator.ThrowIfNull(worker, nameof(worker));
             return ForAsync(fromInclusive, RelationalOperator.LessThan, toExclusive, AssignmentOperator.Addition, 1, worker, arg, setup: setup);
         }
 
@@ -50,6 +55,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2>(int fromInclusive, int toExclusive, Action<int, T1, T2> worker, T1 arg1, T2 arg2, Action<TaskFactoryOptions> setup = null)
         {
+            Validator.ThrowIfNull(worker, nameof(worker));
             return ForAsync(fromInclusive, RelationalOperator.LessThan, toExclusive, AssignmentOperator.Addition, 1, worker, arg1, arg2, setup: setup);
         }
 
@@ -69,6 +75,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2, T3>(int fromInclusive, int toExclusive, Action<int, T1, T2, T3> worker, T1 arg1, T2 arg2, T3 arg3, Action<TaskFactoryOptions> setup = null)
         {
+            Validator.ThrowIfNull(worker, nameof(worker));
             return ForAsync(fromInclusive, RelationalOperator.LessThan, toExclusive, AssignmentOperator.Addition, 1, worker, arg1, arg2, arg3, setup: setup);
         }
 
@@ -90,6 +97,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2, T3, T4>(int fromInclusive, int toExclusive, Action<int, T1, T2, T3, T4> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<TaskFactoryOptions> setup = null)
         {
+            Validator.ThrowIfNull(worker, nameof(worker));
             return ForAsync(fromInclusive, RelationalOperator.LessThan, toExclusive, AssignmentOperator.Addition, 1, worker, arg1, arg2, arg3, arg4, setup: setup);
         }
 
@@ -113,11 +121,12 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2, T3, T4, T5>(int fromInclusive, int toExclusive, Action<int, T1, T2, T3, T4, T5> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<TaskFactoryOptions> setup = null)
         {
+            Validator.ThrowIfNull(worker, nameof(worker));
             return ForAsync(fromInclusive, RelationalOperator.LessThan, toExclusive, AssignmentOperator.Addition, 1, worker, arg1, arg2, arg3, arg4, arg5, setup: setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel for-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel for loop that offers control of the loop control variable and loop sections.
         /// </summary>
         /// <typeparam name="TNumber">The type of the number used with the loop control variable.</typeparam>
         /// <param name="from">The initial value of the loop control variable.</param>
@@ -126,20 +135,21 @@ namespace Cuemon.Threading
         /// <param name="assignment">The assignment statement of the loop control variable using <paramref name="step"/>.</param>
         /// <param name="step">The value to assign the loop control variable.</param>
         /// <param name="worker">The delegate that is invoked once per iteration.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for-loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for-loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<TNumber>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Action<TNumber> worker, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null) 
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Validator.ThrowIfNull(worker, nameof(worker));
             var wf = ActionFactory.Create(worker, default);
-            return ForAsyncCore(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel for-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel for loop that offers control of the loop control variable and loop sections.
         /// </summary>
         /// <typeparam name="TNumber">The type of the number used with the loop control variable.</typeparam>
         /// <typeparam name="T">The type of the parameter of the delegate <paramref name="worker" />.</typeparam>
@@ -150,20 +160,21 @@ namespace Cuemon.Threading
         /// <param name="step">The value to assign the loop control variable.</param>
         /// <param name="worker">The delegate that is invoked once per iteration.</param>
         /// <param name="arg">The parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for-loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for-loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<TNumber, T>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Action<TNumber, T> worker, T arg, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Validator.ThrowIfNull(worker, nameof(worker));
             var wf = ActionFactory.Create(worker, default, arg);
-            return ForAsyncCore(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel for-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel for loop that offers control of the loop control variable and loop sections.
         /// </summary>
         /// <typeparam name="TNumber">The type of the number used with the loop control variable.</typeparam>
         /// <typeparam name="T1">The type of the first parameter of the delegate <paramref name="worker" />.</typeparam>
@@ -176,20 +187,21 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that is invoked once per iteration.</param>
         /// <param name="arg1">The first parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for-loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for-loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<TNumber, T1, T2>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Action<TNumber, T1, T2> worker, T1 arg1, T2 arg2, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Validator.ThrowIfNull(worker, nameof(worker));
             var wf = ActionFactory.Create(worker, default, arg1, arg2);
-            return ForAsyncCore(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel for-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel for loop that offers control of the loop control variable and loop sections.
         /// </summary>
         /// <typeparam name="TNumber">The type of the number used with the loop control variable.</typeparam>
         /// <typeparam name="T1">The type of the first parameter of the delegate <paramref name="worker" />.</typeparam>
@@ -204,20 +216,21 @@ namespace Cuemon.Threading
         /// <param name="arg1">The first parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for-loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for-loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<TNumber, T1, T2, T3>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Action<TNumber, T1, T2, T3> worker, T1 arg1, T2 arg2, T3 arg3, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Validator.ThrowIfNull(worker, nameof(worker));
             var wf = ActionFactory.Create(worker, default, arg1, arg2, arg3);
-            return ForAsyncCore(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel for-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel for loop that offers control of the loop control variable and loop sections.
         /// </summary>
         /// <typeparam name="TNumber">The type of the number used with the loop control variable.</typeparam>
         /// <typeparam name="T1">The type of the first parameter of the delegate <paramref name="worker" />.</typeparam>
@@ -234,20 +247,21 @@ namespace Cuemon.Threading
         /// <param name="arg2">The second parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for-loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for-loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<TNumber, T1, T2, T3, T4>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Action<TNumber, T1, T2, T3, T4> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Validator.ThrowIfNull(worker, nameof(worker));
             var wf = ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4);
-            return ForAsyncCore(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel for-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel for loop that offers control of the loop control variable and loop sections.
         /// </summary>
         /// <typeparam name="TNumber">The type of the number used with the loop control variable.</typeparam>
         /// <typeparam name="T1">The type of the first parameter of the delegate <paramref name="worker" />.</typeparam>
@@ -266,19 +280,20 @@ namespace Cuemon.Threading
         /// <param name="arg3">The third parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for-loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for-loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<TNumber, T1, T2, T3, T4, T5>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Action<TNumber, T1, T2, T3, T4, T5> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Validator.ThrowIfNull(worker, nameof(worker));
             var wf = ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5);
-            return ForAsyncCore(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
-        private static async Task ForAsyncCore<TWorker, TNumber>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, ActionFactory<TWorker> workerFactory, Func<TNumber, RelationalOperator, TNumber, bool> condition, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator, Action<TaskFactoryOptions> setup)
+        private static async Task ForCoreAsync<TWorker, TNumber>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, ActionFactory<TWorker> workerFactory, Func<TNumber, RelationalOperator, TNumber, bool> condition, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator, Action<TaskFactoryOptions> setup)
             where TWorker : Template<TNumber>
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {

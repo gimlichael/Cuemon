@@ -12,12 +12,12 @@ namespace Cuemon.Threading
     public static partial class ParallelFactory
     {
         /// <summary>
-        /// Provides a generic way of executing a parallel while-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel while loop.
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
-        /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
+        /// <param name="condition">The function delegate that is responsible for the while loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition" /> evaluates <c>true</c>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions" /> which may be configured.</param>
@@ -29,17 +29,17 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(worker, nameof(worker));
             var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader>>(condition, FuncFactory.Create(provider, reader)));
             var f2 = ActionFactory.Create(worker, default);
-            return WhileAsyncCore(f1, f2, setup);
+            return WhileCoreAsync(f1, f2, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel while-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel while loop.
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
         /// <typeparam name="T">The type of the parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
-        /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
+        /// <param name="condition">The function delegate that is responsible for the while loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="arg">The parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
@@ -52,18 +52,18 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(worker, nameof(worker));
             var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T>>(condition, FuncFactory.Create(provider, reader, arg)));
             var f2 = ActionFactory.Create(worker, default, arg);
-            return WhileAsyncCore(f1, f2, setup);
+            return WhileCoreAsync(f1, f2, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel while-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel while loop.
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
         /// <typeparam name="T1">The type of the first parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <typeparam name="T2">The type of the second parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
-        /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
+        /// <param name="condition">The function delegate that is responsible for the while loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="arg1">The first parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
@@ -77,11 +77,11 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(worker, nameof(worker));
             var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T1, T2>>(condition, FuncFactory.Create(provider, reader, arg1, arg2)));
             var f2 = ActionFactory.Create(worker, default, arg1, arg2);
-            return WhileAsyncCore(f1, f2, setup);
+            return WhileCoreAsync(f1, f2, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel while-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel while loop.
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
@@ -89,7 +89,7 @@ namespace Cuemon.Threading
         /// <typeparam name="T2">The type of the second parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <typeparam name="T3">The type of the third parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
-        /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
+        /// <param name="condition">The function delegate that is responsible for the while loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="arg1">The first parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
@@ -104,11 +104,11 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(worker, nameof(worker));
             var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T1, T2, T3>>(condition, FuncFactory.Create(provider, reader, arg1, arg2, arg3)));
             var f2 = ActionFactory.Create(worker, default, arg1, arg2, arg3);
-            await WhileAsyncCore(f1, f2, setup);
+            await WhileCoreAsync(f1, f2, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel while-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel while loop.
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
@@ -117,7 +117,7 @@ namespace Cuemon.Threading
         /// <typeparam name="T3">The type of the third parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <typeparam name="T4">The type of the fourth parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
-        /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
+        /// <param name="condition">The function delegate that is responsible for the while loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="arg1">The first parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
@@ -133,11 +133,11 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(worker, nameof(worker));
             var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T1, T2, T3, T4>>(condition, FuncFactory.Create(provider, reader, arg1, arg2, arg3, arg4)));
             var f2 = ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4);
-            return WhileAsyncCore(f1, f2, setup);
+            return WhileCoreAsync(f1, f2, setup);
         }
 
         /// <summary>
-        /// Provides a generic way of executing a parallel while-loop while providing ways to encapsulate and re-use existing code.
+        /// Executes a parallel while loop.
         /// </summary>
         /// <typeparam name="TReader">The type of the <paramref name="reader"/> that provides forward-only access to data.</typeparam>
         /// <typeparam name="TResult">The type of the result provided by <paramref name="reader"/>.</typeparam>
@@ -147,7 +147,7 @@ namespace Cuemon.Threading
         /// <typeparam name="T4">The type of the fourth parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <typeparam name="T5">The type of the fifth parameter for the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</typeparam>
         /// <param name="reader">The reader that provides forward-only access to data.</param>
-        /// <param name="condition">The function delegate that is responsible for the while-loop condition.</param>
+        /// <param name="condition">The function delegate that is responsible for the while loop condition.</param>
         /// <param name="provider">The function delegate that provides data from the specified <paramref name="reader"/>.</param>
         /// <param name="worker">The delegate that will perform work while <paramref name="condition"/> evaluates <c>true</c>.</param>
         /// <param name="arg1">The first parameter of the function delegate <paramref name="provider"/> and delegate <paramref name="worker"/>.</param>
@@ -164,10 +164,10 @@ namespace Cuemon.Threading
             Validator.ThrowIfNull(worker, nameof(worker));
             var f1 = FuncFactory.Create(() => new ForwardIterator<TReader, TResult, Template<TReader, T1, T2, T3, T4, T5>>(condition, FuncFactory.Create(provider, reader, arg1, arg2, arg3, arg4, arg5)));
             var f2 = ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5);
-            return WhileAsyncCore(f1, f2, setup);
+            return WhileCoreAsync(f1, f2, setup);
         }
 
-        private static async Task WhileAsyncCore<TReader, TResult, TIterator, TProvider, TWorker>(FuncFactory<TIterator, ForwardIterator<TReader, TResult, TProvider>> iteratorFactory, ActionFactory<TWorker> workerFactory, Action<TaskFactoryOptions> setup)
+        private static async Task WhileCoreAsync<TReader, TResult, TIterator, TProvider, TWorker>(FuncFactory<TIterator, ForwardIterator<TReader, TResult, TProvider>> iteratorFactory, ActionFactory<TWorker> workerFactory, Action<TaskFactoryOptions> setup)
             where TIterator : Template
             where TProvider : Template<TReader>
             where TWorker : Template<TResult>
