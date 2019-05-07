@@ -314,7 +314,6 @@ namespace Cuemon.Threading
                     {
                         try
                         {
-                            Interlocked.Decrement(ref workChunks);
                             shallowWorkerFactory.GenericArguments.Arg1 = (TNumber)j;
                             shallowWorkerFactory.ExecuteMethod();
                         }
@@ -323,6 +322,9 @@ namespace Cuemon.Threading
                             exceptions.Add(e);
                         }
                     }, i, options.CancellationToken, options.CreationOptions, options.Scheduler));
+                    
+                    workChunks--;
+
                     if (workChunks == 0)
                     {
                         from = AssignmentUtility.Calculate(i, assignment, step);

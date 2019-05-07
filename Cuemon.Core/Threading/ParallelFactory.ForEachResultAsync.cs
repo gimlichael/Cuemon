@@ -170,7 +170,6 @@ namespace Cuemon.Threading
                     {
                         try
                         {
-                            Interlocked.Decrement(ref workChunks);
                             Interlocked.Increment(ref skip);
                             shallowWorkerFactory.GenericArguments.Arg1 = (TSource)element;
                             var presult = shallowWorkerFactory.ExecuteMethod();
@@ -181,7 +180,10 @@ namespace Cuemon.Threading
                             exceptions.Add(e);
                         }
                     }, item, options.CancellationToken, options.CreationOptions, options.Scheduler));
+                    
+                    workChunks--;
                     sorter++;
+                    
                     if (workChunks == 0) { break; }
                 }
                 if (queue.Count == 0) { break; }

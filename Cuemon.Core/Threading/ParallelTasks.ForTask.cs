@@ -9,6 +9,8 @@ namespace Cuemon.Threading
 {
     public static partial class ParallelTasks
     {
+        private static readonly int DefaultNumberOfConcurrentWorkerThreads = 2 * Environment.ProcessorCount;
+
         /// <summary>
         /// Provides a generic way of executing a parallel for-loop while providing ways to encapsulate and re-use existing code having a return value.
         /// </summary>
