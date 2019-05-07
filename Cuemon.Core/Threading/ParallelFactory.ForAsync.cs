@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cuemon.Threading
 {
-    /// <summary>
-    /// Provides ways to encapsulate and re-use existing code while adding support for parallel loops and regions.
-    /// </summary>
     public static partial class ParallelFactory
     {
         /// <summary>

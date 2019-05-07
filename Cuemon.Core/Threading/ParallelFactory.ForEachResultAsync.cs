@@ -121,7 +121,7 @@ namespace Cuemon.Threading
         }
 
         /// <summary>
-        /// Executes a parallel foreach loop where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as <paramref name="source" />.
+        /// Executes a parallel foreach loop    
         /// </summary>
         /// <typeparam name="TSource">The type of the data in the source.</typeparam>
         /// <typeparam name="T1">The type of the first parameter of the function delegate <paramref name="worker" />.</typeparam>

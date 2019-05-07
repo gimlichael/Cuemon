@@ -3,26 +3,28 @@ using System.Threading.Tasks;
 
 namespace Cuemon.Threading
 {
-    internal class ForwardIterator<TReader, TResult, TProvider>
-        where TProvider : Template<TReader>
+    internal class ForwardIterator<TReader, TElement>
     {
-        internal ForwardIterator(Func<Task<bool>> condition, FuncFactory<TProvider, TResult> providerFactory)
+        internal ForwardIterator(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider)
         {
+            Reader = reader;
             Condition = condition;
-            ProviderFactory = providerFactory;
+            Provider = provider;
         }
+
+        private TReader Reader { get; }
 
         private Func<Task<bool>> Condition { get; }
 
-        private FuncFactory<TProvider, TResult> ProviderFactory { get; }
+        private Func<TReader, TElement> Provider { get; }
 
-        public TResult Current { get; private set; }
+        public TElement Current { get; private set; }
 
         public async Task<bool> ReadAsync()
         {
             if (await Condition())
             {
-                Current = ProviderFactory.ExecuteMethod();
+                Current = Provider(Reader);
                 return true;
             }
             Current = default;
