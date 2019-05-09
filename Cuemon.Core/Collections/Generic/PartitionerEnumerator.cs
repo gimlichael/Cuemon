@@ -18,6 +18,8 @@ namespace Cuemon.Collections.Generic
 
         public int IteratedCount { get; private set; }
 
+        public bool EndOfSequence { get; private set; }
+
         public int Take { get; }
 
         private Action EndOfSequenceNotifier { get; }
@@ -46,8 +48,6 @@ namespace Cuemon.Collections.Generic
             }
             return mn;
         }
-
-        public bool EndOfSequence { get; private set; }
 
         public void Reset()
         {
