@@ -93,6 +93,27 @@ namespace Cuemon.Collections.Generic
             return Chunk(ref source, size, out _);
         }
 
+        internal static IEnumerable<TSource> Chunk<TSource>(ref IEnumerable<TSource> source, int size, out int processedCount)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfLowerThan(size, 1, nameof(size));
+            
+            
+
+            var pending = new List<TSource>(source);
+            var processed = new List<TSource>();
+            size -= 1;
+            for (var i = 0; i < pending.Count; i++)
+            {
+                processed.Add(pending[i]);
+                if (i >= size) { break; }
+            }
+            processedCount = processed.Count;
+            pending.RemoveRange(0, processedCount);
+            source = pending;
+            return processed;
+        }
+
         /// <summary>
         /// Returns an <see cref="IEnumerable{T}"/> sequence with the specified <paramref name="value"/> as the only element.
         /// </summary>
@@ -131,23 +152,5 @@ namespace Cuemon.Collections.Generic
         {
             return OrderBy(source, comparer).Reverse();
         }
-
-        internal static IEnumerable<TSource> Chunk<TSource>(ref IEnumerable<TSource> source, int size, out int processedCount)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (size <= 0) { throw new ArgumentException("Value must be greater than 0.", nameof(size)); }
-            var pending = new List<TSource>(source);
-            var processed = new List<TSource>();
-            size = size - 1;
-            for (var i = 0; i < pending.Count; i++)
-            {
-                processed.Add(pending[i]);
-                if (i >= size) { break; }
-            }
-            processedCount = processed.Count;
-            pending.RemoveRange(0, processedCount);
-            source = pending;
-            return processed;
-        }
-	}
+    }
 }
