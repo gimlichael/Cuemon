@@ -60,21 +60,6 @@ namespace Cuemon.Collections.Generic
 	    }
 
         /// <summary>
-        /// Returns a chunked <see cref="IEnumerable{T}"/> sequence with a maximum of 128 elements.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-        /// <param name="source">An <see cref="IEnumerable{T}" /> to chunk into smaller slices for a batch run or similar.</param>
-        /// <returns>An <see cref="IEnumerable{T}" /> that contains no more than 128 elements from the <paramref name="source" /> sequence.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null.
-        /// </exception>
-        /// <remarks>The original <paramref name="source"/> is reduced equivalent to the number of elements in the returned sequence.</remarks>
-        public static IEnumerable<TSource> Chunk<TSource>(ref IEnumerable<TSource> source)
-        {
-            return Chunk(ref source, 128);
-        }
-
-        /// <summary>
         /// Returns a chunked <see cref="IEnumerable{T}"/> sequence with a maximum of the specified <paramref name="size"/>. Default is 128.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
@@ -88,30 +73,11 @@ namespace Cuemon.Collections.Generic
         /// <paramref name="size"/> is less or equal to 0.
         /// </exception>
         /// <remarks>The original <paramref name="source"/> is reduced equivalent to the number of elements in the returned sequence.</remarks>
-        public static IEnumerable<TSource> Chunk<TSource>(ref IEnumerable<TSource> source, int size)
-        {
-            return Chunk(ref source, size, out _);
-        }
-
-        internal static IEnumerable<TSource> Chunk<TSource>(ref IEnumerable<TSource> source, int size, out int processedCount)
+        public static PartitionerEnumerable<TSource> Chunk<TSource>(IEnumerable<TSource> source, int size = 128)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfLowerThan(size, 1, nameof(size));
-            
-            
-
-            var pending = new List<TSource>(source);
-            var processed = new List<TSource>();
-            size -= 1;
-            for (var i = 0; i < pending.Count; i++)
-            {
-                processed.Add(pending[i]);
-                if (i >= size) { break; }
-            }
-            processedCount = processed.Count;
-            pending.RemoveRange(0, processedCount);
-            source = pending;
-            return processed;
+            Validator.ThrowIfLowerThanOrEqual(0, size, nameof(size));
+            return new PartitionerEnumerable<TSource>(source, size);
         }
 
         /// <summary>
