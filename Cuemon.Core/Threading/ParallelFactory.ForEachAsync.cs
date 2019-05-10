@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.Collections.Generic;
 
 namespace Cuemon.Threading
 {
@@ -140,21 +141,18 @@ namespace Cuemon.Threading
         {
             var options = Patterns.Configure(setup);
             var exceptions = new ConcurrentBag<Exception>();
-            var skip = 0;
 
-            for (;;)
+            var partitioner = new PartitionerEnumerable<TSource>(source, options.ChunkSize);
+            while (partitioner.HasPartitions)
             {
-                var workChunks = options.ChunkSize;
                 var queue = new List<Task>();
-                var partition = source.Skip(skip);
-                foreach (var item in partition)
+                foreach (var item in partitioner)
                 {
                     var shallowWorkerFactory = workerFactory.Clone();
                     queue.Add(Task.Factory.StartNew(element =>
                     {
                         try
                         {
-                            Interlocked.Increment(ref skip);
                             shallowWorkerFactory.GenericArguments.Arg1 = (TSource)element;
                             shallowWorkerFactory.ExecuteMethod();
                         }
@@ -163,14 +161,9 @@ namespace Cuemon.Threading
                             exceptions.Add(e);
                         }
                     }, item, options.CancellationToken, options.CreationOptions, options.Scheduler));
-                    
-                    workChunks--;
-                    
-                    if (workChunks == 0) { break; }
                 }
                 if (queue.Count == 0) { break; }
                 await Task.WhenAll(queue).ConfigureAwait(false);
-                if (workChunks > 1) { break; }
             }
 
             if (exceptions.Count > 0) { throw new AggregateException(exceptions); }
