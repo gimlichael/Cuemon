@@ -28,7 +28,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         }
 
         /// <summary>
-        /// Converts the string representation of an URL-safe base64 characters number to its <see cref="T:byte[]"/> equivalent. A return value indicates whether the conversion succeeded.
+        /// Converts the string representation of an URL-safe base64 characters to its <see cref="T:byte[]"/> equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
         /// <param name="input">A string consisting of URL-safe base64 characters.</param>
         /// <param name="result">When this method returns, contains the <see cref="T:byte[]"/> equivalent of the URL-safe base64 characters contained within <paramref name="input"/>, if the conversion succeeded, or <c>default</c> if the conversion failed.</param>
