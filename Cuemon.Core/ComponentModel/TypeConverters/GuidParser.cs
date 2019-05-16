@@ -11,6 +11,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// Converts the string representation of a GUID to its <see cref="Guid"/> equivalent.
         /// </summary>
         /// <param name="input">The string to convert.</param>
+        /// <param name="setup">The <see cref="GuidOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Guid"/> equivalent to <paramref name="input"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="input"/> cannot be null.
@@ -45,6 +46,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// </summary>
         /// <param name="input">The string to convert.</param>
         /// <param name="result">When this method returns, contains the <see cref="Guid"/> equivalent of the <paramref name="input"/>, if the conversion succeeded, or <c>default</c> if the conversion failed.</param>
+        /// <param name="setup">The <see cref="GuidOptions"/> which may be configured.</param>
         /// <returns><c>true</c> if <paramref name="input"/> was converted successfully; otherwise, <c>false</c>.</returns>
         public bool TryParse(string input, out Guid result, Action<GuidOptions> setup = null)
         {
