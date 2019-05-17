@@ -30,7 +30,7 @@ namespace Cuemon.ComponentModel
         /// <seealso cref="GuidStringOptions"/>
         public static Guid ToGuid(this IConversion<string> _, string input, Action<GuidStringOptions> setup = null)
         {
-            return Parsers.FromGuidString.Parse(input, setup);
+            return Parser.FromGuidString.Parse(input, setup);
         }
 
         /// <summary>
