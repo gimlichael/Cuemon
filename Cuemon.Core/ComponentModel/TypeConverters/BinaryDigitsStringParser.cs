@@ -26,7 +26,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         {
             try
             {
-                return Converters.FromString.ToByteArray<BinaryDigitsStringConverter>(input);
+                return Converter.FromString.ToByteArray<BinaryDigitsStringConverter>(input);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -42,7 +42,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns><c>true</c> if <paramref name="input"/> was converted successfully; otherwise, <c>false</c>.</returns>
         public bool TryParse(string input, out byte[] result)
         {
-            return Patterns.TryParse(() => Parse(input), out result);
+            return Patterns.TryInvoke(() => Parse(input), out result);
         }
     }
 }
