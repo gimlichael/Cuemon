@@ -1,15 +1,15 @@
 ﻿namespace Cuemon.ComponentModel.TypeConverters
 {
     /// <summary>
-    /// Configuration options for <see cref="UrlProtocolRelativeStringConverter"/>.
+    /// Configuration options for <see cref="UrlProtocolRelativeEncoder"/>.
     /// </summary>
-    public class UrlProtocolRelativeStringOptions
+    public class UrlProtocolRelativeOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrlProtocolRelativeStringOptions"/> class.
+        /// Initializes a new instance of the <see cref="UrlProtocolRelativeOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="UrlProtocolRelativeStringOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="UrlProtocolRelativeOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -20,12 +20,12 @@
         ///         <description><see cref="UriScheme.Https"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="Protocol"/></term>
+        ///         <term><see cref="RelativeReference"/></term>
         ///         <description><see cref="StringUtility.NetworkPathReference"/></description>
         ///     </item>
         /// </list>
         /// </remarks>
-        public UrlProtocolRelativeStringOptions()
+        public UrlProtocolRelativeOptions()
         {
             Protocol = UriScheme.Https;
             RelativeReference = StringUtility.NetworkPathReference;
