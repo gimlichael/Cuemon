@@ -167,11 +167,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             writer.WriteEndObject();
         }
 
-        private static void WriteEndElement<T>(T counter, JsonWriter writer)
-        {
-            writer.WriteEndObject();
-        }
-
         private static void WriteExceptionCore(JsonWriter writer, Exception exception, bool includeStackTrace)
         {
             if (!exception.Source.IsNullOrWhiteSpace())
@@ -210,7 +205,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteEndObject();
             }
 
-            var properties = exception.GetType().GetRuntimePropertiesExceptOf<Exception>().Where(pi => pi.PropertyType.IsSimple());
+            var properties = exception.GetType().GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => pi.PropertyType.IsSimple());
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);
@@ -226,7 +221,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         {
             var aggregated = exception as AggregateException;
             var innerExceptions = new List<Exception>();
-            if (aggregated != null) { innerExceptions.AddRange(aggregated.InnerExceptions); }
+            if (aggregated != null) { innerExceptions.AddRange(aggregated.Flatten().InnerExceptions); }
             if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
             if (innerExceptions.Count > 0)
             {
@@ -241,7 +236,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                     WriteExceptionCore(writer, inner, includeStackTrace);
                     endElementsToWrite++;
                 }
-                LoopUtility.For(endElementsToWrite, WriteEndElement, writer);
+
+                for (var i = 0; i < endElementsToWrite; i++) { writer.WriteEndObject(); }
             }
         }
     }

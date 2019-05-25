@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Humanizer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -51,7 +52,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteStartArray();
                 foreach (var flag in flags)
                 {
-                    writer.WriteValue(Condition.TernaryIf(HasCamelCaseNamingStrategy, () => StringConverter.ToCamelCasing(flag.Trim()), () => flag.Trim()));
+                    writer.WriteValue(Condition.TernaryIf(HasCamelCaseNamingStrategy, () => flag.Trim().Camelize(), () => flag.Trim()));
                 }
                 writer.WriteEndArray();
             }
@@ -63,7 +64,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 }
                 else
                 {
-                    writer.WriteValue(Condition.TernaryIf(HasCamelCaseNamingStrategy, () => StringConverter.ToCamelCasing(enumName), () => enumName));
+                    writer.WriteValue(Condition.TernaryIf(HasCamelCaseNamingStrategy, () => enumName.Camelize(), () => enumName));
                 }
             }
         }

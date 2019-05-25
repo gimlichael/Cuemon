@@ -1,4 +1,5 @@
 ﻿using System;
+using Humanizer;
 using Newtonsoft.Json;
 
 namespace Cuemon.Extensions.Newtonsoft.Json
@@ -34,11 +35,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json
             var useCamelCase = useCamelCaseFactory?.Invoke() ?? false;
             if (escape)
             {
-                writer.WritePropertyName(useCamelCase ? StringConverter.ToCamelCasing(name) : StringConverter.ToPascalCasing(name), true); 
+                writer.WritePropertyName(useCamelCase ? name.Camelize() : name.Pascalize(), true); 
             }
             else
             {
-                writer.WritePropertyName(useCamelCase ? StringConverter.ToCamelCasing(name) : StringConverter.ToPascalCasing(name));
+                writer.WritePropertyName(useCamelCase ? name.Camelize() : name.Pascalize());
             }
         }
     }
