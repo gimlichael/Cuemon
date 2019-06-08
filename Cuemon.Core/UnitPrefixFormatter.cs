@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Cuemon
@@ -14,24 +15,13 @@ namespace Cuemon
     /// <seealso cref="IPrefixUnit"/>
     public class UnitPrefixFormatter : IFormatProvider, ICustomFormatter
     {
-        private static readonly string[] BaseFormats = { "bit", "byte", "b", "B" };
-        private static readonly string[] KibiFormats = { "Kibit", "Kib", "KiB" };
-        private static readonly string[] MebiFormats = { "Mibit", "Mib", "MiB" };
-        private static readonly string[] GibiFormats = { "Gibit", "Gib", "GiB" };
-        private static readonly string[] TebiFormats = { "Tibit", "Tib", "TiB" };
-        private static readonly string[] PebiFormats = { "Pibit", "Pib", "PiB" };
-        private static readonly string[] ExbiFormats = { "Exbit", "Eib", "EiB" };
-        private static readonly string[] ZebiFormats = { "Zebit", "Zib", "ZiB" };
-        private static readonly string[] YobiFormats = { "Yobit", "Yib", "YiB" };
-        private static readonly string[] KiloFormats = { "kbit", "kb", "kB" };
-        private static readonly string[] MegaFormats = { "Mbit", "Mb", "MB" };
-        private static readonly string[] GigaFormats = { "Gbit", "Gb", "GB" };
-        private static readonly string[] TeraFormats = { "Tbit", "Tb", "TB" };
-        private static readonly string[] PetaFormats = { "Pbit", "Pb", "PB" };
-        private static readonly string[] ExaFormats = { "Ebit", "Eb", "EB" };
-        private static readonly string[] ZettaFormats = { "Zbit", "Zb", "ZB" };
-        private static readonly string[] YottaFormats = { "Ybit", "Yb", "YB" };
-
+        private static readonly string[] BaseFormats = { BitUnit.Name, ByteUnit.Name, BitUnit.Symbol, ByteUnit.Symbol };
+        private static readonly IEnumerable<string> MultipleFormats = DecimalPrefix.MetricPrefixes.Where(dp => dp.Multiplier >= 1000).Select(dp => $"{dp.Symbol}{BitUnit.Symbol}")
+            .Concat(DecimalPrefix.MetricPrefixes.Where(dp => dp.Multiplier >= 1000).Select(dp => $"{dp.Symbol}{ByteUnit.Symbol}"))
+            .Concat(BinaryPrefix.BinaryPrefixes.Select(dp => $"{dp.Symbol}{BitUnit.Symbol}"))
+            .Concat(BinaryPrefix.BinaryPrefixes.Select(dp => $"{dp.Symbol}{BitUnit.Name}"))
+            .Concat(BinaryPrefix.BinaryPrefixes.Select(dp => $"{dp.Symbol}{ByteUnit.Symbol}"));
+        
         /// <summary>
         /// Returns an object that provides formatting services for the specified type.
         /// </summary>
@@ -55,22 +45,7 @@ namespace Cuemon
             var formats = format.Split(' ');
             if (arg is IPrefixUnit unit)
             {
-                if (formats.Intersect(KibiFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(MebiFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(GibiFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(TebiFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(PebiFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(ExbiFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(ZebiFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(YobiFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(KiloFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(MegaFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(GigaFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(TeraFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(PetaFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(ExaFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(ZettaFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-                if (formats.Intersect(YottaFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
+                if (formats.Intersect(MultipleFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
             }
             if (arg is IUnit baseUnit)
             {
@@ -84,7 +59,7 @@ namespace Cuemon
             var numberFormat = formats[0].Trim();
             var unitFormat = formats[1].Trim();
             var useCompoundFormat = formats.Last().Trim() == "X";
-            return string.Format(provider, "{0} {1}", unit.PrefixValue.ToString(numberFormat, provider), useCompoundFormat ? $"{unit.Prefix.Name}{unit.Name}" : unitFormat);
+            return string.Format(provider, "{0} {1}", unit.PrefixValue.ToString(numberFormat, provider), useCompoundFormat ? $"{unit.Prefix.Name}{unit.UnitName}" : unitFormat);
         }
 
         private string FormatInterpreter(string[] formats, IUnit unit, IFormatProvider provider)
@@ -92,7 +67,7 @@ namespace Cuemon
             var numberFormat = formats[0].Trim();
             var unitFormat = formats[1].Trim();
             var useCompoundFormat = formats.Last().Trim() == "X";
-            return string.Format(provider, "{0} {1}", unit.Value.ToString(numberFormat, provider), useCompoundFormat ? $"{unit.Name}" : unitFormat);
+            return string.Format(provider, "{0} {1}", unit.UnitValue.ToString(numberFormat, provider), useCompoundFormat ? $"{unit.UnitName}" : unitFormat);
         }
     }
 }

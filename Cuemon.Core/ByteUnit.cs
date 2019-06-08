@@ -14,13 +14,28 @@ namespace Cuemon
         private readonly Action<UnitFormatOptions> _setup;
 
         /// <summary>
+        /// Defines how many bits is needed for one byte.
+        /// </summary>
+        public const int BitsPerByte = 8;
+
+        /// <summary>
+        /// Defines the name of a byte unit.
+        /// </summary>
+        public const string Name = "byte";
+
+        /// <summary>
+        /// Defines the symbol of a byte unit.
+        /// </summary>
+        public const string Symbol = "B";
+
+        /// <summary>
         /// Performs an implicit conversion from <see cref="ByteUnit"/> to <see cref="double"/>.
         /// </summary>
         /// <param name="unit">The <see cref="ByteUnit"/> to convert.</param>
         /// <returns>A <see cref="double"/> that is equivalent to <paramref name="unit"/>.</returns>
         public static implicit operator double(ByteUnit unit)
         {
-            return unit.Value;
+            return unit.UnitValue;
         }
 
         /// <summary>
@@ -37,7 +52,7 @@ namespace Cuemon
         {
             Validator.ThrowIfLowerThan(value, 0, nameof(value));
             if (prefix != null) { Validator.ThrowIfLowerThan(prefix.Multiplier, DecimalPrefix.Kilo.Multiplier, nameof(prefix.Multiplier), "Prefix multiplier must be greater or equal to 1000."); }
-            Value = value;
+            UnitValue = value;
             Prefix = prefix;
             PrefixValue = prefix?.ToPrefixValue(this) ?? 0;
             _setup = setup;
@@ -47,19 +62,19 @@ namespace Cuemon
         /// Gets the name of this unit (byte).
         /// </summary>
         /// <value>The name of this unit.</value>
-        public string Name => "byte";
+        public string UnitName => Name;
 
         /// <summary>
         /// Gets the symbol of this unit (B).
         /// </summary>
         /// <value>The symbol of this unit.</value>
-        public string Symbol => "B";
+        public string UnitSymbol => Symbol;
 
         /// <summary>
         /// Gets the value of this unit expressed as bytes.
         /// </summary>
         /// <value>The value of this unit.</value>
-        public double Value { get; }
+        public double UnitValue { get; }
 
         /// <summary>
         /// Gets the prefix multiple to this unit.
@@ -81,7 +96,7 @@ namespace Cuemon
         public bool Equals(IUnit other)
         {
             if (other == null) { return false; }
-            return Value.Equals(other.Value);
+            return UnitValue.Equals(other.UnitValue);
         }
 
         /// <summary>
@@ -102,7 +117,7 @@ namespace Cuemon
         {
             var options = Patterns.Configure(setup);
             var formatter = new UnitPrefixFormatter();
-            var format = Prefix == null ? $"{options.NumberFormat} {Symbol}" : $"{options.NumberFormat} {Prefix.Symbol}{Symbol}";
+            var format = Prefix == null ? $"{options.NumberFormat} {UnitSymbol}" : $"{options.NumberFormat} {Prefix.Symbol}{UnitSymbol}";
             return formatter.Format(options.UseCompoundName ? $"{format} X" : format, this, options.FormatProvider);
         }
     }

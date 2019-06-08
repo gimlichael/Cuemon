@@ -10,20 +10,15 @@ namespace Cuemon
     public class ByteMultipleTable : MultipleTable
     {
         /// <summary>
-        /// Defines how many bits needed for one byte.
-        /// </summary>
-        public const int BitsPerByte = 8;
-
-        /// <summary>
         /// Creates a new instance of <see cref="ByteMultipleTable"/> initialized with <paramref name="bits"/>.
         /// </summary>
         /// <param name="bits">The <see cref="double"/> to convert.</param>
         /// <param name="setup">The <see cref="MultipleTableOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="BitMultipleTable"/> that is initialized with <paramref name="bits"/> / <see cref="BitsPerByte"/>.</returns>
+        /// <returns>A <see cref="BitMultipleTable"/> that is initialized with <paramref name="bits"/> / <see cref="ByteUnit.BitsPerByte"/>.</returns>
         public static ByteMultipleTable FromBits(double bits, Action<MultipleTableOptions> setup = null)
         {
-            if (bits < BitsPerByte) { bits = BitsPerByte; }
-            return FromBytes(bits / BitsPerByte, setup);
+            if (bits < ByteUnit.BitsPerByte) { bits = ByteUnit.BitsPerByte; }
+            return FromBytes(bits / ByteUnit.BitsPerByte, setup);
         }
 
         /// <summary>

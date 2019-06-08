@@ -14,11 +14,11 @@ namespace Cuemon
         /// </summary>
         /// <param name="bytes">The <see cref="double"/> to convert.</param>
         /// <param name="setup">The <see cref="MultipleTableOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="BitMultipleTable"/> that is initialized with <paramref name="bytes"/> * <see cref="ByteMultipleTable.BitsPerByte"/> (ceiling).</returns>
+        /// <returns>A <see cref="BitMultipleTable"/> that is initialized with <paramref name="bytes"/> * <see cref="ByteUnit.BitsPerByte"/> (ceiling).</returns>
         public static BitMultipleTable FromBytes(double bytes, Action<MultipleTableOptions> setup = null)
         {
             Validator.ThrowIfLowerThan(bytes, 0, nameof(bytes));
-            return FromBits(Math.Ceiling(bytes * ByteMultipleTable.BitsPerByte), setup);
+            return FromBits(Math.Ceiling(bytes * ByteUnit.BitsPerByte), setup);
         }
 
         /// <summary>

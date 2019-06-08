@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Cuemon
@@ -10,6 +11,34 @@ namespace Cuemon
     /// <seealso cref="IPrefixMultiple" />
     public struct DecimalPrefix : IPrefixMultiple
     {
+        private static readonly Lazy<IEnumerable<DecimalPrefix>> LazyPrefixes = new Lazy<IEnumerable<DecimalPrefix>>(() =>
+        {
+            var list = new List<DecimalPrefix>()
+            {
+                Atto,
+                Centi,
+                Deca,
+                Deci,
+                Exa,
+                Femto,
+                Giga,
+                Hecto,
+                Kilo,
+                Mega,
+                Micro,
+                Milli,
+                Nano,
+                Peta,
+                Pico,
+                Tera,
+                Yocto,
+                Yotta,
+                Zepto,
+                Zetta
+            };
+            return list;
+        });
+
         /// <summary>
         /// Gets the decimal-submultiple prefix yocto (symbol 'y'), 10^-24 = 0.000000000000000000000001.
         /// </summary>
@@ -131,6 +160,12 @@ namespace Cuemon
         public static DecimalPrefix Yotta => new DecimalPrefix("yotta", "Y", 24);
 
         /// <summary>
+        /// Gets the complete sequence of multiples and submultiples metric prefixes as specified by International System of Units (SI).
+        /// </summary>
+        /// <value>The complete sequence of multiples and submultiples metric prefixes as specified by International System of Units (SI).</value>
+        public static IEnumerable<DecimalPrefix> MetricPrefixes => LazyPrefixes.Value;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DecimalPrefix"/> struct.
         /// </summary>
         /// <param name="name">The name of the decimal prefix.</param>
@@ -186,7 +221,7 @@ namespace Cuemon
             Validator.ThrowIfNull(unit, nameof(unit));
             try
             {
-                return (IPrefixUnit)Activator.CreateInstance(unit.GetType(), unit.Value, this, setup);
+                return (IPrefixUnit)Activator.CreateInstance(unit.GetType(), unit.UnitValue, this, setup);
             }
             catch (TargetInvocationException e)
             {

@@ -20,7 +20,7 @@ namespace Cuemon
         /// <returns>A <see cref="double"/> that is equivalent to <paramref name="mt"/>.</returns>
         public static implicit operator double(MultipleTable mt)
         {
-            return mt.Unit.Value;
+            return mt.Unit.UnitValue;
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Cuemon
         public bool Equals(IUnit other)
         {
             if (other == null) { return false; }
-            return Unit.Value.Equals(other.Value);
+            return Unit.UnitValue.Equals(other.UnitValue);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Cuemon
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return Unit != null ? Unit.Value.GetHashCode() : 0;
+            return Unit != null ? Unit.UnitValue.GetHashCode() : 0;
         }
     }
 }

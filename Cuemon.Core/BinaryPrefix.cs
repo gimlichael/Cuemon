@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Cuemon
@@ -11,6 +12,22 @@ namespace Cuemon
     /// <seealso cref="UnitPrefix"/>
     public struct BinaryPrefix : IPrefixMultiple
     {
+        private static readonly Lazy<IEnumerable<BinaryPrefix>> LazyPrefixes = new Lazy<IEnumerable<BinaryPrefix>>(() =>
+        {
+            var list = new List<BinaryPrefix>()
+            {
+                Exbi,
+                Gibi,
+                Kibi,
+                Mebi,
+                Pebi,
+                Tebi,
+                Yobi,
+                Zebi
+            };
+            return list;
+        });
+
         /// <summary>
         /// Gets the binary-multiple prefix kibi (symbol 'Ki'), 2^10 = 1024.
         /// </summary>
@@ -58,6 +75,12 @@ namespace Cuemon
         /// </summary>
         /// <value>The binary-multiple prefix yobi (symbol 'Yi').</value>
         public static BinaryPrefix Yobi => new BinaryPrefix("yobi", "Yi", 80);
+
+        /// <summary>
+        /// Gets the complete sequence of multiples and submultiples binary prefixes as specified by Institute of Electrical and Electronics Engineers (IEEE).
+        /// </summary>
+        /// <value>The complete sequence of multiples and submultiples binary prefixes as specified by Institute of Electrical and Electronics Engineers (IEEE).</value>
+        public static IEnumerable<BinaryPrefix> BinaryPrefixes => LazyPrefixes.Value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryPrefix"/> struct.
@@ -115,7 +138,7 @@ namespace Cuemon
             Validator.ThrowIfNull(unit, nameof(unit));
             try
             {
-                return (IPrefixUnit)Activator.CreateInstance(unit.GetType(), unit.Value, this, setup);
+                return (IPrefixUnit)Activator.CreateInstance(unit.GetType(), unit.UnitValue, this, setup);
             }
             catch (TargetInvocationException e)
             {

@@ -13,19 +13,19 @@ namespace Cuemon
         /// Gets the name of the base unit.
         /// </summary>
         /// <value>The name of the base unit.</value>
-        string Name { get; }
+        string UnitName { get; }
 
         /// <summary>
         /// Gets the symbol of the base unit.
         /// </summary>
         /// <value>The symbol of the base unit.</value>
-        string Symbol { get; }
+        string UnitSymbol { get; }
 
         /// <summary>
         /// Gets the base value of the unit.
         /// </summary>
         /// <value>The base value of the unit.</value>
-        double Value { get; }
+        double UnitValue { get; }
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
