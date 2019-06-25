@@ -4,15 +4,13 @@ using System.Collections.Generic;
 namespace Cuemon.Integrity
 {
     /// <summary>
-    /// Represents the base class from which all implementations of the CRC hash algorithm must derive.
+    /// Represents the base class from which all implementations of the CRC (Cyclic Redundancy Check) checksum algorithm must derive.
     /// </summary>
     /// <remarks>Help and inspiration was gathered @ http://www.ross.net/crc/download/crc_v3.txt</remarks>
     public abstract class CyclicRedundancyCheck : Hash<CyclicRedundancyCheckOptions>
     {
         private readonly Lazy<List<ulong>> _lazyLookup;
-
         private readonly ulong _initialValue;
-
         private readonly ulong _finalXor;
 
 
@@ -36,12 +34,12 @@ namespace Cuemon.Integrity
             var index = byte.MinValue;
             for (;;)
             {
-                var hash = PolynomialIndexInitializer(index);
+                var checksum = PolynomialIndexInitializer(index);
                 for (byte b = 0; b < 8; b++)
                 {
-                    PolynomialTableHasher(ref hash, polynomial);
+                    PolynomialSlotCalculator(ref checksum, polynomial);
                 }
-                table[index] = hash;
+                table[index] = checksum;
                 if (index == byte.MaxValue) { break; }
                 index++;
             }
@@ -62,11 +60,11 @@ namespace Cuemon.Integrity
         protected abstract ulong PolynomialIndexInitializer(byte index);
 
         /// <summary>
-        /// Computes the polynomial <paramref name="hash"/> value in steps of 8 (0-7) x 256 (0-255) giving a total of 2048 times.
+        /// Computes the polynomial <paramref name="checksum"/> value in steps of 8 (0-7) x 256 (0-255) giving a total of 2048 times.
         /// </summary>
-        /// <param name="hash">The hash that is iterated 8 times (0-7) in 256 steps (0-255).</param>
+        /// <param name="checksum">The checksum that is iterated 8 times (0-7) in 256 steps (0-255).</param>
         /// <param name="polynomial">The polynomial value.</param>
-        protected abstract void PolynomialTableHasher(ref ulong hash, ulong polynomial);
+        protected abstract void PolynomialSlotCalculator(ref ulong checksum, ulong polynomial);
 
         /// <summary>
         /// Gets the CRC initial value of the register.

@@ -3,8 +3,10 @@
 namespace Cuemon.Integrity
 {
     /// <summary>
-    /// Computes the CRC-64 hash value for the input data using the implementation provided by the cyclic redundancy check class (CRC). This class cannot be inherited.
+    /// Provides a CRC-64 implementation of the CRC (Cyclic Redundancy Check) checksum algorithm for 64-bit hash values. This class cannot be inherited.
     /// </summary>
+    /// Implements the <see cref="CyclicRedundancyCheck" />
+    /// <seealso cref="CyclicRedundancyCheck"/>
     public sealed class CyclicRedundancyCheck64 : CyclicRedundancyCheck
     {
         /// <summary>
@@ -29,20 +31,20 @@ namespace Cuemon.Integrity
         }
 
         /// <summary>
-        /// Computes the polynomial <paramref name="hash" /> value in steps of 8 (0-7) x 256 (0-255) giving a total of 2048 times.
+        /// Computes the polynomial <paramref name="checksum" /> value in steps of 8 (0-7) x 256 (0-255) giving a total of 2048 times.
         /// </summary>
-        /// <param name="hash">The hash that is iterated 8 times (0-7) in 256 steps (0-255).</param>
+        /// <param name="checksum">The checksum that is iterated 8 times (0-7) in 256 steps (0-255).</param>
         /// <param name="polynomial">The polynomial value.</param>
-        protected override void PolynomialTableHasher(ref ulong hash, ulong polynomial)
+        protected override void PolynomialSlotCalculator(ref ulong checksum, ulong polynomial)
         {
-            if ((hash & 0x8000000000000000) != 0)
+            if ((checksum & 0x8000000000000000) != 0)
             {
-                hash <<= 1;
-                hash ^= polynomial;
+                checksum <<= 1;
+                checksum ^= polynomial;
             }
             else
             {
-                hash <<= 1;
+                checksum <<= 1;
             }
         }
 
