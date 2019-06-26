@@ -13,26 +13,72 @@ namespace Cuemon.Integrity
     /// Implements the <see cref="IHash" />
     /// </summary>
     /// <typeparam name="TOptions">The type of the configured options.</typeparam>
-    /// <seealso cref="Configurable{TOptions}" />
+    /// <seealso cref="ConvertibleOptions"/>
+    /// <seealso cref="IConfigurable{TOptions}" />
     /// <seealso cref="IHash" />
-    public abstract class Hash<TOptions> : Configurable<TOptions>, IHash where TOptions : ConvertibleOptions, new()
+    public abstract class Hash<TOptions> : Hash, IConfigurable<TOptions> where TOptions : ConvertibleOptions, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Hash{TOptions}"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="ConvertibleOptions" /> which may be configured.</param>
-        protected Hash(Action<TOptions> setup) : base(Patterns.Configure(setup))
+        protected Hash(Action<TOptions> setup)
         {
+            Options = Patterns.Configure(setup);
         }
         
         /// <summary>
+        /// Gets the configured options of this instance.
+        /// </summary>
+        /// <value>The configured options of this instance.</value>
+        public TOptions Options { get; }
+
+
+        /// <summary>
+        /// The endian-initializer of this instance.
+        /// </summary>
+        /// <param name="options">An instance of the configured options.</param>
+        protected sealed override void EndianInitializer(EndianOptions options)
+        {
+            options.ByteOrder = Options.ByteOrder;
+        }
+
+        /// <summary>
+        /// The <see cref="Convertible"/> factory of this instance.
+        /// </summary>
+        /// <returns>An instance of <see cref="Convertible"/>.</returns>
+        protected sealed override Convertible ConvertibleFactory()
+        {
+            return new Convertible(o =>
+            {
+                o.Converters = Options.Converters;
+                o.ByteOrder = Options.ByteOrder;
+            });
+        }
+    }
+
+    /// <summary>
+    /// Represents the base class that defines the public facing structure to expose.
+    /// Implements the <see cref="IHash" />
+    /// </summary>
+    /// <seealso cref="IHash" />
+    public abstract class Hash : IHash
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Hash"/> class.
+        /// </summary>
+        internal Hash()
+        {
+        }
+
+         /// <summary>
         /// Computes the hash value for the specified <see cref="bool"/>.
         /// </summary>
         /// <param name="input">The <see cref="bool"/> to compute the hash code for.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(bool input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -42,7 +88,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(byte input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -52,7 +98,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(char input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -92,7 +138,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(double input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -102,7 +148,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(short input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -112,7 +158,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(int input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -122,7 +168,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(long input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -132,7 +178,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(sbyte input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -142,7 +188,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(float input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -152,7 +198,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(ushort input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -162,7 +208,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(uint input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -172,7 +218,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(ulong input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -193,7 +239,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(Enum input)
         {
-            return ComputeHash(Convertible.GetBytes(input, EndianIntializer));
+            return ComputeHash(Convertible.GetBytes(input, EndianInitializer));
         }
 
         /// <summary>
@@ -213,11 +259,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(IEnumerable<IConvertible> input)
         {
-            var c = new Convertible(o =>
-            {
-                o.Converters = Options.Converters;
-                o.ByteOrder = Options.ByteOrder;
-            });
+            var c = ConvertibleFactory();
             return ComputeHash(c.GetBytes(input));
         }
 
@@ -242,9 +284,16 @@ namespace Cuemon.Integrity
             }).ToArray());
         }
 
-        private void EndianIntializer(EndianOptions o)
-        {
-            o.ByteOrder = Options.ByteOrder;
-        }
+        /// <summary>
+        /// Defines the initializer that <see cref="Hash{TOptions}"/> must implement.
+        /// </summary>
+        /// <param name="options">An instance of the configured options.</param>
+        protected abstract void EndianInitializer(EndianOptions options);
+
+        /// <summary>
+        /// Provides a <see cref="Convertible"/> factory that <see cref="Hash{TOptions}"/> must implement.
+        /// </summary>
+        /// <returns>An instance of <see cref="Convertible"/>.</returns>
+        protected abstract Convertible ConvertibleFactory();
     }
 }
