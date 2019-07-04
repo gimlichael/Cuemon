@@ -19,7 +19,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         {
             var options = setup.Configure();
             Created = created;
-            Checksum = new ChecksumResult(checksum);
+            Checksum = new HashResult(checksum);
             Modified = options.Modified;
             Validation = options.GetValidation(checksum);
         }
@@ -43,10 +43,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         public ChecksumStrength Validation { get; set; }
 
         /// <summary>
-        /// Gets a <see cref="ChecksumResult" /> that represents the integrity of this instance.
+        /// Gets a <see cref="HashResult" /> that represents the integrity of this instance.
         /// </summary>
         /// <value>The checksum that represents the integrity of this instance.</value>
-        public ChecksumResult Checksum { get; set; }
+        public HashResult Checksum { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance has a <see cref="Checksum" /> representation.

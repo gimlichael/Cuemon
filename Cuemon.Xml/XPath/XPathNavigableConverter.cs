@@ -3,7 +3,9 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
+using Cuemon.ComponentModel.Codecs;
 using Cuemon.IO;
+using Cuemon.Text;
 
 namespace Cuemon.Xml.XPath
 {
@@ -32,7 +34,7 @@ namespace Cuemon.Xml.XPath
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(encoding, nameof(encoding));
-            using (var stream = StreamConverter.FromString(value, options =>
+            using (var stream = ConvertFactory.UseCodec<StreamToStringCodec>().Decode(value, options =>
             {
                 options.Encoding = encoding;
                 options.Preamble = PreambleSequence.Keep;

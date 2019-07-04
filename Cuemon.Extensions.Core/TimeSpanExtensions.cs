@@ -1,4 +1,6 @@
 ﻿using System;
+using Cuemon.ComponentModel;
+using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Extensions
 {
@@ -12,19 +14,10 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="value">The <see cref="TimeSpan"/> to extend.</param>
         /// <returns>The total number of nanoseconds represented by the specified <see cref="TimeSpan"/> structure.</returns>
+        /// <seealso cref="TotalNanosecondsTimeSpanConverter"/>
         public static double GetTotalNanoseconds(this TimeSpan value)
         {
-            return DoubleConverter.FromTimeSpanToTotalNanoseconds(value);
-        }
-
-        /// <summary>
-        /// Gets the nanoseconds of the time interval represented by the specified <see cref="TimeSpan"/> structure.
-        /// </summary>
-        /// <param name="value">The <see cref="TimeSpan"/> to extend with a nanoseconds component.</param>
-        /// <returns>The nanoseconds component by the specified <see cref="TimeSpan"/> structure. The return value ranges from -999 through 999.</returns>
-        public static int GetNanoseconds(this TimeSpan value)
-        {
-            return IntegerConverter.FromTimeSpanToNanoseconds(value);
+            return ConvertFactory.UseConverter<TotalNanosecondsTimeSpanConverter>().ChangeType(value);
         }
 
         /// <summary>
@@ -32,19 +25,10 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="value">The <see cref="TimeSpan"/> to extend.</param>
         /// <returns>The total number of microseconds represented by the specified <see cref="TimeSpan"/> structure.</returns>
+        /// <seealso cref="TotalMicrosecondsTimeSpanConverter"/>
         public static double GetTotalMicroseconds(this TimeSpan value)
         {
-            return DoubleConverter.FromTimeSpanToTotalMicroseconds(value);
-        }
-
-        /// <summary>
-        /// Gets the microseconds of the time interval represented by the specified <see cref="TimeSpan"/> structure.
-        /// </summary>
-        /// <param name="value">The <see cref="TimeSpan"/> to extend with a microseconds component.</param>
-        /// <returns>The millisecond component by the specified <see cref="TimeSpan"/> structure. The return value ranges from -999 through 999.</returns>
-        public static int GetMicroseconds(this TimeSpan value)
-        {
-            return IntegerConverter.FromTimeSpanToMicroseconds(value);
+            return ConvertFactory.UseConverter<TotalMicrosecondsTimeSpanConverter>().ChangeType(value);
         }
 
         /// <summary>
@@ -104,9 +88,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="direction"/> is an invalid enumeration value.
         /// </exception>
+        /// <seealso cref="CompositeDoubleConverter"/>
         public static TimeSpan Round(this TimeSpan value, double interval, TimeUnit timeUnit, VerticalDirection direction)
         {
-            return Round(value, TimeSpanConverter.FromDouble(interval, timeUnit), direction);
+            return Round(value, ConvertFactory.UseConverter<CompositeDoubleConverter>().ChangeType(interval, o => o.TimeUnit = timeUnit), direction);
         }
 
         /// <summary>

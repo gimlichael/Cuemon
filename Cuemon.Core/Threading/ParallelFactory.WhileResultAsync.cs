@@ -179,7 +179,7 @@ namespace Cuemon.Threading
             var exceptions = new ConcurrentBag<Exception>();
             var result = new ConcurrentDictionary<long, TResult>();
             var readForward = true;
-            var sorter = long.MinValue;
+            var sorter = Int64.MinValue;
 
             for (;;)
             {

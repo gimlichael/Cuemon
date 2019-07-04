@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Cuemon.Integrity;
 using Cuemon.Security.Cryptography;
 
 namespace Cuemon.AspNetCore.Mvc.Configuration
@@ -24,8 +25,8 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         ///         <description><see cref="System.Reflection.Assembly.GetEntryAssembly"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="AlgorithmType"/></term>
-        ///         <description><see cref="HashAlgorithmType.CRC32"/></description>
+        ///         <term><see cref="Algorithm"/></term>
+        ///         <description><see cref="CryptoAlgorithm.Md5"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ReadByteForByteChecksum"/></term>
@@ -36,7 +37,7 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         public AssemblyCacheBustingOptions()
         {
             Assembly = Assembly.GetEntryAssembly();
-            AlgorithmType = HashAlgorithmType.CRC32;
+            Algorithm = CryptoAlgorithm.Md5;
             ReadByteForByteChecksum = false;
         }
 
@@ -50,7 +51,7 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         /// Gets or sets the hash algorithm to use for the computation of <see cref="Assembly"/>.
         /// </summary>
         /// <value>The hash algorithm to use for the computation of <see cref="Assembly"/>.</value>
-        public HashAlgorithmType AlgorithmType { get; set; }
+        public CryptoAlgorithm Algorithm { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="Assembly"/> will be read byte-for-byte when computing the checksum.

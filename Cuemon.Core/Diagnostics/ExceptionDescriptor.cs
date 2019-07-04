@@ -89,7 +89,7 @@ namespace Cuemon.Diagnostics
         /// </summary>
         public void PostInitializeWith(ExceptionDescriptorAttribute attribute)
         {
-            PostInitializeWith(EnumerableUtility.Yield(attribute));
+            PostInitializeWith(Arguments.Yield(attribute));
         }
 
         /// <summary>

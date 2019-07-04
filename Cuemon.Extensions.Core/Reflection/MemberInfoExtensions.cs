@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Cuemon.Reflection;
 
 namespace Cuemon.Extensions.Reflection
 {
@@ -18,21 +19,9 @@ namespace Cuemon.Extensions.Reflection
         /// </returns>
         public static bool HasAttributes(this MemberInfo source, params Type[] targets)
         {
-            return TypeUtility.ContainsAttributeType(source, targets);
-        }
-
-        /// <summary>
-        /// Determines whether the specified source type contains one or more of the specified attribute target types.
-        /// </summary>
-        /// <param name="source">The member to match against.</param>
-        /// <param name="inherit"><c>true</c> to search the <paramref name="source"/> inheritance chain to find the attributes; otherwise, <c>false</c>.</param>
-        /// <param name="targets">The attribute target types to be matched against.</param>
-        /// <returns>
-        /// 	<c>true</c> if the specified member contains one or more of the specified attribute target types; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool HasAttributes(this MemberInfo source, bool inherit, params Type[] targets)
-        {
-            return TypeUtility.ContainsAttributeType(source, inherit, targets);
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(targets, nameof(targets));
+            return MemberReflectorInfo.FromMember(source).HasAttribute(targets);
         }
     }
 }

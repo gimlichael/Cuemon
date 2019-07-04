@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Xml;
+using Cuemon.ComponentModel.Parsers;
+using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Data;
 
 namespace Cuemon.Xml
@@ -8,8 +11,10 @@ namespace Cuemon.Xml
     /// <summary>
     /// Provides a way of reading a forward-only stream of rows from an XML based data source. This class cannot be inherited.
     /// </summary>
-    public sealed class XmlDataReader : StringDataReader
+    public sealed class XmlDataReader : DataReader<bool>
     {
+        private int _rowCount = 0;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlDataReader" /> class.
         /// </summary>
@@ -17,7 +22,7 @@ namespace Cuemon.Xml
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        public XmlDataReader(XmlReader reader) : this(reader, ObjectConverter.FromString)
+        public XmlDataReader(XmlReader reader) : this(reader, ConvertFactory.UseParser<SimpleValueTypeParser>().Parse)
         {
         }
 
@@ -29,8 +34,8 @@ namespace Cuemon.Xml
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null -or- <paramref name="parser"/> is null.
         /// </exception>
-        /// <remarks>The default implementation uses <see cref="ObjectConverter.FromString(string)"/> as <paramref name="parser"/>.</remarks>
-        public XmlDataReader(XmlReader reader, Func<string, object> parser) : base(parser)
+        /// <remarks>The default implementation uses <see cref="SimpleValueTypeParser.Parse"/> as <paramref name="parser"/>.</remarks>
+        public XmlDataReader(XmlReader reader, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser) : base(parser)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(parser, nameof(parser));
@@ -47,18 +52,24 @@ namespace Cuemon.Xml
 
         private int CurrentDepth { get; set; }
 
+        public override int RowCount => _rowCount;
+
+        protected override bool NullRead => false;
+        
+        public bool Read()
+        {
+            if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
+            return ReadNext();
+        }
+
         /// <summary>
         /// Advances this instance to the next element of the XML data source.
         /// </summary>
         /// <returns><c>true</c> if there are more elements; otherwise, <c>false</c>.</returns>
-        protected override bool ReadNext()
+        protected override bool ReadNext(bool option = false)
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
-            return ReadNextCore(Reader);
-        }
-
-        private bool ReadNextCore(XmlReader reader)
-        {
+            var reader = Reader;
             var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
             string elementName = null;
             while (reader.Read())
@@ -97,8 +108,11 @@ namespace Cuemon.Xml
                 }
             }
         addFields:
+            
             SetFields(fields);
-            return (fields.Count > 0);
+            var hasRows = fields.Count > 0;
+            if (hasRows) {_rowCount++; }
+            return hasRows;
         }
 
         private void Parse(XmlReader reader, ref OrderedDictionary values)
@@ -110,11 +124,11 @@ namespace Cuemon.Xml
         {
             if (values.Contains(localName))
             {
-                values[localName] = StringParser(reader.Value);
+                values[localName] = StringParser(reader.Value, null);
             }
             else
             {
-                values.Add(localName, StringParser(reader.Value));
+                values.Add(localName, StringParser(reader.Value, null));
             }
         }
 

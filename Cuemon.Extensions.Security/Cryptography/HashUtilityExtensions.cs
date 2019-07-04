@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using Cuemon.Integrity;
 using Cuemon.Security.Cryptography;
+using Cuemon.Text;
 
 namespace Cuemon.Extensions.Security.Cryptography
 {
@@ -15,10 +17,10 @@ namespace Cuemon.Extensions.Security.Cryptography
         /// <param name="stream">The <see cref="Stream"/> object to compute a hash code for.</param>
         /// <param name="setup">The <see cref="StreamHashOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="stream"/>.</returns>
-        public static HashResult ComputeHash(this Stream stream, Action<StreamHashOptions> setup = null)
-        {
-            return HashUtility.ComputeHash(stream, setup);
-        }
+        //public static HashResult ComputeHash(this Stream stream, Action<StreamHashOptions> setup = null)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Computes a hash value of the specified <paramref name="bytes"/>.
@@ -26,10 +28,10 @@ namespace Cuemon.Extensions.Security.Cryptography
         /// <param name="bytes">The <see cref="byte"/> array to compute a hash code for.</param>
         /// <param name="setup">The <see cref="HashOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="bytes"/>.</returns>
-        public static HashResult ComputeHash(this byte[] bytes, Action<HashOptions> setup = null)
-        {
-            return HashUtility.ComputeHash(bytes, setup);
-        }
+        //public static HashResult ComputeHash(this byte[] bytes, Action<HashOptions> setup = null)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Computes a hash value of the specified <paramref name="value"/>.
@@ -37,31 +39,9 @@ namespace Cuemon.Extensions.Security.Cryptography
         /// <param name="value">The <see cref="string"/> value to compute a hash code for.</param>
         /// <param name="setup">The <see cref="StringHashOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(this string value, Action<StringHashOptions> setup = null)
+        public static HashResult ComputeHash(this string value, CryptoAlgorithm algorithm, Action<EncodingOptions> setup = null)
         {
-            return HashUtility.ComputeHash(value, setup);
-        }
-
-        /// <summary>
-        /// Computes a hash value of the specified <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The object to compute a hash code for.</param>
-        /// <param name="setup">The <see cref="HashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="value"/>.</returns>
-        public static HashResult ComputeHash(this object value, Action<HashOptions> setup = null)
-        {
-            return HashUtility.ComputeHash(value, setup);
-        }
-
-        /// <summary>
-        /// Combines a sequence of objects into one object, and computes a hash value of the specified sequence, <paramref name="values"/>.
-        /// </summary>
-        /// <param name="values">The objects to compute a hash code for.</param>
-        /// <param name="setup">The <see cref="HashOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified object sequence <paramref name="values"/>.</returns>
-        public static HashResult ComputeHash(this object[] values, Action<HashOptions> setup = null)
-        {
-            return HashUtility.ComputeHash(values, setup);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -70,9 +50,9 @@ namespace Cuemon.Extensions.Security.Cryptography
         /// <param name="values">The <see cref="string"/> sequence to compute a hash code for.</param>
         /// <param name="setup">The <see cref="StringHashOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="HashResult"/> containing the computed hash value of the specified <paramref name="values"/>.</returns>
-        public static HashResult ComputeHash(this string[] values, Action<StringHashOptions> setup = null)
-        {
-            return HashUtility.ComputeHash(values, setup);
-        }
+        //public static HashResult ComputeHash(this string[] values, Action<StringHashOptions> setup = null)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Authentication
                 var nonceSecret = Options.NonceSecret;
                 var nonceGenerator = Options.NonceGenerator;
                 var staleNonce = context.Items["staleNonce"] as string ?? "FALSE";
-                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, $"{AuthenticationScheme} realm=\"{Options.Realm}\", qop=\"{DigestAuthenticationUtility.CredentialQualityOfProtectionOptions}\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)}\"");
+                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{AuthenticationScheme} realm=\"{Options.Realm}\", qop=\"{DigestAuthenticationUtility.CredentialQualityOfProtectionOptions}\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)}\""));
                 await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ContinueWithSuppressedContext();
                 return;
             }
@@ -88,7 +88,7 @@ namespace Cuemon.AspNetCore.Authentication
 
         private bool TryAuthenticate(HttpContext context, Dictionary<string, string> credentials, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException($"The {nameof(Options.Authenticator)} delegate cannot be null."); }
+            if (Options.Authenticator == null) { throw new InvalidOperationException(FormattableString.Invariant($"The {nameof(Options.Authenticator)} delegate cannot be null.")); }
             string password, userName, clientResponse, nonce, nonceCount;
             credentials.TryGetValue(DigestAuthenticationUtility.CredentialUserName, out userName);
             credentials.TryGetValue(DigestAuthenticationUtility.CredentialResponse, out clientResponse);
@@ -107,12 +107,12 @@ namespace Cuemon.AspNetCore.Authentication
                 }
                 else
                 {
-                    NonceCounter.TryAdd(nonce, TupleUtility.CreateTwo(DateTime.UtcNow, nonceCount));
+                    NonceCounter.TryAdd(nonce, Template.CreateTwo(DateTime.UtcNow, nonceCount));
                 }
             }
             result = Options.Authenticator(userName, out password);
 
-            var serverResponse = Options?.DigestAccessSigner(new DigestAccessAuthenticationParameters(credentials.ToImmutableDictionary(), context.Request.Method, password, Options.Algorithm))?.ToHexadecimal();
+            var serverResponse = Options?.DigestAccessSigner(new DigestAccessAuthenticationParameters(credentials.ToImmutableDictionary(), context.Request.Method, password, Options.Algorithm))?.ToHexadecimalString();
             return serverResponse != null && (serverResponse.Equals(clientResponse, StringComparison.Ordinal) && Condition.IsNotNull(result));
         }
 
@@ -128,7 +128,7 @@ namespace Cuemon.AspNetCore.Authentication
                     for (var i = 0; i < credentials.Length; i++)
                     {
                         var credentialPair = StringUtility.SplitDsvQuoted(credentials[i], "=");
-                        result.Add(credentialPair[0].Trim(), Converter.Parse(credentialPair[1], QuotedStringParser));
+                        result.Add(credentialPair[0].Trim(), QuotedStringParser(credentialPair[1]));
                     }
                     return IsDigestCredentialsValid(result) ? result : null;
                 }

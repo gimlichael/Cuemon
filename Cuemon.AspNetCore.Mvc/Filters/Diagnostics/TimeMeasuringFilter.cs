@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Http;
+using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
 using Microsoft.Extensions.Hosting;
@@ -64,7 +65,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 TimeMeasure.CompletedCallback?.Invoke(Profiler);
                 if (!Options?.SuppressHeaderPredicate(Environment) ?? false)
                 {
-                    if (Options.UseServerTimingHeader) { context.HttpContext.Response.Headers.AddOrUpdateHeader("Server-Timing", $"CPU;dur={Profiler.Elapsed.TotalMilliseconds.ToString("N1", CultureInfo.InvariantCulture)}"); }
+                    if (Options.UseServerTimingHeader) { context.HttpContext.Response.Headers.AddOrUpdateHeader("Server-Timing", FormattableString.Invariant($"CPU;dur={Profiler.Elapsed.TotalMilliseconds.ToString("N1", CultureInfo.InvariantCulture)}")); }
                     if (Options.UseCustomHeader) { context.HttpContext.Response.Headers.AddOrUpdateHeader(Options.HeaderName, Profiler.ToString()); }
                 }
             }
@@ -81,7 +82,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             var objects = new List<object>();
             foreach (var pi in descriptor.Parameters)
             {
-                objects.Add(ObjectConverter.ChangeType(context.RouteData.Values[pi.Name], pi.ParameterType));
+                objects.Add(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(context.RouteData.Values[pi.Name], pi.ParameterType));
             }
             return objects.ToArray();
         }

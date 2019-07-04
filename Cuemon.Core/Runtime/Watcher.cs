@@ -190,7 +190,7 @@ namespace Cuemon.Runtime
         private void OnChangedRaisedCore(WatcherEventArgs e)
         {
             var handler = Changed;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
         #endregion
     }

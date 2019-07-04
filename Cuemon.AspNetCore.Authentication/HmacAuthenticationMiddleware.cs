@@ -7,6 +7,7 @@ using Cuemon.AspNetCore.Builder;
 using Cuemon.Extensions;
 using Cuemon.Extensions.Security.Cryptography;
 using Cuemon.Extensions.Threading.Tasks;
+using Cuemon.Integrity;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -57,13 +58,12 @@ namespace Cuemon.AspNetCore.Authentication
 
         private bool TryAuthenticate(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException($"The {nameof(Options.Authenticator)} cannot be null."); }
-            var requestBodyMd5 = context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()?.ComputeHash(o =>
+            if (Options.Authenticator == null) { throw new InvalidOperationException(FormattableString.Invariant($"The {nameof(Options.Authenticator)} cannot be null.")); }
+            var requestBodyMd5 = context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()?.ComputeHash(CryptoAlgorithm.Md5, o =>
             {
-                o.AlgorithmType = HashAlgorithmType.MD5;
                 o.Encoding = Encoding.UTF8;
             }).ToHexadecimalString();
-            if (!requestBodyMd5.IsNullOrWhiteSpace() && !context.Request.Body.ComputeHash(o => o.AlgorithmType = HashAlgorithmType.MD5).ToHexadecimalString().Equals(requestBodyMd5, StringComparison.Ordinal))
+            if (!requestBodyMd5.IsNullOrWhiteSpace() && !HashFactory.CreateCrypto(CryptoAlgorithm.Md5).ComputeHash(context.Request.Body).ToHexadecimalString().Equals(requestBodyMd5, StringComparison.Ordinal))
             {
                 result = null;
                 return false;
@@ -78,7 +78,7 @@ namespace Cuemon.AspNetCore.Authentication
                 result = null;
                 return false;
             }
-            var computedSignature = Options?.HmacSigner(new HmacAuthenticationParameters(Options.Algorithm, privateKey, stringToSign))?.ToBase64();
+            var computedSignature = Options?.HmacSigner(new HmacAuthenticationParameters(Options.Algorithm, privateKey, stringToSign))?.ToBase64String();
             return signature.Equals(computedSignature, StringComparison.Ordinal) && Condition.IsNotNull(result);
         }
 
@@ -91,7 +91,7 @@ namespace Cuemon.AspNetCore.Authentication
                 {
                     var publicKey = credentials[0];
                     var signature = credentials[1];
-                    if (!publicKey.IsNullOrWhiteSpace() && !signature.IsNullOrWhiteSpace()) { return TupleUtility.CreateTwo(publicKey, signature); }
+                    if (!publicKey.IsNullOrWhiteSpace() && !signature.IsNullOrWhiteSpace()) { return Template.CreateTwo(publicKey, signature); }
                 }
             }
             return null;

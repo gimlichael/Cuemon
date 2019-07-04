@@ -44,5 +44,30 @@
         /// A representation of a hexadecimal character set consisting of the numbers 0 to 9 and the letters A to F.
         /// </summary>
         public const string Hexadecimal = Numbers + "ABCDEF";
+
+        /// <summary>
+        /// A network-path reference, eg. two forward slashes (//).
+        /// </summary>
+        public const string NetworkPathReference = "//";
+
+        /// <summary>
+        /// Carriage-return/linefeed character combination.
+        /// </summary>
+        public const string NewLine = CarriageReturn + Linefeed;
+
+        /// <summary>
+        /// Tab character.
+        /// </summary>
+        public const string Tab = "\t";
+
+        /// <summary>
+        /// Linefeed character.
+        /// </summary>
+        public const string Linefeed = "\n";
+
+        /// <summary>
+        /// Carriage-return character.
+        /// </summary>
+        public const string CarriageReturn = "\r";
     }
 }

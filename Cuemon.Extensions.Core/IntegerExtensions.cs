@@ -66,7 +66,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool IsPrime(this int value)
         {
-            return NumberUtility.IsPrime(value);
+            return Condition.IsPrime(value);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
         public static bool IsCountableSequence(this IEnumerable<int> source)
         {
-            return NumberUtility.IsCountableSequence(source);
+            return Condition.IsCountableSequence(source);
         }
 
 
@@ -87,7 +87,7 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="value"/> is an even number; otherwise, <c>false</c>.</returns>
         public static bool IsEven(this int value)
         {
-            return NumberUtility.IsEven(value);
+            return Condition.IsEven(value);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="value"/> is an odd number; otherwise, <c>false</c>.</returns>
         public static bool IsOdd(this int value)
         {
-            return NumberUtility.IsOdd(value);
+            return Condition.IsOdd(value);
         }
 
         /// <summary>
@@ -107,47 +107,7 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
         public static bool IsCountableSequence(this IEnumerable<long> source)
         {
-            return NumberUtility.IsCountableSequence(source);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="bytes"/> to its equivalent representation in kilobytes.
-        /// </summary>
-        /// <param name="bytes">The bytes to be converted.</param>
-        /// <returns>A kilobyte representation equivalent to the specified <paramref name="bytes"/>.</returns>
-        public static double BytesToKilobytes(this long bytes)
-        {
-            return NumberUtility.BytesToKilobytes(bytes);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="bytes"/> to its equivalent representation in megabytes.
-        /// </summary>
-        /// <param name="bytes">The bytes to be converted.</param>
-        /// <returns>A megabyte representation equivalent to the specified <paramref name="bytes"/>.</returns>
-        public static double BytesToMegabytes(this long bytes)
-        {
-            return NumberUtility.BytesToMegabytes(bytes);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="bytes"/> to its equivalent representation in gigabytes.
-        /// </summary>
-        /// <param name="bytes">The bytes to be converted.</param>
-        /// <returns>A gigabyte representation equivalent to the specified <paramref name="bytes"/>.</returns>
-        public static double BytesToGigabytes(this long bytes)
-        {
-            return NumberUtility.BytesToGigabytes(bytes);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="bytes"/> to its equivalent representation in terabytes.
-        /// </summary>
-        /// <param name="bytes">The bytes to be converted.</param>
-        /// <returns>A terabyte representation equivalent to the specified <paramref name="bytes"/>.</returns>
-        public static double BytesToTerabytes(this long bytes)
-        {
-            return NumberUtility.BytesToTerabytes(bytes);
+            return Condition.IsCountableSequence(source);
         }
     }
 }

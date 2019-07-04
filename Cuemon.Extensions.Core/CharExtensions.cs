@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Extensions
 {
@@ -14,7 +15,7 @@ namespace Cuemon.Extensions
         /// <returns>A <see cref="string"/> sequence equivalent to the specified <paramref name="value"/>.</returns>
         public static IEnumerable<string> ToEnumerable(this IEnumerable<char> value)
         {
-            return StringConverter.ToEnumerable(value);
+            return ConvertFactory.UseConverter<TextEnumerableConverter>().ChangeType(value);
         }
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace Cuemon.Extensions
         /// <returns>A <see cref="string"/> equivalent to the specified <paramref name="value"/>.</returns>
         public static string FromChars(this IEnumerable<char> value)
         {
-            return StringConverter.FromChars(value);
+            return string.Concat(value);
         }
     }
 }

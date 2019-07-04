@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using Cuemon.Reflection;
 
@@ -931,7 +932,7 @@ namespace Cuemon.Runtime.Caching
             {
                 object current = args[i] ?? NullHashCode;
                 byte[] bytes = current as byte[];
-                result ^= bytes == null ? current.GetHashCode() : StructUtility.GetHashCode32(bytes);
+                result ^= bytes == null ? current.GetHashCode() : Generate.HashCode32(bytes.Cast<IConvertible>());
             }
             return result.ToString(CultureInfo.InvariantCulture);
         }

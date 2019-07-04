@@ -1,4 +1,6 @@
 ﻿using System;
+using Cuemon.ComponentModel.Converters;
+using Cuemon.Integrity;
 
 namespace Cuemon.ComponentModel.TypeConverters
 {
@@ -25,7 +27,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(bool input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
 
         /// <summary>
@@ -36,7 +38,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(char input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(double input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(short input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(int input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
 
         /// <summary>
@@ -80,7 +82,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(long input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
 
         /// <summary>
@@ -91,7 +93,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(float input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
 
         /// <summary>
@@ -102,7 +104,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(ushort input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
 
         /// <summary>
@@ -113,7 +115,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(uint input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
 
         /// <summary>
@@ -124,14 +126,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public byte[] ChangeType(ulong input, Action<EndianOptions> setup = null)
         {
-            return ReverseByteArrayWhenRequested(BitConverter.GetBytes(input), setup);
-        }
-
-        internal static byte[] ReverseByteArrayWhenRequested(byte[] bytes, Action<EndianOptions> setup = null)
-        {
-            var options = Patterns.Configure(setup);
-            if (options.UseBigEndian && BitConverter.IsLittleEndian) { Array.Reverse(bytes); }
-            return bytes;
+            return Convertible.ReverseEndianness(BitConverter.GetBytes(input), setup);
         }
     }
 }

@@ -41,7 +41,8 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static bool HasIndex<TSource>(this IList<TSource> elements, int index)
         {
-            return ListUtility.HasIndex(index, elements);
+            Validator.ThrowIfNull(elements, nameof(elements));
+            return ((elements.Count - 1) >= index);
         }
 
         /// <summary>
@@ -50,13 +51,20 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <typeparam name="TSource">The type of elements in the <see cref="IList{T}"/>.</typeparam>
         /// <param name="elements">The elements, relative to <paramref name="index"/>, to return the next element of.</param>
         /// <param name="index">The index of which to advance to the next element from.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="elements"/> is null.
+        /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="index"/> is less than 0.
         /// </exception>
         /// <returns>default(TSource) if <paramref name="index"/> is equal or greater than <see cref="ICollection{T}.Count"/>; otherwise the next element of <paramref name="elements"/> relative to <paramref name="index"/>.</returns>
         public static TSource Next<TSource>(this IList<TSource> elements, int index)
         {
-            return ListUtility.Next(index, elements);
+            Validator.ThrowIfNull(elements, nameof(elements));
+            Validator.ThrowIfLowerThan(index, 0, nameof(index));
+            var nextIndex = index + 1;
+            if (nextIndex >= elements.Count) { return default; }
+            return elements[nextIndex];
         }
 
         /// <summary>
@@ -65,13 +73,21 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <typeparam name="TSource">The type of elements in the <see cref="IList{T}"/>.</typeparam>
         /// <param name="elements">The elements, relative to <paramref name="index"/>, to return the previous element of.</param>
         /// <param name="index">The index of which to advance to the previous element from.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="elements"/> is null.
+        /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="index"/> is less than 0.
         /// </exception>
         /// <returns>default(TSource) if <paramref name="index"/> is equal, greater or lower than <see cref="ICollection{T}.Count"/>; otherwise the previous element of <paramref name="elements"/> relative to <paramref name="index"/>.</returns>
         public static TSource Previous<TSource>(this IList<TSource> elements, int index)
         {
-            return ListUtility.Previous(index, elements);
+            Validator.ThrowIfNull(elements, nameof(elements));
+            Validator.ThrowIfLowerThan(index, 0, nameof(index));
+            var previousIndex = index - 1;
+            if (previousIndex < 0) { return default; }
+            if (previousIndex >= elements.Count) { return default; }
+            return elements[previousIndex];
         }
     }
 }

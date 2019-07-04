@@ -99,7 +99,7 @@ namespace Cuemon.Data
 						values.Add(readerValues);
 					}
 				}
-                var currentSignature = StructUtility.GetHashCode64(values.Select(o => o.GetHashCode()));
+                var currentSignature = Generate.HashCode64(values.Select(o => o.GetHashCode()).Cast<IConvertible>());
                 values.Clear();
 
 				if (Signature == 0) { Signature = currentSignature; }

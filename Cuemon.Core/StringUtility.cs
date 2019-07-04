@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cuemon.Collections.Generic;
+using Cuemon.ComponentModel.Parsers;
+using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon
 {
@@ -16,73 +18,6 @@ namespace Cuemon
     public static class StringUtility
     {
         private static readonly ConcurrentDictionary<string, Regex> CompiledSplitExpressions = new ConcurrentDictionary<string, Regex>();
-
-        #region Constants
-        /// <summary>
-        /// A network-path reference, eg. two forward slashes (//).
-        /// </summary>
-        public const string NetworkPathReference = "//";
-
-        /// <summary>
-        /// Carriage-return/linefeed character combination.
-        /// </summary>
-        public const string NewLine = CarriageReturn + Linefeed;
-
-        /// <summary>
-        /// Tab character.
-        /// </summary>
-        public const string Tab = "\t";
-
-        /// <summary>
-        /// Linefeed character.
-        /// </summary>
-        public const string Linefeed = "\n";
-
-        /// <summary>
-        /// Carriage-return character.
-        /// </summary>
-        public const string CarriageReturn = "\r";
-
-        /// <summary>
-        /// A representation of a numeric character set consisting of the numbers 0 to 9.
-        /// </summary>
-        public const string NumericCharacters = "0123456789";
-
-        /// <summary>
-        /// A single case representation of an alphanumeric character set consisting of the numbers 0 to 9 and the letters A to Z.
-        /// </summary>
-        public const string AlphanumericCharactersSingleCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + NumericCharacters;
-
-        /// <summary>
-        /// A case sensitive representation of an alphanumeric character set consisting of the numbers 0 to 9 and the letters Aa to Zz.
-        /// </summary>
-        public const string AlphanumericCharactersCaseSensitive = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz" + NumericCharacters;
-
-        /// <summary>
-        /// An uppercase representation of the English alphabet character set consisting of the letters A to Z.
-        /// </summary>
-        public static readonly string EnglishAlphabetCharactersMajuscule = AlphanumericCharactersSingleCase.Remove(AlphanumericCharactersSingleCase.Length - 10);
-
-        /// <summary>
-        /// A lowercase representation of the English alphabet character set consisting of the letters a to z.
-        /// </summary>
-        public static readonly string EnglishAlphabetCharactersMinuscule = EnglishAlphabetCharactersMajuscule.ToLowerInvariant();
-
-        /// <summary>
-        /// A representation of the most common punctuation marks that conforms to the ASCII printable characters.
-        /// </summary>
-        public static readonly string PunctuationMarks = "!@#$%^&*()_-+=[{]};:<>|.,/?`~\\\"'";
-
-        /// <summary>
-        /// A representation of the most common whitespace characters.
-        /// </summary>
-        public static readonly string WhiteSpaceCharacters = "\u0009\u000A\u000B\u000C\u000D\u0020\u0085\u00A0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F\u3000";
-
-        /// <summary>
-        /// A representation of a hexadecimal character set consisting of the numbers 0 to 9 and the letters A to F.
-        /// </summary>
-        public static readonly string HexadecimalCharacters = NumericCharacters + "ABCDEF";
-        #endregion
 
         #region Methods
         /// <summary>
@@ -98,7 +33,7 @@ namespace Cuemon
         {
             if (definite == null) { definite = string.Empty; }
             if (arbitrary == null) { arbitrary = string.Empty; }
-            difference = StringConverter.FromChars(arbitrary.Distinct().Except(definite.Distinct()));
+            difference = string.Concat(arbitrary.Distinct().Except(definite.Distinct()));
             return difference.Any();
         }
 
@@ -144,46 +79,20 @@ namespace Cuemon
         /// <remarks>This method will skip common Base64 structures typically used as checksums. This includes 32, 128, 160, 256, 384 and 512 bit checksums.</remarks>
         public static bool IsBase64(string value)
         {
-            return IsBase64(value, IsValueWithValidBase64ChecksumLength);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="value"/> matches a Base64 structure.
-        /// </summary>
-        /// <param name="value">The value to test for a Base64 structure.</param>
-        /// <param name="predicate">A function delegate that provides custom rules for bypassing the Base64 structure check.</param>
-        /// <returns><c>true</c> if the specified <paramref name="value"/> matches a Base64 structure; otherwise, <c>false</c>.</returns>
-        public static bool IsBase64(string value, Func<string, bool> predicate)
-        {
-            return ByteConverter.TryFromBase64String(value, predicate, out _);
+            return IsValueWithValidBase64ChecksumLength(value) && ConvertFactory.UseParser<Base64StringParser>().TryParse(value, out _);
         }
 
         internal static bool IsValueWithValidBase64ChecksumLength(string value)
         {
             if (string.IsNullOrEmpty(value)) { return false; }
-            if (NumberUtility.IsEven(value.Length))
+            if (Condition.IsEven(value.Length))
             {
                 return (value.Length % 4 == 0);
             }
             return false;
         }
 
-        /// <summary>
-        /// Determines whether the specified <paramref name="value"/> is a sequence of countable characters (hence, characters being either incremented or decremented with the same cardinality through out the sequence).
-        /// </summary>
-        /// <param name="value">The value to test for a sequence of countable characters.</param>
-        /// <returns><c>true</c> if the specified <paramref name="value"/> is a sequence of countable characters (hence, characters being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
-        public static bool IsCountableSequence(string value)
-        {
-            if (string.IsNullOrEmpty(value)) { return false; }
-            if (value.Length < 2) { return false; }
-            return NumberUtility.IsCountableSequence(value.Select(CastAsIntegralSequence));
-        }
 
-        private static long CastAsIntegralSequence(char character)
-        {
-            return character;
-        }
 
         /// <summary>
         /// Returns a <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> that may be quoted by <paramref name="qualifier"/>.
@@ -206,7 +115,7 @@ namespace Cuemon
         /// <paramref name="qualifier"/> is empty or consist only of white-space characters.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        /// An error occured while splitting <paramref name="value"/> into substrings seperated by <paramref name="delimiter"/> and quoted with <paramref name="qualifier"/>.
+        /// An error occurred while splitting <paramref name="value"/> into substrings separated by <paramref name="delimiter"/> and quoted with <paramref name="qualifier"/>.
         /// This is typically related to data corruption, eg. a field has not been properly closed with the <paramref name="qualifier"/> specified.
         /// </exception>
         public static string[] SplitDsv(string value, string delimiter, string qualifier)
@@ -228,7 +137,7 @@ namespace Cuemon
             }
             catch (RegexMatchTimeoutException)
             {
-                throw new InvalidOperationException($"An error occured while splitting '{value}' into substrings seperated by '{delimiter}' and quoted with '{qualifier}'. This is typically related to data corruption, eg. a field has not been properly closed with the {nameof(qualifier)} specified.");
+                throw new InvalidOperationException(FormattableString.Invariant($"An error occured while splitting '{value}' into substrings seperated by '{delimiter}' and quoted with '{qualifier}'. This is typically related to data corruption, eg. a field has not been properly closed with the {nameof(qualifier)} specified."));
             }
         }
 
@@ -321,7 +230,7 @@ namespace Cuemon
         public static string TrimAll(string value, params char[] trimChars)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (trimChars == null || trimChars.Length == 0) { trimChars = WhiteSpaceCharacters.ToCharArray(); }
+            if (trimChars == null || trimChars.Length == 0) { trimChars = Alphanumeric.WhiteSpace.ToCharArray(); }
             var result = new List<char>();
             foreach (var c in value)
             {
@@ -337,20 +246,6 @@ namespace Cuemon
                 if (!skip) { result.Add(c); }
             }
             return new string(result.ToArray());
-        }
-
-        /// <summary>
-        /// Computes a suitable hash code from the specified <see cref="string"/> <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">A <see cref="string"/> value.</param>
-        /// <returns>A 32-bit signed integer that is the hash code of <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        public static int GetHashCode(string value)
-        {
-            if (value == null) { return StructUtility.HashCodeForNullValue; }
-            return StructUtility.GetHashCode32(value);
         }
 
         /// <summary>
@@ -475,7 +370,7 @@ namespace Cuemon
             while (allCharsLength > 1)
             {
                 allCharsLength--;
-                var random = NumberUtility.GetRandomNumber(0, allCharsLength + 1);
+                var random = Generate.RandomNumber(0, allCharsLength + 1);
                 var shuffledChar = result[random];
                 result[random] = result[allCharsLength];
                 result[allCharsLength] = shuffledChar;
@@ -524,7 +419,7 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(oldValue, nameof(oldValue));
             Validator.ThrowIfNull(newValue, nameof(newValue));
-            return Replace(value, EnumerableUtility.Yield(new StringReplacePair(oldValue, newValue)), comparison);
+            return Replace(value, Arguments.Yield(new StringReplacePair(oldValue, newValue)), comparison);
         }
 
         /// <summary>
@@ -571,45 +466,7 @@ namespace Cuemon
             return IsNullOrEmpty((IEnumerable<string>)values);
         }
 
-        /// <summary>
-        /// Generates a string from the specified Unicode character repeated until the specified length.
-        /// </summary>
-        /// <param name="character">A Unicode character.</param>
-        /// <param name="length">The number of times <paramref name="character"/> occurs.</param>
-        /// <returns>A <see cref="string"/> filled with the specified <paramref name="character"/> until the specified <paramref name="length"/>.</returns>
-        public static string CreateFixedString(char character, int length)
-        {
-            return new string(character, length);
-        }
 
-        /// <summary>
-        /// Generates a random string with the specified length using values of <see cref="AlphanumericCharactersCaseSensitive"/>.
-        /// </summary>
-        /// <param name="length">The length of the random string to generate.</param>
-        /// <returns>A random string from the values of <see cref="AlphanumericCharactersCaseSensitive"/>.</returns>
-        public static string CreateRandomString(int length)
-        {
-            return CreateRandomString(length, AlphanumericCharactersCaseSensitive);
-        }
-
-        /// <summary>
-        /// Generates a random string with the specified length from the provided values.
-        /// </summary>
-        /// <param name="length">The length of the random string to generate.</param>
-        /// <param name="values">The values to use in the randomization process.</param>
-        /// <returns>A random string from the values provided.</returns>
-        public static string CreateRandomString(int length, params string[] values)
-        {
-            if (values == null) { throw new ArgumentNullException(nameof(values)); }
-            var result = new StringBuilder(length);
-            for (var i = 0; i < length; i++)
-            {
-                var index = NumberUtility.GetRandomNumber(values.Length);
-                var indexLength = values[index].Length;
-                result.Append(values[index][NumberUtility.GetRandomNumber(indexLength)]);
-            }
-            return result.ToString();
-        }
 
         /// <summary>
         /// Escapes the given <see cref="string"/> the same way as the well known JavaScript escape() function.
@@ -952,14 +809,18 @@ namespace Cuemon
             var valid = true;
             foreach (var substring in source)
             {
-                valid &= converterHasValue ? parser(substring, culture) : Converter.Parse(substring, CanConvertString<T>, culture, context);
+                valid &= converterHasValue ? parser(substring, culture) : CanConvertString<T>(substring, culture, context);
             }
             return valid;
         }
 
         private static bool CanConvertString<T>(string s, CultureInfo culture, ITypeDescriptorContext context)
         {
-            return Converter.TryFromString<T>(s, culture, context, out _);
+            return ConvertFactory.UseParser<ObjectTypeParser>().TryParse<T>(s, out _, o =>
+            {
+                o.FormatProvider = culture;
+                o.DescriptorContext = context;
+            });
         }
         #endregion
     }

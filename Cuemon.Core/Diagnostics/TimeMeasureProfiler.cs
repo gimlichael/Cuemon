@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Diagnostics
 {
@@ -13,12 +15,16 @@ namespace Cuemon.Diagnostics
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeMeasureProfiler"/> class.
         /// </summary>
-        internal TimeMeasureProfiler()
+        public TimeMeasureProfiler()
         {
             Timer = new Stopwatch();
         }
 
-        internal Stopwatch Timer { get; set; }
+        /// <summary>
+        /// Gets the actual timer of this profiler.
+        /// </summary>
+        /// <value>The actual timer of this profiler.</value>
+        public Stopwatch Timer { get; }
 
         /// <summary>
         /// Gets the total elapsed time measured by this profiler.
@@ -38,11 +44,15 @@ namespace Cuemon.Diagnostics
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            var result = new StringBuilder($"{Member} took {Elapsed.Hours:D2}:{Elapsed.Minutes:D2}:{Elapsed.Seconds:D2}.{Elapsed.Milliseconds:D3}{IntegerConverter.FromTimeSpanToMicroseconds(Elapsed):D3}{IntegerConverter.FromTimeSpanToNanoseconds(Elapsed):D3} to execute.");
+            var result = new StringBuilder(FormattableString.Invariant($"{Member} took {Elapsed.Hours:D2}:{Elapsed.Minutes:D2}:{Elapsed.Seconds:D2}.{Elapsed.Milliseconds:D3} to execute."));
             if (Data.Count > 0)
             {
                 result.Append(" Parameters: { ");
-                result.Append(StringConverter.ToDelimitedString(Data, ", ", pair => $"{pair.Key}={StringConverter.FromObject(pair.Value)}"));
+                result.Append(ConvertFactory.UseConverter<DelimitedStringConverter<KeyValuePair<string, object>>>().ChangeType(Data, o =>
+                {
+                    o.Delimiter = ", ";
+                    o.StringConverter = pair => FormattableString.Invariant($"{pair.Key}={ConvertFactory.UseConverter<ObjectToStringConverter>().ChangeType(pair.Value)}");
+                }));
                 result.Append(" }");
             }
             return result.ToString();

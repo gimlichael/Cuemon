@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
             where T : ICacheableAsyncResultFilter
             where TOptions : class, new()
         {
-            filters.Add(ActivatorUtility.CreateInstance<Action<TOptions>, T>(setup));
+            filters.Add(ActivatorFactory.CreateInstance<Action<TOptions>, T>(setup));
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
             where T : ICacheableAsyncResultFilter
             where TOptions : class, new()
         {
-            filters.Insert(index, ActivatorUtility.CreateInstance<Action<TOptions>, T>(setup));
+            filters.Insert(index, ActivatorFactory.CreateInstance<Action<TOptions>, T>(setup));
         }
 
         /// <summary>

@@ -72,7 +72,11 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static IEnumerable<KeyValuePair<TKey, TValue>> ToEnumerable<TKey, TValue>(this IDictionary<TKey, TValue> source)
         {
-            return EnumerableConverter.FromDictionary(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            foreach (var keyValuePair in source)
+            {
+                yield return keyValuePair;
+            }
         }
 
         /// <summary>
@@ -82,11 +86,19 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <typeparam name="TValue">The <see cref="Type"/> of the value.</typeparam>
         /// <param name="source">The <see cref="IDictionary{TKey, TValue}"/> to return a matching <typeparamref name="TValue"/> from.</param>
         /// <param name="keys">A variable number of keys to match in the specified <paramref name="source"/>.</param>
-        /// <returns>default(TValue) if source is empty or no match was found; otherwise, the matching element in <paramref name="source"/>.</returns>
+        /// <returns><c>default</c> if <paramref name="source"/> is empty or no match was found; otherwise, the matching element in <paramref name="source"/>.</returns>
         /// <remarks>The default value for reference and nullable types is null.</remarks>
         public static TValue FirstMatchOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> source, params TKey[] keys)
         {
-            return DictionaryUtility.FirstMatchOrDefault(source, keys);
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(keys, nameof(keys));
+            Validator.ThrowIfLowerThan(keys.Length, 1, nameof(keys), "You must specify at least one key.");
+            foreach (var key in keys)
+            {
+                if (key == null) { continue; }
+                if (source.ContainsKey(key)) { return source[key]; }
+            }
+            return default;
         }
 
         /// <summary>

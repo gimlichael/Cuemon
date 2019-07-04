@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.Reflection
         /// <returns>A <see cref="Version"/> that represents the version number of the specified <paramref name="assembly"/>.</returns>
         public static Version GetAssemblyVersion(this Assembly assembly)
         {
-            return AssemblyUtility.GetAssemblyVersion(assembly);
+            return AssemblyInsight.FromAssembly(assembly).GetAssemblyVersion();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static Version GetFileVersion(this Assembly assembly)
         {
-            return AssemblyUtility.GetFileVersion(assembly);
+            return AssemblyInsight.FromAssembly(assembly).GetFileVersion();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static Version GetProductVersion(this Assembly assembly)
         {
-            return AssemblyUtility.GetProductVersion(assembly);
+            return AssemblyInsight.FromAssembly(assembly).GetProductVersion();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Cuemon.Extensions.Reflection
         /// <returns><c>true</c> if the specified <paramref name="assembly"/> is a debug build; otherwise, <c>false</c>.</returns>
         public static bool IsDebugBuild(this Assembly assembly)
         {
-            return AssemblyUtility.IsDebugBuild(assembly);
+            return AssemblyInsight.FromAssembly(assembly).IsDebugBuild();
         }
 
         /// <summary>

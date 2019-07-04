@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cuemon.ComponentModel.Converters;
+using Cuemon.Reflection;
 
 namespace Cuemon.Extensions
 {
@@ -18,7 +20,11 @@ namespace Cuemon.Extensions
         /// <returns>A sanitized <see cref="string"/> representation of <paramref name="source"/>.</returns>
         public static string ToFriendlyName(this Type source, bool fullName = false, bool excludeGenericArguments = false)
         {
-            return StringConverter.FromType(source, fullName, excludeGenericArguments);
+            return ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(source, o =>
+            {
+                o.ExcludeGenericArguments = excludeGenericArguments;
+                o.FullName = fullName;
+            });
         }
 
         /// <summary>
@@ -28,7 +34,7 @@ namespace Cuemon.Extensions
         /// <returns>The code of the underlying type, or Empty if <paramref name="type"/> is null.</returns>
         public static TypeCode AsCode(this Type type)
         {
-            return TypeCodeConverter.FromType(type);
+            return ConvertFactory.UseConverter<TypeCodeConverter>().ChangeType(type);
         }
 
         /// <summary>
@@ -38,7 +44,8 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="source"/> implements either <see cref="IEqualityComparer"/> or <see cref="IEqualityComparer{T}"/>; otherwise, <c>false</c>.</returns>
         public static bool IsEqualityComparer(this Type source)
         {
-            return TypeUtility.IsEqualityComparer(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            return TypeInsight.FromType(source).HasEqualityComparerContract();
         }
 
         /// <summary>
@@ -48,7 +55,8 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="source"/> implements either <see cref="IComparable"/> or <see cref="IComparable{T}"/>; otherwise, <c>false</c>.</returns>
         public static bool IsComparable(this Type source)
         {
-            return TypeUtility.IsComparable(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            return TypeInsight.FromType(source).HasComparableContract();
         }
 
         /// <summary>
@@ -58,7 +66,8 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="source"/> implements either <see cref="IComparer"/> or <see cref="IComparer{T}"/>; otherwise, <c>false</c>.</returns>
         public static bool IsComparer(this Type source)
         {
-            return TypeUtility.IsComparer(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            return TypeInsight.FromType(source).HasComparerContract();
         }
 
         /// <summary>
@@ -68,7 +77,8 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="source"/> implements either <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/>; otherwise, <c>false</c>.</returns>
         public static bool IsEnumerable(this Type source)
         {
-            return TypeUtility.IsEnumerable(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            return TypeInsight.FromType(source).HasEnumerableContract();
         }
 
         /// <summary>
@@ -78,7 +88,8 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="source"/> implements either <see cref="IDictionary"/>, <see cref="IDictionary{TKey,TValue}"/> or <see cref="IReadOnlyDictionary{TKey,TValue}"/>; otherwise, <c>false</c>.</returns>
         public static bool IsDictionary(this Type source)
         {
-            return TypeUtility.IsDictionary(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            return TypeInsight.FromType(source).HasDictionaryContract();
         }
 
         /// <summary>
@@ -88,7 +99,8 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the specified <paramref name="source"/> implements either <see cref="DictionaryEntry"/> or <see cref="KeyValuePair{TKey,TValue}"/>.; otherwise, <c>false</c>.</returns>
         public static bool IsKeyValuePair(this Type source)
         {
-            return TypeUtility.IsKeyValuePair(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            return TypeInsight.FromType(source).HasKeyValuePairContract();
         }
 
         /// <summary>
@@ -100,17 +112,20 @@ namespace Cuemon.Extensions
         /// </returns>
         public static bool IsNullable(this Type source)
         {
-            return TypeUtility.IsNullable(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            return TypeInsight.FromType(source).IsNullable();
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="source"/> is an anonymous method (be that in a form of a delegate or lambda expression).
+        /// Determines whether the specified <paramref name="source"/> suggest an anonymous implementation (be that in a form of a type, delegate or lambda expression).
         /// </summary>
-        /// <param name="source">The <see cref="Type"/> to determine is an anonymous method.</param>
-        /// <returns><c>true</c> if the specified <paramref name="source"/> is an anonymous method; otherwise, <c>false</c>.</returns>
-        public static bool IsAnonymousMethod(this Type source)
+        /// <param name="source">The <see cref="Type"/> to determine is an anonymous type.</param>
+        /// <returns><c>true</c> if the specified <paramref name="source"/> suggest an anonymous implementation; otherwise, <c>false</c>.</returns>
+        /// <remarks>If you can avoid it, don't use this method. It is, to say the least, fragile.</remarks>
+        public static bool IsAnonymous(this Type source)
         {
-            return TypeUtility.IsAnonymousMethod(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            return TypeInsight.FromType(source).IsAnonymous();
         }
 
         /// <summary>
@@ -123,7 +138,8 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool IsComplex(this Type source)
         {
-            return TypeUtility.IsComplex(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            return TypeInsight.FromType(source).IsComplex();
         }
 
         /// <summary>
@@ -146,7 +162,53 @@ namespace Cuemon.Extensions
         /// <returns>The default value of <paramref name="type"/>.</returns>
         public static object GetDefaultValue(this Type type)
         {
-            return TypeUtility.GetDefaultValue(type);
+            Validator.ThrowIfNull(type, nameof(type));
+            return TypeInsight.FromType(type).GetDefaultValue();
+        }
+
+        /// <summary>
+        /// Determines whether the specified source type contains one or more of the specified target types.
+        /// </summary>
+        /// <param name="source">The source type to match against.</param>
+        /// <param name="targets">The target types to be matched against.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified source contains one or more of the specified target types; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasTypes(this Type source, params Type[] targets)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(targets, nameof(targets));
+            return TypeInsight.FromType(source).HasType(targets);
+        }
+
+        /// <summary>
+        /// Determines whether the specified source contains one or more of the target types specified throughout this member's inheritance chain.
+        /// </summary>
+        /// <param name="source">The source type to match against.</param>
+        /// <param name="targets">The target interface types to be matched against.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified source contains one or more of the target types specified throughout this member's inheritance chain; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasInterfaces(this Type source, params Type[] targets)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(targets, nameof(targets));
+            return TypeInsight.FromType(source).HasInterface(targets);
+        }
+
+        /// <summary>
+        /// Determines whether the specified source type contains one or more of the specified attribute target types.
+        /// </summary>
+        /// <param name="source">The source type to match against.</param>
+        /// <param name="targets">The attribute target types to be matched against.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified source type contains one or more of the specified attribute target types; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasAttributes(this Type source, params Type[] targets)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(targets, nameof(targets));
+            return TypeInsight.FromType(source).HasAttribute(targets);
         }
     }
 }

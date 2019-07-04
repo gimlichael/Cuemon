@@ -35,9 +35,9 @@ namespace Cuemon
                 case StandardizedDateTimeFormatPattern.Iso8601CompleteDateExtended:
                     return value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                 case StandardizedDateTimeFormatPattern.Iso8601CompleteDateTimeBasic:
-                    return value.ToString(string.Format(CultureInfo.InvariantCulture, "yyyyMMddTHHmmss{0}{1}", fractionalDecimalPlaces == 0 ? "" : string.Format(CultureInfo.InvariantCulture, ".{0}", StringUtility.CreateFixedString('f', fractionalDecimalPlaces)), value.Kind == DateTimeKind.Utc ? "Z" : "zz"), CultureInfo.InvariantCulture);
+                    return value.ToString(string.Format(CultureInfo.InvariantCulture, "yyyyMMddTHHmmss{0}{1}", fractionalDecimalPlaces == 0 ? "" : string.Format(CultureInfo.InvariantCulture, ".{0}", Generate.FixedString('f', fractionalDecimalPlaces)), value.Kind == DateTimeKind.Utc ? "Z" : "zz"), CultureInfo.InvariantCulture);
                 case StandardizedDateTimeFormatPattern.Iso8601CompleteDateTimeExtended:
-                    return value.ToString(string.Format(CultureInfo.InvariantCulture, "yyyy-MM-ddTHH:mm:ss{0}{1}", fractionalDecimalPlaces == 0 ? "" : string.Format(CultureInfo.InvariantCulture, ".{0}", StringUtility.CreateFixedString('f', fractionalDecimalPlaces)), value.Kind == DateTimeKind.Utc ? "Z" : "zz"), CultureInfo.InvariantCulture);
+                    return value.ToString(string.Format(CultureInfo.InvariantCulture, "yyyy-MM-ddTHH:mm:ss{0}{1}", fractionalDecimalPlaces == 0 ? "" : string.Format(CultureInfo.InvariantCulture, ".{0}", Generate.FixedString('f', fractionalDecimalPlaces)), value.Kind == DateTimeKind.Utc ? "Z" : "zz"), CultureInfo.InvariantCulture);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(pattern));
             }

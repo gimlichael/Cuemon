@@ -28,7 +28,7 @@ namespace Cuemon.Data
         {
             if (expressions == null) { throw new ArgumentNullException(nameof(expressions)); }
             IList<T> elements = expressions as List<T> ?? new List<T>(expressions);
-            ParameterName = string.Format(CultureInfo.InvariantCulture, "@param{0}{1}", StringUtility.CreateRandomString(1, StringUtility.EnglishAlphabetCharactersMajuscule), StringUtility.CreateRandomString(5, StringUtility.EnglishAlphabetCharactersMinuscule));
+            ParameterName = string.Format(CultureInfo.InvariantCulture, "@param{0}{1}", Generate.RandomString(1, Alphanumeric.UppercaseLetters), Generate.RandomString(5, Alphanumeric.LowercaseLetters));
             Arguments = QueryUtility.GetQueryFragment(QueryFormat.Delimited, elements.Select(ArgumentsSelector));
             Parameters = elements.Select(ParametersSelector).ToArray();
         }

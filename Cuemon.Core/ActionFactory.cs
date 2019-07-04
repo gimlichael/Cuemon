@@ -15,7 +15,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/>.</returns>
         public static ActionFactory<Template> Create(Action method)
         {
-            return new ActionFactory<Template>(tuple => method(), TupleUtility.CreateZero(), method);
+            return new ActionFactory<Template>(tuple => method(), Template.CreateZero(), method);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and one generic argument.</returns>
         public static ActionFactory<Template<T>> Create<T>(Action<T> method, T arg)
         {
-            return new ActionFactory<Template<T>>(tuple => method(tuple.Arg1), TupleUtility.CreateOne(arg), method);
+            return new ActionFactory<Template<T>>(tuple => method(tuple.Arg1), Template.CreateOne(arg), method);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and two generic arguments.</returns>
         public static ActionFactory<Template<T1, T2>> Create<T1, T2>(Action<T1, T2> method, T1 arg1, T2 arg2)
         {
-            return new ActionFactory<Template<T1, T2>>(tuple => method(tuple.Arg1, tuple.Arg2), TupleUtility.CreateTwo(arg1, arg2), method);
+            return new ActionFactory<Template<T1, T2>>(tuple => method(tuple.Arg1, tuple.Arg2), Template.CreateTwo(arg1, arg2), method);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and three generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3>> Create<T1, T2, T3>(Action<T1, T2, T3> method, T1 arg1, T2 arg2, T3 arg3)
         {
-            return new ActionFactory<Template<T1, T2, T3>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3), TupleUtility.CreateThree(arg1, arg2, arg3), method);
+            return new ActionFactory<Template<T1, T2, T3>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3), Template.CreateThree(arg1, arg2, arg3), method);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and four generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4>> Create<T1, T2, T3, T4>(Action<T1, T2, T3, T4> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), TupleUtility.CreateFour(arg1, arg2, arg3, arg4), method);
+            return new ActionFactory<Template<T1, T2, T3, T4>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4), Template.CreateFour(arg1, arg2, arg3, arg4), method);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and five generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5>> Create<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), TupleUtility.CreateFive(arg1, arg2, arg3, arg4, arg5), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5), Template.CreateFive(arg1, arg2, arg3, arg4, arg5), method);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and six generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6>> Create<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6), TupleUtility.CreateSix(arg1, arg2, arg3, arg4, arg5, arg6), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6), Template.CreateSix(arg1, arg2, arg3, arg4, arg5, arg6), method);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and seven generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7>> Create<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7), TupleUtility.CreateSeven(arg1, arg2, arg3, arg4, arg5, arg6, arg7), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7), Template.CreateSeven(arg1, arg2, arg3, arg4, arg5, arg6, arg7), method);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and eight generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8>> Create<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8), TupleUtility.CreateEight(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8), Template.CreateEight(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8), method);
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and nine generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9), TupleUtility.CreateNine(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9), Template.CreateNine(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9), method);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and ten generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10), TupleUtility.CreateTen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10), Template.CreateTen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10), method);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and eleven generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11), TupleUtility.CreateEleven(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11), Template.CreateEleven(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11), method);
         }
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and twelfth generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12), TupleUtility.CreateTwelve(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12), Template.CreateTwelve(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12), method);
         }
 
         /// <summary>
@@ -327,7 +327,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and thirteen generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12, tuple.Arg13), TupleUtility.CreateThirteen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12, tuple.Arg13), Template.CreateThirteen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13), method);
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and fourteen generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12, tuple.Arg13, tuple.Arg14), TupleUtility.CreateFourteen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12, tuple.Arg13, tuple.Arg14), Template.CreateFourteen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14), method);
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and fifteen generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12, tuple.Arg13, tuple.Arg14, tuple.Arg15), TupleUtility.CreateFifteen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12, tuple.Arg13, tuple.Arg14, tuple.Arg15), Template.CreateFifteen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15), method);
         }
 
         /// <summary>
@@ -447,7 +447,7 @@ namespace Cuemon
         /// <returns>An instance of <see cref="ActionFactory{TTuple}"/> object initialized with the specified <paramref name="method"/> and sixteen generic arguments.</returns>
         public static ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> method, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16)
         {
-            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12, tuple.Arg13, tuple.Arg14, tuple.Arg15, tuple.Arg16), TupleUtility.CreateSixteen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16), method);
+            return new ActionFactory<Template<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>>(tuple => method(tuple.Arg1, tuple.Arg2, tuple.Arg3, tuple.Arg4, tuple.Arg5, tuple.Arg6, tuple.Arg7, tuple.Arg8, tuple.Arg9, tuple.Arg10, tuple.Arg11, tuple.Arg12, tuple.Arg13, tuple.Arg14, tuple.Arg15, tuple.Arg16), Template.CreateSixteen(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16), method);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Configuration;
 using Cuemon.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -54,7 +55,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
             output.TagMode = TagMode.StartTagOnly;
             output.TagName = "link";
             output.Attributes.Add("rel", Rel);
-            output.Attributes.Add("href", string.Concat(GetBaseUrl(), UseCacheBusting ? $"{Href}?v={CacheBusting.Version}" : Href));
+            output.Attributes.Add("href", string.Concat(GetBaseUrl(), UseCacheBusting ? FormattableString.Invariant($"{Href}?v={CacheBusting.Version}") : Href));
             if (!Type.IsNullOrWhiteSpace()) { output.Attributes.Add("type", Type); }
             return Task.CompletedTask;
         }

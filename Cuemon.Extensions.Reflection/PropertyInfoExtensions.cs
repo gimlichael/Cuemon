@@ -18,7 +18,8 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static bool IsAutoProperty(this PropertyInfo property)
         {
-            return ReflectionUtility.IsAutoProperty(property);
+            Validator.ThrowIfNull(property, nameof(property));
+            return ((PropertyReflectorInfo)property).IsAutoProperty();
         }
     }
 }

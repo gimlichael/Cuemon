@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
+using Cuemon.ComponentModel.Codecs;
+using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Text;
 using Microsoft.AspNetCore.Builder;
@@ -45,7 +47,7 @@ namespace Cuemon.AspNetCore.Authentication
             if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
                 context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
-                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, $"{AuthenticationScheme} realm=\"{Options.Realm}\"");
+                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{AuthenticationScheme} realm=\"{Options.Realm}\""));
                 await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ContinueWithSuppressedContext();
                 return;
             }
@@ -60,7 +62,7 @@ namespace Cuemon.AspNetCore.Authentication
 
         private bool TryAuthenticate(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException($"The {nameof(Options.Authenticator)} cannot be null."); }
+            if (Options.Authenticator == null) { throw new InvalidOperationException(FormattableString.Invariant($"The {nameof(Options.Authenticator)} cannot be null.")); }
             result = Options.Authenticator(credentials.Arg1, credentials.Arg2);
             return Condition.IsNotNull(result);
         }
@@ -72,7 +74,7 @@ namespace Cuemon.AspNetCore.Authentication
                 var base64Credentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
                 if (StringUtility.IsBase64(base64Credentials))
                 {
-                    var credentials = StringConverter.FromBytes(Convert.FromBase64String(base64Credentials), options =>
+                    var credentials = ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(Convert.FromBase64String(base64Credentials), options =>
                     {
                         options.Encoding = Encoding.ASCII;
                         options.Preamble = PreambleSequence.Remove;
@@ -80,7 +82,7 @@ namespace Cuemon.AspNetCore.Authentication
                     if (credentials.Length == 2 &&
                         !string.IsNullOrEmpty(credentials[0]) &&
                         !string.IsNullOrEmpty(credentials[1]))
-                    { return TupleUtility.CreateTwo(credentials[0], credentials[1]); }
+                    { return Template.CreateTwo(credentials[0], credentials[1]); }
                 }
             }
             return null;

@@ -1,9 +1,7 @@
-﻿using Cuemon.Security.Cryptography;
-
-namespace Cuemon.Integrity
+﻿namespace Cuemon.Integrity
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="ChecksumBuilder"/> operations.
+    /// Configuration options for <see cref="ChecksumBuilder"/>.
     /// </summary>
     public class ChecksumBuilderOptions
     {
@@ -18,20 +16,20 @@ namespace Cuemon.Integrity
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="AlgorithmType"/></term>
-        ///         <description><see cref="HashAlgorithmType.MD5"/></description>
+        ///         <term><see cref="Algorithm"/></term>
+        ///         <description><see cref="CryptoAlgorithm.Md5"/></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public ChecksumBuilderOptions()
         {
-            AlgorithmType = HashAlgorithmType.MD5;
+            Algorithm = CryptoAlgorithm.Md5;
         }
 
         /// <summary>
         /// Gets or sets the hash algorithm to use for the checksum computation.
         /// </summary>
         /// <value>The hash algorithm to use for the checksum computation.</value>
-        public HashAlgorithmType AlgorithmType { get; set; }
+        public CryptoAlgorithm Algorithm { get; set; }
     }
 }

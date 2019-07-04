@@ -16,8 +16,8 @@ namespace Cuemon.AspNetCore.Http
         /// <param name="message">The message that describes the HTTP status code.</param>
         protected HttpStatusCodeException(int statusCode, string message) : base(message)
         {
-            Validator.ThrowIfLowerThan(statusCode, StatusCodes.Status100Continue, nameof(statusCode), $"{nameof(statusCode)} cannot be less than {StatusCodes.Status100Continue}.");
-            Validator.ThrowIfGreaterThan(statusCode, StatusCodes.Status511NetworkAuthenticationRequired, nameof(statusCode), $"{nameof(statusCode)} cannot be greater than {StatusCodes.Status511NetworkAuthenticationRequired}.");
+            Validator.ThrowIfLowerThan(statusCode, StatusCodes.Status100Continue, nameof(statusCode), FormattableString.Invariant($"{nameof(statusCode)} cannot be less than {StatusCodes.Status100Continue}."));
+            Validator.ThrowIfGreaterThan(statusCode, StatusCodes.Status511NetworkAuthenticationRequired, nameof(statusCode), FormattableString.Invariant($"{nameof(statusCode)} cannot be greater than {StatusCodes.Status511NetworkAuthenticationRequired}."));
             StatusCode = statusCode;
         }
 

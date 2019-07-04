@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
+using Cuemon.Reflection;
 
 namespace Cuemon.Data
 {
@@ -34,7 +35,7 @@ namespace Cuemon.Data
                 for (var i = 0; i < fieldCount; i++)
                 {
                     var columnType = reader[i].GetType();
-                    Data.Add(values[i] == null ? TypeUtility.GetDefaultValue(columnType) : DBNull.Value.Equals(values[i]) ? null : values[i]);
+                    Data.Add(values[i] == null ? TypeInsight.FromType(columnType).GetDefaultValue() : DBNull.Value.Equals(values[i]) ? null : values[i]);
                 }
                 rowNumber++;
             }

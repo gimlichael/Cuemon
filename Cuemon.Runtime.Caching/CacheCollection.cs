@@ -151,7 +151,7 @@ namespace Cuemon.Runtime.Caching
 
         private static long GenerateGroupKey(string key, string group)
         {
-            return StructUtility.GetHashCode64(group == NoGroup ? key : string.Concat(key, group));
+            return Generate.HashCode64(group == NoGroup ? key : string.Concat(key, group));
         }
 
         /// <summary>
@@ -306,7 +306,7 @@ namespace Cuemon.Runtime.Caching
         /// </remarks>
         public void Add(string key, object value, string group, params IDependency[] dependencies)
         {
-            Add(key, value, group, EnumerableConverter.FromArray(dependencies));
+            Add(key, value, group, Arguments.ToEnumerable(dependencies));
         }
 
         /// <summary>

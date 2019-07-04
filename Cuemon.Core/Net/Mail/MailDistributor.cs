@@ -42,7 +42,7 @@ namespace Cuemon.Net.Mail
         public Task SendOneAsync(MailMessage mail, Func<MailMessage, bool> filter = null)
         {
             Validator.ThrowIfNull(mail, nameof(mail));
-            return SendAsync(EnumerableUtility.Yield(mail), filter);
+            return SendAsync(Arguments.Yield(mail), filter);
         }
 
         /// <summary>
@@ -91,11 +91,11 @@ namespace Cuemon.Net.Mail
 
         private static List<Template<Func<SmtpClient>, List<MailMessage>>> PrepareShipment(MailDistributor distributor, IEnumerable<MailMessage> mails, Func<MailMessage, bool> filter)
         {
-            var partitionedMails = new PartitionCollection<MailMessage>(mails, distributor.DeliverySize);
+            var partitionedMails = new PartitionerEnumerable<MailMessage>(mails, distributor.DeliverySize);
             var carriers = new List<Template<Func<SmtpClient>, List<MailMessage>>>();
             while (partitionedMails.HasPartitions)
             {
-                carriers.Add(TupleUtility.CreateTwo(distributor.Carrier, new List<MailMessage>(filter == null
+                carriers.Add(Template.CreateTwo(distributor.Carrier, new List<MailMessage>(filter == null
                     ? partitionedMails
                     : partitionedMails.Where(filter)
                 )));

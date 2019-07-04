@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Reflection
 {
@@ -262,7 +263,7 @@ namespace Cuemon.Reflection
         /// </remarks>
         public string ToString(bool fullName)
         {
-            var className = Caller == null ? "NotAvailable" : StringConverter.FromType(Caller, fullName);
+            var className = Caller == null ? "NotAvailable" : ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(Caller, o => o.FullName = fullName);
             var signature = new StringBuilder(string.Concat(className, ".", MethodName));
             if (!IsProperty) { signature.Append("("); }
             if (Parameters.Any())

@@ -37,7 +37,6 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-
   <ItemGroup>
     <None Remove="Cuemon.Core.csproj.vspscc" />
   </ItemGroup>

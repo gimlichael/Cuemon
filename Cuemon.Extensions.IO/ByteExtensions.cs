@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Cuemon.IO;
+using Cuemon.ComponentModel.Codecs;
 
 namespace Cuemon.Extensions.IO
 {
@@ -15,7 +15,7 @@ namespace Cuemon.Extensions.IO
         /// <returns>A <see cref="Stream"/> object.</returns>
         public static Stream ToStream(this byte[] bytes)
         {
-            return StreamConverter.FromBytes(bytes);
+            return ConvertFactory.UseCodec<StreamToByteArrayCodec>().Decode(bytes);
         }
     }
 }

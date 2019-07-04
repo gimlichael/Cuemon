@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using Cuemon.ComponentModel;
+using Cuemon.ComponentModel.Converters;
+using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.Reflection;
 
 namespace Cuemon
 {
@@ -22,7 +26,7 @@ namespace Cuemon
         public static string ParseInstance<T>(IWrapper<T> wrapper)
         {
             if (wrapper == null) { throw new ArgumentNullException(nameof(wrapper)); }
-            switch (TypeCodeConverter.FromType(wrapper.InstanceType))
+            switch (ConvertFactory.UseConverter<TypeCodeConverter>().ChangeType(wrapper.InstanceType))
             {
                 case TypeCode.Boolean:
                     return wrapper.Instance.ToString().ToLowerInvariant();
@@ -43,7 +47,7 @@ namespace Cuemon
                 case TypeCode.String:
                     return wrapper.Instance.ToString();
                 default:
-                    if (TypeUtility.IsKeyValuePair(wrapper.InstanceType))
+                    if (TypeInsight.FromType(wrapper.InstanceType).HasKeyValuePairContract())
                     {
                         var keyProperty = wrapper.InstanceType.GetProperty("Key");
                         var valueProperty = wrapper.InstanceType.GetProperty("Value");
@@ -52,10 +56,10 @@ namespace Cuemon
                         return string.Format(CultureInfo.InvariantCulture, "[{0},{1}]", keyValue, valueValue);
                     }
 
-                    if (TypeUtility.IsComparer(wrapper.InstanceType) ||
-                        TypeUtility.IsEqualityComparer(wrapper.InstanceType))
+                    var reflector = TypeInsight.FromType(wrapper.InstanceType);
+                    if (reflector.HasComparerContract() || reflector.HasEqualityComparerContract())
                     {
-                        return StringConverter.FromType(wrapper.InstanceType);
+                        return ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(wrapper.InstanceType);
                     }
 
                     switch (wrapper.InstanceType.Name.ToUpperInvariant())
@@ -65,7 +69,7 @@ namespace Cuemon
                         case "GUID":
                             return wrapper.InstanceAs<Guid>(CultureInfo.InvariantCulture).ToString("D");
                         case "RUNTIMETYPE":
-                            return StringConverter.FromType(wrapper.InstanceAs<Type>());
+                            return ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(wrapper.InstanceAs<Type>());
                         case "URI":
                             return wrapper.InstanceAs<Uri>().OriginalString;
                         default:
@@ -194,7 +198,7 @@ namespace Cuemon
         /// </exception>
         public TResult InstanceAs<TResult>(IFormatProvider provider)
         {
-            return (TResult)ObjectConverter.ChangeType(Instance, InstanceType, provider);
+            return (TResult)ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(Instance, InstanceType, o => o.FormatProvider = provider);
         }
         #endregion
     }

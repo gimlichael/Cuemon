@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using Cuemon.ComponentModel;
+using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.Integrity;
 using Cuemon.Net.Http;
 using Cuemon.Runtime;
 using Cuemon.Security.Cryptography;
@@ -13,7 +16,7 @@ namespace Cuemon.Net
     public sealed class NetWatcher : Watcher
 	{
 		private readonly object _locker = new object();
-        private static readonly string SignatureDefault = StringUtility.CreateRandomString(32);
+        private static readonly string SignatureDefault = Generate.RandomString(32);
 
         #region Constructors
         /// <summary>
@@ -67,7 +70,7 @@ namespace Cuemon.Net
 		public NetWatcher(Uri requestUri, TimeSpan dueTime, TimeSpan period, bool checkResponseData) : base(dueTime, period)
 		{
 			if (requestUri == null) throw new ArgumentNullException(nameof(requestUri));
-			var scheme = UriSchemeConverter.FromString(requestUri.Scheme);
+			var scheme = ConvertFactory.UseConverter<UriSchemeStringConverter>().ChangeType(requestUri.Scheme);
 			switch (scheme)
 			{
 				case UriScheme.File:
@@ -130,7 +133,7 @@ namespace Cuemon.Net
 							using (var stream = new FileStream(RequestUri.LocalPath, FileMode.Open, FileAccess.Read))
 							{
 								stream.Position = 0;
-								currentSignature = HashUtility.ComputeHash(stream).ToHexadecimalString();
+								currentSignature = HashFactory.CreateCryptoSha256().ComputeHash(stream).ToHexadecimalString();
 							}
 						}
 						break;
@@ -145,7 +148,7 @@ namespace Cuemon.Net
 				                {
                                     case HttpMethods.Get:
                                         var etag = response.Headers.ETag;
-                                        currentSignature = string.IsNullOrEmpty(etag.Tag) ? HashUtility.ComputeHash(response.Content.ReadAsByteArrayAsync().Result).ToHexadecimalString() : etag.Tag;
+                                        currentSignature = string.IsNullOrEmpty(etag.Tag) ? HashFactory.CreateCryptoSha256().ComputeHash(response.Content.ReadAsByteArrayAsync().Result).ToHexadecimalString() : etag.Tag;
                                         break;
                                     case HttpMethods.Head:
                                         utcLastModified = response.Content.Headers.LastModified?.UtcDateTime ?? DateTime.MaxValue;

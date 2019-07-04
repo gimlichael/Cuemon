@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Configuration;
 using Cuemon.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -65,7 +66,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
             output.TagName = "img";
             if (!Id.IsNullOrWhiteSpace()) { output.Attributes.Add("id", Id); }
             if (!Class.IsNullOrWhiteSpace()) { output.Attributes.Add("class", Class); }
-            output.Attributes.Add("src", string.Concat(GetBaseUrl(), UseCacheBusting ? $"{Src}?v={CacheBusting.Version}" : Src));
+            output.Attributes.Add("src", string.Concat(GetBaseUrl(), UseCacheBusting ? FormattableString.Invariant($"{Src}?v={CacheBusting.Version}") : Src));
             if (!Alt.IsNullOrWhiteSpace()) { output.Attributes.Add("alt", Alt); }
             if (!Title.IsNullOrWhiteSpace()) { output.Attributes.Add("title", Title); }
             return Task.CompletedTask;

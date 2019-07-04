@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Cuemon.Extensions;
+using Cuemon.Text;
 
 namespace Cuemon.AspNetCore.Authentication
 {

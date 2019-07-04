@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Cuemon.ComponentModel.Codecs;
 using Cuemon.IO;
 
 namespace Cuemon.Web
@@ -15,8 +16,8 @@ namespace Cuemon.Web
     /// </remarks>
     public static class HttpUtility
     {
-        private static readonly char[] HexadecimalCharactersUpperCase = StringUtility.HexadecimalCharacters.ToCharArray();
-        private static readonly char[] HexadecimalCharactersLowerCase = StringUtility.HexadecimalCharacters.ToLowerInvariant().ToCharArray();
+        private static readonly char[] HexadecimalCharactersUpperCase = Alphanumeric.Hexadecimal.ToCharArray();
+        private static readonly char[] HexadecimalCharactersLowerCase = Alphanumeric.Hexadecimal.ToLowerInvariant().ToCharArray();
 
         /// <summary>
         /// Converts a string that has been encoded for transmission in a URL into a decoded string.
@@ -200,7 +201,7 @@ namespace Cuemon.Web
 
             using (var result = StreamFactory.Create(UrlEncodeCharWriter, bytes, offset, count, preferUppercaseHexadecimalEncoding ? HexadecimalCharactersUpperCase : HexadecimalCharactersLowerCase, options => options.Encoding = encoding ?? new UTF8Encoding()))
             {
-                return ByteConverter.FromStream(result);
+                return ConvertFactory.UseCodec<StreamToByteArrayCodec>().Encode(result);
             }
         }
 

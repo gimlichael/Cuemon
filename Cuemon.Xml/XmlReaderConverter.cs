@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Xml;
+using Cuemon.ComponentModel.Codecs;
 using Cuemon.IO;
 
 namespace Cuemon.Xml
@@ -37,7 +38,7 @@ namespace Cuemon.Xml
         public static XmlReader FromBytes(byte[] bytes)
         {
             Validator.ThrowIfNull(bytes, nameof(bytes));
-            return FromStream(StreamConverter.FromBytes(bytes));
+            return FromStream(ConvertFactory.UseCodec<StreamToByteArrayCodec>().Decode(bytes));
         }
 
         /// <summary>

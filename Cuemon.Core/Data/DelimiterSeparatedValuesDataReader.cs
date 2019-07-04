@@ -4,14 +4,18 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Cuemon.ComponentModel.Parsers;
+using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Data
 {
     /// <summary>
     /// Provides a way of reading a forward-only stream of rows from a DSV based data source. This class cannot be inherited.
     /// </summary>
-    public sealed class DelimiterSeparatedValuesDataReader : StringDataReader
+    public sealed class DelimiterSeparatedValuesDataReader : DataReader<string[]>
     {
+        private int _rowCount = 0;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimiterSeparatedValuesDataReader"/> class.
         /// </summary>
@@ -46,7 +50,7 @@ namespace Cuemon.Data
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
         /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
         /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier) : this(reader, header, delimiter, qualifier, ObjectConverter.FromString)
+        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier) : this(reader, header, delimiter, qualifier, ConvertFactory.UseParser<SimpleValueTypeParser>().Parse)
         {
         }
 
@@ -57,7 +61,7 @@ namespace Cuemon.Data
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
         /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
         /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
-        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="ObjectConverter.FromString(string)"/>.</param>
+        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="SimpleValueTypeParser.Parse"/>.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/> -or-
         /// <paramref name="delimiter"/> is empty or consist only of white-space characters -or-
@@ -70,7 +74,7 @@ namespace Cuemon.Data
         /// <paramref name="qualifier"/> is null -or-
         /// <paramref name="parser"/> is null.
         /// </exception>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier, Func<string, object> parser) : base(parser)
+        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser) : base(parser)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
 
@@ -109,78 +113,57 @@ namespace Cuemon.Data
         public char Qualifier { get;  }
 
         /// <summary>
+        /// Gets the currently processed row count of this instance.
+        /// </summary>
+        /// <value>The currently processed row count of this instance.</value>
+        /// <remarks>This property is incremented when the invoked <see cref="Read"/> method returns <c>true</c>.</remarks>
+        public override int RowCount => _rowCount;
+
+
+        /// <summary>
         /// Advances this instance to the next line of the DSV data source.
         /// </summary>
         /// <returns><c>true</c> if there are more lines; otherwise, <c>false</c>.</returns>
-        protected override bool ReadNext()
+        public bool Read()
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
-            return ReadNextCore(ReadQuotedLine());
-        }
-
-        private string ReadQuotedLine()
-        {
-            var builder = new StringBuilder();
-            var insideQuotedField = false;
-            var currentTokenLength = 0;
-
-            while (Reader.Peek() > 0)
+            string line;
+            while ((line = Reader.ReadLine()) != null)
             {
-                var current = (char)Reader.Read();
-                if ((current == Delimiter || (current == '\r' && Reader.Peek() == '\n') || Reader.EndOfStream) && !insideQuotedField)
+                var tb = new TokenBuilder(Delimiter, Qualifier, Header.Length).Append(line);
+                while (!tb.IsValid && !Reader.EndOfStream)
                 {
-                    currentTokenLength++;
+                    tb.Append(Reader.ReadLine());
                 }
-
-                if (current == Delimiter && Reader.Peek() == Qualifier)
-                {
-                    insideQuotedField = true;
-                }
-
-                if (current == Qualifier && Reader.Peek() == Delimiter)
-                {
-                    insideQuotedField = false;
-                }
-
-                if (insideQuotedField)
-                {
-                    builder.Append(current);
-                }
-                else if (current != '\r' && current != '\n')
-                {
-                    builder.Append(current);
-                }
-
-                if (currentTokenLength == Header.Length)
-                {
-                    return builder.ToString();
-                }
+                _rowCount++;
+                return ReadNext(StringUtility.SplitDsv(tb.ToString(), Delimiter.ToString(CultureInfo.InvariantCulture), Qualifier.ToString(CultureInfo.InvariantCulture))) != null;
             }
-
-            return null;
+            return false;
         }
 
-        private bool ReadNextCore(string currentLine)
+        protected override string[] ReadNext(string[] columns = null)
         {
-            if (currentLine == null) { return false; }
-            var columns = StringUtility.SplitDsv(currentLine, Delimiter.ToString(CultureInfo.InvariantCulture), Qualifier.ToString(CultureInfo.InvariantCulture));
-            if (columns.Length != Header.Length) { throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, $"Line {RowCount + 1} does not match the expected numbers of columns. Actual columns: {0}. Expected: {1}.", columns.Length, Header.Length)); }
-
-            var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
-            for (var i = 0; i < columns.Length; i++)
+            if (columns != null)
             {
-                if (fields.Contains(Header[i]))
+                if (columns.Length != Header.Length) { throw new InvalidOperationException(FormattableString.Invariant($"Line {RowCount + 1} does not match the expected numbers of columns. Actual columns: {columns.Length}. Expected: {Header.Length}.")); }
+                var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
+                for (var i = 0; i < columns.Length; i++)
                 {
-                    fields[Header[i]] = StringParser(columns[i]);
+                    if (fields.Contains(Header[i]))
+                    {
+                        fields[Header[i]] = StringParser(columns[i], null);
+                    }
+                    else
+                    {
+                        fields.Add(Header[i], StringParser(columns[i], null));
+                    }
                 }
-                else
-                {
-                    fields.Add(Header[i], StringParser(columns[i]));
-                }
+                SetFields(fields);
             }
-            SetFields(fields);
-            return (fields.Count > 0);
+            return columns;
         }
+
+        protected override string[] NullRead => null;
 
         /// <summary>
         /// Called when this object is being disposed by either <see cref="Disposable.Dispose()" /> or <see cref="Disposable.Dispose(bool)" /> having <c>disposing</c> set to <c>true</c> and <see cref="Disposable.Disposed" /> is <c>false</c>.

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Xml;
+using Cuemon.Text;
 
 namespace Cuemon.Xml
 {
@@ -91,7 +92,7 @@ namespace Cuemon.Xml
                         var valueInBytes = ms.ToArray();
                         using (ms)
                         {
-                            valueInBytes = ByteArrayUtility.RemovePreamble(valueInBytes, options.Encoding);
+                            valueInBytes = ByteOrderMark.Remove(valueInBytes, options.Encoding);
                         }
                         return new MemoryStream(valueInBytes);
                     default:

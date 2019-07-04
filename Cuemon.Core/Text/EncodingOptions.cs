@@ -1,14 +1,15 @@
-﻿using System.IO;
+﻿using System;
 using System.Text;
-using Cuemon.IO;
 
 namespace Cuemon.Text
 {
     /// <summary>
-    /// Configuration options for <see cref="System.Text.Encoding"/>.
+    /// Configuration options related to <see cref="Encoding"/>.
     /// </summary>
     public class EncodingOptions : IEncodingOptions
     {
+        private Encoding _encoding;
+
         /// <summary>
         /// Gets or sets the default preamble action of <see cref="EncodingOptions"/>. Default is <see cref="PreambleSequence.Remove"/>.
         /// </summary>
@@ -59,6 +60,17 @@ namespace Cuemon.Text
         /// Gets or sets the encoding for the operation.
         /// </summary>
         /// <value>The encoding for the operation.</value>
-        public Encoding Encoding { get; set; }
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        public Encoding Encoding
+        {
+            get => _encoding;
+            set
+            {
+                Validator.ThrowIfNull(value, nameof(value));
+                _encoding = value;
+            }
+        }
     }
 }

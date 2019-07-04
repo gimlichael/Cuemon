@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Configuration;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
@@ -39,7 +40,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
             output.TagMode = TagMode.StartTagAndEndTag;
             output.TagName = "script";
             output.Attributes.Add("type", "text/javascript");
-            output.Attributes.Add("src", string.Concat(GetBaseUrl(), UseCacheBusting ? $"{Src}?v={CacheBusting.Version}" : Src));
+            output.Attributes.Add("src", string.Concat(GetBaseUrl(), UseCacheBusting ? FormattableString.Invariant($"{Src}?v={CacheBusting.Version}") : Src));
             if (Defer) { output.Attributes.Add("defer", "defer"); }
             return Task.CompletedTask;
         }

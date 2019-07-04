@@ -4,16 +4,22 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Cuemon.ComponentModel.Parsers;
+using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon
 {
     /// <summary>
     /// Provide ways to verify conditions a generic way for countless scenarios using true/false propositions.
     /// </summary>
-    public static class Condition
+    public sealed class Condition
     {
         private static readonly Regex RegExEmailAddressValidator = new Regex(@"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*"")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])",
 RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
+
+        private static readonly Condition ExtendedCondition = new Condition();
+
+        public static Condition Verify { get; } = ExtendedCondition;
 
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> consists only of binary digits.
@@ -22,7 +28,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> consists only of binary digits; otherwise, <c>false</c>.</returns>
         public static bool IsBinaryDigits(string value)
         {
-            if (string.IsNullOrWhiteSpace(value)) { return false; }
+            if (String.IsNullOrWhiteSpace(value)) { return false; }
             return !value.Any(ch => ch < '0' || ch > '1');
         }
 
@@ -36,7 +42,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// </remarks>
         public static bool IsEmailAddress(string value)
         {
-            if (string.IsNullOrWhiteSpace(value)) { return false; }
+            if (String.IsNullOrWhiteSpace(value)) { return false; }
             return (RegExEmailAddressValidator.Match(value).Length > 0);
         }
 
@@ -51,7 +57,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// </remarks>
         public static bool IsGuid(string value)
         {
-            return IsGuid(value, GuidFormats.BraceFormat | GuidFormats.DigitFormat | GuidFormats.ParenthesisFormat);
+            return IsGuid(value, GuidFormats.B | GuidFormats.D | GuidFormats.P);
         }
 
         /// <summary>
@@ -62,8 +68,8 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> has a format of a <see cref="Guid"/>; otherwise, <c>false</c>.</returns>
         public static bool IsGuid(string value, GuidFormats format)
         {
-            if (string.IsNullOrWhiteSpace(value)) { return false; }
-            return GuidUtility.TryParse(value, format, out _);
+            if (String.IsNullOrWhiteSpace(value)) { return false; }
+            return ConvertFactory.UseParser<GuidParser>().TryParse(value, out _, o => o.Formats = format);
         }
 
         /// <summary>
@@ -75,11 +81,11 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified value can be evaluated as a number; otherwise, <c>false</c>.</returns>
         public static bool IsNumeric(string value, NumberStyles styles = NumberStyles.Number, IFormatProvider provider = null)
         {
-            if (string.IsNullOrWhiteSpace(value)) { return false; }
-            if (string.Equals(value, "NaN", StringComparison.OrdinalIgnoreCase)) { return false; }
-            if (string.Equals(value, "Infinity", StringComparison.OrdinalIgnoreCase)) { return false; }
+            if (String.IsNullOrWhiteSpace(value)) { return false; }
+            if (String.Equals(value, "NaN", StringComparison.OrdinalIgnoreCase)) { return false; }
+            if (String.Equals(value, "Infinity", StringComparison.OrdinalIgnoreCase)) { return false; }
             if (provider == null) { provider = CultureInfo.InvariantCulture; }
-            return double.TryParse(value, styles, provider, out _);
+            return Double.TryParse(value, styles, provider, out _);
         }
 
         /// <summary>
@@ -205,7 +211,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsWhiteSpace(string value)
         {
             if (value == null) { return false; }
-            return value.All(char.IsWhiteSpace);
+            return value.All(Char.IsWhiteSpace);
         }
 
         /// <summary>
@@ -235,8 +241,8 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> is hexadecimal; otherwise, <c>false</c>.</returns>
         public static bool IsHex(string value)
         {
-            if (string.IsNullOrEmpty(value)) { return false; }
-            if (!NumberUtility.IsEven(value.Length)) { return false; }
+            if (String.IsNullOrEmpty(value)) { return false; }
+            if (!IsEven(value.Length)) { return false; }
             using (var reader = new StringReader(value))
             {
                 var even = value.Length / 2;
@@ -363,6 +369,90 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsNotWithinRange<T>(T x, T min, T max) where T : struct, IConvertible
         {
             return !IsWithinRange(x, min, max);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> is a prime number.
+        /// </summary>
+        /// <param name="value">The positive integer to determine whether is a prime number.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> is a prime number; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> has a value smaller than 0.
+        /// </exception>
+        public static bool IsPrime(int value)
+        {
+            if (value < 0) { throw new ArgumentException("Value must have a value equal or higher than 0.", nameof(value)); }
+            if ((value & 1) == 0) { return value == 2; }
+            for (long i = 3; (i * i) <= value; i += 2)
+            {
+                if ((value % i) == 0) { return false; }
+            }
+            return value != 1;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> is an even number.
+        /// </summary>
+        /// <param name="value">The value to evaluate.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> is an even number; otherwise, <c>false</c>.</returns>
+        public static bool IsEven(int value)
+        {
+            return ((value % 2) == 0);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> is an odd number.
+        /// </summary>
+        /// <param name="value">The value to evaluate.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> is an odd number; otherwise, <c>false</c>.</returns>
+        public static bool IsOdd(int value)
+        {
+            return !IsEven(value);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence).
+        /// </summary>
+        /// <param name="source">The value to test for a sequence of countable characters.</param>
+        /// <returns><c>true</c> if the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
+        public static bool IsCountableSequence(IEnumerable<int> source)
+        {
+            return IsCountableSequence(source.Select(Convert.ToInt64));
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence).
+        /// </summary>
+        /// <param name="source">The value to test for a sequence of countable characters.</param>
+        /// <returns><c>true</c> if the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
+        public static bool IsCountableSequence(IEnumerable<long> source)
+        {
+            if (source == null) { return false; }
+            var numbers = new List<long>(source);
+
+            var x = numbers[0];
+            var y = numbers[1];
+
+            var difference = y - x;
+            for (var i = 2; i < numbers.Count; i++)
+            {
+                x = numbers[i];
+                y = numbers[i - 1];
+                if ((x - y) != difference) { return false; }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> is a sequence of countable characters (hence, characters being either incremented or decremented with the same cardinality through out the sequence).
+        /// </summary>
+        /// <param name="value">The value to test for a sequence of countable characters.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> is a sequence of countable characters (hence, characters being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
+        public static bool IsCountableSequence(string value)
+        {
+            if (String.IsNullOrEmpty(value)) { return false; }
+            if (value.Length < 2) { return false; }
+            return IsCountableSequence(value.Select(Convert.ToInt64));
         }
 
         /// <summary>

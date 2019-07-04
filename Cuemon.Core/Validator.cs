@@ -3,6 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using Cuemon.ComponentModel.Converters;
+using Cuemon.ComponentModel.Parsers;
+using Cuemon.Reflection;
 
 namespace Cuemon
 {
@@ -514,7 +517,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfSame<T>(T x, T y, string paramName)
         {
-            ThrowIfSame(x, y, paramName, $"Specified arguments {nameof(x)} and {nameof(y)} are of the same instance.");
+            ThrowIfSame(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are of the same instance."));
         }
 
         /// <summary>
@@ -532,7 +535,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => Condition.AreSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} <==> {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.AreSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} <==> {y}"), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -552,7 +555,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotSame<T>(T x, T y, string paramName)
         {
-            ThrowIfNotSame(x, y, paramName, $"Specified arguments {nameof(x)} and {nameof(y)} are not of the same instance.");
+            ThrowIfNotSame(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are not of the same instance."));
         }
 
         /// <summary>
@@ -570,7 +573,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => Condition.AreNotSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} <!=> {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.AreNotSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} <!=> {y}"), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -606,7 +609,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfEqual<T>(T x, T y, IEqualityComparer<T> comparer, string paramName)
         {
-            ThrowIfEqual(x, y, comparer, paramName, $"Specified arguments {nameof(x)} and {nameof(y)} are equal to one another.");
+            ThrowIfEqual(x, y, comparer, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are equal to one another."));
         }
 
         /// <summary>
@@ -642,7 +645,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => Condition.AreEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} == {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.AreEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} == {y}"), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -678,7 +681,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotEqual<T>(T x, T y, IEqualityComparer<T> comparer, string paramName)
         {
-            ThrowIfNotEqual(x, y, comparer, paramName, $"Specified arguments {nameof(x)} and {nameof(y)} are not equal to one another.");
+            ThrowIfNotEqual(x, y, comparer, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are not equal to one another."));
         }
 
         /// <summary>
@@ -713,7 +716,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => Condition.AreNotEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} != {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.AreNotEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} != {y}"), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -733,7 +736,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfGreaterThan<T>(T x, T y, string paramName) where T : struct, IConvertible
         {
-            ThrowIfGreaterThan(x, y, paramName, $"Specified arguments {nameof(x)} is greater than {nameof(y)}.");
+            ThrowIfGreaterThan(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} is greater than {nameof(y)}."));
         }
 
         /// <summary>
@@ -751,7 +754,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsGreaterThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} > {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsGreaterThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} > {y}"), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -772,7 +775,7 @@ namespace Cuemon
         public static void ThrowIfGreaterThanOrEqual<T>(T x, T y, string paramName)
             where T : struct, IConvertible
         {
-            ThrowIfGreaterThanOrEqual(x, y, paramName, $"Specified arguments {nameof(x)} is greater than or equal to {nameof(y)}.");
+            ThrowIfGreaterThanOrEqual(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} is greater than or equal to {nameof(y)}."));
         }
 
         /// <summary>
@@ -790,7 +793,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsGreaterThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} >= {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsGreaterThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} >= {y}"), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -810,7 +813,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfLowerThan<T>(T x, T y, string paramName) where T : struct, IConvertible
         {
-            ThrowIfLowerThan(x, y, paramName, $"Specified arguments {nameof(x)} is lower than {nameof(y)}.");
+            ThrowIfLowerThan(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} is lower than {nameof(y)}."));
         }
 
         /// <summary>
@@ -828,7 +831,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsLowerThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} < {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsLowerThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} < {y}"), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -848,7 +851,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfLowerThanOrEqual<T>(T x, T y, string paramName) where T : struct, IConvertible
         {
-            ThrowIfLowerThanOrEqual(x, y, paramName, $"Specified arguments {nameof(x)} is lower than or equal to {nameof(y)}.");
+            ThrowIfLowerThanOrEqual(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} is lower than or equal to {nameof(y)}."));
         }
 
         /// <summary>
@@ -866,7 +869,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsLowerThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, $"{x} <= {y}", message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsLowerThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} <= {y}"), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1019,12 +1022,12 @@ namespace Cuemon
         /// <paramref name="value"/> cannot be a <see cref="Guid"/>.
         /// </exception>
         /// <remarks>
-        /// This implementation only evaluates for GUID formats of: <see cref="GuidFormats.DigitFormat"/> | <see cref="GuidFormats.BraceFormat"/> | <see cref="GuidFormats.ParenthesisFormat"/>, eg. 32 digits separated by hyphens; 32 digits separated by hyphens, enclosed in brackets and 32 digits separated by hyphens, enclosed in parentheses.<br/>
-        /// The reason not to include <see cref="GuidFormats.NumberFormat"/>, eg. 32 digits is the possible unintended GUID result of a MD5 string representation.
+        /// This implementation only evaluates for GUID formats of: <see cref="GuidFormats.D"/> | <see cref="GuidFormats.B"/> | <see cref="GuidFormats.P"/>, eg. 32 digits separated by hyphens; 32 digits separated by hyphens, enclosed in brackets and 32 digits separated by hyphens, enclosed in parentheses.<br/>
+        /// The reason not to include <see cref="GuidFormats.N"/>, eg. 32 digits is the possible unintended GUID result of a MD5 string representation.
         /// </remarks>
         public static void ThrowIfGuid(string value, string paramName)
         {
-            ThrowIfGuid(value, GuidFormats.BraceFormat | GuidFormats.DigitFormat | GuidFormats.ParenthesisFormat, paramName);
+            ThrowIfGuid(value, GuidFormats.B | GuidFormats.D | GuidFormats.P, paramName);
         }
 
         /// <summary>
@@ -1072,12 +1075,12 @@ namespace Cuemon
         /// <paramref name="value"/> must be a <see cref="Guid"/>.
         /// </exception>
         /// <remarks>
-        /// This implementation only evaluates for GUID formats of: <see cref="GuidFormats.DigitFormat"/> | <see cref="GuidFormats.BraceFormat"/> | <see cref="GuidFormats.ParenthesisFormat"/>, eg. 32 digits separated by hyphens; 32 digits separated by hyphens, enclosed in brackets and 32 digits separated by hyphens, enclosed in parentheses.<br/>
-        /// The reason not to include <see cref="GuidFormats.NumberFormat"/>, eg. 32 digits is the possible unintended GUID result of a MD5 string representation.
+        /// This implementation only evaluates for GUID formats of: <see cref="GuidFormats.D"/> | <see cref="GuidFormats.B"/> | <see cref="GuidFormats.P"/>, eg. 32 digits separated by hyphens; 32 digits separated by hyphens, enclosed in brackets and 32 digits separated by hyphens, enclosed in parentheses.<br/>
+        /// The reason not to include <see cref="GuidFormats.N"/>, eg. 32 digits is the possible unintended GUID result of a MD5 string representation.
         /// </remarks>
         public static void ThrowIfNotGuid(string value, string paramName)
         {
-            ThrowIfNotGuid(value, GuidFormats.BraceFormat | GuidFormats.DigitFormat | GuidFormats.ParenthesisFormat, paramName);
+            ThrowIfNotGuid(value, GuidFormats.B | GuidFormats.D | GuidFormats.P, paramName);
         }
 
         /// <summary>
@@ -1117,12 +1120,12 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of an <see cref="Uri"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of a <see cref="Uri"/>.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be an <see cref="Uri"/>.
+        /// <paramref name="value"/> cannot be a <see cref="Uri"/>.
         /// </exception>
         public static void ThrowIfUri(string value, string paramName)
         {
@@ -1130,20 +1133,20 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of an <see cref="Uri"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of a <see cref="Uri"/>.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="uriKind">The type of the URI.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be an <see cref="Uri"/>.
+        /// <paramref name="value"/> cannot be a <see cref="Uri"/>.
         /// </exception>
-        public static void ThrowIfUri(string value, UriKind uriKind, string paramName, string message = "Value cannot be an URI.")
+        public static void ThrowIfUri(string value, UriKind uriKind, string paramName, string message = "Value cannot be a URI.")
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => UriUtility.IsUri(value, uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => ConvertFactory.UseParser<ComponentModel.Parsers.UriParser>().IsUri(value, o => o.Kind = uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1152,12 +1155,12 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of an <see cref="Uri"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of a <see cref="Uri"/>.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be an <see cref="Uri"/>.
+        /// <paramref name="value"/> must be a <see cref="Uri"/>.
         /// </exception>
         public static void ThrowIfNotUri(string value, string paramName)
         {
@@ -1165,20 +1168,20 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of an <see cref="Uri"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of a <see cref="Uri"/>.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="uriKind">The type of the URI.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be an <see cref="Uri"/>.
+        /// <paramref name="value"/> must be a <see cref="Uri"/>.
         /// </exception>
-        public static void ThrowIfNotUri(string value, UriKind uriKind, string paramName, string message = "Value must be an URI.")
+        public static void ThrowIfNotUri(string value, UriKind uriKind, string paramName, string message = "Value must be a URI.")
         {
             try
             {
-                ThrowWhen(c => c.IsFalse(() => UriUtility.IsUri(value, uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => ConvertFactory.UseParser<ComponentModel.Parsers.UriParser>().IsUri(value, o => o.Kind = uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1200,7 +1203,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType(Type value, string paramName, params Type[] types)
         {
-            ThrowIfContainsType(value, paramName, $"Specified argument is contained within at least one of {nameof(types)}.", types);
+            ThrowIfContainsType(value, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
@@ -1222,7 +1225,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, StringConverter.ToDelimitedString(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1244,7 +1247,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType(Type value, string paramName, params Type[] types)
         {
-            ThrowIfNotContainsType(value, paramName, $"Specified argument is not contained within at least one of {nameof(types)}.", types);
+            ThrowIfNotContainsType(value, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
@@ -1266,7 +1269,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, StringConverter.ToDelimitedString(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1288,7 +1291,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType(object value, string paramName, params Type[] types)
         {
-            ThrowIfContainsType(value, paramName, $"Specified argument is contained within at least one of {nameof(types)}.", types);
+            ThrowIfContainsType(value, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
@@ -1310,7 +1313,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, StringConverter.ToDelimitedString(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromInstance(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1332,7 +1335,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType(object value, string paramName, params Type[] types)
         {
-            ThrowIfNotContainsType(value, paramName, $"Specified argument is not contained within at least one of {nameof(types)}.", types);
+            ThrowIfNotContainsType(value, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
@@ -1354,7 +1357,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(value, types)).Create(() => new ArgumentOutOfRangeException(paramName, StringConverter.ToDelimitedString(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromInstance(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1375,7 +1378,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType<T>(string typeParamName, params Type[] types)
         {
-            ThrowIfContainsType<T>(typeParamName, $"Specified argument is contained within at least one of {nameof(types)}.", types);
+            ThrowIfContainsType<T>(typeParamName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
@@ -1395,7 +1398,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, StringConverter.ToDelimitedString(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType<T>().HasType(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
@@ -1416,7 +1419,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType<T>(string typeParamName, params Type[] types)
         {
-            ThrowIfNotContainsType<T>(typeParamName, $"Specified argument is not contained within at least one of {nameof(types)}.", types);
+            ThrowIfNotContainsType<T>(typeParamName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
@@ -1436,7 +1439,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeUtility.ContainsType(typeof(T), types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, StringConverter.ToDelimitedString(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType<T>().HasType(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
@@ -1488,7 +1491,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => EnumUtility.IsStringOf<TEnum>(value, ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => ConvertFactory.UseParser<EnumParser>().IsEnum<TEnum>(value, o => o.IgnoreCase = ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1540,7 +1543,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsFalse(() => EnumUtility.IsStringOf<TEnum>(value, ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => ConvertFactory.UseParser<EnumParser>().IsEnum<TEnum>(value, o => o.IgnoreCase = ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1617,6 +1620,74 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> represents an enumeration.
+        /// </summary>
+        /// <param name="value">The type to check is an enumeration.</param>
+        /// <param name="paramName">The name of the type parameter that caused the exception.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> represents an enumeration.
+        /// </exception>
+        public static void ThrowIfEnumType(Type value, string paramName)
+        {
+            ThrowIfEnumType(value, paramName, "Value represents an enumeration.");
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> represents an enumeration.
+        /// </summary>
+        /// <param name="value">The type to check is an enumeration.</param>
+        /// <param name="paramName">The name of the type parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> represents an enumeration.
+        /// </exception>
+        public static void ThrowIfEnumType(Type value, string paramName, string message)
+        {
+            try
+            {
+                ThrowWhen(c => c.IsTrue(() => value.GetTypeInfo().IsEnum).Create(() => new ArgumentException(message, paramName)).TryThrow());
+            }
+            catch (TypeArgumentException ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not represents an enumeration.
+        /// </summary>
+        /// <param name="value">The type to check is not an enumeration.</param>
+        /// <param name="paramName">The name of the type parameter that caused the exception.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> does not represents an enumeration.
+        /// </exception>
+        public static void ThrowIfNotEnumType(Type value, string paramName)
+        {
+            ThrowIfNotEnumType(value, paramName, "Value does not represents an enumeration.");
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not represents an enumeration.
+        /// </summary>
+        /// <param name="value">The type to check is not an enumeration.</param>
+        /// <param name="paramName">The name of the type parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> does not represents an enumeration.
+        /// </exception>
+        public static void ThrowIfNotEnumType(Type value, string paramName, string message)
+        {
+            try
+            {
+                ThrowWhen(c => c.IsFalse(() => value.GetTypeInfo().IsEnum).Create(() => new ArgumentException(message, paramName)).TryThrow());
+            }
+            catch (ArgumentException ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if there is a distinct difference between <paramref name="arbitrary"/> and <paramref name="definite"/>.
         /// </summary>
         /// <param name="definite">The value that specifies valid characters.</param>
@@ -1627,7 +1698,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfDistinctDifference(string definite, string arbitrary, string paramName)
         {
-            ThrowIfDistinctDifference(definite, arbitrary, paramName, $"Specified arguments has a distinct difference between {nameof(arbitrary)} and {nameof(definite)}.");
+            ThrowIfDistinctDifference(definite, arbitrary, paramName, FormattableString.Invariant($"Specified arguments has a distinct difference between {nameof(arbitrary)} and {nameof(definite)}."));
         }
 
         /// <summary>
@@ -1663,7 +1734,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotDistinctDifference(string definite, string arbitrary, string paramName)
         {
-            ThrowIfNotDistinctDifference(definite, arbitrary, paramName, $"Specified arguments does not have a distinct difference between {nameof(arbitrary)} and {nameof(definite)}.");
+            ThrowIfNotDistinctDifference(definite, arbitrary, paramName, FormattableString.Invariant($"Specified arguments does not have a distinct difference between {nameof(arbitrary)} and {nameof(definite)}."));
         }
 
         /// <summary>

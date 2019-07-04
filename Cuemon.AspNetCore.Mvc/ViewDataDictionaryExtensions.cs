@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Mvc
         {
             var list = new List<Breadcrumb>();
             var ct = controller.GetType();
-            var actions = ct.GetMethods(ReflectionUtility.BindingInstancePublic).Where(mi => mi.ReturnType == typeof(IActionResult)).ToList();
+            var actions = ct.GetMethods(new MemberReflection(true, true)).Where(mi => mi.ReturnType == typeof(IActionResult)).ToList();
             var labelInvokers = initializer(model).ToList();
             for (int i = 0; i < actions.Count; i++)
             {

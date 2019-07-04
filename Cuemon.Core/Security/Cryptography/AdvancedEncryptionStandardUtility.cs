@@ -2,6 +2,10 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Cuemon.ComponentModel;
+using Cuemon.ComponentModel.Codecs;
+using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.Text;
 
 namespace Cuemon.Security.Cryptography
 {
@@ -21,7 +25,7 @@ namespace Cuemon.Security.Cryptography
 		/// <returns>A random 128 bit generated initialization vector (IV).</returns>
 		public static byte[] GenerateInitializationVector()
 		{
-			return ByteConverter.FromString(StringUtility.CreateRandomString(BlockSize / 8), options =>
+			return ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(Generate.RandomString(BlockSize / 8), options =>
             {
                 options.Encoding = Encoding.UTF8;
                 options.Preamble = PreambleSequence.Remove;
@@ -40,18 +44,18 @@ namespace Cuemon.Security.Cryptography
 			switch (keySize)
 			{
 				case AdvancedEncryptionStandardKeySize.AES128:
-					result = StringUtility.CreateRandomString(128 / 8);
+					result = Generate.RandomString(128 / 8);
 					break;
 				case AdvancedEncryptionStandardKeySize.AES192:
-					result = StringUtility.CreateRandomString(192 / 8);
+					result = Generate.RandomString(192 / 8);
 					break;
 				case AdvancedEncryptionStandardKeySize.AES256:
 					goto default;
 				default:
-					result = StringUtility.CreateRandomString(256 / 8);
+					result = Generate.RandomString(256 / 8);
 					break;
 			}
-            return ByteConverter.FromString(result, options =>
+            return ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(result, options =>
             {
                 options.Encoding = Encoding.UTF8;
                 options.Preamble = PreambleSequence.Remove;
@@ -79,7 +83,7 @@ namespace Cuemon.Security.Cryptography
                             cryptoStream = new CryptoStream(ms, rijndael.CreateDecryptor(), CryptoStreamMode.Read);
                             var cryptoBytes = new byte[bytes.Length];
                             cryptoStream.Read(cryptoBytes, 0, cryptoBytes.Length);
-                            return new MemoryStream(ByteArrayUtility.RemoveTrailingZeros(cryptoBytes));
+                            return new MemoryStream(RemoveTrailingZeros(cryptoBytes));
                         case AdvancedEncryptionStandardCommand.Encrypt:
                             cryptoStream = new CryptoStream(ms, rijndael.CreateEncryptor(), CryptoStreamMode.Write);
                             cryptoStream.Write(bytes, 0, bytes.Length);
@@ -119,7 +123,30 @@ namespace Cuemon.Security.Cryptography
 			return CryptoTransformCore(bytes, key, initializationVector, AdvancedEncryptionStandardCommand.Decrypt);
 		}
 
-		private static void ValidateInput(byte[] bytes, byte[] key, byte[] initializationVector)
+        /// <summary>
+        /// Removes trailing zero information (if any) from the specified <see cref="byte"/> array.
+        /// </summary>
+        /// <param name="bytes">The <see cref="T:byte[]"/> to process.</param>
+        /// <returns>A <see cref="byte"/> array without trailing zeros.</returns>
+        public static byte[] RemoveTrailingZeros(byte[] bytes)
+        {
+            if (bytes == null) { throw new ArgumentNullException(nameof(bytes)); }
+            if (bytes.Length <= 1) { throw new ArgumentException("Size must be larger than 1.", nameof(bytes)); }
+            var hasTrailingZeros = false;
+            var marker = bytes.Length - 1;
+            while (bytes[marker] == 0)
+            {
+                if (!hasTrailingZeros) { hasTrailingZeros = true; }
+                marker--;
+            }
+            if (!hasTrailingZeros) { return bytes; }
+            marker++;
+            var output = new byte[marker];
+            Array.Copy(bytes, output, marker);
+            return output;
+        }
+
+        private static void ValidateInput(byte[] bytes, byte[] key, byte[] initializationVector)
 		{
             Validator.ThrowIfNull(bytes, nameof(bytes));
 			Validator.ThrowIfNull(key, nameof(key));
@@ -135,5 +162,5 @@ namespace Cuemon.Security.Cryptography
 			Encrypt,
 			Decrypt
 		}
-	}
+    }
 }

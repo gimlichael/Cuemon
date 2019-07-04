@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using Cuemon.ComponentModel;
+using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Extensions.Runtime.Serialization
 {
@@ -59,7 +61,7 @@ namespace Cuemon.Extensions.Runtime.Serialization
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
             var i = hierarchy.FindSingleInstance(h => ConvertibleTypes.Select(pair => pair.Value).Contains(h.Instance.Name));
-            return ObjectConverter.ChangeType(i.Value, ConvertibleTypes.Single(pair => pair.Value == i.Name).Key) as IConvertible;
+            return ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(i.Value, ConvertibleTypes.Single(pair => pair.Value == i.Name).Key) as IConvertible;
         }
 
         private static T UseGenericConverter<T>(this IHierarchy<DataPair> hierarchy)
@@ -149,37 +151,37 @@ namespace Cuemon.Extensions.Runtime.Serialization
 
             if (valueTypeInfo.IsPrimitive)
             {
-                return dicItems.Select(i => new KeyValuePair<object, object>(ObjectConverter.ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseConvertibleFormatter()));
+                return dicItems.Select(i => new KeyValuePair<object, object>(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseConvertibleFormatter()));
             }
 
             if (valueType == typeof(Uri))
             {
-                return dicItems.Select(i => new KeyValuePair<object, object>(ObjectConverter.ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseUriFormatter()));
+                return dicItems.Select(i => new KeyValuePair<object, object>(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseUriFormatter()));
             }
 
             if (valueType == typeof(decimal))
             {
-                return dicItems.Select(i => new KeyValuePair<object, object>(ObjectConverter.ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseDecimalFormatter()));
+                return dicItems.Select(i => new KeyValuePair<object, object>(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseDecimalFormatter()));
             }
 
             if (valueType == typeof(string))
             {
-                return dicItems.Select(i => new KeyValuePair<object, object>(ObjectConverter.ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseStringFormatter()));
+                return dicItems.Select(i => new KeyValuePair<object, object>(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseStringFormatter()));
             }
 
             if (valueType == typeof(Guid))
             {
-                return dicItems.Select(i => new KeyValuePair<object, object>(ObjectConverter.ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseGuidFormatter()));
+                return dicItems.Select(i => new KeyValuePair<object, object>(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseGuidFormatter()));
             }
 
             if (valueType == typeof(DateTime))
             {
-                return dicItems.Select(i => new KeyValuePair<object, object>(ObjectConverter.ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseDateTimeFormatter()));
+                return dicItems.Select(i => new KeyValuePair<object, object>(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseDateTimeFormatter()));
             }
 
             if (valueType == typeof(TimeSpan))
             {
-                return dicItems.Select(i => new KeyValuePair<object, object>(ObjectConverter.ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseTimeSpanFormatter()));
+                return dicItems.Select(i => new KeyValuePair<object, object>(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(i.Key.Instance.Value, valueTypes[0]), i.Value.UseTimeSpanFormatter()));
             }
 
             return new Dictionary<object, object>();

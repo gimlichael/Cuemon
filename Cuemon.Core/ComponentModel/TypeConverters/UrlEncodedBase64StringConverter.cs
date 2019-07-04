@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.ComponentModel.TypeConverters
 {
@@ -40,7 +41,7 @@ namespace Cuemon.ComponentModel.TypeConverters
                 default:
                     throw new FormatException(FormattableString.Invariant($"The format of {nameof(input)} consist of illegal base64 characters."));
             }
-            return Convert.FromBase64String(input);
+            return System.Convert.FromBase64String(input);
         }
     }
 }

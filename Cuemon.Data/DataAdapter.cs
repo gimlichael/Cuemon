@@ -88,7 +88,7 @@ namespace Cuemon.Data
         protected virtual void OnDeletedRaised(DataAdapterEventArgs e)
         {
             var handler = Deleting;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Cuemon.Data
         protected virtual void OnDeletingRaised(DataAdapterEventArgs e)
         {
             var handler = Deleted;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Cuemon.Data
         protected virtual void OnInsertedRaised(DataAdapterEventArgs e)
         {
             var handler = Inserted;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Cuemon.Data
         protected virtual void OnInsertingRaised(DataAdapterEventArgs e)
         {
             var handler = Inserting;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Cuemon.Data
         protected virtual void OnSelectedRaised(DataAdapterEventArgs e)
         {
             var handler = Selected;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Cuemon.Data
         protected virtual void OnSelectingRaised(DataAdapterEventArgs e)
         {
             var handler = Selecting;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Cuemon.Data
         protected virtual void OnUpdatedRaised(DataAdapterEventArgs e)
         {
             var handler = Updated;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Cuemon.Data
         protected virtual void OnUpdatingRaised(DataAdapterEventArgs e)
         {
             var handler = Updating;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
 
         /// <summary>

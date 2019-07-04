@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using Cuemon.Integrity;
 using Cuemon.IO;
@@ -175,20 +176,12 @@ namespace Cuemon.Extensions.Integrity
         /// <paramref name="fileName"/> is null.
         /// </exception>
         /// <remarks>Should the specified <paramref name="fileName"/> trigger any sort of exception, a <see cref="CacheValidator.Default"/> is returned.</remarks>
-        public static CacheValidator GetCacheValidator(this string fileName, int bytesToRead = 0, Action<CacheValidatorOptions> setup = null)
+        public static CacheValidator GetCacheValidator(this string fileName, Action<FileChecksumOptions> setup = null)
         {
             Validator.ThrowIfNullOrWhitespace(fileName, nameof(fileName));
             try
             {
-                return FileInfoConverter.FromFile(fileName, bytesToRead, (fi, checksumBytes) =>
-                {
-                    if (checksumBytes.Length > 0)
-                    {
-                        return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, checksumBytes.GetHashCode64(), setup);
-                    }
-                    var fileNameHashCode64 = fileName.GetHashCode64();
-                    return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, fileNameHashCode64, setup);
-                });
+                return ConvertFactory.UseConverter<FileInfoCacheValidatorConverter>().ChangeType(new FileInfo(fileName), setup);
             }
             catch (Exception)
             {
@@ -208,7 +201,12 @@ namespace Cuemon.Extensions.Integrity
             if (assembly == null || assembly.IsDynamic) { return CacheValidator.Default; }
             var assemblyHashCode64 = assembly.FullName.GetHashCode64();
             var assemblyLocation = assembly.Location;
-            return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : GetCacheValidator(assemblyLocation, readByteForByteChecksum ? int.MaxValue : 0, setup).CombineWith(assemblyHashCode64);
+            return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : GetCacheValidator(assemblyLocation, Patterns.ConfigureExchange<CacheValidatorOptions, FileChecksumOptions>(setup, (cvo, fco) => 
+            {
+                fco.BytesToRead = readByteForByteChecksum ? int.MaxValue : 0;
+                fco.Algorithm = cvo.Algorithm;
+                fco.Method = cvo.Method;
+            })).CombineWith(assemblyHashCode64);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Data
 {
@@ -53,7 +54,7 @@ namespace Cuemon.Data
         /// <returns>A query fragment in the desired format.</returns>
         public static string GetQueryFragment(QueryFormat format, int[] values, bool distinct)
         {
-            return GetQueryFragment(format, StringConverter.ToDelimitedString(values).Split(','), distinct);
+            return GetQueryFragment(format, ConvertFactory.UseConverter<DelimitedStringConverter<int>>().ChangeType(values).Split(','), distinct);
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace Cuemon.Data
         /// <returns>A query fragment in the desired format.</returns>
         public static string GetQueryFragment(QueryFormat format, long[] values, bool distinct)
         {
-            return GetQueryFragment(format, StringConverter.ToDelimitedString(values).Split(','), distinct);
+            return GetQueryFragment(format, ConvertFactory.UseConverter<DelimitedStringConverter<long>>().ChangeType(values).Split(','), distinct);
         }
 
         /// <summary>
@@ -145,7 +146,7 @@ namespace Cuemon.Data
         /// <returns>A query fragment in the desired format.</returns>
         public static string GetQueryFragment(QueryFormat format, object[] values, bool distinct)
         {
-            return GetQueryFragment(format, StringConverter.ToDelimitedString(values).Split(','), distinct);
+            return GetQueryFragment(format, ConvertFactory.UseConverter<DelimitedStringConverter<object>>().ChangeType(values).Split(','), distinct);
         }
 
         /// <summary>
@@ -197,11 +198,19 @@ namespace Cuemon.Data
             switch (format)
             {
                 case QueryFormat.Delimited:
-                    return StringConverter.ToDelimitedString(values);
+                    return ConvertFactory.UseConverter<DelimitedStringConverter<string>>().ChangeType(values);
                 case QueryFormat.DelimitedString:
-                    return StringConverter.ToDelimitedString(values, ",", s => $"'{s}'");
+                    return ConvertFactory.UseConverter<DelimitedStringConverter<string>>().ChangeType(values, o =>
+                    {
+                        o.Delimiter = ",";
+                        o.StringConverter = s => FormattableString.Invariant($"'{s}'");
+                    });
                 case QueryFormat.DelimitedSquareBracket:
-                    return StringConverter.ToDelimitedString(values, ",", s => $"[{s}]");
+                    return ConvertFactory.UseConverter<DelimitedStringConverter<string>>().ChangeType(values, o =>
+                    {
+                        o.Delimiter = ",";
+                        o.StringConverter = s => FormattableString.Invariant($"[{s}]");
+                    });
                 default:
                     throw new ArgumentOutOfRangeException(nameof(format), string.Format(CultureInfo.InvariantCulture, "The specified query format value, {0}, is unsupported.", format));
             }

@@ -76,15 +76,15 @@ namespace Cuemon.Extensions.Reflection
         }
 
         /// <summary>
-        /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <see cref="Type"/> following the <see cref="EmbeddedResourceMatch"/> ruleset of <paramref name="match"/>.
+        /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <see cref="Type"/> following the <see cref="ManifestResourceMatch"/> ruleset of <paramref name="match"/>.
         /// </summary>
         /// <param name="source">The source type to load the resource from.</param>
         /// <param name="name">The name of the resource being requested.</param>
         /// <param name="match">The match ruleset to apply.</param>
         /// <returns>A <see cref="Stream"/> representing the loaded resources; null if no resources were specified during compilation, or if the resource is not visible to the caller.</returns>
-        public static IEnumerable<Stream> GetEmbeddedResources(this Type source, string name, EmbeddedResourceMatch match)
+        public static IDictionary<string, Stream> GetEmbeddedResources(this Type source, string name, ManifestResourceMatch match)
         {
-            return ReflectionUtility.GetEmbeddedResources(source, name, match);
+            return AssemblyInsight.FromType(source).GetManifestResources(name, match);
         }
     }
 }

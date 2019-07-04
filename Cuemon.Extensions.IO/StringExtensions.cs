@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Cuemon.ComponentModel.Codecs;
 using Cuemon.IO;
 using Cuemon.Text;
 
@@ -20,7 +21,7 @@ namespace Cuemon.Extensions.IO
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static Stream ToStream(this string value, Action<EncodingOptions> setup = null)
         {
-            return StreamConverter.FromString(value, setup);
+            return ConvertFactory.UseCodec<StreamToStringCodec>().Decode(value, setup);
         }
 
         /// <summary>

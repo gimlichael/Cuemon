@@ -6,7 +6,7 @@ namespace Cuemon
 {
     internal static class Infrastructure
     {
-        public static void CopyStream(Stream source, Stream destination, int bufferSize = 81920, bool changePosition = true)
+        internal static void CopyStream(Stream source, Stream destination, int bufferSize = 81920, bool changePosition = true)
         {
             long lastPosition = 0;
             if (changePosition && source.CanSeek)

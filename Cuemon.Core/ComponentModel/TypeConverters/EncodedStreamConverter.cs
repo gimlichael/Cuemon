@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using Cuemon.ComponentModel.Codecs;
+using Cuemon.ComponentModel.Converters;
 using Cuemon.IO;
 using Cuemon.Text;
 
@@ -34,14 +36,14 @@ namespace Cuemon.ComponentModel.TypeConverters
         {
             Validator.ThrowIfNull(input, nameof(input));
             var options = Patterns.Configure(setup);
-            if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = StreamUtility.DetectUnicodeEncoding(input, options.Encoding); }
-            var valueInBytes = Converter.FromStream.ToByteArray(input);
+            if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = ByteOrderMark.DetectEncodingOrDefault(input, options.Encoding); }
+            var valueInBytes = ConvertFactory.UseCodec<StreamToByteArrayCodec>().Encode(input);
             switch (options.Preamble)
             {
                 case PreambleSequence.Keep:
                     break;
                 case PreambleSequence.Remove:
-                    valueInBytes = ByteArrayUtility.RemovePreamble(valueInBytes, options.Encoding);
+                    valueInBytes = ByteOrderMark.Remove(valueInBytes, options.Encoding);
                     break;
                 default:
                     throw new InvalidEnumArgumentException(nameof(options.Preamble), (int)options.Preamble, typeof(PreambleSequence));

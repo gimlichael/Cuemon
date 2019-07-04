@@ -52,7 +52,7 @@ namespace Cuemon
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return $"Name: {Name}, Value: {Value ?? "<null>"}, Type: {Type.Name}";
+            return FormattableString.Invariant($"Name: {Name}, Value: {Value ?? "<null>"}, Type: {Type.Name}");
         }
     }
 

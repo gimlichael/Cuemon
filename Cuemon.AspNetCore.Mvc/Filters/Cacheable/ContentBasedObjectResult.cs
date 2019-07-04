@@ -15,7 +15,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
     {
         internal ContentBasedObjectResult(T instance, byte[] checksum, Action<ContentBasedOptions> setup = null) : base(instance, setup)
         {
-            Checksum = new ChecksumResult(checksum);
+            Checksum = new HashResult(checksum);
             Validation = Options.GetValidation(checksum);
         }
 
@@ -26,10 +26,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         public ChecksumStrength Validation { get; }
 
         /// <summary>
-        /// Gets a <see cref="ChecksumResult" /> that represents the integrity of this instance.
+        /// Gets a <see cref="HashResult" /> that represents the integrity of this instance.
         /// </summary>
         /// <value>The checksum that represents the integrity of this instance.</value>
-        public ChecksumResult Checksum { get; }
+        public HashResult Checksum { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance has a <see cref="Checksum" /> representation.

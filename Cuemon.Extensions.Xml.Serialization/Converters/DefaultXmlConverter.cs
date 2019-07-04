@@ -8,6 +8,9 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
 using Cuemon.Collections.Generic;
+using Cuemon.ComponentModel;
+using Cuemon.ComponentModel.Converters;
+using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Extensions.Collections.Generic;
 using Cuemon.Reflection;
 using Cuemon.Xml;
@@ -113,9 +116,9 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 }
             }
 
-            var dictionaryType = (valueType.GetGenericArguments() ?? valueType.GetAncestorsAndSelf(typeof(object)).Yield()).ToArray();
+            var dictionaryType = valueType.GetGenericArguments().Length > 0 ? valueType.GetGenericArguments() : new[] { typeof(object), typeof(object) };
             var dictionary = typeof(Dictionary<,>).MakeGenericType(dictionaryType);
-            var castedValues = values.Select(pair => TupleUtility.CreateTwo(ObjectConverter.ChangeType(pair.Key, dictionaryType[0]), ObjectConverter.ChangeType(pair.Value, dictionaryType[1]))).ToList();
+            var castedValues = values.Select(pair => Template.CreateTwo(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(pair.Key, dictionaryType[0]), ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(pair.Value, dictionaryType[1]))).ToList();
             var instance = Activator.CreateInstance(dictionary);
             var addMethod = valueType.GetMethod("Add");
             foreach (var item in castedValues)
@@ -133,9 +136,9 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             if (items.FirstOrDefault()?.HasChildren ?? false) { throw new NotSupportedException("Deserialization of complex objects is not supported in this version."); }
             values.AddRange(items.Select(h => new KeyValuePair<string, string>(h.Instance.Name, h.Instance.Value.ToString())));
 
-            var enumerableType = valueType.GetGenericArguments().FirstOrDefault() ?? valueType.GetAncestorsAndSelf(typeof(object));
+            var enumerableType = valueType.GetGenericArguments().FirstOrDefault() ?? typeof(object);
             var listEnumerable = typeof(List<>).MakeGenericType(enumerableType);
-            var castedValues = values.Where(pair => pair.Key == EnumerableElementName).Select(pair => ObjectConverter.ChangeType(pair.Value, enumerableType)).ToList();
+            var castedValues = values.Where(pair => pair.Key == EnumerableElementName).Select(pair => ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(pair.Value, enumerableType)).ToList();
             var instance = Activator.CreateInstance(listEnumerable);
             var addMethod = valueType.GetMethod("Add");
             foreach (var item in castedValues)
@@ -196,8 +199,8 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 }
             }
 
-            var constructors = valueType.GetConstructors(ReflectionUtility.BindingInstancePublicAndPrivate).ToList();
-            var properties = valueType.GetProperties(ReflectionUtility.BindingInstancePublicAndPrivate).Where(info => info.CanWrite).ToDictionary(info => info.Name);
+            var constructors = valueType.GetConstructors(new MemberReflection(excludeStatic: true)).ToList();
+            var properties = valueType.GetProperties(new MemberReflection(excludeStatic: true)).Where(info => info.CanWrite).ToDictionary(info => info.Name);
             var propertyNames = properties.Select(info => info.Key).Intersect(values.Select(pair => pair.Key), StringComparer.OrdinalIgnoreCase).ToList();
 
             var args = new List<object>();
@@ -209,7 +212,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 {
                     foreach (var arg in arguments)
                     {
-                        args.Add(ObjectConverter.ChangeType(values.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase)).Value, arg.ParameterType));
+                        args.Add(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(values.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase)).Value, arg.ParameterType));
                     }
                     break;
                 }
@@ -217,7 +220,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
             if (args.Count == 0)
             {
-                var staticMethods = valueType.GetMethods(ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic).Where(info => info.ReturnType == valueType && info.IsStatic && !info.IsSpecialName).ToList();
+                var staticMethods = valueType.GetMethods(new MemberReflection(excludeInheritancePath: true)).Where(info => info.ReturnType == valueType && info.IsStatic && !info.IsSpecialName).ToList();
                 foreach (var method in staticMethods)
                 {
                     var arguments = method.GetParameters();
@@ -226,7 +229,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                     {
                         foreach (var arg in arguments)
                         {
-                            args.Add(ObjectConverter.ChangeType(values.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase)).Value, arg.ParameterType));
+                            args.Add(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(values.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase)).Value, arg.ParameterType));
                         }
                         return method.Invoke(null, args.ToArray());
                     }
@@ -238,7 +241,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             foreach (var propertyName in propertyNames)
             {
                 var property = properties[propertyName];
-                property.SetValue(instance, ObjectConverter.ChangeType(values.First(pair => pair.Key == propertyName).Value, property.PropertyType));
+                property.SetValue(instance, ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(values.First(pair => pair.Key == propertyName).Value, property.PropertyType));
             }
             return instance;
         }
@@ -247,7 +250,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         {
             if (node.HasXmlIgnoreAttribute()) { return; }
 
-            var writerMethod = node.InstanceType.GetMethod(XmlWriterMethod, ReflectionUtility.BindingInstancePublicAndPrivate);
+            var writerMethod = node.InstanceType.GetMethod(XmlWriterMethod, new MemberReflection(excludeStatic: true));
             var useWriterMethod = (writerMethod != null) && node.InstanceType.HasInterfaces(typeof(IXmlSerializable));
 
             if (useWriterMethod)
@@ -271,18 +274,19 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 return;
             }
 
-            var hasAttributeAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlAttributeAttribute));
-            var hasElementAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlElementAttribute));
-            var hasTextAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlTextAttribute));
+            var member = MemberReflectorInfo.FromMember(node.MemberReference);
+            var hasAttributeAttribute = node.HasMemberReference && member.HasAttribute(typeof(XmlAttributeAttribute));
+            var hasElementAttribute = node.HasMemberReference && member.HasAttribute(typeof(XmlElementAttribute));
+            var hasTextAttribute = node.HasMemberReference && member.HasAttribute(typeof(XmlTextAttribute));
 
             var isType = node.Instance is Type;
             var nodeType = isType ? (Type)node.Instance : node.InstanceType;
-            var attributeOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : StringConverter.FromType(nodeType));
+            var attributeOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(nodeType));
 
             if (!hasAttributeAttribute && !hasElementAttribute && !hasTextAttribute)
             {
                 hasElementAttribute = true; // default serialization value for legacy Cuemon
-                if ((!TypeUtility.IsComplex(nodeType) || isType) && !node.HasChildren && (isType))
+                if ((!TypeInsight.FromType(nodeType).IsComplex() || isType) && !node.HasChildren && (isType))
                 {
                     if (!node.HasParent)
                     {
@@ -337,7 +341,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                     if (i == null || i.Cast<object>().Count() == 0) { continue; }
                 }
                 var qualifiedEntity = childNode.LookupXmlStartElement();
-                if (childNode.HasChildren && TypeUtility.IsComplex(childNode.InstanceType)) { writer.WriteStartElement(qualifiedEntity); }
+                if (childNode.HasChildren && TypeInsight.FromType(childNode.InstanceType).IsComplex()) { writer.WriteStartElement(qualifiedEntity); }
                 var converter = Converters.FirstOrDefaultWriterConverter(childNode.InstanceType);
                 if (converter != null)
                 {
@@ -347,7 +351,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 {
                     WriteXmlNodes(writer, childNode);    
                 }
-                if (childNode.HasChildren && TypeUtility.IsComplex(childNode.InstanceType)) { writer.WriteEndElement(); }
+                if (childNode.HasChildren && TypeInsight.FromType(childNode.InstanceType).IsComplex()) { writer.WriteEndElement(); }
             }
         }
     }

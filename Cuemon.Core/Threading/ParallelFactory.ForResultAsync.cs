@@ -145,8 +145,8 @@ namespace Cuemon.Threading
         /// <param name="assignment">The assignment statement of the loop control variable using <paramref name="step"/>.</param>
         /// <param name="step">The value to assign the loop control variable.</param>
         /// <param name="worker">The delegate that is invoked once per iteration.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task" /> that represents the asynchronous operation.
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
@@ -156,7 +156,7 @@ namespace Cuemon.Threading
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default);
-            return ForResultCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
@@ -172,8 +172,8 @@ namespace Cuemon.Threading
         /// <param name="step">The value to assign the loop control variable.</param>
         /// <param name="worker">The delegate that is invoked once per iteration.</param>
         /// <param name="arg">The parameter of the function delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task" /> that represents the asynchronous operation.
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
@@ -183,7 +183,7 @@ namespace Cuemon.Threading
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg);
-            return ForResultCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
@@ -201,8 +201,8 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that is invoked once per iteration.</param>
         /// <param name="arg1">The first parameter of the function delegate <paramref name="worker" />.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task" /> that represents the asynchronous operation.
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
@@ -212,7 +212,7 @@ namespace Cuemon.Threading
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg1, arg2);
-            return ForResultCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
@@ -232,8 +232,8 @@ namespace Cuemon.Threading
         /// <param name="arg1">The first parameter of the function delegate <paramref name="worker" />.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="worker" />.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task" /> that represents the asynchronous operation.
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
@@ -243,7 +243,7 @@ namespace Cuemon.Threading
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg1, arg2, arg3);
-            return ForResultCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
@@ -265,8 +265,8 @@ namespace Cuemon.Threading
         /// <param name="arg2">The second parameter of the function delegate <paramref name="worker" />.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="worker" />.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task" /> that represents the asynchronous operation.
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
@@ -276,7 +276,7 @@ namespace Cuemon.Threading
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4);
-            return ForResultCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         /// <summary>
@@ -300,8 +300,8 @@ namespace Cuemon.Threading
         /// <param name="arg3">The third parameter of the function delegate <paramref name="worker" />.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="worker" />.</param>
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="worker" />.</param>
-        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="LoopUtility.Condition{T}"/>.</param>
-        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="LoopUtility.Iterator{T}"/>.</param>
+        /// <param name="condition">The function delegate that represents the condition section of the for loop. Default value is <see cref="Condition{T}"/>.</param>
+        /// <param name="iterator">The function delegate that represents the iterator section of the for loop. Default value is <see cref="Iterator{T}"/>.</param>
         /// <param name="setup">The <see cref="TaskFactoryOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Task" /> that represents the asynchronous operation.
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
@@ -311,15 +311,15 @@ namespace Cuemon.Threading
             AssignmentUtility.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5);
-            return ForResultCoreAsync(from, relation, to, assignment, step, wf, condition, iterator, setup);
+            return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
         }
 
         private static async Task<IReadOnlyCollection<TResult>> ForResultCoreAsync<TWorker, TNumber, TResult>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, FuncFactory<TWorker, TResult> workerFactory, Func<TNumber, RelationalOperator, TNumber, bool> condition, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator, Action<TaskFactoryOptions> setup)
             where TWorker : Template<TNumber>
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
-            if (condition == null) { condition = LoopUtility.Condition; }
-            if (iterator == null) { iterator = LoopUtility.Iterator; }
+            if (condition == null) { condition = Condition; }
+            if (iterator == null) { iterator = Iterator; }
 
             var options = Patterns.Configure(setup);
             var exceptions = new ConcurrentBag<Exception>();
@@ -329,7 +329,7 @@ namespace Cuemon.Threading
             {
                 var workChunks = options.ChunkSize;
                 var queue = new List<Task>();
-                for (var i = from; condition(i, relation, to); i = iterator(i, assignment, step))
+                for (var i = @from; condition(i, relation, to); i = iterator(i, assignment, step))
                 {
                     var shallowWorkerFactory = workerFactory.Clone();
                     queue.Add(Task.Factory.StartNew(j =>
@@ -351,7 +351,7 @@ namespace Cuemon.Threading
                     
                     if (workChunks == 0)
                     {
-                        from = AssignmentUtility.Calculate(i, assignment, step);
+                        @from = AssignmentUtility.Calculate(i, assignment, step);
                         break;
                     }
                 }

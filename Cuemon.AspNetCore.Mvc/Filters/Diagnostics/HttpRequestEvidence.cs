@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Cuemon.ComponentModel.Codecs;
 using Cuemon.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -14,7 +15,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         internal HttpRequestEvidence(HttpRequest request, Func<Stream, string> bodyParser = null)
         {
             var hasMultipartContentType = request.GetMultipartBoundary().Length > 0;
-            if (bodyParser == null) { bodyParser = body => hasMultipartContentType ? null : StringConverter.FromStream(body); }
+            if (bodyParser == null) { bodyParser = body => hasMultipartContentType ? null : ConvertFactory.UseCodec<StreamToStringCodec>().Encode(body); }
             Location = request.GetDisplayUrl();
             Method = request.Method;
             Headers = request.Headers;

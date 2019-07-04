@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Data
 {
@@ -113,7 +114,7 @@ namespace Cuemon.Data
             if (index < 0) { return default(TResult); }
             var target = typeof(TResult);
             var source = Main.Columns[index].DataType;
-            if (source != target) { throw new TypeArgumentOutOfRangeException("TResult", string.Format(CultureInfo.InvariantCulture, "There is a mismatch between the specified column referenced by 'index' and the type parameter 'TResult'. Expected type of 'TResult' was '{0}'.", StringConverter.FromType(source, true))); }
+            if (source != target) { throw new TypeArgumentOutOfRangeException("TResult", string.Format(CultureInfo.InvariantCulture, "There is a mismatch between the specified column referenced by 'index' and the type parameter 'TResult'. Expected type of 'TResult' was '{0}'.", ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(source, o => o.FullName = true))); }
             return (TResult)this[index];
         }
 

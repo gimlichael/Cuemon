@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Cuemon.ComponentModel;
+using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Collections.Generic
 {
@@ -277,8 +279,8 @@ namespace Cuemon.Collections.Generic
         private int GetPageCount()
         {
             if (TotalElementCount == 0) { return 0; }
-            var presult = TotalElementCount / Converter.FromObject<double>(Settings.PageSize);
-            return Converter.FromObject<int>(Math.Ceiling(presult));
+            var presult = TotalElementCount / ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeTypeOrDefault<double>(Settings.PageSize);
+            return ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeTypeOrDefault<int>(Math.Ceiling(presult));
         }
 
         /// <summary>

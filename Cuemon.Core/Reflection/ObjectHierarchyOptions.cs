@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Reflection
 {
@@ -25,7 +26,7 @@ namespace Cuemon.Reflection
             MaxCircularCalls = 2;
             SkipPropertyType = source =>
             {
-                switch (TypeCodeConverter.FromType(source))
+                switch (ConvertFactory.UseConverter<TypeCodeConverter>().ChangeType(source))
                 {
                     case TypeCode.Boolean:
                     case TypeCode.Byte:
@@ -43,8 +44,9 @@ namespace Cuemon.Reflection
                     case TypeCode.String:
                         return true;
                     default:
-                        if (TypeUtility.IsKeyValuePair(source)) { return true; }
-                        if (TypeUtility.ContainsType(source, typeof(MemberInfo))) { return true; }
+                        var reflector = TypeInsight.FromType(source);
+                        if (reflector.HasKeyValuePairContract()) { return true; }
+                        if (reflector.HasType(typeof(MemberInfo))) { return true; }
                         return false;
                 }
             };
@@ -70,7 +72,7 @@ namespace Cuemon.Reflection
                     // however; this has it flaws: an indexer does not necessarily have an item on 0, 1, 2 etc., so must handle the possible
                     // TargetInvocationException.
                     // more info? check here: http://blog.nkadesign.com/2006/net-the-limits-of-using-reflection/comment-page-1/#comment-10813
-                    if (TypeUtility.ContainsType(infos[i].ParameterType, typeof(byte), typeof(short), typeof(int), typeof(long))) // check to see if we have a "normal" indexer
+                    if (TypeInsight.FromType(infos[i].ParameterType).HasType(typeof(byte), typeof(short), typeof(int), typeof(long))) // check to see if we have a "normal" indexer
                     {
                         resolvedParameters.Add(0);
                     }

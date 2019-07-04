@@ -185,7 +185,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             {
                 writer.WritePropertyName("stack", () => DynamicJsonConverter.UseCamelCase);
                 writer.WriteStartArray();
-                var lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = exception.StackTrace.Split(new[] { Alphanumeric.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
                     writer.WriteValue(line.Trim());

@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Integrity;
 
 namespace Cuemon
 {
@@ -10,15 +11,28 @@ namespace Cuemon
         /// <summary>
         /// Initializes a new instance of the <see cref="EndianOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="EndianOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="ByteOrder"/></term>
+        ///         <description><code>BitConverter.IsLittleEndian ? Endianness.LittleEndian : Endianness.BigEndian;</code></description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public EndianOptions()
         {
-            UseBigEndian = false;
+            ByteOrder = BitConverter.IsLittleEndian ? Endianness.LittleEndian : Endianness.BigEndian;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use Big-endian instead of Little-endian.
+        /// Gets or sets the endian byte order enumeration.
         /// </summary>
-        /// <value><c>true</c> if Big-endian should be used; otherwise, <c>false</c>.</value>
-        public bool UseBigEndian { get; set; }
+        /// <value>The byte order enumeration.</value>
+        public Endianness ByteOrder { get; set; }
     }
 }

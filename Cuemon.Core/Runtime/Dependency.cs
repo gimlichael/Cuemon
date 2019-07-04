@@ -51,7 +51,7 @@ namespace Cuemon.Runtime
         /// <returns>A reference to the newly created object.</returns>
         public static TResult Create<TResult>() where TResult : IDependency
         {
-            return ActivatorUtility.CreateInstance<TResult>();
+            return ActivatorFactory.CreateInstance<TResult>();
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Cuemon.Runtime
         /// <returns>A reference to the newly created object.</returns>
         public static TResult Create<T, TResult>(T arg) where TResult : IDependency
         {
-            return ActivatorUtility.CreateInstance<T, TResult>(arg);
+            return ActivatorFactory.CreateInstance<T, TResult>(arg);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Cuemon.Runtime
         /// <returns>A reference to the newly created object.</returns>
         public static TResult Create<T1, T2, TResult>(T1 arg1, T2 arg2) where TResult : IDependency
         {
-            return ActivatorUtility.CreateInstance<T1, T2, TResult>(arg1, arg2);
+            return ActivatorFactory.CreateInstance<T1, T2, TResult>(arg1, arg2);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Cuemon.Runtime
         /// <returns>A reference to the newly created object.</returns>
         public static TResult Create<T1, T2, T3, TResult>(T1 arg1, T2 arg2, T3 arg3) where TResult : IDependency
         {
-            return ActivatorUtility.CreateInstance<T1, T2, T3, TResult>(arg1, arg2, arg3);
+            return ActivatorFactory.CreateInstance<T1, T2, T3, TResult>(arg1, arg2, arg3);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Cuemon.Runtime
         /// <returns>A reference to the newly created object.</returns>
         public static TResult Create<T1, T2, T3, T4, TResult>(T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TResult : IDependency
         {
-            return ActivatorUtility.CreateInstance<T1, T2, T3, T4, TResult>(arg1, arg2, arg3, arg4);
+            return ActivatorFactory.CreateInstance<T1, T2, T3, T4, TResult>(arg1, arg2, arg3, arg4);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Cuemon.Runtime
         /// <returns>A reference to the newly created object.</returns>
         public static TResult Create<T1, T2, T3, T4, T5, TResult>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TResult : IDependency
         {
-            return ActivatorUtility.CreateInstance<T1, T2, T3, T4, T5, TResult>(arg1, arg2, arg3, arg4, arg5);
+            return ActivatorFactory.CreateInstance<T1, T2, T3, T4, T5, TResult>(arg1, arg2, arg3, arg4, arg5);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Cuemon.Runtime
         protected virtual void OnDependencyChangedRaised(DependencyEventArgs e)
         {
             var handler = DependencyChanged;
-            EventUtility.Raise(handler, this, e);
+            handler?.Invoke(this, e);
         }
 
         /// <summary>

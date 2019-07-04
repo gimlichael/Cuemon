@@ -3,9 +3,9 @@
 namespace Cuemon.Integrity
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="CacheValidator"/> operations.
+    /// Configuration options for <see cref="CacheValidator"/>.
     /// </summary>
-    public class CacheValidatorOptions
+    public class CacheValidatorOptions : ChecksumBuilderOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheValidatorOptions"/> class.
@@ -18,8 +18,8 @@ namespace Cuemon.Integrity
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="AlgorithmType"/></term>
-        ///         <description><see cref="HashAlgorithmType.MD5"/></description>
+        ///         <term><see cref="ChecksumBuilderOptions.Algorithm"/></term>
+        ///         <description><see cref="CryptoAlgorithm.Md5"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="Method"/></term>
@@ -29,15 +29,9 @@ namespace Cuemon.Integrity
         /// </remarks>
         public CacheValidatorOptions()
         {
-            AlgorithmType = HashAlgorithmType.MD5;
+            Algorithm = CryptoAlgorithm.Md5;
             Method = ChecksumMethod.Default;
         }
-
-        /// <summary>
-        /// Gets or sets the hash algorithm to use for the checksum computation.
-        /// </summary>
-        /// <value>The hash algorithm to use for the checksum computation.</value>
-        public HashAlgorithmType AlgorithmType { get; set; }
 
         /// <summary>
         /// Gets an enumeration value of <see cref="ChecksumMethod"/> indicating how a checksum is generated.

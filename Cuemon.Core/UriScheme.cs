@@ -3,7 +3,7 @@
 namespace Cuemon
 {
     /// <summary>
-    /// Defines the schemes available for an <see cref="Uri"/> class.
+    /// Defines the schemes available for a <see cref="Uri"/> class.
     /// </summary>
     public enum UriScheme
     {

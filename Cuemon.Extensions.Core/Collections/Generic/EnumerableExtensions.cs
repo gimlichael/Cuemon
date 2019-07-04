@@ -11,6 +11,27 @@ namespace Cuemon.Extensions.Collections.Generic
     public static class EnumerableExtensions
     {
         /// <summary>
+        /// Returns a chunked <see cref="IEnumerable{T}"/> sequence with a maximum of the specified <paramref name="size"/>. Default is 128.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to chunk into smaller slices for a batch run or similar.</param>
+        /// <param name="size">The amount of elements to process at a time.</param>
+        /// <returns>An <see cref="IEnumerable{T}" /> that contains no more than the specified <paramref name="size" /> of elements from the <paramref name="source" /> sequence.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="size"/> is less or equal to 0.
+        /// </exception>
+        /// <remarks>The original <paramref name="source"/> is reduced equivalent to the number of elements in the returned sequence.</remarks>
+        public static PartitionerEnumerable<TSource> Chunk<TSource>(this IEnumerable<TSource> source, int size = 128)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfLowerThanOrEqual(0, size, nameof(size));
+            return new PartitionerEnumerable<TSource>(source, size);
+        }
+
+        /// <summary>
         /// Shuffles the specified <paramref name="source"/> like a deck of cards.
         /// </summary>
         /// <param name="source">The elements to be shuffled in the randomization process.</param>
@@ -18,7 +39,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <remarks>Fisher–Yates shuffle: https://en.wikipedia.org/wiki/Fisher–Yates_shuffle</remarks>
         public static IEnumerable<TSource> Shuffle<TSource>(this IEnumerable<TSource> source)
         {
-            return source.Shuffle(NumberUtility.GetRandomNumber);
+            return source.Shuffle(Generate.RandomNumber);
         }
 
         /// <summary>
@@ -70,18 +91,6 @@ namespace Cuemon.Extensions.Collections.Generic
         }
 
         /// <summary>
-        /// Returns ascending sorted elements from a sequence by using a specified <see cref="Comparison{T}"/> to compare values.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence of values to order.</param>
-        /// <param name="comparer">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> that contains asscending sorted elements from the source sequence.</returns>
-        public static IEnumerable<TSource> OrderBy<TSource>(this IEnumerable<TSource> source, Comparison<TSource> comparer)
-        {
-            return EnumerableUtility.OrderBy(source, comparer);
-        }
-
-        /// <summary>
         /// Returns descending sorted elements from a sequence by using the default comparer to compare values.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
@@ -107,38 +116,16 @@ namespace Cuemon.Extensions.Collections.Generic
         }
 
         /// <summary>
-        /// Returns descending sorted elements from a sequence by using a specified <see cref="Comparison{T}"/> to compare values.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence of values to order.</param>
-        /// <param name="comparer">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> that contains descending sorted elements from the source sequence.</returns>
-        public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source, Comparison<TSource> comparer)
-        {
-            return EnumerableUtility.OrderByDescending(source, comparer);
-        }
-
-        /// <summary>
         /// Returns a random element of a sequence of elements, or a default value if no element is found.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to return a random element of.</param>
-        /// <returns>default(TSource) if source is empty; otherwise, a random element of <paramref name="source"/>.</returns>
+        /// <returns><c>default</c> if <paramref name="source"/> is empty; otherwise, a random element of <paramref name="source"/>.</returns>
         public static TSource RandomOrDefault<TSource>(this IEnumerable<TSource> source)
         {
-            return EnumerableUtility.RandomOrDefault(source);
-        }
-
-        /// <summary>
-        /// Returns a random element of a sequence of elements, or a default value if no element is found.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The <see cref="IEnumerable{T}"/> to return a random element of.</param>
-        /// <param name="randomizer">The function delegate that will select a random element of <paramref name="source"/>.</param>
-        /// <returns>default(TSource) if source is empty; otherwise, a random element of <paramref name="source"/>.</returns>
-        public static TSource RandomOrDefault<TSource>(this IEnumerable<TSource> source, Func<IEnumerable<TSource>, TSource> randomizer)
-        {
-            return EnumerableUtility.RandomOrDefault(source, randomizer);
+            Validator.ThrowIfNull(source, nameof(source));
+            var collection = source as ICollection<TSource> ?? new List<TSource>(source);
+            return collection.Count == 0 ? default : collection.ElementAt(Generate.RandomNumber(collection.Count));
         }
 
         /// <summary>
@@ -149,7 +136,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <returns>An <see cref="IEnumerable{T}"/> sequence with the specified <paramref name="value"/> as the only element.</returns>
         public static IEnumerable<T> Yield<T>(this T value)
         {
-            return EnumerableUtility.Yield(value);
+            return Arguments.Yield(value);
         }
 
         /// <summary>
@@ -167,7 +154,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source)
         {
-            return DictionaryConverter.FromEnumerable(source);
+            return ToDictionary(source, EqualityComparer<TKey>.Default);
         }
 
         /// <summary>
@@ -186,30 +173,27 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source, IEqualityComparer<TKey> comparer)
         {
-            return DictionaryConverter.FromEnumerable(source, comparer);
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(comparer, nameof(comparer));
+
+            var result = new Dictionary<TKey, TValue>(comparer);
+            foreach (var item in source)
+            {
+                result.Add(item.Key, item.Value);
+            }
+            return result;
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="source"/> to a partitioned data sequence. Default partition size is 128.
+        /// Extends the specified <paramref name="source"/> to support iterating in partitions.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source of the sequence.</param>
-        /// <returns>An instance of <see cref="PartitionCollection{T}"/>.</returns>
-        public static PartitionCollection<TSource> ToPartitionCollection<TSource>(this IEnumerable<TSource> source)
+        /// <typeparam name="TSource">The type of elements in the <paramref name="source"/>.</typeparam>
+        /// <param name="source">The sequence to extend.</param>
+        /// <param name="partitionSize">The size of the partitions.</param>
+        /// <returns>An instance of <see cref="PartitionerEnumerable{T}"/>.</returns>
+        public static PartitionerEnumerable<TSource> ToPartitioner<TSource>(this IEnumerable<TSource> source, int partitionSize = 128)
         {
-            return new PartitionCollection<TSource>(source);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="source"/> to a partitioned data sequence.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source of the sequence.</param>
-        /// <param name="size">The number of elements a partition can hold.</param>
-        /// <returns>An instance of <see cref="PartitionCollection{T}"/>.</returns>
-        public static PartitionCollection<TSource> ToPartitionCollection<TSource>(this IEnumerable<TSource> source, int size)
-        {
-            return new PartitionCollection<TSource>(source, size);
+            return new PartitionerEnumerable<TSource>(source, partitionSize);
         }
 
         /// <summary>

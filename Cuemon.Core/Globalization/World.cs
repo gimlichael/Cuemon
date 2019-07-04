@@ -14,7 +14,7 @@ namespace Cuemon.Globalization
     public static class World
     {
         private const int CultureTypesSpecificCultures = 2;
-        private static readonly MethodInfo CultureInfoGetCultures = typeof(CultureInfo).GetMethod("GetCultures", ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic);
+        private static readonly MethodInfo CultureInfoGetCultures = typeof(CultureInfo).GetMethod("GetCultures", new MemberReflection(excludeInheritancePath: true));
 
         internal static readonly Lazy<IEnumerable<CultureInfo>> SpecificCultures = new Lazy<IEnumerable<CultureInfo>>(() =>
         {
@@ -29,7 +29,7 @@ namespace Cuemon.Globalization
                 return cultures.Values;
             }
 
-            using (var lfdSpecificCultures = ReflectionUtility.GetEmbeddedResources(typeof(World), "CultureInfo.SpecificCultures.dsv", EmbeddedResourceMatch.ContainsName).Single())
+            using (var lfdSpecificCultures = AssemblyInsight.FromType(typeof(World)).GetManifestResources("CultureInfo.SpecificCultures.dsv", ManifestResourceMatch.ContainsName).Values.Single())
             {
                 using (var reader = new StreamReader(lfdSpecificCultures))
                 {

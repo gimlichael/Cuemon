@@ -40,7 +40,7 @@ namespace Cuemon.Collections.Generic
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return StructUtility.GetHashCode32(EnumerableConverter.FromArray(PageSize, PageNumber, (int)SortOrderDirection, Data.GetHashCode())) ^ StringUtility.GetHashCode(string.Concat(SearchCriteria, SortOrderBy));
+            return Generate.HashCode32(PageSize, PageNumber, (int)SortOrderDirection, Data.GetHashCode()) ^ Generate.HashCode32(string.Concat(SearchCriteria, SortOrderBy));
         }
 
         #endregion

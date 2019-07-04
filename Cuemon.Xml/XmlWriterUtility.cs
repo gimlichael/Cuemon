@@ -24,13 +24,13 @@ namespace Cuemon.Xml
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="XmlWriterSettings.IndentChars"/></term>
-        ///         <description><see cref="StringUtility.Tab"/></description>
+        ///         <description><see cref="Alphanumeric.Tab"/></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public static XmlWriterSettings CreateSettings(Action<XmlWriterSettings> setup = null)
         {
-            var settings = new XmlWriterSettings() { IndentChars = StringUtility.Tab };
+            var settings = new XmlWriterSettings() { IndentChars = Alphanumeric.Tab };
             setup?.Invoke(settings);
             return settings;
         }

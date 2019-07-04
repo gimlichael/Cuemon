@@ -19,7 +19,7 @@ namespace Cuemon.Security
 	        Validator.ThrowIfNull(settings, nameof(settings));
 	        Settings = settings;
 	        UtcCreated = DateTime.UtcNow;
-            Token = StringUtility.CreateRandomString(settings.LengthOfToken);
+            Token = Generate.RandomString(settings.LengthOfToken);
 	    }
 
 		/// <summary>

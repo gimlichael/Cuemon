@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Cuemon.Integrity;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -20,13 +21,12 @@ namespace Cuemon.AspNetCore.Authentication
         public HmacAuthenticationOptions()
         {
             AuthenticationScheme = "HMAC";
-            Algorithm = HmacAlgorithmType.SHA1;
-            MessageDescriptor = context => $"{context.Request.Method}:{context.Request.GetDisplayUrl()}:{context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()}:{context.Request.Headers[HeaderNames.ContentType].FirstOrDefault()}:{context.Request.Headers[HeaderNames.Date].FirstOrDefault()}:{context.Request.Headers[HeaderNames.UserAgent].FirstOrDefault()}";
-            HmacSigner = parameters => HmacUtility.ComputeKeyedHash(parameters.Message, parameters.PrivateKey, o =>
+            Algorithm = KeyedCryptoAlgorithm.HmacSha1;
+            MessageDescriptor = context => FormattableString.Invariant($"{context.Request.Method}:{context.Request.GetDisplayUrl()}:{context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()}:{context.Request.Headers[HeaderNames.ContentType].FirstOrDefault()}:{context.Request.Headers[HeaderNames.Date].FirstOrDefault()}:{context.Request.Headers[HeaderNames.UserAgent].FirstOrDefault()}");
+            HmacSigner = parameters => HashFactory.CreateHmacCrypto(parameters.PrivateKey, parameters.Algorithm).ComputeHash(parameters.Message, o =>
             {
-                o.AlgorithmType = parameters.Algorithm;
                 o.Encoding = Encoding.UTF8;
-            }).Value;
+            }).GetBytes();
         }
 
         /// <summary>
@@ -36,10 +36,10 @@ namespace Cuemon.AspNetCore.Authentication
         public string AuthenticationScheme { get; set; }
 
         /// <summary>
-        /// Gets or sets the algorithm of the HMAC Authentication. Default is <see cref="HmacAlgorithmType.SHA1"/>.
+        /// Gets or sets the algorithm of the HMAC Authentication. Default is <see cref="KeyedCryptoAlgorithm.HmacSha1"/>.
         /// </summary>
         /// <value>The algorithm of the HMAC Authentication.</value>
-        public HmacAlgorithmType Algorithm { get; set; }
+        public KeyedCryptoAlgorithm Algorithm { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate that provides information about the message to be signed.

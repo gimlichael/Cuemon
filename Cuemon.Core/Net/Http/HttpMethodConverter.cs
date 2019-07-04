@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using Cuemon.Collections.Generic;
+using Cuemon.ComponentModel.Parsers;
 
 namespace Cuemon.Net.Http
 {
@@ -13,9 +15,9 @@ namespace Cuemon.Net.Http
         private static IDictionary<string, HttpMethods> InitStringToHttpMethodLookupTable()
         {
             var result = new Dictionary<string, HttpMethods>();
-            foreach (var pair in EnumUtility.ToEnumerable<HttpMethods>())
+            foreach (var pair in new EnumReadOnlyDictionary<HttpMethods>())
             {
-                result.Add(pair.Value, EnumUtility.Parse<HttpMethods>(pair.Value));
+                result.Add(pair.Value, ConvertFactory.UseParser<EnumParser>().Parse<HttpMethods>(pair.Value));
             }
             return result;
         }

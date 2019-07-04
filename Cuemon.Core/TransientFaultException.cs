@@ -53,7 +53,7 @@ namespace Cuemon
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return $"{base.ToString()} {Evidence}";
+            return FormattableString.Invariant($"{base.ToString()} {Evidence}");
         }
     }
 }

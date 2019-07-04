@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using Cuemon.ComponentModel.Codecs;
+using Cuemon.ComponentModel.Parsers;
+using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions
@@ -11,6 +14,105 @@ namespace Cuemon.Extensions
     /// </summary>
     public static class StringExtensions
     {
+        /// <summary>
+        /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:char[]"/> representation.
+        /// </summary>
+        /// <param name="input">The <see cref="string"/> to extend.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="T:char[]"/> that is equivalent to <paramref name="input"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="input"/> cannot be null.
+        /// </exception>
+        /// <exception cref="InvalidEnumArgumentException">
+        /// <paramref name="setup"/> was initialzied with an invalid <see cref="EncodingOptions.Preamble"/>.
+        /// </exception>
+        /// <seealso cref="EncodingOptions"/>
+        public static char[] ToCharArray(this string input, Action<EncodingOptions> setup = null)
+        {
+            return ConvertFactory.UseConverter<TextConverter>().ChangeType(input, setup);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:byte[]"/> representation.
+        /// </summary>
+        /// <param name="_">The marker interface of a converter having <see cref="string"/> as <paramref name="input"/>.</param>
+        /// <param name="input">The <see cref="string"/> to be converted into a <see cref="T:byte[]"/>.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="input"/> cannot be null.
+        /// </exception>
+        /// <exception cref="InvalidEnumArgumentException">
+        /// <paramref name="setup"/> was initialzied with an invalid <see cref="EncodingOptions.Preamble"/>.
+        /// </exception>
+        /// <seealso cref="EncodingOptions"/>
+        public static byte[] ToByteArray(this string input, Action<EncodingOptions> setup = null)
+        {
+            return ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(input, setup);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="input"/> of URL-safe base64 characters to its equivalent <see cref="T:byte[]"/> representation.
+        /// </summary>
+        /// <param name="input">The <see cref="string"/> to extend.</param>
+        /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="input"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="input"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="input"/> has illegal base64 characters.
+        /// </exception>
+        /// <seealso cref="UrlEncodedBase64StringConverter"/>
+        public static byte[] FromUrlEncodedBase64String(this string input)
+        {
+            return ConvertFactory.UseConverter<UrlEncodedBase64StringConverter>().ChangeType(input);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="input"/> of a GUID to its equivalent <see cref="Guid"/> structure.
+        /// </summary>
+        /// <param name="input">The <see cref="string"/> to extend.</param>
+        /// <param name="setup">The <see cref="StringToGuidOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="Guid"/> that is equivalent to <paramref name="input"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="input"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="input"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
+        /// <exception cref="FormatException">
+        /// The specified <paramref name="input"/> was not recognized to be a GUID.
+        /// </exception>
+        /// <seealso cref="GuidParser"/>
+        /// <seealso cref="GuidOptions"/>
+        public static Guid ToGuid(string input, Action<GuidOptions> setup = null)
+        {
+            return ConvertFactory.UseParser<GuidParser>().Parse(input, setup);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="input"/> of binary digits to its equivalent <see cref="T:byte[]"/> representation.
+        /// </summary>
+        /// <param name="input">The <see cref="string"/> to extend.</param>
+        /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="input"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="input"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="input"/> must consist only of binary digits.
+        /// </exception>
+        /// <seealso cref="BinaryDigitsStringConverter"/>
+        public static byte[] FromBinaryDigits(this string input)
+        {
+            return ConvertFactory.UseConverter<BinaryDigitsStringConverter>().ChangeType(input);
+        }
+
         /// <summary>
         /// Converts the specified string, which encodes binary data as base-64 digits, to an equivalent 8-bit unsigned integer array.
         /// </summary>
@@ -151,7 +253,7 @@ namespace Cuemon.Extensions
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> has a format of a <see cref="Guid"/>; otherwise, <c>false</c>.</returns>
-        public static bool IsGuid(this string value, GuidFormats format = GuidFormats.BraceFormat | GuidFormats.DigitFormat | GuidFormats.ParenthesisFormat)
+        public static bool IsGuid(this string value, GuidFormats format = GuidFormats.B | GuidFormats.D | GuidFormats.P)
         {
             return Condition.IsGuid(value, format);
         }
@@ -190,24 +292,13 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="value"/> matches a Base64 structure.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="predicate">A function delegate that provides custom rules for bypassing the Base64 structure check.</param>
-        /// <returns><c>true</c> if the specified <paramref name="value"/> matches a Base64 structure; otherwise, <c>false</c>.</returns>
-        public static bool IsBase64(this string value, Func<string, bool> predicate)
-        {
-            return StringUtility.IsBase64(value, predicate);
-        }
-
-        /// <summary>
         /// Determines whether the specified <paramref name="value"/> is a sequence of countable characters (hence, characters being either incremented or decremented with the same cardinality through out the sequence).
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> is a sequence of countable characters (hence, characters being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
         public static bool IsCountableSequence(this string value)
         {
-            return StringUtility.IsCountableSequence(value);
+            return Condition.IsCountableSequence(value);
         }
 
         /// <summary>
@@ -242,19 +333,6 @@ namespace Cuemon.Extensions
         public static string[] SplitDsvQuoted(this string value, string delimiter)
         {
             return StringUtility.SplitDsvQuoted(value, delimiter);
-        }
-
-        /// <summary>
-        /// Computes a suitable hash code from the specified <see cref="string"/> <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <returns>A 32-bit signed integer that is the hash code of <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        public static int GetHashCode32(this string value)
-        {
-            return StringUtility.GetHashCode(value);
         }
 
         /// <summary>
@@ -735,7 +813,7 @@ namespace Cuemon.Extensions
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string FromHexadecimal(this string value, Action<EncodingOptions> setup = null)
         {
-            return StringConverter.FromHexadecimal(value, setup);
+            return ConvertFactory.UseCodec<HexadecimalCodec>().Decode(value, setup);
         }
 
         /// <summary>
@@ -747,59 +825,7 @@ namespace Cuemon.Extensions
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToHexadecimal(this string value, Action<EncodingOptions> setup = null)
         {
-            return StringConverter.ToHexadecimal(value, setup);
-        }
-
-        /// <summary>
-        /// Decodes a URL string token to its equivalent byte array using base 64 digits.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <returns>The byte array containing the decoded URL string token.</returns>
-        public static byte[] FromUrlEncodedBase64(this string value)
-        {
-            return ByteConverter.FromUrlEncodedBase64String(value);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="value"/> to its equivalent <see cref="T:byte[]"/> representation.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="value"/>.</returns>
-        public static byte[] FromBinary(this string value)
-        {
-            return ByteConverter.FromBinaryString(value);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="value"/> to a byte array using the provided preferred encoding.
-        /// </summary>
-        /// <param name="value">The string to be converted.</param>
-        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
-        /// <returns>A <b>byte array</b> containing the results of encoding the specified set of characters.</returns>
-        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
-        public static byte[] ToByteArray(this string value, Action<EncodingOptions> setup = null)
-        {
-            return ByteConverter.FromString(value, setup);
-        }
-
-        /// <summary>
-        /// Converts the string representation of the name or numeric <paramref name="value"/> of one or more enumerated constants to an equivalent enumerated <typeparamref name="TEnum"/>.
-        /// </summary>
-        /// <typeparam name="TEnum">The type of the enumeration to convert.</typeparam>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <returns>An enum of type <typeparamref name="TEnum" /> whose value is represented by <paramref name="value" />.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        /// <exception cref="TypeArgumentException">
-        /// <typeparamref name="TEnum"/> does not represents an enumeration.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> does not represents an enumeration.
-        /// </exception>
-        public static TEnum ToEnum<TEnum>(this string value) where TEnum : struct, IConvertible
-        {
-            return EnumUtility.Parse<TEnum>(value, true);
+            return ConvertFactory.UseCodec<HexadecimalCodec>().Encode(value, setup);
         }
 
         /// <summary>
@@ -818,38 +844,9 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> does not represents an enumeration.
         /// </exception>
-        public static TEnum ToEnum<TEnum>(this string value, bool ignoreCase) where TEnum : struct, IConvertible
+        public static TEnum ToEnum<TEnum>(this string value, bool ignoreCase = true) where TEnum : struct, IConvertible
         {
-            return EnumUtility.Parse<TEnum>(value, ignoreCase);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="value"/> of a GUID to its equivalent <see cref="Guid"/> structure.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
-        /// <returns>A <see cref="Guid"/> that is equivalent to <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        /// <exception cref="FormatException">
-        /// The specified <paramref name="value"/> was not recognized to be a GUID.
-        /// </exception>
-        public static Guid ToGuid(this string value, GuidFormats format = GuidFormats.BraceFormat | GuidFormats.DigitFormat | GuidFormats.ParenthesisFormat)
-        {
-            return GuidConverter.FromString(value, format);
-        }
-
-        /// <summary>
-        /// Converts the given <see cref="string"/> to an equivalent sequence of characters.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
-        /// <returns>A sequence of characters equivalent to the <see cref="string"/> value.</returns>
-        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
-        public static char[] ToCharArray(this string value, Action<EncodingOptions> setup = null)
-        {
-            return CharConverter.FromString(value, setup);
+            return ConvertFactory.UseParser<EnumParser>().Parse<TEnum>(value, o => o.IgnoreCase = ignoreCase);
         }
 
         /// <summary>
@@ -867,9 +864,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="timeUnit"/> was outside its valid range.
         /// </exception>
+        /// <seealso cref="CompositeDoubleConverter"/>
         public static TimeSpan ToTimeSpan(this string value, TimeUnit timeUnit)
         {
-            return TimeSpanConverter.FromString(value, timeUnit);
+            return ConvertFactory.UseConverter<CompositeDoubleConverter>().ChangeType(double.Parse(value), o => o.TimeUnit = timeUnit);
         }
 
         /// <summary>

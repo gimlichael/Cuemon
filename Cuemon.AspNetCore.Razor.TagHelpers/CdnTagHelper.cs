@@ -1,4 +1,5 @@
-﻿using Cuemon.AspNetCore.Mvc.Configuration;
+﻿using System;
+using Cuemon.AspNetCore.Mvc.Configuration;
 using Cuemon.Configuration;
 using Cuemon.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -53,13 +54,13 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
             switch (Options.Scheme)
             {
                 case CdnUriScheme.None:
-                    return Options.BaseUrl.IsNullOrWhiteSpace() ? "" : $"{Options.BaseUrl.SuffixWithForwardingSlash()}";
+                    return Options.BaseUrl.IsNullOrWhiteSpace() ? "" : FormattableString.Invariant($"{Options.BaseUrl.SuffixWithForwardingSlash()}");
                 case CdnUriScheme.Http:
-                    return Options.BaseUrl.IsNullOrWhiteSpace() ? "" : $"{nameof(UriScheme.Http).ToLowerInvariant()}://{Options.BaseUrl.SuffixWithForwardingSlash()}";
+                    return Options.BaseUrl.IsNullOrWhiteSpace() ? "" : FormattableString.Invariant($"{nameof(UriScheme.Http).ToLowerInvariant()}://{Options.BaseUrl.SuffixWithForwardingSlash()}");
                 case CdnUriScheme.Https:
-                    return Options.BaseUrl.IsNullOrWhiteSpace() ? "" : $"{nameof(UriScheme.Https).ToLowerInvariant()}://{Options.BaseUrl.SuffixWithForwardingSlash()}";
+                    return Options.BaseUrl.IsNullOrWhiteSpace() ? "" : FormattableString.Invariant($"{nameof(UriScheme.Https).ToLowerInvariant()}://{Options.BaseUrl.SuffixWithForwardingSlash()}");
                 case CdnUriScheme.Relative:
-                    return Options.BaseUrl.IsNullOrWhiteSpace() ? "" : $"//{Options.BaseUrl.SuffixWithForwardingSlash()}";
+                    return Options.BaseUrl.IsNullOrWhiteSpace() ? "" : FormattableString.Invariant($"//{Options.BaseUrl.SuffixWithForwardingSlash()}");
                 default:
                     return "";
             }

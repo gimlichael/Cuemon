@@ -33,7 +33,6 @@ namespace Cuemon.Extensions.Xml.Serialization.Formatters
         /// </remarks>
         public XmlFormatterOptions()
         {
-            Settings = new XmlSerializerOptions();
             XmlSerializerOptions.DefaultConverters = list =>
             {
                 list.AddExceptionDescriptorConverter();
@@ -44,6 +43,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Formatters
                 list.AddTimeSpanConverter();
                 list.AddStringConverter();
             };
+            Settings = new XmlSerializerOptions();
         }
 
         /// <summary>

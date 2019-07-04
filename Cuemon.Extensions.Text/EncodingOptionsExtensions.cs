@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Text
         public static Encoding DetectUnicodeEncoding(this IEncodingOptions options, Stream stream)
         {
             Validator.ThrowIfNull(options, nameof(options));
-            return StreamUtility.DetectUnicodeEncoding(stream, options.Encoding);
+            return ByteOrderMark.DetectEncodingOrDefault(stream, options.Encoding);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Text
         public static Encoding DetectUnicodeEncoding(this IEncodingOptions options, byte[] bytes)
         {
             Validator.ThrowIfNull(options, nameof(options));
-            return ByteArrayUtility.DetectUnicodeEncoding(bytes, options.Encoding);
+            return ByteOrderMark.DetectEncodingOrDefault(bytes, options.Encoding);
         }
     }
 }

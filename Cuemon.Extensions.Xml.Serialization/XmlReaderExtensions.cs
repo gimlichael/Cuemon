@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
+using Cuemon.ComponentModel.Parsers;
+using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Extensions.Xml.Serialization
 {
@@ -28,7 +30,7 @@ namespace Cuemon.Extensions.Xml.Serialization
                 switch (reader.NodeType)
                 {
                     case XmlNodeType.Attribute:
-                        typeStrongValue = ObjectConverter.FromString(reader.Value);
+                        typeStrongValue = ConvertFactory.UseParser<SimpleValueTypeParser>().Parse(reader.Value);
                         attributes.Add(new DataPair(reader.Name, typeStrongValue, typeStrongValue.GetType()));
                         while (reader.MoveToNextAttribute()) { goto case XmlNodeType.Attribute; }
                         var elementIndex = index;
@@ -58,7 +60,7 @@ namespace Cuemon.Extensions.Xml.Serialization
                     case XmlNodeType.CDATA:
                     case XmlNodeType.Text:
                         var indexToApplyText = hierarchy[index].Data.ContainsKey(XmlReaderKey) ? index : hierarchy[index].Data["parent"].As<int>();
-                        typeStrongValue = ObjectConverter.FromString(reader.Value);
+                        typeStrongValue = ConvertFactory.UseParser<SimpleValueTypeParser>().Parse(reader.Value);
                         hierarchy[indexToApplyText].Replace(new DataPair(hierarchy[indexToApplyText].Data[XmlReaderKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
                         hierarchy[indexToApplyText].Data.Remove(XmlReaderKey);
                         break;

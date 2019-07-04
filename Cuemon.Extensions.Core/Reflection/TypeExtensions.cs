@@ -21,9 +21,9 @@ namespace Cuemon.Extensions.Reflection
         /// <param name="types">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
         /// <param name="flags">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
         /// <returns>An object representing the method that matches the specified requirements, if found; otherwise, <c>null</c>.</returns>
-        public static MethodBase ToMethodBase(this Type caller, Type[] types = null, [CallerMemberName] string memberName = "", BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
+        public static MethodBase ToMethodBase(this Type caller, Type[] types = null, [CallerMemberName] string memberName = "", BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, StringComparison comparison = StringComparison.Ordinal)
         {
-            return MethodBaseConverter.FromType(caller, types, memberName, flags);
+            return ConvertFactory.UseConverter<TypeMethodBaseConverter>().DynamicConvert(caller, types, memberName, flags, comparison);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Cuemon.Extensions.Reflection
         {
             var baseProperties = typeof(T).GetRuntimeProperties();
             var typeProperties = type.GetRuntimeProperties();
-            return typeProperties.Except(baseProperties, DynamicEqualityComparer.Create<PropertyInfo>(pi => StructUtility.GetHashCode32($"{pi.Name}-{pi.PropertyType.Name}"), (x, y) => x.Name == y.Name && x.PropertyType.Name == y.PropertyType.Name));
+            return typeProperties.Except(baseProperties, DynamicEqualityComparer.Create<PropertyInfo>(pi => Generate.HashCode32(FormattableString.Invariant($"{pi.Name}-{pi.PropertyType.Name}")), (x, y) => x.Name == y.Name && x.PropertyType.Name == y.PropertyType.Name));
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Cuemon.Extensions.Reflection
         /// <returns>A string that contains the fully qualified name of the type, including its namespace, comma delimited with the simple name of the assembly.</returns>
         public static string ToFullNameIncludingAssemblyName(this Type type)
         {
-            return $"{type.FullName}, {type.GetTypeInfo().Assembly.GetName().Name}";
+            return FormattableString.Invariant($"{type.FullName}, {type.GetTypeInfo().Assembly.GetName().Name}");
         }
     }
 }

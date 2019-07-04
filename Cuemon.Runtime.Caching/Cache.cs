@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cuemon.Collections.Generic;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Runtime.Caching
 {
@@ -209,7 +210,7 @@ namespace Cuemon.Runtime.Caching
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return StringConverter.FromObject(this, true);
+            return ConvertFactory.UseConverter<ObjectToStringConverter>().ChangeType(this, o => o.BypassOverrideCheck = true);
         }
 
         #endregion

@@ -88,7 +88,7 @@ namespace Cuemon.Xml
             }
             catch (XmlException ex)
             {
-                throw new XmlException("Unable to load XML - this is typical because you are trying to load a file. Use the overloaded method that takes an Uri as parameter instead.", ex);
+                throw new XmlException("Unable to load XML - this is typical because you are trying to load a file. Use the overloaded method that takes a URI as parameter instead.", ex);
             }
             return document;
         }

@@ -24,7 +24,7 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         ///     </item>
         ///     <item>
         ///         <term><see cref="PreferredCharacters"/></term>
-        ///         <description><see cref="StringUtility.AlphanumericCharactersCaseSensitive"/></description>
+        ///         <description><see cref="Alphanumeric.LettersAndNumbers"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="TimeToLive"/></term>
@@ -36,7 +36,7 @@ namespace Cuemon.AspNetCore.Mvc.Configuration
         {
             TimeToLive = TimeSpan.FromMinutes(20);
             PreferredLength = 8;
-            PreferredCharacters = StringUtility.AlphanumericCharactersCaseSensitive;
+            PreferredCharacters = Alphanumeric.LettersAndNumbers;
         }
 
         /// <summary>

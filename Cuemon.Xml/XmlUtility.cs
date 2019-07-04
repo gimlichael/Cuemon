@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
+using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.IO;
+using Cuemon.Text;
 using Cuemon.Xml.XPath;
 
 namespace Cuemon.Xml
@@ -126,10 +128,10 @@ namespace Cuemon.Xml
         public static string SanitizeElementName(string value)
 		{
 			if (value == null) { throw new ArgumentNullException(nameof(value)); }
-			if (StringUtility.StartsWith(value, StringComparison.OrdinalIgnoreCase, StringConverter.ToEnumerable(StringUtility.NumericCharacters).Concat(new[] { "." } )))
+			if (StringUtility.StartsWith(value, StringComparison.OrdinalIgnoreCase, ConvertFactory.UseConverter<TextEnumerableConverter>().ChangeType(Alphanumeric.Numbers).Concat(new[] { "." } )))
 			{
 				var startIndex = 0;
-                IList<char> numericsAndPunctual = new List<char>(StringUtility.NumericCharacters.ToCharArray().Concat(new[] { '.' }));
+                IList<char> numericsAndPunctual = new List<char>(Alphanumeric.Numbers.ToCharArray().Concat(new[] { '.' }));
 				foreach (var c in value)
 				{
 					if (numericsAndPunctual.Contains(c))
@@ -145,7 +147,7 @@ namespace Cuemon.Xml
 			var validElementName = new StringBuilder();
 			foreach (var c in value)
 			{
-                IList<char> validCharacters = new List<char>(StringUtility.AlphanumericCharactersCaseSensitive.ToCharArray().Concat(new[] { '_', ':', '.', '-' }));
+                IList<char> validCharacters = new List<char>(Alphanumeric.LettersAndNumbers.ToCharArray().Concat(new[] { '_', ':', '.', '-' }));
 				if (validCharacters.Contains(c)) { validElementName.Append(c); }
 			}
 			return validElementName.ToString();
@@ -187,7 +189,7 @@ namespace Cuemon.Xml
         public static Encoding ReadEncoding(Stream value, Encoding defaultEncoding)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (!StreamUtility.TryDetectUnicodeEncoding(value, out var encoding))
+            if (!ByteOrderMark.TryDetectEncoding(value, out var encoding))
             {
                 long startingPosition = -1;
                 if (value.CanSeek)

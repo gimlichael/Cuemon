@@ -8,6 +8,7 @@ using Cuemon.Diagnostics;
 using Cuemon.Extensions.Reflection;
 using Cuemon.Extensions.Runtime.Serialization;
 using Cuemon.Extensions.Xml.Linq;
+using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
@@ -97,7 +98,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                             if (valuePropertyType == typeof(object) && valueValue != null) { valuePropertyType = valueValue.GetType(); }
                             writer.WriteStartElement("Item");
                             writer.WriteAttributeString("name", keyValue.ToString());
-                            if (TypeUtility.IsComplex(valuePropertyType))
+                            if (TypeInsight.FromType(valuePropertyType).IsComplex())
                             {
                                 writer.WriteObject(valueValue, valuePropertyType);
                             }
@@ -115,7 +116,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                             if (item == null) { continue; }
                             var itemType = item.GetType();
                             writer.WriteStartElement("Item");
-                            if (TypeUtility.IsComplex(itemType))
+                            if (TypeInsight.FromType(itemType).IsComplex())
                             {
                                 writer.WriteObject(item, itemType);
                             }
@@ -190,7 +191,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         }
 
         /// <summary>
-        /// Adds an <see cref="Uri"/> XML converter to the list.
+        /// Adds a <see cref="Uri"/> XML converter to the list.
         /// </summary>
         /// <param name="converters">The list of XML converters.</param>
         public static void AddUriConverter(this IList<XmlConverter> converters)
@@ -254,11 +255,6 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             writer.WriteEndElement();
         }
 
-        private static void WriteEndElement<T>(T counter, XmlWriter writer)
-        {
-            writer.WriteEndElement();
-        }
-
         private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
             if (!string.IsNullOrEmpty(exception.Source))
@@ -274,7 +270,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             if (exception.StackTrace != null && includeStackTrace)
             {
                 writer.WriteStartElement("Stack");
-                var lines = exception.StackTrace.Split(new[] { StringUtility.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = exception.StackTrace.Split(new[] { Alphanumeric.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
                     writer.WriteElementString("Frame", line.Trim());
@@ -294,7 +290,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 writer.WriteEndElement();
             }
 
-            var properties = exception.GetType().GetRuntimePropertiesExceptOf<Exception>().Where(pi => pi.PropertyType.IsSimple());
+            var properties = exception.GetType().GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => pi.PropertyType.IsSimple());
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);
@@ -309,7 +305,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         {
             var aggregated = exception as AggregateException;
             var innerExceptions = new List<Exception>();
-            if (aggregated != null) { innerExceptions.AddRange(aggregated.InnerExceptions); }
+            if (aggregated != null) { innerExceptions.AddRange(aggregated.Flatten().InnerExceptions); }
             if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
             if (innerExceptions.Count > 0)
             {
@@ -322,7 +318,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                     WriteExceptionCore(writer, inner, includeStackTrace);
                     endElementsToWrite++;
                 }
-                LoopUtility.For(endElementsToWrite, WriteEndElement, writer);
+                for (var i = 0; i < endElementsToWrite; i++) { writer.WriteEndElement(); }
             }
         }
     }

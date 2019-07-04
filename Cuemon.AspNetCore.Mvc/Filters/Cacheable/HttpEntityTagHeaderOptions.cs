@@ -60,16 +60,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         {
             EntityTagProvider = (integrity, context) =>
             {
-                var builder = new ChecksumBuilder(integrity.Checksum.Value);
+                var builder = new ChecksumBuilder(integrity.Checksum.GetBytes());
                 context.Response.SetEntityTagHeaderInformation(context.Request, builder, integrity.Validation == ChecksumStrength.Weak);
             };
             EntityTagResponseParser = (body, request, response) =>
             {
-                var builder = new ChecksumBuilder(body.ComputeHash(o =>
-                {
-                    o.AlgorithmType = HashAlgorithmType.MD5;
-                    o.LeaveOpen = true;
-                }).Value);
+                var builder = new ChecksumBuilder(HashFactory.CreateCrypto(CryptoAlgorithm.Md5).ComputeHash(body).GetBytes());
                 response.SetEntityTagHeaderInformation(request, builder);
             };
             UseEntityTagResponseParser = false;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.ComponentModel.TypeConverters
 {
@@ -29,7 +30,7 @@ namespace Cuemon.ComponentModel.TypeConverters
             var bytes = new List<byte>();
             for (var i = 0; i < input.Length; i += 8)
             {
-                bytes.Add(Convert.ToByte(input.Substring(i, 8), 2));
+                bytes.Add(System.Convert.ToByte(input.Substring(i, 8), 2));
             }
             return bytes.ToArray();
         }

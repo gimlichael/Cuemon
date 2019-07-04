@@ -25,7 +25,7 @@ namespace Cuemon.Net.Http
             var options = Patterns.Configure(setup);
             _httpClient = new Lazy<HttpClient>(() =>
             {
-                Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), $"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.SetHandlerFactory)}.");
+                Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), FormattableString.Invariant($"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.SetHandlerFactory)}."));
                 var client = new HttpClient(options.HandlerFactory.Invoke(), options.DisposeHandler);
                 foreach (var header in options.DefaultRequestHeaders)
                 {

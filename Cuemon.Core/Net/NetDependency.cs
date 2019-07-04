@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cuemon.Collections.Generic;
+using Cuemon.ComponentModel;
+using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Runtime;
 
 namespace Cuemon.Net
@@ -27,7 +29,7 @@ namespace Cuemon.Net
 		/// </summary>
 		/// <param name="value">The URI to monitor for changes.</param>
 		/// <remarks>The signaling is default delayed 15 seconds before first invoke.</remarks>
-		public NetDependency(Uri value) : this(EnumerableUtility.Yield(value), false)
+		public NetDependency(Uri value) : this(Arguments.Yield(value), false)
 		{
 		}
 
@@ -321,7 +323,7 @@ namespace Cuemon.Net
             foreach (var uri in uriStrings)
             {
                 Uri realUri;
-                if (UriUtility.TryParse(uri, UriKind.Absolute, out realUri)) { uris.Add(realUri); }
+                if (ConvertFactory.UseParser<ComponentModel.Parsers.UriParser>().TryParse(uri, out realUri, o => o.Kind = UriKind.Absolute)) { uris.Add(realUri); }
             }
 	        return uris;
 	    }
@@ -335,7 +337,7 @@ namespace Cuemon.Net
             var watchers = new List<NetWatcher>();
             foreach (var uri in Uris)
             {
-                switch (UriSchemeConverter.FromString(uri.Scheme))
+                switch (ConvertFactory.UseConverter<UriSchemeStringConverter>().ChangeType(uri.Scheme))
                 {
                     case UriScheme.File:
                     case UriScheme.Http:

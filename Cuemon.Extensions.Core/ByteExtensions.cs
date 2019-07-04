@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Text;
+using Cuemon.ComponentModel;
+using Cuemon.ComponentModel.Codecs;
+using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.Security.Cryptography;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions
@@ -10,24 +14,6 @@ namespace Cuemon.Extensions
     public static class ByteExtensions
     {
         /// <summary>
-        /// Returns an <see cref="IConvertible"/> primitive converted from the specified array <paramref name="bytes"/> of bytes.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected return <paramref name="bytes"/> after conversion.</typeparam>
-        /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
-        /// <returns>An <see cref="IConvertible"/> primitive formed by n-bytes beginning at 0.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="bytes"/> is null.
-        /// </exception>
-        /// <exception cref="TypeArgumentException">
-        /// <typeparamref name="T"/> is outside the range of allowed types.<br/>
-        /// Allowed types are: <see cref="bool"/>, <see cref="char"/>, <see cref="double"/>, <see cref="short"/>, <see cref="int"/>, <see cref="ushort"/>, <see cref="uint"/> and <see cref="ulong"/>.
-        /// </exception>
-        public static T ToConvertible<T>(this byte[] bytes) where T : struct, IConvertible
-        {
-            return ConvertibleConverter.FromBytes<T>(bytes);
-        }
-
-        /// <summary>
         /// Converts the specified <paramref name="bytes"/> to a string using the provided preferred encoding.
         /// </summary>
         /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
@@ -36,7 +22,7 @@ namespace Cuemon.Extensions
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToEncodedString(this byte[] bytes, Action<EncodingOptions> setup = null)
         {
-            return StringConverter.FromBytes(bytes, setup);
+            return ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(bytes, setup);
         }
 
         /// <summary>
@@ -47,9 +33,9 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentNullException">
         /// <paramref name="bytes"/> is null.
         /// </exception>
-        public static string ToHexadecimal(this byte[] bytes)
+        public static string ToHexadecimalString(this byte[] bytes)
         {
-            return StringConverter.ToHexadecimal(bytes);
+            return ConvertFactory.UseConverter<HexadecimalByteArrayConverter>().ChangeType(bytes);
         }
 
         /// <summary>
@@ -60,9 +46,9 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentNullException">
         /// <paramref name="bytes"/> is null.
         /// </exception>
-        public static string ToBinary(this byte[] bytes)
+        public static string ToBinaryString(this byte[] bytes)
         {
-            return StringConverter.ToBinary(bytes);
+            return ConvertFactory.UseConverter<BinaryDigitsByteArrayConverter>().ChangeType(bytes);
         }
 
         /// <summary>
@@ -70,9 +56,9 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
         /// <returns>The string containing the encoded token if the byte array length is greater than one; otherwise, an empty string ("").</returns>
-        public static string ToUrlEncodedBase64(this byte[] bytes)
+        public static string ToUrlEncodedBase64String(this byte[] bytes)
         {
-            return StringConverter.ToUrlEncodedBase64(bytes);
+            return ConvertFactory.UseConverter<UrlEncodedBase64ByteArrayConverter>().ChangeType(bytes);
         }
 
         /// <summary>
@@ -80,7 +66,7 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
         /// <returns>The string representation, in base 64, of the contents of <paramref name="bytes"/>.</returns>
-        public static string ToBase64(this byte[] bytes)
+        public static string ToBase64String(this byte[] bytes)
         {
             return Convert.ToBase64String(bytes);
         }
@@ -93,18 +79,7 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if the <paramref name="bytes"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>
         public static bool TryDetectUnicodeEncoding(this byte[] bytes, out Encoding result)
         {
-            return ByteArrayUtility.TryDetectUnicodeEncoding(bytes, out result);
-        }
-
-        /// <summary>
-        /// Removes the preamble information (if present) from the specified <see cref="byte"/> array.
-        /// </summary>
-        /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
-        /// <param name="encoding">The encoding to use when determining the preamble to remove.</param>
-        /// <returns>A <see cref="byte"/> array without preamble information.</returns>
-        public static byte[] RemovePreamble(this byte[] bytes, Encoding encoding)
-        {
-            return ByteArrayUtility.RemovePreamble(bytes, encoding);
+            return ByteOrderMark.TryDetectEncoding(bytes, out result);
         }
 
         /// <summary>
@@ -114,7 +89,7 @@ namespace Cuemon.Extensions
         /// <returns>A <see cref="byte"/> array without trailing zeros.</returns>
         public static byte[] RemoveTrailingZeros(this byte[] bytes)
         {
-            return ByteArrayUtility.RemoveTrailingZeros(bytes);
+            return AdvancedEncryptionStandardUtility.RemoveTrailingZeros(bytes);
         }
     }
 }

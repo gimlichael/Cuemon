@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Reflection
 {
@@ -16,71 +17,6 @@ namespace Cuemon.Reflection
     {
         private static readonly string CircularReferenceKey = "circularReference";
         private static readonly string IndexKey = "index";
-
-        /// <summary>
-        /// Specifies that public instance members are to be included in the search.
-        /// </summary>
-        /// <remarks>Returns the the following <see cref="BindingFlags"/> combination: BindingFlags.Instance | BindingFlags.Public.</remarks>
-        public static readonly BindingFlags BindingInstancePublic = BindingFlags.Instance | BindingFlags.Public;
-
-        /// <summary>
-        /// Specifies that public and none-public instance members are to be included in the search.
-        /// </summary>
-        /// <remarks>Returns the the following <see cref="BindingFlags"/> combination: BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic.</remarks>
-        public static readonly BindingFlags BindingInstancePublicAndPrivate = BindingInstancePublic | BindingFlags.NonPublic;
-
-        /// <summary>
-        /// Specifies that public and none-public instance members are to be included in the search. Inherited members are excluded from the search.
-        /// </summary>
-        /// <remarks>Returns the the following <see cref="BindingFlags"/> combination: BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly.</remarks>
-        public static readonly BindingFlags BindingInstancePublicAndPrivateNoneInherited = BindingInstancePublicAndPrivate | BindingFlags.DeclaredOnly;
-
-        /// <summary>
-        /// Specifies that public and none-public instance and static members are to be included in the search. Inherited members are excluded from the search.
-        /// </summary>
-        /// <remarks>Returns the the following <see cref="BindingFlags"/> combination: BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Static.</remarks>
-        public static readonly BindingFlags BindingInstancePublicAndPrivateNoneInheritedIncludeStatic = BindingInstancePublicAndPrivateNoneInherited | BindingFlags.Static;
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="method"/> has been overridden.
-        /// </summary>
-        /// <param name="method">The method to evaluate has been overridden.</param>
-        /// <returns><c>true</c> if the specified <paramref name="method"/> has been overridden; otherwise, <c>false</c>.</returns>
-	    public static bool IsOverride(MethodInfo method)
-        {
-            Validator.ThrowIfNull(method, nameof(method));
-            return method.GetBaseDefinition().DeclaringType != method.DeclaringType;
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="property"/> has been overridden.
-        /// </summary>
-        /// <param name="property">The property to evaluate has been overridden.</param>
-        /// <returns><c>true</c> if the specified <paramref name="property"/> has been overridden; otherwise, <c>false</c>.</returns>
-	    public static bool IsOverride(PropertyInfo property)
-        {
-            Validator.ThrowIfNull(property, nameof(property));
-            return IsOverride(property.GetGetMethod());
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="property"/> is considered an automatic property implementation.
-        /// </summary>
-        /// <param name="property">The property to check for automatic property implementation.</param>
-        /// <returns><c>true</c> if the specified <paramref name="property"/> is considered an automatic property implementation; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="property"/> is null.
-        /// </exception>
-	    public static bool IsAutoProperty(PropertyInfo property)
-        {
-            Validator.ThrowIfNull(property, nameof(property));
-            if (property?.GetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null ||
-                property?.SetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
-            {
-                return property.DeclaringType.GetFields(BindingInstancePublicAndPrivateNoneInheritedIncludeStatic).Any(f => f.Name.Contains($"<{property.Name}>"));
-            }
-            return false;
-        }
 
         /// <summary>
         /// Determines whether the specified <paramref name="source"/> has a circular reference.
@@ -201,57 +137,6 @@ namespace Cuemon.Reflection
             return null;
         }
 
-        /// <summary>
-        /// A default callback implementation that evaluates if public property iteration should be skipped in the specified <paramref name="source"/> type.
-        /// </summary>
-        /// <param name="source">The source type to evaluate.</param>
-        /// <returns><c>true</c> if public property iteration should be skipped; otherwise <c>false</c>.</returns>
-        public static bool DefaultSkipPropertiesCallback(Type source)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            switch (TypeCodeConverter.FromType(source))
-            {
-                case TypeCode.Boolean:
-                case TypeCode.Byte:
-                case TypeCode.Decimal:
-                case TypeCode.Double:
-                case TypeCode.Empty:
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.SByte:
-                case TypeCode.Single:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                case TypeCode.String:
-                    return true;
-                default:
-                    if (TypeUtility.IsKeyValuePair(source)) { return true; }
-                    if (TypeUtility.ContainsType(source, typeof(MemberInfo))) { return true; }
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// A default callback implementation that evaluates if the specified <paramref name="property"/> should be skipped for further processing.
-        /// </summary>
-        /// <param name="property">The property to evaluate.</param>
-        /// <returns><c>true</c> if the specified <paramref name="property"/> should be skipped; otherwise <c>false</c>.</returns>
-        public static bool DefaultSkipPropertyCallback(PropertyInfo property)
-        {
-            if (property == null) { throw new ArgumentNullException(nameof(property)); }
-            return (property.PropertyType.GetTypeInfo().IsMarshalByRef ||
-                property.PropertyType.GetTypeInfo().IsSubclassOf(typeof(Delegate)) ||
-                property.Name.Equals("SyncRoot", StringComparison.Ordinal) ||
-                property.Name.Equals("IsReadOnly", StringComparison.Ordinal) ||
-                property.Name.Equals("IsFixedSize", StringComparison.Ordinal) ||
-                property.Name.Equals("IsSynchronized", StringComparison.Ordinal) ||
-                property.Name.Equals("Count", StringComparison.Ordinal) ||
-                property.Name.Equals("HResult", StringComparison.Ordinal) ||
-                property.Name.Equals("TargetSite", StringComparison.Ordinal));
-        }
-
         private static object[] DefaultPropertyIndexParametersResolver(ParameterInfo[] infos)
         {
             var resolvedParameters = new List<object>();
@@ -261,7 +146,7 @@ namespace Cuemon.Reflection
                 // however; this has it flaws: an indexer does not necessarily have an item on 0, 1, 2 etc., so must handle the possible
                 // TargetInvocationException.
                 // more info? check here: http://blog.nkadesign.com/2006/net-the-limits-of-using-reflection/comment-page-1/#comment-10813
-                if (TypeUtility.ContainsType(infos[i].ParameterType, typeof(byte), typeof(short), typeof(int), typeof(long))) // check to see if we have a "normal" indexer
+                if (TypeInsight.FromType(infos[i].ParameterType).HasType(typeof(byte), typeof(short), typeof(int), typeof(long))) // check to see if we have a "normal" indexer
                 {
                     resolvedParameters.Add(0);
                 }
@@ -307,14 +192,15 @@ namespace Cuemon.Reflection
                     continue;
                 }
 
-                foreach (var property in currentType.GetProperties(BindingInstancePublic))
+                foreach (var property in currentType.GetProperties(new MemberReflection(true, true)))
                 {
                     if (options.SkipProperty(property)) { continue; }
                     if (!property.CanRead) { continue; }
-                    if (TypeUtility.IsEnumerable(currentType))
+                    var reflector = TypeInsight.FromType(currentType);
+                    if (reflector.HasEnumerableContract())
                     {
                         if (property.GetIndexParameters().Length > 0) { continue; }
-                        if (TypeUtility.IsDictionary(currentType))
+                        if (reflector.HasDictionaryContract())
                         {
                             if (property.Name == "Keys" || property.Name == "Values") { continue; }
                         }
@@ -324,7 +210,7 @@ namespace Cuemon.Reflection
                     if (propertyValue == null) { continue; }
                     index++;
                     result[(int)current.Data[IndexKey]].Add(propertyValue, property);
-                    if (TypeUtility.IsComplex(property.PropertyType))
+                    if (TypeInsight.FromType(property.PropertyType).IsComplex())
                     {
                         var circularCalls = 0;
                         if (current.Data.ContainsKey(CircularReferenceKey))
@@ -401,7 +287,7 @@ namespace Cuemon.Reflection
             if (methodSignature == null) { throw new ArgumentNullException(nameof(methodSignature)); }
             if (methodParameters != null) { if (methodSignature.Length != methodParameters.Length) { throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "There is a size mismatch between the method signature and provided parameters. Expected size of the method signature: {0}.", methodParameters.Length), nameof(methodSignature)); } }
             IDictionary<string, object> parsedParameters = new Dictionary<string, object>();
-            var method = GetMethod(source, methodName, methodSignature);
+            var method = source.GetMethod(methodName, methodSignature);
             if (method != null)
             {
                 var parameters = method.GetParameters();
@@ -432,7 +318,7 @@ namespace Cuemon.Reflection
         public static IDictionary<PropertyInfo, TDecoration[]> GetPropertyAttributeDecorations<TDecoration>(Type source) where TDecoration : Attribute
         {
             if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            return GetPropertyAttributeDecorations<TDecoration>(source, BindingInstancePublicAndPrivateNoneInheritedIncludeStatic);
+            return GetPropertyAttributeDecorations<TDecoration>(source, new MemberReflection(excludeInheritancePath: true));
         }
 
         /// <summary>
@@ -457,239 +343,7 @@ namespace Cuemon.Reflection
             return attributeDecorations;
         }
 
-        /// <summary>
-        /// Gets a specific field of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a field from.</param>
-        /// <param name="fieldName">The name of the field to return.</param>
-        /// <returns>An object representing the field with the specified name, if found; otherwise, null.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null -or- <paramref name="fieldName"/> is null.
-        /// </exception>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static FieldInfo GetField(Type source, string fieldName)
-        {
-            return GetField(source, fieldName, BindingInstancePublicAndPrivateNoneInheritedIncludeStatic);
-        }
 
-        /// <summary>
-        /// Gets a specific field of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a field from.</param>
-        /// <param name="fieldName">The name of the field to return.</param>
-        /// <param name="bindings">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <returns>An object representing the field with the specified name, if found; otherwise, null.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null -or- <paramref name="fieldName"/> is null.
-        /// </exception>
-        public static FieldInfo GetField(Type source, string fieldName, BindingFlags bindings)
-        {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNullOrEmpty(fieldName, "memberName");
-            return source.GetField(fieldName, bindings);
-        }
-
-        /// <summary>
-		/// Returns all the fields of the specified <paramref name="source"/>.
-		/// </summary>
-		/// <param name="source">The source to return fields from.</param>
-		/// <returns>A sequence of <see cref="FieldInfo"/> objects representing a common search pattern of the specified <paramref name="source"/>.</returns>
-		/// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-		public static IEnumerable<FieldInfo> GetFields(Type source)
-        {
-            return GetFields(source, BindingInstancePublicAndPrivateNoneInheritedIncludeStatic);
-        }
-
-        /// <summary>
-        /// Returns all the fields of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return fields from.</param>
-        /// <param name="bindings">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <returns>A sequence of <see cref="FieldInfo"/> objects representing the search pattern in <paramref name="bindings"/> of the specified <paramref name="source"/>.</returns>
-        public static IEnumerable<FieldInfo> GetFields(Type source, BindingFlags bindings)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            var fields = source.GetFields(bindings);
-            foreach (var field in fields) { yield return field; }
-        }
-
-        /// <summary>
-        /// Gets a specific method of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a method from.</param>
-        /// <param name="methodName">The name of the method to return.</param>
-        /// <returns>An object representing the method with the specified name, if found; otherwise, null.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static MethodInfo GetMethod(Type source, string methodName)
-        {
-            return GetMethod(source, methodName, Type.EmptyTypes);
-        }
-
-        /// <summary>
-        /// Gets a specific method of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a method from.</param>
-        /// <param name="methodName">The name of the method to return.</param>
-        /// <param name="methodSignature">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
-        /// <returns>An object representing the method with the specified name, if found; otherwise, null.</returns>
-        public static MethodInfo GetMethod(Type source, string methodName, Type[] methodSignature)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (methodName == null) { throw new ArgumentNullException(nameof(methodName)); }
-            if (methodName.Length == 0) { throw new ArgumentException("Value cannot be empty.", nameof(methodName)); }
-            return source.GetMethod(methodName, methodSignature);
-        }
-
-        /// <summary>
-        /// Gets a specific method of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a method from.</param>
-        /// <param name="methodName">The name of the method to return.</param>
-        /// <param name="bindings">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <returns>An object representing the method with the specified name, if found; otherwise, null.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null -or- <paramref name="methodName"/> is null.
-        /// </exception>
-        public static MethodInfo GetMethod(Type source, string methodName, BindingFlags bindings)
-        {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNullOrEmpty(methodName, nameof(methodName));
-            return source.GetMethod(methodName, bindings);
-        }
-
-        /// <summary>
-        /// Returns all the methods of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return methods from.</param>
-        /// <returns>A sequence of <see cref="MethodInfo"/> objects representing a common search pattern of the specified <paramref name="source"/>.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static IEnumerable<MethodInfo> GetMethods(Type source)
-        {
-            return GetMethods(source, BindingInstancePublicAndPrivateNoneInheritedIncludeStatic);
-        }
-
-        /// <summary>
-        /// Returns all the methods of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return methods from.</param>
-        /// <param name="bindings">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <returns>A sequence of <see cref="MethodInfo"/> objects representing the search pattern in <paramref name="bindings"/> of the specified <paramref name="source"/>.</returns>
-        public static IEnumerable<MethodInfo> GetMethods(Type source, BindingFlags bindings)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            var methods = source.GetMethods(bindings);
-            foreach (var method in methods) { yield return method; }
-        }
-
-        /// <summary>
-        /// Gets a specific property of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a property from.</param>
-        /// <param name="propertyName">The name of the property to return.</param>
-        /// <returns>An object representing the property with the specified name, if found; otherwise, null.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static PropertyInfo GetProperty(Type source, string propertyName)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (propertyName == null) { throw new ArgumentNullException(nameof(propertyName)); }
-            if (propertyName.Length == 0) { throw new ArgumentException("Value cannot be empty.", nameof(propertyName)); }
-            return source.GetProperty(propertyName, BindingInstancePublicAndPrivateNoneInheritedIncludeStatic);
-        }
-
-        /// <summary>
-        /// Gets a specific property of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a property from.</param>
-        /// <param name="propertyName">The name of the property to return.</param>
-        /// <param name="propertyReturnSignature">The return <see cref="Type"/> of the property.</param>
-        /// <returns>An object representing the property that matches the specified requirements, if found; otherwise, null.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static PropertyInfo GetProperty(Type source, string propertyName, Type propertyReturnSignature)
-        {
-            return GetProperty(source, propertyName, propertyReturnSignature, new Type[0]);
-        }
-
-        /// <summary>
-        /// Gets a specific property of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a property from.</param>
-        /// <param name="propertyName">The name of the property to return.</param>
-        /// <param name="propertyReturnSignature">The return <see cref="Type"/> of the property.</param>
-        /// <param name="propertySignature">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the indexed property to get.</param>
-        /// <returns>An object representing the property that matches the specified requirements, if found; otherwise, null.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static PropertyInfo GetProperty(Type source, string propertyName, Type propertyReturnSignature, Type[] propertySignature)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (propertyName == null) { throw new ArgumentNullException(nameof(propertyName)); }
-            if (propertyName.Length == 0) { throw new ArgumentException("Value cannot be empty.", nameof(propertyName)); }
-            return source.GetProperty(propertyName, propertyReturnSignature, propertySignature ?? new Type[0]);
-        }
-
-        /// <summary>
-        /// Gets a specific property of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return a property from.</param>
-        /// <param name="propertyName">The name of the property to return.</param>
-        /// <param name="bindings">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <returns>An object representing the property with the specified name, if found; otherwise, null.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null -or- <paramref name="propertyName"/> is null.
-        /// </exception>
-        public static PropertyInfo GetProperty(Type source, string propertyName, BindingFlags bindings)
-        {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNullOrEmpty(propertyName, nameof(propertyName));
-            return source.GetProperty(propertyName, bindings);
-        }
-
-        /// <summary>
-        /// Returns all the properties of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return properties from.</param>
-        /// <returns>A sequence of <see cref="PropertyInfo"/> objects representing a common search pattern of the specified <paramref name="source"/>.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static IEnumerable<PropertyInfo> GetProperties(Type source)
-        {
-            return GetProperties(source, BindingInstancePublicAndPrivateNoneInheritedIncludeStatic);
-        }
-
-        /// <summary>
-        /// Returns all the properties of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return properties from.</param>
-        /// <param name="bindings">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <returns>A sequence of <see cref="PropertyInfo"/> objects representing the search pattern in <paramref name="bindings"/> of the specified <paramref name="source"/>.</returns>
-        public static IEnumerable<PropertyInfo> GetProperties(Type source, BindingFlags bindings)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            var properties = source.GetProperties(bindings);
-            foreach (var property in properties) { yield return property; }
-        }
-
-        /// <summary>
-        /// Returns all the constructors of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return constructors from.</param>
-        /// <returns>A sequence of <see cref="ConstructorInfo"/> objects representing a common search pattern of the specified <paramref name="source"/>.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="BindingInstancePublicAndPrivateNoneInherited"/>.</remarks>
-	    public static IEnumerable<ConstructorInfo> GetConstructors(Type source)
-        {
-            return GetConstructors(source, BindingInstancePublicAndPrivateNoneInherited);
-        }
-
-        /// <summary>
-        /// Returns all the properties of the specified <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The source to return constructors from.</param>
-        /// <param name="bindings">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <returns>A sequence of <see cref="ConstructorInfo"/> objects representing the search pattern in <paramref name="bindings"/> of the specified <paramref name="source"/>.</returns>
-	    public static IEnumerable<ConstructorInfo> GetConstructors(Type source, BindingFlags bindings)
-        {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            var constructors = source.GetConstructors(bindings);
-            foreach (var constructor in constructors) { yield return constructor; }
-        }
 
         /// <summary>
         /// Gets the types contained within the specified <paramref name="assembly"/>.
@@ -740,7 +394,7 @@ namespace Cuemon.Reflection
         {
             foreach (var type in types)
             {
-                if (TypeUtility.ContainsInterface(type, true, typeFilter))
+                if (TypeInsight.FromType(type).HasInterface(typeFilter))
                 {
                     yield return type;
                 }
@@ -751,7 +405,7 @@ namespace Cuemon.Reflection
         {
             foreach (var type in types)
             {
-                if (TypeUtility.ContainsType(type, typeFilter))
+                if (TypeInsight.FromType(type).HasType(typeFilter))
                 {
                     yield return type;
                 }
@@ -768,20 +422,6 @@ namespace Cuemon.Reflection
                     yield return type;
                 }
             }
-        }
-
-        /// <summary>
-        /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <paramref name="type"/>.
-        /// </summary>
-        /// <param name="type">The <see cref="Type"/> to load the resources from.</param>
-        /// <param name="name">The case-sensitive name of the resource being requested.</param>
-        /// <param name="match">The ruleset to apply.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> sequence that contains <see cref="Stream"/> objects representing the loaded resources; null if no resources were specified during compilation, or if the resources is not visible to the caller.</returns>
-        public static IEnumerable<Stream> GetEmbeddedResources(Type type, string name, EmbeddedResourceMatch match = EmbeddedResourceMatch.Name)
-        {
-            Validator.ThrowIfNull(type, nameof(type));
-            Validator.ThrowIfNullOrEmpty(name, nameof(name));
-            return AssemblyUtility.GetEmbeddedResources(type.Assembly, name, match);
         }
     }
 }

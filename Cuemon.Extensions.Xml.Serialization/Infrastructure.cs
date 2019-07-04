@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using Cuemon.ComponentModel.Converters;
 using Cuemon.Extensions.Reflection;
+using Cuemon.Reflection;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 
@@ -18,16 +20,16 @@ namespace Cuemon.Extensions.Xml.Serialization
 
         internal static bool IsNodeEnumerable(this IHierarchy<object> node)
         {
-            return TypeUtility.IsEnumerable(node.InstanceType) && (node.InstanceType != typeof(string));
+            return TypeInsight.FromType(node.InstanceType).HasEnumerableContract() && (node.InstanceType != typeof(string));
         }
 
         internal static XmlQualifiedEntity LookupXmlStartElement(this IHierarchy<object> node, XmlQualifiedEntity qualifiedRootEntity = null)
         {
             if (node == null) { throw new ArgumentNullException(nameof(node)); }
             if (qualifiedRootEntity != null && !qualifiedRootEntity.LocalName.IsNullOrWhiteSpace()) { return qualifiedRootEntity; }
-            var hasRootAttribute = TypeUtility.ContainsAttributeType(node.InstanceType, true, typeof(XmlRootAttribute));
-            var hasElementAttribute = node.HasMemberReference && TypeUtility.ContainsAttributeType(node.MemberReference, typeof(XmlElementAttribute));
-            var rootOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : StringConverter.FromType(node.InstanceType, false, true));
+            var hasRootAttribute = TypeInsight.FromType(node.InstanceType).HasAttribute(typeof(XmlRootAttribute));
+            var hasElementAttribute = node.HasMemberReference && MemberReflectorInfo.FromMember(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
+            var rootOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(node.InstanceType, o => o.ExcludeGenericArguments = true));
             string ns = null;
 
             if (hasRootAttribute || hasElementAttribute)
