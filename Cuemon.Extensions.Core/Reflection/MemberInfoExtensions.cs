@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.Reflection
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(targets, nameof(targets));
-            return MemberReflectorInfo.FromMember(source).HasAttribute(targets);
+            return MemberInsight.FromMember(source).HasAttribute(targets);
         }
     }
 }

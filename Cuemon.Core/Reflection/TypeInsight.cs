@@ -49,28 +49,28 @@ namespace Cuemon.Reflection
             _type = type;
         }
 
-        public PropertyReflectorInfo When(Func<Type, PropertyInfo> selector)
+        public PropertyInsight When(Func<Type, PropertyInfo> selector)
         {
             return When(selector, out _);
         }
 
-        public PropertyReflectorInfo When(Func<Type, PropertyInfo> selector, out PropertyInfo pi)
+        public PropertyInsight When(Func<Type, PropertyInfo> selector, out PropertyInfo pi)
         {
             Validator.ThrowIfNull(selector, nameof(selector));
             pi = selector(_type);
-            return PropertyReflectorInfo.FromProperty(pi);
+            return PropertyInsight.FromProperty(pi);
         }
 
-        public MethodReflectorInfo When(Func<Type, MethodInfo> selector)
+        public MethodInsight When(Func<Type, MethodInfo> selector)
         {
             return When(selector, out _);
         }
 
-        public MethodReflectorInfo When(Func<Type, MethodInfo> selector, out MethodInfo mi)
+        public MethodInsight When(Func<Type, MethodInfo> selector, out MethodInfo mi)
         {
             Validator.ThrowIfNull(selector, nameof(selector));
             mi = selector(_type);
-            return MethodReflectorInfo.FromMethod(selector(_type));
+            return MethodInsight.FromMethod(selector(_type));
         }
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace Cuemon.Reflection
             var dt = new List<Type>();
             foreach (var a in ac)
             {
-                dt.AddRange(ReflectionUtility.GetAssemblyTypes(a, null, _type));
+                dt.AddRange(AssemblyInsight.FromAssembly(a).GetTypes(typeFilter: _type));
             }
             return dt;
         }
@@ -370,128 +370,6 @@ namespace Cuemon.Reflection
         public override string ToString()
         {
             return _type.ToString();
-        }
-    }
-
-    /// <remarks>A merged word of Reflection and Inspector (after looking at introspection) combined with Info-suffix (which seems to be the standard naming convention for these sorts of classes).</remarks>
-    public abstract class ReflectorInfo<T> where T : MemberInfo
-    {
-        protected ReflectorInfo(T member)
-        {
-            Member = member;
-        }
-
-        public T Member { get; }
-
-        /// <summary>
-        /// Determines whether the underlying <see cref="MemberInfo"/> of this instance implements one or more of the specified <paramref name="types"/>.
-        /// </summary>
-        /// <param name="types">The attribute types to be matched against.</param>
-        /// <returns>
-        /// 	<c>true</c> if the underlying <see cref="MemberInfo"/> of this instance implements one or more of the specified <paramref name="types"/>; otherwise, <c>false</c>.
-        /// </returns>
-        public bool HasAttribute(params Type[] types)
-        {
-            foreach (var tt in types) { if (Member.GetCustomAttributes(tt, true).Any()) { return true; } }
-            return false;
-        }
-
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return Member.ToString();
-        }
-    }
-
-    public sealed class MemberReflectorInfo : ReflectorInfo<MemberInfo>
-    {
-        public static MemberReflectorInfo FromMember(MemberInfo member)
-        {
-            return new MemberReflectorInfo(member);
-        }
-
-        public MemberReflectorInfo(MemberInfo member) : base(member)
-        {
-        }
-    }
-
-    public sealed class PropertyReflectorInfo : ReflectorInfo<PropertyInfo>
-    {
-        public static PropertyReflectorInfo FromProperty(PropertyInfo property)
-        {
-            return new PropertyReflectorInfo(property);
-        }
-
-        public static implicit operator PropertyReflectorInfo(PropertyInfo pi)
-        {
-            return new PropertyReflectorInfo(pi);
-        }
-
-        public static implicit operator PropertyInfo(PropertyReflectorInfo pi)
-        {
-            return pi.Member;
-        }
-
-        public PropertyReflectorInfo(PropertyInfo property) : base(property)
-        {
-        }
-
-
-        /// <summary>
-        /// Determines whether the underlying <see cref="PropertyInfo"/> of this instance has been overridden.
-        /// </summary>
-        /// <returns><c>true</c> if the underlying <see cref="PropertyInfo"/> of this instance has been overridden; otherwise, <c>false</c>.</returns>
-        public bool IsOverridden()
-        {
-            return Member.GetGetMethod().GetBaseDefinition().DeclaringType != Member.DeclaringType;
-        }
-
-        /// <summary>
-        /// Determines whether the underlying <see cref="PropertyInfo"/> of this instance is considered an automatic property implementation.
-        /// </summary>
-        /// <returns><c>true</c> if the underlying <see cref="PropertyInfo"/> of this instance is considered an automatic property implementation; otherwise, <c>false</c>.</returns>
-        public bool IsAutoProperty()
-        {
-            if (Member.GetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null ||
-                Member.SetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
-            {
-                return Member.DeclaringType != null && Member.DeclaringType.GetFields(new MemberReflection(excludeInheritancePath: true)).Any(f => f.Name.Contains(FormattableString.Invariant($"<{Member.Name}>")));
-            }
-            return false;
-        }
-    }
-
-    public sealed class MethodReflectorInfo : ReflectorInfo<MethodInfo>
-    {
-        public static MethodReflectorInfo FromMethod(MethodInfo method)
-        {
-            return new MethodReflectorInfo(method);
-        }
-
-        public static implicit operator MethodReflectorInfo(MethodInfo mi)
-        {
-            return new MethodReflectorInfo(mi);
-        }
-
-        public static implicit operator MethodInfo(MethodReflectorInfo mi)
-        {
-            return mi.Member;
-        }
-
-        public MethodReflectorInfo(MethodInfo method) : base(method)
-        {
-        }
-
-        /// <summary>
-        /// Determines whether the underlying <see cref="MethodInfo"/> of this instance has been overridden.
-        /// </summary>
-        /// <returns><c>true</c> if the underlying <see cref="MethodInfo"/> of this instance has been overridden; otherwise, <c>false</c>.</returns>
-        public bool IsOverridden()
-        {
-            return Member.GetBaseDefinition().DeclaringType != Member.DeclaringType;
         }
     }
 }

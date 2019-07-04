@@ -52,30 +52,6 @@ namespace Cuemon.Extensions.Reflection
         }
 
         /// <summary>
-        /// Gets a sequence of the specified <typeparamref name="TDecoration"/> attribute, narrowed to property attribute decorations.
-        /// </summary>
-        /// <typeparam name="TDecoration">The type of the attribute to locate in <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source type to locate <typeparamref name="TDecoration"/> attributes in.</param>
-        /// <returns>An <see cref="IEnumerable{TDecoration}"/> of the specified <typeparamref name="TDecoration"/> attributes.</returns>
-        /// <remarks>Searches the <paramref name="source"/> using the following <see cref="BindingFlags"/> combination: <see cref="ReflectionUtility.BindingInstancePublicAndPrivateNoneInheritedIncludeStatic"/>.</remarks>
-        public static IDictionary<PropertyInfo, TDecoration[]> GetPropertyAttributes<TDecoration>(this Type source) where TDecoration : Attribute
-        {
-            return ReflectionUtility.GetPropertyAttributeDecorations<TDecoration>(source);
-        }
-
-        /// <summary>
-        /// Gets a sequence of the specified <typeparamref name="TDecoration"/> attribute, narrowed to property attribute decorations.
-        /// </summary>
-        /// <typeparam name="TDecoration">The type of the attribute to locate in <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source type to locate <typeparamref name="TDecoration"/> attributes in.</param>
-        /// <param name="bindings">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <returns>An <see cref="IEnumerable{TDecoration}"/> of the specified <typeparamref name="TDecoration"/> attributes.</returns>
-        public static IDictionary<PropertyInfo, TDecoration[]> GetPropertyAttributes<TDecoration>(this Type source, BindingFlags bindings) where TDecoration : Attribute
-        {
-            return ReflectionUtility.GetPropertyAttributeDecorations<TDecoration>(source, bindings);
-        }
-
-        /// <summary>
         /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <see cref="Type"/> following the <see cref="ManifestResourceMatch"/> ruleset of <paramref name="match"/>.
         /// </summary>
         /// <param name="source">The source type to load the resource from.</param>

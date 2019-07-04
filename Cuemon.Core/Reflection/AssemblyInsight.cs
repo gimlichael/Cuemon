@@ -134,6 +134,62 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
+        /// Gets the types contained within the underlying <see cref="Assembly"/> of this instance.
+        /// </summary>
+        /// <param name="namespaceFilter">The filter to limit the types by namespace.</param>
+        /// <param name="typeFilter">The filter to limit the types by a specific type.</param>
+        /// <returns>A sequence of <see cref="Type"/> elements, matching the applied filters, from the underlying <see cref="Assembly"/> of this instance.</returns>
+        public IEnumerable<Type> GetTypes(string namespaceFilter = null, Type typeFilter = null)
+        {
+            var hasNamespaceFilter = !string.IsNullOrEmpty(namespaceFilter);
+            var hasTypeFilter = (typeFilter != null);
+            IEnumerable<Type> types = _assembly.GetTypes();
+            if (hasNamespaceFilter || hasTypeFilter)
+            {
+                if (hasNamespaceFilter) { types = GetAssemblyTypesByNamespace(types, namespaceFilter); }
+                if (hasTypeFilter)
+                {
+                    types = typeFilter.IsInterface ? GetAssemblyTypesByInterfaceType(types, typeFilter) : GetAssemblyTypesByBaseType(types, typeFilter);
+                }
+            }
+            return types;
+        }
+
+        private static IEnumerable<Type> GetAssemblyTypesByInterfaceType(IEnumerable<Type> types, Type typeFilter)
+        {
+            foreach (var type in types)
+            {
+                if (TypeInsight.FromType(type).HasInterface(typeFilter))
+                {
+                    yield return type;
+                }
+            }
+        }
+
+        private static IEnumerable<Type> GetAssemblyTypesByBaseType(IEnumerable<Type> types, Type typeFilter)
+        {
+            foreach (var type in types)
+            {
+                if (TypeInsight.FromType(type).HasType(typeFilter))
+                {
+                    yield return type;
+                }
+            }
+        }
+
+        private static IEnumerable<Type> GetAssemblyTypesByNamespace(IEnumerable<Type> types, string namespaceFilter)
+        {
+            foreach (var type in types)
+            {
+                if (type.Namespace == null) { continue; }
+                if (type.Namespace.Equals(namespaceFilter, StringComparison.OrdinalIgnoreCase))
+                {
+                    yield return type;
+                }
+            }
+        }
+
+        /// <summary>
         /// Determines whether the underlying <see cref="Assembly"/> of this instance is a debug build.
         /// </summary>
         /// <returns><c>true</c> if the the underlying <see cref="Assembly"/> of this instance is a debug build; otherwise, <c>false</c>.</returns>

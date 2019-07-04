@@ -274,7 +274,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 return;
             }
 
-            var member = MemberReflectorInfo.FromMember(node.MemberReference);
+            var member = MemberInsight.FromMember(node.MemberReference);
             var hasAttributeAttribute = node.HasMemberReference && member.HasAttribute(typeof(XmlAttributeAttribute));
             var hasElementAttribute = node.HasMemberReference && member.HasAttribute(typeof(XmlElementAttribute));
             var hasTextAttribute = node.HasMemberReference && member.HasAttribute(typeof(XmlTextAttribute));

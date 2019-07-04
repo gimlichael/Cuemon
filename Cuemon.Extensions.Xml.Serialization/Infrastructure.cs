@@ -28,7 +28,7 @@ namespace Cuemon.Extensions.Xml.Serialization
             if (node == null) { throw new ArgumentNullException(nameof(node)); }
             if (qualifiedRootEntity != null && !qualifiedRootEntity.LocalName.IsNullOrWhiteSpace()) { return qualifiedRootEntity; }
             var hasRootAttribute = TypeInsight.FromType(node.InstanceType).HasAttribute(typeof(XmlRootAttribute));
-            var hasElementAttribute = node.HasMemberReference && MemberReflectorInfo.FromMember(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
+            var hasElementAttribute = node.HasMemberReference && MemberInsight.FromMember(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
             var rootOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(node.InstanceType, o => o.ExcludeGenericArguments = true));
             string ns = null;
 
