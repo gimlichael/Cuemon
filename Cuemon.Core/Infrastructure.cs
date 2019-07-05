@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Cuemon.Reflection;
 
 namespace Cuemon
 {
@@ -27,6 +29,11 @@ namespace Cuemon
             if (original != null) { return original.GetMethodInfo(); }
             if (wrapper != null) { return wrapper.GetMethodInfo(); }
             return null;
+        }
+
+        internal static object DefaultPropertyValueResolver(object source, PropertyInfo pi)
+        {
+            return source == null ? null : pi.GetValue(source, null);
         }
     }
 }

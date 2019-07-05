@@ -318,6 +318,43 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
+        /// Determines whether the specified <paramref name="source"/> (which type must be the same as the underlying <see cref="Type"/> of this instance) has a circular reference.
+        /// </summary>
+        /// <param name="source">The source to check for circular reference.</param>
+        /// <param name="maxDepth">The maximum depth to traverse of <paramref name="source"/>.</param>
+        /// <param name="valueResolver">The function delegate that is invoked when a property can be read and is of same type as the underlying <see cref="Type"/> of this instance.</param>
+        /// <returns><c>true</c> if the specified <paramref name="source"/> has a circular reference; otherwise, <c>false</c>.</returns>
+        public bool HasCircularReference(object source, int maxDepth = 2, Func<object, PropertyInfo, object> valueResolver = null)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfLowerThanOrEqual(maxDepth, 0, nameof(maxDepth));
+            if (source.GetType() != _type) { throw new InvalidOperationException("The specified object has a different type than the underlying type of this instance."); }
+            if (valueResolver == null) { valueResolver = Infrastructure.DefaultPropertyValueResolver; }
+            var hasCircularReference = false;
+            var currentDepth = 0;
+            var stack = new Stack<object>();
+            stack.Push(source);
+            while (stack.Count != 0 && currentDepth <= maxDepth)
+            {
+                var current = stack.Pop();
+                foreach (var property in _type.GetProperties())
+                {
+                    if (property.CanRead && property.PropertyType == _type)
+                    {
+                        var propertyValue = valueResolver(current, property);
+                        if (propertyValue != null)
+                        {
+                            stack.Push(propertyValue);
+                            hasCircularReference = currentDepth == maxDepth;
+                        }
+                    }
+                }
+                currentDepth++;
+            }
+            return hasCircularReference;
+        }
+
+        /// <summary>
         /// Gets a collection (derived-to-self) of derived / descendant types from the underlying <see cref="Type"/> of this instance.
         /// </summary>
         /// <param name="assemblies">The assemblies to include in the search of derived types.</param>

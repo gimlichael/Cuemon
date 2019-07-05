@@ -15,7 +15,7 @@ namespace Cuemon.Reflection
         private Func<Type, bool> _skipPropertyType;
         private Func<PropertyInfo, bool> _skipProperty;
         private Func<object, bool> _hasCircularReference;
-        private Func<ParameterInfo[], object[]> _propertyIndexParametersResolver;
+        private Func<object, PropertyInfo, object> _valueResolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectHierarchyOptions"/> class.
@@ -62,23 +62,8 @@ namespace Cuemon.Reflection
                         property.Name.Equals("HResult", StringComparison.Ordinal) ||
                         property.Name.Equals("TargetSite", StringComparison.Ordinal));
             };
-            HasCircularReference = ReflectionUtility.HasCircularReference;
-            PropertyIndexParametersResolver = infos =>
-            {
-                var resolvedParameters = new List<object>();
-                for (var i = 0; i < infos.Length; i++)
-                {
-                    // because we don't know the values to pass to an indexer we will try to do some assumptions on a "normal" indexer
-                    // however; this has it flaws: an indexer does not necessarily have an item on 0, 1, 2 etc., so must handle the possible
-                    // TargetInvocationException.
-                    // more info? check here: http://blog.nkadesign.com/2006/net-the-limits-of-using-reflection/comment-page-1/#comment-10813
-                    if (TypeInsight.FromType(infos[i].ParameterType).HasType(typeof(byte), typeof(short), typeof(int), typeof(long))) // check to see if we have a "normal" indexer
-                    {
-                        resolvedParameters.Add(0);
-                    }
-                }
-                return resolvedParameters.ToArray();
-            };
+            HasCircularReference = i => TypeInsight.FromType(i.GetType()).HasCircularReference(i);
+            ValueResolver = Infrastructure.DefaultPropertyValueResolver;
         }
 
         /// <summary>
@@ -152,16 +137,16 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
-        /// Gets or sets the function delegate that is invoked if a property has one or more index parameters.
+        /// Gets or sets the function delegate that is invoked when a property can be read and is of same type as the underlying <see cref="Type"/> of the source object.
         /// </summary>
-        /// <value>A <see cref="Func{TResult}"/> that will resolve the index parameters of a <see cref="PropertyInfo"/>.</value>
-        public Func<ParameterInfo[], object[]> PropertyIndexParametersResolver
+        /// <value>A function delegate that is invoked when a property can be read and is of same type as the underlying <see cref="Type"/> of the source object.</value>
+        public Func<object, PropertyInfo, object> ValueResolver
         {
-            get => _propertyIndexParametersResolver;
+            get => _valueResolver;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));
-                _propertyIndexParametersResolver = value;
+                _valueResolver = value;
             }
         }
     }

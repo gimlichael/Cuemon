@@ -86,7 +86,7 @@ namespace Cuemon.ComponentModel.Converters
                     {
                         return string.Format(provider, "{0}={1}", property.Name, ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(property.PropertyType, o => o.FullName = true));
                     }
-                    var instanceValue = ReflectionUtility.GetPropertyValue(instance, property);
+                    var instanceValue = Infrastructure.DefaultPropertyValueResolver(instance, property);
                     return string.Format(provider, "{0}={1}", property.Name, instanceValue ?? NullValue);
                 }
                 return string.Format(provider, "{0}={1}", property.Name, NoGetterValue);
