@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Cuemon.Reflection;
 
 namespace Cuemon.Runtime.Serialization
@@ -15,7 +16,7 @@ namespace Cuemon.Runtime.Serialization
         /// <param name="setup">The <see cref="ObjectHierarchyOptions"/> which need to be configured.</param>
         public HierarchySerializer(object source, Action<ObjectHierarchyOptions> setup = null)
         {
-            Nodes = ReflectionUtility.GetObjectHierarchy(source, setup).Root();
+            Nodes = Hierarchy.GetObjectHierarchy(source, setup).Root();
         }
 
         /// <summary>
@@ -23,5 +24,23 @@ namespace Cuemon.Runtime.Serialization
         /// </summary>
         /// <value>The converted nodes of the the by constructor defined source object.</value>
         public IHierarchy<object> Nodes { get; }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            var node = Nodes;
+            sb.AppendLine(node.GetPath());
+            ToString(sb, node);
+            return sb.ToString();
+        }
+
+        private void ToString(StringBuilder sb, IHierarchy<object> node)
+        {
+            foreach (var child in node.GetChildren())
+            {
+                sb.AppendLine($"{new string(' ', child.Depth)}{child.GetPath()}"); // MemberReference.Name
+                ToString(sb, child);
+            }
+        }
     }
 }
