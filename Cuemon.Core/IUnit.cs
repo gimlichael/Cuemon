@@ -30,7 +30,7 @@ namespace Cuemon
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>
-        /// <param name="setup">The <see cref="UnitFormatOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="UnitFormatOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         string ToString(Action<UnitFormatOptions> setup);
     }
