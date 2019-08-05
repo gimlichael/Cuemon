@@ -49,7 +49,7 @@
         /// </summary>
         LeftShift,
         /// <summary>
-        /// A bitwise left-shift compound assignment, such as (x glt;glt;= y).
+        /// A bitwise left-shift compound assignment, such as (x &gt;&gt;= y).
         /// </summary>
         RightShift
     }

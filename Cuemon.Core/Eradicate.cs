@@ -27,7 +27,7 @@ namespace Cuemon
             var marker = bytes.Length - 1;
             while (marker > 0 && bytes[marker] == 0)
             {
-                if (!hasTrailingZeros) { hasTrailingZeros = true; }
+                if (!hasTrailingZeros) { hasTrailingZeros = true; }  
                 marker--;
             }
             if (!hasTrailingZeros) { return bytes; }

@@ -1,6 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
-using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.Converters;
 using Cuemon.ComponentModel.TypeConverters;
 
@@ -9,7 +9,7 @@ namespace Cuemon
     /// <summary>
     /// This utility class is designed to make arithmetic assignment operations for numeric operands easier to work with by using generics.
     /// </summary>
-    public static class AssignmentUtility
+    public static class Calculator
     {
         /// <summary>
         /// Performs a binary addition of the two specified values.
@@ -27,7 +27,7 @@ namespace Cuemon
         /// </exception>
         public static T Add<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.Addition);
+            return CalculateCore(x, y, AssignmentOperator.Addition);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Cuemon
         /// </exception>
         public static T And<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.And);
+            return CalculateCore(x, y, AssignmentOperator.And);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Cuemon
         /// </exception>
         public static T Assign<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.Assign);
+            return CalculateCore(x, y, AssignmentOperator.Assign);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Cuemon
         /// </exception>
         public static T Divide<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.Division);
+            return CalculateCore(x, y, AssignmentOperator.Division);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Cuemon
         /// </exception>
         public static T ExclusiveOr<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.ExclusiveOr);
+            return CalculateCore(x, y, AssignmentOperator.ExclusiveOr);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Cuemon
         /// </exception>
         public static T LeftShift<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.LeftShift);
+            return CalculateCore(x, y, AssignmentOperator.LeftShift);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Cuemon
         /// </exception>
         public static T Multiply<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.Multiplication);
+            return CalculateCore(x, y, AssignmentOperator.Multiplication);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Cuemon
         /// </exception>
         public static T Or<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.Or);
+            return CalculateCore(x, y, AssignmentOperator.Or);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Cuemon
         /// </exception>
         public static T Remainder<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.Remainder);
+            return CalculateCore(x, y, AssignmentOperator.Remainder);
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace Cuemon
         /// </exception>
         public static T RightShift<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.RightShift);
+            return CalculateCore(x, y, AssignmentOperator.RightShift);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace Cuemon
         /// </exception>
         public static T Subtract<T>(T x, T y) where T : struct, IConvertible
         {
-            return AssignmentCore(x, y, AssignmentOperator.Subtraction);
+            return CalculateCore(x, y, AssignmentOperator.Subtraction);
         }
 
         /// <summary>
@@ -247,11 +247,11 @@ namespace Cuemon
                 case AssignmentOperator.Subtraction:
                     return Subtract(x, y);
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(assignment));
+                    throw new InvalidEnumArgumentException(nameof(assignment), (int)assignment, typeof(AssignmentOperator));
             }
         }
 
-        private static T AssignmentCore<T>(T x, T y, AssignmentOperator assignment) where T : struct, IConvertible
+        private static T CalculateCore<T>(T x, T y, AssignmentOperator assignment) where T : struct, IConvertible
         {
             var provider = CultureInfo.InvariantCulture;
             var assignmentCode = x.GetTypeCode();

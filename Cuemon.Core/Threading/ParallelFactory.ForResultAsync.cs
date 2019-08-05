@@ -153,7 +153,7 @@ namespace Cuemon.Threading
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<TNumber, TResult>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Func<TNumber, TResult> worker, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
-            AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Calculator.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default);
             return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
@@ -180,7 +180,7 @@ namespace Cuemon.Threading
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<TNumber, T, TResult>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Func<TNumber, T, TResult> worker, T arg, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
-            AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Calculator.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg);
             return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
@@ -209,7 +209,7 @@ namespace Cuemon.Threading
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<TNumber, T1, T2, TResult>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Func<TNumber, T1, T2, TResult> worker, T1 arg1, T2 arg2, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
-            AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Calculator.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg1, arg2);
             return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
@@ -240,7 +240,7 @@ namespace Cuemon.Threading
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<TNumber, T1, T2, T3, TResult>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Func<TNumber, T1, T2, T3, TResult> worker, T1 arg1, T2 arg2, T3 arg3, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
-            AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Calculator.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg1, arg2, arg3);
             return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
@@ -273,7 +273,7 @@ namespace Cuemon.Threading
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<TNumber, T1, T2, T3, T4, TResult>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Func<TNumber, T1, T2, T3, T4, TResult> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
-            AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Calculator.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4);
             return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
@@ -308,7 +308,7 @@ namespace Cuemon.Threading
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<TNumber, T1, T2, T3, T4, T5, TResult>(TNumber from, RelationalOperator relation, TNumber to, AssignmentOperator assignment, TNumber step, Func<TNumber, T1, T2, T3, T4, T5, TResult> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Func<TNumber, RelationalOperator, TNumber, bool> condition = null, Func<TNumber, AssignmentOperator, TNumber, TNumber> iterator = null, Action<TaskFactoryOptions> setup = null)
             where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
         {
-            AssignmentUtility.ValidAsNumericOperand<TNumber>();
+            Calculator.ValidAsNumericOperand<TNumber>();
             Validator.ThrowIfNull(worker, nameof(worker));
             var wf = FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5);
             return ForResultCoreAsync(@from, relation, to, assignment, step, wf, condition, iterator, setup);
@@ -351,7 +351,7 @@ namespace Cuemon.Threading
                     
                     if (workChunks == 0)
                     {
-                        @from = AssignmentUtility.Calculate(i, assignment, step);
+                        @from = Calculator.Calculate(i, assignment, step);
                         break;
                     }
                 }
