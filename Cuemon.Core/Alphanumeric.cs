@@ -18,7 +18,7 @@
         /// <summary>
         /// A case sensitive representation of an alphabetic character set consisting of the letters Aa to Zz.
         /// </summary>
-        public const string Letters = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
+        public const string Letters = UppercaseLetters + LowercaseLetters;
 
         /// <summary>
         /// A case sensitive representation of an alphanumeric character set consisting of the numbers 0 to 9 and the letters Aa to Zz.

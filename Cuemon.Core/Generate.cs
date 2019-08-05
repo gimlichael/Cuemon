@@ -11,6 +11,7 @@ namespace Cuemon
     /// <summary>
     /// Provides a set of static methods for generating different types of values or sequences of values.
     /// </summary>
+    /// <seealso cref="Eradicate"/>
     public static class Generate
     {
         private static readonly Hash Fnv1A = HashFactory.CreateFnv64(o => o.Algorithm = FowlerNollVoAlgorithm.Fnv1a);
@@ -43,7 +44,7 @@ namespace Cuemon
         /// <summary>
         /// Generates a random integer that is within a specified range.
         /// </summary>
-        /// <param name="minimumInclusive">The inclusive lower bound of the random number returned. </param>
+        /// <param name="minimumInclusive">The inclusive lower bound of the random number returned.</param>
         /// <param name="maximumExclusive">The exclusive upper bound of the random number returned. <paramref name="maximumExclusive"/> must be greater than or equal to <paramref name="minimumInclusive"/>.</param>
         /// <returns>
         /// A 32-bit signed integer greater than or equal to <paramref name="minimumInclusive"/> and less than <paramref name="maximumExclusive"/>; that is, the range of return values includes <paramref name="minimumInclusive"/> but not <paramref name="maximumExclusive"/>.
