@@ -138,7 +138,7 @@ namespace Cuemon.Extensions.Web.Security
 		/// <param name="uriLocation">The URI to protect from tampering.</param>
 		/// <param name="securityKey">The security key to use for the <see cref="SecurityToken"/> encryption.</param>
 		/// <param name="settings">The settings to apply to the <see cref="SecurityToken"/>.</param>
-		/// <param name="algorithm">The hash algorithm to use for the URI checksum computation. Default is <b><see cref="HashAlgorithmType.SHA1"/></b>.</param>
+		/// <param name="algorithm">The hash algorithm to use for the URI checksum computation. Default is <b><see cref="CryptoAlgorithm.Sha1"/></b>.</param>
 		/// <param name="secureUriFormat">The naming format of the required query string parameters of the tamper protected URI. Default is <b>?token={0}&amp;iv={1}&amp;salt={2}</b>, where you can change the naming of the query string parameters.</param>
 		/// <param name="querystringParameterHashName">The name of the checksum parameter to append to the tampering protected URI. Default is <b>hash</b>.</param>
 		/// <returns>a URI equivalent to the <paramref name="uriLocation"/> but protected from tampering - including but not limited to - MITM attacks.</returns>
@@ -155,7 +155,7 @@ namespace Cuemon.Extensions.Web.Security
 			var formatedQuerytring = QueryStringConverter.FromString(secureUriFormat);
 
 			var securityToken = SecurityToken.Create(settings);
-			var iv = AdvancedEncryptionStandardUtility.GenerateInitializationVector();
+			var iv = AesCryptor.GenerateInitializationVector();
 			var encryptedSecurityToken = SecurityUtility.CreateEncryptedSecurityToken(securityToken, securityKey, iv);
 			var ivAsString = HttpUtility.UrlEncode(Encoding.UTF8.GetString(iv, 0, iv.Length));
 			var encryptedSecurityTokenAsString = HttpUtility.UrlEncode(Convert.ToBase64String(encryptedSecurityToken));

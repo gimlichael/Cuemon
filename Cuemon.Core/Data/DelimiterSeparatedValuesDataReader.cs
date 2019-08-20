@@ -87,7 +87,11 @@ namespace Cuemon.Data
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
             
             Reader = reader;
-            Header = StringUtility.SplitDsv(header, delimiter.ToString(CultureInfo.InvariantCulture), qualifier.ToString(CultureInfo.InvariantCulture));
+            Header = DelimitedString.Split(header, o =>
+            {
+                o.Delimiter = delimiter.ToString(CultureInfo.InvariantCulture);
+                o.Qualifier = qualifier.ToString(CultureInfo.InvariantCulture);
+            });
             Delimiter = delimiter;
             Qualifier = qualifier;
         }
@@ -136,7 +140,11 @@ namespace Cuemon.Data
                     tb.Append(Reader.ReadLine());
                 }
                 _rowCount++;
-                return ReadNext(StringUtility.SplitDsv(tb.ToString(), Delimiter.ToString(CultureInfo.InvariantCulture), Qualifier.ToString(CultureInfo.InvariantCulture))) != null;
+                return ReadNext(DelimitedString.Split(tb.ToString(), o =>
+                {
+                    o.Delimiter = Delimiter.ToString(CultureInfo.InvariantCulture);
+                    o.Qualifier = Qualifier.ToString(CultureInfo.InvariantCulture);
+                })) != null;
             }
             return false;
         }

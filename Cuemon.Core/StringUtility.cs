@@ -17,8 +17,6 @@ namespace Cuemon
     /// </summary>
     public static class StringUtility
     {
-        private static readonly ConcurrentDictionary<string, Regex> CompiledSplitExpressions = new ConcurrentDictionary<string, Regex>();
-
         #region Methods
         /// <summary>
         /// Parses whether the two specified values has a distinct difference from each other.
@@ -90,77 +88,6 @@ namespace Cuemon
                 return (value.Length % 4 == 0);
             }
             return false;
-        }
-
-
-
-        /// <summary>
-        /// Returns a <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> that may be quoted by <paramref name="qualifier"/>.
-        /// </summary>
-        /// <param name="value">The value containing substrings and delimiters.</param>
-        /// <param name="delimiter">The delimiter that seperates the fields.</param>
-        /// <param name="qualifier">The qualifier placed around each field to signify that it is the same field.</param>
-        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> and optionally surrounded within <paramref name="qualifier"/>.</returns>
-        /// <remarks>
-        /// This method was inspired by two articles on StackOverflow @ http://stackoverflow.com/questions/2807536/split-string-in-c-sharp and https://stackoverflow.com/questions/3776458/split-a-comma-separated-string-with-both-quoted-and-unquoted-strings.
-        /// </remarks>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null -or-
-        /// <paramref name="delimiter"/> is null -or-
-        /// <paramref name="qualifier"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> is empty or consist only of white-space characters -or-
-        /// <paramref name="delimiter"/> is empty or consist only of white-space characters -or-
-        /// <paramref name="qualifier"/> is empty or consist only of white-space characters.
-        /// </exception>
-        /// <exception cref="InvalidOperationException">
-        /// An error occurred while splitting <paramref name="value"/> into substrings separated by <paramref name="delimiter"/> and quoted with <paramref name="qualifier"/>.
-        /// This is typically related to data corruption, eg. a field has not been properly closed with the <paramref name="qualifier"/> specified.
-        /// </exception>
-        public static string[] SplitDsv(string value, string delimiter, string qualifier)
-        {
-            Validator.ThrowIfNullOrWhitespace(value, nameof(value));
-            Validator.ThrowIfNullOrWhitespace(delimiter, nameof(delimiter));
-            Validator.ThrowIfNullOrWhitespace(qualifier, nameof(qualifier));
-
-            var key = string.Concat(delimiter, "<-dq->", qualifier);
-            if (!CompiledSplitExpressions.TryGetValue(key, out var compiledSplit))
-            {
-                compiledSplit = new Regex(string.Format(CultureInfo.InvariantCulture, "(?:^|{0})({1}(?:[^{1}]+|{1}{1})*{1}|[^{0}]*)", Regex.Escape(delimiter), Regex.Escape(qualifier)), RegexOptions.IgnoreCase | RegexOptions.Compiled, TimeSpan.FromSeconds(2));
-                CompiledSplitExpressions.TryAdd(key, compiledSplit);
-            }
-
-            try
-            {
-                return compiledSplit.Matches(value).Cast<Match>().Where(m => m.Length > 0).Select(m => m.Value.TrimStart(delimiter.ToCharArray()).TrimStart(qualifier.ToCharArray()).TrimEnd(qualifier.ToCharArray())).ToArray();
-            }
-            catch (RegexMatchTimeoutException)
-            {
-                throw new InvalidOperationException(FormattableString.Invariant($"An error occured while splitting '{value}' into substrings seperated by '{delimiter}' and quoted with '{qualifier}'. This is typically related to data corruption, eg. a field has not been properly closed with the {nameof(qualifier)} specified."));
-            }
-        }
-
-        /// <summary>
-        /// Returns a string array that contains the substrings of <paramref name="value"/> delimited by a comma (",") that may be quoted with double quotes ("").
-        /// </summary>
-        /// <param name="value">The value containing substrings and delimiters.</param>
-        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> that are delimited by a comma (",").</returns>
-        /// <remarks>Conforms with the RFC-4180 standard.</remarks>
-        public static string[] SplitCsvQuoted(string value)
-        {
-            return SplitDsv(value, ",", "\"");
-        }
-
-        /// <summary>
-        /// Returns a string array that contains the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> that may be quoted with double quotes ("").
-        /// </summary>
-        /// <param name="value">The value containing substrings and delimiters.</param>
-        /// <param name="delimiter">The delimiter that seperates the fields.</param>
-        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> that are delimited by a <paramref name="delimiter"/>.</returns>
-        public static string[] SplitDsvQuoted(string value, string delimiter)
-        {
-            return SplitDsv(value, delimiter, "\"");
         }
 
         /// <summary>
@@ -347,54 +274,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Shuffles the specified <paramref name="values"/> like a deck of cards.
-        /// </summary>
-        /// <param name="values">The values to be shuffled in the randomization process.</param>
-        /// <returns>A random string from the shuffled <paramref name="values"/> provided.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="values"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="values"/> is empty.
-        /// </exception>
-        public static string Shuffle(params string[] values)
-        {
-            Validator.ThrowIfNull(values, nameof(values));
-            Validator.ThrowIfEqual(0, values.Length, nameof(values), "You must specify at least one string value to shuffle.");
-
-            var allChars = new List<char>();
-            foreach (var value in values) { allChars.AddRange(value); }
-
-            var result = allChars.ToArray();
-            var allCharsLength = result.Length;
-            while (allCharsLength > 1)
-            {
-                allCharsLength--;
-                var random = Generate.RandomNumber(0, allCharsLength + 1);
-                var shuffledChar = result[random];
-                result[random] = result[allCharsLength];
-                result[allCharsLength] = shuffledChar;
-            }
-            return new string(result);
-        }
-
-        /// <summary>
-        /// Shuffles the specified <paramref name="values"/> like a deck of cards.
-        /// </summary>
-        /// <param name="values">The values to be shuffled in the randomization process.</param>
-        /// <returns>A random string from the shuffled <paramref name="values"/> provided.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="values"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="values"/> is empty.
-        /// </exception>
-        public static string Shuffle(IEnumerable<string> values)
-        {
-            return Shuffle(values.ToArray());
-        }
-
-        /// <summary>
         /// Replaces all occurrences of <paramref name="oldValue"/> in <paramref name="value"/>, with <paramref name="newValue"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> value to perform the replacement on.</param>
@@ -464,62 +343,6 @@ namespace Cuemon
         public static bool IsNullOrEmpty(params string[] values)
         {
             return IsNullOrEmpty((IEnumerable<string>)values);
-        }
-
-
-
-        /// <summary>
-        /// Escapes the given <see cref="string"/> the same way as the well known JavaScript escape() function.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to escape.</param>
-        /// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
-        public static string Escape(string value)
-        {
-            if (value == null) { throw new ArgumentNullException(nameof(value)); }
-            var builder = new StringBuilder(value.Length);
-            foreach (var character in value)
-            {
-                if (DoEscapeOrUnescape(character))
-                {
-                    builder.AppendFormat(CultureInfo.InvariantCulture, character < byte.MaxValue ? "%{0:x2}" : "%u{0:x4}", (uint)character);
-                }
-                else
-                {
-                    builder.Append(character);
-                }
-            }
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// Unescapes the given <see cref="string"/> the same way as the well known Javascript unescape() function.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to unescape.</param>
-        /// <returns>The input <paramref name="value"/> with an unescaped equivalent.</returns>
-        public static string Unescape(string value)
-        {
-            if (value == null) throw new ArgumentNullException(nameof(value));
-            var builder = new StringBuilder(value);
-            var unicode = new Regex("%u([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])", RegexOptions.IgnoreCase);
-            var matches = unicode.Matches(value);
-            foreach (Match unicodeMatch in matches)
-            {
-                builder.Replace(unicodeMatch.Value, Convert.ToChar(int.Parse(unicodeMatch.Value.Remove(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)).ToString());
-            }
-
-            for (var i = byte.MinValue; i < byte.MaxValue; i++)
-            {
-                if (DoEscapeOrUnescape(i))
-                {
-                    builder.Replace(string.Format(CultureInfo.InvariantCulture, "%{0:x2}", i), Convert.ToChar(i).ToString());
-                }
-            }
-            return builder.ToString();
-        }
-
-        private static bool DoEscapeOrUnescape(int charValue)
-        {
-            return ((charValue < 42 || charValue > 126) || (charValue > 57 && charValue < 64) || (charValue == 92));
         }
 
         /// <summary>
@@ -738,89 +561,6 @@ namespace Cuemon
         public static bool StartsWith(string value, StringComparison comparison, params string[] startWithValues)
         {
             return StartsWith(value, comparison, (IEnumerable<string>)startWithValues);
-        }
-
-        /// <summary>
-        /// Determines whether the elements of the specified <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence in which to evaluate if a string value is equivalent to the specified <typeparamref name="T"/>.</param>
-        /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(IEnumerable<string> source)
-        {
-            return IsSequenceOf<T>(source, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Determines whether the elements of the specified <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence in which to evaluate if a string value is equivalent to the specified <typeparamref name="T"/>.</param>
-        /// <param name="culture">The culture-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
-        /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(IEnumerable<string> source, CultureInfo culture)
-        {
-            return IsSequenceOf<T>(source, culture, (ITypeDescriptorContext)null);
-        }
-
-        /// <summary>
-        /// Determines whether the elements of the specified <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence in which to evaluate if a string value is equivalent to the specified <typeparamref name="T"/>.</param>
-        /// <param name="culture">The culture-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
-        /// <param name="context">The type-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
-        /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(IEnumerable<string> source, CultureInfo culture, ITypeDescriptorContext context)
-        {
-            return IsSequenceOfCore<T>(source, culture, context, null);
-        }
-
-        /// <summary>
-        /// Determines whether the elements of the specified <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence in which to evaluate if a string value is equivalent to the specified <typeparamref name="T"/>.</param>
-        /// <param name="parser">The function delegate that evaluates if the elements  of <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.</param>
-        /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(IEnumerable<string> source, Func<string, CultureInfo, bool> parser)
-        {
-            return IsSequenceOf<T>(source, CultureInfo.InvariantCulture, parser);
-        }
-
-        /// <summary>
-        /// Determines whether the elements of the specified <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence in which to evaluate if a string value is equivalent to the specified <typeparamref name="T"/>.</param>
-        /// <param name="culture">The culture-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
-        /// <param name="parser">The function delegate that evaluates if the elements  of <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.</param>
-        /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(IEnumerable<string> source, CultureInfo culture, Func<string, CultureInfo, bool> parser)
-        {
-            Validator.ThrowIfNull(parser, nameof(parser));
-            return IsSequenceOfCore<T>(source, culture, null, parser);
-        }
-
-        private static bool IsSequenceOfCore<T>(IEnumerable<string> source, CultureInfo culture, ITypeDescriptorContext context, Func<string, CultureInfo, bool> parser)
-        {
-            Validator.ThrowIfNull(source, nameof(source));
-            var converterHasValue = (parser != null);
-            var valid = true;
-            foreach (var substring in source)
-            {
-                valid &= converterHasValue ? parser(substring, culture) : CanConvertString<T>(substring, culture, context);
-            }
-            return valid;
-        }
-
-        private static bool CanConvertString<T>(string s, CultureInfo culture, ITypeDescriptorContext context)
-        {
-            return ConvertFactory.UseParser<ObjectTypeParser>().TryParse<T>(s, out _, o =>
-            {
-                o.FormatProvider = culture;
-                o.DescriptorContext = context;
-            });
         }
         #endregion
     }

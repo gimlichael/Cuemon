@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Cuemon.ComponentModel.Codecs;
 using Cuemon.ComponentModel.Parsers;
 using Cuemon.ComponentModel.TypeConverters;
@@ -35,7 +37,6 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:byte[]"/> representation.
         /// </summary>
-        /// <param name="_">The marker interface of a converter having <see cref="string"/> as <paramref name="input"/>.</param>
         /// <param name="input">The <see cref="string"/> to be converted into a <see cref="T:byte[]"/>.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
@@ -43,7 +44,7 @@ namespace Cuemon.Extensions
         /// <paramref name="input"/> cannot be null.
         /// </exception>
         /// <exception cref="InvalidEnumArgumentException">
-        /// <paramref name="setup"/> was initialzied with an invalid <see cref="EncodingOptions.Preamble"/>.
+        /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
         /// <seealso cref="EncodingOptions"/>
         public static byte[] ToByteArray(this string input, Action<EncodingOptions> setup = null)
@@ -75,7 +76,7 @@ namespace Cuemon.Extensions
         /// Converts the specified <paramref name="input"/> of a GUID to its equivalent <see cref="Guid"/> structure.
         /// </summary>
         /// <param name="input">The <see cref="string"/> to extend.</param>
-        /// <param name="setup">The <see cref="StringToGuidOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="GuidOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Guid"/> that is equivalent to <paramref name="input"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="input"/> cannot be null.
@@ -302,37 +303,22 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Returns a <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> that may be quoted by <paramref name="qualifier"/>.
+        /// Returns a <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <see cref="DelimitedStringOptions.Delimiter"/> that may be quoted by <see cref="DelimitedStringOptions.Qualifier"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="delimiter">The delimiter that seperates the fields.</param>
-        /// <param name="qualifier">The qualifier placed around each field to signify that it is the same field.</param>
-        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> and optionally surrounded within <paramref name="qualifier"/>.</returns>
-        public static string[] SplitDsv(this string value, string delimiter, string qualifier)
+        /// <param name="setup">The <see cref="DelimitedStringOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <see cref="DelimitedStringOptions.Delimiter"/> and optionally surrounded within <see cref="DelimitedStringOptions.Qualifier"/>.</returns>
+        /// <remarks>
+        /// This method was inspired by two articles on StackOverflow @ http://stackoverflow.com/questions/2807536/split-string-in-c-sharp and https://stackoverflow.com/questions/3776458/split-a-comma-separated-string-with-both-quoted-and-unquoted-strings.
+        /// The default implementation conforms with the RFC-4180 standard.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">
+        /// An error occurred while splitting <paramref name="value"/> into substrings separated by <see cref="DelimitedStringOptions.Delimiter"/> and quoted with <see cref="DelimitedStringOptions.Qualifier"/>.
+        /// This is typically related to data corruption, eg. a field has not been properly closed with the <see cref="DelimitedStringOptions.Qualifier"/> specified.
+        /// </exception>
+        public static string[] SplitDelimited(this string value, Action<DelimitedStringOptions> setup = null)
         {
-            return StringUtility.SplitDsv(value, delimiter, qualifier);
-        }
-
-        /// <summary>
-        /// Returns a string array that contains the substrings of <paramref name="value"/> delimited by a comma (",") that may be quoted with double quotes ("").
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> that are delimited by a comma (",").</returns>
-        /// <remarks>Conforms with the RFC-4180 standard.</remarks>
-        public static string[] SplitCsvQuoted(this string value)
-        {
-            return StringUtility.SplitCsvQuoted(value);
-        }
-
-        /// <summary>
-        /// Returns a string array that contains the substrings of <paramref name="value"/> delimited by a <paramref name="delimiter"/> that may be quoted with double quotes ("").
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="delimiter">The delimiter that seperates the fields.</param>
-        /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> that are delimited by a <paramref name="delimiter"/>.</returns>
-        public static string[] SplitDsvQuoted(this string value, string delimiter)
-        {
-            return StringUtility.SplitDsvQuoted(value, delimiter);
+            return DelimitedString.Split(value, setup);
         }
 
         /// <summary>
@@ -458,29 +444,26 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Shuffles the specified <paramref name="source"/> like a deck of cards.
-        /// </summary>
-        /// <param name="source">The <see cref="string"/> sequence to extend.</param>
-        /// <returns>A random string from the shuffled <paramref name="source"/> provided.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="source"/> is empty.
-        /// </exception>
-        public static string Shuffle(this IEnumerable<string> source)
-        {
-            return StringUtility.Shuffle(source);
-        }
-
-        /// <summary>
         /// Escapes the given <see cref="string"/> the same way as the well known JavaScript escape() function.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
         public static string JsEscape(this string value)
         {
-            return StringUtility.Escape(value);
+            Validator.ThrowIfNull(value, nameof(value));
+            var builder = new StringBuilder(value.Length);
+            foreach (var character in value)
+            {
+                if (DoEscapeOrUnescape(character))
+                {
+                    builder.AppendFormat(CultureInfo.InvariantCulture, character < byte.MaxValue ? "%{0:x2}" : "%u{0:x4}", (uint)character);
+                }
+                else
+                {
+                    builder.Append(character);
+                }
+            }
+            return builder.ToString();
         }
 
         /// <summary>
@@ -490,7 +473,28 @@ namespace Cuemon.Extensions
         /// <returns>The input <paramref name="value"/> with an unescaped equivalent.</returns>
         public static string JsUnescape(this string value)
         {
-            return StringUtility.Unescape(value);
+            Validator.ThrowIfNull(value, nameof(value));
+            var builder = new StringBuilder(value);
+            var unicode = new Regex("%u([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])", RegexOptions.IgnoreCase);
+            var matches = unicode.Matches(value);
+            foreach (Match unicodeMatch in matches)
+            {
+                builder.Replace(unicodeMatch.Value, Convert.ToChar(int.Parse(unicodeMatch.Value.Remove(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)).ToString());
+            }
+
+            for (var i = byte.MinValue; i < byte.MaxValue; i++)
+            {
+                if (DoEscapeOrUnescape(i))
+                {
+                    builder.Replace(string.Format(CultureInfo.InvariantCulture, "%{0:x2}", i), Convert.ToChar(i).ToString());
+                }
+            }
+            return builder.ToString();
+        }
+
+        private static bool DoEscapeOrUnescape(int charValue)
+        {
+            return ((charValue < 42 || charValue > 126) || (charValue > 57 && charValue < 64) || (charValue == 92));
         }
 
         /// <summary>
@@ -748,60 +752,38 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
         /// <param name="source">The <see cref="string"/> sequence to extend.</param>
-        /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(this IEnumerable<string> source)
-        {
-            return StringUtility.IsSequenceOf<T>(source);
-        }
-
-        /// <summary>
-        /// Determines whether the elements of the specified <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The <see cref="string"/> sequence to extend.</param>
-        /// <param name="culture">The culture-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
-        /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(this IEnumerable<string> source, CultureInfo culture)
-        {
-            return StringUtility.IsSequenceOf<T>(source, culture);
-        }
-
-        /// <summary>
-        /// Determines whether the elements of the specified <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The <see cref="string"/> sequence to extend.</param>
-        /// <param name="parser">The function delegate that evaluates if the elements  of <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.</param>
-        /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(this IEnumerable<string> source, Func<string, CultureInfo, bool> parser)
-        {
-            return StringUtility.IsSequenceOf<T>(source, parser);
-        }
-
-        /// <summary>
-        /// Determines whether the elements of the specified <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The <see cref="string"/> sequence to extend.</param>
-        /// <param name="culture">The culture-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
-        /// <param name="parser">The function delegate that evaluates if the elements  of <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.</param>
-        /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(this IEnumerable<string> source, CultureInfo culture, Func<string, CultureInfo, bool> parser)
-        {
-            return StringUtility.IsSequenceOf<T>(source, culture, parser);
-        }
-
-        /// <summary>
-        /// Determines whether the elements of the specified <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the expected values contained within the sequence of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The <see cref="string"/> sequence to extend.</param>
         /// <param name="culture">The culture-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
         /// <param name="context">The type-specific formatting information to apply on the elements within <paramref name="source"/>.</param>
+        /// <param name="parser">The function delegate that evaluates if the elements  of <paramref name="source"/> is equivalent to the specified <typeparamref name="T"/>.</param>
         /// <returns><c>true</c> if elements of the <paramref name="source"/> parameter was successfully converted; otherwise <c>false</c>.</returns>
-        public static bool IsSequenceOf<T>(this IEnumerable<string> source, CultureInfo culture, ITypeDescriptorContext context)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null.
+        /// </exception>
+        public static bool IsSequenceOf<T>(this IEnumerable<string> source, CultureInfo culture = null, ITypeDescriptorContext context = null, Func<string, CultureInfo, bool> parser = null)
         {
-            return StringUtility.IsSequenceOf<T>(source, culture, context);
+            Validator.ThrowIfNull(source, nameof(source));
+            return IsSequenceOfCore<T>(source, culture, context, parser);
+        }
+
+        private static bool IsSequenceOfCore<T>(IEnumerable<string> source, CultureInfo culture, ITypeDescriptorContext context, Func<string, CultureInfo, bool> parser)
+        {
+            if (culture == null) { culture = CultureInfo.InvariantCulture; }
+            var converterHasValue = (parser != null);
+            var valid = true;
+            foreach (var substring in source)
+            {
+                valid &= converterHasValue ? parser(substring, culture) : CanConvertString<T>(substring, culture, context);
+            }
+            return valid;
+        }
+
+        private static bool CanConvertString<T>(string s, CultureInfo culture, ITypeDescriptorContext context)
+        {
+            return ConvertFactory.UseParser<ObjectTypeParser>().TryParse<T>(s, out _, o =>
+            {
+                o.FormatProvider = culture;
+                o.DescriptorContext = context;
+            });
         }
 
         /// <summary>

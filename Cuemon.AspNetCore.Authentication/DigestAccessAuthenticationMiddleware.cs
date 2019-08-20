@@ -127,7 +127,7 @@ namespace Cuemon.AspNetCore.Authentication
                     var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                     for (var i = 0; i < credentials.Length; i++)
                     {
-                        var credentialPair = StringUtility.SplitDsvQuoted(credentials[i], "=");
+                        var credentialPair = DelimitedString.Split(credentials[i], o => o.Qualifier = "=");
                         result.Add(credentialPair[0].Trim(), QuotedStringParser(credentialPair[1]));
                     }
                     return IsDigestCredentialsValid(result) ? result : null;

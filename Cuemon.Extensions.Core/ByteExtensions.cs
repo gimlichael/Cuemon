@@ -81,15 +81,5 @@ namespace Cuemon.Extensions
         {
             return ByteOrderMark.TryDetectEncoding(bytes, out result);
         }
-
-        /// <summary>
-        /// Removes trailing zero information (if any) from the specified <see cref="byte"/> array.
-        /// </summary>
-        /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
-        /// <returns>A <see cref="byte"/> array without trailing zeros.</returns>
-        public static byte[] RemoveTrailingZeros(this byte[] bytes)
-        {
-            return AdvancedEncryptionStandardUtility.RemoveTrailingZeros(bytes);
-        }
     }
 }

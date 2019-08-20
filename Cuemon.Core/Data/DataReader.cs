@@ -7,7 +7,7 @@ using System.Text;
 namespace Cuemon.Data
 {
     /// <summary>
-    /// Provides a generic way of reading a forward-only stream of rows from a <see cref="string" /> based data source. This is an abstract class.
+    /// Provides a generic way of reading a forward-only stream of rows from a <typeparamref name="TRead"/> based data source. This is an abstract class.
     /// Implements the <see cref="Disposable" />
     /// Implements the <see cref="IDataReader" />
     /// </summary>
@@ -86,10 +86,6 @@ namespace Cuemon.Data
             return builder.ToString();
         }
 
-        /// <summary>
-        /// Advances the <see cref="T:System.Data.IDataReader"></see> to the next record.
-        /// </summary>
-        /// <returns>true if there are more rows; otherwise, false.</returns>
         bool IDataReader.Read()
         {
             var value = ReadNext();

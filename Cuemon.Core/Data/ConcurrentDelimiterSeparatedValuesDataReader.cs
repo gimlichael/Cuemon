@@ -20,7 +20,7 @@ namespace Cuemon.Data
         /// <param name="reader">The <see cref="StreamReader"/> object that contains the DSV data.</param>
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
         /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
-        /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
+        /// <param name="qualifier">The qualifier specification. Default is double-quote (").</param>
         /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="ObjectConverter.FromString(string)"/>.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/> -or-
@@ -47,7 +47,11 @@ namespace Cuemon.Data
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
 
             Reader = reader;
-            Header = StringUtility.SplitDsv(header, delimiter.ToString(CultureInfo.InvariantCulture), qualifier.ToString(CultureInfo.InvariantCulture));
+            Header = DelimitedString.Split(header, o =>
+            {
+                o.Delimiter = delimiter.ToString(CultureInfo.InvariantCulture);
+                o.Qualifier = qualifier.ToString(CultureInfo.InvariantCulture);
+            });
             Delimiter = delimiter;
             Qualifier = qualifier;
             var headerFields = new OrderedDictionary();
@@ -103,7 +107,11 @@ namespace Cuemon.Data
                         tb.Append(await Reader.ReadLineAsync());
                     }
                     Interlocked.Increment(ref _rowCount);
-                    return ReadNext(StringUtility.SplitDsv(tb.ToString(), Delimiter.ToString(CultureInfo.InvariantCulture), Qualifier.ToString(CultureInfo.InvariantCulture))) != null;
+                    return ReadNext(DelimitedString.Split(tb.ToString(), o =>
+                    {
+                        o.Delimiter = Delimiter.ToString(CultureInfo.InvariantCulture);
+                        o.Qualifier = Qualifier.ToString(CultureInfo.InvariantCulture);
+                    })) != null;
                 }
                 return false;
             }
