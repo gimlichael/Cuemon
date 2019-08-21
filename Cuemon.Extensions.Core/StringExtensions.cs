@@ -340,7 +340,13 @@ namespace Cuemon.Extensions
         /// </exception>
         public static int Count(this string value, char character)
         {
-            return StringUtility.Count(value, character);
+            Validator.ThrowIfNull(value, nameof(value));
+            var count = 0;
+            for (var i = 0; i < value.Length; i++)
+            {
+                if (value[i] == character) { count++; }
+            }
+            return count;
         }
 
         /// <summary>

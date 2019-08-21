@@ -176,26 +176,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Counts the occurrences of <paramref name="character"/> in the specified <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The source to count occurrences of <paramref name="character"/>.</param>
-        /// <param name="character">The <see cref="char"/> value to count in <paramref name="value"/>.</param>
-        /// <returns>The number of times the <paramref name="character"/> was found in the <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        public static int Count(string value, char character)
-        {
-            Validator.ThrowIfNull(value, nameof(value));
-            var count = 0;
-            for (var i = 0; i < value.Length; i++)
-            {
-                if (value[i] == character) { count++; }
-            }
-            return count;
-        }
-
-        /// <summary>
         /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The source to delete occurrences found in <paramref name="filter"/>.</param>
