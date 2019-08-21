@@ -233,9 +233,17 @@ namespace Cuemon.Extensions
         /// <returns>
         /// 	<c>true</c> if a string sequence has at least one value that equals to null or empty; otherwise, <c>false</c>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> is null.
+        /// </exception>
         public static bool IsNullOrEmpty(this IEnumerable<string> source)
         {
-            return StringUtility.IsNullOrEmpty(source);
+            Validator.ThrowIfNull(source, nameof(source));
+            foreach (var value in source)
+            {
+                if (string.IsNullOrEmpty(value)) { return true; }
+            }
+            return false;
         }
 
         /// <summary>
@@ -643,7 +651,7 @@ namespace Cuemon.Extensions
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
         public static bool EqualsAny(this string value, params string[] values)
         {
-            return StringUtility.Equals(value, values);
+            return EqualsAny(value, StringComparison.Ordinal, values);
         }
 
         /// <summary>
@@ -653,12 +661,15 @@ namespace Cuemon.Extensions
         /// <param name="values">The <see cref="string"/> sequence to search within <paramref name="value"/>.</param>
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <returns><c>true</c> if one the <paramref name="values"/> is the same as the <paramref name="value"/>; otherwise <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="values"/> is null.
-        /// </exception>
         public static bool EqualsAny(this string value, StringComparison comparison, params string[] values)
         {
-            return StringUtility.Equals(value, comparison, values);
+            if (value == null) { return false; }
+            if (values == null) { return false; }
+            foreach (var v in values)
+            {
+                if (value.Equals(v, comparison)) { return true; }
+            }
+            return false;
         }
 
         /// <summary>

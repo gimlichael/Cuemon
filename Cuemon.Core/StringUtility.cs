@@ -274,35 +274,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Determines whether a string sequence has at least one value that equals to null or empty.
-        /// </summary>
-        /// <param name="values">A string sequence in which to test for the presence of null or empty.</param>
-        /// <returns>
-        /// 	<c>true</c> if a string sequence has at least one value that equals to null or empty; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsNullOrEmpty(IEnumerable<string> values)
-        {
-            if (values == null) { throw new ArgumentNullException(nameof(values)); }
-            foreach (var value in values)
-            {
-                if (string.IsNullOrEmpty(value)) { return true; }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Determines whether one or more string values equals to null or empty.
-        /// </summary>
-        /// <param name="values">One or more string values to test for the presence of null or empty.</param>
-        /// <returns>
-        /// 	<c>true</c> if one or more string values equals to null or empty; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsNullOrEmpty(params string[] values)
-        {
-            return IsNullOrEmpty((IEnumerable<string>)values);
-        }
-
-        /// <summary>
         /// Returns a value indicating whether the specified <paramref name="value"/> occurs within the <paramref name="source"/>.
         /// </summary>
         /// <param name="source">The <see cref="string"/> to seek.</param>
@@ -425,42 +396,6 @@ namespace Cuemon
             foreach (var value in values)
             {
                 if (Contains(source, value, comparison)) { return true; }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Returns a value indicating the specified <paramref name="source"/> equals one of the specified <paramref name="values"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="string"/> to seek.</param>
-        /// <param name="values">The <see cref="string"/> sequence to search within <paramref name="source"/>.</param>
-        /// <returns><c>true</c> if one the <paramref name="values"/> is the same as the <paramref name="source"/>; otherwise <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null - or - <paramref name="values"/> is null.
-        /// </exception>
-        /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
-        public static bool Equals(string source, params string[] values)
-        {
-            return Equals(source, StringComparison.Ordinal, values);
-        }
-
-        /// <summary>
-        /// Returns a value indicating the specified <paramref name="source"/> equals one of the specified <paramref name="values"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="string"/> to seek.</param>
-        /// <param name="values">The <see cref="string"/> sequence to search within <paramref name="source"/>.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <returns><c>true</c> if one the <paramref name="values"/> is the same as the <paramref name="source"/>; otherwise <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null - or - <paramref name="values"/> is null.
-        /// </exception>
-        public static bool Equals(string source, StringComparison comparison, params string[] values)
-        {
-            if (source == null) { return false; }
-            if (values == null) { return false; }
-            foreach (var value in values)
-            {
-                if (source.Equals(value, comparison)) { return true; }
             }
             return false;
         }
