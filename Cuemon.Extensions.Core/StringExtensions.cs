@@ -411,24 +411,11 @@ namespace Cuemon.Extensions
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="oldValue">The <see cref="string"/> value to be replaced.</param>
         /// <param name="newValue">The <see cref="string"/> value to replace all occurrences of <paramref name="oldValue"/>.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison. Default is <see cref="StringComparison.OrdinalIgnoreCase"/>.</param>
         /// <returns>A <see cref="string"/> equivalent to <paramref name="value"/> but with all instances of <paramref name="oldValue"/> replaced with <paramref name="newValue"/>.</returns>
-        /// <remarks>This method performs an <see cref="StringComparison.OrdinalIgnoreCase"/> search to find <paramref name="oldValue"/>.</remarks>
-        public static string ReplaceAll(this string value, string oldValue, string newValue)
+        public static string ReplaceAll(this string value, string oldValue, string newValue, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            return StringUtility.Replace(value, oldValue, newValue);
-        }
-
-        /// <summary>
-        /// Replaces all occurrences of <paramref name="oldValue"/> in <paramref name="value"/>, with <paramref name="newValue"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="oldValue">The <see cref="string"/> value to be replaced.</param>
-        /// <param name="newValue">The <see cref="string"/> value to replace all occurrences of <paramref name="oldValue"/>.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <returns>A <see cref="string"/> equivalent to <paramref name="value"/> but with all instances of <paramref name="oldValue"/> replaced with <paramref name="newValue"/>.</returns>
-        public static string ReplaceAll(this string value, string oldValue, string newValue, StringComparison comparison)
-        {
-            return StringUtility.Replace(value, oldValue, newValue, comparison);
+            return StringReplacePair.ReplaceAll(value, oldValue, newValue, comparison);
         }
 
         /// <summary>
@@ -436,11 +423,11 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="replacePairs">A sequence of <see cref="StringReplacePair"/> values.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison. Default is <see cref="StringComparison.OrdinalIgnoreCase"/>.</param>
         /// <returns>A <see cref="string"/> equivalent to <paramref name="value"/> but with all instances of <see cref="StringReplacePair.OldValue"/> replaced with <see cref="StringReplacePair.NewValue"/>.</returns>
-        public static string ReplaceAll(this string value, IEnumerable<StringReplacePair> replacePairs, StringComparison comparison)
+        public static string ReplaceAll(this string value, IEnumerable<StringReplacePair> replacePairs, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            return StringUtility.Replace(value, replacePairs, comparison);
+            return StringReplacePair.ReplaceAll(value, replacePairs, comparison);
         }
 
         /// <summary>

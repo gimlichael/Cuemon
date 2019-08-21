@@ -219,7 +219,7 @@ namespace Cuemon
             if (filter == null || filter.Length == 0) { return value; }
             foreach (var f in filter)
             {
-                value = Replace(value, f, "", comparison);
+                value = StringReplacePair.ReplaceAll(value, f, "", comparison);
             }
             return value;
         }
@@ -271,49 +271,6 @@ namespace Cuemon
                 result.Add(RemoveAll(s, comparison, filter));
             }
             return result.ToArray();
-        }
-
-        /// <summary>
-        /// Replaces all occurrences of <paramref name="oldValue"/> in <paramref name="value"/>, with <paramref name="newValue"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> value to perform the replacement on.</param>
-        /// <param name="oldValue">The <see cref="string"/> value to be replaced.</param>
-        /// <param name="newValue">The <see cref="string"/> value to replace all occurrences of <paramref name="oldValue"/>.</param>
-        /// <returns>A <see cref="string"/> equivalent to <paramref name="value"/> but with all instances of <paramref name="oldValue"/> replaced with <paramref name="newValue"/>.</returns>
-        /// <remarks>This method performs an <see cref="StringComparison.OrdinalIgnoreCase"/> search to find <paramref name="oldValue"/>.</remarks>
-        public static string Replace(string value, string oldValue, string newValue)
-        {
-            return Replace(value, oldValue, newValue, StringComparison.OrdinalIgnoreCase);
-        }
-
-        /// <summary>
-        /// Replaces all occurrences of <paramref name="oldValue"/> in <paramref name="value"/>, with <paramref name="newValue"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> value to perform the replacement on.</param>
-        /// <param name="oldValue">The <see cref="string"/> value to be replaced.</param>
-        /// <param name="newValue">The <see cref="string"/> value to replace all occurrences of <paramref name="oldValue"/>.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <returns>A <see cref="string"/> equivalent to <paramref name="value"/> but with all instances of <paramref name="oldValue"/> replaced with <paramref name="newValue"/>.</returns>
-        public static string Replace(string value, string oldValue, string newValue, StringComparison comparison)
-        {
-            Validator.ThrowIfNull(oldValue, nameof(oldValue));
-            Validator.ThrowIfNull(newValue, nameof(newValue));
-            return Replace(value, Arguments.Yield(new StringReplacePair(oldValue, newValue)), comparison);
-        }
-
-        /// <summary>
-        /// Replaces all occurrences of the <see cref="StringReplacePair.OldValue"/> with <see cref="StringReplacePair.NewValue"/> of the <paramref name="replacePairs"/> sequence in <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> value to perform the replacement on.</param>
-        /// <param name="replacePairs">A sequence of <see cref="StringReplacePair"/> values.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <returns>A <see cref="string"/> equivalent to <paramref name="value"/> but with all instances of <see cref="StringReplacePair.OldValue"/> replaced with <see cref="StringReplacePair.NewValue"/>.</returns>
-        public static string Replace(string value, IEnumerable<StringReplacePair> replacePairs, StringComparison comparison)
-        {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(replacePairs, nameof(replacePairs));
-            var replaceEngine = new StringReplaceEngine(value, replacePairs, comparison);
-            return replaceEngine.ToString();
         }
 
         /// <summary>

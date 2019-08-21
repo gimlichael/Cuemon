@@ -88,15 +88,18 @@ namespace Cuemon.Xml
         /// </summary>
         /// <param name="value">The XML <see cref="string"/> to escape.</param>
         /// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
+        /// </exception>
         public static string Escape(string value)
 		{
-			if (value == null) throw new ArgumentNullException(nameof(value));
+            Validator.ThrowIfNull(value, nameof(value));
 			var replacePairs = new List<StringReplacePair>();
 			for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
 			{
 				replacePairs.Add(new StringReplacePair(EscapeStringPairs[1][b], EscapeStringPairs[0][b]));
 			}
-			return StringUtility.Replace(value, replacePairs, StringComparison.Ordinal);
+			return StringReplacePair.ReplaceAll(value, replacePairs, StringComparison.Ordinal);
 		}
 
 
@@ -105,8 +108,12 @@ namespace Cuemon.Xml
 		/// </summary>
 		/// <param name="value">The XML <see cref="string"/> to unescape.</param>
 		/// <returns>The input <paramref name="value"/> with an unescaped equivalent.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
+        /// </exception>
 		public static string Unescape(string value)
 		{
+            Validator.ThrowIfNull(value, nameof(value));
 			var builder = new StringBuilder(value);
 			for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
 			{
