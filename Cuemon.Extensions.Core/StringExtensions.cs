@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cuemon.ComponentModel.Codecs;
@@ -732,23 +733,42 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <returns>The string that remains after all occurrences of white-space characters are removed from the specified <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
+        /// </exception>
         public static string TrimAll(this string value)
         {
-            return StringUtility.TrimAll(value);
+            return TrimAll(value, null);
         }
 
         /// <summary>
         /// Removes all occurrences of a set of characters specified in <paramref name="trimChars"/> from the specified <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="trimChars">An array of Unicode characters to remove.</param>
+        /// <param name="trimChars">An array of Unicode characters to remove. Default value is <see cref="Alphanumeric.WhiteSpace"/>.</param>
         /// <returns>The string that remains after all occurrences of the characters in the <paramref name="trimChars"/> parameter are removed from the specified <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null.
         /// </exception>
         public static string TrimAll(this string value, params char[] trimChars)
         {
-            return StringUtility.TrimAll(value, trimChars);
+            Validator.ThrowIfNull(value, nameof(value));
+            if (trimChars == null || trimChars.Length == 0) { trimChars = Alphanumeric.WhiteSpace.ToCharArray(); }
+            var result = new List<char>();
+            foreach (var c in value)
+            {
+                var skip = false;
+                foreach (var t in trimChars)
+                {
+                    if (c.Equals(t))
+                    {
+                        skip = true;
+                        break;
+                    }
+                }
+                if (!skip) { result.Add(c); }
+            }
+            return new string(result.ToArray());
         }
 
         /// <summary>

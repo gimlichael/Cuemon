@@ -136,46 +136,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Removes all occurrences of white-space characters from the specified <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">A <see cref="string"/> value.</param>
-        /// <returns>The string that remains after all occurrences of white-space characters are removed from the specified <paramref name="value"/>.</returns>
-        public static string TrimAll(string value)
-        {
-            return TrimAll(value, null);
-        }
-
-        /// <summary>
-        /// Removes all occurrences of a set of characters specified in <paramref name="trimChars"/> from the specified <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">A <see cref="string"/> value.</param>
-        /// <param name="trimChars">An array of Unicode characters to remove.</param>
-        /// <returns>The string that remains after all occurrences of the characters in the <paramref name="trimChars"/> parameter are removed from the specified <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        public static string TrimAll(string value, params char[] trimChars)
-        {
-            Validator.ThrowIfNull(value, nameof(value));
-            if (trimChars == null || trimChars.Length == 0) { trimChars = Alphanumeric.WhiteSpace.ToCharArray(); }
-            var result = new List<char>();
-            foreach (var c in value)
-            {
-                var skip = false;
-                foreach (var t in trimChars)
-                {
-                    if (c.Equals(t))
-                    {
-                        skip = true;
-                        break;
-                    }
-                }
-                if (!skip) { result.Add(c); }
-            }
-            return new string(result.ToArray());
-        }
-
-        /// <summary>
         /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The source to delete occurrences found in <paramref name="filter"/>.</param>
