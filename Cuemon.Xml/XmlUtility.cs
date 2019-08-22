@@ -173,8 +173,8 @@ namespace Cuemon.Xml
         public static string SanitizeElementText(string value, bool cdataSection = false)
         {
             if (string.IsNullOrEmpty(value)) { return value; }
-            value = StringUtility.RemoveAll(value, InvalidXmlCharacters);
-            return cdataSection ? StringUtility.RemoveAll(value, "]]>") : value;
+            value = StringReplacePair.RemoveAll(value, InvalidXmlCharacters);
+            return cdataSection ? StringReplacePair.RemoveAll(value, "]]>") : value;
         }
 
         /// <summary>

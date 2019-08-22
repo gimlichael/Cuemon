@@ -362,7 +362,7 @@ namespace Cuemon.Extensions
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
         public static string RemoveAll(this string value, params string[] filter)
         {
-            return StringUtility.RemoveAll(value, filter);
+            return StringReplacePair.RemoveAll(value, filter);
         }
         /// <summary>
         /// Returns a new string in which all the specified <paramref name="filter"/> values has been deleted from the specified <paramref name="value"/>.
@@ -376,7 +376,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static string RemoveAll(this string value, StringComparison comparison, params string[] filter)
         {
-            return StringUtility.RemoveAll(value, comparison, filter);
+            return StringReplacePair.RemoveAll(value, comparison, filter);
         }
 
         /// <summary>
@@ -391,7 +391,7 @@ namespace Cuemon.Extensions
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
         public static string[] RemoveAll(this string[] source, params string[] filter)
         {
-            return StringUtility.RemoveAll(source, filter);
+            return StringReplacePair.RemoveAll(source, filter);
         }
 
         /// <summary>
@@ -406,7 +406,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static string[] RemoveAll(this string[] source, StringComparison comparison, params string[] filter)
         {
-            return StringUtility.RemoveAll(source, comparison, filter);
+            return StringReplacePair.RemoveAll(source, comparison, filter);
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace Cuemon.Extensions
         /// <returns>A new string that is equivalent to <paramref name="value"/> except for the removed characters.</returns>
         public static string RemoveAll(this string value, params char[] filter)
         {
-            return StringUtility.RemoveAll(value, filter);
+            return StringReplacePair.RemoveAll(value, filter);
         }
 
         /// <summary>

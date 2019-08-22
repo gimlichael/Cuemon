@@ -33,7 +33,7 @@ namespace Cuemon.Diagnostics
         {
             Validator.ThrowIfNull(failure, nameof(failure));
             Validator.ThrowIfNullOrWhitespace(message, nameof(message));
-            Code = StringUtility.RemoveAll(code, ' ');
+            Code = StringReplacePair.RemoveAll(code, ' ');
             Message = message;
             HelpLink = helpLink;
             Failure = failure;

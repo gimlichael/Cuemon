@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Cuemon.Collections.Generic;
 
@@ -49,6 +50,85 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Returns a new string in which all the specified <paramref name="fragments"/> has been removed from the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/> value to perform the sweep on.</param>
+        /// <param name="fragments">The fragments containing the characters and/or words to delete.</param>
+        /// <returns>A new string that is equivalent to <paramref name="value"/> except for the removed characters and/or words.</returns>
+        /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
+        public static string RemoveAll(string value, params string[] fragments)
+        {
+            return RemoveAll(value, StringComparison.Ordinal, fragments);
+        }
+
+        /// <summary>
+        /// Returns a new string in which all the specified <paramref name="fragments"/> has been deleted from the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/> value to perform the sweep on.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="fragments">The fragments containing the characters and/or words to delete.</param>
+        /// <returns>A new string that is equivalent to <paramref name="value"/> except for the removed characters and/or words.</returns>
+        public static string RemoveAll(string value, StringComparison comparison, params string[] fragments)
+        {
+            if (string.IsNullOrEmpty(value)) { return value; }
+            if (fragments == null || fragments.Length == 0) { return value; }
+            foreach (var f in fragments)
+            {
+                value = ReplaceAll(value, f, "", comparison);
+            }
+            return value;
+        }
+
+        /// <summary>
+        /// Returns a new string in which all the specified <paramref name="fragments"/> has been deleted from the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/> value to perform the sweep on.</param>
+        /// <param name="fragments">The fragments containing the characters and/or words to delete.</param>
+        /// <returns>A new string that is equivalent to <paramref name="value"/> except for the removed characters.</returns>
+        public static string RemoveAll(string value, params char[] fragments)
+        {
+            if (string.IsNullOrEmpty(value)) { return value; }
+            var result = new StringBuilder(value.Length);
+            foreach (var c in value)
+            {
+                if (fragments.Contains(c)) { continue; }
+                result.Append(c);
+            }
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Returns a new string array in which all the specified <paramref name="fragments"/> has been deleted from the specified <paramref name="source"/> array.
+        /// </summary>
+        /// <param name="source">The <see cref="T:string[]"/> value to perform the sweep on.</param>
+        /// <param name="fragments">The fragments containing the characters and/or words to delete.</param>
+        /// <returns>A new string array that is equivalent to <paramref name="source"/> except for the removed characters and/or words.</returns>
+        /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
+        public static string[] RemoveAll(string[] source, params string[] fragments)
+        {
+            return RemoveAll(source, StringComparison.Ordinal, fragments);
+        }
+
+        /// <summary>
+        /// Returns a new string array in which all the specified <paramref name="fragments"/> has been deleted from the specified <paramref name="source"/> array.
+        /// </summary>
+        /// <param name="source">The <see cref="T:string[]"/> value to perform the sweep on.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="fragments">The fragments containing the characters and/or words to delete.</param>
+        /// <returns>A new string array that is equivalent to <paramref name="source"/> except for the removed characters and/or words.</returns>
+        public static string[] RemoveAll(string[] source, StringComparison comparison, params string[] fragments)
+        {
+            if (source == null || source.Length == 0) { return source; }
+            if (fragments == null || fragments.Length == 0) { return source; }
+            var result = new List<string>();
+            foreach (var s in source)
+            {
+                result.Add(RemoveAll(s, comparison, fragments));
+            }
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="StringReplacePair"/> struct.
         /// </summary>
         /// <param name="oldValue">The <see cref="string"/> value to be replaced.</param>
@@ -60,16 +140,16 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="string"/> value to be replaced.
+        /// Gets the <see cref="string"/> value to be replaced.
         /// </summary>
         /// <value>The <see cref="string"/> value to be replaced.</value>
-        public string OldValue { get; set; }
+        public string OldValue { get; }
 
         /// <summary>
-        /// Gets or sets the <see cref="string"/> value to replace all occurrences of <see cref="OldValue"/>.
+        /// Gets the <see cref="string"/> value to replace all occurrences of <see cref="OldValue"/>.
         /// </summary>
         /// <value>The <see cref="string"/> value to replace all occurrences of <see cref="OldValue"/>.</value>
-        public string NewValue { get; set; }
+        public string NewValue { get; }
 
         /// <summary>
         /// Returns a hash code for this instance.
