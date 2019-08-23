@@ -29,53 +29,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Returns a sequence that is chunked into string-slices having a length of 1024 that is equivalent to <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">A <see cref="string" /> to chunk into a sequence of smaller string-slices for partitioned storage or similar.</param>
-        /// <returns>A sequence that is chunked into string-slices having a length of 1024 that is equivalent to <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        public static IEnumerable<string> Chunk(string value)
-        {
-            return Chunk(value, 1024);
-        }
-
-        /// <summary>
-        /// Returns a sequence that is chunked into string-slices of the specified <paramref name="length"/> that is equivalent to <paramref name="value"/>. Default is 1024.
-        /// </summary>
-        /// <param name="value">A <see cref="string" /> to chunk into a sequence of smaller string-slices for partitioned storage or similar.</param>
-        /// <param name="length">The desired length of each string-slice in the sequence.</param>
-        /// <returns>A sequence that is chunked into string-slices of the specified <paramref name="length"/> that is equivalent to <paramref name="value"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="length"/> is less or equal to 0.
-        /// </exception>
-        public static IEnumerable<string> Chunk(string value, int length)
-        {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfLowerThanOrEqual(length, 0, nameof(length));
-            if (value.Length <= length)
-            {
-                yield return value;
-            }
-            else
-            {
-                var index = 0;
-                while (index < value.Length)
-                {
-                    var smallestLength = Math.Min(length, value.Length - index);
-                    yield return value.Substring(index, smallestLength);
-                    index += smallestLength;
-                }
-            }
-        }
-
-
-
-        /// <summary>
         /// Returns a value indicating whether the specified <paramref name="value"/> occurs within the <paramref name="source"/>.
         /// </summary>
         /// <param name="source">The <see cref="string"/> to seek.</param>
@@ -200,61 +153,6 @@ namespace Cuemon
                 if (Contains(source, value, comparison)) { return true; }
             }
             return false;
-        }
-
-        /// <summary>
-        /// Determines whether the beginning of an instance of <see cref="string"/> matches at least one string in the specified sequence of strings.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to compare.</param>
-        /// <param name="startWithValues">A sequence of <see cref="string"/> values to match against.</param>
-        /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
-        /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
-        public static bool StartsWith(string value, IEnumerable<string> startWithValues)
-        {
-            return StartsWith(value, StringComparison.OrdinalIgnoreCase, startWithValues);
-        }
-
-        /// <summary>
-        /// Determines whether the beginning of an instance of <see cref="string"/> matches at least one string in the specified sequence of strings.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to compare.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <param name="startWithValues">A sequence of <see cref="string"/> values to match against.</param>
-        /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
-        public static bool StartsWith(string value, StringComparison comparison, IEnumerable<string> startWithValues)
-        {
-            if (value == null) { return false; }
-            if (startWithValues == null) { return false; }
-            foreach (var startWithValue in startWithValues)
-            {
-                if (value.StartsWith(startWithValue, comparison)) { return true; }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Determines whether the beginning of an instance of <see cref="string"/> matches at least one string in the specified sequence of strings.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to compare.</param>
-        /// <param name="startWithValues">A sequence of <see cref="string"/> values to match against.</param>
-        /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
-        /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
-        public static bool StartsWith(string value, params string[] startWithValues)
-        {
-            return StartsWith(value, (IEnumerable<string>)startWithValues);
-        }
-
-        /// <summary>
-        /// Determines whether the beginning of an instance of <see cref="string"/> matches at least one string in the specified sequence of strings.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to compare.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <param name="startWithValues">A sequence of <see cref="string"/> values to match against.</param>
-        /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
-        /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
-        public static bool StartsWith(string value, StringComparison comparison, params string[] startWithValues)
-        {
-            return StartsWith(value, comparison, (IEnumerable<string>)startWithValues);
         }
         #endregion
     }

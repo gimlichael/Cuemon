@@ -250,7 +250,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         private static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
             var exceptionType = exception.GetType();
-            writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.FullName));
+            writer.WriteStartElement(exceptionType.FullName.SanitizeXmlElementName());
             WriteExceptionCore(writer, exception, includeStackTrace);
             writer.WriteEndElement();
         }
@@ -283,8 +283,8 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 writer.WriteStartElement("Data");
                 foreach (DictionaryEntry entry in exception.Data)
                 {
-                    writer.WriteStartElement(XmlUtility.SanitizeElementName(entry.Key.ToString()));
-                    writer.WriteString(XmlUtility.SanitizeElementText(entry.Value.ToString()));
+                    writer.WriteStartElement(entry.Key.ToString().SanitizeXmlElementName());
+                    writer.WriteString(entry.Value.ToString().SanitizeXmlElementText());
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
@@ -313,7 +313,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 foreach (var inner in innerExceptions)
                 {
                     var exceptionType = inner.GetType();
-                    writer.WriteStartElement(XmlUtility.SanitizeElementName(exceptionType.Name));
+                    writer.WriteStartElement(exceptionType.Name.SanitizeXmlElementName());
                     writer.WriteAttributeString("namespace", exceptionType.Namespace);
                     WriteExceptionCore(writer, inner, includeStackTrace);
                     endElementsToWrite++;

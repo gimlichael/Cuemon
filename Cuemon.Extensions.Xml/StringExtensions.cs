@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Xml;
 
 namespace Cuemon.Extensions.Xml
@@ -40,7 +44,30 @@ namespace Cuemon.Extensions.Xml
         /// </remarks>
         public static string SanitizeXmlElementName(this string value)
         {
-            return XmlUtility.SanitizeElementName(value);
+            Validator.ThrowIfNull(value, nameof(value));
+            if (value.StartsWith(StringComparison.OrdinalIgnoreCase, ConvertFactory.UseConverter<TextEnumerableConverter>().ChangeType(Alphanumeric.Numbers).Concat(new[] { "." } )))
+            {
+                var startIndex = 0;
+                var numericsAndPunctual = new List<char>(Alphanumeric.Numbers.ToCharArray().Concat(new[] { '.' }));
+                foreach (var c in value)
+                {
+                    if (numericsAndPunctual.Contains(c))
+                    {
+                        startIndex++;
+                        continue;
+                    }
+                    break;
+                }
+                return SanitizeXmlElementName(value.Substring(startIndex));
+            }
+
+            var validElementName = new StringBuilder();
+            foreach (var c in value)
+            {
+                var validCharacters = new List<char>(Alphanumeric.LettersAndNumbers.ToCharArray().Concat(new[] { '_', ':', '.', '-' }));
+                if (validCharacters.Contains(c)) { validElementName.Append(c); }
+            }
+            return validElementName.ToString();
         }
 
         /// <summary>
@@ -55,7 +82,9 @@ namespace Cuemon.Extensions.Xml
         /// </remarks>
         public static string SanitizeXmlElementText(this string value, bool cdataSection = false)
         {
-            return XmlUtility.SanitizeElementText(value, cdataSection);
+            if (string.IsNullOrEmpty(value)) { return value; }
+            value = StringReplacePair.RemoveAll(value, '\x0001', '\x0002', '\x0003', '\x0004', '\x0005', '\x0006', '\x0007', '\x0008', '\x0011', '\x0012', '\x0014', '\x0015', '\x0016', '\x0017', '\x0018', '\x0019');
+            return cdataSection ? StringReplacePair.RemoveAll(value, "]]>") : value;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.Xml.Serialization
             if (qualifiedRootEntity != null && !qualifiedRootEntity.LocalName.IsNullOrWhiteSpace()) { return qualifiedRootEntity; }
             var hasRootAttribute = TypeInsight.FromType(node.InstanceType).HasAttribute(typeof(XmlRootAttribute));
             var hasElementAttribute = node.HasMemberReference && MemberInsight.FromMember(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
-            var rootOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(node.InstanceType, o => o.ExcludeGenericArguments = true));
+            var rootOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(node.InstanceType, o => o.ExcludeGenericArguments = true).SanitizeXmlElementName();
             string ns = null;
 
             if (hasRootAttribute || hasElementAttribute)
@@ -56,7 +56,7 @@ namespace Cuemon.Extensions.Xml.Serialization
             }
 
             var instance = node.Instance as XmlQualifiedEntity;
-            return instance ?? new XmlQualifiedEntity(XmlUtility.SanitizeElementName(rootOrElementName), ns);
+            return instance ?? new XmlQualifiedEntity(rootOrElementName.SanitizeXmlElementName(), ns);
         }
 
         internal static IEnumerable<IHierarchy<T>> OrderByXmlAttributes<T>(this IEnumerable<IHierarchy<T>> sequence)

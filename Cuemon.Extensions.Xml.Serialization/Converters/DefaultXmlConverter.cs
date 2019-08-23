@@ -281,7 +281,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
             var isType = node.Instance is Type;
             var nodeType = isType ? (Type)node.Instance : node.InstanceType;
-            var attributeOrElementName = XmlUtility.SanitizeElementName(node.HasMemberReference ? node.MemberReference.Name : ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(nodeType));
+            var attributeOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(nodeType).SanitizeXmlElementName();
 
             if (!hasAttributeAttribute && !hasElementAttribute && !hasTextAttribute)
             {

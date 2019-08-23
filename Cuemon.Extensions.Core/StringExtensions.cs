@@ -688,7 +688,7 @@ namespace Cuemon.Extensions
         /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
         public static bool StartsWith(this string value, IEnumerable<string> startWithValues)
         {
-            return StringUtility.StartsWith(value, startWithValues);
+            return StartsWith(value, StringComparison.OrdinalIgnoreCase, startWithValues);
         }
 
         /// <summary>
@@ -700,7 +700,13 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
         public static bool StartsWith(this string value, StringComparison comparison, IEnumerable<string> startWithValues)
         {
-            return StringUtility.StartsWith(value, comparison, startWithValues);
+            if (value == null) { return false; }
+            if (startWithValues == null) { return false; }
+            foreach (var startWithValue in startWithValues)
+            {
+                if (value.StartsWith(startWithValue, comparison)) { return true; }
+            }
+            return false;
         }
 
         /// <summary>
@@ -712,7 +718,7 @@ namespace Cuemon.Extensions
         /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
         public static bool StartsWith(this string value, params string[] startWithValues)
         {
-            return StringUtility.StartsWith(value, startWithValues);
+            return StartsWith(value, (IEnumerable<string>)startWithValues);
         }
 
         /// <summary>
@@ -725,7 +731,7 @@ namespace Cuemon.Extensions
         /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
         public static bool StartsWith(this string value, StringComparison comparison, params string[] startWithValues)
         {
-            return StringUtility.StartsWith(value, comparison, startWithValues);
+            return StartsWith(value, comparison, (IEnumerable<string>)startWithValues);
         }
 
         /// <summary>
@@ -889,6 +895,51 @@ namespace Cuemon.Extensions
             Validator.ThrowIfNull(match, nameof(match));
             var indexOf = value.IndexOf(match, comparisonType);
             return indexOf == -1 ? "" : value.Substring(0, indexOf);
+        }
+
+        /// <summary>
+        /// Returns a sequence that is chunked into string-slices having a length of 1024 that is equivalent to <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">A <see cref="string" /> to chunk into a sequence of smaller string-slices for partitioned storage or similar.</param>
+        /// <returns>A sequence that is chunked into string-slices having a length of 1024 that is equivalent to <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
+        /// </exception>
+        public static IEnumerable<string> Chunk(this string value)
+        {
+            return Chunk(value, 1024);
+        }
+
+        /// <summary>
+        /// Returns a sequence that is chunked into string-slices of the specified <paramref name="length"/> that is equivalent to <paramref name="value"/>. Default is 1024.
+        /// </summary>
+        /// <param name="value">A <see cref="string" /> to chunk into a sequence of smaller string-slices for partitioned storage or similar.</param>
+        /// <param name="length">The desired length of each string-slice in the sequence.</param>
+        /// <returns>A sequence that is chunked into string-slices of the specified <paramref name="length"/> that is equivalent to <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="length"/> is less or equal to 0.
+        /// </exception>
+        public static IEnumerable<string> Chunk(this string value, int length)
+        {
+            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfLowerThanOrEqual(length, 0, nameof(length));
+            if (value.Length <= length)
+            {
+                yield return value;
+            }
+            else
+            {
+                var index = 0;
+                while (index < value.Length)
+                {
+                    var smallestLength = Math.Min(length, value.Length - index);
+                    yield return value.Substring(index, smallestLength);
+                    index += smallestLength;
+                }
+            }
         }
     }
 }
