@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Cuemon.ComponentModel.Parsers;
-using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon
 {
@@ -19,7 +18,63 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
 
         private static readonly Condition ExtendedCondition = new Condition();
 
-        public static Condition Verify { get; } = ExtendedCondition;
+        /// <summary>
+        /// Gets the singleton instance of the Condition functionality allowing for extensions methods like: <c>Condition.Query.IsTrue()</c>.
+        /// </summary>
+        /// <value>The singleton instance of the Condition functionality.</value>
+        public static Condition Query { get; } = ExtendedCondition;
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> contains at least one of the succession <paramref name="characters"/> of <paramref name="length"/>.
+        /// </summary>
+        /// <param name="value">The value to test for consecutive characters.</param>
+        /// <param name="characters">The character to locate with the specified <paramref name="length"/>.</param>
+        /// <param name="length">The number of characters in succession.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> contains at least one of the succession <paramref name="characters"/> of <paramref name="length"/>; otherwise, <c>false</c>.</returns>
+        public static bool HasConsecutiveCharacters(string value, IEnumerable<char> characters, int length = 2)
+        {
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
+            if (value.Length == 1) { return false; }
+            if (characters == null) { return false; }
+            foreach (var sc in characters)
+            {
+                if (HasConsecutiveCharacters(value, sc, length)) { return true; }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> contains a succession <paramref name="character"/> of <paramref name="length"/>.
+        /// </summary>
+        /// <param name="value">The value to test for consecutive characters.</param>
+        /// <param name="character">The characters to locate with the specified <paramref name="length"/>.</param>
+        /// <param name="length">The number of characters in succession.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> contains a succession <paramref name="character"/> of <paramref name="length"/>; otherwise, <c>false</c>.</returns>
+        public static bool HasConsecutiveCharacters(string value, char character, int length = 2)
+        {
+            if (length < 2) { length = 2; }
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
+            if (value.Length == 1) { return false; }
+            return value.Contains(new string(character, length));
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> matches a Base64 structure.
+        /// </summary>
+        /// <param name="value">The value to test for a Base64 structure.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> matches a Base64 structure; otherwise, <c>false</c>.</returns>
+        /// <remarks>This method will skip common Base64 structures typically used as checksums. This includes 32, 128, 160, 256, 384 and 512 bit checksums.</remarks>
+        public static bool IsBase64(string value)
+        {
+            if (string.IsNullOrEmpty(value)) { return false; }
+            return IsValueWithValidBase64ChecksumLength(value) && ConvertFactory.UseParser<Base64StringParser>().TryParse(value, out _);
+        }
+
+        private static bool IsValueWithValidBase64ChecksumLength(string value)
+        {
+            if (IsEven(value.Length)) { return (value.Length % 4 == 0); }
+            return false;
+        }
 
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> consists only of binary digits.
@@ -28,7 +83,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> consists only of binary digits; otherwise, <c>false</c>.</returns>
         public static bool IsBinaryDigits(string value)
         {
-            if (String.IsNullOrWhiteSpace(value)) { return false; }
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
             return !value.Any(ch => ch < '0' || ch > '1');
         }
 
@@ -42,7 +97,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// </remarks>
         public static bool IsEmailAddress(string value)
         {
-            if (String.IsNullOrWhiteSpace(value)) { return false; }
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
             return (RegExEmailAddressValidator.Match(value).Length > 0);
         }
 
@@ -52,8 +107,8 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <param name="value">The string to verify has a valid format of a <see cref="Guid"/>.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> has a format of a <see cref="Guid"/>; otherwise, <c>false</c>.</returns>
         /// <remarks>
-        /// This implementation only evaluates for GUID formats of: <see cref="GuidFormats.DigitFormat"/> | <see cref="GuidFormats.BraceFormat"/> | <see cref="GuidFormats.ParenthesisFormat"/>, eg. 32 digits separated by hyphens; 32 digits separated by hyphens, enclosed in brackets and 32 digits separated by hyphens, enclosed in parentheses.<br/>
-        /// The reason not to include <see cref="GuidFormats.NumberFormat"/>, eg. 32 digits is the possible unintended GUID result of a MD5 string representation.
+        /// This implementation only evaluates for GUID formats of: <see cref="GuidFormats.D"/> | <see cref="GuidFormats.B"/> | <see cref="GuidFormats.P"/>, eg. 32 digits separated by hyphens; 32 digits separated by hyphens, enclosed in brackets and 32 digits separated by hyphens, enclosed in parentheses.<br/>
+        /// The reason not to include <see cref="GuidFormats.N"/>, eg. 32 digits is the possible unintended GUID result of a MD5 string representation.
         /// </remarks>
         public static bool IsGuid(string value)
         {
@@ -68,7 +123,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> has a format of a <see cref="Guid"/>; otherwise, <c>false</c>.</returns>
         public static bool IsGuid(string value, GuidFormats format)
         {
-            if (String.IsNullOrWhiteSpace(value)) { return false; }
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
             return ConvertFactory.UseParser<GuidParser>().TryParse(value, out _, o => o.Formats = format);
         }
 
@@ -81,11 +136,11 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified value can be evaluated as a number; otherwise, <c>false</c>.</returns>
         public static bool IsNumeric(string value, NumberStyles styles = NumberStyles.Number, IFormatProvider provider = null)
         {
-            if (String.IsNullOrWhiteSpace(value)) { return false; }
-            if (String.Equals(value, "NaN", StringComparison.OrdinalIgnoreCase)) { return false; }
-            if (String.Equals(value, "Infinity", StringComparison.OrdinalIgnoreCase)) { return false; }
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
+            if (string.Equals(value, "NaN", StringComparison.OrdinalIgnoreCase)) { return false; }
+            if (string.Equals(value, "Infinity", StringComparison.OrdinalIgnoreCase)) { return false; }
             if (provider == null) { provider = CultureInfo.InvariantCulture; }
-            return Double.TryParse(value, styles, provider, out _);
+            return double.TryParse(value, styles, provider, out _);
         }
 
         /// <summary>
@@ -211,7 +266,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsWhiteSpace(string value)
         {
             if (value == null) { return false; }
-            return value.All(Char.IsWhiteSpace);
+            return value.All(char.IsWhiteSpace);
         }
 
         /// <summary>
@@ -241,7 +296,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> is hexadecimal; otherwise, <c>false</c>.</returns>
         public static bool IsHex(string value)
         {
-            if (String.IsNullOrEmpty(value)) { return false; }
+            if (string.IsNullOrEmpty(value)) { return false; }
             if (!IsEven(value.Length)) { return false; }
             using (var reader = new StringReader(value))
             {
@@ -281,7 +336,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="value">The object to verify is null.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> is null; otherwise, <c>false</c>.</returns>
-        public static bool IsNull<T>(T value) 
+        public static bool IsNull<T>(T value)
         {
             return (value == null);
         }
@@ -450,7 +505,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> is a sequence of countable characters (hence, characters being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
         public static bool IsCountableSequence(string value)
         {
-            if (String.IsNullOrEmpty(value)) { return false; }
+            if (string.IsNullOrEmpty(value)) { return false; }
             if (value.Length < 2) { return false; }
             return IsCountableSequence(value.Select(Convert.ToInt64));
         }

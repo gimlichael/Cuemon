@@ -1,14 +1,7 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using Cuemon.Collections.Generic;
 using Cuemon.ComponentModel.Parsers;
-using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon
 {
@@ -33,61 +26,6 @@ namespace Cuemon
             if (arbitrary == null) { arbitrary = string.Empty; }
             difference = string.Concat(arbitrary.Distinct().Except(definite.Distinct()));
             return difference.Any();
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="value"/> contains at least one of the succession <paramref name="characters"/> of <paramref name="length"/>.
-        /// </summary>
-        /// <param name="value">The value to test for consecutive characters.</param>
-        /// <param name="characters">The character to locate with the specified <paramref name="length"/>.</param>
-        /// <param name="length">The number of characters in succession.</param>
-        /// <returns><c>true</c> if the specified <paramref name="value"/> contains at least one of the succession <paramref name="characters"/> of <paramref name="length"/>; otherwise, <c>false</c>.</returns>
-        public static bool HasConsecutiveCharacters(string value, IEnumerable<char> characters, int length = 2)
-        {
-            if (string.IsNullOrWhiteSpace(value)) { return false; }
-            if (value.Length == 1) { return false; }
-            if (characters == null) { return false; }
-            foreach (var sc in characters)
-            {
-                if (HasConsecutiveCharacters(value, sc, length)) { return true; }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="value"/> contains a succession <paramref name="character"/> of <paramref name="length"/>.
-        /// </summary>
-        /// <param name="value">The value to test for consecutive characters.</param>
-        /// <param name="character">The characters to locate with the specified <paramref name="length"/>.</param>
-        /// <param name="length">The number of characters in succession.</param>
-        /// <returns><c>true</c> if the specified <paramref name="value"/> contains a succession <paramref name="character"/> of <paramref name="length"/>; otherwise, <c>false</c>.</returns>
-        public static bool HasConsecutiveCharacters(string value, char character, int length = 2)
-        {
-            if (length < 2) { length = 2; }
-            if (string.IsNullOrWhiteSpace(value)) { return false; }
-            if (value.Length == 1) { return false; }
-            return value.Contains(new string(character, length));
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="value"/> matches a Base64 structure.
-        /// </summary>
-        /// <param name="value">The value to test for a Base64 structure.</param>
-        /// <returns><c>true</c> if the specified <paramref name="value"/> matches a Base64 structure; otherwise, <c>false</c>.</returns>
-        /// <remarks>This method will skip common Base64 structures typically used as checksums. This includes 32, 128, 160, 256, 384 and 512 bit checksums.</remarks>
-        public static bool IsBase64(string value)
-        {
-            return IsValueWithValidBase64ChecksumLength(value) && ConvertFactory.UseParser<Base64StringParser>().TryParse(value, out _);
-        }
-
-        internal static bool IsValueWithValidBase64ChecksumLength(string value)
-        {
-            if (string.IsNullOrEmpty(value)) { return false; }
-            if (Condition.IsEven(value.Length))
-            {
-                return (value.Length % 4 == 0);
-            }
-            return false;
         }
 
         /// <summary>

@@ -72,7 +72,7 @@ namespace Cuemon.AspNetCore.Authentication
             if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, AuthenticationScheme))
             {
                 var base64Credentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
-                if (StringUtility.IsBase64(base64Credentials))
+                if (Condition.IsBase64(base64Credentials))
                 {
                     var credentials = ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(Convert.FromBase64String(base64Credentials), options =>
                     {

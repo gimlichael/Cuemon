@@ -298,7 +298,7 @@ namespace Cuemon.Extensions
         /// <remarks>This method will skip common Base64 structures typically used as checksums. This includes 32, 128, 160, 256, 384 and 512 bit checksums.</remarks>
         public static bool IsBase64(this string value)
         {
-            return StringUtility.IsBase64(value);
+            return Condition.IsBase64(value);
         }
 
         /// <summary>
