@@ -88,8 +88,8 @@ namespace Cuemon.Data.SqlClient
                 }
 
                 var fault = exception.Message.StartsWith("Timeout expired.", StringComparison.OrdinalIgnoreCase);
-                fault |= StringUtility.Contains(exception.Message, "The wait operation timed out", StringComparison.OrdinalIgnoreCase);
-                fault |= StringUtility.Contains(exception.Message, "The semaphore timeout period has expired", StringComparison.OrdinalIgnoreCase);
+                fault |= exception.Message.IndexOf("The wait operation timed out", StringComparison.OrdinalIgnoreCase) >= 0;
+                fault |= exception.Message.IndexOf("The semaphore timeout period has expired", StringComparison.OrdinalIgnoreCase) >= 0;
 
                 return fault;
             };

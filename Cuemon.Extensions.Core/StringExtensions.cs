@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cuemon.ComponentModel.Codecs;
@@ -504,41 +503,19 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="find">The <see cref="string"/> to find within <paramref name="value"/>.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison. Default is <see cref="StringComparison.OrdinalIgnoreCase"/>.</param>
         /// <returns>
-        /// 	<c>true</c> if the <paramref name="find"/> parameter occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
+        /// 	<c>true</c> if the <paramref name="find"/> parameter occurs within the <paramref name="value"/>; otherwise, <c>false</c>.
         /// </returns>
-        /// <remarks>This method performs an ordinal (case-insensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
-        public static bool ContainsAny(this string value, string find)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null -or-
+        /// <paramref name="find"/> is null.
+        /// </exception>
+        public static bool ContainsAny(this string value, string find, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            return StringUtility.Contains(value, find);
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether the specified <paramref name="find"/> occurs within the <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="find">The <see cref="string"/> to find within <paramref name="value"/>.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <returns>
-        /// 	<c>true</c> if the <paramref name="find"/> parameter occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
-        /// </returns>
-        public static bool ContainsAny(this string value, string find, StringComparison comparison)
-        {
-            return StringUtility.Contains(value, comparison, find);
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether the specified <paramref name="find"/> occurs within the <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="find">The <see cref="char"/> to find within <paramref name="value"/>.</param>
-        /// <returns>
-        /// 	<c>true</c> if the <paramref name="find"/> parameter occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
-        /// </returns>
-        /// <remarks>This method performs an ordinal (case-insensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
-        public static bool ContainsAny(this string value, char find)
-        {
-            return StringUtility.Contains(value, find);
+            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(find, nameof(find));
+            return (value.IndexOf(find, comparison) >= 0);
         }
 
         /// <summary>
@@ -546,13 +523,19 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="find">The <see cref="char"/> to search within <paramref name="value"/>.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison. Default is <see cref="StringComparison.OrdinalIgnoreCase"/>.</param>
         /// <returns>
-        /// 	<c>true</c> if the <paramref name="find"/> parameter occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
+        /// 	<c>true</c> if the <paramref name="find"/> parameter occurs within the <paramref name="value"/>; otherwise, <c>false</c>.
         /// </returns>
-        public static bool ContainsAny(this string value, char find, StringComparison comparison)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null -or-
+        /// <paramref name="find"/> is null.
+        /// </exception>
+        public static bool ContainsAny(this string value, char find, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            return StringUtility.Contains(value, comparison, find);
+            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(find, nameof(find));
+            return (value.IndexOf(new string(find, 1), 0, value.Length, comparison) >= 0);
         }
 
         /// <summary>
@@ -561,12 +544,12 @@ namespace Cuemon.Extensions
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="values">The <see cref="string"/> sequence to search within <paramref name="value"/>.</param>
         /// <returns>
-        /// 	<c>true</c> if any of the <paramref name="values"/> occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
+        /// 	<c>true</c> if any of the <paramref name="values"/> occurs within the <paramref name="value"/>; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>This method performs an ordinal (case-insensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
         public static bool ContainsAny(this string value, params string[] values)
         {
-            return StringUtility.Contains(value, values);
+            return ContainsAny(value, StringComparison.OrdinalIgnoreCase, values);
         }
 
         /// <summary>
@@ -576,11 +559,20 @@ namespace Cuemon.Extensions
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <param name="values">The <see cref="string"/> sequence to search within <paramref name="value"/>.</param>
         /// <returns>
-        /// 	<c>true</c> if any of the <paramref name="values"/> occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
+        /// 	<c>true</c> if any of the <paramref name="values"/> occurs within the <paramref name="value"/>; otherwise, <c>false</c>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null -or-
+        /// <paramref name="values"/> is null.
+        /// </exception>
         public static bool ContainsAny(this string value, StringComparison comparison, params string[] values)
         {
-            return StringUtility.Contains(value, comparison, values);
+            Validator.ThrowIfNull(values, nameof(values));
+            foreach (var find in values)
+            {
+                if (ContainsAny(value, find, comparison)) { return true; }
+            }
+            return false;
         }
 
         /// <summary>
@@ -589,7 +581,7 @@ namespace Cuemon.Extensions
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="values">The <see cref="string"/> sequence to search within <paramref name="value"/>.</param>
         /// <returns>
-        /// 	<c>true</c> if all of the <paramref name="values"/> occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
+        /// 	<c>true</c> if all of the <paramref name="values"/> occurs within the <paramref name="value"/>; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>This method performs an ordinal (case-insensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
         public static bool ContainsAll(this string value, params string[] values)
@@ -604,8 +596,12 @@ namespace Cuemon.Extensions
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <param name="values">The <see cref="string"/> sequence to search within <paramref name="value"/>.</param>
         /// <returns>
-        /// 	<c>true</c> if all of the <paramref name="values"/> occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
+        /// 	<c>true</c> if all of the <paramref name="values"/> occurs within the <paramref name="value"/>; otherwise, <c>false</c>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null -or-
+        /// <paramref name="values"/> is null.
+        /// </exception>
         public static bool ContainsAll(this string value, StringComparison comparison, params string[] values)
         {
             Validator.ThrowIfNull(value, nameof(value));
@@ -624,12 +620,12 @@ namespace Cuemon.Extensions
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="values">The <see cref="char"/> sequence to search within <paramref name="value"/>.</param>
         /// <returns>
-        /// 	<c>true</c> if the <paramref name="values"/> parameter occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
+        /// 	<c>true</c> if the <paramref name="values"/> parameter occurs within the <paramref name="value"/>; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison. The search begins at the first character position of this string and continues through the last character position.</remarks>
         public static bool ContainsAny(this string value, params char[] values)
         {
-            return StringUtility.Contains(value, values);
+            return ContainsAny(value, StringComparison.Ordinal, values);
         }
 
         /// <summary>
@@ -639,11 +635,20 @@ namespace Cuemon.Extensions
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <param name="values">The <see cref="char"/> sequence to search within <paramref name="value"/>.</param>
         /// <returns>
-        /// 	<c>true</c> if the <paramref name="values"/> parameter occurs within the <paramref name="value"/>, or if value is the empty string (""); otherwise, <c>false</c>.
+        /// 	<c>true</c> if the <paramref name="values"/> parameter occurs within the <paramref name="value"/>; otherwise, <c>false</c>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null -or-
+        /// <paramref name="values"/> is null.
+        /// </exception>
         public static bool ContainsAny(this string value, StringComparison comparison, params char[] values)
         {
-            return StringUtility.Contains(value, comparison, values);
+            Validator.ThrowIfNull(values, nameof(values));
+            foreach (var find in values)
+            {
+                if (ContainsAny(value, find, comparison)) { return true; }
+            }
+            return false;
         }
 
         /// <summary>
