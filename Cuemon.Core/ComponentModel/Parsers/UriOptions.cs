@@ -13,7 +13,7 @@ namespace Cuemon.ComponentModel.Parsers
         /// Gets all supported URI schemes.
         /// </summary>
         /// <returns>A sequence of all supported URI schemes.</returns>
-        public static IEnumerable<UriScheme> AllUriSchemes => Arguments.ToEnumerable(UriScheme.File, UriScheme.Ftp, UriScheme.Gopher, UriScheme.Http, UriScheme.Https, UriScheme.Mailto, UriScheme.NetPipe, UriScheme.NetTcp, UriScheme.News, UriScheme.Nntp);
+        public static IEnumerable<UriScheme> AllUriSchemes => Arguments.FromParams(UriScheme.File, UriScheme.Ftp, UriScheme.Gopher, UriScheme.Http, UriScheme.Https, UriScheme.Mailto, UriScheme.NetPipe, UriScheme.NetTcp, UriScheme.News, UriScheme.Nntp);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UriOptions"/> class.

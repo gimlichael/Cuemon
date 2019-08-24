@@ -38,8 +38,8 @@ namespace Cuemon
 		{
             if (calendar == null) { throw new ArgumentNullException(nameof(calendar)); }
 
-            Highest = Arguments.ToEnumerable(start, end).Max();
-            Lowest = Arguments.ToEnumerable(start, end).Min();
+            Highest = Arguments.FromParams(start, end).Max();
+            Lowest = Arguments.FromParams(start, end).Min();
             Calendar = calendar;
 
             int totalMonths, deltaMonths;

@@ -13,8 +13,8 @@ namespace Cuemon.Collections.Generic
         /// <typeparam name="T">The type of the elements of <paramref name="args"/>.</typeparam>
         /// <param name="args">The <see cref="T:T[]"/> to type as <see cref="IEnumerable{T}"/>.</param>
         /// <returns>The input <paramref name="args"/> typed as <see cref="IEnumerable{T}"/>.</returns>
-        /// <remarks>The <see cref="ToEnumerable{T}"/> method has no effect other than to change the compile-time type of <paramref name="args"/> from <see cref="T:T[]"/> to <see cref="IEnumerable{T}"/>.</remarks>
-        public static IEnumerable<T> ToEnumerable<T>(params T[] args)
+        /// <remarks>The <see cref="FromParams{T}"/> method has no effect other than to change the compile-time type of <paramref name="args"/> from <see cref="T:T[]"/> to <see cref="IEnumerable{T}"/>.</remarks>
+        public static IEnumerable<T> FromParams<T>(params T[] args)
         {
             return args;
         }

@@ -112,7 +112,7 @@ namespace Cuemon
         /// <returns>A 32-bit signed integer that is the hash code of <paramref name="convertibles"/>.</returns>
         public static int HashCode32(params IConvertible[] convertibles)
         {
-            return HashCode32(Arguments.ToEnumerable(convertibles));
+            return HashCode32(Arguments.FromParams(convertibles));
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Cuemon
         /// <returns>A 64-bit signed integer that is the hash code of <paramref name="convertibles"/>.</returns>
         public static long HashCode64(params IConvertible[] convertibles)
         {
-            return HashCode64(Arguments.ToEnumerable(convertibles));
+            return HashCode64(Arguments.FromParams(convertibles));
         }
 
         /// <summary>

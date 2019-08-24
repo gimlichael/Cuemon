@@ -249,7 +249,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(params IConvertible[] input)
         {
-            return ComputeHash(Arguments.ToEnumerable(input));
+            return ComputeHash(Arguments.FromParams(input));
         }
 
         /// <summary>

@@ -62,7 +62,7 @@ namespace Cuemon.Integrity
 
         public byte[] GetBytes(params IConvertible[] input)
         {
-            return GetBytes(Arguments.ToEnumerable(input));
+            return GetBytes(Arguments.FromParams(input));
         }
 
         public byte[] GetBytes(IEnumerable<IConvertible> input)
