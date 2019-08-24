@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cuemon.ComponentModel.Codecs;
@@ -17,6 +18,35 @@ namespace Cuemon.Extensions
     public static class StringExtensions
     {
         /// <summary>
+        /// Returns the set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.
+        /// </summary>
+        /// <param name="first">The value where characters that are not also in <paramref name="second"/> will be returned.</param>
+        /// <param name="second">The value to compare with <paramref name="first"/>.</param>
+        /// <returns>>A <see cref="string"/> that contains the set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.</returns>
+        public static string Difference(this string first, string second)
+        {
+            return DifferenceCore(first, second);
+        }
+
+        /// <summary>
+        /// Returns the distinct set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.
+        /// </summary>
+        /// <param name="first">The value where distinct characters that are not also in <paramref name="second"/> will be returned.</param>
+        /// <param name="second">The value to distinctively compare with <paramref name="first"/>.</param>
+        /// <returns>>A <see cref="string"/> that contains the distinct set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.</returns>
+        public static string DistinctDifference(this string first, string second)
+        {
+            return DifferenceCore(first, second, true);
+        }
+
+        private static string DifferenceCore(string first, string second, bool distinct = false)
+        {
+            if (first == null) { first = string.Empty; }
+            if (second == null) { second = string.Empty; }
+            return distinct ? string.Concat(second.Distinct().Except(first.Distinct())) : string.Concat(second.Except(first));
+        }
+
+        /// <summary>
         /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:char[]"/> representation.
         /// </summary>
         /// <param name="input">The <see cref="string"/> to extend.</param>
@@ -26,7 +56,7 @@ namespace Cuemon.Extensions
         /// <paramref name="input"/> cannot be null.
         /// </exception>
         /// <exception cref="InvalidEnumArgumentException">
-        /// <paramref name="setup"/> was initialzied with an invalid <see cref="EncodingOptions.Preamble"/>.
+        /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
         /// <seealso cref="EncodingOptions"/>
         public static char[] ToCharArray(this string input, Action<EncodingOptions> setup = null)
