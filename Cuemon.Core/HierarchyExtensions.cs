@@ -140,7 +140,7 @@ namespace Cuemon
         public static IEnumerable<IHierarchy<T>> AncestorsAndSelf<T>(this IHierarchy<T> node)
         {
             Validator.ThrowIfNull(node, nameof(node));
-            IList<IHierarchy<T>> result = new List<IHierarchy<T>>(HierarchyUtility.WhileSourceTraversalIsNotNull(node, HierarchyUtility.AncestorsAndSelf));
+            IList<IHierarchy<T>> result = new List<IHierarchy<T>>(Hierarchy.WhileSourceTraversalIsNotNull(node, Hierarchy.AncestorsAndSelf));
             return result.Count > 0 ? result.Reverse() : Arguments.Yield(node);
         }
 
@@ -156,7 +156,7 @@ namespace Cuemon
         public static IEnumerable<IHierarchy<T>> DescendantsAndSelf<T>(this IHierarchy<T> node)
         {
             Validator.ThrowIfNull(node, nameof(node));
-            return HierarchyUtility.WhileSourceTraversalHasElements(node, HierarchyUtility.DescendantsAndSelf).Reverse();
+            return Hierarchy.WhileSourceTraversalHasElements(node, Hierarchy.DescendantsAndSelf).Reverse();
         }
 
         /// <summary>

@@ -137,7 +137,7 @@ namespace Cuemon
             Validator.ThrowIfNull(exceptionType, nameof(exceptionType));
             var innerExceptionsProperty = exceptionType.GetProperty("InnerExceptions", new MemberReflection(excludeInheritancePath: true));
             if (innerExceptionsProperty != null) { return innerExceptionsProperty.GetValue(exception, null) as IEnumerable<Exception>; }
-            return HierarchyUtility.WhileSourceTraversalHasElements(exception, FlattenCallback).Skip(1);
+            return Hierarchy.WhileSourceTraversalHasElements(exception, FlattenCallback).Skip(1);
         }
 
         private static IEnumerable<Exception> FlattenCallback(Exception source)
