@@ -13,32 +13,6 @@ namespace Cuemon.Xml
     public static class XmlReaderUtility
     {
         /// <summary>
-        /// Specifies a set of features to support the <see cref="XmlReader"/> object.
-        /// </summary>
-        /// <param name="setup">The <see cref="XmlReaderSettings"/> which may be configured.</param>
-        /// <returns>A <see cref="XmlReaderSettings"/> instance that specifies a set of features to support the <see cref="XmlReader"/> object.</returns>
-        /// <remarks>
-        /// The following table shows the overridden initial property values for an instance of <see cref="XmlReaderSettings"/>.<br/>
-        /// The initial property values can be viewed here: https://msdn.microsoft.com/EN-US/library/2ycwc04f(v=VS.110,d=hv.2).aspx
-        /// <list type="table">
-        ///     <listheader>
-        ///         <term>Property</term>
-        ///         <description>Initial Value</description>
-        ///     </listheader>
-        ///     <item>
-        ///         <term><see cref="XmlReaderSettings.DtdProcessing"/></term>
-        ///         <description><see cref="DtdProcessing.Ignore"/></description>
-        ///     </item>
-        /// </list>
-        /// </remarks>
-        public static XmlReaderSettings CreateSettings(Action<XmlReaderSettings> setup = null)
-        {
-            var settings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
-            setup?.Invoke(settings);
-            return settings;
-        }
-
-        /// <summary>
         /// Creates and returns a sequence of chunked <see cref="XmlReader"/> objects with a maximum of the specified <paramref name="size"/> of XML node elements located on a depth of 1.
         /// </summary>
         /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data to chunk into smaller <see cref="XmlReader"/> objects for a batch run or similar.</param>

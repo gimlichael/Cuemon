@@ -10,32 +10,6 @@ namespace Cuemon.Xml
     public static class XmlWriterUtility
     {
         /// <summary>
-        /// Specifies a set of features to support the <see cref="XmlWriter"/> object.
-        /// </summary>
-        /// <param name="setup">The <see cref="XmlWriterSettings"/> which may be configured.</param>
-        /// <returns>A <see cref="XmlWriterSettings"/> instance that specifies a set of features to support the <see cref="XmlWriter"/> object.</returns>
-        /// <remarks>
-        /// The following table shows the overridden initial property values for an instance of <see cref="XmlWriterSettings"/>.<br/>
-        /// The initial property values can be viewed here: https://msdn.microsoft.com/EN-US/library/536k980t(v=VS.110,d=hv.2).aspx
-        /// <list type="table">
-        ///     <listheader>
-        ///         <term>Property</term>
-        ///         <description>Initial Value</description>
-        ///     </listheader>
-        ///     <item>
-        ///         <term><see cref="XmlWriterSettings.IndentChars"/></term>
-        ///         <description><see cref="Alphanumeric.Tab"/></description>
-        ///     </item>
-        /// </list>
-        /// </remarks>
-        public static XmlWriterSettings CreateSettings(Action<XmlWriterSettings> setup = null)
-        {
-            var settings = new XmlWriterSettings() { IndentChars = Alphanumeric.Tab };
-            setup?.Invoke(settings);
-            return settings;
-        }
-
-        /// <summary>
         /// Creates and returns a XML stream by the specified delegate <paramref name="writer"/>.
         /// </summary>
         /// <param name="writer">The delegate that will create an in-memory XML stream.</param>

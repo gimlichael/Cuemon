@@ -25,11 +25,11 @@ namespace Cuemon.Extensions.Xml.Serialization
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="Reader"/></term>
-        ///         <description><see cref="XmlReaderUtility.CreateSettings"/></description>
+        ///         <description><c>new XmlWriterSettings() { IndentChars = Alphanumeric.Tab };</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="Writer"/></term>
-        ///         <description><see cref="XmlWriterUtility.CreateSettings"/></description>
+        ///         <description><c>new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="Converters"/></term>
@@ -43,8 +43,8 @@ namespace Cuemon.Extensions.Xml.Serialization
         /// </remarks>
         public XmlSerializerOptions()
         {
-            Writer = XmlWriterUtility.CreateSettings();
-            Reader = XmlReaderUtility.CreateSettings();
+            Writer = new XmlWriterSettings() { IndentChars = Alphanumeric.Tab };
+            Reader = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
             Converters = new List<XmlConverter>();
             DefaultConverters?.Invoke(Converters);
         }
