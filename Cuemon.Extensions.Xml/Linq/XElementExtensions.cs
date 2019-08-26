@@ -12,7 +12,7 @@ namespace Cuemon.Extensions.Xml.Linq
         /// <summary>
         /// Tries to load an <see cref="XElement" /> from a <paramref name="value" /> that contains XML.
         /// </summary>
-        /// <param name="value">A <see cref="String"/> that contains XML.</param>
+        /// <param name="value">A <see cref="string"/> that contains XML.</param>
         /// <param name="result">When this method returns, it contains the <see cref="XElement"/> populated from the <paramref name="value"/> that contains XML, if the conversion succeeded, or a null reference (Nothing in Visual Basic) if the conversion failed.</param>
         /// <returns><c>true</c> if the <paramref name="value"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>
         public static bool TryParseXElement(this string value, out XElement result)
@@ -23,7 +23,7 @@ namespace Cuemon.Extensions.Xml.Linq
         /// <summary>
         /// Tries to load an <see cref="XElement" /> from a <paramref name="value" /> that contains XML, optionally preserving white space and retaining line information.
         /// </summary>
-        /// <param name="value">A <see cref="String"/> that contains XML.</param>
+        /// <param name="value">A <see cref="string"/> that contains XML.</param>
         /// <param name="options">A <see cref="LoadOptions"/> that specifies white space behavior, and whether to load base URI and line information.</param>
         /// <param name="result">When this method returns, it contains the <see cref="XElement"/> populated from the <paramref name="value"/> that contains XML, if the conversion succeeded, or a null reference (Nothing in Visual Basic) if the conversion failed.</param>
         /// <returns><c>true</c> if the <paramref name="value"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>

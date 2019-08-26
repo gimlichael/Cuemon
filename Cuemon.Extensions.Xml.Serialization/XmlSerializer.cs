@@ -75,7 +75,7 @@ namespace Cuemon.Extensions.Xml.Serialization
         /// <returns>An object of <paramref name="objectType"/>.</returns>
         public object Deserialize(Stream value, Type objectType)
         {
-            using (var reader = XmlReaderConverter.FromStream(value, null, settings =>
+            using (var reader = value.ToXmlReader(null, settings =>
             {
                 settings.ConformanceLevel = Settings.Reader.ConformanceLevel;
                 settings.IgnoreComments = Settings.Reader.IgnoreComments;

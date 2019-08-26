@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Threading.Tasks;
+using Cuemon.Extensions.Xml;
 using Cuemon.Extensions.Xml.Serialization.Formatters;
 using Cuemon.Xml;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -42,7 +43,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {
                 var formatter = new XmlFormatter(FormatterOptions);
-                var raw = XmlStreamConverter.ChangeEncoding(formatter.Serialize(value), selectedEncoding);
+                var raw = formatter.Serialize(value).CopyXml(o => o.Encoding = selectedEncoding);
                 using (var streamReader = new StreamReader(raw, selectedEncoding))
                 {
                     await streamReader.CopyToAsync(textWriter).ContinueWithSuppressedContext();

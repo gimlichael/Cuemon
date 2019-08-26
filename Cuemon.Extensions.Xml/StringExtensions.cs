@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cuemon.ComponentModel.TypeConverters;
-using Cuemon.Xml;
 
 namespace Cuemon.Extensions.Xml
 {
@@ -12,24 +11,38 @@ namespace Cuemon.Extensions.Xml
     /// </summary>
     public static class StringExtensions
     {
+        private static readonly string[][] EscapeStringPairs = new[] { new[] { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" }, new[] {"<", ">", "\"", "'", "&"} };
+
         /// <summary>
         /// Escapes the given XML <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The XML <see cref="string"/> to escape.</param>
+        /// <param name="value">The XML <see cref="string"/> to extend.</param>
         /// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
         public static string EscapeXml(this string value)
         {
-            return XmlUtility.Escape(value);
+            Validator.ThrowIfNull(value, nameof(value));
+            var replacePairs = new List<StringReplacePair>();
+            for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
+            {
+                replacePairs.Add(new StringReplacePair(EscapeStringPairs[1][b], EscapeStringPairs[0][b]));
+            }
+            return StringReplacePair.ReplaceAll(value, replacePairs, StringComparison.Ordinal);
         }
 
         /// <summary>
         /// Unescapes the given XML <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The XML <see cref="string"/> to unescape.</param>
+        /// <param name="value">The XML <see cref="string"/> to extend.</param>
         /// <returns>The input <paramref name="value"/> with an unescaped equivalent.</returns>
         public static string UnescapeXml(this string value)
         {
-            return XmlUtility.Unescape(value);
+            Validator.ThrowIfNull(value, nameof(value));
+            var builder = new StringBuilder(value);
+            for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
+            {
+                builder.Replace(EscapeStringPairs[0][b], EscapeStringPairs[1][b]);
+            }
+            return builder.ToString();
         }
 
         /// <summary>
@@ -75,7 +88,7 @@ namespace Cuemon.Extensions.Xml
         /// </summary>
         /// <param name="value">The content of an XML element to sanitize.</param>
         /// <param name="cdataSection">if set to <c>true</c> supplemental CDATA-section rules is applied to <paramref name="value"/>.</param>
-        /// <returns>A sanitized <see cref="String"/> of <paramref name="value"/>.</returns>
+        /// <returns>A sanitized <see cref="string"/> of <paramref name="value"/>.</returns>
         /// <remarks>Sanitation rules are as follows:<br/>
         /// 1. The <paramref name="value"/> cannot contain characters less or equal to a Unicode value of U+0019 (except U+0009, U+0010, U+0013)<br/>
         /// 2. The <paramref name="value"/> cannot contain the string "]]&lt;" if <paramref name="cdataSection"/> is <c>true</c>.<br/>
