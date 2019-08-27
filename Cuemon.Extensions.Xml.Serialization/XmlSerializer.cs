@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.Xml.Serialization
         /// <returns>A stream of the serialized object.</returns>
         public Stream Serialize(object value, Type objectType)
         {
-            return XmlWriterUtility.CreateStream(writer =>
+            return XmlStreamFactory.CreateStream(writer =>
             {
                 Serialize(writer, value, objectType);
             }, settings =>

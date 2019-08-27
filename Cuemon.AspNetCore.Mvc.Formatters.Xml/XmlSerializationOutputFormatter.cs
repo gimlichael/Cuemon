@@ -43,7 +43,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {
                 var formatter = new XmlFormatter(FormatterOptions);
-                var raw = formatter.Serialize(value).CopyXml(o => o.Encoding = selectedEncoding);
+                var raw = formatter.Serialize(value).CopyXmlStream(o => o.Encoding = selectedEncoding);
                 using (var streamReader = new StreamReader(raw, selectedEncoding))
                 {
                     await streamReader.CopyToAsync(textWriter).ContinueWithSuppressedContext();

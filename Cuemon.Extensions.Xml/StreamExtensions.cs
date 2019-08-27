@@ -37,7 +37,7 @@ namespace Cuemon.Extensions.Xml
         /// <param name="value">The XML <see cref="Stream"/> to extend.</param>
         /// <param name="setup">The <see cref="XmlWriterSettings"/> which may be configured.</param>
         /// <returns>A <see cref="Stream"/> that is equivalent to <paramref name="value"/> following the output format of <paramref name="setup"/>.</returns>
-        public static Stream CopyXml(this Stream value, Action<XmlWriterSettings> setup = null)
+        public static Stream CopyXmlStream(this Stream value, Action<XmlWriterSettings> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(setup, nameof(setup));
