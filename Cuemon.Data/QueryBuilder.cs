@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
+using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Data
 {
@@ -10,14 +12,8 @@ namespace Cuemon.Data
     /// </summary>
     public abstract class QueryBuilder
     {
-        private bool _enableTableAndColumnEncapsulation;
-        private bool _enableDirtyReads;
-    	private bool _enableReadLimit;
-    	private int _readLimit = 1000;
-        private string _tableName;
+        private int _readLimit = 1000;
         private StringBuilder _query;
-        private readonly IDictionary<string, string> _keyColumns;
-        private readonly IDictionary<string, string> _columns;
 
         #region Constructors
         /// <summary>
@@ -34,8 +30,8 @@ namespace Cuemon.Data
         /// <param name="keyColumns">The key columns to be used in this <see cref="QueryBuilder"/> instance.</param>
         protected QueryBuilder(string tableName, IDictionary<string, string> keyColumns)
         {
-            _tableName = tableName;
-            _keyColumns = keyColumns;
+            TableName = tableName;
+            KeyColumns = keyColumns;
         }
 
         /// <summary>
@@ -46,40 +42,36 @@ namespace Cuemon.Data
         /// <param name="columns">The none-key columns to be used in this <see cref="QueryBuilder"/> instance.</param>
         protected QueryBuilder(string tableName, IDictionary<string, string> keyColumns, IDictionary<string, string> columns)
         {
-            _tableName = tableName;
-            _keyColumns = keyColumns;
-            _columns = columns;
+            TableName = tableName;
+            KeyColumns = keyColumns;
+            Columns = columns;
         }
         #endregion
 
         #region Properties
-		/// <summary>
-		/// Gets or sets a value limiting the maximum amount of records that can be retreived from a repository. Default is 1000.
-		/// </summary>
-		/// <value>
-		/// The maximum amount of records that can be retreived from a repository.
-		/// </value>
-    	public int ReadLimit
+        /// <summary>
+        /// Gets or sets a value limiting the maximum amount of records that can be retrieved from a repository. Default is 1000.
+        /// </summary>
+        /// <value>
+        /// The maximum amount of records that can be retrieved from a repository.
+        /// </value>
+        public int ReadLimit
     	{
-			get { return _readLimit; }
-			set
+			get => _readLimit;
+            set
 			{
-				if (value <= 0) { throw new ArgumentException("Value must be a positive number.", nameof(value)); }
+                Validator.ThrowIfLowerThanOrEqual(value, 0, nameof(value), "Value must be a positive number.");
 				_readLimit = value;
 			}
     	}
 
-		/// <summary>
-		/// Gets or sets a value indicating whether a query is restricted in how many records (<see cref="ReadLimit"/>) can be retrieved from a repository. Default is false.
-		/// </summary>
-		/// <value>
-		///   <c>true</c> if a query is restricted in how many records (<see cref="ReadLimit"/>) can be retrieved from a repository; otherwise, <c>false</c>.
-		/// </value>
-    	public bool EnableReadLimit
-    	{
-			get { return _enableReadLimit; }
-			set { _enableReadLimit = value; }
-    	}
+        /// <summary>
+        /// Gets or sets a value indicating whether a query is restricted in how many records (<see cref="ReadLimit"/>) can be retrieved from a repository. Default is false.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if a query is restricted in how many records (<see cref="ReadLimit"/>) can be retrieved from a repository; otherwise, <c>false</c>.
+        /// </value>
+        public bool EnableReadLimit { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether an encapsulation should be committed automatically on table and column names.
@@ -87,49 +79,31 @@ namespace Cuemon.Data
         /// <value>
         /// 	<c>true</c> if an encapsulation should be committed automatically on table and column names; otherwise, <c>false</c>.
         /// </value>
-        public bool EnableTableAndColumnEncapsulation
-        {
-            get { return _enableTableAndColumnEncapsulation; }
-            set { _enableTableAndColumnEncapsulation = value; }
-        }
+        public bool EnableTableAndColumnEncapsulation { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the data source should try to prevent locking from readonly queries.
         /// </summary>
         /// <value><c>true</c> if the data source should try to prevent locking from readonly queries; otherwise, <c>false</c>.</value>
-        public bool EnableDirtyReads
-        {
-            get { return _enableDirtyReads; }
-            set { _enableDirtyReads = value; }
-        }
+        public bool EnableDirtyReads { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the table or view.
         /// </summary>
         /// <value>The name of the table or view.</value>
-        public string TableName
-        {
-            get { return _tableName; }
-            set { _tableName = value; }
-        }
+        public string TableName { get; set; }
 
         /// <summary>
         /// Gets the none-key columns to be used in the <see cref="QueryBuilder"/> instance.
         /// </summary>
         /// <value>The none-key columns to be used in the <see cref="QueryBuilder"/> instance.</value>
-        public IDictionary<string, string> Columns
-        {
-            get { return _columns; }
-        }
+        public IDictionary<string, string> Columns { get; }
 
         /// <summary>
         /// Gets the key columns to be used in the <see cref="QueryBuilder"/> instance.
         /// </summary>
         /// <value>The key columns to be used in the <see cref="QueryBuilder"/> instance.</value>
-        public IDictionary<string, string> KeyColumns
-        {
-            get { return _keyColumns; }
-        }
+        public IDictionary<string, string> KeyColumns { get; }
 
         private StringBuilder Query
         {

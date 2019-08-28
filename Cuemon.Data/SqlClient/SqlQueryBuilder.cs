@@ -93,14 +93,13 @@ namespace Cuemon.Data.SqlClient
             if (columns.Length != 0)
             {
                 Append(EnableTableAndColumnEncapsulation ? "INSERT INTO [{0}] ({1}) VALUES ({2})" : "INSERT INTO {0} ({1}) VALUES ({2})",
-    string.IsNullOrEmpty(tableName) ? TableName : tableName,
-    QueryUtility.GetQueryFragment(EnableTableAndColumnEncapsulation ? QueryFormat.DelimitedSquareBracket : QueryFormat.Delimited, columns),
-    QueryUtility.GetQueryFragment(QueryFormat.Delimited, parameters));
+                    string.IsNullOrEmpty(tableName) ? TableName : tableName,
+                    EnableTableAndColumnEncapsulation ? QueryFormat.DelimitedSquareBracket.Embed(columns) : QueryFormat.Delimited.Embed(columns),
+                    QueryFormat.Delimited.Embed(parameters));
             }
             else
             {
-                Append(EnableTableAndColumnEncapsulation ? "INSERT INTO [{0}] DEFAULT VALUES" : "INSERT INTO {0} DEFAULT VALUES",
-    string.IsNullOrEmpty(tableName) ? TableName : tableName);
+                Append(EnableTableAndColumnEncapsulation ? "INSERT INTO [{0}] DEFAULT VALUES" : "INSERT INTO {0} DEFAULT VALUES", string.IsNullOrEmpty(tableName) ? TableName : tableName);
             }
         }
 
@@ -125,15 +124,15 @@ namespace Cuemon.Data.SqlClient
             Columns.Keys.CopyTo(columns, KeyColumns.Count);
 
             Append("SELECT ");
-			if (EnableReadLimit)
-			{
-				Append("TOP {0} ", ReadLimit);
-			}
-            Append(QueryUtility.GetQueryFragment(EnableTableAndColumnEncapsulation ? QueryFormat.DelimitedSquareBracket : QueryFormat.Delimited, columns, true));
+            if (EnableReadLimit)
+            {
+                Append("TOP {0} ", ReadLimit);
+            }
+            Append(EnableTableAndColumnEncapsulation ? QueryFormat.DelimitedSquareBracket.Embed(columns, true) : QueryFormat.Delimited.Embed(columns, true));
             if (enableSquareBracketEncapsulationOnTable)
             {
                 enableSquareBracketEncapsulationOnTable = !(tableName.Contains("[") && tableName.Contains("]")); // check if we have an overriden tableName with square brackets already integrated and reverse the boolean result.
-            } 
+            }
             Append(enableSquareBracketEncapsulationOnTable ? " FROM [{0}]" : " FROM {0}", string.IsNullOrEmpty(tableName) ? TableName : tableName);
             if (EnableDirtyReads) { Append(" WITH(NOLOCK)"); }
             AppendWhereClause();

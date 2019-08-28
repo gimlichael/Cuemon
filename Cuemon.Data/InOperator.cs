@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Globalization;
 using System.Linq;
@@ -26,10 +25,10 @@ namespace Cuemon.Data
         /// <param name="expressions">The expressions to test for a match in the IN operator of the WHERE clause.</param>
         protected InOperator(IEnumerable<T> expressions)
         {
-            if (expressions == null) { throw new ArgumentNullException(nameof(expressions)); }
+            Validator.ThrowIfNull(expressions, nameof(expressions));
             IList<T> elements = expressions as List<T> ?? new List<T>(expressions);
             ParameterName = string.Format(CultureInfo.InvariantCulture, "@param{0}{1}", Generate.RandomString(1, Alphanumeric.UppercaseLetters), Generate.RandomString(5, Alphanumeric.LowercaseLetters));
-            Arguments = QueryUtility.GetQueryFragment(QueryFormat.Delimited, elements.Select(ArgumentsSelector));
+            Arguments = QueryFormat.Delimited.Embed(elements.Select(ArgumentsSelector));
             Parameters = elements.Select(ParametersSelector).ToArray();
         }
 
@@ -38,19 +37,19 @@ namespace Cuemon.Data
         /// </summary>
         /// <value>The arguments for the IN operator.</value>
         /// <remarks>Default format of the arguments is @param0, @param1, @param2, etc. and is controlled by the <see cref="ArgumentsSelector"/> method.</remarks>
-        public string Arguments { get; private set; }
+        public string Arguments { get; }
 
         /// <summary>
         /// Gets the parameters for the IN operator.
         /// </summary>
         /// <value>The parameters for the IN operator.</value>
-        public DbParameter[] Parameters { get; private set; }
+        public DbParameter[] Parameters { get; }
 
         /// <summary>
         /// Gets the name of the parameter that will be concatenated with <c>index</c> of both <see cref="ArgumentsSelector"/> and <see cref="ParametersSelector"/>.
         /// </summary>
         /// <value>The name of the parameter that will be concatenated with <c>index</c>.</value>
-        protected string ParameterName { get; private set; }
+        protected string ParameterName { get; }
 
         /// <summary>
         /// A callback method that is responsible for the values passed to the <see cref="Arguments"/> property.

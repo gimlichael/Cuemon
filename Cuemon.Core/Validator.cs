@@ -52,24 +52,11 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a number.
-        /// </exception>
-        public static void ThrowIfNumber(string value, string paramName)
-        {
-            ThrowIfNumber(value, paramName, NumberStyles.Number);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be a number.
         /// </exception>
-        public static void ThrowIfNumber(string value, string paramName, NumberStyles styles)
+        public static void ThrowIfNumber(string value, string paramName, NumberStyles styles = NumberStyles.Number)
         {
             ThrowIfNumber(value, paramName, styles, CultureInfo.InvariantCulture);
         }
@@ -240,24 +227,11 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName)
-        {
-            ThrowIfNull(value, paramName, "Value cannot be null.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="value"/> is null.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName, string message)
+        public static void ThrowIfNull<T>(T value, string paramName, string message = "Value cannot be null.")
         {
             try
             {
@@ -274,24 +248,11 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value" /> must be <c>false</c>.
-        /// </exception>
-        public static void ThrowIfTrue(bool value, string paramName)
-        {
-            ThrowIfTrue(value, paramName, "Value must be false.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="value" /> is <c>true</c>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value" /> must be <c>false</c>.
         /// </exception>
-        public static void ThrowIfTrue(bool value, string paramName, string message)
+        public static void ThrowIfTrue(bool value, string paramName, string message = "Value must be false.")
         {
             try
             {
@@ -338,6 +299,27 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has no elements.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> contains no elements.
+        /// </exception>
+        public static void ThrowIfEmptySequence<T>(IEnumerable<T> value, string paramName, string message = "Value contains no elements.")
+        {
+            try
+            {
+                ThrowWhen(c => c.IsFalse(value.Any).Create(() => new ArgumentException(message, paramName)).TryThrow());
+            }
+            catch (ArgumentException ex)
+            {
+                throw ex;
+            }
+        }
+        
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is empty.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
@@ -376,24 +358,11 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot consist only of white-space characters.
-        /// </exception>
-        public static void ThrowIfWhiteSpace(string value, string paramName)
-        {
-            ThrowIfWhiteSpace(value, paramName, "Value cannot consist only of white-space characters.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> consist only of white-space characters.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot consist only of white-space characters.
         /// </exception>
-        public static void ThrowIfWhiteSpace(string value, string paramName, string message)
+        public static void ThrowIfWhiteSpace(string value, string paramName, string message = "Value cannot consist only of white-space characters.")
         {
             try
             {
@@ -1468,26 +1437,11 @@ namespace Cuemon
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="ignoreCase"><c>true</c> to ignore case; <c>false</c> to regard case.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> represents an enumeration.
-        /// </exception>
-        public static void ThrowIfEnum<TEnum>(string value, bool ignoreCase, string paramName) where TEnum : struct, IConvertible
-        {
-            ThrowIfEnum<TEnum>(value, ignoreCase, paramName, "Value represents an enumeration.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> represents an enumeration.
-        /// </summary>
-        /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="ignoreCase"><c>true</c> to ignore case; <c>false</c> to regard case.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> represents an enumeration.
         /// </exception>
-        public static void ThrowIfEnum<TEnum>(string value, bool ignoreCase, string paramName, string message) where TEnum : struct, IConvertible
+        public static void ThrowIfEnum<TEnum>(string value, bool ignoreCase, string paramName, string message = "Value represents an enumeration.") where TEnum : struct, IConvertible
         {
             try
             {
@@ -1520,26 +1474,11 @@ namespace Cuemon
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="ignoreCase"><c>true</c> to ignore case; <c>false</c> to regard case.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> does not represents an enumeration.
-        /// </exception>
-        public static void ThrowIfNotEnum<TEnum>(string value, bool ignoreCase, string paramName) where TEnum : struct, IConvertible
-        {
-            ThrowIfNotEnum<TEnum>(value, ignoreCase, paramName, "Value does not represents an enumeration.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not represents an enumeration.
-        /// </summary>
-        /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="ignoreCase"><c>true</c> to ignore case; <c>false</c> to regard case.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> does not represents an enumeration.
         /// </exception>
-        public static void ThrowIfNotEnum<TEnum>(string value, bool ignoreCase, string paramName, string message) where TEnum : struct, IConvertible
+        public static void ThrowIfNotEnum<TEnum>(string value, bool ignoreCase, string paramName, string message = "Value does not represents an enumeration.") where TEnum : struct, IConvertible
         {
             try
             {
@@ -1556,24 +1495,11 @@ namespace Cuemon
         /// </summary>
         /// <typeparam name="TEnum">The type to check is an enumeration.</typeparam>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
-        /// <exception cref="TypeArgumentException">
-        /// <typeparamref name="TEnum"/> represents an enumeration.
-        /// </exception>
-        public static void ThrowIfEnumType<TEnum>(string typeParamName)
-        {
-            ThrowIfEnumType<TEnum>(typeParamName, "Value represents an enumeration.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentException"/> if the specified <typeparamref name="TEnum"/> represents an enumeration.
-        /// </summary>
-        /// <typeparam name="TEnum">The type to check is an enumeration.</typeparam>
-        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="TEnum"/> represents an enumeration.
         /// </exception>
-        public static void ThrowIfEnumType<TEnum>(string typeParamName, string message)
+        public static void ThrowIfEnumType<TEnum>(string typeParamName, string message = "Value represents an enumeration.")
         {
             try
             {
@@ -1590,24 +1516,11 @@ namespace Cuemon
         /// </summary>
         /// <typeparam name="TEnum">The type to check is not an enumeration.</typeparam>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
-        /// <exception cref="TypeArgumentException">
-        /// <typeparamref name="TEnum"/> does not represents an enumeration.
-        /// </exception>
-        public static void ThrowIfNotEnumType<TEnum>(string typeParamName)
-        {
-            ThrowIfNotEnumType<TEnum>(typeParamName, "Value does not represents an enumeration.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentException"/> if the specified <typeparamref name="TEnum"/> does not represents an enumeration.
-        /// </summary>
-        /// <typeparam name="TEnum">The type to check is not an enumeration.</typeparam>
-        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="TypeArgumentException">
         /// <typeparamref name="TEnum"/> does not represents an enumeration.
         /// </exception>
-        public static void ThrowIfNotEnumType<TEnum>(string typeParamName, string message)
+        public static void ThrowIfNotEnumType<TEnum>(string typeParamName, string message = "Value does not represents an enumeration.")
         {
             try
             {
@@ -1624,24 +1537,11 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The type to check is an enumeration.</param>
         /// <param name="paramName">The name of the type parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> represents an enumeration.
-        /// </exception>
-        public static void ThrowIfEnumType(Type value, string paramName)
-        {
-            ThrowIfEnumType(value, paramName, "Value represents an enumeration.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> represents an enumeration.
-        /// </summary>
-        /// <param name="value">The type to check is an enumeration.</param>
-        /// <param name="paramName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> represents an enumeration.
         /// </exception>
-        public static void ThrowIfEnumType(Type value, string paramName, string message)
+        public static void ThrowIfEnumType(Type value, string paramName, string message = "Value represents an enumeration.")
         {
             try
             {
@@ -1658,24 +1558,11 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The type to check is not an enumeration.</param>
         /// <param name="paramName">The name of the type parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> does not represents an enumeration.
-        /// </exception>
-        public static void ThrowIfNotEnumType(Type value, string paramName)
-        {
-            ThrowIfNotEnumType(value, paramName, "Value does not represents an enumeration.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not represents an enumeration.
-        /// </summary>
-        /// <param name="value">The type to check is not an enumeration.</param>
-        /// <param name="paramName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> does not represents an enumeration.
         /// </exception>
-        public static void ThrowIfNotEnumType(Type value, string paramName, string message)
+        public static void ThrowIfNotEnumType(Type value, string paramName, string message = "Value does not represents an enumeration.")
         {
             try
             {
@@ -1692,24 +1579,11 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> must consist only of binary digits.
-        /// </exception>
-        public static void ThrowIfNotBinaryDigits(string value, string paramName)
-        {
-            ThrowIfNotBinaryDigits(value, paramName, "Value must consist only of binary digits.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> consist of anything besides binary digits.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> must consist only of binary digits.
         /// </exception>
-        public static void ThrowIfNotBinaryDigits(string value, string paramName, string message)
+        public static void ThrowIfNotBinaryDigits(string value, string paramName, string message = "Value must consist only of binary digits.")
         {
             try
             {
