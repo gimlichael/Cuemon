@@ -22,7 +22,7 @@ namespace Cuemon.ComponentModel.Codecs
         /// <paramref name="input"/> cannot be null.
         /// </exception>
         /// <exception cref="InvalidEnumArgumentException">
-        /// <paramref name="setup"/> was initialzied with an invalid <see cref="EncodingOptions.Preamble"/>.
+        /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
         /// <seealso cref="StringToByteArrayCodec"/>
         /// <seealso cref="HexadecimalByteArrayConverter"/>

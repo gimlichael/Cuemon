@@ -8,6 +8,11 @@ namespace Cuemon.Extensions.Web
 {
     internal static class Infrastructure
     {
+        internal static bool NotEncoded(char c)
+        {
+            return (c == '!' || c == '(' || c == ')' || c == '*' || c == '-' || c == '.' || c == '_');
+        }
+
         /// <summary>
         /// Combines the specified query string, header or a form-data <paramref name="sources"/> into one <see cref="NameValueCollection"/> equivalent field-value pairs.
         /// </summary>
@@ -76,7 +81,7 @@ namespace Cuemon.Extensions.Web
             var builder = new StringBuilder(separator == FieldValueSeparator.Ampersand ? "?" : "");
             foreach (string item in fieldValuePairs)
             {
-                builder.AppendFormat("{0}={1}", item, urlEncode ? HttpUtility.UrlEncode(HttpUtility.UrlDecode(fieldValuePairs[item])) : fieldValuePairs[item]); // the HttpUtility.UrlDecode is called when used outside of IIS .. IIS auto UrlEncode .. why we have to assure, that we don't double UrlEncode ..
+                builder.AppendFormat("{0}={1}", item, urlEncode ? fieldValuePairs[item].UrlDecode().UrlEncode() : fieldValuePairs[item]); // the HttpUtility.UrlDecode is called when used outside of IIS .. IIS auto UrlEncode .. why we have to assure, that we don't double UrlEncode ..
                 builder.Append(characterSeperator);
             }
             if (builder.Length > 0 && separator == FieldValueSeparator.Ampersand) { builder.Remove(builder.Length - 1, 1); }
@@ -102,7 +107,7 @@ namespace Cuemon.Extensions.Web
             {
                 var equalLocation = nameAndValue.IndexOf("=", StringComparison.OrdinalIgnoreCase);
                 if (equalLocation < 0) { continue; } // we have no parameter values, just a value pair like lcid=1030& or lcid=1030&test
-                var value = equalLocation == nameAndValue.Length ? null : urlDecode ? HttpUtility.UrlDecode(nameAndValue.Substring(equalLocation + 1)) : nameAndValue.Substring(equalLocation + 1);
+                var value = equalLocation == nameAndValue.Length ? null : urlDecode ? nameAndValue.Substring(equalLocation + 1).UrlDecode() : nameAndValue.Substring(equalLocation + 1);
                 modifiedFieldValuePairs.Add(nameAndValue.Substring(0, nameAndValue.IndexOf("=", StringComparison.OrdinalIgnoreCase)), value);
             }
             return modifiedFieldValuePairs;

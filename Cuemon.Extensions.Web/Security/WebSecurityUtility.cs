@@ -157,9 +157,9 @@ namespace Cuemon.Extensions.Web.Security
 			var securityToken = SecurityToken.Create(settings);
 			var iv = AesCryptor.GenerateInitializationVector();
 			var encryptedSecurityToken = SecurityUtility.CreateEncryptedSecurityToken(securityToken, securityKey, iv);
-			var ivAsString = HttpUtility.UrlEncode(Encoding.UTF8.GetString(iv, 0, iv.Length));
-			var encryptedSecurityTokenAsString = HttpUtility.UrlEncode(Convert.ToBase64String(encryptedSecurityToken));
-			var salt = HttpUtility.UrlEncode(Generate.RandomString(18));
+			var ivAsString = Encoding.UTF8.GetString(iv, 0, iv.Length).UrlEncode();
+			var encryptedSecurityTokenAsString = Convert.ToBase64String(encryptedSecurityToken).UrlEncode();
+			var salt = Generate.RandomString(18).UrlEncode();
 			var indexOfQuestionMark = uriLocation.IndexOf('?');
 			var uriLocationQuerystring = indexOfQuestionMark > 0 ? uriLocation.Substring(indexOfQuestionMark) : "";
 			uriLocation = indexOfQuestionMark > 0 ? uriLocation.Substring(0, indexOfQuestionMark) : uriLocation;
@@ -189,7 +189,7 @@ namespace Cuemon.Extensions.Web.Security
 		{
 			if (protectedUri == null) { throw new ArgumentNullException(nameof(protectedUri)); }
 			var querystring = QueryStringConverter.FromString(protectedUri.Query);
-			return ParseTamperingProtectedUri(protectedUri, securityKey, HttpUtility.UrlDecode(querystring["token"]));
+			return ParseTamperingProtectedUri(protectedUri, securityKey, querystring["token"].UrlDecode());
 		}
 
 		/// <summary>
@@ -204,7 +204,7 @@ namespace Cuemon.Extensions.Web.Security
 		{
 			if (protectedUri == null) { throw new ArgumentNullException(nameof(protectedUri)); }
 			var querystring = QueryStringConverter.FromString(protectedUri.Query);
-			return ParseTamperingProtectedUri(protectedUri, securityKey, token, HttpUtility.UrlDecode(querystring["iv"]));
+			return ParseTamperingProtectedUri(protectedUri, securityKey, token, querystring["iv"].UrlDecode());
 		}
 
 		/// <summary>
@@ -220,7 +220,7 @@ namespace Cuemon.Extensions.Web.Security
 		{
 			if (protectedUri == null) { throw new ArgumentNullException(nameof(protectedUri)); }
 			var querystring = QueryStringConverter.FromString(protectedUri.Query);
-            return ParseTamperingProtectedUri(protectedUri, securityKey, token, iv, HttpUtility.UrlDecode(querystring["salt"]));
+            return ParseTamperingProtectedUri(protectedUri, securityKey, token, iv, querystring["salt"].UrlDecode());
 		}
 
 		/// <summary>
@@ -237,7 +237,7 @@ namespace Cuemon.Extensions.Web.Security
 		{
 			if (protectedUri == null) { throw new ArgumentNullException(nameof(protectedUri)); }
 			var querystring = QueryStringConverter.FromString(protectedUri.Query);
-            return ParseTamperingProtectedUri(protectedUri, securityKey, token, iv, salt, HttpUtility.UrlDecode(querystring["hash"]));
+            return ParseTamperingProtectedUri(protectedUri, securityKey, token, iv, salt, querystring["hash"].UrlDecode());
 		}
 
 		/// <summary>

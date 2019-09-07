@@ -14,14 +14,14 @@ namespace Cuemon.Text
         /// Gets or sets the default preamble action of <see cref="EncodingOptions"/>. Default is <see cref="PreambleSequence.Remove"/>.
         /// </summary>
         /// <value>The default preamble action to use in <see cref="System.Text.Encoding"/> related operations.</value>
-        /// <remarks>Changing this value should be thought through carefully as it can change the behavior you have come to expect. Consider using local adjustment instead.</remarks>
+        /// <remarks>Warning: changing this value should be thought through carefully as it can change the behavior you have come to expect. Consider using local adjustment instead.</remarks>
         public static PreambleSequence DefaultPreambleSequence { get; set; } = PreambleSequence.Remove;
 
         /// <summary>
         /// Gets or sets the default encoding of <see cref="EncodingOptions"/>. Default is <see cref="System.Text.Encoding.UTF8"/>.
         /// </summary>
         /// <value>The default encoding to use in <see cref="System.Text.Encoding"/> related operations.</value>
-        /// <remarks>Changing this value should be thought through carefully as it can change the behavior you have come to expect. Consider using local adjustment instead.</remarks>
+        /// <remarks>Warning: changing this value should be thought through carefully as it can change the behavior you have come to expect. Consider using local adjustment instead.</remarks>
         public static Encoding DefaultEncoding { get; set; } = Encoding.UTF8;
 
         /// <summary>
