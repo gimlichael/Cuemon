@@ -510,7 +510,7 @@ namespace Cuemon.Runtime.Caching
                 value = (T)cache.Value;
                 return true;
             }
-            value = default(T);
+            value = default;
             return false;
         }
 

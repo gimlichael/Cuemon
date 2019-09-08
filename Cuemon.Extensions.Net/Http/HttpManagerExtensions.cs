@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpDeleteAsync(this Uri location, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpDeleteAsync(this Uri location, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpGetAsync(this Uri location, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpGetAsync(this Uri location, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -47,7 +47,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpHeadAsync(this Uri location, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpHeadAsync(this Uri location, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -61,7 +61,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpOptionsAsync(this Uri location, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpOptionsAsync(this Uri location, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -77,7 +77,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -93,7 +93,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -109,7 +109,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -125,7 +125,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -141,7 +141,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -157,7 +157,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -171,7 +171,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpTraceAsync(this Uri location, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpTraceAsync(this Uri location, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -188,7 +188,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, string contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, string contentType, Stream content, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {
@@ -205,7 +205,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default(CancellationToken))
+        public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             using (var manager = new HttpManager())
             {

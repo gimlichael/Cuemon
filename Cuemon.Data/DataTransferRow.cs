@@ -88,7 +88,7 @@ namespace Cuemon.Data
         /// <returns>The value associated with the <paramref name="column"/> converted to the specified <typeparamref name="TResult"/>.</returns>
         public TResult As<TResult>(DataTransferColumn column)
         {
-            return column == null ? default(TResult) : As<TResult>(column.Ordinal);
+            return column == null ? default : As<TResult>(column.Ordinal);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Cuemon.Data
         public TResult As<TResult>(string name)
         {
             var index = Main.Columns.GetIndex(name);
-            return index.HasValue ? As<TResult>(index.Value) : default(TResult);
+            return index.HasValue ? As<TResult>(index.Value) : default;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Cuemon.Data
         /// <returns>The value associated with the zero-based <paramref name="index"/> of a column converted to the specified <typeparamref name="TResult"/>.</returns>
         public TResult As<TResult>(int index)
         {
-            if (index < 0) { return default(TResult); }
+            if (index < 0) { return default; }
             var target = typeof(TResult);
             var source = Main.Columns[index].DataType;
             if (source != target) { throw new TypeArgumentOutOfRangeException("TResult", string.Format(CultureInfo.InvariantCulture, "There is a mismatch between the specified column referenced by 'index' and the type parameter 'TResult'. Expected type of 'TResult' was '{0}'.", ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(source, o => o.FullName = true))); }

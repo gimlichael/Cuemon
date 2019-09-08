@@ -33,7 +33,7 @@ namespace Cuemon.AspNetCore.Mvc.Rendering
                     if (match) { return result(); }
                 }
             }
-            return default(T);
+            return default;
         }
 
         /// <summary>

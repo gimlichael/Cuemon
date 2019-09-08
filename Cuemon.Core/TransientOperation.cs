@@ -514,7 +514,7 @@ namespace Cuemon
                 }
             }
             if (throwExceptions) { throw new AggregateException(aggregatedExceptions); }
-            return default(TSuccess);
+            return default;
         }
 
         private static void Sleep(TimeSpan sleep)
