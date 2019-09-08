@@ -12,12 +12,9 @@ namespace Cuemon.Data
 		/// <summary>
 		/// Returns a default equality comparer for <see cref="DbParameter"/>.
 		/// </summary>
-		public static new IEqualityComparer<DbParameter> Default
-		{
-			get { return new DataParameterEqualityComparer(); }
-		}
+		public new static IEqualityComparer<DbParameter> Default => new DataParameterEqualityComparer();
 
-		/// <summary>
+        /// <summary>
 		/// When overridden in a derived class, determines whether two objects of type T are equal.
 		/// </summary>
 		/// <param name="x">The first object to compare.</param>
@@ -30,7 +27,7 @@ namespace Cuemon.Data
 			if (x == null) { throw new ArgumentNullException(nameof(x)); }
 			if (y == null) { throw new ArgumentNullException(nameof(y)); }
 			if (ReferenceEquals(x.ParameterName, y.ParameterName)) { return true; }
-			if (ReferenceEquals(x.ParameterName, null) || ReferenceEquals(y.ParameterName, null)) { return false; }
+			if (x.ParameterName is null || y.ParameterName is null) { return false; }
 			return (x.ParameterName == y.ParameterName);
 		}
 

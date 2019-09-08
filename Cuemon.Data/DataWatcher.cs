@@ -50,8 +50,8 @@ namespace Cuemon.Data
 		/// <remarks>Monitors the provided <paramref name="command"/> for changes in an interval specified by <paramref name="period"/> using a MD5 hash check on the query result.</remarks>
 		public DataWatcher(DataManager manager, IDataCommand command, TimeSpan dueTime, TimeSpan period, TimeSpan dueTimeOnChanged, params DbParameter[] parameters) : base(dueTime, period, dueTimeOnChanged)
 		{
-			if (command == null) { throw new ArgumentNullException(nameof(command)); }
-			Manager = manager;
+            Validator.ThrowIfNull(command, nameof(command));
+            Manager = manager;
 			Command = command;
 			Parameters = parameters;
 			Signature = 0;

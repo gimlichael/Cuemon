@@ -101,8 +101,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
             var result = new List<JDataResult>();
             while (reader.Read())
             {
-                var jr = new JDataResult();
-                jr.Parent = parent;
+                var jr = new JDataResult { Parent = parent };
                 if (reader.TokenType == JsonToken.EndArray) { break; }
                 if (reader.TokenType == JsonToken.StartObject)
                 {
