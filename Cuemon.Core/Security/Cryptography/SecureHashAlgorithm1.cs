@@ -13,6 +13,11 @@ namespace Cuemon.Security.Cryptography
     public sealed class SecureHashAlgorithm1 : UnkeyedCryptoHash<SHA1>
     {
         /// <summary>
+        /// Produces a 160-bit hash value
+        /// </summary>
+        public const int BitSize = 160;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SecureHashAlgorithm1"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="ConvertibleOptions" /> which may be configured.</param>

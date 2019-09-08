@@ -22,8 +22,8 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <exception cref="AggregateException">
         /// <paramref name="input"/> could not be converted.
         /// </exception>
-        /// <remarks>What differs from the <see cref="System.Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/>.</remarks>
-        /// <seealso cref="System.Convert.ChangeType(object,Type)"/>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/>.</remarks>
+        /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
         public T ChangeType<T>(object input, Action<TypeConverterOptions> setup = null)
         {
@@ -40,7 +40,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <param name="setup">The <see cref="TypeConverterOptions"/> which may be configured.</param>
         /// <returns>An <see cref="object"/> of <typeparamref name="T"/> that is equivalent to <paramref name="input"/> when a conversion is possible; otherwise <paramref name="fallbackResult"/> is returned.</returns>
         /// <remarks>This method first checks if <paramref name="input"/> is compatible with <typeparamref name="T"/>; if incompatible the method continues with <see cref="ChangeType{T}"/> for the operation.</remarks>
-        /// <seealso cref="System.Convert.ChangeType(object,Type)"/>
+        /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
         public T ChangeTypeOrDefault<T>(object input, T fallbackResult = default, Action<TypeConverterOptions> setup = null)
         {
@@ -58,8 +58,8 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <exception cref="AggregateException">
         /// <paramref name="input"/> could not be converted.
         /// </exception>
-        /// <remarks>What differs from the <see cref="System.Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="TypeConverterOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="TypeConverterOptions.DescriptorContext"/>.</remarks>
-        /// <seealso cref="System.Convert.ChangeType(object,Type)"/>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="TypeConverterOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="TypeConverterOptions.DescriptorContext"/>.</remarks>
+        /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
         public object ChangeType(object input, Type targetType, Action<TypeConverterOptions> setup = null)
         {

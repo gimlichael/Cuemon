@@ -59,21 +59,14 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="value"/> matches a Base64 structure.
+        /// Determines whether the specified <paramref name="value"/> matches a base-64 structure.
         /// </summary>
         /// <param name="value">The value to test for a Base64 structure.</param>
-        /// <returns><c>true</c> if the specified <paramref name="value"/> matches a Base64 structure; otherwise, <c>false</c>.</returns>
-        /// <remarks>This method will skip common Base64 structures typically used as checksums. This includes 32, 128, 160, 256, 384 and 512 bit checksums.</remarks>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> matches a base-64 structure; otherwise, <c>false</c>.</returns>
         public static bool IsBase64(string value)
         {
             if (string.IsNullOrEmpty(value)) { return false; }
-            return IsValueWithValidBase64ChecksumLength(value) && ConvertFactory.UseParser<Base64StringParser>().TryParse(value, out _);
-        }
-
-        private static bool IsValueWithValidBase64ChecksumLength(string value)
-        {
-            if (IsEven(value.Length)) { return (value.Length % 4 == 0); }
-            return false;
+            return ConvertFactory.UseParser<Base64StringParser>().TryParse(value, out _);
         }
 
         /// <summary>

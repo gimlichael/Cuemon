@@ -67,7 +67,7 @@ namespace Cuemon.Integrity
         /// <summary>
         /// Initializes a new instance of the <see cref="Hash"/> class.
         /// </summary>
-        internal Hash()
+        protected Hash()
         {
         }
 

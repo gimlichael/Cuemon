@@ -1594,5 +1594,26 @@ namespace Cuemon
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> consist of anything besides a base-64 structure.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> must consist only of base-64 digits.
+        /// </exception>
+        public static void ThrowIfNotBase64String(string value, string paramName, string message = "Value must consist only of base-64 digits.")
+        {
+            try
+            {
+                ThrowWhen(c => c.IsFalse(() => Condition.IsBase64(value)).Create(() => new ArgumentOutOfRangeException(paramName, value, message)).TryThrow());
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

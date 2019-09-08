@@ -13,6 +13,11 @@ namespace Cuemon.Security.Cryptography
     public sealed class SecureHashAlgorithm256 : UnkeyedCryptoHash<SHA256>
     {
         /// <summary>
+        /// Produces a 256-bit hash value
+        /// </summary>
+        public const int BitSize = 256;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SecureHashAlgorithm256"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="ConvertibleOptions" /> which may be configured.</param>

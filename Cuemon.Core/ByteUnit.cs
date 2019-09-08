@@ -19,6 +19,11 @@ namespace Cuemon
         public const int BitsPerByte = 8;
 
         /// <summary>
+        /// Defines how many bits is needed for one nibble (one hexadecimal digit).
+        /// </summary>
+        public const int BitsPerNibble = BitsPerByte / 2;
+
+        /// <summary>
         /// Defines the name of a byte unit.
         /// </summary>
         public const string Name = "byte";

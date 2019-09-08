@@ -13,6 +13,11 @@ namespace Cuemon.Security.Cryptography
     public sealed class MessageDigest5 : UnkeyedCryptoHash<MD5>
     {
         /// <summary>
+        /// Produces a 128-bit hash value
+        /// </summary>
+        public const int BitSize = 128;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MessageDigest5"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="ConvertibleOptions" /> which may be configured.</param>

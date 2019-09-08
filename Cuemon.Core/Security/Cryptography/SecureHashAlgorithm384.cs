@@ -13,6 +13,11 @@ namespace Cuemon.Security.Cryptography
     public sealed class SecureHashAlgorithm384 : UnkeyedCryptoHash<SHA384>
     {
         /// <summary>
+        /// Produces a 384-bit hash value
+        /// </summary>
+        public const int BitSize = 384;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SecureHashAlgorithm384"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="ConvertibleOptions" /> which may be configured.</param>

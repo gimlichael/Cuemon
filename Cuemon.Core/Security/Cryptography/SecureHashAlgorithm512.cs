@@ -13,6 +13,11 @@ namespace Cuemon.Security.Cryptography
     public sealed class SecureHashAlgorithm512 : UnkeyedCryptoHash<SHA512>
     {
         /// <summary>
+        /// Produces a 512-bit hash value
+        /// </summary>
+        public const int BitSize = 512;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SecureHashAlgorithm512"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="ConvertibleOptions" /> which may be configured.</param>

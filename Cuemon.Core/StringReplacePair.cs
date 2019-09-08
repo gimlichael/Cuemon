@@ -31,7 +31,7 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Replaces all occurrences of the <see cref="StringReplacePair.OldValue"/> with <see cref="StringReplacePair.NewValue"/> of the <paramref name="replacePairs"/> sequence in <paramref name="value"/>.
+        /// Replaces all occurrences of the <see cref="OldValue"/> with <see cref="NewValue"/> of the <paramref name="replacePairs"/> sequence in <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> value to perform the replacement on.</param>
         /// <param name="replacePairs">A sequence of <see cref="StringReplacePair"/> values.</param>

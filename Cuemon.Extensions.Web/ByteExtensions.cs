@@ -75,18 +75,18 @@ namespace Cuemon.Extensions.Web
                     writer.Write(hexadecimalCharacters[idx]);
                     idx = j & 0x0F;
                     writer.Write(hexadecimalCharacters[idx]);
-                    return;
+                    continue;
                 }
 
                 if (c > ' ' && Infrastructure.NotEncoded(c))
                 {
                     writer.Write(c);
-                    return;
+                    continue;
                 }
                 if (c == ' ')
                 {
                     writer.Write('+');
-                    return;
+                    continue;
                 }
                 if ((c < '0') ||
                     (c < 'A' && c > '9') ||

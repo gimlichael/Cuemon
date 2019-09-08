@@ -9,7 +9,7 @@ namespace Cuemon.Collections.Generic
     /// Provides the abstract base class for a generic, conditional collection.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
-    /// <seealso cref="System.Collections.Generic.ICollection{T}" />
+    /// <seealso cref="ICollection{T}" />
     public abstract class ConditionalCollection<T> : ICollection<T>
     {
         private readonly List<T> _wrapper = new List<T>();
