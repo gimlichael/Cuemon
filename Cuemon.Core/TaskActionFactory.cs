@@ -475,7 +475,7 @@ namespace Cuemon
         internal TaskActionFactory(Func<TTuple, Task> method, TTuple tuple, Delegate originalDelegate) : base(tuple, originalDelegate != null)
         {
             Method = method;
-            DelegateInfo = Infrastructure.ResolveDelegateInfo(method == null ? null : method, originalDelegate);
+            DelegateInfo = Infrastructure.ResolveDelegateInfo(method, originalDelegate);
         }
 
         /// <summary>

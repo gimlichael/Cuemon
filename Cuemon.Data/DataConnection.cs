@@ -10,12 +10,6 @@ namespace Cuemon.Data
     /// </summary>
     public abstract class DataConnection : DbConnection, IDataConnection
     {
-        private TimeSpan _timeout = TimeSpan.FromSeconds(10);
-        private string _database;
-        private string _address;
-        private string _userId;
-        private string _password;
-        private string _networkLibrary;
         private string _connectionString;
 
         #region Constructors
@@ -45,11 +39,11 @@ namespace Cuemon.Data
         /// <param name="networkLibrary">The network library of the connection.</param>
         protected DataConnection(string database, string address, string userId, string password, string networkLibrary)
         {
-            _database = database;
-            _address = address;
-            _userId = userId;
-            _password = password;
-            _networkLibrary = networkLibrary;
+            Database = database;
+            Address = address;
+            UserId = userId;
+            Password = password;
+            NetworkLibrary = networkLibrary;
         }
 
         /// <summary>
@@ -63,12 +57,12 @@ namespace Cuemon.Data
         /// <param name="timeout">The timespan to wait of the connection to open.</param>
         protected DataConnection(string database, string address, string userId, string password, string networkLibrary, TimeSpan timeout)
         {
-            _database = database;
-            _address = address;
-            _userId = userId;
-            _password = password;
-            _networkLibrary = networkLibrary;
-            _timeout = timeout;
+            Database = database;
+            Address = address;
+            UserId = userId;
+            Password = password;
+            NetworkLibrary = networkLibrary;
+            Timeout = timeout;
         }
         #endregion
 
@@ -98,20 +92,13 @@ namespace Cuemon.Data
         /// Gets or sets the database of the connection.
         /// </summary>
         /// <value>The database of the connection.</value>
-        public override string Database
-        {
-            get { return _database; }
-        }
+        public override string Database { get; }
 
         /// <summary>
         /// Gets or sets the server address of the connection.
         /// </summary>
         /// <value>The server address of the connection.</value>
-        public string Address
-        {
-            get { return _address; }
-            set { _address = value; }
-        }
+        public string Address { get; set; }
 
         /// <summary>
         /// Gets the time to wait while trying to establish a connection before terminating the attempt and generating an error. Preserved for backward compatibility.
@@ -126,41 +113,25 @@ namespace Cuemon.Data
         /// Gets or sets the user id of the connection.
         /// </summary>
         /// <value>The user id of the connection.</value>
-        public string UserId
-        {
-            get { return _userId; }
-            set { _userId = value; }
-        }
+        public string UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the password of the connection.
         /// </summary>
         /// <value>The password of the connection.</value>
-        public string Password
-        {
-            get { return _password; }
-            set { _password = value; }
-        }
+        public string Password { get; set; }
 
         /// <summary>
         /// Gets or sets the network library of the connection.
         /// </summary>
         /// <value>The network library of the connection.</value>
-        public string NetworkLibrary
-        {
-            get { return _networkLibrary; }
-            set { _networkLibrary = value; }
-        }
+        public string NetworkLibrary { get; set; }
 
         /// <summary>
         /// Gets or sets the time to wait while trying to establish a connection before terminating the attempt and generating an error.
         /// </summary>
         /// <value>The timespan to wait for a connection to open. The default value is 10 seconds.</value>
-        public TimeSpan Timeout
-        {
-            get { return _timeout; }
-            set { _timeout = value; }
-        }
+        public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(10);
 
         /// <summary>
         /// Gets the current state of the connection.

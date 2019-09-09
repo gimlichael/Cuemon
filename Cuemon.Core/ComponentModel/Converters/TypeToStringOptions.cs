@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
-using Cuemon.Reflection;
 
 namespace Cuemon.ComponentModel.Converters
 {
@@ -11,7 +9,6 @@ namespace Cuemon.ComponentModel.Converters
     /// <seealso cref="FormattingOptions{T}"/>
     public sealed class TypeToStringOptions : FormattingOptions<CultureInfo>
     {
-        private static readonly char[] InvalidCharacters = Alphanumeric.PunctuationMarks.Replace(".", "").ToCharArray();
         private Func<Type, IFormatProvider, bool, string> _typeConverter;
 
         /// <summary>

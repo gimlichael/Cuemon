@@ -89,19 +89,18 @@ namespace Cuemon.AspNetCore.Authentication
         private bool TryAuthenticate(HttpContext context, Dictionary<string, string> credentials, out ClaimsPrincipal result)
         {
             if (Options.Authenticator == null) { throw new InvalidOperationException(FormattableString.Invariant($"The {nameof(Options.Authenticator)} delegate cannot be null.")); }
-            string password, userName, clientResponse, nonce, nonceCount;
-            credentials.TryGetValue(DigestAuthenticationUtility.CredentialUserName, out userName);
-            credentials.TryGetValue(DigestAuthenticationUtility.CredentialResponse, out clientResponse);
-            credentials.TryGetValue(DigestAuthenticationUtility.CredentialNonceCount, out nonceCount);
-            if (credentials.TryGetValue(DigestAuthenticationUtility.CredentialNonce, out nonce))
+            credentials.TryGetValue(DigestAuthenticationUtility.CredentialUserName, out var userName);
+            credentials.TryGetValue(DigestAuthenticationUtility.CredentialResponse, out var clientResponse);
+            credentials.TryGetValue(DigestAuthenticationUtility.CredentialNonceCount, out var nonceCount);
+            if (credentials.TryGetValue(DigestAuthenticationUtility.CredentialNonce, out var nonce))
             {
                 result = null;
                 var nonceExpiredParser = Options.NonceExpiredParser;
                 var staleNonce = nonceExpiredParser(nonce, TimeSpan.FromSeconds(30));
                 context.Items["staleNonce"] = staleNonce.ToString().ToUpperInvariant();
                 if (staleNonce) { return false; }
-                Template<DateTime, string> previousNonce;
-                if (NonceCounter.TryGetValue(nonce, out previousNonce))
+
+                if (NonceCounter.TryGetValue(nonce, out var previousNonce))
                 {
                     if (previousNonce.Arg2.Equals(nonceCount, StringComparison.Ordinal)) { return false; }
                 }
@@ -110,7 +109,7 @@ namespace Cuemon.AspNetCore.Authentication
                     NonceCounter.TryAdd(nonce, Template.CreateTwo(DateTime.UtcNow, nonceCount));
                 }
             }
-            result = Options.Authenticator(userName, out password);
+            result = Options.Authenticator(userName, out var password);
 
             var serverResponse = Options?.DigestAccessSigner(new DigestAccessAuthenticationParameters(credentials.ToImmutableDictionary(), context.Request.Method, password, Options.Algorithm))?.ToHexadecimalString();
             return serverResponse != null && (serverResponse.Equals(clientResponse, StringComparison.Ordinal) && Condition.IsNotNull(result));

@@ -21,7 +21,7 @@ namespace Cuemon.Reflection
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> is null.
         /// </exception>
-        public MethodDescriptor(MethodBase method) : this(method == null ? null : method.DeclaringType, method)
+        public MethodDescriptor(MethodBase method) : this(method?.DeclaringType, method)
         {
         }
 
@@ -92,9 +92,8 @@ namespace Cuemon.Reflection
         /// <remarks>This represents a method with one or more parameters or a property indexer.</remarks>
         public MethodDescriptor(Type caller, string methodName, bool isProperty, params ParameterSignature[] parameters)
         {
-            if (caller == null) { throw new ArgumentNullException(nameof(caller)); }
-            if (methodName == null) { throw new ArgumentNullException(nameof(methodName)); }
-            if (methodName.Length == 0) { throw new ArgumentException("Value cannot be empty", nameof(methodName)); }
+            Validator.ThrowIfNull(caller, nameof(caller));
+            Validator.ThrowIfNullOrWhitespace(methodName, nameof(methodName));
 
             Caller = caller;
             MethodName = methodName;

@@ -71,11 +71,9 @@ namespace Cuemon.Extensions.Xml.Serialization
 
         private static int GetDepthIndex(this IDictionary<int, Dictionary<int, int>> depthIndexes, XmlReader reader, int index, int dimension)
         {
-            Dictionary<int, int> row;
-            if (depthIndexes.TryGetValue(dimension, out row))
+            if (depthIndexes.TryGetValue(dimension, out var row))
             {
-                int localIndex;
-                if (!row.TryGetValue(reader.Depth, out localIndex))
+                if (!row.TryGetValue(reader.Depth, out _))
                 {
                     row.Add(reader.Depth, index);
                 }

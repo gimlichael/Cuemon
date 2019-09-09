@@ -200,8 +200,7 @@ namespace Cuemon.Runtime.Caching
         /// <param name="e">The <see cref="CacheEventArgs"/> instance containing the event data.</param>
         protected virtual void OnExpiredRaised(CacheEventArgs e)
         {
-            EventHandler<CacheEventArgs> handler = Expired;
-            if (handler != null) { handler(this, e); }
+            Expired?.Invoke(this, e);
         }
 
         /// <summary>

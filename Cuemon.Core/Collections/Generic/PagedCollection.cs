@@ -178,7 +178,6 @@ namespace Cuemon.Collections.Generic
                 }
                 return _pageableCollection;
             }
-            set { _pageableCollection = value; }
         }
 
         /// <summary>

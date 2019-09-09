@@ -73,8 +73,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
 
         private static int GetDepthIndex(this IDictionary<int, Dictionary<int, int>> depthIndexes, JsonReader reader, int index, int dimension)
         {
-            Dictionary<int, int> row;
-            if (depthIndexes.TryGetValue(dimension, out row))
+            if (depthIndexes.TryGetValue(dimension, out var row))
             {
                 if (!row.TryGetValue(reader.Depth, out _))
                 {

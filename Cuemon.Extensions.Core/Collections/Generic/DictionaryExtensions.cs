@@ -36,8 +36,7 @@ namespace Cuemon.Extensions.Collections.Generic
             Validator.ThrowIfNull(dictionary, nameof(dictionary));
             Validator.ThrowIfNull(key, nameof(key));
             Validator.ThrowIfNull(defaultProvider, nameof(defaultProvider));
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultProvider();
+            return dictionary.TryGetValue(key, out TValue value) ? value : defaultProvider();
         }
 
         /// <summary>

@@ -56,8 +56,7 @@ namespace Cuemon
 
         private string RenderReplacement()
         {
-            IDictionary<string, string> lookupTable;
-            var regex = new Regex(ToRegExPattern(ReplacePairs, out lookupTable), ToRegExOptions(Comparison));
+            var regex = new Regex(ToRegExPattern(ReplacePairs, out var lookupTable), ToRegExOptions(Comparison));
             var matches = regex.Matches(Value);
             foreach (Match match in matches)
             {

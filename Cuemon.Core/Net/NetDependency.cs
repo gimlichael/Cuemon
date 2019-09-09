@@ -322,8 +322,7 @@ namespace Cuemon.Net
             var uris = new List<Uri>();
             foreach (var uri in uriStrings)
             {
-                Uri realUri;
-                if (ConvertFactory.UseParser<ComponentModel.Parsers.UriParser>().TryParse(uri, out realUri, o => o.Kind = UriKind.Absolute)) { uris.Add(realUri); }
+                if (ConvertFactory.UseParser<ComponentModel.Parsers.UriParser>().TryParse(uri, out var realUri, o => o.Kind = UriKind.Absolute)) { uris.Add(realUri); }
             }
 	        return uris;
 	    }

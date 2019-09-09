@@ -36,14 +36,13 @@ namespace Cuemon
 		/// <param name="calendar">The <see cref="Calendar"/> that applies to this <see cref="DateSpan"/>.</param>
 		public DateSpan(DateTime start, DateTime end, Calendar calendar) : this()
 		{
-            if (calendar == null) { throw new ArgumentNullException(nameof(calendar)); }
+            Validator.ThrowIfNull(calendar, nameof(calendar));
 
             Highest = Arguments.FromParams(start, end).Max();
             Lowest = Arguments.FromParams(start, end).Min();
             Calendar = calendar;
 
-            int totalMonths, deltaMonths;
-            GetMonths(out deltaMonths, out totalMonths);
+            GetMonths(out var deltaMonths, out var totalMonths);
 
 			var timespan = (Highest - Lowest);
 			Hours = timespan.Hours;

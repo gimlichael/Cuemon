@@ -527,7 +527,7 @@ namespace Cuemon
         internal TesterFuncFactory(TesterFunc<TTuple, TResult, TSuccess> method, TTuple tuple, Delegate originalDelegate) : base(tuple, originalDelegate != null)
         {
             Method = method;
-            DelegateInfo = Infrastructure.ResolveDelegateInfo(method == null ? null : method, originalDelegate);
+            DelegateInfo = Infrastructure.ResolveDelegateInfo(method, originalDelegate);
         }
 
         /// <summary>

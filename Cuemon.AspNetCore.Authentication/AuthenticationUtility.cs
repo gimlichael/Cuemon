@@ -74,10 +74,9 @@ namespace Cuemon.AspNetCore.Authentication
         public static void Authenticate<T>(HttpContext context, bool requireSecureConnection, Func<HttpContext, string, T> authorizationParser, TesterFunc<HttpContext, T, ClaimsPrincipal, bool> principalParser)
         {
             Validator.ThrowIfNull(context, nameof(context));
-            if (requireSecureConnection &&
-                !context.Request.IsHttps) { throw new SecurityException("An SSL connection is required for the request."); }
-            ClaimsPrincipal principal;
-            if (TryGetPrincipal(context, authorizationParser, principalParser, out principal))
+            if (requireSecureConnection && !context.Request.IsHttps) { throw new SecurityException("An SSL connection is required for the request."); }
+
+            if (TryGetPrincipal(context, authorizationParser, principalParser, out var principal))
             {
                 context.User = principal;
                 return;

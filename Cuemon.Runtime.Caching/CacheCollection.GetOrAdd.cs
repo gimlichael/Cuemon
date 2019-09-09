@@ -2165,7 +2165,6 @@ namespace Cuemon.Runtime.Caching
         private Cache GetOrAddCore<TTuple, TResult>(FuncFactory<TTuple, TResult> valueFactory, string key, string group, Func<DateTime> absoluteExpiration = null, Func<TimeSpan> slidingExpiration = null, FuncFactory<TTuple, IEnumerable<IDependency>> dependenciesFactory = null)
             where TTuple : Template
         {
-            Cache result;
             Validator.ThrowIfNull(key, nameof(key));
             if (slidingExpiration != null)
             {
@@ -2174,7 +2173,7 @@ namespace Cuemon.Runtime.Caching
             }
 
             long groupKey = GenerateGroupKey(key, group);
-            if (!TryGetCache(key, group, out result))
+            if (!TryGetCache(key, group, out var result))
             {
                 result = WrapCacheInThreadSafeDelegate(valueFactory, key, group, absoluteExpiration, slidingExpiration, dependenciesFactory).Value;
                 _innerCaches.TryAdd(groupKey, result);
@@ -2187,7 +2186,7 @@ namespace Cuemon.Runtime.Caching
         {
             return new Lazy<Cache>(() =>
             {
-                Cache cache = new Cache(key, valueFactory.ExecuteMethod(), group, dependenciesFactory == null ? null : dependenciesFactory.ExecuteMethod(), absoluteExpiration == null ? DateTime.MaxValue : absoluteExpiration(), slidingExpiration == null ? TimeSpan.Zero : slidingExpiration());
+                var cache = new Cache(key, valueFactory.ExecuteMethod(), group, dependenciesFactory?.ExecuteMethod(), absoluteExpiration?.Invoke() ?? DateTime.MaxValue, slidingExpiration?.Invoke() ?? TimeSpan.Zero);
                 cache.Expired += CacheExpired;
                 cache.StartDependencies();
                 return cache;

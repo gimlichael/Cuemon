@@ -181,8 +181,7 @@ namespace Cuemon.Data.SqlClient
                     {
                         if (parameter.Value != null)
                         {
-                            DateTime dateTime;
-                            if (DateTime.TryParse(parameter.Value.ToString(), out dateTime))
+                            if (DateTime.TryParse(parameter.Value.ToString(), out var dateTime))
                             {
                                 if (dateTime == DateTime.MinValue)
                                 {

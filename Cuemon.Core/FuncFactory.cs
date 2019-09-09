@@ -506,7 +506,7 @@ namespace Cuemon
         internal FuncFactory(Func<TTuple, TResult> method, TTuple tuple, Delegate originalDelegate) : base(tuple, originalDelegate != null)
         {
             Method = method;
-            DelegateInfo = Infrastructure.ResolveDelegateInfo(method == null ? null : method, originalDelegate);
+            DelegateInfo = Infrastructure.ResolveDelegateInfo(method, originalDelegate);
         }
 
         /// <summary>

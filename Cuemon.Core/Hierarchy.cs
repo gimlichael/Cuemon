@@ -286,8 +286,7 @@ namespace Cuemon
                             circularCalls = (int)current.Data[CircularReferenceKey];
                         }
                         var safetyHashCode = propertyValue.GetHashCode();
-                        int calls;
-                        if (!referenceSafeguards.TryGetValue(safetyHashCode, out calls)) { referenceSafeguards.Add(safetyHashCode, 0); }
+                        if (!referenceSafeguards.TryGetValue(safetyHashCode, out var calls)) { referenceSafeguards.Add(safetyHashCode, 0); }
                         if (calls <= maxCircularCalls && result[index].Depth < options.MaxDepth)
                         {
                             referenceSafeguards[safetyHashCode]++;

@@ -60,7 +60,7 @@ namespace Cuemon.Runtime.Caching
             }
         }
 
-        private Timer ExpirationTimer { get; set; }
+        private Timer ExpirationTimer { get; }
         #endregion
 
         #region Methods
@@ -85,8 +85,7 @@ namespace Cuemon.Runtime.Caching
         public T Get<T>(string key, string group)
         {
             if (key == null) { throw new ArgumentNullException(nameof(key)); }
-            T result;
-            TryGetValue(key, group, out result);
+            TryGetValue(key, group, out T result);
             return result;
         }
 
@@ -100,8 +99,7 @@ namespace Cuemon.Runtime.Caching
         internal void Set<T>(string key, string group, T value)
         {
             if (key == null) { throw new ArgumentNullException(nameof(key)); }
-            Cache cache;
-            if (TryGetCache(key, group, out cache))
+            if (TryGetCache(key, group, out var cache))
             {
                 cache.Value = value;
                 cache.Refresh();
@@ -139,8 +137,7 @@ namespace Cuemon.Runtime.Caching
         public bool TryGetAdded(string key, string group, out DateTime value)
         {
             if (key == null) { throw new ArgumentNullException(nameof(key)); }
-            Cache cache;
-            if (TryGetCache(key, group, out cache))
+            if (TryGetCache(key, group, out var cache))
             {
                 value = cache.Created;
                 return true;
@@ -414,8 +411,7 @@ namespace Cuemon.Runtime.Caching
         public bool ContainsKey(string key, string group)
         {
             if (key == null) { throw new ArgumentNullException(nameof(key)); }
-            Cache cache;
-            return TryGetCache(key, group, out cache);
+            return TryGetCache(key, group, out _);
         }
 
         /// <summary>
@@ -504,8 +500,8 @@ namespace Cuemon.Runtime.Caching
         public bool TryGetValue<T>(string key, string group, out T value)
         {
             if (key == null) { throw new ArgumentNullException(nameof(key)); }
-            Cache cache;
-            if (TryGetCache(key, group, out cache))
+
+            if (TryGetCache(key, group, out var cache))
             {
                 value = (T)cache.Value;
                 return true;
@@ -562,8 +558,7 @@ namespace Cuemon.Runtime.Caching
         {
             if (key == null) { throw new ArgumentNullException(nameof(key)); }
             long groupKey = GenerateGroupKey(key, group);
-            Cache ignore;
-            return _innerCaches.TryRemove(groupKey, out ignore);
+            return _innerCaches.TryRemove(groupKey, out _);
         }
 
         private IEnumerable<KeyValuePair<long, object>> CreateImpostor()
