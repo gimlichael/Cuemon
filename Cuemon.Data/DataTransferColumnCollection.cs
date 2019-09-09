@@ -15,7 +15,7 @@ namespace Cuemon.Data
         /// <param name="record">The record to convert.</param>
         internal DataTransferColumnCollection(IDataRecord record)
         {
-            var fieldCount = record == null ? 0 : record.FieldCount;
+            var fieldCount = record?.FieldCount ?? 0;
             for (var i = 0; i < fieldCount; i++)
             {
                 var columnName = record.GetName(i);

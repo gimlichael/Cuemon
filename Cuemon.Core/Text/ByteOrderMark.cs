@@ -9,7 +9,7 @@ namespace Cuemon.Text
     /// <summary>
     /// Provides a set of static methods for Unicode related operations.
     /// </summary>
-    public class ByteOrderMark
+    public static class ByteOrderMark
     {
         /// <summary>
         /// Tries to detect an <see cref="Encoding"/> object from the specified <paramref name="input"/>.

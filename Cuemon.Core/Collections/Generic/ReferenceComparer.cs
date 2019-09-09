@@ -40,8 +40,7 @@ namespace Cuemon.Collections.Generic
 		private static int GetDepthOfType(T source)
 		{
 			var i = 0;
-			var currentType = source as Type;
-			if (source == null) { currentType = source.GetType(); }
+			var currentType = source?.GetType(); 
 			while (currentType != null)
 			{
 				i++;

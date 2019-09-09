@@ -31,14 +31,22 @@ namespace Cuemon.Extensions.Xml.Serialization
                 {
                     case XmlNodeType.Attribute:
                         typeStrongValue = ConvertFactory.UseParser<SimpleValueTypeParser>().Parse(reader.Value);
-                        attributes.Add(new DataPair(reader.Name, typeStrongValue, typeStrongValue.GetType()));
-                        while (reader.MoveToNextAttribute()) { goto case XmlNodeType.Attribute; }
-                        var elementIndex = index;
-                        foreach (var attribute in attributes)
+                        if (attributes != null)
                         {
-                            hierarchy[index].Add(attribute).Data.Add("parent", elementIndex);
-                            index++;
+                            attributes.Add(new DataPair(reader.Name, typeStrongValue, typeStrongValue.GetType()));
+                            while (reader.MoveToNextAttribute())
+                            {
+                                goto case XmlNodeType.Attribute;
+                            }
+
+                            var elementIndex = index;
+                            foreach (var attribute in attributes)
+                            {
+                                hierarchy[index].Add(attribute).Data.Add("parent", elementIndex);
+                                index++;
+                            }
                         }
+
                         reader.MoveToElement();
                         break;
                     case XmlNodeType.Element:

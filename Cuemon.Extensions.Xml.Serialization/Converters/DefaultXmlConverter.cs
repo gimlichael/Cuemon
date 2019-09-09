@@ -338,7 +338,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 if (childNode.InstanceType.IsEnumerable() && childNode.InstanceType != typeof(string) && !childNode.InstanceType.IsDictionary())
                 {
                     var i = childNode.Instance as IEnumerable;
-                    if (i == null || i.Cast<object>().Count() == 0) { continue; }
+                    if (i == null || !i.Cast<object>().Any()) { continue; }
                 }
                 var qualifiedEntity = childNode.LookupXmlStartElement();
                 if (childNode.HasChildren && TypeInsight.FromType(childNode.InstanceType).IsComplex()) { writer.WriteStartElement(qualifiedEntity); }

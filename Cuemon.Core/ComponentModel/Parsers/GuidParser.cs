@@ -29,7 +29,7 @@ namespace Cuemon.ComponentModel.Parsers
             Validator.ThrowIfNullOrWhitespace(input, nameof(input));
             var options = Patterns.Configure(setup);
             if (options.Formats.HasFlag(GuidFormats.Any)) { return Guid.Parse(input); }
-            var hyphens = (input.IndexOf('-') > 0);
+            var hyphens = input.IndexOf('-') > 0;
             var braces = (input.StartsWith("{", StringComparison.OrdinalIgnoreCase) && input.EndsWith("}", StringComparison.OrdinalIgnoreCase));
             var parentheses = (input.StartsWith("(", StringComparison.OrdinalIgnoreCase) && input.EndsWith(")", StringComparison.OrdinalIgnoreCase));
             var xformat = braces && input.Split(',').Length == 11;
