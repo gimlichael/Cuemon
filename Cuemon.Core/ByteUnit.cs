@@ -123,7 +123,7 @@ namespace Cuemon
             var options = Patterns.Configure(setup);
             var formatter = new UnitPrefixFormatter();
             var format = Prefix == null ? $"{options.NumberFormat} {UnitSymbol}" : $"{options.NumberFormat} {Prefix.Symbol}{UnitSymbol}";
-            return formatter.Format(options.UseCompoundName ? $"{format} X" : format, this, options.FormatProvider);
+            return formatter.Format(options.Style == NamingStyle.Compound ? $"{format} X" : format, this, options.FormatProvider);
         }
     }
 }

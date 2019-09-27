@@ -10,27 +10,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json
     public static class DynamicJsonConverter
     {
         /// <summary>
-        /// Initializes static members of the <see cref="DynamicJsonConverter"/> class.
-        /// </summary>
-        static DynamicJsonConverter()
-        {
-            UseCamelCase = new Lazy<bool>(() =>
-            {
-                var settings = JsonConvert.DefaultSettings?.Invoke();
-                var contractResolver = settings?.ContractResolver;
-                var namingStrategyProperty = contractResolver?.GetType()?.GetProperty("NamingStrategy");
-                var namingStrategy = namingStrategyProperty?.GetValue(contractResolver) is CamelCaseNamingStrategy;
-                return namingStrategy || contractResolver is CamelCasePropertyNamesContractResolver;
-            }).Value;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether implementations of <see cref="JsonConverter"/> should use camelCase casing for property names.
-        /// </summary>
-        /// <value><c>true</c> if implementations of <see cref="JsonConverter"/> should use camelCase casing for property names; otherwise, <c>false</c>.</value>
-        public static bool UseCamelCase { get; }
-
-        /// <summary>
         /// Creates a dynamic instance of an <see cref="JsonConverter"/> implementation wrapping <see cref="JsonConverter.WriteJson"/> through <paramref name="writer"/> and <see cref="JsonConverter.ReadJson"/> through <paramref name="reader"/>.
         /// </summary>
         /// <typeparam name="T">The type to implement an <see cref="JsonConverter"/>.</typeparam>

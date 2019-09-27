@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Cuemon.Docker.Test": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

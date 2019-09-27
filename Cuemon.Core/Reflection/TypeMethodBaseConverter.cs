@@ -27,8 +27,8 @@ namespace Cuemon.Reflection
         /// Converts the specified caller information into an instance of a <see cref="MethodBase"/> object.
         /// </summary>
         /// <param name="input">The <see cref="Type"/> to conduct a search for <paramref name="memberName"/>.</param>
-        /// <param name="memberName">The name of the member of <paramref name="input"/>.</param>
         /// <param name="types">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
+        /// <param name="memberName">The name of the member of <paramref name="input"/>.</param>
         /// <param name="flags">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
         /// <returns>An object representing the method that matches the specified requirements, if found; otherwise, <c>null</c>.</returns>
         public MethodBase DynamicConvert(Type input, Type[] types = null, [CallerMemberName] string memberName = "", BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, StringComparison comparison = StringComparison.Ordinal)

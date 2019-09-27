@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using Cuemon.Collections.Generic;
 using Cuemon.ComponentModel.Converters;
 using Cuemon.ComponentModel.Parsers;
 using Cuemon.Reflection;
@@ -82,25 +83,11 @@ namespace Cuemon
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a number.
-        /// </exception>
-        public static void ThrowIfNumber(string value, string paramName, string message)
-        {
-            ThrowIfNumber(value, paramName, message, NumberStyles.Number);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
         /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be a number.
         /// </exception>
-        public static void ThrowIfNumber(string value, string paramName, string message, NumberStyles styles)
+        public static void ThrowIfNumber(string value, string paramName, string message, NumberStyles styles = NumberStyles.Number)
         {
             ThrowIfNumber(value, paramName, message, styles, CultureInfo.InvariantCulture);
         }
@@ -124,21 +111,8 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, styles, provider));
             }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a number.
-        /// </exception>
-        public static void ThrowIfNotNumber(string value, string paramName)
-        {
-            ThrowIfNotNumber(value, paramName, NumberStyles.Number);
         }
 
         /// <summary>
@@ -150,7 +124,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be a number.
         /// </exception>
-        public static void ThrowIfNotNumber(string value, string paramName, NumberStyles styles)
+        public static void ThrowIfNotNumber(string value, string paramName, NumberStyles styles = NumberStyles.Number)
         {
             ThrowIfNotNumber(value, paramName, styles, CultureInfo.InvariantCulture);
         }
@@ -176,25 +150,11 @@ namespace Cuemon
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a number.
-        /// </exception>
-        public static void ThrowIfNotNumber(string value, string paramName, string message)
-        {
-            ThrowIfNotNumber(value, paramName, message, NumberStyles.Number);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
         /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be a number.
         /// </exception>
-        public static void ThrowIfNotNumber(string value, string paramName, string message, NumberStyles styles)
+        public static void ThrowIfNotNumber(string value, string paramName, string message, NumberStyles styles = NumberStyles.Number)
         {
             ThrowIfNotNumber(value, paramName, message, styles, CultureInfo.InvariantCulture);
         }
@@ -218,7 +178,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, styles, provider));
             }
         }
 
@@ -239,7 +199,7 @@ namespace Cuemon
             }
             catch (ArgumentNullException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -260,21 +220,8 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="value" /> is <c>false</c>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value" /> must be <c>true</c>.
-        /// </exception>
-        public static void ThrowIfFalse(bool value, string paramName)
-        {
-            ThrowIfFalse(value, paramName, "Value must be true.");
         }
 
         /// <summary>
@@ -286,7 +233,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value" /> must be <c>true</c>.
         /// </exception>
-        public static void ThrowIfFalse(bool value, string paramName, string message)
+        public static void ThrowIfFalse(bool value, string paramName, string message = "Value must be true.")
         {
             try
             {
@@ -294,7 +241,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -315,21 +262,8 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
-        }
-        
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is empty.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty.
-        /// </exception>
-        public static void ThrowIfEmpty(string value, string paramName)
-        {
-            ThrowIfEmpty(value, paramName, "Value cannot be empty.");
         }
 
         /// <summary>
@@ -341,7 +275,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be empty.
         /// </exception>
-        public static void ThrowIfEmpty(string value, string paramName, string message)
+        public static void ThrowIfEmpty(string value, string paramName, string message = "Value cannot be empty.")
         {
             try
             {
@@ -349,7 +283,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -370,7 +304,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -394,7 +328,7 @@ namespace Cuemon
             }
             catch (Exception ex) when (ex is ArgumentException)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName));
             }
         }
 
@@ -419,7 +353,7 @@ namespace Cuemon
             }
             catch (Exception ex) when (ex is ArgumentException)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -444,7 +378,7 @@ namespace Cuemon
             }
             catch (Exception ex) when (ex is ArgumentException)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName));
             }
         }
 
@@ -470,7 +404,7 @@ namespace Cuemon
             }
             catch (Exception ex) when (ex is ArgumentException)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -508,7 +442,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
             }
         }
 
@@ -546,7 +480,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
             }
         }
 
@@ -618,7 +552,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, comparer, paramName, message));
             }
         }
 
@@ -689,7 +623,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, comparer, paramName, message));
             }
         }
 
@@ -727,7 +661,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
             }
         }
 
@@ -741,8 +675,7 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="x" /> is greater than or equal to <paramref name="y"/>.
         /// </exception>
-        public static void ThrowIfGreaterThanOrEqual<T>(T x, T y, string paramName)
-            where T : struct, IConvertible
+        public static void ThrowIfGreaterThanOrEqual<T>(T x, T y, string paramName) where T : struct, IConvertible
         {
             ThrowIfGreaterThanOrEqual(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} is greater than or equal to {nameof(y)}."));
         }
@@ -766,7 +699,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
             }
         }
 
@@ -804,7 +737,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
             }
         }
 
@@ -842,21 +775,8 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
             }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is hexadecimal.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be hexadecimal.
-        /// </exception>
-        public static void ThrowIfHex(string value, string paramName)
-        {
-            ThrowIfHex(value, paramName, "Specified argument cannot be hexadecimal.");
         }
 
         /// <summary>
@@ -868,7 +788,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be hexadecimal.
         /// </exception>
-        public static void ThrowIfHex(string value, string paramName, string message)
+        public static void ThrowIfHex(string value, string paramName, string message = "Specified argument cannot be hexadecimal.")
         {
             try
             {
@@ -876,21 +796,8 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not hexadecimal.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be hexadecimal.
-        /// </exception>
-        public static void ThrowIfNotHex(string value, string paramName)
-        {
-            ThrowIfNotHex(value, paramName, "Value must be hexadecimal.");
         }
 
         /// <summary>
@@ -902,7 +809,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be hexadecimal.
         /// </exception>
-        public static void ThrowIfNotHex(string value, string paramName, string message)
+        public static void ThrowIfNotHex(string value, string paramName, string message = "Value must be hexadecimal.")
         {
             try
             {
@@ -910,21 +817,8 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of an email address.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be an email address.
-        /// </exception>
-        public static void ThrowIfEmailAddress(string value, string paramName)
-        {
-            ThrowIfEmailAddress(value, paramName, "Value cannot be an email address.");
         }
 
         /// <summary>
@@ -936,7 +830,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be an email address.
         /// </exception>
-        public static void ThrowIfEmailAddress(string value, string paramName, string message)
+        public static void ThrowIfEmailAddress(string value, string paramName, string message = "Value cannot be an email address.")
         {
             try
             {
@@ -944,21 +838,8 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of an email address.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be an email address.
-        /// </exception>
-        public static void ThrowIfNotEmailAddress(string value, string paramName)
-        {
-            ThrowIfNotEmailAddress(value, paramName, "Value must be an email address.");
         }
 
         /// <summary>
@@ -970,7 +851,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be an email address.
         /// </exception>
-        public static void ThrowIfNotEmailAddress(string value, string paramName, string message)
+        public static void ThrowIfNotEmailAddress(string value, string paramName, string message = "Value must be an email address.")
         {
             try
             {
@@ -978,7 +859,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -1005,25 +886,11 @@ namespace Cuemon
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a <see cref="Guid"/>.
-        /// </exception>
-        public static void ThrowIfGuid(string value, GuidFormats format, string paramName)
-        {
-            ThrowIfGuid(value, format, paramName, "Value cannot be a Guid.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of a <see cref="Guid"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be a <see cref="Guid"/>.
         /// </exception>
-        public static void ThrowIfGuid(string value, GuidFormats format, string paramName, string message)
+        public static void ThrowIfGuid(string value, GuidFormats format, string paramName, string message = "Value cannot be a Guid.")
         {
             try
             {
@@ -1031,7 +898,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, format, paramName, message));
             }
         }
 
@@ -1058,25 +925,11 @@ namespace Cuemon
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a <see cref="Guid"/>.
-        /// </exception>
-        public static void ThrowIfNotGuid(string value, GuidFormats format, string paramName)
-        {
-            ThrowIfNotGuid(value, format, paramName, "Value must be a Guid.");
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of a <see cref="Guid"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be a <see cref="Guid"/>.
         /// </exception>
-        public static void ThrowIfNotGuid(string value, GuidFormats format, string paramName, string message)
+        public static void ThrowIfNotGuid(string value, GuidFormats format, string paramName, string message = "Value must be a Guid.")
         {
             try
             {
@@ -1084,7 +937,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, format, paramName, message));
             }
         }
 
@@ -1119,7 +972,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, uriKind, paramName, message));
             }
         }
 
@@ -1154,7 +1007,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, uriKind, paramName, message));
             }
         }
 
@@ -1198,7 +1051,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
             }
         }
 
@@ -1242,7 +1095,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
             }
         }
 
@@ -1286,7 +1139,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
             }
         }
 
@@ -1330,7 +1183,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
             }
         }
 
@@ -1371,7 +1224,7 @@ namespace Cuemon
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
             }
         }
 
@@ -1412,7 +1265,7 @@ namespace Cuemon
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
             }
         }
 
@@ -1449,7 +1302,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, ignoreCase, paramName, message));
             }
         }
 
@@ -1486,7 +1339,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, ignoreCase, paramName, message));
             }
         }
 
@@ -1507,7 +1360,7 @@ namespace Cuemon
             }
             catch (TypeArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message));
             }
         }
 
@@ -1528,7 +1381,7 @@ namespace Cuemon
             }
             catch (TypeArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message));
             }
         }
 
@@ -1549,7 +1402,7 @@ namespace Cuemon
             }
             catch (TypeArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -1570,7 +1423,7 @@ namespace Cuemon
             }
             catch (ArgumentException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -1591,7 +1444,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
@@ -1612,7 +1465,7 @@ namespace Cuemon
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
     }

@@ -283,7 +283,7 @@ namespace Cuemon.Integrity
         /// <returns>The most significant (largest) value of either <see cref="Created"/> or <see cref="Modified"/>.</returns>
         public DateTime GetMostSignificant()
         {
-            return Arguments.FromParams(Created, Modified ?? DateTime.MinValue).Max();
+            return Arguments.ToEnumerableOf(Created, Modified ?? DateTime.MinValue).Max();
         }
 
         /// <summary>

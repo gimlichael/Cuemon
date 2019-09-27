@@ -20,8 +20,8 @@ namespace Cuemon
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="UseCompoundName"/></term>
-        ///         <description><c>false</c></description>
+        ///         <term><see cref="Style"/></term>
+        ///         <description><see cref="NamingStyle.Symbol"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="NumberFormat"/></term>
@@ -39,17 +39,17 @@ namespace Cuemon
         /// </remarks>
         public MultipleTableOptions()
         {
-            UseCompoundName = false;
+            Style = NamingStyle.Symbol;
             NumberFormat = "#,##0.##";
             FormatProvider = CultureInfo.InvariantCulture;
             Prefix = UnitPrefix.Binary;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use compound naming style (eg. 1 Gigabyte / 0.93 Gibibyte) or symbol naming style (eg. 1 GB / 0.93 GiB).
+        /// Gets or sets the desired naming style.
         /// </summary>
-        /// <value><c>true</c> to use compound naming style; otherwise, <c>false</c>.</value>
-        public bool UseCompoundName { get; set; }
+        /// <value>The desired naming style.</value>
+        public NamingStyle Style { get; set; }
 
         /// <summary>
         /// Gets or sets the desired number format when using ToString().

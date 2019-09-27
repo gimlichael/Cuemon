@@ -38,7 +38,6 @@ namespace Cuemon.Reflection
             if (method == null) { throw new ArgumentNullException(nameof(method)); }
             var methodName = string.IsNullOrEmpty(method.Name) ? "NotAvailable" : method.Name;
             var isPresumedProperty = methodName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) | methodName.StartsWith("set_", StringComparison.OrdinalIgnoreCase);
-
             IsProperty = isPresumedProperty;
             MethodName = isPresumedProperty ? methodName.Remove(0, 4) : methodName;
             Caller = caller;

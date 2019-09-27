@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Cuemon.Data;
 
-namespace Cuemon.Data.SqlClient
+namespace Cuemon.Extensions.Data.SqlClient
 {
     /// <summary>
     /// A Microsoft SQL implementation of the <see cref="QueryBuilder"/> class.

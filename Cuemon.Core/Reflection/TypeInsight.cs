@@ -109,7 +109,7 @@ namespace Cuemon.Reflection
         /// Gets the default value of the underlying <see cref="Type"/> of this instance.
         /// </summary>
         /// <returns>The default value of underlying <see cref="Type"/> of this instance.</returns>
-        /// <remarks>Usage is intented for <c>structs</c>.</remarks>
+        /// <remarks>Usage is intended for <c>structs</c>.</remarks>
         public object GetDefaultValue()
         {
             if (_type.IsValueType && Nullable.GetUnderlyingType(_type) == null) { return Activator.CreateInstance(_type); }

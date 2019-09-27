@@ -303,7 +303,7 @@ namespace Cuemon.Runtime.Caching
         /// </remarks>
         public void Add(string key, object value, string group, params IDependency[] dependencies)
         {
-            Add(key, value, group, Arguments.FromParams(dependencies));
+            Add(key, value, group, Arguments.ToEnumerableOf(dependencies));
         }
 
         /// <summary>

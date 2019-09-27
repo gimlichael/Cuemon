@@ -19,7 +19,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <paramref name="input" /> is either lower than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.
         /// </exception>
         /// <exception cref="InvalidEnumArgumentException">
-        /// <paramref name="setup"/> was initialzied with an invalid <see cref="TimeUnit"/>.
+        /// <paramref name="setup"/> was initialized with an invalid <see cref="TimeUnit"/>.
         /// </exception>
         public TimeSpan ChangeType(double input, Action<CompositeDoubleOptions> setup)
         {

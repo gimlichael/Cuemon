@@ -42,34 +42,34 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
         public static void AddExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
-            var options = setup.Configure();
             converters.Add(DynamicJsonConverter.Create<ExceptionDescriptor>((writer, descriptor) =>
             {
+                var options = setup.Configure();
                 writer.WriteStartObject();
-                writer.WritePropertyName("error", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("error", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteStartObject();
-                writer.WritePropertyName("code", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("code", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(descriptor.Code);
-                writer.WritePropertyName("message", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("message", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(descriptor.Message);
                 if (descriptor.HelpLink != null)
                 {
-                    writer.WritePropertyName("helpLink", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("helpLink", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteValue(descriptor.HelpLink.OriginalString);
                 }
                 if (options.IncludeFailure)
                 {
-                    writer.WritePropertyName("failure", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("failure", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteObject(descriptor.Failure);
                 }
                 writer.WriteEndObject();
                 if (options.IncludeEvidence && descriptor.Evidence.Any())
                 {
-                    writer.WritePropertyName("evidence", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("evidence", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteStartObject();
                     foreach (var evidence in descriptor.Evidence)
                     {
-                        writer.WritePropertyName(evidence.Key, () => DynamicJsonConverter.UseCamelCase);
+                        writer.WritePropertyName(evidence.Key, JsonConvert.DefaultSettings.UseCamelCase);
                         writer.WriteObject(evidence.Value);
                     }
                     writer.WriteEndObject();
@@ -87,38 +87,28 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             converters.Add(DynamicJsonConverter.Create((writer, ts) =>
             {
                 writer.WriteStartObject();
-                writer.WritePropertyName("ticks", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("ticks", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.Ticks);
-                writer.WritePropertyName("days", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("days", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.Days);
-                writer.WritePropertyName("hours", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("hours", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.Hours);
-                writer.WritePropertyName("minutes", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("minutes", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.Minutes);
-                writer.WritePropertyName("seconds", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("seconds", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.Seconds);
-                writer.WritePropertyName("totalDays", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("totalDays", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.TotalDays);
-                writer.WritePropertyName("totalHours", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("totalHours", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.TotalHours);
-                writer.WritePropertyName("totalMilliseconds", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("totalMilliseconds", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.TotalMilliseconds);
-                writer.WritePropertyName("totalMinutes", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("totalMinutes", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.TotalMinutes);
-                writer.WritePropertyName("totalSeconds", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("totalSeconds", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.TotalSeconds);
                 writer.WriteEndObject();
             }, (reader, ts) => reader.ToHierarchy().UseTimeSpanFormatter()));
-        }
-
-        /// <summary>
-        /// Adds an <see cref="Exception" /> JSON converter to the list.
-        /// </summary>
-        /// <param name="converters">The list of JSON converters.</param>
-        /// <param name="includeStackTrace">if set to <c>true</c> the stack of an exception is included in the converted result.</param>
-        public static void AddExceptionConverter(this ICollection<JsonConverter> converters, bool includeStackTrace)
-        {
-            AddExceptionConverter(converters, () => includeStackTrace);
         }
 
         /// <summary>
@@ -161,7 +151,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         {
             var exceptionType = exception.GetType();
             writer.WriteStartObject();
-            writer.WritePropertyName("type", () => DynamicJsonConverter.UseCamelCase);
+            writer.WritePropertyName("type", JsonConvert.DefaultSettings.UseCamelCase);
             writer.WriteValue(exceptionType.FullName);
             WriteExceptionCore(writer, exception, includeStackTrace);
             writer.WriteEndObject();
@@ -171,19 +161,19 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         {
             if (!exception.Source.IsNullOrWhiteSpace())
             {
-                writer.WritePropertyName("source", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("source", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(exception.Source);
             }
 
             if (!exception.Message.IsNullOrWhiteSpace())
             {
-                writer.WritePropertyName("message", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("message", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(exception.Message);
             }
 
             if (exception.StackTrace != null && includeStackTrace)
             {
-                writer.WritePropertyName("stack", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("stack", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteStartArray();
                 var lines = exception.StackTrace.Split(new[] { Alphanumeric.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
@@ -195,7 +185,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
 
             if (exception.Data.Count > 0)
             {
-                writer.WritePropertyName("data", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("data", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteStartObject();
                 foreach (DictionaryEntry entry in exception.Data)
                 {
@@ -210,7 +200,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             {
                 var value = property.GetValue(exception);
                 if (value == null) { continue; }
-                writer.WritePropertyName(property.Name, () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName(property.Name, JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteObject(value);
             }
 
@@ -228,10 +218,10 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 var endElementsToWrite = 0;
                 foreach (var inner in innerExceptions)
                 {
-                    writer.WritePropertyName("inner", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("inner", JsonConvert.DefaultSettings.UseCamelCase);
                     var exceptionType = inner.GetType();
                     writer.WriteStartObject();
-                    writer.WritePropertyName("type", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("type", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteValue(exceptionType.FullName);
                     WriteExceptionCore(writer, inner, includeStackTrace);
                     endElementsToWrite++;

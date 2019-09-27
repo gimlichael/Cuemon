@@ -6,7 +6,7 @@ using Cuemon.Extensions;
 using Cuemon.Extensions.Newtonsoft.Json;
 using Cuemon.Runtime.Serialization;
 using Microsoft.Extensions.Primitives;
-using JsonConverter = Newtonsoft.Json.JsonConverter;
+using Newtonsoft.Json;
 
 namespace Cuemon.AspNetCore.Mvc.Formatters.Json.Converters
 {
@@ -26,44 +26,44 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json.Converters
             converters.Add(DynamicJsonConverter.Create<HttpExceptionDescriptor>((writer, descriptor) =>
             {
                 writer.WriteStartObject();
-                writer.WritePropertyName("error", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("error", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteStartObject();
-                writer.WritePropertyName("status", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("status", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(descriptor.StatusCode);
-                writer.WritePropertyName("code", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("code", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(descriptor.Code);
-                writer.WritePropertyName("message", () => DynamicJsonConverter.UseCamelCase);
+                writer.WritePropertyName("message", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(descriptor.Message);
                 if (descriptor.HelpLink != null)
                 {
-                    writer.WritePropertyName("helpLink", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("helpLink", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteValue(descriptor.HelpLink.OriginalString);
                 }
                 if (options.IncludeFailure)
                 {
-                    writer.WritePropertyName("failure", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("failure", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteObject(descriptor.Failure);
                 }
                 writer.WriteEndObject();
                 if (options.IncludeEvidence && descriptor.Evidence.Any())
                 {
-                    writer.WritePropertyName("evidence", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("evidence", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteStartObject();
                     foreach (var evidence in descriptor.Evidence)
                     {
-                        writer.WritePropertyName(evidence.Key, () => DynamicJsonConverter.UseCamelCase);
+                        writer.WritePropertyName(evidence.Key, JsonConvert.DefaultSettings.UseCamelCase);
                         writer.WriteObject(evidence.Value);
                     }
                     writer.WriteEndObject();
                 }
                 if (!descriptor.CorrelationId.IsNullOrWhiteSpace())
                 {
-                    writer.WritePropertyName("correlationId", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("correlationId", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteValue(descriptor.CorrelationId);
                 }
                 if (!descriptor.RequestId.IsNullOrWhiteSpace())
                 {
-                    writer.WritePropertyName("requestId", () => DynamicJsonConverter.UseCamelCase);
+                    writer.WritePropertyName("requestId", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteValue(descriptor.RequestId);
                 }
                 writer.WriteEndObject();

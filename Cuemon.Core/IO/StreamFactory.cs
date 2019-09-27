@@ -139,7 +139,7 @@ namespace Cuemon.IO
                 var parameters = new List<object>();
                 parameters.AddRange(f.GenericArguments.ToArray());
                 parameters.Add(options);
-                throw ExceptionUtility.Unwrap(ExceptionUtility.Refine(new InvalidOperationException("There is an error in the Stream being written.", ex), f.DelegateInfo, parameters.ToArray()));
+                throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the Stream being written.", ex), f.DelegateInfo, parameters.ToArray());
             });
         }
     }

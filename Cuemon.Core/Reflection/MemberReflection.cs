@@ -49,8 +49,8 @@ namespace Cuemon.Reflection
         /// <summary>
         /// Initializes a new instance of the <see cref="MemberReflection"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="MemberReflectionOptions"/> which may be configured.</param>
-        public MemberReflection(Action<MemberReflectionOptions> setup = null)
+        /// <param name="setup">The <see cref="MemberReflectionOptions"/> which need to be configured.</param>
+        public MemberReflection(Action<MemberReflectionOptions> setup)
         {
             var options = Patterns.Configure(setup);
             var flags = Everything;

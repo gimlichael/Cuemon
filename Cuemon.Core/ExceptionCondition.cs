@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 
 namespace Cuemon
 {
@@ -9,13 +8,6 @@ namespace Cuemon
     /// <typeparam name="TException">The type of the <see cref="Exception"/>.</typeparam>
     public class ExceptionCondition<TException> where TException : Exception
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionCondition{T}"/> class.
-        /// </summary>
-        public ExceptionCondition()
-        {
-        }
-
         /// <summary>
         /// Indicates that the specified function delegate <paramref name="condition"/> must evaluate <c>true</c>.
         /// </summary>
@@ -162,7 +154,7 @@ namespace Cuemon
         /// </summary>
         public void TryThrow()
         {
-            if (Condition() == Expected) { throw ExceptionUtility.Unwrap(ExceptionUtility.Refine(Handler(), Condition.GetMethodInfo())); }
+            if (Condition() == Expected) { throw Handler(); }
         }
     }
 
@@ -187,11 +179,11 @@ namespace Cuemon
         private bool Expected { get; }
 
         /// <summary>
-        /// Determines wether an <see cref="Exception"/> of type <typeparamref name="TException"/> should be thrown.
+        /// Determines whether an <see cref="Exception"/> of type <typeparamref name="TException"/> should be thrown.
         /// </summary>
         public void TryThrow()
         {
-            if (TesterCondition(out var result) == Expected) { throw ExceptionUtility.Unwrap(ExceptionUtility.Refine(Handler(result), TesterCondition.GetMethodInfo())); }
+            if (TesterCondition(out var result) == Expected) { throw Handler(result); }
         }
     }
 }

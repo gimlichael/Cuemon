@@ -10,21 +10,22 @@ namespace Cuemon
     /// <seealso cref="IPrefixMultiple"/>
     /// <seealso cref="BinaryPrefix"/>
     /// <seealso cref="DecimalPrefix"/>
+    /// <seealso cref="NamingStyle"/>
     public sealed class UnitFormatOptions : FormattingOptions<CultureInfo>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitFormatOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="DisposableOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="UnitFormatOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="UseCompoundName"/></term>
-        ///         <description><c>false</c></description>
+        ///         <term><see cref="Style"/></term>
+        ///         <description><see cref="NamingStyle.Symbol"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="NumberFormat"/></term>
@@ -38,16 +39,16 @@ namespace Cuemon
         /// </remarks>
         public UnitFormatOptions()
         {
-            UseCompoundName = false;
+            Style = NamingStyle.Symbol;
             NumberFormat = "#,##0.##";
             FormatProvider = CultureInfo.InvariantCulture;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use compound naming style (eg. 1 Gigabyte / 0.93 Gibibyte) or symbol naming style (eg. 1 GB / 0.93 GiB).
+        /// Gets or sets the desired naming style.
         /// </summary>
-        /// <value><c>true</c> to use compound naming style; otherwise, <c>false</c>.</value>
-        public bool UseCompoundName { get; set; }
+        /// <value>The desired naming style.</value>
+        public NamingStyle Style { get; set; }
 
         /// <summary>
         /// Gets or sets the desired number format.

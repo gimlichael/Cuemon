@@ -171,16 +171,6 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// Adds an <see cref="Exception" /> XML converter to the list.
         /// </summary>
         /// <param name="converters">The list of XML converters.</param>
-        /// <param name="includeStackTrace">if set to <c>true</c> the stack of an exception is included.</param>
-        public static void AddExceptionConverter(this IList<XmlConverter> converters, bool includeStackTrace)
-        {
-            AddExceptionConverter(converters, () => includeStackTrace);
-        }
-
-        /// <summary>
-        /// Adds an <see cref="Exception" /> XML converter to the list.
-        /// </summary>
-        /// <param name="converters">The list of XML converters.</param>
         /// <param name="includeStackTraceFactory">The function delegate that is invoked when it is needed to determine whether the stack of an exception is included in the converted result.</param>
         public static void AddExceptionConverter(this IList<XmlConverter> converters, Func<bool> includeStackTraceFactory)
         {
@@ -250,7 +240,8 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         private static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
             var exceptionType = exception.GetType();
-            writer.WriteStartElement(exceptionType.FullName.SanitizeXmlElementName());
+            writer.WriteStartElement(exceptionType.Name.SanitizeXmlElementName());
+            writer.WriteAttributeString("namespace", exceptionType.Namespace);
             WriteExceptionCore(writer, exception, includeStackTrace);
             writer.WriteEndElement();
         }

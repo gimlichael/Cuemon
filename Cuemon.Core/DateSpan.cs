@@ -38,8 +38,8 @@ namespace Cuemon
 		{
             Validator.ThrowIfNull(calendar, nameof(calendar));
 
-            Highest = Arguments.FromParams(start, end).Max();
-            Lowest = Arguments.FromParams(start, end).Min();
+            Highest = Arguments.ToEnumerableOf(start, end).Max();
+            Lowest = Arguments.ToEnumerableOf(start, end).Min();
             Calendar = calendar;
 
             GetMonths(out var deltaMonths, out var totalMonths);

@@ -1,16 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using Cuemon.Collections.Generic;
+using Cuemon.Data;
 
-namespace Cuemon.Data.SqlClient
+namespace Cuemon.Extensions.Data.SqlClient
 {
     /// <summary>
-    /// The SqlDataManager is the primary class of the <see cref="SqlClient"/> namespace that can be used to execute commands targeted Microsoft SQL Server.
+    /// The SqlDataManager is the primary class of the <see cref="Cuemon.Data.SqlClient"/> namespace that can be used to execute commands targeted Microsoft SQL Server.
     /// </summary>
     public class SqlDataManager : DataManager
     {
@@ -188,7 +188,7 @@ namespace Cuemon.Data.SqlClient
                                     parameter.Value = parameter.SqlDbType == SqlDbType.DateTime ? DateTime.Parse("1753-01-01", CultureInfo.InvariantCulture) : DateTime.Parse("1900-01-01", CultureInfo.InvariantCulture);
                                 }
 
-                                if (dateTime == DateTime.MaxValue & parameter.SqlDbType == SqlDbType.SmallDateTime)
+                                if (dateTime == DateTime.MaxValue && parameter.SqlDbType == SqlDbType.SmallDateTime)
                                 {
                                     parameter.Value = DateTime.Parse("2079-06-01", CultureInfo.InvariantCulture);
                                 }
@@ -210,7 +210,7 @@ namespace Cuemon.Data.SqlClient
 
         private static SqlException ParseException(Exception exception)
         {
-            var exceptions = Arguments.Yield(exception).Concat(ExceptionUtility.Flatten(exception));
+            var exceptions = Arguments.Yield(exception).Concat(exception.Flatten());
             return exceptions.FirstOrDefault(ex => ex is SqlException) as SqlException;
         }
         #endregion
