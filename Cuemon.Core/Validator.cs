@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Reflection;
 using Cuemon.Collections.Generic;
 using Cuemon.ComponentModel.Converters;
-using Cuemon.ComponentModel.Parsers;
 using Cuemon.Reflection;
 
 namespace Cuemon
@@ -968,7 +967,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => ConvertFactory.UseParser<ComponentModel.Parsers.UriParser>().IsUri(value, o => o.Kind = uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsUri(value, o => o.Kind = uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1003,7 +1002,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsFalse(() => ConvertFactory.UseParser<ComponentModel.Parsers.UriParser>().IsUri(value, o => o.Kind = uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Condition.IsUri(value, o => o.Kind = uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1298,7 +1297,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsTrue(() => ConvertFactory.UseParser<EnumParser>().IsEnum<TEnum>(value, o => o.IgnoreCase = ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Condition.IsEnum<TEnum>(value, o => o.IgnoreCase = ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {
@@ -1335,7 +1334,7 @@ namespace Cuemon
         {
             try
             {
-                ThrowWhen(c => c.IsFalse(() => ConvertFactory.UseParser<EnumParser>().IsEnum<TEnum>(value, o => o.IgnoreCase = ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Condition.IsEnum<TEnum>(value, o => o.IgnoreCase = ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
             catch (ArgumentException ex)
             {

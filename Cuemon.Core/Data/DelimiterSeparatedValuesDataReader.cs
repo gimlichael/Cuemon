@@ -4,8 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Cuemon.ComponentModel.Parsers;
 using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.Text;
 
 namespace Cuemon.Data
 {
@@ -50,7 +50,7 @@ namespace Cuemon.Data
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
         /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
         /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier) : this(reader, header, delimiter, qualifier, ConvertFactory.UseParser<SimpleValueTypeParser>().Parse)
+        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier) : this(reader, header, delimiter, qualifier, ParserFactory.CreateSimpleValueParser().Parse)
         {
         }
 
@@ -61,7 +61,7 @@ namespace Cuemon.Data
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
         /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
         /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
-        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="SimpleValueTypeParser.Parse"/>.</param>
+        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="SimpleValueParser.Parse"/>.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/> -or-
         /// <paramref name="delimiter"/> is empty or consist only of white-space characters -or-

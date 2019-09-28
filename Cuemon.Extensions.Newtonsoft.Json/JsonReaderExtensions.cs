@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Cuemon.ComponentModel.Parsers;
 using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.Text;
 using Newtonsoft.Json;
 
 namespace Cuemon.Extensions.Newtonsoft.Json
@@ -34,7 +34,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                         if (reader.TokenType == JsonToken.EndArray) { goto case JsonToken.EndArray; }
                         if (reader.TokenType != JsonToken.StartArray && reader.TokenType != JsonToken.StartObject && reader.TokenType != JsonToken.EndObject)
                         {
-                            typeStrongValue = ConvertFactory.UseParser<SimpleValueTypeParser>().Parse(reader.Value.ToString());
+                            typeStrongValue = ParserFactory.CreateSimpleValueParser().Parse(reader.Value.ToString());
                             array.Add(new DataPair(hierarchy[index].Data[PropertyNameKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
                         }
                         while (reader.Read()) { goto case JsonToken.StartArray; }
@@ -62,7 +62,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                     case JsonToken.Integer:
                     case JsonToken.Null:
                     case JsonToken.String:
-                        typeStrongValue = ConvertFactory.UseParser<SimpleValueTypeParser>().Parse(reader.Value.ToString());
+                        typeStrongValue = ParserFactory.CreateSimpleValueParser().Parse(reader.Value.ToString());
                         hierarchy[index].Replace(new DataPair(hierarchy[index].Data[PropertyNameKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
                         hierarchy[index].Data.Remove(PropertyNameKey);
                         break;

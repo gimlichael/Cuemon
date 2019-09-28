@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cuemon.Collections.Generic;
-using Cuemon.ComponentModel.Parsers;
+using Cuemon.Text;
 
 namespace Cuemon.ComponentModel.Converters
 {
@@ -22,10 +22,11 @@ namespace Cuemon.ComponentModel.Converters
                 try
                 {
                     var validType = Type.GetType(FormattableString.Invariant($"System.{pair.Value}"), false);
-                    if (validType != null) { result.Add(validType, ConvertFactory.UseParser<EnumParser>().Parse<TypeCode>(pair.Value)); }
+                    if (validType != null) { result.Add(validType, ParserFactory.CreateEnumParser().Parse<TypeCode>(pair.Value)); }
                 }
                 catch
                 {
+                    // ignore to avoid risk of fatal error
                 }
             }
             return result;

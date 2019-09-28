@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.Parsers;
 using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Text;
 
@@ -121,7 +120,7 @@ namespace Cuemon.Extensions
         /// <seealso cref="GuidOptions"/>
         public static Guid ToGuid(string input, Action<GuidOptions> setup = null)
         {
-            return ConvertFactory.UseParser<GuidParser>().Parse(input, setup);
+            return ParserFactory.CreateGuidParser().Parse(input, setup);
         }
 
         /// <summary>
@@ -844,7 +843,7 @@ namespace Cuemon.Extensions
 
         private static bool CanConvertString<T>(string s, CultureInfo culture, ITypeDescriptorContext context)
         {
-            return ConvertFactory.UseParser<ObjectTypeParser>().TryParse<T>(s, out _, o =>
+            return ParserFactory.CreateComplexValueParser().TryParse<T>(s, out _, o =>
             {
                 o.FormatProvider = culture;
                 o.DescriptorContext = context;
@@ -893,7 +892,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static TEnum ToEnum<TEnum>(this string value, bool ignoreCase = true) where TEnum : struct, IConvertible
         {
-            return ConvertFactory.UseParser<EnumParser>().Parse<TEnum>(value, o => o.IgnoreCase = ignoreCase);
+            return ParserFactory.CreateEnumParser().Parse<TEnum>(value, o => o.IgnoreCase = ignoreCase);
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.ComponentModel.Parsers;
+using Cuemon.Text;
 
 namespace Cuemon.ComponentModel.Codecs
 {
@@ -17,7 +17,7 @@ namespace Cuemon.ComponentModel.Codecs
         /// <seealso cref="ProtocolRelativeUrlParser"/>
         public Uri Encode(string input, Action<ProtocolRelativeUrlOptions> setup = null)
         {
-            return ConvertFactory.UseParser<ProtocolRelativeUrlParser>().Parse(input, setup);
+            return ParserFactory.CreateProtocolRelativeUrlParser().Parse(input, setup);
         }
 
         /// <summary>

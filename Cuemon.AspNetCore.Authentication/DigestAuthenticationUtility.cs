@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Text;
 using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.Parsers;
 using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Integrity;
 using Cuemon.Text;
@@ -132,7 +131,7 @@ namespace Cuemon.AspNetCore.Authentication
         public static bool DefaultNonceExpiredParser(string nonce, TimeSpan timeToLive)
         {
             Validator.ThrowIfNullOrEmpty(nonce, nameof(nonce));
-            if (ConvertFactory.UseParser<Base64StringParser>().TryParse(nonce, out var rawNonce))
+            if (ParserFactory.CreateBase64Parser().TryParse(nonce, out var rawNonce))
             {
                 var nonceProtocol = ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(rawNonce, options =>
                 {

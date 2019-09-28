@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using Cuemon.Collections.Generic;
-using Cuemon.ComponentModel.Parsers;
+using Cuemon.Text;
 
 namespace Cuemon.Net.Http
 {
@@ -17,7 +17,7 @@ namespace Cuemon.Net.Http
             var result = new Dictionary<string, HttpMethods>();
             foreach (var pair in new EnumReadOnlyDictionary<HttpMethods>())
             {
-                result.Add(pair.Value, ConvertFactory.UseParser<EnumParser>().Parse<HttpMethods>(pair.Value));
+                result.Add(pair.Value, ParserFactory.CreateEnumParser().Parse<HttpMethods>(pair.Value));
             }
             return result;
         }

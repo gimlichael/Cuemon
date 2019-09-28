@@ -6,8 +6,8 @@ using Cuemon.ComponentModel.Codecs;
 using Cuemon.ComponentModel.Converters;
 using Cuemon.ComponentModel.Decoders;
 using Cuemon.ComponentModel.Encoders;
-using Cuemon.ComponentModel.Parsers;
 using Cuemon.IO;
+using Cuemon.Text;
 
 namespace Cuemon
 {
@@ -52,12 +52,5 @@ namespace Cuemon
         {
             return Activator.CreateInstance<TDecoder>();
         }
-
-        public static TParser UseParser<TParser>() where TParser : class, IParser, new()
-        {
-            return Activator.CreateInstance<TParser>();
-        }
-
-
     }
 }

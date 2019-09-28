@@ -2,9 +2,9 @@
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Xml;
-using Cuemon.ComponentModel.Parsers;
 using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Data;
+using Cuemon.Text;
 
 namespace Cuemon.Xml
 {
@@ -22,7 +22,7 @@ namespace Cuemon.Xml
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        public XmlDataReader(XmlReader reader) : this(reader, ConvertFactory.UseParser<SimpleValueTypeParser>().Parse)
+        public XmlDataReader(XmlReader reader) : this(reader, ParserFactory.CreateSimpleValueParser().Parse)
         {
         }
 
@@ -34,7 +34,7 @@ namespace Cuemon.Xml
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null -or- <paramref name="parser"/> is null.
         /// </exception>
-        /// <remarks>The default implementation uses <see cref="SimpleValueTypeParser.Parse"/> as <paramref name="parser"/>.</remarks>
+        /// <remarks>The default implementation uses <see cref="SimpleValueParser.Parse"/> as <paramref name="parser"/>.</remarks>
         public XmlDataReader(XmlReader reader, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser) : base(parser)
         {
             Validator.ThrowIfNull(reader, nameof(reader));

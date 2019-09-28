@@ -4,6 +4,7 @@ using Cuemon.Collections.Generic;
 using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Runtime;
+using Cuemon.Text;
 
 namespace Cuemon.Net
 {
@@ -322,7 +323,7 @@ namespace Cuemon.Net
             var uris = new List<Uri>();
             foreach (var uri in uriStrings)
             {
-                if (ConvertFactory.UseParser<ComponentModel.Parsers.UriParser>().TryParse(uri, out var realUri, o => o.Kind = UriKind.Absolute)) { uris.Add(realUri); }
+                if (ParserFactory.CreateUriParser().TryParse(uri, out var realUri, o => o.Kind = UriKind.Absolute)) { uris.Add(realUri); }
             }
 	        return uris;
 	    }

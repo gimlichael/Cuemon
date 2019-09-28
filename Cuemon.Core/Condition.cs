@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
-using Cuemon.ComponentModel.Parsers;
+using Cuemon.Text;
 
 namespace Cuemon
 {
@@ -23,6 +24,41 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// </summary>
         /// <value>The singleton instance of the Condition functionality.</value>
         public static Condition Query { get; } = ExtendedCondition;
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> is valid by attempting to construct an enumeration of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumeration to validate.</typeparam>
+        /// <param name="value">The <see cref="string"/> containing the name or value used to attempt to construct an <see cref="Enum"/>.</param>
+        /// <param name="setup">The <see cref="EnumOptions"/> which may be configured.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> is a valid enumeration; otherwise, <c>false</c>.</returns>
+        public static bool IsEnum<T>(string value, Action<EnumOptions> setup = null) where T : struct, IConvertible
+        {
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
+            return typeof(T).GetTypeInfo().IsEnum && ParserFactory.CreateEnumParser().TryParse<T>(value, out _, setup);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> is valid by attempting to construct a URI.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/> used to attempt to construct a <see cref="Uri"/>.</param>
+        /// <param name="setup">The <see cref="ProtocolRelativeUrlOptions"/> which may be configured.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> is a protocol relative URI; otherwise, <c>false</c>.</returns>
+        public static bool IsProtocolRelativeUrl(string value, Action<ProtocolRelativeUrlOptions> setup = null)
+        {
+            return ParserFactory.CreateProtocolRelativeUrlParser().TryParse(value, out _, setup);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> is valid by attempting to construct a URI.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/> used to attempt to construct a <see cref="Uri"/>.</param>
+        /// <param name="setup">The <see cref="SimpleUriOptions"/> which may be configured.</param>
+        /// <returns><c>true</c> if the specified <paramref name="value"/> is a valid URI; otherwise, <c>false</c>.</returns>
+        public static bool IsUri(string value, Action<SimpleUriOptions> setup = null)
+        {
+            return ParserFactory.CreateUriParser().TryParse(value, out _, setup);
+        }
 
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> contains at least one of the succession <paramref name="characters"/> of <paramref name="length"/>.
@@ -66,7 +102,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsBase64(string value)
         {
             if (string.IsNullOrEmpty(value)) { return false; }
-            return ConvertFactory.UseParser<Base64StringParser>().TryParse(value, out _);
+            return ParserFactory.CreateBase64Parser().TryParse(value, out _);
         }
 
         /// <summary>
@@ -117,7 +153,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsGuid(string value, GuidFormats format)
         {
             if (string.IsNullOrWhiteSpace(value)) { return false; }
-            return ConvertFactory.UseParser<GuidParser>().TryParse(value, out _, o => o.Formats = format);
+            return ParserFactory.CreateGuidParser().TryParse(value, out _, o => o.Formats = format);
         }
 
         /// <summary>

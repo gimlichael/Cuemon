@@ -474,7 +474,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="Hash"/> implementation of <see cref="CyclicRedundancyCheck64"/>.</returns>
         public static Hash CreateCrc64GoIso()
         {
-            return new CyclicRedundancyCheck64(0x000000000000001B, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, setup: o =>
+            return new CyclicRedundancyCheck64(0x000000000000001B, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, o =>
             {
                 o.ReflectInput = true;
                 o.ReflectOutput = true;

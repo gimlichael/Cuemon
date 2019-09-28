@@ -174,13 +174,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Disposable"/> class.
-        /// </summary>
-        protected Disposable()
-        {
-        }
-
-        /// <summary>
         /// Gets a value indicating whether this <see cref="Disposable"/> object is disposed.
         /// </summary>
         /// <value><c>true</c> if this <see cref="Disposable"/> object is disposed; otherwise, <c>false</c>.</value>

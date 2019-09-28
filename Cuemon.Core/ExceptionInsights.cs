@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading;
 using Cuemon.ComponentModel.Codecs;
 using Cuemon.ComponentModel.Converters;
-using Cuemon.ComponentModel.Parsers;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
+using Cuemon.Text;
 using Cuemon.Threading;
 
 namespace Cuemon
@@ -154,7 +154,7 @@ namespace Cuemon
             if (!string.IsNullOrWhiteSpace(info)) { ed.AddEvidence(context, info.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries), s => s.ToDictionary(k => k.Substring(0, k.IndexOf(':')), v =>
             {
                 var presult = v.Substring(v.IndexOf(' ') + 1);
-                return ConvertFactory.UseParser<SimpleValueTypeParser>().Parse(presult == "null" ? null : presult);
+                return ParserFactory.CreateSimpleValueParser().Parse(presult == "null" ? null : presult);
             })); }
         }
     }
