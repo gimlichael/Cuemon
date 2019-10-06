@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon.ComponentModel.Codecs
@@ -24,13 +24,12 @@ namespace Cuemon.ComponentModel.Codecs
         /// <exception cref="InvalidEnumArgumentException">
         /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
-        /// <seealso cref="StringToByteArrayCodec"/>
-        /// <seealso cref="HexadecimalByteArrayConverter"/>
+        /// <seealso cref="HexadecimalConverter"/>
         public string Encode(string input, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(input, nameof(input));
-            var encodedString = ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(input, setup);
-            return ConvertFactory.UseConverter<HexadecimalByteArrayConverter>().ChangeType(encodedString);
+            var encodedString = Convertible.GetBytes(input, setup);
+            return ConvertFactory.FromHexadecimal().ChangeType(encodedString);
         }
 
         /// <summary>
@@ -48,7 +47,6 @@ namespace Cuemon.ComponentModel.Codecs
         /// <exception cref="FormatException">
         /// <paramref name="input"/> is not an hexadecimal encoded.
         /// </exception>
-        /// <seealso cref="StringToByteArrayCodec"/>
         public string Decode(string input, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(input, nameof(input));
@@ -66,7 +64,7 @@ namespace Cuemon.ComponentModel.Codecs
                     converted.Add(Convert.ToByte(new string(new[] { firstChar, secondChar }), 16));
                 }
             }
-            return ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(converted.ToArray(), setup);
+            return Convertible.ToString(converted.ToArray(), setup);
         }
     }
 }
