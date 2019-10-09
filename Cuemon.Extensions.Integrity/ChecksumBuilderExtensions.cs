@@ -5,7 +5,7 @@ using Cuemon.Integrity;
 namespace Cuemon.Extensions.Integrity
 {
     /// <summary>
-    /// Extension methods for the <see cref="ChecksumBuilder"/>.
+    /// Extension methods for the <see cref="ChecksumBuilder"/> class.
     /// </summary>
     public static class ChecksumBuilderExtensions
     {
