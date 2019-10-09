@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.Codecs;
 
 namespace Cuemon.Extensions.IO

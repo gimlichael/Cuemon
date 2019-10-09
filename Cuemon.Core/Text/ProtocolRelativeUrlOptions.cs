@@ -1,10 +1,9 @@
 ﻿using System;
-using Cuemon.ComponentModel.Codecs;
 
 namespace Cuemon.Text
 {
     /// <summary>
-    /// Configuration options for <see cref="UrlProtocolRelativeCodec"/> and <see cref="UrlEncodedBase64Parser"/>.
+    /// Configuration options for <see cref="ProtocolRelativeUrlParser"/>.
     /// </summary>
     public class ProtocolRelativeUrlOptions
     {

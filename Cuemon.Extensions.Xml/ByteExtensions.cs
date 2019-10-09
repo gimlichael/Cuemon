@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.Codecs;
 
 namespace Cuemon.Extensions.Xml

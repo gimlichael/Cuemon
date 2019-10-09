@@ -21,19 +21,19 @@ namespace Cuemon.Text
     public interface IParser<TResult> : IParser, IConversion<string, TResult>
     {
         /// <summary>
-        /// Converts the <paramref name="input"/> to its <typeparamref name="TResult"/> equivalent.
+        /// Converts the <paramref name="value"/> to its <typeparamref name="TResult"/> equivalent.
         /// </summary>
-        /// <param name="input">The string to convert.</param>
-        /// <returns>A <typeparamref name="TResult"/> equivalent to <paramref name="input"/>.</returns>
-        TResult Parse(string input);
+        /// <param name="value">The string to convert.</param>
+        /// <returns>A <typeparamref name="TResult"/> equivalent to <paramref name="value"/>.</returns>
+        TResult Parse(string value);
 
         /// <summary>
-        /// Converts the <paramref name="input"/> to its <typeparamref name="TResult"/> equivalent. A return value indicates whether the conversion succeeded.
+        /// Converts the <paramref name="value"/> to its <typeparamref name="TResult"/> equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
-        /// <param name="input">The string to convert.</param>
-        /// <param name="result">When this method returns, contains the <typeparamref name="TResult"/> equivalent of the <paramref name="input"/>, if the conversion succeeded, or <c>default</c> if the conversion failed.</param>
-        /// <returns><c>true</c> if <paramref name="input"/> was converted successfully; otherwise, <c>false</c>.</returns>
-        bool TryParse(string input, out TResult result);
+        /// <param name="value">The string to convert.</param>
+        /// <param name="result">When this method returns, contains the <typeparamref name="TResult"/> equivalent of the <paramref name="value"/>, if the conversion succeeded, or <c>default</c> if the conversion failed.</param>
+        /// <returns><c>true</c> if <paramref name="value"/> was converted successfully; otherwise, <c>false</c>.</returns>
+        bool TryParse(string value, out TResult result);
     }
 
     /// <summary>
@@ -48,20 +48,20 @@ namespace Cuemon.Text
     public interface IParser<TResult, out TOptions> : IParser, IConversion<string, TResult, TOptions> where TOptions : class, new()
     {
         /// <summary>
-        /// Converts the <paramref name="input"/> to its <typeparamref name="TResult"/> equivalent.
+        /// Converts the <paramref name="value"/> to its <typeparamref name="TResult"/> equivalent.
         /// </summary>
-        /// <param name="input">The string to convert.</param>
+        /// <param name="value">The string to convert.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which may be configured.</param>
-        /// <returns>A <typeparamref name="TResult"/> equivalent to <paramref name="input"/>.</returns>
-        TResult Parse(string input, Action<TOptions> setup = null);
+        /// <returns>A <typeparamref name="TResult"/> equivalent to <paramref name="value"/>.</returns>
+        TResult Parse(string value, Action<TOptions> setup = null);
 
         /// <summary>
-        /// Converts the <paramref name="input"/> to its <typeparamref name="TResult"/> equivalent. A return value indicates whether the conversion succeeded.
+        /// Converts the <paramref name="value"/> to its <typeparamref name="TResult"/> equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
-        /// <param name="input">The string to convert.</param>
-        /// <param name="result">When this method returns, contains the <typeparamref name="TResult"/> equivalent of the <paramref name="input"/>, if the conversion succeeded, or <c>default</c> if the conversion failed.</param>
+        /// <param name="value">The string to convert.</param>
+        /// <param name="result">When this method returns, contains the <typeparamref name="TResult"/> equivalent of the <paramref name="value"/>, if the conversion succeeded, or <c>default</c> if the conversion failed.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which may be configured.</param>
-        /// <returns><c>true</c> if <paramref name="input"/> was converted successfully; otherwise, <c>false</c>.</returns>
-        bool TryParse(string input, out TResult result, Action<TOptions> setup = null);
+        /// <returns><c>true</c> if <paramref name="value"/> was converted successfully; otherwise, <c>false</c>.</returns>
+        bool TryParse(string value, out TResult result, Action<TOptions> setup = null);
     }
 }

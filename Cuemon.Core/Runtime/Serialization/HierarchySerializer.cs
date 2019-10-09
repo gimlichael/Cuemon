@@ -25,6 +25,10 @@ namespace Cuemon.Runtime.Serialization
         /// <value>The converted nodes of the the by constructor defined source object.</value>
         public IHierarchy<object> Nodes { get; }
 
+        /// <summary>
+        /// Returns a <see cref="string" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             var sb = new StringBuilder();
