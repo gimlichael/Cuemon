@@ -1,6 +1,5 @@
 ﻿using System;
 using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.Codecs;
 using Cuemon.IO;
 using Cuemon.Text;
 

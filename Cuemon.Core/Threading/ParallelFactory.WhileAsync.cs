@@ -170,7 +170,7 @@ namespace Cuemon.Threading
 
             for (;;)
             {
-                var workChunks = options.ChunkSize;
+                var workChunks = options.PartitionSize;
                 var queue = new List<Task>();
                 while (workChunks > 1 && readForward)
                 {

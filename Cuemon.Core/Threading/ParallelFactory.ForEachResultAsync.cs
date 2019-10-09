@@ -156,7 +156,7 @@ namespace Cuemon.Threading
             var result = new ConcurrentDictionary<long, TResult>();
             var sorter = 0;
 
-            var partitioner = new PartitionerEnumerable<TSource>(source, options.ChunkSize);
+            var partitioner = new PartitionerEnumerable<TSource>(source, options.PartitionSize);
             while (partitioner.HasPartitions)
             {
                 var queue = new List<Task>();
