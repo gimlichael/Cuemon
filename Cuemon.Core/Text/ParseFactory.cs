@@ -1,19 +1,26 @@
 ﻿using System;
-using System.Globalization;
-using Cuemon.ComponentModel;
 
 namespace Cuemon.Text
 {
     /// <summary>
     /// Provides access to factory methods that are tailored for parsing operations following the patterns defined in <see cref="IParser"/> and <see cref="ITypeParser"/>.
     /// </summary>
-    public static class ParserFactory
+    public static class ParseFactory
     {
+        /// <summary>
+        /// Creates an instance of <see cref="HexadecimalParser"/>.
+        /// </summary>
+        /// <returns>An <see cref="IParser{TResult}"/> implementation of <see cref="HexadecimalParser"/>.</returns>
+        public static HexadecimalParser FromHexadecimal()
+        {
+            return new HexadecimalParser();
+        }
+
         /// <summary>
         /// Creates an instance of <see cref="Base64Parser"/>.
         /// </summary>
         /// <returns>An <see cref="IParser{TResult}"/> implementation of <see cref="Base64Parser"/>.</returns>
-        public static IParser<byte[]> CreateBase64Parser()
+        public static Base64Parser FromBase64()
         {
             return new Base64Parser();
         }
@@ -22,7 +29,7 @@ namespace Cuemon.Text
         /// Creates an instance of <see cref="UrlEncodedBase64Parser"/>.
         /// </summary>
         /// <returns>An <see cref="IParser{TResult}"/> implementation of <see cref="UrlEncodedBase64Parser"/>.</returns>
-        public static IParser<byte[]> CreateUrlEncodedBase64Parser()
+        public static UrlEncodedBase64Parser FromUrlEncodedBase64()
         {
             return new UrlEncodedBase64Parser();
         }
@@ -31,7 +38,7 @@ namespace Cuemon.Text
         /// Creates an instance of <see cref="BinaryDigitsParser"/>.
         /// </summary>
         /// <returns>An <see cref="IParser{TResult}"/> implementation of <see cref="BinaryDigitsParser"/>.</returns>
-        public static IParser<byte[]> CreateBinaryDigitsParser()
+        public static BinaryDigitsParser FromBinaryDigits()
         {
             return new BinaryDigitsParser();
         }
@@ -40,16 +47,15 @@ namespace Cuemon.Text
         /// Creates an instance of <see cref="EnumParser"/>.
         /// </summary>
         /// <returns>An <see cref="ITypeParser{TOptions}"/> implementation of <see cref="EnumParser"/>.</returns>
-        public static ITypeParser<EnumOptions> CreateEnumParser()
+        public static EnumParser FromEnum()
         {
             return new EnumParser();
         }
-
-        /// <summary>
+                /// <summary>
         /// Creates an instance of <see cref="GuidParser"/>.
         /// </summary>
         /// <returns>An <see cref="IParser{TResult,TOptions}"/> implementation of <see cref="GuidParser"/>.</returns>
-        public static IParser<Guid, GuidOptions> CreateGuidParser()
+        public static GuidParser FromGuid()
         {
             return new GuidParser();
         }
@@ -58,7 +64,7 @@ namespace Cuemon.Text
         /// Creates an instance of <see cref="ComplexValueParser"/>.
         /// </summary>
         /// <returns>An <see cref="ITypeParser{TOptions}"/> implementation of <see cref="ComplexValueParser"/>.</returns>
-        public static ITypeParser<TypeConverterOptions> CreateComplexValueParser()
+        public static ComplexValueParser FromAnything()
         {
             return new ComplexValueParser();
         }
@@ -67,7 +73,7 @@ namespace Cuemon.Text
         /// Creates an instance of <see cref="SimpleValueParser"/>.
         /// </summary>
         /// <returns>An <see cref="IParser{TResult,TOptions}"/> implementation of <see cref="SimpleValueParser"/>.</returns>
-        public static IParser<object, FormattingOptions<CultureInfo>> CreateSimpleValueParser()
+        public static SimpleValueParser FromSimpleValue()
         {
             return new SimpleValueParser();
         }
@@ -76,7 +82,7 @@ namespace Cuemon.Text
         /// Creates an instance of <see cref="ProtocolRelativeUrlParser"/>.
         /// </summary>
         /// <returns>An <see cref="IParser{TResult,TOptions}"/> implementation of <see cref="ProtocolRelativeUrlParser"/>.</returns>
-        public static IParser<Uri, ProtocolRelativeUrlOptions> CreateProtocolRelativeUrlParser()
+        public static ProtocolRelativeUrlParser FromProtocolRelativeUrl()
         {
             return new ProtocolRelativeUrlParser();
         }
@@ -85,9 +91,18 @@ namespace Cuemon.Text
         /// Creates an instance of <see cref="SimpleUriParser"/>.
         /// </summary>
         /// <returns>An <see cref="IParser{TResult,TOptions}"/> implementation of <see cref="SimpleUriParser"/>.</returns>
-        public static IParser<Uri, SimpleUriOptions> CreateUriParser()
+        public static SimpleUriParser FromUri()
         {
             return new SimpleUriParser();
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="UriSchemeParser"/>.
+        /// </summary>
+        /// <returns>An <see cref="IParser{TResult}"/> implementation of <see cref="UriSchemeParser"/>.</returns>
+        public static UriSchemeParser FromUriScheme()
+        {
+            return new UriSchemeParser();
         }
     }
 }

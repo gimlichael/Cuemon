@@ -4,8 +4,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
 using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Extensions.Threading.Tasks;
+using Cuemon.Integrity;
 using Cuemon.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -74,7 +74,7 @@ namespace Cuemon.AspNetCore.Authentication
                 var base64Credentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
                 if (Condition.IsBase64(base64Credentials))
                 {
-                    var credentials = ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(Convert.FromBase64String(base64Credentials), options =>
+                    var credentials = Convertible.ToString(Convert.FromBase64String(base64Credentials), options =>
                     {
                         options.Encoding = Encoding.ASCII;
                         options.Preamble = PreambleSequence.Remove;

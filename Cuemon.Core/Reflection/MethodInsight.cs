@@ -1,25 +1,49 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Cuemon.Reflection
 {
+    /// <summary>
+    /// Provides a set of methods for working with reflection related operations on a <see cref="MethodInfo"/> object in a robust way. This class cannot be inherited.
+    /// </summary>
+    /// <seealso cref="MemberInsight{T}"/>
     public sealed class MethodInsight : MemberInsight<MethodInfo>
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="MethodInsight"/> from the specified <paramref name="method"/>.
+        /// </summary>
+        /// <param name="method">The underlying <see cref="MethodInfo"/>.</param>
+        /// <returns>An instance of <see cref="MethodInsight"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="method"/> cannot be null.
+        /// </exception>
         public static MethodInsight FromMethod(MethodInfo method)
+        {
+            Validator.ThrowIfNull(method, nameof(method));
+            return new MethodInsight(method);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="MethodInfo"/> to <see cref="MethodInsight"/>.
+        /// </summary>
+        /// <param name="method">The <see cref="MethodInfo"/> to convert.</param>
+        /// <returns>A <see cref="MethodInsight"/> that is equivalent to <paramref name="method"/>.</returns>
+        public static implicit operator MethodInsight(MethodInfo method)
         {
             return new MethodInsight(method);
         }
 
-        public static implicit operator MethodInsight(MethodInfo mi)
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="MethodInsight"/> to <see cref="MethodInfo"/>.
+        /// </summary>
+        /// <param name="insight">The <see cref="MethodInsight"/> to convert.</param>
+        /// <returns>A <see cref="MethodInfo"/> that is equivalent to <paramref name="insight"/>.</returns>
+        public static implicit operator MethodInfo(MethodInsight insight)
         {
-            return new MethodInsight(mi);
+            return insight.Member;
         }
 
-        public static implicit operator MethodInfo(MethodInsight mi)
-        {
-            return mi.Member;
-        }
-
-        public MethodInsight(MethodInfo method) : base(method)
+        MethodInsight(MethodInfo method) : base(method)
         {
         }
 

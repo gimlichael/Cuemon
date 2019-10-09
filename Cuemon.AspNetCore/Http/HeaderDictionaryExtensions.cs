@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Net.Http.Headers;
 using Cuemon.Collections.Generic;
-using Cuemon.ComponentModel.Encoders;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Extensions;
 using Cuemon.Extensions.Collections.Generic;
 using Cuemon.Text;

@@ -1,11 +1,31 @@
 ﻿using System;
+using System.IO;
 
 namespace Cuemon.IO
 {
+    /// <summary>
+    /// Configuration options for <see cref="Stream"/>.
+    /// </summary>
     public class StreamCopyOptions
     {
         private int _bufferSize;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StreamCopyOptions"/> class.
+        /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="StreamCopyOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="BufferSize"/></term>
+        ///         <description>81920</description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public StreamCopyOptions()
         {
             BufferSize = 81920;

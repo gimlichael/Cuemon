@@ -1,30 +1,50 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Cuemon.Reflection
 {
+    /// <summary>
+    /// Provides a set of methods for working with reflection related operations on a <see cref="PropertyInfo"/> object in a robust way. This class cannot be inherited.
+    /// </summary>
+    /// <seealso cref="MemberInsight{T}"/>
     public sealed class PropertyInsight : MemberInsight<PropertyInfo>
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="PropertyInsight"/> from the specified <paramref name="property"/>.
+        /// </summary>
+        /// <param name="property">The underlying <see cref="PropertyInfo"/>.</param>
+        /// <returns>An instance of <see cref="TypeInsight"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="property"/> cannot be null.
+        /// </exception>
         public static PropertyInsight FromProperty(PropertyInfo property)
+        {
+            return property == null ? null : new PropertyInsight(property);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="PropertyInfo"/> to <see cref="PropertyInsight"/>.
+        /// </summary>
+        /// <param name="property">The <see cref="PropertyInfo"/> to convert.</param>
+        /// <returns>A <see cref="PropertyInsight"/> that is equivalent to <paramref name="property"/>.</returns>
+        public static implicit operator PropertyInsight(PropertyInfo property)
         {
             return new PropertyInsight(property);
         }
 
-        public static implicit operator PropertyInsight(PropertyInfo pi)
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="PropertyInsight"/> to <see cref="PropertyInfo"/>.
+        /// </summary>
+        /// <param name="insight">The <see cref="PropertyInsight"/> to convert.</param>
+        /// <returns>A <see cref="PropertyInfo"/> that is equivalent to <paramref name="insight"/>.</returns>
+        public static implicit operator PropertyInfo(PropertyInsight insight)
         {
-            return new PropertyInsight(pi);
+            return insight.Member;
         }
 
-        public static implicit operator PropertyInfo(PropertyInsight pi)
-        {
-            return pi.Member;
-        }
-
-        public PropertyInsight(PropertyInfo property) : base(property)
+        PropertyInsight(PropertyInfo property) : base(property)
         {
         }
 

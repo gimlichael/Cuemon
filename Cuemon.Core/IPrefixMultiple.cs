@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Cuemon
+﻿namespace Cuemon
 {
     /// <summary>
     /// Defines a unit prefix that can can be expressed as a either a multiple or a submultiple of the unit of measurement.

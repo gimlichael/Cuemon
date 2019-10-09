@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Collections.Generic
 {
@@ -24,7 +22,7 @@ namespace Cuemon.Collections.Generic
         public PartitionerCollection(ICollection<T> source, int partitionSize = 128) : base(source, partitionSize)
         {
             Count = source.Count;
-            PartitionsCount = ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeTypeOrDefault<int>(Math.Ceiling(Count / ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeTypeOrDefault<double>(PartitionSize)));
+            PartitionsCount = ConvertFactory.FromObject().ChangeTypeOrDefault<int>(Math.Ceiling(Count / ConvertFactory.FromObject().ChangeTypeOrDefault<double>(PartitionSize)));
         }
 
         /// <summary>

@@ -5,8 +5,8 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.IO;
 using Cuemon.Text;
 
@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.IO
         /// <summary>
         /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:char[]"/> representation.
         /// </summary>
-        /// <param name="input">The <see cref="Stream"/> to extend.</param>
+        /// <param name="input">The <see cref="Stream"/> to be extended.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
         /// <returns>A <see cref="T:char[]"/> that is equivalent to <paramref name="input"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -63,14 +63,12 @@ namespace Cuemon.Extensions.IO
         /// <paramref name="input" /> length is greater than <see cref="int.MaxValue"/>.
         /// </exception>
         /// <exception cref="InvalidEnumArgumentException">
-        /// <paramref name="setup"/> was initialzied with an invalid <see cref="EncodingOptions.Preamble"/>.
+        /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
-        /// <seealso cref="EncodedStreamConverter"/>
-        /// <seealso cref="EncodingOptions"/>
-        
+        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static char[] ToCharArray(this Stream input, Action<EncodingOptions> setup = null)
         {
-            return ConvertFactory.UseConverter<EncodedStreamConverter>().ChangeType(input, setup);
+            return ConvertFactory.FromStream().ChangeType(input, setup);
         }
 
         /// <summary>
@@ -142,21 +140,21 @@ namespace Cuemon.Extensions.IO
         }
 
         /// <summary>
-        /// Compresses the <paramref name="value"/> using the <see cref="CompressionType.Deflate"/> algorithm.
+        /// Compresses the <paramref name="value"/> using the DEFLATE algorithm.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="bufferSize">The size of the buffer. This value must be greater than zero. The default size is 81920.</param>
-        /// <returns>A Deflate compressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
+        /// <param name="setup">The <see cref="StreamCompressionOptions"/> which may be configured.</param>
+        /// <returns>A DEFLATE compressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         public static Stream Deflate(this Stream value, Action<StreamCompressionOptions> setup = null)
         {
             return ConvertFactory.UseEncoder<DeflateStreamCodec>().Encode(value, setup);
         }
 
         /// <summary>
-        /// Compresses the <paramref name="value"/> using the <see cref="CompressionType.GZip"/> algorithm.
+        /// Compresses the <paramref name="value"/> using the GZIP algorithm.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="bufferSize">The size of the buffer. This value must be greater than zero. The default size is 81920.</param>
+        /// <param name="setup">The <see cref="StreamCompressionOptions"/> which may be configured.</param>
         /// <returns>A GZip compressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         public static Stream GZip(this Stream value, Action<StreamCompressionOptions> setup = null)
         {
@@ -164,10 +162,10 @@ namespace Cuemon.Extensions.IO
         }
 
         /// <summary>
-        /// Decompresses the source stream using <see cref="CompressionType.Deflate"/> algorithm.
+        /// Decompresses the source stream using DEFLATE algorithm.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="bufferSize">The size of the buffer. This value must be greater than zero. The default size is 81920.</param>
+        /// <param name="setup">The <see cref="StreamCopyOptions"/> which may be configured.</param>
         /// <returns>A decompressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         public static Stream FromDeflate(this Stream value, Action<StreamCopyOptions> setup = null)
         {
@@ -175,10 +173,10 @@ namespace Cuemon.Extensions.IO
         }
 
         /// <summary>
-        /// Decompresses the source stream using <see cref="CompressionType.GZip"/> algorithm.
+        /// Decompresses the source stream using GZIP algorithm.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="bufferSize">The size of the buffer. This value must be greater than zero. The default size is 81920.</param>
+        /// <param name="setup">The <see cref="StreamCopyOptions"/> which may be configured.</param>
         /// <returns>A decompressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         public static Stream FromGZip(this Stream value, Action<StreamCopyOptions> setup = null)
         {

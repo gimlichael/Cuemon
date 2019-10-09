@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cuemon.ComponentModel.TypeConverters;
-using Cuemon.Security.Cryptography;
 
 namespace Cuemon.Integrity
 {
@@ -22,7 +20,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="checksum">A <see cref="double"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
-        public ChecksumBuilder(double checksum, Action<ChecksumBuilderOptions> setup = null) : this(ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+        public ChecksumBuilder(double checksum, Action<ChecksumBuilderOptions> setup = null) : this(Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -31,7 +29,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="checksum">A <see cref="short"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
-        public ChecksumBuilder(short checksum, Action<ChecksumBuilderOptions> setup = null) : this(ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+        public ChecksumBuilder(short checksum, Action<ChecksumBuilderOptions> setup = null) : this(Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -50,7 +48,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="checksum">A <see cref="int"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
-        public ChecksumBuilder(int checksum, Action<ChecksumBuilderOptions> setup = null) : this(ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+        public ChecksumBuilder(int checksum, Action<ChecksumBuilderOptions> setup = null) : this(Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -59,7 +57,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="checksum">A <see cref="long"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
-        public ChecksumBuilder(long checksum, Action<ChecksumBuilderOptions> setup = null) : this(ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+        public ChecksumBuilder(long checksum, Action<ChecksumBuilderOptions> setup = null) : this(Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -68,7 +66,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="checksum">A <see cref="float"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
-        public ChecksumBuilder(float checksum, Action<ChecksumBuilderOptions> setup = null) : this(ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+        public ChecksumBuilder(float checksum, Action<ChecksumBuilderOptions> setup = null) : this(Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -77,7 +75,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="checksum">A <see cref="ushort"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
-        public ChecksumBuilder(ushort checksum, Action<ChecksumBuilderOptions> setup = null) : this(ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+        public ChecksumBuilder(ushort checksum, Action<ChecksumBuilderOptions> setup = null) : this(Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -86,7 +84,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="checksum">A <see cref="uint"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
-        public ChecksumBuilder(uint checksum, Action<ChecksumBuilderOptions> setup = null) : this(ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+        public ChecksumBuilder(uint checksum, Action<ChecksumBuilderOptions> setup = null) : this(Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -95,7 +93,7 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="checksum">A <see cref="ulong"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="ChecksumBuilderOptions"/> which need to be configured.</param>
-        public ChecksumBuilder(ulong checksum, Action<ChecksumBuilderOptions> setup = null) : this(ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+        public ChecksumBuilder(ulong checksum, Action<ChecksumBuilderOptions> setup = null) : this(Convertible.GetBytes(checksum), setup)
         {
         }
 

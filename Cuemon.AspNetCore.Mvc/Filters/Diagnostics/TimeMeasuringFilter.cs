@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Http;
-using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.ComponentModel;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
 using Microsoft.Extensions.Hosting;
@@ -82,7 +82,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             var objects = new List<object>();
             foreach (var pi in descriptor.Parameters)
             {
-                objects.Add(ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(context.RouteData.Values[pi.Name], pi.ParameterType));
+                objects.Add(ConvertFactory.FromObject().ChangeType(context.RouteData.Values[pi.Name], pi.ParameterType));
             }
             return objects.ToArray();
         }

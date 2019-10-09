@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon
 {
@@ -113,8 +112,7 @@ namespace Cuemon
                     }
                     if (!match)
                     {
-                        var ds = ConvertFactory.UseConverter<DelimitedStringConverter<PropertyInfo>>();
-                        throw new InvalidOperationException(FormattableString.Invariant($"Unable to use default converter for exchange of {nameof(TOptions)} ({ds.ChangeType(ips)}) with {nameof(TExchangeOptions)} ({ds.ChangeType(ops)}); no match on public read-write properties."));
+                        throw new InvalidOperationException(FormattableString.Invariant($"Unable to use default converter for exchange of {nameof(TOptions)} ({DelimitedString.Create(ips)}) with {nameof(TExchangeOptions)} ({DelimitedString.Create(ops)}); no match on public read-write properties."));
                     }
                 };
             }

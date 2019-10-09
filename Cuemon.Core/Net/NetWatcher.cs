@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Integrity;
 using Cuemon.Net.Http;
 using Cuemon.Runtime;
-using Cuemon.Security.Cryptography;
+using Cuemon.Text;
 
 namespace Cuemon.Net
 {
@@ -69,8 +67,8 @@ namespace Cuemon.Net
 		/// <remarks>Monitors the provided <paramref name="requestUri"/> for changes in an interval specified by <paramref name="period"/>, determined by <paramref name="checkResponseData"/>.</remarks>
 		public NetWatcher(Uri requestUri, TimeSpan dueTime, TimeSpan period, bool checkResponseData) : base(dueTime, period)
 		{
-			if (requestUri == null) throw new ArgumentNullException(nameof(requestUri));
-			var scheme = ConvertFactory.UseConverter<UriSchemeStringConverter>().ChangeType(requestUri.Scheme);
+            Validator.ThrowIfNull(requestUri, nameof(requestUri));
+            var scheme = ParseFactory.FromUriScheme().Parse(requestUri.Scheme);
 			switch (scheme)
 			{
 				case UriScheme.File:

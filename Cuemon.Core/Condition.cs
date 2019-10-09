@@ -35,7 +35,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsEnum<T>(string value, Action<EnumOptions> setup = null) where T : struct, IConvertible
         {
             if (string.IsNullOrWhiteSpace(value)) { return false; }
-            return typeof(T).GetTypeInfo().IsEnum && ParserFactory.CreateEnumParser().TryParse<T>(value, out _, setup);
+            return typeof(T).GetTypeInfo().IsEnum && ParseFactory.FromEnum().TryParse<T>(value, out _, setup);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> is a protocol relative URI; otherwise, <c>false</c>.</returns>
         public static bool IsProtocolRelativeUrl(string value, Action<ProtocolRelativeUrlOptions> setup = null)
         {
-            return ParserFactory.CreateProtocolRelativeUrlParser().TryParse(value, out _, setup);
+            return ParseFactory.FromProtocolRelativeUrl().TryParse(value, out _, setup);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// <returns><c>true</c> if the specified <paramref name="value"/> is a valid URI; otherwise, <c>false</c>.</returns>
         public static bool IsUri(string value, Action<SimpleUriOptions> setup = null)
         {
-            return ParserFactory.CreateUriParser().TryParse(value, out _, setup);
+            return ParseFactory.FromUri().TryParse(value, out _, setup);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsBase64(string value)
         {
             if (string.IsNullOrEmpty(value)) { return false; }
-            return ParserFactory.CreateBase64Parser().TryParse(value, out _);
+            return ParseFactory.FromBase64().TryParse(value, out _);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsGuid(string value, GuidFormats format)
         {
             if (string.IsNullOrWhiteSpace(value)) { return false; }
-            return ParserFactory.CreateGuidParser().TryParse(value, out _, o => o.Formats = format);
+            return ParseFactory.FromGuid().TryParse(value, out _, o => o.Formats = format);
         }
 
         /// <summary>

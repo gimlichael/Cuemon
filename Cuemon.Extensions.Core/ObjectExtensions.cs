@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.Converters;
-using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Extensions
 {
@@ -48,7 +46,7 @@ namespace Cuemon.Extensions
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
         public static TResult As<TResult>(this object value)
         {
-            return ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeTypeOrDefault<TResult>(value);
+            return ConvertFactory.FromObject().ChangeTypeOrDefault<TResult>(value);
         }
 
         /// <summary>
@@ -60,7 +58,7 @@ namespace Cuemon.Extensions
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
         public static TResult As<TResult>(this object value, TResult resultOnConversionNotPossible)
         {
-            return ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeTypeOrDefault(value, resultOnConversionNotPossible);
+            return ConvertFactory.FromObject().ChangeTypeOrDefault(value, resultOnConversionNotPossible);
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace Cuemon.Extensions
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
         public static TResult As<TResult>(this object value, TResult resultOnConversionNotPossible, IFormatProvider provider)
         {
-            return ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeTypeOrDefault(value, resultOnConversionNotPossible, o => o.FormatProvider = provider);
+            return ConvertFactory.FromObject().ChangeTypeOrDefault(value, resultOnConversionNotPossible, o => o.FormatProvider = provider);
         }
 
         /// <summary>
@@ -108,10 +106,10 @@ namespace Cuemon.Extensions
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNullOrWhitespace(delimiter, nameof(delimiter));
-            return ConvertFactory.UseConverter<DelimitedStringConverter<T>>().ChangeType(source, o =>
+            return DelimitedString.Create(source, o =>
             {
                 o.Delimiter = delimiter;
-                o.StringConverter = converter;
+                if (converter != null) { o.StringConverter = converter; }
             });
         }
 

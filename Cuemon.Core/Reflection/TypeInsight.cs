@@ -10,50 +10,90 @@ using Cuemon.Collections.Generic;
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Provides a robust way of working with reflection related operations grouped together.
+    /// Provides a set of methods for working with reflection related operations on a <see cref="Type"/> object in a robust way.
     /// </summary>
     public class TypeInsight
     {
         private static ConcurrentDictionary<string, bool> ComplexValueTypeLookup { get; } = new ConcurrentDictionary<string, bool>();
         private readonly Type _type;
 
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Type"/> to <see cref="TypeInsight"/>.
+        /// </summary>
+        /// <param name="type">The <see cref="Type"/> to convert.</param>
+        /// <returns>A <see cref="TypeInsight"/> that is equivalent to <paramref name="type"/>.</returns>
         public static implicit operator TypeInsight(Type type)
         {
             return new TypeInsight(type);
         }
 
-        public static implicit operator Type(TypeInsight ti)
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="TypeInsight"/> to <see cref="Type"/>.
+        /// </summary>
+        /// <param name="insight">The <see cref="TypeInsight"/> to convert.</param>
+        /// <returns>A <see cref="Type"/> that is equivalent to <paramref name="insight"/>.</returns>
+        public static implicit operator Type(TypeInsight insight)
         {
-            return ti._type;
+            return insight._type;
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="TypeInsight"/> from the specified <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="Type"/>.</typeparam>
+        /// <returns>An instance of <see cref="TypeInsight"/>.</returns>
         public static TypeInsight FromType<T>()
         {
             return new TypeInsight(typeof(T));
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="TypeInsight"/> from the specified <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The underlying <see cref="Type"/>.</param>
+        /// <returns>An instance of <see cref="TypeInsight"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="type"/> cannot be null.
+        /// </exception>
         public static TypeInsight FromType(Type type)
         {
-            return type;
+            Validator.ThrowIfNull(type, nameof(type));
+            return new TypeInsight(type);
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="TypeInsight"/> from the underlying type of the specified <paramref name="instance"/>.
+        /// </summary>
+        /// <param name="instance">The instance to get the underlying type of.</param>
+        /// <returns>An instance of <see cref="TypeInsight"/>.</returns>
         public static TypeInsight FromInstance(object instance)
         {
             Validator.ThrowIfNull(instance, nameof(instance));
             return new TypeInsight(instance.GetType());
         }
 
-        public TypeInsight(Type type)
+        TypeInsight(Type type)
         {
             Validator.ThrowIfNull(type, nameof(type));
             _type = type;
         }
 
+        /// <summary>
+        /// Returns a <see cref="PropertyInsight"/> from the the underlying <see cref="Type"/> of this instance and the specified <paramref name="selector"/>.
+        /// </summary>
+        /// <param name="selector">The function delegate that conduct a search for a <see cref="PropertyInfo"/> object.</param>
+        /// <returns>A <see cref="PropertyInsight"/> object that matches the specified requirements of <paramref name="selector"/>, if found on the underlying <see cref="Type"/> of this instance; otherwise, <c>null</c>.</returns>
         public PropertyInsight When(Func<Type, PropertyInfo> selector)
         {
             return When(selector, out _);
         }
 
+        /// <summary>
+        /// Returns a <see cref="PropertyInsight"/> from the the underlying <see cref="Type"/> of this instance and the specified <paramref name="selector"/>.
+        /// </summary>
+        /// <param name="selector">The function delegate that conduct a search for a <see cref="PropertyInfo"/> object.</param>
+        /// <param name="pi">The <see cref="PropertyInfo"/> resolved by the <paramref name="selector"/>; otherwise, <c>null</c>.</param>
+        /// <returns>A <see cref="PropertyInsight"/> object that matches the specified requirements of <paramref name="selector"/>, if found on the underlying <see cref="Type"/> of this instance; otherwise, <c>null</c>.</returns>
         public PropertyInsight When(Func<Type, PropertyInfo> selector, out PropertyInfo pi)
         {
             Validator.ThrowIfNull(selector, nameof(selector));
@@ -61,16 +101,27 @@ namespace Cuemon.Reflection
             return PropertyInsight.FromProperty(pi);
         }
 
+        /// <summary>
+        /// Returns a <see cref="MethodInsight"/> from the the underlying <see cref="Type"/> of this instance and the specified <paramref name="selector"/>.
+        /// </summary>
+        /// <param name="selector">The function delegate that conduct a search for a <see cref="MethodInfo"/> object.</param>
+        /// <returns>A <see cref="MethodInsight"/> object that matches the specified requirements of <paramref name="selector"/>, if found on the underlying <see cref="Type"/> of this instance; otherwise, <c>null</c>.</returns>
         public MethodInsight When(Func<Type, MethodInfo> selector)
         {
             return When(selector, out _);
         }
 
+        /// <summary>
+        /// Returns a <see cref="MethodInsight"/> from the the underlying <see cref="Type"/> of this instance and the specified <paramref name="selector"/>.
+        /// </summary>
+        /// <param name="selector">The function delegate that conduct a search for a <see cref="MethodInfo"/> object.</param>
+        /// <param name="mi">The <see cref="MethodInfo"/> resolved by the <paramref name="selector"/>; otherwise, <c>null</c>.</param>
+        /// <returns>A <see cref="MethodInsight"/> object that matches the specified requirements of <paramref name="selector"/>, if found on the underlying <see cref="Type"/> of this instance; otherwise, <c>null</c>.</returns>
         public MethodInsight When(Func<Type, MethodInfo> selector, out MethodInfo mi)
         {
             Validator.ThrowIfNull(selector, nameof(selector));
             mi = selector(_type);
-            return MethodInsight.FromMethod(selector(_type));
+            return MethodInsight.FromMethod(mi);
         }
 
         /// <summary>
@@ -398,6 +449,95 @@ namespace Cuemon.Reflection
             var ancestor = InheritedTypes();
             var descendant = DerivedTypes(assemblies);
             return descendant.Concat(ancestor).Distinct().OrderByDescending(t => t, new ReferenceComparer<Type>());
+        }
+
+        /// <summary>
+        /// Returns a human readable <see cref="string"/> that represents the underlying <see cref="Type"/> of this instance.
+        /// </summary>
+        /// <param name="setup">The <see cref="TypeNameOptions"/> which may be configured.</param>
+        /// <returns>A human readable <see cref="string"/> that represents the underlying <see cref="Type"/> of this instance.</returns>
+        /// <seealso cref="DelimitedString.Create{T}"/>
+        public string ToHumanReadableString(Action<TypeNameOptions> setup = null)
+        {
+            var options = Patterns.Configure(setup);
+            var typeName = options.HumanReadableStringConverter(_type, options.FormatProvider, options.FullName);
+            if (!_type.GetTypeInfo().IsGenericType) { return typeName; }
+            var parameters = _type.GetGenericArguments();
+            var indexOfGraveAccent = typeName.IndexOf('`');
+            typeName = indexOfGraveAccent >= 0 ? typeName.Remove(indexOfGraveAccent) : typeName;
+            var delimitedString = DelimitedString.Create(parameters, o =>
+            {
+                o.Delimiter = ",";
+                o.StringConverter = type => options.HumanReadableStringConverter(type, options.FormatProvider, options.FullName);
+            });
+            return options.ExcludeGenericArguments ? typeName : string.Format(options.FormatProvider, "{0}<{1}>", typeName, delimitedString);
+        }
+
+        /// <summary>
+        /// Conduct a search for <paramref name="memberName"/> using the specified <paramref name="setup"/> on the underlying <see cref="Type"/> of this instance.
+        /// </summary>
+        /// <param name="memberName">The name of the member on the underlying <see cref="Type"/> of this instance.</param>
+        /// <param name="setup">The <see cref="MethodBaseOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="MethodBase"/> object representing the method that matches the specified requirements, if found on the underlying <see cref="Type"/> of this instance; otherwise, <c>null</c>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="memberName"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="memberName"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
+        public MethodBase MatchMember(string memberName, Action<MethodBaseOptions> setup = null)
+        {
+            Validator.ThrowIfNullOrWhitespace(memberName, nameof(memberName));
+            var options = Patterns.Configure(setup);
+            var methods = _type.GetMethods(options.Flags).Where(info => info.Name.Equals(memberName, options.Comparison)).ToList();
+            var matchedMethod = Parse(methods, options.Types);
+            if (matchedMethod != null) { return matchedMethod; }
+            throw new AmbiguousMatchException(FormattableString.Invariant($"Ambiguous matching in method resolution. Found {methods.Count} matching the member name of {memberName}. Consider specifying the signature of the member."));
+        }
+
+        /// <summary>
+        /// Conduct a dynamic search for <paramref name="memberName"/> using the specified caller information on the underlying <see cref="Type"/> of this instance.
+        /// </summary>
+        /// <param name="types">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
+        /// <param name="memberName">The name of the member on the underlying <see cref="Type"/> of this instance.</param>
+        /// <param name="flags">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <returns>A <see cref="MethodBase"/> object representing the method that matches the specified requirements, if found on the underlying <see cref="Type"/> of this instance; otherwise, <c>null</c>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="memberName"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="memberName"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
+        public MethodBase MatchMember(Type[] types = null, [CallerMemberName] string memberName = "", BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, StringComparison comparison = StringComparison.Ordinal)
+        {
+            return MatchMember(memberName, o =>
+            {
+                o.Flags = flags;
+                o.Types = types;
+                o.Comparison = comparison;
+            });
+        }
+
+        private static MethodInfo Parse(IReadOnlyList<MethodInfo> methods, Type[] types)
+        {
+            if (methods.Count == 0) { return null; }
+            if (methods.Count == 1) { return methods[0]; }
+            if (methods.Count > 1 && types == null) { return null; }
+            foreach (var method in methods)
+            {
+                var parameters = method.GetParameters();
+                if (parameters.Length == types.Length)
+                {
+                    var match = true;
+                    for (var i = 0; i < parameters.Length; i++)
+                    {
+                        match &= parameters[i].ParameterType == types[i];
+                    }
+                    if (match) { return method; }
+                }
+            }
+            return null;
         }
 
         /// <summary>

@@ -1,15 +1,15 @@
-﻿namespace Cuemon.ComponentModel.TypeConverters
+﻿namespace Cuemon.ComponentModel
 {
     /// <summary>
-    /// Configuration options for <see cref="CompositeDoubleConverter"/>.
+    /// Configuration options for <see cref="TimeConverter"/>.
     /// </summary>
-    public class CompositeDoubleOptions
+    public class TimeOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeDoubleOptions"/> class.
+        /// Initializes a new instance of the <see cref="TimeOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="CompositeDoubleOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="TimeOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -21,7 +21,7 @@
         ///     </item>
         /// </list>
         /// </remarks>
-        public CompositeDoubleOptions()
+        public TimeOptions()
         {
             TimeUnit = TimeUnit.Seconds;
         }

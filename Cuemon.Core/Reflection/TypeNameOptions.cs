@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Cuemon.ComponentModel.Converters
+namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Configuration options for <see cref="TypeToStringConverter" />.
+    /// Configuration options for <see cref="TypeInsight.ToHumanReadableString" />.
     /// </summary>
-    /// <seealso cref="FormattingOptions{T}"/>
-    public sealed class TypeToStringOptions : FormattingOptions<CultureInfo>
+    public sealed class TypeNameOptions : FormattingOptions<CultureInfo>
     {
-        private Func<Type, IFormatProvider, bool, string> _typeConverter;
+        private Func<Type, IFormatProvider, bool, string> _humanReadableStringConverter;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeToStringOptions"/> class.
+        /// Initializes a new instance of the <see cref="TypeNameOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="ObjectToStringOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="TypeNameOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -34,17 +33,17 @@ namespace Cuemon.ComponentModel.Converters
         ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="TypeConverter"/></term>
+        ///         <term><see cref="HumanReadableStringConverter"/></term>
         ///         <description><code>(type, provider, fullname) => fullname ? type.FullName : type.Name;</code></description>
         ///     </item>
         /// </list>
         /// </remarks>
-        public TypeToStringOptions()
+        public TypeNameOptions()
         {
             ExcludeGenericArguments = false;
             FormatProvider = CultureInfo.InvariantCulture;
             FullName = false;
-            TypeConverter = (type, provider, fullname) => fullname ? type.FullName : type.Name;
+            HumanReadableStringConverter = (type, provider, fullname) => fullname ? type.FullName : type.Name;
         }
 
         /// <summary>
@@ -66,13 +65,13 @@ namespace Cuemon.ComponentModel.Converters
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public Func<Type, IFormatProvider, bool, string> TypeConverter
+        public Func<Type, IFormatProvider, bool, string> HumanReadableStringConverter
         {
-            get => _typeConverter;
+            get => _humanReadableStringConverter;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));
-                _typeConverter = value;
+                _humanReadableStringConverter = value;
             }
         }
     }

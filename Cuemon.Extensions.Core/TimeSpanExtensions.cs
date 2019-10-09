@@ -1,6 +1,5 @@
 ﻿using System;
 using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Extensions
 {
@@ -10,14 +9,23 @@ namespace Cuemon.Extensions
     public static class TimeSpanExtensions
     {
         /// <summary>
+        /// Represents the number of ticks in 1 nanosecond. This field is constant.
+        /// </summary>
+        public const double TicksPerNanosecond = 0.01;
+
+        /// <summary>
+        /// Represents the number of ticks in 1 microsecond. This field is constant.
+        /// </summary>
+        public const double TicksPerMicrosecond = TicksPerNanosecond * 1000;
+
+        /// <summary>
         /// Gets the total number of nanoseconds represented by the specified <see cref="TimeSpan"/> structure.
         /// </summary>
         /// <param name="value">The <see cref="TimeSpan"/> to extend.</param>
         /// <returns>The total number of nanoseconds represented by the specified <see cref="TimeSpan"/> structure.</returns>
-        /// <seealso cref="TotalNanosecondsTimeSpanConverter"/>
         public static double GetTotalNanoseconds(this TimeSpan value)
         {
-            return ConvertFactory.UseConverter<TotalNanosecondsTimeSpanConverter>().ChangeType(value);
+            return value.Ticks / TicksPerNanosecond;
         }
 
         /// <summary>
@@ -25,10 +33,9 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="value">The <see cref="TimeSpan"/> to extend.</param>
         /// <returns>The total number of microseconds represented by the specified <see cref="TimeSpan"/> structure.</returns>
-        /// <seealso cref="TotalMicrosecondsTimeSpanConverter"/>
         public static double GetTotalMicroseconds(this TimeSpan value)
         {
-            return ConvertFactory.UseConverter<TotalMicrosecondsTimeSpanConverter>().ChangeType(value);
+            return value.Ticks / TicksPerMicrosecond;
         }
 
         /// <summary>
@@ -88,10 +95,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="direction"/> is an invalid enumeration value.
         /// </exception>
-        /// <seealso cref="CompositeDoubleConverter"/>
+        /// <seealso cref="TimeConverter"/>
         public static TimeSpan Round(this TimeSpan value, double interval, TimeUnit timeUnit, VerticalDirection direction)
         {
-            return Round(value, ConvertFactory.UseConverter<CompositeDoubleConverter>().ChangeType(interval, o => o.TimeUnit = timeUnit), direction);
+            return Round(value, ConvertFactory.FromTime().ChangeType(interval, o => o.TimeUnit = timeUnit), direction);
         }
 
         /// <summary>

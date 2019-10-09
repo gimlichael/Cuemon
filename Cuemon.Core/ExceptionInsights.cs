@@ -5,9 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.Converters;
 using Cuemon.Diagnostics;
+using Cuemon.Integrity;
 using Cuemon.Reflection;
 using Cuemon.Text;
 using Cuemon.Threading;
@@ -54,20 +53,20 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(exception, nameof(exception));
             var builder = new StringBuilder();
-            var empty = Convert.ToBase64String(ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(""));
+            var empty = Convert.ToBase64String(Convertible.GetBytes(""));
             if (thrower != null || exception.TargetSite != null)
             {
                 var descriptor = new MethodDescriptor(thrower ?? exception.TargetSite);
-                builder.Append(Convert.ToBase64String(ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(FormattableString.Invariant($"{descriptor.ToString()}"))));
+                builder.Append(Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{descriptor.ToString()}"))));
                 builder.Append(".");
                 if (runtimeParameters != null && runtimeParameters.Any())
                 {
-                    var rp = ConvertFactory.UseConverter<DelimitedStringConverter<KeyValuePair<string, object>>>().ChangeType(MethodDescriptor.MergeParameters(descriptor, runtimeParameters), o =>
+                    var rp = DelimitedString.Create(MethodDescriptor.MergeParameters(descriptor, runtimeParameters), o =>
                     {
                         o.StringConverter = pair => FormattableString.Invariant($"{pair.Key}={pair.Value}");
                         o.Delimiter = FormattableString.Invariant($"{Alphanumeric.NewLine}");
                     });
-                    builder.Append(Convert.ToBase64String(ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(FormattableString.Invariant($"{rp}"))));
+                    builder.Append(Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{rp}"))));
                 }
                 else
                 {
@@ -84,7 +83,7 @@ namespace Cuemon
             if (snapshot.HasFlag(SystemSnapshot.CaptureThreadInfo))
             {
                 var ti = string.Join(Alphanumeric.NewLine, new ThreadInfo(Thread.CurrentThread).ToString().Split('^'));
-                builder.Append(ti.Length > 0 ? Convert.ToBase64String(ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(FormattableString.Invariant($"{ti}"))) : empty);
+                builder.Append(ti.Length > 0 ? Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{ti}"))) : empty);
             }
             else
             {
@@ -94,7 +93,7 @@ namespace Cuemon
             if (snapshot.HasFlag(SystemSnapshot.CaptureProcessInfo))
             {
                 var pi = string.Join(Alphanumeric.NewLine, new ProcessInfo(Process.GetCurrentProcess()).ToString().Split('^'));
-                builder.Append(pi.Length > 0 ? Convert.ToBase64String(ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(FormattableString.Invariant($"{pi}"))) : empty);
+                builder.Append(pi.Length > 0 ? Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{pi}"))) : empty);
             }
             else
             {
@@ -104,7 +103,7 @@ namespace Cuemon
             if (snapshot.HasFlag(SystemSnapshot.CaptureEnvironmentInfo))
             {
                 var ei = string.Join(Alphanumeric.NewLine, new EnvironmentInfo().ToString().Split('^'));
-                builder.Append(ei.Length > 0 ? Convert.ToBase64String(ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(FormattableString.Invariant($"{ei}"))) : empty);
+                builder.Append(ei.Length > 0 ? Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{ei}"))) : empty);
             }
             else
             {
@@ -128,18 +127,17 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(exception, nameof(exception));
             var ed = new ExceptionDescriptor(exception, code, message, helpLink);
-            if (exception.Data[ExceptionInsightsKey] is string base64Segments && !string.IsNullOrWhiteSpace(base64Segments))
+            var base64Segments = RetrieveAndSweepExceptionData(exception);
+            if (!string.IsNullOrWhiteSpace(base64Segments))
             {
-                exception.Data.Remove(ExceptionInsightsKey);
                 var insights = base64Segments.Split('.');
                 if (insights.Length == 5)
                 {
                     var builder = new StringBuilder();
                     builder.AppendLine(exception.ToString());
-                    var memberSignature = ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(Convert.FromBase64String(insights[IndexOfThrower]));
-                    var runtimeParameters = ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(Convert.FromBase64String(insights[IndexOfRuntimeParameters]));
+                    var memberSignature = Convertible.ToString(Convert.FromBase64String(insights[IndexOfThrower]));
+                    var runtimeParameters = Convertible.ToString(Convert.FromBase64String(insights[IndexOfRuntimeParameters]));
                     ed.AddEvidence("Thrower", new MemberEvidence(memberSignature, string.IsNullOrWhiteSpace(runtimeParameters) ? null : runtimeParameters.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToDictionary(k => k.Substring(0, k.IndexOf('=')), v => v.Substring(v.IndexOf('=') + 1))), evidence => evidence);
-
                     TryAddEvindence(ed, "Thread", insights[IndexOfThreadInfo]);
                     TryAddEvindence(ed, "Process", insights[IndexOfProcessInfo]);
                     TryAddEvindence(ed, "Environment", insights[IndexOfEnvironmentInfo]);
@@ -148,14 +146,35 @@ namespace Cuemon
             return ed;
         }
 
+        private static string RetrieveAndSweepExceptionData(Exception exception)
+        {
+            string result = null;
+            var stack = new Stack<Exception>();
+            stack.Push(exception);
+            while (stack.Count > 0)
+            {
+                var e = stack.Pop();
+                if (e.Data[ExceptionInsightsKey] is string base64Segments && !string.IsNullOrWhiteSpace(base64Segments))
+                {
+                    if (result == null) { result = base64Segments; }
+                    e.Data.Remove(ExceptionInsightsKey);
+                }
+                if (e.InnerException != null) { stack.Push(e.InnerException); }
+            }
+            return result;
+        }
+
         private static void TryAddEvindence(ExceptionDescriptor ed, string context, string base64)
         {
-            var info = ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(Convert.FromBase64String(base64));
-            if (!string.IsNullOrWhiteSpace(info)) { ed.AddEvidence(context, info.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries), s => s.ToDictionary(k => k.Substring(0, k.IndexOf(':')), v =>
+            var info = Convertible.ToString(Convert.FromBase64String(base64));
+            if (!string.IsNullOrWhiteSpace(info))
             {
-                var presult = v.Substring(v.IndexOf(' ') + 1);
-                return ParserFactory.CreateSimpleValueParser().Parse(presult == "null" ? null : presult);
-            })); }
+                ed.AddEvidence(context, info.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries), s => s.ToDictionary(k => k.Substring(0, k.IndexOf(':')), v =>
+                {
+                    var presult = v.Substring(v.IndexOf(' ') + 1);
+                    return ParseFactory.FromSimpleValue().Parse(presult == "null" ? null : presult);
+                }));
+            }
         }
     }
 }

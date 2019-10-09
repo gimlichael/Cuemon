@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.Converters;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Reflection;
 
 namespace Cuemon
@@ -26,7 +23,7 @@ namespace Cuemon
         public static string ParseInstance<T>(IWrapper<T> wrapper)
         {
             if (wrapper == null) { throw new ArgumentNullException(nameof(wrapper)); }
-            switch (ConvertFactory.UseConverter<TypeCodeConverter>().ChangeType(wrapper.InstanceType))
+            switch (Type.GetTypeCode(wrapper.InstanceType))
             {
                 case TypeCode.Boolean:
                     return wrapper.Instance.ToString().ToLowerInvariant();
@@ -59,7 +56,7 @@ namespace Cuemon
                     var reflector = TypeInsight.FromType(wrapper.InstanceType);
                     if (reflector.HasComparerContract() || reflector.HasEqualityComparerContract())
                     {
-                        return ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(wrapper.InstanceType);
+                        return TypeInsight.FromType(wrapper.InstanceType).ToHumanReadableString();
                     }
 
                     switch (wrapper.InstanceType.Name.ToUpperInvariant())
@@ -69,7 +66,7 @@ namespace Cuemon
                         case "GUID":
                             return wrapper.InstanceAs<Guid>(CultureInfo.InvariantCulture).ToString("D");
                         case "RUNTIMETYPE":
-                            return ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(wrapper.InstanceAs<Type>());
+                            return TypeInsight.FromType(wrapper.InstanceAs<Type>()).ToHumanReadableString();
                         case "URI":
                             return wrapper.InstanceAs<Uri>().OriginalString;
                         default:
@@ -198,7 +195,7 @@ namespace Cuemon
         /// </exception>
         public TResult InstanceAs<TResult>(IFormatProvider provider)
         {
-            return (TResult)ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(Instance, InstanceType, o => o.FormatProvider = provider);
+            return (TResult)ConvertFactory.FromObject().ChangeType(Instance, InstanceType, o => o.FormatProvider = provider);
         }
         #endregion
     }

@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Text;
 using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Integrity;
 using Cuemon.Text;
 
@@ -74,7 +73,7 @@ namespace Cuemon.AspNetCore.Authentication
         public const string CredentialAlgorithm = "algorithm";
 
         /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the required values for the HTTP Digest access authentication HA1.
+        /// Computes a by parameter defined <see cref="CryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication HA1.
         /// </summary>
         /// <param name="credentials">The credentials of the HA1 computed value (<see cref="CredentialUserName"/>, <see cref="CredentialRealm"/>).</param>
         /// <param name="password">The password to include in the HA1 computed value.</param>
@@ -90,7 +89,7 @@ namespace Cuemon.AspNetCore.Authentication
         }
 
         /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the required values for the HTTP Digest access authentication HA2.
+        /// Computes a by parameter defined <see cref="CryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication HA2.
         /// </summary>
         /// <param name="credentials">The credentials of the HA2 computed value (<see cref="CredentialDigestUri"/>).</param>
         /// <param name="httpMethod">The HTTP method to include in the HA2 computed value.</param>
@@ -106,7 +105,7 @@ namespace Cuemon.AspNetCore.Authentication
         }
 
         /// <summary>
-        /// Computes a by parameter defined <see cref="HashAlgorithmType"/> hash value of the required values for the HTTP Digest access authentication RESPONSE.
+        /// Computes a by parameter defined <see cref="CryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication RESPONSE.
         /// </summary>
         /// <param name="credentials">The credentials of the RESPONSE computed value (<see cref="CredentialNonce"/>, <see cref="CredentialNonceCount"/>, <see cref="CredentialClientNonce"/>, <see cref="CredentialQualityOfProtection"/>).</param>
         /// <param name="hash1">The HA1 to include in the RESPONSE computed value.</param>
@@ -131,9 +130,9 @@ namespace Cuemon.AspNetCore.Authentication
         public static bool DefaultNonceExpiredParser(string nonce, TimeSpan timeToLive)
         {
             Validator.ThrowIfNullOrEmpty(nonce, nameof(nonce));
-            if (ParserFactory.CreateBase64Parser().TryParse(nonce, out var rawNonce))
+            if (ParseFactory.FromBase64().TryParse(nonce, out var rawNonce))
             {
-                var nonceProtocol = ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(rawNonce, options =>
+                var nonceProtocol = Convertible.ToString(rawNonce, options =>
                 {
                     options.Encoding = Encoding.UTF8;
                     options.Preamble = PreambleSequence.Remove;
@@ -158,7 +157,7 @@ namespace Cuemon.AspNetCore.Authentication
             Validator.ThrowIfNull(privateKey, nameof(privateKey));
             var nonceHash = ComputeNonceHash(timestamp, entityTag, privateKey);
             var nonceProtocol = string.Format(CultureInfo.InvariantCulture, "{0}:{1}", timestamp.ToString("u", CultureInfo.InvariantCulture), nonceHash);
-            return Convert.ToBase64String(ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(nonceProtocol, options =>
+            return Convert.ToBase64String(Convertible.GetBytes(nonceProtocol, options =>
             {
                 options.Encoding = Encoding.UTF8;
                 options.Preamble = PreambleSequence.Remove;

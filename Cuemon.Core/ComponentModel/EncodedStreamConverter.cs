@@ -2,11 +2,9 @@
 using System.ComponentModel;
 using System.IO;
 using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.Converters;
-using Cuemon.IO;
 using Cuemon.Text;
 
-namespace Cuemon.ComponentModel.TypeConverters
+namespace Cuemon.ComponentModel
 {
     /// <summary>
     /// Provides a converter that converts a <see cref="Stream"/> to its equivalent <see cref="T:char[]"/>.
@@ -29,7 +27,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <paramref name="input" /> length is greater than <see cref="int.MaxValue"/>.
         /// </exception>
         /// <exception cref="InvalidEnumArgumentException">
-        /// <paramref name="setup"/> was initialzied with an invalid <see cref="EncodingOptions.Preamble"/>.
+        /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public char[] ChangeType(Stream input, Action<EncodingOptions> setup = null)

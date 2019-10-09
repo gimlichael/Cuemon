@@ -42,19 +42,6 @@ namespace Cuemon.Integrity
         {
             options.ByteOrder = Options.ByteOrder;
         }
-
-        /// <summary>
-        /// The <see cref="Convertible"/> factory of this instance.
-        /// </summary>
-        /// <returns>An instance of <see cref="Convertible"/>.</returns>
-        protected sealed override Convertible ConvertibleFactory()
-        {
-            return new Convertible(o =>
-            {
-                o.Converters = Options.Converters;
-                o.ByteOrder = Options.ByteOrder;
-            });
-        }
     }
 
     /// <summary>
@@ -259,8 +246,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(IEnumerable<IConvertible> input)
         {
-            var c = ConvertibleFactory();
-            return ComputeHash(c.GetBytes(input));
+            return ComputeHash(Convertible.GetBytes(input));
         }
 
         /// <summary>
@@ -289,11 +275,5 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="options">An instance of the configured options.</param>
         protected abstract void EndianInitializer(EndianOptions options);
-
-        /// <summary>
-        /// Provides a <see cref="Convertible"/> factory that <see cref="Hash{TOptions}"/> must implement.
-        /// </summary>
-        /// <returns>An instance of <see cref="Convertible"/>.</returns>
-        protected abstract Convertible ConvertibleFactory();
     }
 }

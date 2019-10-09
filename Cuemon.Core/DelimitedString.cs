@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Cuemon
@@ -12,6 +14,30 @@ namespace Cuemon
     public static class DelimitedString
     {
         private static readonly ConcurrentDictionary<string, Regex> CompiledSplitExpressions = new ConcurrentDictionary<string, Regex>();
+
+        /// <summary>
+        /// Creates a delimited string representation from the specified <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to convert.</param>
+        /// <param name="setup">The <see cref="DelimitedStringOptions{T}"/> which may be configured.</param>
+        /// <returns>A <see cref="string"/> of delimited values that is a result of <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null.
+        /// </exception>
+        public static string Create<T>(IEnumerable<T> source, Action<DelimitedStringOptions<T>> setup = null)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            var options = Patterns.Configure(setup);
+            var delimitedValues = new StringBuilder();
+            using (var enumerator = source.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    delimitedValues.Append(FormattableString.Invariant($"{options.StringConverter(enumerator.Current)}{options.Delimiter}"));
+                }
+            }
+            return delimitedValues.Length > 0 ? delimitedValues.ToString(0, delimitedValues.Length - options.Delimiter.Length) : delimitedValues.ToString();
+        }
 
         /// <summary>
         /// Returns a <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <see cref="DelimitedStringOptions.Delimiter"/> that may be quoted by <see cref="DelimitedStringOptions.Qualifier"/>.

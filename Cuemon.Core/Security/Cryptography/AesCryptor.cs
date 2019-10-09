@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Cuemon.ComponentModel.Codecs;
+using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon.Security.Cryptography
@@ -125,7 +125,7 @@ namespace Cuemon.Security.Cryptography
         /// <returns>A random 128 bit generated initialization vector (IV).</returns>
         public static byte[] GenerateInitializationVector()
         {
-            return ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(Generate.RandomString(BlockSize / ByteUnit.BitsPerByte, Alphanumeric.LettersAndNumbers, Alphanumeric.PunctuationMarks), options =>
+            return Convertible.GetBytes(Generate.RandomString(BlockSize / ByteUnit.BitsPerByte, Alphanumeric.LettersAndNumbers, Alphanumeric.PunctuationMarks), options =>
             {
                 options.Encoding = Encoding.UTF8;
                 options.Preamble = PreambleSequence.Remove;
@@ -140,7 +140,7 @@ namespace Cuemon.Security.Cryptography
         public static byte[] GenerateKey(Action<AesKeyOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
-            return ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(options.RandomStringProvider(options.Size), o =>
+            return Convertible.GetBytes(options.RandomStringProvider(options.Size), o =>
             {
                 o.Encoding = Encoding.UTF8;
                 o.Preamble = PreambleSequence.Remove;

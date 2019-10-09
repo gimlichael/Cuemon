@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Diagnostics
 {
@@ -48,10 +46,10 @@ namespace Cuemon.Diagnostics
             if (Data.Count > 0)
             {
                 result.Append(" Parameters: { ");
-                result.Append(ConvertFactory.UseConverter<DelimitedStringConverter<KeyValuePair<string, object>>>().ChangeType(Data, o =>
+                result.Append(DelimitedString.Create(Data, o =>
                 {
                     o.Delimiter = ", ";
-                    o.StringConverter = pair => FormattableString.Invariant($"{pair.Key}={ConvertFactory.UseConverter<ObjectToStringConverter>().ChangeType(pair.Value)}");
+                    o.StringConverter = pair => FormattableString.Invariant($"{pair.Key}={Generate.ObjectPortrayal(pair.Value)}");
                 }));
                 result.Append(" }");
             }

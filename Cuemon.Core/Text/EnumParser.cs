@@ -67,7 +67,7 @@ namespace Cuemon.Text
             var enumType = targetType;
             var hasFlags = enumType.GetTypeInfo().IsDefined(typeof(FlagsAttribute), false);
             var result = Enum.Parse(targetType, input, options.IgnoreCase);
-            if (hasFlags && input.IndexOf(',') > 0) { return result; }
+            if (hasFlags && input.IndexOf(',') != -1) { return result; }
             if (Enum.IsDefined(targetType, result)) { return result; }
             throw new ArgumentException("Value does not represents an enumeration.");
         }

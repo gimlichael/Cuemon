@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
 
@@ -142,7 +140,7 @@ namespace Cuemon.Threading
             var options = Patterns.Configure(setup);
             var exceptions = new ConcurrentBag<Exception>();
 
-            var partitioner = new PartitionerEnumerable<TSource>(source, options.ChunkSize);
+            var partitioner = new PartitionerEnumerable<TSource>(source, options.PartitionSize);
             while (partitioner.HasPartitions)
             {
                 var queue = new List<Task>();

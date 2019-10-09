@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Integrity;
 
 namespace Cuemon.Extensions.Integrity
@@ -20,7 +18,7 @@ namespace Cuemon.Extensions.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params double[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, additionalChecksum?.SelectMany(x => ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(x)).ToArray());
+            return CombineWith(cb, additionalChecksum?.SelectMany(x => Convertible.GetBytes(x)).ToArray());
         }
 
         /// <summary>
@@ -32,7 +30,7 @@ namespace Cuemon.Extensions.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params short[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, additionalChecksum?.SelectMany(x => ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(x)).ToArray());
+            return CombineWith(cb, additionalChecksum?.SelectMany(x => Convertible.GetBytes(x)).ToArray());
         }
 
         /// <summary>
@@ -61,7 +59,7 @@ namespace Cuemon.Extensions.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params int[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, additionalChecksum?.SelectMany(x => ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(x)).ToArray());
+            return CombineWith(cb, additionalChecksum?.SelectMany(x => Convertible.GetBytes(x)).ToArray());
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace Cuemon.Extensions.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params long[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, additionalChecksum?.SelectMany(x => ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(x)).ToArray());
+            return CombineWith(cb, additionalChecksum?.SelectMany(x => Convertible.GetBytes(x)).ToArray());
         }
 
         /// <summary>
@@ -85,7 +83,7 @@ namespace Cuemon.Extensions.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params float[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, additionalChecksum?.SelectMany(x => ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(x)).ToArray());
+            return CombineWith(cb, additionalChecksum?.SelectMany(x => Convertible.GetBytes(x)).ToArray());
         }
 
         /// <summary>
@@ -97,7 +95,7 @@ namespace Cuemon.Extensions.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params ushort[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, additionalChecksum?.SelectMany(x => ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(x)).ToArray());
+            return CombineWith(cb, additionalChecksum?.SelectMany(x => Convertible.GetBytes(x)).ToArray());
         }
 
         /// <summary>
@@ -109,7 +107,7 @@ namespace Cuemon.Extensions.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params uint[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, additionalChecksum?.SelectMany(x => ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(x)).ToArray());
+            return CombineWith(cb, additionalChecksum?.SelectMany(x => Convertible.GetBytes(x)).ToArray());
         }
 
         /// <summary>
@@ -121,7 +119,7 @@ namespace Cuemon.Extensions.Integrity
         /// <returns>An updated instance the specified <paramref name="cb"/> of <typeparamref name="T"/>.</returns>
         public static T CombineWith<T>(this T cb, params ulong[] additionalChecksum) where T : ChecksumBuilder
         {
-            return CombineWith(cb, additionalChecksum?.SelectMany(x => ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(x)).ToArray());
+            return CombineWith(cb, additionalChecksum?.SelectMany(x => Convertible.GetBytes(x)).ToArray());
         }
 
         /// <summary>

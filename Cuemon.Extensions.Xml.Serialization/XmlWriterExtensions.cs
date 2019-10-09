@@ -115,7 +115,7 @@ namespace Cuemon.Extensions.Xml.Serialization
                 var innerException = ex;
                 if (innerException is OutOfMemoryException) { throw; }
                 if (innerException is TargetInvocationException) { innerException = innerException.InnerException; }
-                throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the XML document.", innerException), ConvertFactory.UseConverter<TypeMethodBaseConverter>().DynamicConvert(typeof(XmlWriterExtensions), flags: new MemberReflection(excludeInheritancePath: true)), Arguments.ToArray(writer, value));
+                throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the XML document.", innerException), TypeInsight.FromType(typeof(XmlWriterExtensions)).MatchMember(flags: new MemberReflection(excludeInheritancePath: true)), Arguments.ToArray(writer, value));
             }
             writer.WriteEndElement();
             writer.Flush();

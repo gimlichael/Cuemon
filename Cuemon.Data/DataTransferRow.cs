@@ -1,7 +1,7 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
-using Cuemon.ComponentModel.Converters;
+using Cuemon.ComponentModel;
+using Cuemon.Reflection;
 
 namespace Cuemon.Data
 {
@@ -114,7 +114,7 @@ namespace Cuemon.Data
             if (index < 0) { return default; }
             var target = typeof(TResult);
             var source = Main.Columns[index].DataType;
-            if (source != target) { throw new TypeArgumentOutOfRangeException("TResult", string.Format(CultureInfo.InvariantCulture, "There is a mismatch between the specified column referenced by 'index' and the type parameter 'TResult'. Expected type of 'TResult' was '{0}'.", ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(source, o => o.FullName = true))); }
+            if (source != target) { throw new TypeArgumentOutOfRangeException("TResult", string.Format(CultureInfo.InvariantCulture, "There is a mismatch between the specified column referenced by 'index' and the type parameter 'TResult'. Expected type of 'TResult' was '{0}'.", TypeInsight.FromType(source).ToHumanReadableString(o => o.FullName = true))); }
             return (TResult)this[index];
         }
 

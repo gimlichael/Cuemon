@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
-using Cuemon.ComponentModel.Converters;
+using Cuemon.ComponentModel;
 using Cuemon.Extensions.Reflection;
 using Cuemon.Reflection;
-using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Extensions.Xml.Serialization
@@ -29,7 +28,7 @@ namespace Cuemon.Extensions.Xml.Serialization
             if (qualifiedRootEntity != null && !qualifiedRootEntity.LocalName.IsNullOrWhiteSpace()) { return qualifiedRootEntity; }
             var hasRootAttribute = TypeInsight.FromType(node.InstanceType).HasAttribute(typeof(XmlRootAttribute));
             var hasElementAttribute = node.HasMemberReference && MemberInsight.FromMember(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
-            var rootOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : ConvertFactory.UseConverter<TypeToStringConverter>().ChangeType(node.InstanceType, o => o.ExcludeGenericArguments = true).SanitizeXmlElementName();
+            var rootOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : TypeInsight.FromType(node.InstanceType).ToHumanReadableString(o => o.ExcludeGenericArguments = true).SanitizeXmlElementName();
             string ns = null;
 
             if (hasRootAttribute || hasElementAttribute)

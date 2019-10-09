@@ -1,6 +1,5 @@
 ﻿using System;
 using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.TypeConverters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,13 +48,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// </summary>
         /// <param name="serviceProvider">The request <see cref="IServiceProvider" />.</param>
         /// <returns>An instance of the executable filter.</returns>
-        /// <seealso cref="CompositeDoubleConverter"/>
+        /// <seealso cref="TimeConverter"/>
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
             var he = serviceProvider.GetRequiredService<IHostingEnvironment>();
             return new TimeMeasuringFilter(Options.Create(new TimeMeasuringOptions()
             {
-                TimeMeasureCompletedThreshold = ConvertFactory.UseConverter<CompositeDoubleConverter>().ChangeType(Threshold, o => o.TimeUnit = ThresholdTimeUnit)
+                TimeMeasureCompletedThreshold = ConvertFactory.FromTime().ChangeType(Threshold, o => o.TimeUnit = ThresholdTimeUnit)
             }), he);
         }
 

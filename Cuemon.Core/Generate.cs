@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using Cuemon.Collections.Generic;
 using Cuemon.Integrity;
+using Cuemon.Reflection;
 
 namespace Cuemon
 {
@@ -26,11 +29,50 @@ namespace Cuemon
         });
 
         /// <summary>
+        /// Generates a portrayal of the specified <paramref name="instance"/> that might contain information about the instance state.
+        /// </summary>
+        /// <param name="instance">The instance of an <see cref="object"/> to convert.</param>
+        /// <param name="setup">The <see cref="ObjectPortrayalOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="string"/> that represents the specified <paramref name="instance"/>.</returns>
+        /// <remarks>
+        /// When determining the representation of the specified <paramref name="instance"/>, these default rules applies:
+        /// 1: if the <see cref="object.ToString"/> method has been overridden, any further processing is skipped (the assumption is, that a custom representation is already in place)
+        /// 2: any public properties having index parameters is skipped
+        /// 3: any public properties is appended to the result if <see cref="object.ToString"/> has not been overridden
+        /// Note: do not call this method from an overridden ToString(..) method without setting <see cref="ObjectPortrayalOptions.BypassOverrideCheck"/> to <c>true</c>; otherwise a <see cref="StackOverflowException"/> will occur.
+        /// </remarks>
+        /// <seealso cref="DelimitedString.Create{T}"/>
+        public static string ObjectPortrayal(object instance, Action<ObjectPortrayalOptions> setup = null)
+        {
+            var options = Patterns.Configure(setup);
+            if (instance == null) { return options.NullValue; }
+
+            if (!options.BypassOverrideCheck)
+            {
+                if (TypeInsight.FromInstance(instance).When(type => type.GetMethods().SingleOrDefault(m => m.Name == nameof(ToString) && m.GetParameters().Length == 0), out var mi).IsOverridden())
+                {
+                    var stringResult = instance.ToString();
+                    return mi.DeclaringType == typeof(bool) ? stringResult.ToLowerInvariant() : stringResult;
+                }
+            }
+
+            var instanceType = instance.GetType();
+            var instanceSignature = new StringBuilder(string.Format(options.FormatProvider, "{0}", TypeInsight.FromType(instanceType).ToHumanReadableString(o => o.FullName = true)));
+            var properties = instanceType.GetRuntimeProperties().Where(options.PropertiesPredicate);
+            instanceSignature.AppendFormat(" {{ {0} }}", DelimitedString.Create(properties, o =>
+            {
+                o.Delimiter = options.Delimiter;
+                o.StringConverter = pi => options.PropertyConverter(pi, instance, options.FormatProvider);
+            }));
+            return instanceSignature.ToString();
+        }
+
+        /// <summary>
         /// Generates a sequence of <typeparamref name="T"/> within a specified range.
         /// </summary>
         /// <typeparam name="T">The type of the elements to return.</typeparam>
         /// <param name="count">The number of <typeparamref name="T"/> to generate.</param>
-        /// <param name="generator">The function delegate that will resolve the object of <typeparamref name="T"/>; the parameter passed to the delegate represents the index (zero-based) of the element to return.</param>
+        /// <param name="generator">The function delegate that will resolve the instance of <typeparamref name="T"/>; the parameter passed to the delegate represents the index (zero-based) of the element to return.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains a range of <typeparamref name="T"/> elements.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="count"/> is less than 0.
@@ -39,6 +81,19 @@ namespace Cuemon
         {
             Validator.ThrowIfLowerThan(count, 0, nameof(count));
             for (var i = 0; i < count; i++) { yield return generator(i); }
+        }
+
+        /// <summary>
+        /// Generates a random integer that is within a specified range.
+        /// </summary>
+        /// <param name="maximumExclusive">The exclusive upper bound of the random number returned. <paramref name="maximumExclusive"/> must be greater than or equal to 0.</param>
+        /// <returns>
+        /// A 32-bit signed integer greater than or equal to 0 and less than <paramref name="maximumExclusive"/>; that is, the range of return values includes 0 but not <paramref name="maximumExclusive"/>.
+        /// If 0 equals <paramref name="maximumExclusive"/>, 0 is returned.
+        /// </returns>
+        public static int RandomNumber(int maximumExclusive = int.MaxValue)
+        {
+            return RandomNumber(0, maximumExclusive);
         }
 
         /// <summary>
@@ -53,7 +108,7 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="minimumInclusive" /> is greater than <paramref name="maximumExclusive"/>.
         /// </exception>
-        public static int RandomNumber(int maximumExclusive = int.MaxValue, int minimumInclusive = 0)
+        public static int RandomNumber(int minimumInclusive, int maximumExclusive)
         {
             Validator.ThrowIfGreaterThan(minimumInclusive, maximumExclusive, nameof(minimumInclusive));
             return LocalRandomizer.Value.Next(minimumInclusive, maximumExclusive);

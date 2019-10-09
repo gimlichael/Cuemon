@@ -1,6 +1,4 @@
-﻿using Cuemon.Security.Cryptography;
-
-namespace Cuemon.Integrity
+﻿namespace Cuemon.Integrity
 {
     /// <summary>
     /// Configuration options for <see cref="CacheValidator"/>.

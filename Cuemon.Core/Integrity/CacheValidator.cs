@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Cuemon.Collections.Generic;
-using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.TypeConverters;
-using Cuemon.Reflection;
+using Cuemon.IO;
 
 namespace Cuemon.Integrity
 {
@@ -36,6 +35,51 @@ namespace Cuemon.Integrity
                 _assemblyValue = value;
                 _referencePointCacheValidator = null;
             }
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="fileInfo"/> to a <see cref="CacheValidator"/> representation.
+        /// </summary>
+        /// <param name="fileInfo">The <see cref="FileInfo"/> to convert.</param>
+        /// <param name="setup">The <see cref="FileChecksumOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="CacheValidator"/> that represents the <paramref name="fileInfo"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="fileInfo"/> cannot be null.
+        /// </exception>
+        public static CacheValidator FromFileInfo(FileInfo fileInfo, Action<FileChecksumOptions> setup = null)
+        {
+            Validator.ThrowIfNull(fileInfo, nameof(fileInfo));
+            var options = Patterns.Configure(setup);
+            return HashResult.FromFileInfo(fileInfo, fio =>
+            {
+                fio.BytesToRead = options.BytesToRead;
+                fio.IntegrityConverter = (fi, checksumBytes) =>
+                {
+                    if (checksumBytes.Length > 0)
+                    {
+                        return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, Generate.HashCode64(checksumBytes.Cast<IConvertible>()), o =>
+                        {
+                            o.Method = options.Method;
+                            o.Algorithm = options.Algorithm;
+                        });
+                    }
+                    var fileNameHashCode64 = Generate.HashCode64(fileInfo.FullName);
+                    return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, fileNameHashCode64, o =>
+                    {
+                        o.Method = options.Method;
+                        o.Algorithm = options.Algorithm;
+                    });
+                };
+            }) as CacheValidator;
+        }
+
+        public static CacheValidator FromAssembly(Assembly assembly, Action<FileChecksumOptions> setup = null)
+        {
+            var assemblyHashCode64 = Generate.HashCode64(assembly.FullName);
+            var assemblyLocation = assembly.Location;
+            return assembly.IsDynamic
+                ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, Patterns.ConfigureExchange<FileChecksumOptions, CacheValidatorOptions>(setup))
+                : FromFileInfo(new FileInfo(assemblyLocation), setup);
         }
 
         CacheValidator()
@@ -71,7 +115,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="double"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, double checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+            : this(created, modified, Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -83,7 +127,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="short"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, short checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+            : this(created, modified, Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -108,7 +152,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="int"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, int checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+            : this(created, modified, Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -120,7 +164,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="long"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, long checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+            : this(created, modified, Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -132,7 +176,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="float"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, float checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+            : this(created, modified, Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -144,7 +188,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="ushort"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, ushort checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+            : this(created, modified, Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -156,7 +200,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="uint"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, uint checksum, Action<CacheValidatorOptions> setup = null)
-            : this(created, modified, ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+            : this(created, modified, Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -168,7 +212,7 @@ namespace Cuemon.Integrity
         /// <param name="checksum">A <see cref="ulong"/> value containing a byte-for-byte checksum of the data this instance represents.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
         public CacheValidator(DateTime created, DateTime? modified, ulong checksum, Action<CacheValidatorOptions> setup = null) 
-            : this(created, modified, ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(checksum), setup)
+            : this(created, modified, Convertible.GetBytes(checksum), setup)
         {
         }
 
@@ -193,12 +237,12 @@ namespace Cuemon.Integrity
                 case ChecksumMethod.Default:
                     break;
                 case ChecksumMethod.Timestamp:
-                    checksum = ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(Created.Ticks ^ Modified?.Ticks ?? DateTime.MinValue.Ticks);
+                    checksum = Convertible.GetBytes(Created.Ticks ^ Modified?.Ticks ?? DateTime.MinValue.Ticks);
                     strength = ChecksumStrength.Weak;
                     break;
                 case ChecksumMethod.Combined:
                     var checksumValue = isChecksumNullOrZeroLength ? NullOrZeroLengthChecksum : Generate.HashCode64(checksum.Cast<IConvertible>());
-                    checksum = ConvertFactory.UseConverter<BaseConvertibleConverter>().ChangeType(Created.Ticks ^ Modified?.Ticks ?? DateTime.MinValue.Ticks ^ checksumValue);
+                    checksum = Convertible.GetBytes(Created.Ticks ^ Modified?.Ticks ?? DateTime.MinValue.Ticks ^ checksumValue);
                     strength = isChecksumNullOrZeroLength ? ChecksumStrength.Weak : ChecksumStrength.Strong;
                     break;
                 default:
@@ -241,7 +285,7 @@ namespace Cuemon.Integrity
             {
                 if (_referencePointCacheValidator == null)
                 {
-                    _referencePointCacheValidator = ConvertFactory.UseConverter<AssemblyConverter>().ChangeType(AssemblyReference);
+                    _referencePointCacheValidator = FromAssembly(AssemblyReference);
                 }
                 return _referencePointCacheValidator.Clone();
             }

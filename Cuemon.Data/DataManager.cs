@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.Integrity;
 
 namespace Cuemon.Data
 {
@@ -168,7 +168,7 @@ namespace Cuemon.Data
                 tempStream = new MemoryStream();
                 while (value.Read())
                 {
-                    var bytes = ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(value.GetString(0));
+                    var bytes = Convertible.GetBytes(value.GetString(0));
                     tempStream.Write(bytes, 0, bytes.Length);
                 }
                 tempStream.Position = 0;
@@ -353,7 +353,7 @@ namespace Cuemon.Data
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand"/> as the specified <paramref name="returnType"/>.</returns>
         public object ExecuteScalarAsType(IDataCommand dataCommand, Type returnType, IFormatProvider provider, params DbParameter[] parameters)
         {
-            return ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(ExecuteScalar(dataCommand, parameters), returnType, o => o.FormatProvider = provider);
+            return ConvertFactory.FromObject().ChangeType(ExecuteScalar(dataCommand, parameters), returnType, o => o.FormatProvider = provider);
         }
 
         /// <summary>

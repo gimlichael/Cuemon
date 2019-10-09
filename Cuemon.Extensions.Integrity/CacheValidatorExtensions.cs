@@ -166,22 +166,22 @@ namespace Cuemon.Extensions.Integrity
         }
 
         /// <summary>
-        /// Returns a <see cref="CacheValidator"/> from the specified <paramref name="fileName"/>.
+        /// Returns a <see cref="CacheValidator"/> from the specified <paramref name="fileinfo"/>.
         /// </summary>
-        /// <param name="fileName">The fully qualified name of the file.</param>
-        /// <param name="bytesToRead">The maximum size of a byte-for-byte that promotes a medium/strong integrity check of the specified <paramref name="fileName"/>. A value of 0 (or less) leaves the integrity check at weak.</param>
+        /// <param name="fileinfo">The fully qualified name of the file.</param>
+        /// <param name="bytesToRead">The maximum size of a byte-for-byte that promotes a medium/strong integrity check of the specified <paramref name="fileinfo"/>. A value of 0 (or less) leaves the integrity check at weak.</param>
         /// <param name="setup">The <see cref="CacheValidatorOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="CacheValidator"/> that represents either a weak, medium or strong integrity check of the specified <paramref name="fileName"/>.</returns>
+        /// <returns>A <see cref="CacheValidator"/> that represents either a weak, medium or strong integrity check of the specified <paramref name="fileinfo"/>.</returns>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="fileName"/> is null.
+        /// <paramref name="fileinfo"/> is null.
         /// </exception>
-        /// <remarks>Should the specified <paramref name="fileName"/> trigger any sort of exception, a <see cref="CacheValidator.Default"/> is returned.</remarks>
-        public static CacheValidator GetCacheValidator(this string fileName, Action<FileChecksumOptions> setup = null)
+        /// <remarks>Should the specified <paramref name="fileinfo"/> trigger any sort of exception, a <see cref="CacheValidator.Default"/> is returned.</remarks>
+        public static CacheValidator GetCacheValidator(this FileInfo fileinfo, Action<FileChecksumOptions> setup = null)
         {
-            Validator.ThrowIfNullOrWhitespace(fileName, nameof(fileName));
+            Validator.ThrowIfNull(fileinfo, nameof(fileinfo));
             try
             {
-                return ConvertFactory.UseConverter<FileInfoCacheValidatorConverter>().ChangeType(new FileInfo(fileName), setup);
+                return CacheValidator.FromFileInfo(fileinfo, setup);
             }
             catch (Exception)
             {
@@ -201,7 +201,7 @@ namespace Cuemon.Extensions.Integrity
             if (assembly == null || assembly.IsDynamic) { return CacheValidator.Default; }
             var assemblyHashCode64 = assembly.FullName.GetHashCode64();
             var assemblyLocation = assembly.Location;
-            return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : GetCacheValidator(assemblyLocation, Patterns.ConfigureExchange<CacheValidatorOptions, FileChecksumOptions>(setup, (cvo, fco) => 
+            return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : GetCacheValidator(new FileInfo(assemblyLocation), Patterns.ConfigureExchange<CacheValidatorOptions, FileChecksumOptions>(setup, (cvo, fco) => 
             {
                 fco.BytesToRead = readByteForByteChecksum ? int.MaxValue : 0;
                 fco.Algorithm = cvo.Algorithm;

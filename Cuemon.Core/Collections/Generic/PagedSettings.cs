@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Cuemon.Collections.Generic
+﻿namespace Cuemon.Collections.Generic
 {
     /// <summary>
     /// Specifies a set of features to support on the <see cref="PagedCollection"/> object. This class cannot be inherited.

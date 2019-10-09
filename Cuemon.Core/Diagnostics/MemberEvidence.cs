@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Cuemon.Diagnostics
 {
-    public class MemberEvidence
+    internal class MemberEvidence
     {
         internal MemberEvidence(string memberSignature, IDictionary<string, string> runtimeParameters)
         {

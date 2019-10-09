@@ -3,8 +3,6 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Text;
 
 namespace Cuemon.Data
@@ -50,7 +48,7 @@ namespace Cuemon.Data
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
         /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
         /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier) : this(reader, header, delimiter, qualifier, ParserFactory.CreateSimpleValueParser().Parse)
+        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier) : this(reader, header, delimiter, qualifier, ParseFactory.FromSimpleValue().Parse)
         {
         }
 

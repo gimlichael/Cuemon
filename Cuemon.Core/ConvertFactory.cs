@@ -1,24 +1,50 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.Converters;
-using Cuemon.ComponentModel.Decoders;
-using Cuemon.ComponentModel.Encoders;
 using Cuemon.IO;
 using Cuemon.Text;
 
 namespace Cuemon
 {
     /// <summary>
-    /// Provides access to factory methods for instantiating <see cref="IConverter"/>, <see cref="IEncoder"/>, <see cref="IDecoder"/>, <see cref="ICodec"/> and <see cref="IParser"/> implementations.
+    /// Provides access to factory methods that are tailored for convert operations following the patterns defined in <see cref="IConverter{TInput,TResult}"/> and <see cref="ITypeConverter{TInput,TOptions}"/>.
     /// </summary>
     public static class ConvertFactory
     {
-        public static TConverter UseConverter<TConverter>() where TConverter : class, IConverter, new()
+        /// <summary>
+        /// Creates an instance of <see cref="UnixEpochTimeConverter"/>.
+        /// </summary>
+        /// <returns>An <see cref="IConverter{TInput,TResult}"/> implementation of <see cref="UnixEpochTimeConverter"/>.</returns>
+        public static UnixEpochTimeConverter FromUnixEpochTime()
         {
-            return Activator.CreateInstance<TConverter>();
+            return new UnixEpochTimeConverter();
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="ObjectTypeConverter"/>.
+        /// </summary>
+        /// <returns>An <see cref="ITypeConverter{TInput,TResult}"/> implementation of <see cref="ObjectTypeConverter"/>.</returns>
+        public static ObjectTypeConverter FromObject()
+        {
+            return new ObjectTypeConverter();
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="TimeConverter"/>.
+        /// </summary>
+        /// <returns>An <see cref="IConverter{TInput,TResult}"/> implementation of <see cref="TimeConverter"/>.</returns>
+        public static TimeConverter FromTime()
+        {
+            return new TimeConverter();
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="EncodedStreamConverter"/>.
+        /// </summary>
+        /// <returns>An <see cref="IConverter{TInput,TResult}"/> implementation of <see cref="EncodedStreamConverter"/>.</returns>
+        public static EncodedStreamConverter FromStream()
+        {
+            return new EncodedStreamConverter();
         }
 
         /// <summary>
@@ -29,8 +55,6 @@ namespace Cuemon
         /// <seealso cref="AsciiStringEncoder" />
         /// <seealso cref="DeflateStreamCodec"/>
         /// <seealso cref="GZipStreamCodec"/>
-        /// <seealso cref="HexadecimalCodec" />
-        /// <seealso cref="StringToByteArrayCodec" />
         /// <seealso cref="UrlProtocolRelativeCodec"/>
         public static TCodec UseCodec<TCodec>() where TCodec : class, ICodec, new()
         {

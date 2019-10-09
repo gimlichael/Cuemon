@@ -14,16 +14,25 @@ namespace Cuemon.Extensions.Reflection
     public static class TypeExtensions
     {
         /// <summary>
-        /// Converts the specified caller information into an instance of a <see cref="MethodBase"/> object.
+        /// Conduct a dynamic search for <paramref name="memberName"/> using the specified <paramref name="caller"/> information.
         /// </summary>
-        /// <param name="caller">The <see cref="Type"/> to conduct a search for <paramref name="memberName"/>.</param>
+        /// <param name="caller">The <see cref="Type"/> to extend.</param>
         /// <param name="memberName">The name of the member of <paramref name="caller"/>.</param>
         /// <param name="types">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
         /// <param name="flags">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
         /// <returns>An object representing the method that matches the specified requirements, if found; otherwise, <c>null</c>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="caller"/> cannot be null -or-
+        /// <paramref name="memberName"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="memberName"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
         public static MethodBase ToMethodBase(this Type caller, Type[] types = null, [CallerMemberName] string memberName = "", BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, StringComparison comparison = StringComparison.Ordinal)
         {
-            return ConvertFactory.UseConverter<TypeMethodBaseConverter>().DynamicConvert(caller, types, memberName, flags, comparison);
+            Validator.ThrowIfNull(caller, nameof(caller));
+            return TypeInsight.FromType(caller).MatchMember(types, memberName, flags, comparison);
         }
 
         /// <summary>

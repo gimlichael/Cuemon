@@ -1,6 +1,5 @@
 ﻿using System;
 using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Extensions
 {
@@ -184,10 +183,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="interval"/> is <see cref="TimeSpan.Zero"/>.
         /// </exception>
-        /// <seealso cref="CompositeDoubleConverter"/>
+        /// <seealso cref="TimeConverter"/>
         public static DateTime Round(this DateTime value, double interval, TimeUnit timeUnit, VerticalDirection direction)
         {
-            return Round(value, ConvertFactory.UseConverter<CompositeDoubleConverter>().ChangeType(interval, o => o.TimeUnit = timeUnit), direction);
+            return Round(value, ConvertFactory.FromTime().ChangeType(interval, o => o.TimeUnit = timeUnit), direction);
         }
 
         /// <summary>
@@ -222,14 +221,14 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="value"/> to an equivalent Epoc time representation.
+        /// Converts the specified <paramref name="value"/> to an equivalent UNIX Epoc time representation.
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> value to be converted.</param>
         /// <returns>A <see cref="double"/> value that is equivalent to <paramref name="value"/>.</returns>
         /// <remarks>This implementation converts the <paramref name="value"/> to an UTC representation ONLY if the <see cref="DateTime.Kind"/> equals <see cref="DateTimeKind.Local"/>.</remarks>
         public static double ToEpochTime(this DateTime value)
         {
-            return ConvertFactory.UseConverter<UnixEpochTimeDateTimeConverter>().ChangeType(value);
+            return ConvertFactory.FromUnixEpochTime().ChangeType(value);
         }
     }
 }

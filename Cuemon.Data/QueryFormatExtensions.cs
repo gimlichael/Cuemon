@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Cuemon.ComponentModel.Converters;
 
 namespace Cuemon.Data
 {
@@ -20,7 +19,7 @@ namespace Cuemon.Data
         /// <returns>A query fragment in the desired format.</returns>
         public static string Embed(this QueryFormat format, IEnumerable<int> values, bool distinct = false)
         {
-            return Embed(format, ConvertFactory.UseConverter<DelimitedStringConverter<int>>().ChangeType(values).Split(','), distinct);
+            return Embed(format, DelimitedString.Create(values).Split(','), distinct);
         }
 
         /// <summary>
@@ -32,7 +31,7 @@ namespace Cuemon.Data
         /// <returns>A query fragment in the desired format.</returns>
         public static string Embed(this QueryFormat format, IEnumerable<long> values, bool distinct = false)
         {
-            return Embed(format, ConvertFactory.UseConverter<DelimitedStringConverter<long>>().ChangeType(values).Split(','), distinct);
+            return Embed(format, DelimitedString.Create(values).Split(','), distinct);
         }
 
         /// <summary>
@@ -50,15 +49,15 @@ namespace Cuemon.Data
             switch (format)
             {
                 case QueryFormat.Delimited:
-                    return ConvertFactory.UseConverter<DelimitedStringConverter<string>>().ChangeType(values);
+                    return DelimitedString.Create(values);
                 case QueryFormat.DelimitedString:
-                    return ConvertFactory.UseConverter<DelimitedStringConverter<string>>().ChangeType(values, o =>
+                    return DelimitedString.Create(values, o =>
                     {
                         o.Delimiter = ",";
                         o.StringConverter = s => FormattableString.Invariant($"'{s}'");
                     });
                 case QueryFormat.DelimitedSquareBracket:
-                    return ConvertFactory.UseConverter<DelimitedStringConverter<string>>().ChangeType(values, o =>
+                    return DelimitedString.Create(values, o =>
                     {
                         o.Delimiter = ",";
                         o.StringConverter = s => FormattableString.Invariant($"[{s}]");

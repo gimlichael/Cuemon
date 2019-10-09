@@ -5,40 +5,74 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Cuemon.Reflection
 {
+    /// <summary>
+    /// Provides a set of methods for working with reflection related operations on a <see cref="Assembly"/> object in a robust way.
+    /// </summary>
     public class AssemblyInsight
     {
         private readonly Assembly _assembly;
 
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Assembly"/> to <see cref="AssemblyInsight"/>.
+        /// </summary>
+        /// <param name="assembly">The <see cref="Assembly"/> to convert.</param>
+        /// <returns>A <see cref="AssemblyInsight"/> that is equivalent to <paramref name="assembly"/>.</returns>
         public static implicit operator AssemblyInsight(Assembly assembly)
         {
             return new AssemblyInsight(assembly);
         }
 
-        public static implicit operator Assembly(AssemblyInsight ai)
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="AssemblyInsight"/> to <see cref="Assembly"/>.
+        /// </summary>
+        /// <param name="insight">The <see cref="AssemblyInsight"/> to convert.</param>
+        /// <returns>A <see cref="Assembly"/> that is equivalent to <paramref name="insight"/>.</returns>
+        public static implicit operator Assembly(AssemblyInsight insight)
         {
-            return ai._assembly;
+            return insight._assembly;
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="AssemblyInsight"/> from the specified <paramref name="assembly"/>.
+        /// </summary>
+        /// <returns>An instance of <see cref="AssemblyInsight"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="assembly"/> cannot be null.
+        /// </exception>
         public static AssemblyInsight FromAssembly(Assembly assembly)
         {
+            Validator.ThrowIfNull(assembly, nameof(assembly));
             return assembly;
         }
-
+        
+        /// <summary>
+        /// Creates a new instance of <see cref="AssemblyInsight"/> from the specified <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="Type"/>.</typeparam>
+        /// <returns>An instance of <see cref="AssemblyInsight"/>.</returns>
         public static AssemblyInsight FromType<T>()
         {
             return FromType(typeof(T));
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="AssemblyInsight"/> from the specified <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The underlying <see cref="Type"/>.</param>
+        /// <returns>An instance of <see cref="AssemblyInsight"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="type"/> cannot be null.
+        /// </exception>
         public static AssemblyInsight FromType(Type type)
         {
+            Validator.ThrowIfNull(type, nameof(type));
             return type.Assembly;
         }
 
-        public AssemblyInsight(Assembly assembly)
+        AssemblyInsight(Assembly assembly)
         {
             Validator.ThrowIfNull(assembly, nameof(assembly));
             _assembly = assembly;
@@ -70,7 +104,7 @@ namespace Cuemon.Reflection
                         case ManifestResourceMatch.ContainsName:
                             foreach (var resourceName in resourceNames)
                             {
-                                if (resourceName.IndexOf(name, StringComparison.OrdinalIgnoreCase) > 0)
+                                if (resourceName.IndexOf(name, StringComparison.OrdinalIgnoreCase) != -1)
                                 {
                                     resources.Add(resourceName, _assembly.GetManifestResourceStream(resourceName));
                                 }
@@ -87,10 +121,11 @@ namespace Cuemon.Reflection
                             }
                             break;
                         case ManifestResourceMatch.ContainsExtension:
+                            if (matchExtension == null) { throw new ArgumentException($"Unable to match by {ManifestResourceMatch.ContainsExtension} since no extension was specified.", nameof(name)); }
                             foreach (var resourceName in resourceNames)
                             {
                                 var extension = Path.GetExtension(resourceName);
-                                if (extension.IndexOf(matchExtension, StringComparison.OrdinalIgnoreCase) > 0)
+                                if (extension.IndexOf(matchExtension, StringComparison.OrdinalIgnoreCase) != -1)
                                 {
                                     resources.Add(resourceName, _assembly.GetManifestResourceStream(resourceName));
                                 }

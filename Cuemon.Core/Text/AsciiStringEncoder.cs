@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
-using Cuemon.Text;
+using Cuemon.ComponentModel;
 
-namespace Cuemon.ComponentModel.Encoders
+namespace Cuemon.Text
 {
     /// <summary>
     /// Provides an encoder that converts a <see cref="string"/> to its ASCII encoded variant.

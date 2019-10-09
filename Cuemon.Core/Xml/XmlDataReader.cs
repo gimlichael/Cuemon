@@ -2,7 +2,6 @@
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Xml;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Data;
 using Cuemon.Text;
 
@@ -22,7 +21,7 @@ namespace Cuemon.Xml
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        public XmlDataReader(XmlReader reader) : this(reader, ParserFactory.CreateSimpleValueParser().Parse)
+        public XmlDataReader(XmlReader reader) : this(reader, ParseFactory.FromSimpleValue().Parse)
         {
         }
 

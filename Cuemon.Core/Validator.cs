@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using Cuemon.Collections.Generic;
-using Cuemon.ComponentModel.Converters;
 using Cuemon.Reflection;
 
 namespace Cuemon
@@ -34,13 +33,6 @@ namespace Cuemon
             ThrowWhen(condition);
         }
 
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> (or a derived counterpart) from the specified delegate <paramref name="condition"/>.
-        /// </summary>
-        /// <param name="condition">The delegate that evaluates, creates and ultimately throws an <see cref="ArgumentException"/> (or a derived counterpart) from within a given scenario.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> is null.
-        /// </exception>
         internal static void ThrowWhen(Action<ExceptionCondition<ArgumentException>> condition)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
@@ -1046,7 +1038,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1055,20 +1047,170 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfContainsInterface(Type value, string paramName, params Type[] types)
+        {
+            ThrowIfContainsInterface(value, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfContainsInterface(Type value, string paramName, string message, params Type[] types)
+        {
+            ThrowIfNull(value, nameof(value));
+            ThrowIfNull(types, nameof(types));
+            ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
+            try
+            {
+                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType(value).HasInterface(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <typeparamref name="T"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="TypeArgumentOutOfRangeException">
+        /// <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfContainsInterface<T>(string typeParamName, params Type[] types)
+        {
+            ThrowIfContainsInterface<T>(typeParamName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <typeparamref name="T"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="TypeArgumentOutOfRangeException">
+        /// <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfContainsInterface<T>(string typeParamName, string message, params Type[] types)
+        {
+            ThrowIfNull(types, nameof(types));
+            ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
+            try
+            {
+                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType<T>().HasInterface(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
+            }
+            catch (TypeArgumentOutOfRangeException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <typeparamref name="T"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="TypeArgumentOutOfRangeException">
+        /// <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfNotContainsInterface<T>(string typeParamName, params Type[] types)
+        {
+            ThrowIfNotContainsInterface<T>(typeParamName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <typeparamref name="T"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="TypeArgumentOutOfRangeException">
+        /// <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfNotContainsInterface<T>(string typeParamName, string message, params Type[] types)
+        {
+            ThrowIfNull(types, nameof(types));
+            ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
+            try
+            {
+                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType<T>().HasInterface(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
+            }
+            catch (TypeArgumentOutOfRangeException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
+            }
+        }
+
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="value"/>.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        public static void ThrowIfNotContainsType(Type value, string paramName, params Type[] types)
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfNotContainsInterface(Type value, string paramName, params Type[] types)
         {
-            ThrowIfNotContainsType(value, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
+            ThrowIfNotContainsInterface(value, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
@@ -1077,20 +1219,24 @@ namespace Cuemon
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="value"/>.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        public static void ThrowIfNotContainsType(Type value, string paramName, string message, params Type[] types)
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfNotContainsInterface(Type value, string paramName, string message, params Type[] types)
         {
             ThrowIfNull(value, nameof(value));
             ThrowIfNull(types, nameof(types));
+            ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType(value).HasInterface(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1134,7 +1280,51 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromInstance(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromInstance(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfNotContainsType(Type value, string paramName, params Type[] types)
+        {
+            ThrowIfNotContainsType(value, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfNotContainsType(Type value, string paramName, string message, params Type[] types)
+        {
+            ThrowIfNull(value, nameof(value));
+            ThrowIfNull(types, nameof(types));
+            try
+            {
+                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1178,7 +1368,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromInstance(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromInstance(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1219,7 +1409,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType<T>().HasType(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType<T>().HasType(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
@@ -1260,7 +1450,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType<T>().HasType(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, ConvertFactory.UseConverter<DelimitedStringConverter<Type>>().ChangeType(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType<T>().HasType(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
-using Cuemon.ComponentModel.TypeConverters;
+using System.IO;
+using Cuemon.IO;
 
 namespace Cuemon.Integrity
 {
@@ -9,6 +10,34 @@ namespace Cuemon.Integrity
     public class HashResult
     {
         private readonly byte[] _input;
+
+        /// <summary>
+        /// Converts the specified <paramref name="fileInfo"/> to an object implementing the <see cref="IIntegrity"/> interface.
+        /// </summary>
+        /// <param name="fileInfo">The <see cref="FileInfo"/> to convert.</param>
+        /// <param name="setup">The <see cref="FileIntegrityOptions"/> which need to be configured.</param>
+        /// <returns>An object implementing the <see cref="IIntegrity"/> interface that represents the integrity of <paramref name="fileInfo"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="fileInfo"/> cannot be null.
+        /// </exception>
+        public static IIntegrity FromFileInfo(FileInfo fileInfo, Action<FileIntegrityOptions> setup)
+        {
+            Validator.ThrowIfNull(fileInfo, nameof(fileInfo));
+            var options = Patterns.Configure(setup);
+            if (options.BytesToRead > 0)
+            {
+                long buffer = options.BytesToRead;
+                if (fileInfo.Length < buffer) { buffer = fileInfo.Length; }
+
+                var checksumBytes = new byte[buffer];
+                using (var openFile = fileInfo.OpenRead())
+                {
+                    openFile.Read(checksumBytes, 0, (int)buffer);
+                }
+                return options.IntegrityConverter(fileInfo, checksumBytes);
+            }
+            return options.IntegrityConverter(fileInfo, new byte[0]);
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HashResult"/> class.
@@ -36,7 +65,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="string"/> representation, in hexadecimal, of the contents of the underlying value of this instance.</returns>
         public virtual string ToHexadecimalString()
         {
-            return ConvertFactory.UseConverter<HexadecimalByteArrayConverter>().ChangeType(_input);
+            return StringFactory.CreateHexadecimal(_input);
         }
 
         /// <summary>
@@ -54,7 +83,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="string"/> representation, in base 64 which is usable for transmission on the URL, of the contents of the underlying value of this instance.</returns>
         public virtual string ToUrlEncodedBase64String()
         {
-            return ConvertFactory.UseConverter<UrlEncodedBase64ByteArrayConverter>().ChangeType(_input);
+            return StringFactory.CreateUrlEncodedBase64(_input);
         }
 
         /// <summary>
@@ -63,7 +92,7 @@ namespace Cuemon.Integrity
         /// <returns>A <see cref="string"/> representation, in binary, of the contents of the underlying value of this instance.</returns>
         public virtual string ToBinaryString()
         {
-            return ConvertFactory.UseConverter<BinaryDigitsByteArrayConverter>().ChangeType(_input);
+            return StringFactory.CreateBinaryDigits(_input);
         }
 
         /// <summary>

@@ -1,6 +1,4 @@
-﻿using Cuemon.ComponentModel.Converters;
-
-namespace Cuemon
+﻿namespace Cuemon
 {
     /// <summary>
     /// Represents a <see cref="Template"/> with an empty value.
@@ -621,13 +619,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Template"/> class.
-        /// </summary>
-        public Template()
-        {
-        }
-
-        /// <summary>
         /// Returns an array of objects that represent the arguments passed to this instance.
         /// </summary>
         /// <returns>An array of objects that represent the arguments passed to this instance. Returns an empty array if the current instance was constructed with no generic arguments.</returns>
@@ -648,10 +639,10 @@ namespace Cuemon
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return ConvertFactory.UseConverter<DelimitedStringConverter<object>>().ChangeType(ToArray(), o =>
+            return DelimitedString.Create(ToArray(), o =>
             {
                 o.Delimiter = ", ";
-                o.StringConverter = i => ConvertFactory.UseConverter<ObjectToStringConverter>().ChangeType(i);
+                o.StringConverter = i => Generate.ObjectPortrayal(i);
             });
         }
 

@@ -1,19 +1,18 @@
 ﻿using System;
 using System.ComponentModel;
-using Cuemon.ComponentModel.Converters;
 
-namespace Cuemon.ComponentModel.TypeConverters
+namespace Cuemon.ComponentModel
 {
     /// <summary>
     /// Provides a converter that converts a <see cref="double"/> to its equivalent <see cref="TimeSpan"/>.
     /// </summary>
-    public class CompositeDoubleConverter : IConverter<double, TimeSpan, CompositeDoubleOptions>
+    public class TimeConverter : IConverter<double, TimeSpan, TimeOptions>
     {
         /// <summary>
         /// Converts the specified <paramref name="input"/> combined with <see cref="TimeUnit"/> to its equivalent <see cref="TimeSpan"/> structure.
         /// </summary>
         /// <param name="input">The <see cref="double"/> to be converted into a <see cref="TimeSpan"/>.</param>
-        /// <param name="setup">The <see cref="CompositeDoubleOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="TimeOptions"/> which may be configured.</param>
         /// <returns>A <see cref="TimeSpan"/> that is equivalent to <paramref name="input"/>.</returns>
         /// <exception cref="OverflowException">
         /// <paramref name="input" /> is either lower than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.
@@ -21,7 +20,7 @@ namespace Cuemon.ComponentModel.TypeConverters
         /// <exception cref="InvalidEnumArgumentException">
         /// <paramref name="setup"/> was initialized with an invalid <see cref="TimeUnit"/>.
         /// </exception>
-        public TimeSpan ChangeType(double input, Action<CompositeDoubleOptions> setup)
+        public TimeSpan ChangeType(double input, Action<TimeOptions> setup = null)
         {
             if (input == 0.0) { return TimeSpan.Zero; }
             var options = Patterns.Configure(setup);

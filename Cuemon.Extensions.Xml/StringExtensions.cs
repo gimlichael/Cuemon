@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Extensions.Xml
 {
@@ -16,7 +15,7 @@ namespace Cuemon.Extensions.Xml
         /// <summary>
         /// Escapes the given XML <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The XML <see cref="string"/> to extend.</param>
+        /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
         public static string EscapeXml(this string value)
         {
@@ -32,7 +31,7 @@ namespace Cuemon.Extensions.Xml
         /// <summary>
         /// Unescapes the given XML <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The XML <see cref="string"/> to extend.</param>
+        /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <returns>The input <paramref name="value"/> with an unescaped equivalent.</returns>
         public static string UnescapeXml(this string value)
         {
@@ -48,7 +47,7 @@ namespace Cuemon.Extensions.Xml
         /// <summary>
         /// Sanitizes the <paramref name="value"/> for any invalid characters.
         /// </summary>
-        /// <param name="value">The name of the XML element to sanitize.</param>
+        /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <returns>A sanitized <see cref="string"/> of <paramref name="value"/>.</returns>
         /// <remarks>Sanitation rules are as follows:<br/>
         /// 1. Names can contain letters, numbers, and these 4 characters: _ | : | . | -<br/>
@@ -58,7 +57,7 @@ namespace Cuemon.Extensions.Xml
         public static string SanitizeXmlElementName(this string value)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (value.StartsWith(StringComparison.OrdinalIgnoreCase, ConvertFactory.UseConverter<TextEnumerableConverter>().ChangeType(Alphanumeric.Numbers).Concat(new[] { "." } )))
+            if (value.StartsWith(StringComparison.OrdinalIgnoreCase, Alphanumeric.Numbers.ToEnumerable().Concat(new[] { "." } )))
             {
                 var startIndex = 0;
                 var numericsAndPunctual = new List<char>(Alphanumeric.Numbers.ToCharArray().Concat(new[] { '.' }));
@@ -86,7 +85,7 @@ namespace Cuemon.Extensions.Xml
         /// <summary>
         /// Sanitizes the <paramref name="value"/> for any invalid characters.
         /// </summary>
-        /// <param name="value">The content of an XML element to sanitize.</param>
+        /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="cdataSection">if set to <c>true</c> supplemental CDATA-section rules is applied to <paramref name="value"/>.</param>
         /// <returns>A sanitized <see cref="string"/> of <paramref name="value"/>.</returns>
         /// <remarks>Sanitation rules are as follows:<br/>

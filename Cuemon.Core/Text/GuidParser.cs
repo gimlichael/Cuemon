@@ -10,47 +10,47 @@ namespace Cuemon.Text
         /// <summary>
         /// Converts the string representation of a GUID to its <see cref="Guid"/> equivalent.
         /// </summary>
-        /// <param name="input">The string to convert.</param>
+        /// <param name="value">The string to convert.</param>
         /// <param name="setup">The <see cref="GuidOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="Guid"/> equivalent to <paramref name="input"/>.</returns>
+        /// <returns>A <see cref="Guid"/> equivalent to <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="input"/> cannot be null.
+        /// <paramref name="value"/> cannot be null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// <paramref name="input"/> cannot be empty or consist only of white-space characters.
+        /// <paramref name="value"/> cannot be empty or consist only of white-space characters.
         /// </exception>
         /// <exception cref="FormatException">
-        /// <paramref name="input"/> was not recognized to be a GUID.
+        /// <paramref name="value"/> was not recognized to be a GUID.
         /// </exception>
         /// <seealso cref="Guid.Parse"/>
         /// <seealso cref="Guid.ParseExact"/>
-        public Guid Parse(string input, Action<GuidOptions> setup = null)
+        public Guid Parse(string value, Action<GuidOptions> setup = null)
         {
-            Validator.ThrowIfNullOrWhitespace(input, nameof(input));
+            Validator.ThrowIfNullOrWhitespace(value, nameof(value));
             var options = Patterns.Configure(setup);
-            if (options.Formats.HasFlag(GuidFormats.Any)) { return Guid.Parse(input); }
-            var hyphens = input.IndexOf('-') > 0;
-            var braces = (input.StartsWith("{", StringComparison.OrdinalIgnoreCase) && input.EndsWith("}", StringComparison.OrdinalIgnoreCase));
-            var parentheses = (input.StartsWith("(", StringComparison.OrdinalIgnoreCase) && input.EndsWith(")", StringComparison.OrdinalIgnoreCase));
-            var xformat = braces && input.Split(',').Length == 11;
-            if (xformat && options.Formats.HasFlag(GuidFormats.X)) { return Guid.ParseExact(input, "X"); }
-            if (parentheses && hyphens && options.Formats.HasFlag(GuidFormats.P)) { return Guid.ParseExact(input, "P"); }
-            if (braces && hyphens && options.Formats.HasFlag(GuidFormats.B)) { return Guid.ParseExact(input, "B"); }
-            if (hyphens && options.Formats.HasFlag(GuidFormats.D)) { return Guid.ParseExact(input, "D"); }
-            if (!hyphens && options.Formats.HasFlag(GuidFormats.N)) { return Guid.ParseExact(input, "N"); }
-            throw new FormatException($"The {nameof(input)} is not in a recognized format.");
+            if (options.Formats.HasFlag(GuidFormats.Any)) { return Guid.Parse(value); }
+            var hyphens = value.IndexOf('-') != -1;
+            var braces = (value.StartsWith("{", StringComparison.OrdinalIgnoreCase) && value.EndsWith("}", StringComparison.OrdinalIgnoreCase));
+            var parentheses = (value.StartsWith("(", StringComparison.OrdinalIgnoreCase) && value.EndsWith(")", StringComparison.OrdinalIgnoreCase));
+            var xformat = braces && value.Split(',').Length == 11;
+            if (xformat && options.Formats.HasFlag(GuidFormats.X)) { return Guid.ParseExact(value, "X"); }
+            if (parentheses && hyphens && options.Formats.HasFlag(GuidFormats.P)) { return Guid.ParseExact(value, "P"); }
+            if (braces && hyphens && options.Formats.HasFlag(GuidFormats.B)) { return Guid.ParseExact(value, "B"); }
+            if (hyphens && options.Formats.HasFlag(GuidFormats.D)) { return Guid.ParseExact(value, "D"); }
+            if (!hyphens && options.Formats.HasFlag(GuidFormats.N)) { return Guid.ParseExact(value, "N"); }
+            throw new FormatException($"The {nameof(value)} is not in a recognized format.");
         }
 
         /// <summary>
         /// Converts the string representation of a GUID to its <see cref="Guid"/> equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
-        /// <param name="input">The string to convert.</param>
-        /// <param name="result">When this method returns, contains the <see cref="Guid"/> equivalent of the <paramref name="input"/>, if the conversion succeeded, or <c>default</c> if the conversion failed.</param>
+        /// <param name="value">The string to convert.</param>
+        /// <param name="result">When this method returns, contains the <see cref="Guid"/> equivalent of the <paramref name="value"/>, if the conversion succeeded, or <c>default</c> if the conversion failed.</param>
         /// <param name="setup">The <see cref="GuidOptions"/> which may be configured.</param>
-        /// <returns><c>true</c> if <paramref name="input"/> was converted successfully; otherwise, <c>false</c>.</returns>
-        public bool TryParse(string input, out Guid result, Action<GuidOptions> setup = null)
+        /// <returns><c>true</c> if <paramref name="value"/> was converted successfully; otherwise, <c>false</c>.</returns>
+        public bool TryParse(string value, out Guid result, Action<GuidOptions> setup = null)
         {
-            return Patterns.TryInvoke(() => Parse(input, setup), out result);
+            return Patterns.TryInvoke(() => Parse(value, setup), out result);
         }
     }
 }

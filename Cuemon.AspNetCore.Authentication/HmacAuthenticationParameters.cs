@@ -12,7 +12,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// Initializes a new instance of the <see cref="HmacAuthenticationParameters"/> class.
         /// </summary>
         /// <param name="algorithm">The hash algorithm to use for the computation.</param>
-        /// <param name="privateKey">The secret key for the hashed encryption. The key can be any length, but it is strongly recommended to use a size of either 64 bytes (for <see cref="KeyedCryptoAlgorithm.HmacSha1"/> and <see cref="HmacAlgorithmType.SHA256"/>) or 128 bytes (for <see cref="HmacAlgorithmType.SHA384"/> and <see cref="HmacAlgorithmType.SHA512"/>).</param>
+        /// <param name="privateKey">The secret key for the hashed encryption. The key can be any length, but it is strongly recommended to use a size of either 64 bytes (for <see cref="KeyedCryptoAlgorithm.HmacSha1"/> and <see cref="KeyedCryptoAlgorithm.HmacSha256"/>) or 128 bytes (for <see cref="KeyedCryptoAlgorithm.HmacSha384"/> and <see cref="KeyedCryptoAlgorithm.HmacSha512"/>).</param>
         /// <param name="message">The <see cref="string"/> value to compute a hash code for.</param>
         internal HmacAuthenticationParameters(KeyedCryptoAlgorithm algorithm, byte[] privateKey, string message)
         {

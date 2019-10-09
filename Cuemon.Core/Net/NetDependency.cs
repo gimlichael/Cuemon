@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cuemon.Collections.Generic;
-using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Runtime;
 using Cuemon.Text;
 
@@ -319,11 +318,11 @@ namespace Cuemon.Net
 
 	    private static IEnumerable<Uri> ToUriSequence(IEnumerable<string> uriStrings)
 	    {
-	        if (uriStrings == null) { return null; }
+	        if (uriStrings == null) { return Enumerable.Empty<Uri>(); }
             var uris = new List<Uri>();
             foreach (var uri in uriStrings)
             {
-                if (ParserFactory.CreateUriParser().TryParse(uri, out var realUri, o => o.Kind = UriKind.Absolute)) { uris.Add(realUri); }
+                if (ParseFactory.FromUri().TryParse(uri, out var realUri, o => o.Kind = UriKind.Absolute)) { uris.Add(realUri); }
             }
 	        return uris;
 	    }
@@ -337,7 +336,7 @@ namespace Cuemon.Net
             var watchers = new List<NetWatcher>();
             foreach (var uri in Uris)
             {
-                switch (ConvertFactory.UseConverter<UriSchemeStringConverter>().ChangeType(uri.Scheme))
+                switch (ParseFactory.FromUriScheme().Parse(uri.Scheme))
                 {
                     case UriScheme.File:
                     case UriScheme.Http:

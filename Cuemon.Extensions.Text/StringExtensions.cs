@@ -1,6 +1,4 @@
 ﻿using System;
-using Cuemon.ComponentModel.Encoders;
-using Cuemon.ComponentModel.TypeConverters;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions.Text

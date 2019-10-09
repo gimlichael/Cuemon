@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
-using Cuemon.ComponentModel.Codecs;
-using Cuemon.Text;
+using Cuemon.ComponentModel;
+using Cuemon.Integrity;
 
-namespace Cuemon.ComponentModel.Encoders
+namespace Cuemon.Text
 {
     /// <summary>
     /// Provides an encoder that converts a <see cref="string"/> to an encoded variant.
@@ -21,13 +21,12 @@ namespace Cuemon.ComponentModel.Encoders
         /// </exception>
         /// <remarks>The inspiration for this method was retrieved @ SO: https://stackoverflow.com/a/135473/175073.</remarks>
         /// <seealso cref="FallbackEncodingOptions"/>
-        /// <seealso cref="StringToByteArrayCodec"/>
         public string Encode(string input, Action<FallbackEncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(input, nameof(input));
             
             var options = Patterns.Configure(setup);
-            var result = Encoding.Convert(options.Encoding, Encoding.GetEncoding(options.TargetEncoding.WebName, options.EncoderFallback, options.DecoderFallback), ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(input, o =>
+            var result = Encoding.Convert(options.Encoding, Encoding.GetEncoding(options.TargetEncoding.WebName, options.EncoderFallback, options.DecoderFallback), Convertible.GetBytes(input, o =>
             {
                 o.Encoding = options.Encoding;
                 o.Preamble = options.Preamble;

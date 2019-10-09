@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Collections.Generic
 {
@@ -34,7 +33,7 @@ namespace Cuemon.Collections.Generic
             var integral = Enum.GetUnderlyingType(typeof(TEnum));
             foreach (var value in values)
             {
-                dictionary.Add((IConvertible)ConvertFactory.UseConverter<ObjectTypeConverter>().ChangeType(value, integral), value.ToString());
+                dictionary.Add((IConvertible)ConvertFactory.FromObject().ChangeType(value, integral), value.ToString());
             }
             return dictionary;
         }

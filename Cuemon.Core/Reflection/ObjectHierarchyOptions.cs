@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using Cuemon.ComponentModel.Converters;
+using Cuemon.Runtime.Serialization;
 
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="ReflectionUtility.GetObjectHierarchy"/> operations.
+    /// Specifies options that is related to <see cref="Hierarchy"/> and <see cref="HierarchySerializer"/> operations.
     /// </summary>
     public class ObjectHierarchyOptions
     {
@@ -26,7 +25,7 @@ namespace Cuemon.Reflection
             MaxCircularCalls = 2;
             SkipPropertyType = source =>
             {
-                switch (ConvertFactory.UseConverter<TypeCodeConverter>().ChangeType(source))
+                switch (Type.GetTypeCode(source))
                 {
                     case TypeCode.Boolean:
                     case TypeCode.Byte:

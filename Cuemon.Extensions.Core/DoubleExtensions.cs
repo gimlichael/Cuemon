@@ -1,6 +1,5 @@
 ﻿using System;
 using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.TypeConverters;
 
 namespace Cuemon.Extensions
 {
@@ -17,10 +16,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="input" /> is lower than 0.
         /// </exception>
-        /// <seealso cref="UnixEpochTimeDoubleConverter"/>
+        /// <seealso cref="UnixEpochTimeConverter"/>
         public static DateTime FromUnixEpochTime(this double input)
         {
-            return ConvertFactory.UseConverter<UnixEpochTimeDoubleConverter>().ChangeType(input);
+            return ConvertFactory.FromUnixEpochTime().ChangeType(input);
         }
 
         /// <summary>
@@ -35,10 +34,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="timeUnit"/> was outside its valid range.
         /// </exception>
-        /// <seealso cref="CompositeDoubleConverter"/>
+        /// <seealso cref="TimeConverter"/>
         public static TimeSpan ToTimeSpan(this double value, TimeUnit timeUnit)
         {
-            return ConvertFactory.UseConverter<CompositeDoubleConverter>().ChangeType(value, o => o.TimeUnit = timeUnit);
+            return ConvertFactory.FromTime().ChangeType(value, o => o.TimeUnit = timeUnit);
         }
 
         /// <summary>

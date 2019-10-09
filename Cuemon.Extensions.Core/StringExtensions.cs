@@ -5,8 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Cuemon.ComponentModel;
 using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.TypeConverters;
+using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions
@@ -60,7 +61,9 @@ namespace Cuemon.Extensions
         /// <seealso cref="EncodingOptions"/>
         public static char[] ToCharArray(this string input, Action<EncodingOptions> setup = null)
         {
-            return ConvertFactory.UseConverter<TextConverter>().ChangeType(input, setup);
+            Validator.ThrowIfNull(input, nameof(input));
+            var options = Patterns.Configure(setup);
+            return options.Encoding.GetChars(Convertible.GetBytes(input, setup));
         }
 
         /// <summary>
@@ -78,7 +81,7 @@ namespace Cuemon.Extensions
         /// <seealso cref="EncodingOptions"/>
         public static byte[] ToByteArray(this string input, Action<EncodingOptions> setup = null)
         {
-            return ConvertFactory.UseCodec<StringToByteArrayCodec>().Encode(input, setup);
+            return Convertible.GetBytes(input, setup);
         }
 
         /// <summary>
@@ -95,10 +98,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="input"/> has illegal base64 characters.
         /// </exception>
-        /// <seealso cref="UrlEncodedBase64StringConverter"/>
+        /// <seealso cref="UrlEncodedBase64Parser"/>
         public static byte[] FromUrlEncodedBase64String(this string input)
         {
-            return ConvertFactory.UseConverter<UrlEncodedBase64StringConverter>().ChangeType(input);
+            return ParseFactory.FromUrlEncodedBase64().Parse(input);
         }
 
         /// <summary>
@@ -120,7 +123,7 @@ namespace Cuemon.Extensions
         /// <seealso cref="GuidOptions"/>
         public static Guid ToGuid(string input, Action<GuidOptions> setup = null)
         {
-            return ParserFactory.CreateGuidParser().Parse(input, setup);
+            return ParseFactory.FromGuid().Parse(input, setup);
         }
 
         /// <summary>
@@ -134,13 +137,13 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentException">
         /// <paramref name="input"/> cannot be empty or consist only of white-space characters.
         /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
+        /// <exception cref="FormatException">
         /// <paramref name="input"/> must consist only of binary digits.
         /// </exception>
-        /// <seealso cref="BinaryDigitsStringConverter"/>
+        /// <seealso cref="BinaryDigitsParser"/>
         public static byte[] FromBinaryDigits(this string input)
         {
-            return ConvertFactory.UseConverter<BinaryDigitsStringConverter>().ChangeType(input);
+            return ParseFactory.FromBinaryDigits().Parse(input);
         }
 
         /// <summary>
@@ -843,7 +846,7 @@ namespace Cuemon.Extensions
 
         private static bool CanConvertString<T>(string s, CultureInfo culture, ITypeDescriptorContext context)
         {
-            return ParserFactory.CreateComplexValueParser().TryParse<T>(s, out _, o =>
+            return ParseFactory.FromAnything().TryParse<T>(s, out _, o =>
             {
                 o.FormatProvider = culture;
                 o.DescriptorContext = context;
@@ -857,9 +860,15 @@ namespace Cuemon.Extensions
         /// <param name="setup">The <see cref="EncodingOptions"/> which need to be configured.</param>
         /// <returns>A <see cref="string"/> representation of the hexadecimal characters in <paramref name="value"/>.</returns>
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> must be hexadecimal.
+        /// </exception>
         public static string FromHexadecimal(this string value, Action<EncodingOptions> setup = null)
         {
-            return ConvertFactory.UseCodec<HexadecimalCodec>().Decode(value, setup);
+            return Convertible.ToString(ParseFactory.FromHexadecimal().Parse(value), setup);
         }
 
         /// <summary>
@@ -871,7 +880,7 @@ namespace Cuemon.Extensions
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToHexadecimal(this string value, Action<EncodingOptions> setup = null)
         {
-            return ConvertFactory.UseCodec<HexadecimalCodec>().Encode(value, setup);
+            return StringFactory.CreateHexadecimal(value, setup);
         }
 
         /// <summary>
@@ -892,7 +901,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static TEnum ToEnum<TEnum>(this string value, bool ignoreCase = true) where TEnum : struct, IConvertible
         {
-            return ParserFactory.CreateEnumParser().Parse<TEnum>(value, o => o.IgnoreCase = ignoreCase);
+            return ParseFactory.FromEnum().Parse<TEnum>(value, o => o.IgnoreCase = ignoreCase);
         }
 
         /// <summary>
@@ -910,10 +919,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="timeUnit"/> was outside its valid range.
         /// </exception>
-        /// <seealso cref="CompositeDoubleConverter"/>
+        /// <seealso cref="TimeConverter"/>
         public static TimeSpan ToTimeSpan(this string value, TimeUnit timeUnit)
         {
-            return ConvertFactory.UseConverter<CompositeDoubleConverter>().ChangeType(double.Parse(value), o => o.TimeUnit = timeUnit);
+            return ConvertFactory.FromTime().ChangeType(double.Parse(value), o => o.TimeUnit = timeUnit);
         }
 
         /// <summary>

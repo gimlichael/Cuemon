@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Text;
-using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.Codecs;
-using Cuemon.ComponentModel.TypeConverters;
-using Cuemon.Security.Cryptography;
+using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions
@@ -22,7 +19,7 @@ namespace Cuemon.Extensions
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToEncodedString(this byte[] bytes, Action<EncodingOptions> setup = null)
         {
-            return ConvertFactory.UseCodec<StringToByteArrayCodec>().Decode(bytes, setup);
+            return Convertible.ToString(bytes, setup);
         }
 
         /// <summary>
@@ -35,7 +32,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static string ToHexadecimalString(this byte[] bytes)
         {
-            return ConvertFactory.UseConverter<HexadecimalByteArrayConverter>().ChangeType(bytes);
+            return StringFactory.CreateHexadecimal(bytes);
         }
 
         /// <summary>
@@ -48,7 +45,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static string ToBinaryString(this byte[] bytes)
         {
-            return ConvertFactory.UseConverter<BinaryDigitsByteArrayConverter>().ChangeType(bytes);
+            return StringFactory.CreateBinaryDigits(bytes);
         }
 
         /// <summary>
@@ -58,7 +55,7 @@ namespace Cuemon.Extensions
         /// <returns>The string containing the encoded token if the byte array length is greater than one; otherwise, an empty string ("").</returns>
         public static string ToUrlEncodedBase64String(this byte[] bytes)
         {
-            return ConvertFactory.UseConverter<UrlEncodedBase64ByteArrayConverter>().ChangeType(bytes);
+            return StringFactory.CreateUrlEncodedBase64(bytes);
         }
 
         /// <summary>
