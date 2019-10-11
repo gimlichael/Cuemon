@@ -14,15 +14,18 @@ namespace Cuemon.Data
     /// <typeparam name="TRead">The type of the value that this <see cref="IDataReader"/> will read.</typeparam>
     /// <seealso cref="Disposable" />
     /// <seealso cref="IDataReader" />
-    public abstract class DataReader<TRead> : Disposable, IDataReader //where TRead : IEquatable<TRead>
+    public abstract class DataReader<TRead> : Disposable, IDataReader
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DataReader{TRead}"/> class.
         /// </summary>
         /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="parser"/> is null.
+        /// </exception>
         protected DataReader(Func<string, Action<FormattingOptions<CultureInfo>>, object> parser)
         {
-            if (parser == null) { parser = (s, a) => s; }
+            Validator.ThrowIfNull(parser, nameof(parser));
             StringParser = parser;
             Fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
         }

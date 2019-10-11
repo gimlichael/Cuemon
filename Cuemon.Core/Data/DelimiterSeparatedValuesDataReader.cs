@@ -12,24 +12,7 @@ namespace Cuemon.Data
     /// </summary>
     public sealed class DelimiterSeparatedValuesDataReader : DataReader<string[]>
     {
-        private int _rowCount = 0;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DelimiterSeparatedValuesDataReader"/> class.
-        /// </summary>
-        /// <param name="reader">The <see cref="StreamReader"/> object that contains the DSV data.</param>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader) : this(reader, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DelimiterSeparatedValuesDataReader"/> class.
-        /// </summary>
-        /// <param name="reader">The <see cref="StreamReader"/> object that contains the DSV data.</param>
-        /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header) : this(reader, header, ',')
-        {
-        }
+        private int _rowCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimiterSeparatedValuesDataReader"/> class.
@@ -37,51 +20,27 @@ namespace Cuemon.Data
         /// <param name="reader">The <see cref="StreamReader"/> object that contains the DSV data.</param>
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
         /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter) : this(reader, header, delimiter, '"')
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DelimiterSeparatedValuesDataReader"/> class.
-        /// </summary>
-        /// <param name="reader">The <see cref="StreamReader"/> object that contains the DSV data.</param>
-        /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
-        /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
-        /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier) : this(reader, header, delimiter, qualifier, ParseFactory.FromSimpleValue().Parse)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DelimiterSeparatedValuesDataReader"/> class.
-        /// </summary>
-        /// <param name="reader">The <see cref="StreamReader"/> object that contains the DSV data.</param>
-        /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
-        /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
-        /// <param name="qualifier">The qualifier specificiation. Default is double-quote (").</param>
+        /// <param name="qualifier">The qualifier specification. Default is double-quote (").</param>
         /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="SimpleValueParser.Parse"/>.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/> -or-
-        /// <paramref name="delimiter"/> is empty or consist only of white-space characters -or-
-        /// <paramref name="qualifier"/> is empty or consist only of white-space characters.
+        /// <paramref name="header"/> cannot be empty or consist only of white-space characters -or-
+        /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/>.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null -or-
-        /// <paramref name="header"/> is null -or-
         /// <paramref name="delimiter"/> is null -or-
-        /// <paramref name="qualifier"/> is null -or-
-        /// <paramref name="parser"/> is null.
+        /// <paramref name="qualifier"/> is null.
         /// </exception>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header, char delimiter, char qualifier, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser) : base(parser)
+        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header = null, char delimiter = ',', char qualifier = '"', Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParseFactory.FromSimpleValue().Parse)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
-
+            Validator.ThrowIfNull(delimiter, nameof(delimiter));
+            Validator.ThrowIfNull(qualifier, nameof(qualifier));
             if (header == null)
             {
                 header = reader.ReadLine();
-                Validator.ThrowIfNull(header, nameof(header));
+                Validator.ThrowIfNullOrWhitespace(header, nameof(header));
             }
-
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
             
             Reader = reader;
@@ -147,9 +106,13 @@ namespace Cuemon.Data
             return false;
         }
 
+        /// <summary>
+        /// Advances this instance to the next record.
+        /// </summary>
+        /// <returns>A <see cref="T:string[]"/> for as long as there are rows; <see cref="NullRead"/> when no more rows exists.</returns>
         protected override string[] ReadNext(string[] columns = null)
         {
-            if (columns != null)
+            if (columns != NullRead)
             {
                 if (columns.Length != Header.Length) { throw new InvalidOperationException(FormattableString.Invariant($"Line {RowCount + 1} does not match the expected numbers of columns. Actual columns: {columns.Length}. Expected: {Header.Length}.")); }
                 var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
@@ -169,6 +132,10 @@ namespace Cuemon.Data
             return columns;
         }
 
+        /// <summary>
+        /// Gets the value that indicates that no more rows exists.
+        /// </summary>
+        /// <value>The value that indicates that no more rows exists.</value>
         protected override string[] NullRead => null;
 
         /// <summary>
