@@ -275,17 +275,16 @@ namespace Cuemon
             var totalWaitTime = TimeSpan.Zero;
             var lastWaitTime = TimeSpan.Zero;
             var isTransientFault = false;
-            bool throwExceptions;
+            var throwExceptions = false;
             var aggregatedExceptions = new List<Exception>();
             var result = default(TResult);
             for (var attempts = 0; ;)
             {
-                var exceptionThrown = false;
                 var waitTime = options.RetryStrategy(attempts);
                 try
                 {
                     if (latency > options.MaximumAllowedLatency) { throw new LatencyException(string.Format(CultureInfo.InvariantCulture, "The latency of the operation exceeded the allowed maximum value of {0} seconds. Actual latency was: {1} seconds.", options.MaximumAllowedLatency.TotalSeconds, latency.TotalSeconds)); }
-                    return await factory.ExecuteMethodAsync().ConfigureAwait(false);
+                    result = await factory.ExecuteMethodAsync().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -304,7 +303,6 @@ namespace Cuemon
                     catch (Exception)
                     {
                         throwExceptions = true;
-                        exceptionThrown = true;
                         if (isTransientFault)
                         {
                             var evidence = new TransientFaultEvidence(attempts, lastWaitTime, totalWaitTime, latency, new MethodDescriptor(factory.DelegateInfo).ToString());
@@ -316,7 +314,7 @@ namespace Cuemon
                 }
                 finally
                 {
-                    if (exceptionThrown)
+                    if (throwExceptions)
                     {
                         var disposable = result as IDisposable;
                         disposable?.Dispose();

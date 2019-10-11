@@ -5,7 +5,7 @@ using System.Globalization;
 namespace Cuemon.ComponentModel
 {
     /// <summary>
-    /// Configuration options for <see cref="StringTypeParser"/> and <see cref="ObjectTypeConverter"/>.
+    /// Configuration options for <see cref="ObjectTypeConverter"/>.
     /// </summary>
     public class TypeConverterOptions : FormattingOptions<IFormatProvider>
     {

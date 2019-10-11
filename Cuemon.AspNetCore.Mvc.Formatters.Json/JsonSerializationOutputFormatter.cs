@@ -36,7 +36,6 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json
         {
             Validator.ThrowIfNull(context, nameof(context));
             Validator.ThrowIfNull(selectedEncoding, nameof(selectedEncoding));
-            var buffer = new char[512];
             var value = context.Object;
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {

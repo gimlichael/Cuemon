@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Security.Claims;
 using Cuemon.Integrity;
-using Cuemon.Security.Cryptography;
 
 namespace Cuemon.AspNetCore.Authentication
 {
@@ -42,7 +40,7 @@ namespace Cuemon.AspNetCore.Authentication
         public Func<DigestAccessAuthenticationParameters, byte[]> DigestAccessSigner { get; set; }
 
         /// <summary>
-        /// Gets or sets the algorithm of the HTTP Digest Access Authentication. Default is <see cref="HashAlgorithmType.MD5"/>.
+        /// Gets or sets the algorithm of the HTTP Digest Access Authentication. Default is <see cref="CryptoAlgorithm.Md5"/>.
         /// </summary>
         /// <value>The algorithm of the HTTP Digest Access Authentication.</value>
         public CryptoAlgorithm Algorithm { get; set; }

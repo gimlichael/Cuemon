@@ -92,7 +92,7 @@ namespace Cuemon.Data
         protected override string[] NullRead => null;
 
         /// <summary>
-        /// Called when this object has not yet been disposed of.
+        /// Called when this object is being disposed by either <see cref="Disposable.Dispose()" /> or <see cref="Disposable.Dispose(bool)" /> having <c>disposing</c> set to <c>true</c> and <see cref="Disposable.Disposed" /> is <c>false</c>.
         /// </summary>
         protected override void OnDisposeManagedResources()
         {

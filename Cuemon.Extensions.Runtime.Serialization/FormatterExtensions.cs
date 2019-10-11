@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using Cuemon.ComponentModel;
 
 namespace Cuemon.Extensions.Runtime.Serialization
 {

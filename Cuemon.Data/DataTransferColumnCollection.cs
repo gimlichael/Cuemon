@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 
 namespace Cuemon.Data
@@ -15,7 +14,7 @@ namespace Cuemon.Data
         /// <param name="record">The record to convert.</param>
         internal DataTransferColumnCollection(IDataRecord record)
         {
-            var fieldCount = record?.FieldCount ?? 0;
+            var fieldCount = record?.FieldCount ?? -1;
             for (var i = 0; i < fieldCount; i++)
             {
                 var columnName = record.GetName(i);

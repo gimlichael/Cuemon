@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -38,19 +39,19 @@ namespace Cuemon.Integrity
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="fileInfo"/> to a <see cref="CacheValidator"/> representation.
+        /// Converts the specified <paramref name="file"/> to a <see cref="CacheValidator"/> representation.
         /// </summary>
-        /// <param name="fileInfo">The <see cref="FileInfo"/> to convert.</param>
+        /// <param name="file">The <see cref="FileInfo"/> to convert.</param>
         /// <param name="setup">The <see cref="FileChecksumOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="CacheValidator"/> that represents the <paramref name="fileInfo"/>.</returns>
+        /// <returns>A <see cref="CacheValidator"/> that represents the <paramref name="file"/>.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="fileInfo"/> cannot be null.
+        /// <paramref name="file"/> cannot be null.
         /// </exception>
-        public static CacheValidator FromFileInfo(FileInfo fileInfo, Action<FileChecksumOptions> setup = null)
+        public static CacheValidator FromFileInfo(FileInfo file, Action<FileChecksumOptions> setup = null)
         {
-            Validator.ThrowIfNull(fileInfo, nameof(fileInfo));
+            Validator.ThrowIfNull(file, nameof(file));
             var options = Patterns.Configure(setup);
-            return HashResult.FromFileInfo(fileInfo, fio =>
+            return HashResult.FromFileInfo(file, fio =>
             {
                 fio.BytesToRead = options.BytesToRead;
                 fio.IntegrityConverter = (fi, checksumBytes) =>
@@ -63,7 +64,7 @@ namespace Cuemon.Integrity
                             o.Algorithm = options.Algorithm;
                         });
                     }
-                    var fileNameHashCode64 = Generate.HashCode64(fileInfo.FullName);
+                    var fileNameHashCode64 = Generate.HashCode64(file.FullName);
                     return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, fileNameHashCode64, o =>
                     {
                         o.Method = options.Method;
@@ -73,6 +74,12 @@ namespace Cuemon.Integrity
             }) as CacheValidator;
         }
 
+        /// <summary>
+        /// Converts the specified <paramref name="assembly"/> to a <see cref="CacheValidator"/> representation.
+        /// </summary>
+        /// <param name="assembly">The <see cref="Assembly"/> to convert.</param>
+        /// <param name="setup">The <see cref="FileChecksumOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="CacheValidator"/> that represents the <paramref name="assembly"/>.</returns>
         public static CacheValidator FromAssembly(Assembly assembly, Action<FileChecksumOptions> setup = null)
         {
             var assemblyHashCode64 = Generate.HashCode64(assembly.FullName);
@@ -82,7 +89,7 @@ namespace Cuemon.Integrity
                 : FromFileInfo(new FileInfo(assemblyLocation), setup);
         }
 
-        CacheValidator()
+        private CacheValidator()
         {
         }
 
@@ -246,7 +253,7 @@ namespace Cuemon.Integrity
                     strength = isChecksumNullOrZeroLength ? ChecksumStrength.Weak : ChecksumStrength.Strong;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(options.Method));
+                    throw new InvalidEnumArgumentException(nameof(setup), (int)options.Method, typeof(ChecksumMethod));
             }
             Bytes = checksum == null ? new List<byte>() : new List<byte>(checksum);
             Strength = strength;

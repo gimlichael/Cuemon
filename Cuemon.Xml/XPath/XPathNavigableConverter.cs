@@ -3,8 +3,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using Cuemon.ComponentModel.Codecs;
-using Cuemon.IO;
+using Cuemon.ComponentModel;
 using Cuemon.Text;
 
 namespace Cuemon.Xml.XPath

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Cuemon.Text
+﻿namespace Cuemon.Text
 {
     /// <summary>
     /// Provides access to factory methods that are tailored for parsing operations following the patterns defined in <see cref="IParser"/> and <see cref="ITypeParser"/>.

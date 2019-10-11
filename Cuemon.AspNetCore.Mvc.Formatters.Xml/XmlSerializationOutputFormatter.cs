@@ -5,7 +5,6 @@ using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Extensions.Xml;
 using Cuemon.Extensions.Xml.Serialization.Formatters;
-using Cuemon.Xml;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
@@ -38,7 +37,6 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
         {
             Validator.ThrowIfNull(context, nameof(context));
             Validator.ThrowIfNull(selectedEncoding, nameof(selectedEncoding));
-            var buffer = new char[512];
             var value = context.Object;
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {

@@ -1,5 +1,4 @@
 ﻿using System;
-using Cuemon.ComponentModel;
 
 namespace Cuemon.Text
 {

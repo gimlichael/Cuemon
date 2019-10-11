@@ -69,7 +69,7 @@ namespace Cuemon.Xml
         {
             Validator.ThrowIfNull(value, nameof(value));
             var document = new XmlDocument();
-            document.Load(TextReaderConverter.FromString(value.ToString()));
+            document.Load(new StringReader(value.ToString()));
             return document;
         }
 

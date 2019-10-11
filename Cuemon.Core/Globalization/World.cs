@@ -43,6 +43,7 @@ namespace Cuemon.Globalization
                         }
                         catch (CultureNotFoundException)
                         {
+                            // ignored on systems not supporting the specificCulture
                         }
                     }
                 }

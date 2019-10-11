@@ -78,7 +78,7 @@ namespace Cuemon
     }
 
     /// <summary>
-    /// Configuration options for <see cref="DelimitedString.Convert{T}" />.
+    /// Configuration options for <see cref="DelimitedString" />.
     /// </summary>
     /// <typeparam name="T">The type of the object to convert.</typeparam>
     public class DelimitedStringOptions<T>

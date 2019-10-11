@@ -107,11 +107,10 @@ namespace Cuemon.Extensions.Data.SqlClient
         {
             if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
             if (dataCommand.Type != CommandType.Text) { throw new ArgumentException("This method only supports CommandType.Text specifications.", nameof(dataCommand)); }
-            return ExecuteScalarAsInt32(new DataCommand(string.Format(CultureInfo.InvariantCulture, "{0} {1}",
-                dataCommand.Text,
-                "SELECT CONVERT(INT, SCOPE_IDENTITY())"),
-                dataCommand.Type,
-                dataCommand.Timeout), parameters);
+            return ExecuteScalarAsInt32(new DataCommand(FormattableString.Invariant($"{dataCommand.Text} SELECT CONVERT(INT, SCOPE_IDENTITY())"))
+                {
+                    Timeout = dataCommand.Timeout
+                }, parameters);
         }
 
         /// <summary>
@@ -124,11 +123,10 @@ namespace Cuemon.Extensions.Data.SqlClient
         {
             if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
             if (dataCommand.Type != CommandType.Text) { throw new ArgumentException("This method only supports CommandType.Text specifications.", nameof(dataCommand)); }
-            return ExecuteScalarAsInt64(new DataCommand(string.Format(CultureInfo.InvariantCulture, "{0} {1}",
-                dataCommand.Text,
-                "SELECT CONVERT(BIGINT, SCOPE_IDENTITY())"),
-                dataCommand.Type,
-                dataCommand.Timeout), parameters);
+            return ExecuteScalarAsInt64(new DataCommand(FormattableString.Invariant($"{dataCommand.Text} SELECT CONVERT(BIGINT, SCOPE_IDENTITY())"))
+            {
+                Timeout = dataCommand.Timeout
+            }, parameters);
         }
 
         /// <summary>
@@ -141,11 +139,10 @@ namespace Cuemon.Extensions.Data.SqlClient
         {
             if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
             if (dataCommand.Type != CommandType.Text) { throw new ArgumentException("This method only supports CommandType.Text specifications.", nameof(dataCommand)); }
-            return ExecuteScalarAsDecimal(new DataCommand(string.Format(CultureInfo.InvariantCulture, "{0} {1}",
-                dataCommand.Text,
-                "SELECT CONVERT(NUMERIC, SCOPE_IDENTITY())"),
-                dataCommand.Type,
-                dataCommand.Timeout), parameters);
+            return ExecuteScalarAsDecimal(new DataCommand(FormattableString.Invariant($"{dataCommand.Text} SELECT CONVERT(NUMERIC, SCOPE_IDENTITY())"))
+            {
+                Timeout = dataCommand.Timeout
+            }, parameters);
         }
 
         /// <summary>
@@ -179,19 +176,16 @@ namespace Cuemon.Extensions.Data.SqlClient
                     // handle dates so they are compatible with SQL 200X and forward
                     if (parameter.SqlDbType == SqlDbType.SmallDateTime || parameter.SqlDbType == SqlDbType.DateTime)
                     {
-                        if (parameter.Value != null)
+                        if (parameter.Value != null && DateTime.TryParse(parameter.Value.ToString(), out var dateTime))
                         {
-                            if (DateTime.TryParse(parameter.Value.ToString(), out var dateTime))
+                            if (dateTime == DateTime.MinValue)
                             {
-                                if (dateTime == DateTime.MinValue)
-                                {
-                                    parameter.Value = parameter.SqlDbType == SqlDbType.DateTime ? DateTime.Parse("1753-01-01", CultureInfo.InvariantCulture) : DateTime.Parse("1900-01-01", CultureInfo.InvariantCulture);
-                                }
+                                parameter.Value = parameter.SqlDbType == SqlDbType.DateTime ? DateTime.Parse("1753-01-01", CultureInfo.InvariantCulture) : DateTime.Parse("1900-01-01", CultureInfo.InvariantCulture);
+                            }
 
-                                if (dateTime == DateTime.MaxValue && parameter.SqlDbType == SqlDbType.SmallDateTime)
-                                {
-                                    parameter.Value = DateTime.Parse("2079-06-01", CultureInfo.InvariantCulture);
-                                }
+                            if (dateTime == DateTime.MaxValue && parameter.SqlDbType == SqlDbType.SmallDateTime)
+                            {
+                                parameter.Value = DateTime.Parse("2079-06-01", CultureInfo.InvariantCulture);
                             }
                         }
                     }

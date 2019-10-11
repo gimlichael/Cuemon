@@ -59,7 +59,7 @@ namespace Cuemon.Extensions.Xml.Serialization
                         hierarchy[depthIndexes.GetDepthIndex(reader, index, dimension)].Add(new DataPair(reader.Name, null, typeof(string))).Data.Add(XmlReaderKey, reader.Name);
                         index++;
 
-                        if (reader.HasAttributes) { if (reader.MoveToFirstAttribute()) { goto case XmlNodeType.Attribute; } }
+                        if (reader.HasAttributes && reader.MoveToFirstAttribute()) { goto case XmlNodeType.Attribute; }
                         break;
                     case XmlNodeType.EndElement:
                         if (reader.Depth == 1) { dimension++; }

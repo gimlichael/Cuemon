@@ -182,7 +182,7 @@ namespace Cuemon.Reflection
             {
                 foreach (var i in si)
                 {
-                    if (i.IsGenericType) { if (ti == i.GetGenericTypeDefinition()) { return true; } }
+                    if (i.IsGenericType && ti == i.GetGenericTypeDefinition()) { return true; }
                     if (ti == i) { return true; }
                 }
             }
@@ -205,7 +205,7 @@ namespace Cuemon.Reflection
                 var st = _type;
                 while (st != typeof(object) && st != null)
                 {
-                    if (st.IsGenericType) { if (tt == st.GetGenericTypeDefinition()) { return true; } }
+                    if (st.IsGenericType && tt == st.GetGenericTypeDefinition()) { return true; }
                     if (st == tt) { return true; }
                     st = st.GetTypeInfo().BaseType;
                 }
@@ -499,9 +499,9 @@ namespace Cuemon.Reflection
         /// Conduct a dynamic search for <paramref name="memberName"/> using the specified caller information on the underlying <see cref="Type"/> of this instance.
         /// </summary>
         /// <param name="types">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
-        /// <param name="memberName">The name of the member on the underlying <see cref="Type"/> of this instance.</param>
         /// <param name="flags">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="memberName">The name of the member on the underlying <see cref="Type"/> of this instance.</param>
         /// <returns>A <see cref="MethodBase"/> object representing the method that matches the specified requirements, if found on the underlying <see cref="Type"/> of this instance; otherwise, <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="memberName"/> cannot be null.
@@ -509,7 +509,7 @@ namespace Cuemon.Reflection
         /// <exception cref="ArgumentException">
         /// <paramref name="memberName"/> cannot be empty or consist only of white-space characters.
         /// </exception>
-        public MethodBase MatchMember(Type[] types = null, [CallerMemberName] string memberName = "", BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, StringComparison comparison = StringComparison.Ordinal)
+        public MethodBase MatchMember(Type[] types = null, BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, StringComparison comparison = StringComparison.Ordinal, [CallerMemberName] string memberName = "")
         {
             return MatchMember(memberName, o =>
             {

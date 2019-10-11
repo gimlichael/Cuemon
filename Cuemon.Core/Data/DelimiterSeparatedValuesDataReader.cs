@@ -80,11 +80,13 @@ namespace Cuemon.Data
         /// <remarks>This property is incremented when the invoked <see cref="Read"/> method returns <c>true</c>.</remarks>
         public override int RowCount => _rowCount;
 
-
         /// <summary>
         /// Advances this instance to the next line of the DSV data source.
         /// </summary>
         /// <returns><c>true</c> if there are more lines; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ObjectDisposedException">
+        /// This instance has been disposed.
+        /// </exception>
         public bool Read()
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }

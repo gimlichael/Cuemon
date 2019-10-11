@@ -35,6 +35,12 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
         /// <value><c>true</c> if the script is executed when the page has finished parsing; otherwise, <c>false</c>.</value>
         public bool Defer { get; set; }
 
+        /// <summary>
+        /// Asynchronously executes the <see cref="TagHelper" /> with the given <paramref name="context" /> and <paramref name="output" />.
+        /// </summary>
+        /// <param name="context">Contains information associated with the current HTML tag.</param>
+        /// <param name="output">A stateful HTML element used to generate an HTML tag.</param>
+        /// <returns>A <see cref="Task" /> that on completion updates the <paramref name="output" />.</returns>
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagMode = TagMode.StartTagAndEndTag;

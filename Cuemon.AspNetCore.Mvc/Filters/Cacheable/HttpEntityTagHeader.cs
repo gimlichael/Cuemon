@@ -40,7 +40,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                 context.HttpContext.Request.IsGetOrHeadMethod() &&
                 (context.HttpContext.Response.IsSuccessStatusCode() || context.HttpContext.Response.IsNotModifiedStatusCode()))
             {
-                if (context.Result is ObjectResult result && result.Value is ICacheableIntegrity integrity && integrity.HasChecksum)
+                if (context.Result is ObjectResult result && result.Value is ICacheableIntegrity integrity && integrity.Checksum.HasValue)
                 {
                     useFallbackToEntityTagResponseParser = false;
                     Options.EntityTagProvider.Invoke(integrity, context.HttpContext);

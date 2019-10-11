@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
-using Cuemon.ComponentModel.Codecs;
 using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Integrity;
 using Cuemon.Text;

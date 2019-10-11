@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Cuemon.ComponentModel.Codecs;
+using Cuemon.ComponentModel;
 using Cuemon.IO;
 using Cuemon.Text;
 
@@ -31,7 +31,8 @@ namespace Cuemon.Extensions.IO
         /// <returns>A <see cref="TextReader"/> initialized with <paramref name="value"/>.</returns>
         public static TextReader ToTextReader(this string value)
         {
-            return TextReaderConverter.FromString(value);
+            Validator.ThrowIfNull(value, nameof(value));
+            return new StringReader(value);
         }
     }
 }

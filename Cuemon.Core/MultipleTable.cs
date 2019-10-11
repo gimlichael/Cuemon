@@ -157,7 +157,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="other">An object to compare with this object.</param>
         /// <returns><c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>. </returns>
-        public bool Equals(IUnit other)
+        public virtual bool Equals(IUnit other)
         {
             if (other == null) { return false; }
             return Unit.UnitValue.Equals(other.UnitValue);

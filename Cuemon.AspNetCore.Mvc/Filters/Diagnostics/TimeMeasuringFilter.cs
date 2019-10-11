@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Http;
-using Cuemon.ComponentModel;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
 using Microsoft.Extensions.Hosting;
@@ -63,7 +62,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             if (Options.TimeMeasureCompletedThreshold == TimeSpan.Zero || Profiler.Elapsed > Options.TimeMeasureCompletedThreshold)
             {
                 TimeMeasure.CompletedCallback?.Invoke(Profiler);
-                if (!Options?.SuppressHeaderPredicate(Environment) ?? false)
+                if (!Options.SuppressHeaderPredicate(Environment))
                 {
                     if (Options.UseServerTimingHeader) { context.HttpContext.Response.Headers.AddOrUpdateHeader("Server-Timing", FormattableString.Invariant($"CPU;dur={Profiler.Elapsed.TotalMilliseconds.ToString("N1", CultureInfo.InvariantCulture)}")); }
                     if (Options.UseCustomHeader) { context.HttpContext.Response.Headers.AddOrUpdateHeader(Options.HeaderName, Profiler.ToString()); }
@@ -78,7 +77,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
         private static object[] ParseRuntimeParameters(FilterContext context, ControllerActionDescriptor descriptor)
         {
-            if (descriptor == null) { return null; }
+            if (descriptor == null) { return new object[0]; }
             var objects = new List<object>();
             foreach (var pi in descriptor.Parameters)
             {

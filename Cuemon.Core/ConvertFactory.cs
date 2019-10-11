@@ -54,7 +54,6 @@ namespace Cuemon
         /// <seealso cref="AsciiStringEncoder" />
         /// <seealso cref="DeflateStreamCodec"/>
         /// <seealso cref="GZipStreamCodec"/>
-        /// <seealso cref="UrlProtocolRelativeCodec"/>
         public static TCodec UseCodec<TCodec>() where TCodec : class, ICodec, new()
         {
             return Activator.CreateInstance<TCodec>();

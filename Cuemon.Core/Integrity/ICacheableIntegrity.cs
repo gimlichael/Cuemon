@@ -10,11 +10,5 @@
         /// </summary>
         /// <value>The validation strength of the integrity of this instance.</value>
         ChecksumStrength Validation { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance has a <see cref="Checksum"/> representation.
-        /// </summary>
-        /// <value><c>true</c> if this instance has a <see cref="Checksum"/> representation; otherwise, <c>false</c>.</value>
-        bool HasChecksum { get; }
     }
 }

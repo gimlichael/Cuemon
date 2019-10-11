@@ -7,46 +7,52 @@ namespace Cuemon.Integrity
     /// <summary>
     /// Represents the result of a computed checksum operation.
     /// </summary>
-    public class HashResult
+    public class HashResult : IEquatable<HashResult>
     {
         private readonly byte[] _input;
 
         /// <summary>
-        /// Converts the specified <paramref name="fileInfo"/> to an object implementing the <see cref="IIntegrity"/> interface.
+        /// Converts the specified <paramref name="file"/> to an object implementing the <see cref="IIntegrity"/> interface.
         /// </summary>
-        /// <param name="fileInfo">The <see cref="FileInfo"/> to convert.</param>
+        /// <param name="file">The <see cref="FileInfo"/> to convert.</param>
         /// <param name="setup">The <see cref="FileIntegrityOptions"/> which need to be configured.</param>
-        /// <returns>An object implementing the <see cref="IIntegrity"/> interface that represents the integrity of <paramref name="fileInfo"/>.</returns>
+        /// <returns>An object implementing the <see cref="IIntegrity"/> interface that represents the integrity of <paramref name="file"/>.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="fileInfo"/> cannot be null.
+        /// <paramref name="file"/> cannot be null.
         /// </exception>
-        public static IIntegrity FromFileInfo(FileInfo fileInfo, Action<FileIntegrityOptions> setup)
+        public static IIntegrity FromFileInfo(FileInfo file, Action<FileIntegrityOptions> setup)
         {
-            Validator.ThrowIfNull(fileInfo, nameof(fileInfo));
+            Validator.ThrowIfNull(file, nameof(file));
             var options = Patterns.Configure(setup);
             if (options.BytesToRead > 0)
             {
                 long buffer = options.BytesToRead;
-                if (fileInfo.Length < buffer) { buffer = fileInfo.Length; }
+                if (file.Length < buffer) { buffer = file.Length; }
 
                 var checksumBytes = new byte[buffer];
-                using (var openFile = fileInfo.OpenRead())
+                using (var openFile = file.OpenRead())
                 {
                     openFile.Read(checksumBytes, 0, (int)buffer);
                 }
-                return options.IntegrityConverter(fileInfo, checksumBytes);
+                return options.IntegrityConverter(file, checksumBytes);
             }
-            return options.IntegrityConverter(fileInfo, new byte[0]);
+            return options.IntegrityConverter(file, new byte[0]);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HashResult"/> class.
         /// </summary>
-        /// <param name="input">The computed checksum represented as a byte-array.</param>
+        /// <param name="input">The computed checksum represented as a <see cref="T:byte[]"/>.</param>
         public HashResult(byte[] input)
         {
             _input = input ?? new byte[0];
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance has a checksum representation that consist of at least one byte.
+        /// </summary>
+        /// <value><c>true</c> if this instance has a checksum representation that consist of at least one byte; otherwise, <c>false</c>.</value>
+        public bool HasValue => _input.Length > 0;
 
         /// <summary>
         /// Creates a copy of the original value that reflects a computed operation.
@@ -102,6 +108,28 @@ namespace Cuemon.Integrity
         public override int GetHashCode()
         {
             return _input.GetHashCode();
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="object" /> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />.</param>
+        /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is HashResult hr)) { return false; }
+            return Equals(hr);
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns><c>true</c> if the current object is equal to the other parameter; otherwise, <c>false</c>. </returns>
+        public virtual bool Equals(HashResult other)
+        {
+            if (other == null) { return false; }
+            return GetHashCode() == other.GetHashCode();
         }
 
         /// <summary>

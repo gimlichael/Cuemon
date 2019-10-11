@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using Cuemon.Reflection;
 
 namespace Cuemon.Extensions.Reflection
 {
+    /// <summary>
+    /// Extension methods for the <see cref="PropertyInfo"/> class.
+    /// </summary>
     public static class PropertyInfoExtensions
     {
         /// <summary>
@@ -19,7 +20,7 @@ namespace Cuemon.Extensions.Reflection
         public static bool IsAutoProperty(this PropertyInfo property)
         {
             Validator.ThrowIfNull(property, nameof(property));
-            return ((PropertyInsight)property).IsAutoProperty();
+            return PropertyInsight.FromProperty(property).IsAutoProperty();
         }
     }
 }

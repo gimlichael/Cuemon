@@ -182,10 +182,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                     case XmlNodeType.Element:
                         if (reader.Depth == 0) { continue; }
                         key = reader.Name;
-                        if (reader.HasAttributes)
-                        {
-                            if (reader.MoveToFirstAttribute()) { goto case XmlNodeType.Attribute; }
-                        }
+                        if (reader.HasAttributes && reader.MoveToFirstAttribute()) { goto case XmlNodeType.Attribute; }
                         break;
                     case XmlNodeType.CDATA:
                     case XmlNodeType.Text:

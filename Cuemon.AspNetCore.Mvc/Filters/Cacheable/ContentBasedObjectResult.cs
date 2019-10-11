@@ -30,11 +30,5 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// </summary>
         /// <value>The checksum that represents the integrity of this instance.</value>
         public HashResult Checksum { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance has a <see cref="Checksum" /> representation.
-        /// </summary>
-        /// <value><c>true</c> if this instance has a <see cref="Checksum" /> representation; otherwise, <c>false</c>.</value>
-        public bool HasChecksum => Validation != ChecksumStrength.None;
     }
 }

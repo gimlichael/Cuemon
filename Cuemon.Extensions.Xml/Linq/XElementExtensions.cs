@@ -40,6 +40,7 @@ namespace Cuemon.Extensions.Xml.Linq
                 }
                 catch (XmlException)
                 {
+                    // ignored as we are in a TryParse method
                 }
             }
             return false;

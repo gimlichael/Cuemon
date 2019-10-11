@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using Cuemon.Integrity;
-using Cuemon.Security.Cryptography;
-
-namespace Cuemon.Extensions.Security.Cryptography
+﻿namespace Cuemon.Extensions.Security.Cryptography
 {
     /// <summary>
     /// This is an extension implementation of the most common methods on the <see cref="HmacUtility"/> class.

@@ -6,7 +6,7 @@ namespace Cuemon.Integrity
     /// <summary>
     /// Provides a way to fluently represent checksum values of arbitrary data.
     /// </summary>
-    public class ChecksumBuilder : IIntegrity
+    public class ChecksumBuilder : IIntegrity, IEquatable<ChecksumBuilder>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChecksumBuilder"/> class.
@@ -149,7 +149,7 @@ namespace Cuemon.Integrity
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return Checksum.ToHexadecimalString().GetHashCode();
+            return Generate.HashCode32(Checksum.ToHexadecimalString());
         }
 
         /// <summary>
@@ -159,8 +159,7 @@ namespace Cuemon.Integrity
         /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            var builder = obj as ChecksumBuilder;
-            if (builder == null) { return false; }
+            if (!(obj is ChecksumBuilder builder)) { return false; }
             return Equals(builder);
         }
 
@@ -169,10 +168,10 @@ namespace Cuemon.Integrity
         /// </summary>
         /// <param name="other">An object to compare with this object.</param>
         /// <returns><c>true</c> if the current object is equal to the other parameter; otherwise, <c>false</c>. </returns>
-        public bool Equals(ChecksumBuilder other)
+        public virtual bool Equals(ChecksumBuilder other)
         {
             if (other == null) { return false; }
-            return (Checksum.ToHexadecimalString() == other.Checksum.ToHexadecimalString());
+            return Checksum.GetHashCode() == other.Checksum.GetHashCode();
         }
 
         /// <summary>

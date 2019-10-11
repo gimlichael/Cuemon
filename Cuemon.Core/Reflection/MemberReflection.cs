@@ -26,13 +26,6 @@ namespace Cuemon.Reflection
         /// <summary>
         /// Initializes a new instance of the <see cref="MemberReflection"/> class.
         /// </summary>
-        public MemberReflection() : this(null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MemberReflection"/> class.
-        /// </summary>
         /// <param name="excludePrivate">if set to <c>true</c> non-public members are excluded from the binding constraint.</param>
         /// <param name="excludeStatic">if set to <c>true</c> static members are excluded from the binding constraint.</param>
         /// <param name="excludeInheritancePath">if set to <c>true</c> derived members of a type's inheritance path are excluded from the binding constraint.</param>

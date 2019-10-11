@@ -190,14 +190,11 @@ namespace Cuemon
 			{
 				years--;
 			}
-			else if (start.DayOfYear == end.DayOfYear)
-			{
-				if (start.TimeOfDay < end.TimeOfDay)
-				{
-					years--;
-				}
-			}
-			return years;
+			else if (start.DayOfYear == end.DayOfYear && start.TimeOfDay < end.TimeOfDay)
+            {
+                years--;
+            }
+            return years;
 		}
 
         /// <summary>

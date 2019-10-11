@@ -10,7 +10,6 @@ using Cuemon.Extensions.Runtime.Serialization;
 using Cuemon.Extensions.Xml.Linq;
 using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization;
-using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Converters;
 

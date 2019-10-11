@@ -12,32 +12,19 @@ namespace Cuemon.Xml
     /// </summary>
     public sealed class XmlDataReader : DataReader<bool>
     {
-        private int _rowCount = 0;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="XmlDataReader" /> class.
-        /// </summary>
-        /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="reader"/> is null.
-        /// </exception>
-        public XmlDataReader(XmlReader reader) : this(reader, ParseFactory.FromSimpleValue().Parse)
-        {
-        }
+        private int _rowCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlDataReader"/> class.
         /// </summary>
         /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data.</param>
-        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value.</param>
+        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="SimpleValueParser.Parse"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="reader"/> is null -or- <paramref name="parser"/> is null.
+        /// <paramref name="reader"/> is null.
         /// </exception>
-        /// <remarks>The default implementation uses <see cref="SimpleValueParser.Parse"/> as <paramref name="parser"/>.</remarks>
-        public XmlDataReader(XmlReader reader, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser) : base(parser)
+        public XmlDataReader(XmlReader reader, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParseFactory.FromSimpleValue().Parse)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
-            Validator.ThrowIfNull(parser, nameof(parser));
             Reader = reader;
         }
 
@@ -51,10 +38,26 @@ namespace Cuemon.Xml
 
         private int CurrentDepth { get; set; }
 
+        /// <summary>
+        /// Gets the currently processed row count of this instance.
+        /// </summary>
+        /// <value>The currently processed row count of this instance.</value>
+        /// <remarks>This property is incremented when the invoked <see cref="Read"/> method returns <c>true</c>.</remarks>
         public override int RowCount => _rowCount;
 
+        /// <summary>
+        /// Gets the value that indicates that no more rows exists.
+        /// </summary>
+        /// <value>The value that indicates that no more rows exists.</value>
         protected override bool NullRead => false;
-        
+
+        /// <summary>
+        /// Advances this instance to the next element of the XML data source.
+        /// </summary>
+        /// <returns><c>true</c> if there are more elements; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ObjectDisposedException">
+        /// This instance has been disposed.
+        /// </exception>
         public bool Read()
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
@@ -65,7 +68,10 @@ namespace Cuemon.Xml
         /// Advances this instance to the next element of the XML data source.
         /// </summary>
         /// <returns><c>true</c> if there are more elements; otherwise, <c>false</c>.</returns>
-        protected override bool ReadNext(bool option = false)
+        /// <exception cref="ObjectDisposedException">
+        /// This instance has been disposed.
+        /// </exception>
+        protected override bool ReadNext(bool optional = default)
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
             var reader = Reader;
@@ -86,12 +92,9 @@ namespace Cuemon.Xml
                         break;
                     case XmlNodeType.Element:
                         elementName = reader.LocalName;
-                        if (reader.HasAttributes)
+                        if (reader.HasAttributes && reader.MoveToFirstAttribute())
                         {
-                            if (reader.MoveToFirstAttribute())
-                            {
-                                goto case XmlNodeType.Attribute;
-                            }
+                            goto case XmlNodeType.Attribute;
                         }
                         break;
                     case XmlNodeType.CDATA:
@@ -106,11 +109,11 @@ namespace Cuemon.Xml
                         break;
                 }
             }
-        addFields:
             
+            addFields:
             SetFields(fields);
             var hasRows = fields.Count > 0;
-            if (hasRows) {_rowCount++; }
+            if (hasRows) { _rowCount++; }
             return hasRows;
         }
 

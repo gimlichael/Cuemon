@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.ComponentModel.Codecs;
+using Cuemon.ComponentModel;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Runtime.Serialization;

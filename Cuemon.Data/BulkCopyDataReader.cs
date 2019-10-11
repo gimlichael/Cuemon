@@ -187,12 +187,9 @@ namespace Cuemon.Data
                     }
                     else
                     {
-                        if (IsMatch(Reader.GetName(i)))
+                        if (IsMatch(Reader.GetName(i)) && fields.Contains(Reader.GetName(i)))
                         {
-                            if (fields.Contains(Reader.GetName(i)))
-                            {
-                                fields[Reader.GetName(i)] = Reader[Reader.GetName(i)];
-                            }
+                            fields[Reader.GetName(i)] = Reader[Reader.GetName(i)];
                         }
                     }
                 }

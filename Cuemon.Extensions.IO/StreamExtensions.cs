@@ -1,12 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.Codecs;
 using Cuemon.IO;
 using Cuemon.Text;
 
@@ -20,9 +17,10 @@ namespace Cuemon.Extensions.IO
         /// <summary>
         /// Combines a variable number of streams into one stream.
         /// </summary>
-        /// <param name="streams">The streams to combine.</param>
-        /// <param name="leaveOpen">if <c>true</c>, each of the <see cref="Stream"/> in the <paramref name="streams"/> sequence is being left open; otherwise it is being closed and disposed.</param>
-        /// <returns>A variable number of <b>streams</b> combined into one <b>stream</b>.</returns>
+        /// <param name="first">The <see cref="Stream"/> to extend.</param>
+        /// <param name="second">The <see cref="Stream"/> to concat with <paramref name="first"/>.</param>
+        /// <param name="setup">The <see cref="DisposableOptions"/> which may be configured.</param>
+        /// <returns>The concatenated <see cref="Stream"/> representations of values <paramref name="first"/> and <paramref name="second"/>.</returns>
         public static Stream Concat(this Stream first, Stream second, Action<DisposableOptions> setup = null)
         {
             Validator.ThrowIfNull(first, nameof(first));

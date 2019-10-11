@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Extensions.Security.Cryptography;
 using Cuemon.Integrity;
-using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

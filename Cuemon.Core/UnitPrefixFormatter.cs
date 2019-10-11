@@ -43,14 +43,8 @@ namespace Cuemon
         public string Format(string format, object arg, IFormatProvider provider)
         {
             var formats = format.Split(' ');
-            if (arg is IPrefixUnit unit)
-            {
-                if (formats.Intersect(MultipleFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-            }
-            if (arg is IUnit baseUnit)
-            {
-                if (formats.Intersect(BaseFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, baseUnit, provider); }
-            }
+            if (arg is IPrefixUnit unit && formats.Intersect(MultipleFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
+            if (arg is IUnit baseUnit && formats.Intersect(BaseFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, baseUnit, provider); }
             return null;
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Cuemon.Collections.Generic;
 using Cuemon.Extensions.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -41,7 +40,7 @@ namespace Cuemon.AspNetCore.Hosting
         {
             context.Response.OnStarting(() =>
             {
-                if (!Options?.SuppressHeaderPredicate(he) ?? false)
+                if (!Options.SuppressHeaderPredicate(he))
                 {
                     context.Response.Headers.AddIfNotContainsKey(Options.HeaderName, he.EnvironmentName);
                 }

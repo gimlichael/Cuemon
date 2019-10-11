@@ -10,7 +10,7 @@ namespace Cuemon.Text
     public sealed class AsciiStringEncoder : IEncoder<string, string, EncodingOptions>
     {
         /// <summary>
-        /// Encodes all the characters in the specified <paramref name="input"/> to its ASCII encoded <see cref="string"/> variant.
+        /// Encodes all the characters in the specified <paramref name="input"/> to its ASCII encoded variant.
         /// </summary>
         /// <param name="input">The <see cref="string"/> to apply with an ASCII encoding conversion.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.Codecs;
 using Cuemon.Integrity;
 using Cuemon.Text;
 

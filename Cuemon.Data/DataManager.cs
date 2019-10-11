@@ -5,8 +5,6 @@ using System.Data.Common;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using Cuemon.ComponentModel;
-using Cuemon.ComponentModel.Codecs;
 using Cuemon.Integrity;
 
 namespace Cuemon.Data

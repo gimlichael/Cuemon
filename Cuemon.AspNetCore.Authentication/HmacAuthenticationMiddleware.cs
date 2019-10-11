@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
 using Cuemon.Extensions;
-using Cuemon.Extensions.Security.Cryptography;
 using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Integrity;
-using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -59,10 +57,7 @@ namespace Cuemon.AspNetCore.Authentication
         private bool TryAuthenticate(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
         {
             if (Options.Authenticator == null) { throw new InvalidOperationException(FormattableString.Invariant($"The {nameof(Options.Authenticator)} cannot be null.")); }
-            var requestBodyMd5 = context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()?.ComputeHash(CryptoAlgorithm.Md5, o =>
-            {
-                o.Encoding = Encoding.UTF8;
-            }).ToHexadecimalString();
+            var requestBodyMd5 = context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()?.ToLowerInvariant();
             if (!requestBodyMd5.IsNullOrWhiteSpace() && !HashFactory.CreateCrypto(CryptoAlgorithm.Md5).ComputeHash(context.Request.Body).ToHexadecimalString().Equals(requestBodyMd5, StringComparison.Ordinal))
             {
                 result = null;

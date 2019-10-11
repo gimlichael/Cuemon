@@ -44,7 +44,7 @@ namespace Cuemon.AspNetCore.Authentication
             InitializeNonceCounterSweeper();
         }
 
-        private void InitializeNonceCounterSweeper()
+        private static void InitializeNonceCounterSweeper()
         {
             _nonceCounterSweeper = new Timer(s =>
             {
@@ -132,7 +132,7 @@ namespace Cuemon.AspNetCore.Authentication
                     return IsDigestCredentialsValid(result) ? result : null;
                 }
             }
-            return null;
+            return new Dictionary<string, string>();
         }
 
         private static bool IsDigestCredentialsValid(Dictionary<string, string> credentials)

@@ -1,6 +1,5 @@
 ﻿using System;
 using Cuemon.AspNetCore.Mvc.Formatters.Xml.Converters;
-using Cuemon.Collections.Generic;
 using Cuemon.Extensions;
 using Cuemon.Extensions.Collections.Generic;
 using Cuemon.Extensions.Xml.Serialization.Formatters;
