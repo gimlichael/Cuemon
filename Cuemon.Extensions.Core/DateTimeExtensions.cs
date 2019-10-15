@@ -1,5 +1,6 @@
 ﻿using System;
 using Cuemon.ComponentModel;
+using Cuemon.Diagnostics;
 
 namespace Cuemon.Extensions
 {
@@ -9,9 +10,26 @@ namespace Cuemon.Extensions
     public static class DateTimeExtensions
     {
         /// <summary>
+        /// A <see cref="DateTime"/> initialized to midnight, January 1st, 1970 in Coordinated Universal Time (UTC).
+        /// </summary>
+        public static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to an equivalent UNIX Epoch time representation.
+        /// </summary>
+        /// <param name="value">The <see cref="DateTime"/> value to extend.</param>
+        /// <returns>A <see cref="double"/> value that is equivalent to <paramref name="value"/>.</returns>
+        /// <remarks>This implementation converts the <paramref name="value"/> to an UTC representation ONLY if the <see cref="DateTime.Kind"/> equals <see cref="DateTimeKind.Local"/>.</remarks>
+        public static double ToUnixEpochTime(this DateTime value)
+        {
+            if (value.Kind == DateTimeKind.Local) { value = value.ToUniversalTime(); }
+            return Math.Floor((value - UnixEpoch).TotalSeconds);
+        }
+
+        /// <summary>
         /// Converts the specified <paramref name="value"/> to a Coordinated Universal Time (UTC) representation.
         /// </summary>
-        /// <param name="value">The value to convert.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <returns>A new <see cref="DateTime"/> value initialized to <see cref="DateTimeKind.Utc"/> that has the same number of ticks as the object represented by the <paramref name="value"/> parameter.</returns>
         public static DateTime ToUtcKind(this DateTime value)
         {
@@ -21,7 +39,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a local time representation.
         /// </summary>
-        /// <param name="value">The value to convert.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <returns>A new <see cref="DateTime"/> value initialized to <see cref="DateTimeKind.Local"/> that has the same number of ticks as the object represented by the <paramref name="value"/> parameter.</returns>
         public static DateTime ToLocalKind(this DateTime value)
         {
@@ -31,7 +49,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a representation that is not specified as either local time or UTC.
         /// </summary>
-        /// <param name="value">The value to convert.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <returns>A new <see cref="DateTime"/> value initialized to <see cref="DateTimeKind.Unspecified"/> that has the same number of ticks as the object represented by the <paramref name="value"/> parameter.</returns>
         public static DateTime ToDefaultKind(this DateTime value)
         {
@@ -47,7 +65,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is within range of <paramref name="min"/> and <paramref name="max"/>.
         /// </summary>
-        /// <param name="value">The <see cref="DateTime"/> to compare.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <param name="min">The minimum value of <paramref name="value"/>.</param>
         /// <param name="max">The maximum value of <paramref name="value"/>.</param>
         /// <returns><c>true</c> if <paramref name="value"/> is within the specified range of <paramref name="min"/> and <paramref name="max"/>; otherwise <c>false</c>.</returns>
@@ -59,7 +77,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is within <paramref name="range"/>.
         /// </summary>
-        /// <param name="value">The <see cref="DateTime"/> to compare.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <param name="range">The <see cref="TimeRange"/> of <paramref name="value"/>.</param>
         /// <returns><c>true</c> if <paramref name="value"/> is within the specified <paramref name="range"/>; otherwise <c>false</c>.</returns>
         public static bool IsWithinRange(this DateTime value, TimeRange range)
@@ -70,7 +88,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Night"/>.
         /// </summary>
-        /// <param name="value">The <see cref="DateTime"/> to compare.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Night"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayNight(this DateTime value)
         {
@@ -80,7 +98,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Morning"/>.
         /// </summary>
-        /// <param name="value">The <see cref="DateTime"/> to compare.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Morning"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayMorning(this DateTime value)
         {
@@ -90,7 +108,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Forenoon"/>.
         /// </summary>
-        /// <param name="value">The <see cref="DateTime"/> to compare.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Forenoon"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayForenoon(this DateTime value)
         {
@@ -100,7 +118,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Afternoon"/>.
         /// </summary>
-        /// <param name="value">The <see cref="DateTime"/> to compare.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Afternoon"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayAfternoon(this DateTime value)
         {
@@ -110,7 +128,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Evening"/>.
         /// </summary>
-        /// <param name="value">The <see cref="DateTime"/> to compare.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Evening"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayEvening(this DateTime value)
         {
@@ -120,7 +138,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Returns a <see cref="DateTime"/> value that is rounded towards negative infinity.
         /// </summary>
-        /// <param name="value">A <see cref="DateTime"/> value to be rounded.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <param name="interval">The <see cref="TimeSpan"/> value that specifies the rounding of <paramref name="value"/>.</param>
         /// <returns>A <see cref="DateTime"/> value that is rounded towards negative infinity.</returns>
         public static DateTime Floor(this DateTime value, TimeSpan interval)
@@ -131,7 +149,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Returns a <see cref="DateTime"/> value that is rounded towards positive infinity.
         /// </summary>
-        /// <param name="value">A <see cref="DateTime"/> value to be rounded.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <param name="interval">The <see cref="TimeSpan"/> value that specifies the rounding of <paramref name="value"/>.</param>
         /// <returns>A <see cref="DateTime"/> value that is rounded towards positive infinity.</returns>
         public static DateTime Ceiling(this DateTime value, TimeSpan interval)
@@ -142,7 +160,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Returns a <see cref="DateTime"/> value that is rounded towards negative infinity.
         /// </summary>
-        /// <param name="value">A <see cref="DateTime"/> value to be rounded.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <param name="interval">The <see cref="double"/> value that in combination with <paramref name="timeUnit"/> specifies the rounding of <paramref name="value"/>.</param>
         /// <param name="timeUnit">One of the enumeration values that specifies the time unit of <paramref name="interval"/>.</param>
         /// <returns>A <see cref="DateTime"/> value that is rounded towards negative infinity.</returns>
@@ -157,7 +175,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Returns a <see cref="DateTime"/> value that is rounded towards positive infinity.
         /// </summary>
-        /// <param name="value">A <see cref="DateTime"/> value to be rounded.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <param name="interval">The <see cref="double"/> value that in combination with <paramref name="timeUnit"/> specifies the rounding of <paramref name="value"/>.</param>
         /// <param name="timeUnit">One of the enumeration values that specifies the time unit of <paramref name="interval"/>.</param>
         /// <returns>A <see cref="DateTime"/> value that is rounded towards positive infinity.</returns>
@@ -172,7 +190,7 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Returns a <see cref="DateTime"/> value that is rounded either towards negative infinity or positive infinity.
         /// </summary>
-        /// <param name="value">A <see cref="DateTime"/> value to be rounded.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <param name="interval">The <see cref="double"/> value that in combination with <paramref name="timeUnit"/> specifies the rounding of <paramref name="value"/>.</param>
         /// <param name="timeUnit">One of the enumeration values that specifies the time unit of <paramref name="interval"/>.</param>
         /// <param name="direction">One of the enumeration values that specifies the direction of the rounding.</param>
@@ -183,16 +201,15 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="interval"/> is <see cref="TimeSpan.Zero"/>.
         /// </exception>
-        /// <seealso cref="TimeConverter"/>
         public static DateTime Round(this DateTime value, double interval, TimeUnit timeUnit, VerticalDirection direction)
         {
-            return Round(value, ConvertFactory.FromTime().ChangeType(interval, o => o.TimeUnit = timeUnit), direction);
+            return Round(value, TimeMeasure.CreateTimeSpan(interval, timeUnit), direction);
         }
 
         /// <summary>
         /// Returns a <see cref="DateTime"/> value that is rounded either towards negative infinity or positive infinity.
         /// </summary>
-        /// <param name="value">A <see cref="DateTime"/> value to be rounded.</param>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
         /// <param name="interval">The <see cref="TimeSpan"/> value that specifies the rounding of <paramref name="value"/>.</param>
         /// <param name="direction">One of the enumeration values that specifies the direction of the rounding.</param>
         /// <returns>A <see cref="DateTime"/> value that is rounded either towards negative infinity or positive infinity.</returns>
@@ -218,17 +235,6 @@ namespace Cuemon.Extensions
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction));
             }
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="value"/> to an equivalent UNIX Epoc time representation.
-        /// </summary>
-        /// <param name="value">The <see cref="DateTime"/> value to be converted.</param>
-        /// <returns>A <see cref="double"/> value that is equivalent to <paramref name="value"/>.</returns>
-        /// <remarks>This implementation converts the <paramref name="value"/> to an UTC representation ONLY if the <see cref="DateTime.Kind"/> equals <see cref="DateTimeKind.Local"/>.</remarks>
-        public static double ToEpochTime(this DateTime value)
-        {
-            return ConvertFactory.FromUnixEpochTime().ChangeType(value);
         }
     }
 }

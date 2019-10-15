@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         internal HttpRequestEvidence(HttpRequest request, Func<Stream, string> bodyParser = null)
         {
             var hasMultipartContentType = request.GetMultipartBoundary().Length > 0;
-            if (bodyParser == null) { bodyParser = body => hasMultipartContentType ? null : ConvertFactory.UseCodec<StreamToStringCodec>().Encode(body); }
+            if (bodyParser == null) { bodyParser = body => hasMultipartContentType ? null : ConvertFactory.UseCodec<StreamStringCodec>().Encode(body); }
             Location = request.GetDisplayUrl();
             Method = request.Method;
             Headers = request.Headers;

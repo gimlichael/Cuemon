@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.Web
                 o.Preamble = options.Preamble;
             }))
             {
-                return ConvertFactory.UseCodec<StreamToByteArrayCodec>().Encode(result);
+                return ConvertFactory.UseCodec<StreamByteArrayCodec>().Encode(result);
             }
         }
 

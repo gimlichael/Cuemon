@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.ComponentModel;
+using Cuemon.Diagnostics;
 
 namespace Cuemon.Extensions
 {
@@ -13,13 +13,9 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="input">The <see cref="double"/> to extend.</param>
         /// <returns>A <see cref="DateTime"/> that is equivalent to <paramref name="input"/>.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="input" /> is lower than 0.
-        /// </exception>
-        /// <seealso cref="UnixEpochTimeConverter"/>
         public static DateTime FromUnixEpochTime(this double input)
         {
-            return ConvertFactory.FromUnixEpochTime().ChangeType(input);
+            return DateTimeExtensions.UnixEpoch.AddSeconds(input);
         }
 
         /// <summary>
@@ -34,10 +30,9 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="timeUnit"/> was outside its valid range.
         /// </exception>
-        /// <seealso cref="TimeConverter"/>
         public static TimeSpan ToTimeSpan(this double value, TimeUnit timeUnit)
         {
-            return ConvertFactory.FromTime().ChangeType(value, o => o.TimeUnit = timeUnit);
+            return TimeMeasure.CreateTimeSpan(value, timeUnit);
         }
 
         /// <summary>

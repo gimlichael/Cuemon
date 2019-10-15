@@ -354,7 +354,7 @@ namespace Cuemon
             var totalWaitTime = TimeSpan.Zero;
             var lastWaitTime = TimeSpan.Zero;
             var isTransientFault = false;
-            bool throwExceptions;
+            var throwExceptions = false;
             var aggregatedExceptions = new List<Exception>();
             for (var attempts = 0; ;)
             {
@@ -363,7 +363,7 @@ namespace Cuemon
                 {
                     if (latency > options.MaximumAllowedLatency) { throw new LatencyException(string.Format(CultureInfo.InvariantCulture, "The latency of the operation exceeded the allowed maximum value of {0} seconds. Actual latency was: {1} seconds.", options.MaximumAllowedLatency.TotalSeconds, latency.TotalSeconds)); }
                     factory.ExecuteMethod();
-                    return;
+                    break;
                 }
                 catch (Exception ex)
                 {
@@ -414,6 +414,7 @@ namespace Cuemon
                 {
                     if (latency > options.MaximumAllowedLatency) { throw new LatencyException(string.Format(CultureInfo.InvariantCulture, "The latency of the operation exceeded the allowed maximum value of {0} seconds. Actual latency was: {1} seconds.", options.MaximumAllowedLatency.TotalSeconds, latency.TotalSeconds)); }
                     result = factory.ExecuteMethod();
+                    break;
                 }
                 catch (Exception ex)
                 {

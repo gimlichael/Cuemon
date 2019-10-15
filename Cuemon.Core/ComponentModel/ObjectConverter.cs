@@ -9,14 +9,14 @@ namespace Cuemon.ComponentModel
     /// <summary>
     /// Provides a converter that converts an <see cref="object"/> to an arbitrary <see cref="object"/> of a particular type.
     /// </summary>
-    public class ObjectTypeConverter : ITypeConverter<object, TypeConverterOptions>
+    public class ObjectConverter : ITypeConverter<object, ObjectConverterOptions>
     {
         /// <summary>
         /// Converts the specified <paramref name="input"/> to an arbitrary <see cref="object"/> of <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="input">The object to convert.</param>
-        /// <param name="setup">The <see cref="TypeConverterOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ObjectConverterOptions"/> which may be configured.</param>
         /// <returns>An <see cref="object"/> of <typeparamref name="T"/> equivalent to <paramref name="input"/>.</returns>
         /// <exception cref="AggregateException">
         /// <paramref name="input"/> could not be converted.
@@ -24,7 +24,7 @@ namespace Cuemon.ComponentModel
         /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/>.</remarks>
         /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
-        public T ChangeType<T>(object input, Action<TypeConverterOptions> setup = null)
+        public T ChangeType<T>(object input, Action<ObjectConverterOptions> setup = null)
         {
             return (T)ChangeType(input, typeof(T), setup);
         }
@@ -34,19 +34,18 @@ namespace Cuemon.ComponentModel
         /// </summary>
         /// <param name="input">The object to convert.</param>
         /// <param name="targetType">The type of the object to return.</param>
-        /// <param name="setup">The <see cref="TypeConverterOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ObjectConverterOptions"/> which may be configured.</param>
         /// <returns>An <see cref="object"/> of <paramref name="targetType"/> equivalent to <paramref name="input"/>.</returns>
         /// <exception cref="AggregateException">
         /// <paramref name="input"/> could not be converted.
         /// </exception>
-        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="TypeConverterOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="TypeConverterOptions.DescriptorContext"/>.</remarks>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Failover uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectConverterOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectConverterOptions.DescriptorContext"/>.</remarks>
         /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
-        public object ChangeType(object input, Type targetType, Action<TypeConverterOptions> setup = null)
+        public object ChangeType(object input, Type targetType, Action<ObjectConverterOptions> setup = null)
         {
             Validator.ThrowIfNull(targetType, nameof(targetType));
             if (input == null) { return null; }
-
             var options = Patterns.Configure(setup);
             try
             {
@@ -77,12 +76,12 @@ namespace Cuemon.ComponentModel
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="input">The <see cref="object"/> to be converted into <typeparamref name="T"/>.</param>
         /// <param name="fallbackResult">The value to return when a conversion is not possible. Default is <c>default</c> of <typeparamref name="T"/>.</param>
-        /// <param name="setup">The <see cref="TypeConverterOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ObjectConverterOptions"/> which may be configured.</param>
         /// <returns>An <see cref="object"/> of <typeparamref name="T"/> that is equivalent to <paramref name="input"/> when a conversion is possible; otherwise <paramref name="fallbackResult"/> is returned.</returns>
         /// <remarks>This method first checks if <paramref name="input"/> is compatible with <typeparamref name="T"/>; if incompatible the method continues with <see cref="Convert"/> for the operation.</remarks>
         /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
-        public T ChangeTypeOrDefault<T>(object input, T fallbackResult = default, Action<TypeConverterOptions> setup = null)
+        public T ChangeTypeOrDefault<T>(object input, T fallbackResult = default, Action<ObjectConverterOptions> setup = null)
         {
             if (input is T result) { return result; }
             return Patterns.InvokeOrDefault(() => ChangeType<T>(input, setup), fallbackResult);

@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.IO
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static Stream ToStream(this string value, Action<EncodingOptions> setup = null)
         {
-            return ConvertFactory.UseCodec<StreamToStringCodec>().Decode(value, setup);
+            return ConvertFactory.UseCodec<StreamStringCodec>().Decode(value, setup);
         }
 
         /// <summary>

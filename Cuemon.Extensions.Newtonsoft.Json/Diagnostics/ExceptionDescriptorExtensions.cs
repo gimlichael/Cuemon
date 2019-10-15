@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Diagnostics
             });
             using (var json = formatter.Serialize(descriptor))
             {
-                return ConvertFactory.UseCodec<StreamToStringCodec>().Encode(json);
+                return ConvertFactory.UseCodec<StreamStringCodec>().Encode(json);
             }
         }
     }

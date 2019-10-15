@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.ComponentModel;
+using Cuemon.Diagnostics;
 
 namespace Cuemon.Extensions
 {
@@ -95,10 +95,9 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="direction"/> is an invalid enumeration value.
         /// </exception>
-        /// <seealso cref="TimeConverter"/>
         public static TimeSpan Round(this TimeSpan value, double interval, TimeUnit timeUnit, VerticalDirection direction)
         {
-            return Round(value, ConvertFactory.FromTime().ChangeType(interval, o => o.TimeUnit = timeUnit), direction);
+            return Round(value, TimeMeasure.CreateTimeSpan(interval, timeUnit), direction);
         }
 
         /// <summary>

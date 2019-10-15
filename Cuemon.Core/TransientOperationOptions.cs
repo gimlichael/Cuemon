@@ -45,9 +45,9 @@ namespace Cuemon
         {
             RetryAttempts = DefaultRetryAttempts;
             EnableRecovery = RetryAttempts > 0;
-            RetryStrategy = currentAttempt => TimeSpan.FromSeconds(Math.Pow(2, currentAttempt > 5 ? 5 : currentAttempt));
+            RetryStrategy = currentAttempt => TimeSpan.FromSeconds(Math.Pow(2, currentAttempt > RetryAttempts ? RetryAttempts : currentAttempt));
             DetectionStrategy = exception => false;
-            MaximumAllowedLatency = TimeSpan.FromMinutes(5);
+            MaximumAllowedLatency = TimeSpan.FromMinutes(2);
         }
 
         /// <summary>

@@ -45,7 +45,7 @@ namespace Cuemon.Text
                         isValid = value.StartsWith(validUriScheme, StringComparison.OrdinalIgnoreCase);
                         break;
                     default:
-                        throw new InvalidEnumArgumentException(nameof(options.Schemes), (int)scheme, typeof(UriScheme));
+                        throw new InvalidEnumArgumentException(nameof(setup), (int)scheme, typeof(UriScheme));
                 }
                 if (isValid) { break; }
             }

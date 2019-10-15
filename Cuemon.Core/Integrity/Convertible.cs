@@ -352,7 +352,7 @@ namespace Cuemon.Integrity
                     valueInBytes = options.Encoding.GetBytes(input);
                     break;
                 default:
-                    throw new InvalidEnumArgumentException(nameof(options.Preamble), (int)options.Preamble, typeof(PreambleSequence));
+                    throw new InvalidEnumArgumentException(nameof(setup), (int)options.Preamble, typeof(PreambleSequence));
             }
             return valueInBytes;
         }
@@ -383,7 +383,7 @@ namespace Cuemon.Integrity
                     input = ByteOrderMark.Remove(input, options.Encoding);
                     break;
                 default:
-                    throw new InvalidEnumArgumentException(nameof(options.Preamble), (int)options.Preamble, typeof(PreambleSequence));
+                    throw new InvalidEnumArgumentException(nameof(setup), (int)options.Preamble, typeof(PreambleSequence));
             }
             return options.Encoding.GetString(input, 0, input.Length);
         }

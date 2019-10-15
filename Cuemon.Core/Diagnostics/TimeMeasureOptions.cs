@@ -36,7 +36,7 @@ namespace Cuemon.Diagnostics
         public TimeSpan TimeMeasureCompletedThreshold { get; set; }
 
         /// <summary>
-        /// Gets or sets the time measuring threshold before the <see cref="TimeMeasure.CompletedCallback"/> is invoked,
+        /// Gets or sets the default time measuring threshold before the <see cref="TimeMeasure.CompletedCallback"/> is invoked,
         /// </summary>
         /// <value>The default time measuring threshold before the <see cref="TimeMeasure.CompletedCallback"/> is invoked.</value>
         public static TimeSpan DefaultTimeMeasureCompletedThreshold { get; set; } = TimeSpan.Zero;

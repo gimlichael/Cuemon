@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Cuemon.ComponentModel;
+using Cuemon.Diagnostics;
 using Cuemon.Integrity;
 using Cuemon.Text;
 
@@ -918,10 +918,9 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="timeUnit"/> was outside its valid range.
         /// </exception>
-        /// <seealso cref="TimeConverter"/>
         public static TimeSpan ToTimeSpan(this string value, TimeUnit timeUnit)
         {
-            return ConvertFactory.FromTime().ChangeType(double.Parse(value), o => o.TimeUnit = timeUnit);
+            return TimeMeasure.CreateTimeSpan(double.Parse(value), timeUnit);
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace Cuemon.Extensions.Xml
         public static XmlReader ToXmlReader(this byte[] value, Action<XmlReaderSettings> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            return ConvertFactory.UseCodec<StreamToByteArrayCodec>().Decode(value).ToXmlReader(setup: setup);
+            return ConvertFactory.UseCodec<StreamByteArrayCodec>().Decode(value).ToXmlReader(setup: setup);
         }
     }
 }

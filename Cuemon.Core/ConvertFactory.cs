@@ -11,39 +11,12 @@ namespace Cuemon
     public static class ConvertFactory
     {
         /// <summary>
-        /// Creates an instance of <see cref="UnixEpochTimeConverter"/>.
+        /// Creates an instance of <see cref="ObjectConverter"/>.
         /// </summary>
-        /// <returns>An <see cref="IConverter{TInput,TResult}"/> implementation of <see cref="UnixEpochTimeConverter"/>.</returns>
-        public static UnixEpochTimeConverter FromUnixEpochTime()
+        /// <returns>An <see cref="ITypeConverter{TInput,TResult}"/> implementation of <see cref="ObjectConverter"/>.</returns>
+        public static ObjectConverter FromObject()
         {
-            return new UnixEpochTimeConverter();
-        }
-
-        /// <summary>
-        /// Creates an instance of <see cref="ObjectTypeConverter"/>.
-        /// </summary>
-        /// <returns>An <see cref="ITypeConverter{TInput,TResult}"/> implementation of <see cref="ObjectTypeConverter"/>.</returns>
-        public static ObjectTypeConverter FromObject()
-        {
-            return new ObjectTypeConverter();
-        }
-
-        /// <summary>
-        /// Creates an instance of <see cref="TimeConverter"/>.
-        /// </summary>
-        /// <returns>An <see cref="IConverter{TInput,TResult}"/> implementation of <see cref="TimeConverter"/>.</returns>
-        public static TimeConverter FromTime()
-        {
-            return new TimeConverter();
-        }
-
-        /// <summary>
-        /// Creates an instance of <see cref="EncodedStreamConverter"/>.
-        /// </summary>
-        /// <returns>An <see cref="IConverter{TInput,TResult}"/> implementation of <see cref="EncodedStreamConverter"/>.</returns>
-        public static EncodedStreamConverter FromStream()
-        {
-            return new EncodedStreamConverter();
+            return new ObjectConverter();
         }
 
         /// <summary>

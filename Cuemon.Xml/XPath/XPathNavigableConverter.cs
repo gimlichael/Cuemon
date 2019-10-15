@@ -33,7 +33,7 @@ namespace Cuemon.Xml.XPath
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(encoding, nameof(encoding));
-            using (var stream = ConvertFactory.UseCodec<StreamToStringCodec>().Decode(value, options =>
+            using (var stream = ConvertFactory.UseCodec<StreamStringCodec>().Decode(value, options =>
             {
                 options.Encoding = encoding;
                 options.Preamble = PreambleSequence.Keep;

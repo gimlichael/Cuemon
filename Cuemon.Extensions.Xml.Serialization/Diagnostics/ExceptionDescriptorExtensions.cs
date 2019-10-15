@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Diagnostics
             });
             using (var xml = formatter.Serialize(descriptor))
             {
-                return ConvertFactory.UseCodec<StreamToStringCodec>().Encode(xml);
+                return ConvertFactory.UseCodec<StreamStringCodec>().Encode(xml);
             }
         }
     }

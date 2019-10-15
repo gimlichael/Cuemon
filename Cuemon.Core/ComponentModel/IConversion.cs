@@ -24,7 +24,7 @@
     /// <typeparam name="TInput">The type of the input to convert.</typeparam>
     /// <typeparam name="TResult">The type of the converted result.</typeparam>
     /// <seealso cref="IConversion{TInput}" />
-    public interface IConversion<in TInput, out TResult> : IConversion<TInput>, IConversionResult<TResult>
+    public interface IConversion<in TInput, out TResult> : IConversion<TInput>
     {
     }
 
@@ -38,10 +38,5 @@
     /// <seealso cref="IConversion{TInput, TResult}" />
     public interface IConversion<in TInput, out TResult, out TOptions> : IConversion<TInput, TResult> where TOptions : class, new()
     {
-    }
-
-    public interface IConversionResult<out TResult>
-    {
-
     }
 }

@@ -15,7 +15,7 @@ namespace Cuemon.Extensions.IO
         /// <returns>A <see cref="Stream"/> object.</returns>
         public static Stream ToStream(this byte[] bytes)
         {
-            return ConvertFactory.UseCodec<StreamToByteArrayCodec>().Decode(bytes);
+            return ConvertFactory.UseCodec<StreamByteArrayCodec>().Decode(bytes);
         }
     }
 }

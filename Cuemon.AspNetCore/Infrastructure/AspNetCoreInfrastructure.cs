@@ -58,7 +58,7 @@ namespace Cuemon.AspNetCore.Infrastructure
                     var reset = utcNow.Add(delta);
                     context.Response.Headers.AddOrUpdate(options.RateLimitHeaderName, tr.Quota.RateLimit.ToString(CultureInfo.InvariantCulture));
                     context.Response.Headers.AddOrUpdate(options.RateLimitRemainingHeaderName, Math.Max(tr.Quota.RateLimit - tr.Total, 0).ToString(CultureInfo.InvariantCulture));
-                    context.Response.Headers.AddOrUpdate(options.RateLimitResetHeaderName, reset.ToEpochTime().ToString(CultureInfo.InvariantCulture));
+                    context.Response.Headers.AddOrUpdate(options.RateLimitResetHeaderName, reset.ToUnixEpochTime().ToString(CultureInfo.InvariantCulture));
                     if (tr.Total > tr.Quota.RateLimit && tr.Expires > utcNow)
                     {
                         var message = options.ResponseBroker?.Invoke(delta, reset);

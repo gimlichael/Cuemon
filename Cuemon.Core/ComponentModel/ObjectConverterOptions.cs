@@ -5,15 +5,15 @@ using System.Globalization;
 namespace Cuemon.ComponentModel
 {
     /// <summary>
-    /// Configuration options for <see cref="ObjectTypeConverter"/>.
+    /// Configuration options for <see cref="ObjectConverter"/>.
     /// </summary>
-    public class TypeConverterOptions : FormattingOptions<IFormatProvider>
+    public class ObjectConverterOptions : FormattingOptions<IFormatProvider>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeConverterOptions"/> class.
+        /// Initializes a new instance of the <see cref="ObjectConverterOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="TypeConverterOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="ObjectConverterOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -29,7 +29,7 @@ namespace Cuemon.ComponentModel
         ///     </item>
         /// </list>
         /// </remarks>
-        public TypeConverterOptions()
+        public ObjectConverterOptions()
         {
             FormatProvider = CultureInfo.InvariantCulture;
         }

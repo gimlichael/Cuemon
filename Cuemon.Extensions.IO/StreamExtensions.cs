@@ -66,7 +66,21 @@ namespace Cuemon.Extensions.IO
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static char[] ToCharArray(this Stream input, Action<EncodingOptions> setup = null)
         {
-            return ConvertFactory.FromStream().ChangeType(input, setup);
+            Validator.ThrowIfNull(input, nameof(input));
+            var options = Patterns.Configure(setup);
+            if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = ByteOrderMark.DetectEncodingOrDefault(input, options.Encoding); }
+            var valueInBytes = ConvertFactory.UseCodec<StreamByteArrayCodec>().Encode(input);
+            switch (options.Preamble)
+            {
+                case PreambleSequence.Keep:
+                    break;
+                case PreambleSequence.Remove:
+                    valueInBytes = ByteOrderMark.Remove(valueInBytes, options.Encoding);
+                    break;
+                default:
+                    throw new InvalidEnumArgumentException(nameof(setup), (int)options.Preamble, typeof(PreambleSequence));
+            }
+            return options.Encoding.GetChars(valueInBytes);
         }
 
         /// <summary>
@@ -84,11 +98,11 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="input" /> length is greater than <see cref="int.MaxValue"/>.
         /// </exception>
-        /// <seealso cref="StreamToByteArrayCodec"/>
+        /// <seealso cref="StreamByteArrayCodec"/>
         /// <seealso cref="DisposableOptions"/>
         public static byte[] ToByteArray(this Stream input, Action<DisposableOptions> setup = null)
         {
-            return ConvertFactory.UseCodec<StreamToByteArrayCodec>().Encode(input, setup);
+            return ConvertFactory.UseCodec<StreamByteArrayCodec>().Encode(input, setup);
         }
 
         /// <summary>
@@ -134,7 +148,7 @@ namespace Cuemon.Extensions.IO
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToEncodedString(this Stream value, Action<StreamEncodingOptions> setup = null)
         {
-            return ConvertFactory.UseCodec<StreamToStringCodec>().Encode(value, setup);
+            return ConvertFactory.UseCodec<StreamStringCodec>().Encode(value, setup);
         }
 
         /// <summary>

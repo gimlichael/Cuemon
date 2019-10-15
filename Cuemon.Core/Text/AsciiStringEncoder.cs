@@ -10,22 +10,22 @@ namespace Cuemon.Text
     public sealed class AsciiStringEncoder : IEncoder<string, string, EncodingOptions>
     {
         /// <summary>
-        /// Encodes all the characters in the specified <paramref name="input"/> to its ASCII encoded variant.
+        /// Encodes all the characters in the specified <paramref name="value"/> to its ASCII encoded variant.
         /// </summary>
-        /// <param name="input">The <see cref="string"/> to apply with an ASCII encoding conversion.</param>
+        /// <param name="value">The <see cref="string"/> to apply with an ASCII encoding conversion.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="string"/> variant of <paramref name="input"/> that is ASCII encoded.</returns>
+        /// <returns>A <see cref="string"/> variant of <paramref name="value"/> that is ASCII encoded.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="input"/> cannot be null.
+        /// <paramref name="value"/> cannot be null.
         /// </exception>
         /// <seealso cref="EncodingOptions"/>
         /// <seealso cref="StringEncoder"/>
-        public string Encode(string input, Action<EncodingOptions> setup = null)
+        public string Encode(string value, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(input, nameof(input));
+            Validator.ThrowIfNull(value, nameof(value));
 
             var options = Patterns.Configure(setup);
-            return ConvertFactory.UseEncoder<StringEncoder>().Encode(input, o =>
+            return ConvertFactory.UseEncoder<StringEncoder>().Encode(value, o =>
             {
                 o.TargetEncoding = Encoding.ASCII;
                 o.Encoding = options.Encoding;
