@@ -1,38 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;netstandard2.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <FileVersion>5.1.2019.75</FileVersion>
-    <Version>5.1.2019.75</Version>
-    <AssemblyVersion>5.1.2019.75</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <Company>Weubphoria</Company>
     <Product>Cuemon .NET Standard</Product>
-    <Description>The Cuemon.AspNetCore.Razor.TagHelpers assembly is a supplement to the Microsoft ASP.NET Core Razor TagHelpers.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
+    <AssemblyName>Cuemon.AspNetCore.Razor.TagHelpers</AssemblyName>
+    <AssemblyTitle>Cuemon.AspNetCore.Razor.TagHelpers</AssemblyTitle>
+    <Description>The Cuemon.AspNetCore.Razor.TagHelpers assembly is a supplement to Microsoft ASP.NET Core.</Description>
+    <Company>Weubphoria</Company>
+    <Authors>Michael Mortensen</Authors>
+    <Copyright>Copyright © Weubphoria 2009-2020. All rights reserved.</Copyright>
+    <FileVersion>6.0.2020.25</FileVersion>
+    <Version>6.0.2020.25</Version>
+    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
+    <Authors>Michael Mortensen</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageReleaseNotes>Supplies Razor tag helpers for CDN enabled websites.</PackageReleaseNotes>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Cuemon.AspNetCore.Razor.TagHelpers.csproj.vspscc" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

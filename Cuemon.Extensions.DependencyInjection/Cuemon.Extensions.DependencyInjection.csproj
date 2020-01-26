@@ -1,39 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <FileVersion>5.1.2019.75</FileVersion>
-    <Version>5.1.2019.75</Version>
-    <AssemblyVersion>5.1.2019.75</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <Company>Weubphoria</Company>
-    <Product>Cuemon .NET Standard</Product>
-    <Description>The Cuemon.DependencyInjection assembly is a supplement to the Microsoft.Extensions.DependencyInjection package.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageReleaseNotes>Supplies furhter extension to the IServiceCollection interface.</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Product>Cuemon .NET Standard</Product>
+    <AssemblyName>Cuemon.Extensions.DependencyInjection</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions.DependencyInjection</AssemblyTitle>
+    <Description>The Cuemon.Extensions.DependencyInjection assembly provides extension methods to the Microsoft.Extensions.DependencyInjection package.</Description>
+    <Company>Weubphoria</Company>
+    <Authors>Michael Mortensen</Authors>
+    <Copyright>Copyright © Weubphoria 2009-2020. All rights reserved.</Copyright>
+    <FileVersion>6.0.2020.25</FileVersion>
+    <Version>6.0.2020.25</Version>
+    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
+    <Authors>Michael Mortensen</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
+    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
+  </PropertyGroup>
+
   <ItemGroup>
-    <None Remove="Cuemon.DependencyInjection.csproj.vspscc" />
     <None Remove="Cuemon.Extensions.DependencyInjection.csproj.vspscc" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>

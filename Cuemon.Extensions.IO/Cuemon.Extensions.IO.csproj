@@ -1,24 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
+    <Product>Cuemon .NET Standard</Product>
+    <AssemblyName>Cuemon.Extensions.IO</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions.IO</AssemblyTitle>
+    <Description>The Cuemon.Extensions.IO assembly provides extension methods to the System.IO namespace.</Description>
+    <Company>Weubphoria</Company>
+    <Authors>Michael Mortensen</Authors>
+    <Copyright>Copyright © Weubphoria 2009-2020. All rights reserved.</Copyright>
+    <FileVersion>6.0.2020.25</FileVersion>
+    <Version>6.0.2020.25</Version>
+    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
+    <Authors>Michael Mortensen</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>obj\Release\netstandard2.0\Cuemon.Extensions.IO.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>obj\Debug\netstandard2.0\Cuemon.Extensions.IO.xml</DocumentationFile>
+  <PropertyGroup>
+    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
+    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>

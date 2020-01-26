@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Infrastructure;
-using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+#if NETSTANDARD
+using Cuemon.Extensions.IO;
+#endif
 
 namespace Cuemon.AspNetCore.Http.Headers
 {

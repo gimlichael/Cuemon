@@ -1,40 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>The Cuemon.Core assembly is the patriarch of the Cuemon .NET Standard family and provides fundamental-, utility- and base-classes that define commonly-used value and reference data types, events and event handlers, interfaces, attribute, and feature rich delegates to greatly support functional programming. A great addition to the well established System namespace to make your daily operations easier to work with.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
-    <AssemblyTitle>Cuemon</AssemblyTitle>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <Authors>Michael Mortensen</Authors>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Product>Cuemon .NET Standard</Product>
+    <RootNamespace>Cuemon</RootNamespace>
     <AssemblyName>Cuemon.Core</AssemblyName>
-    <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
-    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <PackageId>Cuemon.Core</PackageId>
-    <PackageReleaseNotes>The .NET Platform Standard release of the ported Cuemon .NET Framework.</PackageReleaseNotes>
+    <AssemblyTitle>Cuemon</AssemblyTitle>
+    <Description>The Cuemon.Core assembly is the patriarch of the Cuemon .NET Standard family and provides fundamental-, utility- and base-classes that define commonly-used value and reference data types, events and event handlers, interfaces, attribute, and feature rich delegates to greatly support functional programming. A great addition to the well established System namespace to make your daily operations easier to work with.</Description>
+    <Company>Weubphoria</Company>
+    <Authors>Michael Mortensen</Authors>
+    <Copyright>Copyright © Weubphoria 2009-2020. All rights reserved.</Copyright>
+    <FileVersion>6.0.2020.25</FileVersion>
+    <Version>6.0.2020.25</Version>
+    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
+    <Authors>Michael Mortensen</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
     <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <RootNamespace>Cuemon</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,11 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Globalization\CultureInfo.SpecificCultures.dsv" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="TransientOperation.Async.cs" />
+    <EmbeddedResource Include="Globalization\CultureInfo.SpecificCultures.dsv" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

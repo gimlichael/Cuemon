@@ -1,38 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>The Cuemon.Collections.Specialized assembly is a member of the Cuemon .NET Standard family and provides enhancements to the System.Collections.Specialized assembly.</Description>
-    <Copyright>Copyright © Weubphoria 2009-2019. All rights reserved.</Copyright>
-    <AssemblyTitle>Cuemon.Collections.Specialized</AssemblyTitle>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <Authors>Michael Mortensen</Authors>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Product>Cuemon .NET Standard</Product>
     <AssemblyName>Cuemon.Extensions.Collections.Specialized</AssemblyName>
-    <AssemblyOriginatorKeyFile>..\..\MuchMoreKeyPair.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
-    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <PackageId>Cuemon.Collections.Specialized</PackageId>
-    <PackageReleaseNotes>The .NET Platform Standard release of the ported Cuemon .NET Framework.</PackageReleaseNotes>
+    <AssemblyTitle>Cuemon.Extensions.Collections.Specialized</AssemblyTitle>
+    <Description>The Cuemon.Extensions.Collections.Specialized assembly is a member of the Cuemon .NET Standard family and provides enhancements to the System.Collections.Specialized assembly.</Description>
+    <Company>Weubphoria</Company>
+    <Authors>Michael Mortensen</Authors>
+    <Copyright>Copyright © Weubphoria 2009-2020. All rights reserved.</Copyright>
+    <FileVersion>6.0.2020.25</FileVersion>
+    <Version>6.0.2020.25</Version>
+    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
+    <Authors>Michael Mortensen</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
     <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>

@@ -44,6 +44,10 @@ namespace Cuemon.AspNetCore.Hosting
         /// Gets or sets the predicate that can suppress the hosting environment HTTP header.
         /// </summary>
         /// <value>The function delegate that can determine if the hosting environment HTTP header should be suppressed.</value>
+        #if NETCOREAPP
+        public Func<IHostEnvironment, bool> SuppressHeaderPredicate { get; set; }
+        #elif NETSTANDARD
         public Func<IHostingEnvironment, bool> SuppressHeaderPredicate { get; set; }
+        #endif
     }
 }
