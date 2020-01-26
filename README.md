@@ -3,6 +3,7 @@
 Cuemon .NET Standard
 --------------------
 The Cuemon .NET Standard is a free and flexible assembly package for the Microsoft .NET Standard ecosystem. It was built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof. Ideal for .NET Standard, .NET Core, Universal Windows Platform and .NET Framework 4.6.1 and newer.
+
 This development branch contains the latest version which has been completely refactored and updated to suport .NET Core 3.1.
 An Azure DevOps pipeline is currently in progress.
 
