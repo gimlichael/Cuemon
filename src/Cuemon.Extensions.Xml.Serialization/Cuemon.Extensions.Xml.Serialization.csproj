@@ -29,11 +29,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Cuemon.Extensions.Xml.Serialization.csproj.vspscc" />
-    <None Remove="Cuemon.Serialization.Xml.csproj.vspscc" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Runtime.Serialization\Cuemon.Extensions.Runtime.Serialization.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Xml\Cuemon.Extensions.Xml.csproj" />

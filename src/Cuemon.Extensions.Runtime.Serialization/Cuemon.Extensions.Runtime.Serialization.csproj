@@ -29,10 +29,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Cuemon.Extensions.Runtime.Serialization.csproj.vspscc" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
   </ItemGroup>
 

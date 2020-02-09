@@ -29,11 +29,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Cuemon.Collections.Specialized.csproj.vspscc" />
-    <None Remove="Cuemon.Extensions.Collections.Specialized.csproj.vspscc" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
   </ItemGroup>
 

@@ -23,10 +23,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Cuemon.Extensions.Data.SqlClient.csproj.vspscc" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Cuemon.Data\Cuemon.Data.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
   </ItemGroup>

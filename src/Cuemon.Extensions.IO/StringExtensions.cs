@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Cuemon.ComponentModel;
-using Cuemon.IO;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions.IO
