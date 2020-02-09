@@ -30,10 +30,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Cuemon.Core.csproj.vspscc" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Globalization\CultureInfo.SpecificCultures.dsv" />
   </ItemGroup>
 
