@@ -1,6 +1,5 @@
 ﻿using System;
-using Cuemon.AspNetCore.Mvc.Formatters.Xml.Converters;
-using Cuemon.Extensions;
+using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters;
 using Cuemon.Extensions.Collections.Generic;
 using Cuemon.Extensions.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters.Xml
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 {
     /// <summary>
     /// Extension methods for adding XML formatters to MVC.

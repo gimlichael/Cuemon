@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters.Json
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
 {
     /// <summary>
     /// A <see cref="ConfigureOptions{TOptions}"/> implementation which will add the JSON serializer formatters to <see cref="MvcOptions"/>.

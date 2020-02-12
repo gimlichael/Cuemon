@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Extensions;
 using Cuemon.Extensions.Newtonsoft.Json;
 using Cuemon.Runtime.Serialization;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters.Json.Converters
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json.Converters
 {
     /// <summary>
     /// Extension methods for the <see cref="ICollection{JsonConverter}"/>.
@@ -19,7 +18,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters.Json.Converters
         /// Adds an <see cref="HttpExceptionDescriptor"/> JSON converter to the list.
         /// </summary>
         /// <param name="converters">The list of JSON converters.</param>
-        /// <param name="setup">The <see cref="Runtime.Serialization.ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
         public static void AddHttpExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
             var options = setup.Configure();

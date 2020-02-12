@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters.Json
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
 {
     /// <summary>
     /// Extension methods for adding JSON formatters to MVC.

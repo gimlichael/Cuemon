@@ -1,11 +1,11 @@
 ﻿using System;
-using Cuemon.AspNetCore.Mvc.Formatters.Json.Converters;
 using Cuemon.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json.Converters;
 using Cuemon.Extensions.Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters.Json
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
 {
     /// <summary>
     /// Specifies the default settings on a <see cref="JsonSerializer"/> object as interpreted by this framework.

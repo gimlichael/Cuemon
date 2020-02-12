@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Threading.Tasks;
-using Cuemon.Extensions;
+using Cuemon.Reflection;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.ModelBinding
@@ -29,7 +29,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.ModelBinding
         public DisableModelBindingAttribute(Type valueProviderFactoryType)
         {
             Validator.ThrowIfNull(valueProviderFactoryType, nameof(valueProviderFactoryType));
-            if (!valueProviderFactoryType.HasInterfaces(typeof(IValueProviderFactory))) { throw new NotSupportedException("Only a type that implements the IValueProviderFactory interface is supported."); }
+            if (!TypeInsight.FromType(valueProviderFactoryType).HasInterface(typeof(IValueProviderFactory))) { throw new NotSupportedException("Only a type that implements the IValueProviderFactory interface is supported."); }
             ValueProviderFactoryType = valueProviderFactoryType;
         }
 

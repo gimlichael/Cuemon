@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Cuemon.Configuration;
-using Cuemon.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 
@@ -19,7 +18,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters
         /// Initializes a new instance of the <see cref="ConfigurableAsyncResultFilter{TOptions}"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="Action{TOptions}"/> which need to be configured.</param>
-        protected ConfigurableAsyncActionFilter(Action<TOptions> setup) : base(setup.Configure())
+        protected ConfigurableAsyncActionFilter(Action<TOptions> setup) : base(Patterns.Configure(setup))
         {
         }
 

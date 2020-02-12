@@ -7,7 +7,7 @@ using Cuemon.Extensions.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters.Json
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
 {
     /// <summary>
     /// This class handles serialization of objects to JSON using <see cref="JsonFormatter"/>.

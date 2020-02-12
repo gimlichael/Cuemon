@@ -12,15 +12,15 @@
         public string Label { get; set; }
 
         /// <summary>
-        /// Gets the name of the action that this breadcrumb represents.
+        /// Gets or sets the name of the action that this breadcrumb represents.
         /// </summary>
         /// <value>The name of the action that this breadcrumb represents.</value>
-        public string ActionName { get; internal set; }
+        public string ActionName { get; set; }
 
         /// <summary>
-        /// Gets the name of the controller this breadcrumb is associated with.
+        /// Gets or sets the name of the controller this breadcrumb is associated with.
         /// </summary>
         /// <value>The name of the controller this breadcrumb is associated with.</value>
-        public string ControllerName { get; internal set; }
+        public string ControllerName { get; set; }
     }
 }

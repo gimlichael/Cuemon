@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.Integrity\Cuemon.Extensions.Integrity.csproj" />
   </ItemGroup>
 
 </Project>

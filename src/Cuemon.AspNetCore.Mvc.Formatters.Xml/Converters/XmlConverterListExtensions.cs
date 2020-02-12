@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions;
 using Cuemon.Extensions.Xml.Serialization;
 using Cuemon.Extensions.Xml.Serialization.Converters;
 using Cuemon.Runtime.Serialization;
@@ -13,7 +12,7 @@ using Cuemon.Xml.Serialization.Converters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Cuemon.AspNetCore.Mvc.Formatters.Xml.Converters
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
 {
     /// <summary>
     /// Extension methods for the <see cref=" IList{XmlConverter}"/>.
