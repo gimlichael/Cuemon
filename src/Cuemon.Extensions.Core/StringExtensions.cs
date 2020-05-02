@@ -991,8 +991,7 @@ namespace Cuemon.Extensions
         /// <returns>A string with a suffix <paramref name="value"/>.</returns>
         public static string SuffixWith(this string source, string value)
         {
-            if (!source.EndsWith(value, StringComparison.OrdinalIgnoreCase)) { source = string.Concat(source, value); }
-            return source;
+            return new Stem(source).AttachSuffix(value);
         }
 
         /// <summary>
@@ -1013,8 +1012,7 @@ namespace Cuemon.Extensions
         /// <returns>A string with a prefix <paramref name="value"/>.</returns>
         public static string PrefixWith(this string source, string value)
         {
-            if (!source.StartsWith(value, StringComparison.OrdinalIgnoreCase)) { source = string.Concat(value, source); }
-            return source;
+            return new Stem(source).AttachPrefix(value);
         }
     }
 }
