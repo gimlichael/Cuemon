@@ -1038,7 +1038,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1280,7 +1280,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromInstance(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value.GetType()).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1324,7 +1324,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1368,7 +1368,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromInstance(value).HasType(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value.GetType()).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1409,7 +1409,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType<T>().HasType(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
@@ -1450,7 +1450,7 @@ namespace Cuemon
             ThrowIfNull(types, nameof(types));
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType<T>().HasType(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
