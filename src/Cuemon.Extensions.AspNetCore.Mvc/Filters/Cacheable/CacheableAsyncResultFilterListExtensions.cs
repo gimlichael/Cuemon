@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
 using Cuemon.Reflection;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
@@ -39,23 +40,23 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
         }
 
         /// <summary>
-        /// Adds an <see cref="HttpEntityTagHeader" /> filter to the list.
+        /// Adds an <see cref="HttpEntityTagHeaderFilter" /> filter to the list.
         /// </summary>
         /// <param name="filters">The list of cache related HTTP filters.</param>
         /// <param name="setup">The <see cref="HttpEntityTagHeaderOptions"/> which need to be configured.</param>
         public static void AddEntityTagHeader(this IList<ICacheableAsyncResultFilter> filters, Action<HttpEntityTagHeaderOptions> setup = null)
         {
-            filters.AddFilter<HttpEntityTagHeader, HttpEntityTagHeaderOptions>(setup);
+            filters.AddFilter<HttpEntityTagHeaderFilter, HttpEntityTagHeaderOptions>(setup);
         }
 
         /// <summary>
-        /// Adds an <see cref="HttpLastModifiedHeader"/> filter to the list.
+        /// Adds an <see cref="HttpLastModifiedHeaderFilter"/> filter to the list.
         /// </summary>
         /// <param name="filters">The list of cache related HTTP filters.</param>
         /// <param name="setup">The <see cref="HttpLastModifiedHeaderOptions"/> which need to be configured.</param>
         public static void AddLastModifiedHeader(this IList<ICacheableAsyncResultFilter> filters, Action<HttpLastModifiedHeaderOptions> setup = null)
         {
-            filters.InsertFilter<HttpLastModifiedHeader, HttpLastModifiedHeaderOptions>(0, setup);
+            filters.InsertFilter<HttpLastModifiedHeaderFilter, HttpLastModifiedHeaderOptions>(0, setup);
         }
     }
 }

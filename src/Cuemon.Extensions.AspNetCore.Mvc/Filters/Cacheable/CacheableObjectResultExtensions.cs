@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
 {

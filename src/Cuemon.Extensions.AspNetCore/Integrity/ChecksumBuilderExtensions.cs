@@ -1,4 +1,6 @@
-﻿using Cuemon.Integrity;
+﻿using System;
+using Cuemon.AspNetCore.Http.Headers;
+using Cuemon.Integrity;
 using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.Extensions.AspNetCore.Integrity
@@ -14,10 +16,13 @@ namespace Cuemon.Extensions.AspNetCore.Integrity
         /// <param name="builder">The <see cref="ChecksumBuilder"/> to extend.</param>
         /// <param name="isWeak">A value that indicates if this entity-tag header is a weak validator.</param>
         /// <returns>An <see cref="EntityTagHeaderValue"/> that is initiated with a hexadecimal representation of <see cref="ChecksumBuilder.Checksum"/> and a value that indicates if the tag is weak.</returns>
-        public static EntityTagHeaderValue ToEntityTag(this ChecksumBuilder builder, bool isWeak = false)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="builder"/> cannot be null.
+        /// </exception>
+        public static EntityTagHeaderValue ToEntityTagHeaderValue(this ChecksumBuilder builder, bool isWeak = false)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            return new EntityTagHeaderValue(string.Concat("\"", builder.Checksum.ToHexadecimalString(), "\""), isWeak);
+            return Decorator.Enclose(builder).ToEntityTagHeaderValue(isWeak);
         }
     }
 }

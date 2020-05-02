@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Cuemon.AspNetCore.Http;
 using Cuemon.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Headers;
@@ -16,10 +17,13 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// </summary>
         /// <param name="request">An instance of the <see cref="HttpRequest"/> object.</param>
         /// <returns><c>true</c> if the specified <paramref name="request"/> is served by either a GET or a HEAD method; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="request"/> cannot be null.
+        /// </exception>
         public static bool IsGetOrHeadMethod(this HttpRequest request)
         {
-            var method = request.Method;
-            return HttpMethods.IsGet(method) || HttpMethods.IsHead(method);
+            Validator.ThrowIfNull(request, nameof(request));
+            return Decorator.Enclose(request).IsGetOrHeadMethod();
         }
 
         /// <summary>

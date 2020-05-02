@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using Cuemon.AspNetCore.Http.Throttling;
 
 namespace Cuemon.Extensions.AspNetCore.Http.Throttling
 {

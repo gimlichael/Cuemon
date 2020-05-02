@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Cuemon.Extensions.Collections.Generic;
-using Cuemon.Extensions.Integrity;
+using Cuemon.AspNetCore.Http;
 using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Integrity;
-using Cuemon.Extensions.AspNetCore.Integrity;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.Extensions.AspNetCore.Http
 {
@@ -19,34 +14,37 @@ namespace Cuemon.Extensions.AspNetCore.Http
     public static class HttpResponseExtensions
     {
         /// <summary>
-        /// This method will either add or update the necessary HTTP response headers needed to provide entity tag header information.
+        /// Attempts to add or update the necessary HTTP response headers needed to provide entity tag header information.
         /// </summary>
         /// <param name="response">The <see cref="HttpResponse"/> to extend.</param>
         /// <param name="request">An instance of the <see cref="HttpRequest"/> object.</param>
         /// <param name="builder">A <see cref="ChecksumBuilder"/> that represents the integrity of the client.</param>
         /// <param name="isWeak">A value that indicates if this entity-tag header is a weak validator.</param>
-        public static void SetEntityTagHeaderInformation(this HttpResponse response, HttpRequest request, ChecksumBuilder builder, bool isWeak = false)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="response"/> cannot be null -or-
+        /// <paramref name="request"/> cannot be null -or-
+        /// <paramref name="builder"/> cannot be null.
+        /// </exception>
+        public static void TryAddOrUpdateEntityTagHeader(this HttpResponse response, HttpRequest request, ChecksumBuilder builder, bool isWeak = false)
         {
             Validator.ThrowIfNull(response, nameof(response));
-            Validator.ThrowIfNull(request, nameof(request));
-            Validator.ThrowIfNull(builder, nameof(builder));
-            builder = builder.CombineWith(request.Headers[HeaderNames.Accept]);
-            if (response.StatusCode.IsSuccessStatusCode() && request.IsClientSideResourceCached(builder)) { response.StatusCode = StatusCodes.Status304NotModified; }
-            response.Headers.AddOrUpdate(HeaderNames.ETag, new StringValues(builder.ToEntityTag(isWeak).ToString()));
+            Decorator.Enclose(response).TryAddOrUpdateEntityTagHeader(request, builder, isWeak);
         }
 
         /// <summary>
-        /// This method will either add or update the necessary HTTP response headers needed to provide last-modified information.
+        /// Attempts to add or update the necessary HTTP response headers needed to provide last-modified information.
         /// </summary>
         /// <param name="response">The <see cref="HttpResponse"/> to extend.</param>
         /// <param name="request">An instance of the <see cref="HttpRequest"/> object.</param>
         /// <param name="lastModified">A value that represents when the resource was either created or last modified.</param>
-        public static void SetLastModifiedHeaderInformation(this HttpResponse response, HttpRequest request, DateTime lastModified)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="response"/> cannot be null -or-
+        /// <paramref name="request"/> cannot be null.
+        /// </exception>
+        public static void TryAddOrUpdateLastModifiedHeader(this HttpResponse response, HttpRequest request, DateTime lastModified)
         {
             Validator.ThrowIfNull(response, nameof(response));
-            Validator.ThrowIfNull(request, nameof(request));
-            if (response.StatusCode.IsSuccessStatusCode() && request.IsClientSideResourceCached(lastModified)) { response.StatusCode = StatusCodes.Status304NotModified; }
-            response.Headers.AddOrUpdate(HeaderNames.LastModified, new StringValues(lastModified.ToUniversalTime().ToString("R", DateTimeFormatInfo.InvariantInfo)));
+            Decorator.Enclose(response).TryAddOrUpdateLastModifiedHeader(request, lastModified);
         }
 
         /// <summary>
