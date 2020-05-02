@@ -21,6 +21,36 @@ namespace Cuemon
         /// <summary>
         /// Returns a value that indicates whether the specified <paramref name="method"/> can be invoked without an exception.
         /// </summary>
+        /// <param name="method">The delegate that to invoke.</param>
+        /// <returns><c>true</c> if <paramref name="method"/> was called without raising an exception; otherwise <c>false</c>.</returns>
+        /// <remarks>Actually an anti-pattern in regards to swallowing exception. That said, there are situations where this is a perfectly valid approach.</remarks>
+        public static bool TryInvoke(Action method)
+        {
+            try
+            {
+                Validator.ThrowIfNull(method, nameof(method));
+                method();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (ex is OutOfMemoryException || 
+                    ex is StackOverflowException || 
+                    ex is SEHException || 
+                    ex is AccessViolationException || 
+                    #pragma warning disable CS0618 // Type or member is obsolete
+                    ex is ExecutionEngineException) // fatal exceptions; re-throw for .NET "legacy" (.NET Core will handle these by a high-level catch-all handler)
+                    #pragma warning restore CS0618 // Type or member is obsolete
+                {
+                    throw;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns a value that indicates whether the specified <paramref name="method"/> can be invoked without an exception.
+        /// </summary>
         /// <typeparam name="TResult">The type of the return value of the <paramref name="method"/>.</typeparam>
         /// <param name="method">The function delegate that will resolve <paramref name="result"/>.</param>
         /// <param name="result">When this method returns, contains the value returned from <paramref name="method"/>; otherwise the default value for the type of the <paramref name="result"/> parameter if an exception is thrown.</param>
@@ -39,8 +69,10 @@ namespace Cuemon
                 if (ex is OutOfMemoryException || 
                     ex is StackOverflowException || 
                     ex is SEHException || 
-                    ex is AccessViolationException || 
+                    ex is AccessViolationException ||
+                    #pragma warning disable CS0618 // Type or member is obsolete
                     ex is ExecutionEngineException) // fatal exceptions; re-throw for .NET "legacy" (.NET Core will handle these by a high-level catch-all handler)
+                    #pragma warning restore CS0618 // Type or member is obsolete
                 {
                     throw;
                 }
@@ -62,11 +94,11 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Returns the default parameterless constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.
+        /// Returns the default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.
         /// </summary>
         /// <typeparam name="TOptions">The type of the configuration options class having a default constructor.</typeparam>
         /// <param name="setup">The delegate that will configure the public read-write properties of <typeparamref name="TOptions"/>.</param>
-        /// <param name="initializer">The optional delegate that will initialize the default parameterless constructed instance of <typeparamref name="TOptions"/>. Should only be used with third party libraries or for validation purposes.</param>
+        /// <param name="initializer">The optional delegate that will initialize the default parameter-less constructed instance of <typeparamref name="TOptions"/>. Should only be used with third party libraries or for validation purposes.</param>
         /// <param name="validator">The optional delegate that will validate the <typeparamref name="TOptions"/> configured by the <paramref name="setup"/> delegate.</param>
         /// <returns>A default constructed instance of <typeparamref name="TOptions"/> initialized with the options of <paramref name="setup"/>.</returns>
         /// <remarks>Often referred to as part the Options pattern: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options</remarks>
