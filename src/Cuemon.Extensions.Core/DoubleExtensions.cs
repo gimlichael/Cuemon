@@ -1,6 +1,6 @@
 ﻿using System;
 using Cuemon.Diagnostics;
-
+using Cuemon;
 namespace Cuemon.Extensions
 {
     /// <summary>
@@ -15,7 +15,7 @@ namespace Cuemon.Extensions
         /// <returns>A <see cref="DateTime"/> that is equivalent to <paramref name="input"/>.</returns>
         public static DateTime FromUnixEpochTime(this double input)
         {
-            return DateTimeExtensions.UnixEpoch.AddSeconds(input);
+            return Decorator.Syntactic<DateTime>().GetUnixEpoch().AddSeconds(input);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static TimeSpan ToTimeSpan(this double value, TimeUnit timeUnit)
         {
-            return TimeMeasure.CreateTimeSpan(value, timeUnit);
+            return Decorator.Enclose(value).ToTimeSpan(timeUnit);
         }
 
         /// <summary>

@@ -9,11 +9,6 @@ namespace Cuemon.Extensions
     public static class DateTimeExtensions
     {
         /// <summary>
-        /// A <see cref="DateTime"/> initialized to midnight, January 1st, 1970 in Coordinated Universal Time (UTC).
-        /// </summary>
-        public static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-
-        /// <summary>
         /// Converts the specified <paramref name="value"/> to an equivalent UNIX Epoch time representation.
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> value to extend.</param>
@@ -21,8 +16,7 @@ namespace Cuemon.Extensions
         /// <remarks>This implementation converts the <paramref name="value"/> to an UTC representation ONLY if the <see cref="DateTime.Kind"/> equals <see cref="DateTimeKind.Local"/>.</remarks>
         public static double ToUnixEpochTime(this DateTime value)
         {
-            if (value.Kind == DateTimeKind.Local) { value = value.ToUniversalTime(); }
-            return Math.Floor((value - UnixEpoch).TotalSeconds);
+            return Decorator.Enclose(value).ToUnixEpochTime();
         }
 
         /// <summary>

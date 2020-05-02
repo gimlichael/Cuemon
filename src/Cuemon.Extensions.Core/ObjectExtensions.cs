@@ -101,15 +101,17 @@ namespace Cuemon.Extensions
         /// <param name="delimiter">The delimiter specification.</param>
         /// <param name="converter">The function delegate that converts <typeparamref name="T"/> to a string representation once per iteration.</param>
         /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null -or-
+        /// <paramref name="delimiter"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="delimiter"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
         public static string ToDelimitedString<T>(this IEnumerable<T> source, string delimiter = ",", Func<T, string> converter = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNullOrWhitespace(delimiter, nameof(delimiter));
-            return DelimitedString.Create(source, o =>
-            {
-                o.Delimiter = delimiter;
-                if (converter != null) { o.StringConverter = converter; }
-            });
+            return Decorator.Enclose(source).ToDelimitedString(delimiter, converter);
         }
 
         /// <summary>
@@ -121,7 +123,7 @@ namespace Cuemon.Extensions
         /// <returns>The <paramref name="value"/> in its original or adjusted form.</returns>
         public static T Adjust<T>(this T value, Func<T, T> tweaker)
         {
-            return Tweaker.Adjust(value, tweaker);
+            return Decorator.Enclose(value).Adjust(tweaker);
         }
 
         /// <summary>

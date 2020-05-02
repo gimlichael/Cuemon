@@ -168,14 +168,15 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="type">The <see cref="Type"/> to extend.</param>
         /// <param name="targets">The target types to be matched against.</param>
-        /// <returns>
-        /// 	<c>true</c> if the specified type contains one or more of the specified target types; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns><c>true</c> if the <paramref name="type"/> contains one or more of the specified target types; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="type"/> cannot be null -or-
+        /// <paramref name="targets"/> cannot be null.
+        /// </exception>
         public static bool HasTypes(this Type type, params Type[] targets)
         {
             Validator.ThrowIfNull(type, nameof(type));
-            Validator.ThrowIfNull(targets, nameof(targets));
-            return TypeInsight.FromType(type).HasType(targets);
+            return Decorator.Enclose(type).HasTypes(targets);
         }
 
         /// <summary>

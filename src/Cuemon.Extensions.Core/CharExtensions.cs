@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Cuemon.Extensions
 {
@@ -20,7 +19,7 @@ namespace Cuemon.Extensions
         public static IEnumerable<string> ToEnumerable(this IEnumerable<char> values)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            return values.Select(c => new string(c, 1));
+            return Decorator.Enclose(values).ToEnumerable();
         }
 
         /// <summary>
@@ -33,7 +32,8 @@ namespace Cuemon.Extensions
         /// </exception>
         public static string FromChars(this IEnumerable<char> values)
         {
-            return string.Concat(values);
+            Validator.ThrowIfNull(values, nameof(values));
+            return Decorator.Enclose(values).ToStringEquivalent();
         }
     }
 }
