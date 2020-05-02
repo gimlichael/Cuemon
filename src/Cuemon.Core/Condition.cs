@@ -772,32 +772,5 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
             if (IsTrue(condition)) { firstExpression(arg1, arg2, arg3, arg4, arg5); }
             if (IsFalse(condition)) { secondExpression(arg1, arg2, arg3, arg4, arg5); }
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConditionBuilder{TTuple}" /> with the specified argument <paramref name="tuple" /> and the result of the starting <paramref name="condition"/>.
-        /// </summary>
-        /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="Template"/>.</typeparam>
-        /// <typeparam name="TValue">The type of the value for <paramref name="condition"/>.</typeparam>
-        /// <param name="value">The argument for <paramref name="condition"/>.</param>
-        /// <param name="condition">The delegate that will evaluate <paramref name="value"/>.</param>
-        /// <param name="tuple">The argument for the invoker methods of <see cref="ConditionBuilder{TTuple}"/>.</param>
-        /// <returns>A new instance of the <see cref="ConditionBuilder{TTuple}" /> initialized with the specified argument <paramref name="tuple" /> and the result of the starting <paramref name="condition"/>.</returns>
-        public static ConditionBuilder<TTuple> Initialize<TTuple, TValue>(TTuple tuple, TValue value, Func<TValue, bool> condition) where TTuple : Template
-        {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            return Initialize(tuple, condition(value));
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConditionBuilder{TTuple}" /> with the specified argument <paramref name="tuple" /> and the boolean <paramref name="value"/>.
-        /// </summary>
-        /// <typeparam name="TTuple">The type of the n-tuple representation of a <see cref="Template"/>.</typeparam>
-        /// <param name="tuple">The argument for the invoker methods of <see cref="ConditionBuilder{TTuple}"/>.</param>
-        /// <param name="value">The value of a condition that can be either <c>true</c> or <c>false</c>.</param>
-        /// <returns>A new instance of the <see cref="ConditionBuilder{TTuple}" /> initialized with the specified argument <paramref name="tuple" /> and the boolean <paramref name="value"/>.</returns>
-        public static ConditionBuilder<TTuple> Initialize<TTuple>(TTuple tuple, bool value) where TTuple : Template
-        {
-            return new ConditionBuilder<TTuple>(tuple).When(value);
-        }
     }
 }
