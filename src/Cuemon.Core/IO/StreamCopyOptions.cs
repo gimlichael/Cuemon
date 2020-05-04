@@ -4,9 +4,9 @@ using System.IO;
 namespace Cuemon.IO
 {
     /// <summary>
-    /// Configuration options for <see cref="Stream"/>.
+    /// Configuration options that is related to <see cref="Stream"/> copy operations.
     /// </summary>
-    public class StreamCopyOptions
+    public class StreamCopyOptions : DisposableOptions
     {
         private int _bufferSize;
 
