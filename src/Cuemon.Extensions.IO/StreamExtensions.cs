@@ -112,6 +112,7 @@ namespace Cuemon.Extensions.IO
         /// <param name="buffer">The buffer to write data from.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         /// <exception cref="ArgumentNullException">
+        /// <paramref name="stream"/> is null -or-
         /// <paramref name="buffer">buffer</paramref> is null.
         /// </exception>
         /// <exception cref="NotSupportedException">
@@ -125,7 +126,8 @@ namespace Cuemon.Extensions.IO
         /// </exception>
         public static Task WriteAsync(this Stream stream, byte[] buffer)
         {
-            return stream.WriteAsync(buffer, 0, buffer.Length);
+            Validator.ThrowIfNull(stream, nameof(stream));
+            return Decorator.Enclose(stream).WriteAsync(buffer);
         }
 
         /// <summary>
