@@ -1,11 +1,12 @@
 ﻿using System;
+using Cuemon.Threading;
 
 namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="IDisposable"/>.
     /// </summary>
-    public class DisposableOptions
+    public class DisposableOptions : AsyncOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DisposableOptions"/> class.
@@ -29,7 +30,7 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether a disposable object should bypass the mechanism for releasing unmanaged resources.
+        /// Gets or sets a value indicating whether a disposable object should bypass the mechanism for releasing unmanaged resources. Default is <c>false</c>.
         /// </summary>
         /// <value><c>true</c> if a disposable object should bypass the mechanism for releasing unmanaged resources; otherwise, <c>false</c>.</value>
         public bool LeaveOpen { get; set; }
