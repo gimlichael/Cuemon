@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using Cuemon.ComponentModel;
+using Cuemon.IO;
 
 namespace Cuemon.Text
 {
@@ -156,7 +157,7 @@ namespace Cuemon.Text
             Validator.ThrowIfNull(encoding, nameof(encoding));
             
             var option = Patterns.Configure(setup);
-            var bytes = ConvertFactory.UseCodec<StreamByteArrayCodec>().Encode(value, o => o.LeaveOpen = option.LeaveOpen);
+            var bytes = Decorator.Enclose(value).ToByteArray(o => o.LeaveOpen = option.LeaveOpen);
             bytes = Remove(bytes, encoding);
             return Disposable.SafeInvoke(() => new MemoryStream(bytes.Length), ms =>
             {

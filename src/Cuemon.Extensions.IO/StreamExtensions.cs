@@ -69,7 +69,7 @@ namespace Cuemon.Extensions.IO
             Validator.ThrowIfNull(input, nameof(input));
             var options = Patterns.Configure(setup);
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = ByteOrderMark.DetectEncodingOrDefault(input, options.Encoding); }
-            var valueInBytes = ConvertFactory.UseCodec<StreamByteArrayCodec>().Encode(input);
+            var valueInBytes = Decorator.Enclose(input).ToByteArray();
             switch (options.Preamble)
             {
                 case PreambleSequence.Keep:
@@ -87,7 +87,7 @@ namespace Cuemon.Extensions.IO
         /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:byte[]"/> representation.
         /// </summary>
         /// <param name="input">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="DisposableOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="StreamCopyOptions"/> which may be configured.</param>
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="input"/> cannot be null.
@@ -95,14 +95,31 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="ArgumentException">
         /// <paramref name="input"/> cannot be read from.
         /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="input" /> length is greater than <see cref="int.MaxValue"/>.
-        /// </exception>
-        /// <seealso cref="StreamByteArrayCodec"/>
-        /// <seealso cref="DisposableOptions"/>
-        public static byte[] ToByteArray(this Stream input, Action<DisposableOptions> setup = null)
+        public static byte[] ToByteArray(this Stream input, Action<StreamCopyOptions> setup = null)
         {
-            return ConvertFactory.UseCodec<StreamByteArrayCodec>().Encode(input, setup);
+            Validator.ThrowIfNull(input, nameof(input));
+            Validator.ThrowIfFalse(input.CanRead, nameof(input), "Stream cannot be read from.");
+            return Decorator.Enclose(input).ToByteArray(setup);
+        }
+
+        
+        /// <summary>
+        /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:byte[]"/> representation.
+        /// </summary>
+        /// <param name="input">The <see cref="Stream"/> to extend.</param>
+        /// <param name="setup">The <see cref="StreamCopyOptions"/> which may be configured.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="input"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="input"/> cannot be read from.
+        /// </exception>
+        public static Task<byte[]> ToByteArrayAsync(this Stream input, Action<StreamCopyOptions> setup = null)
+        {
+            Validator.ThrowIfNull(input, nameof(input));
+            Validator.ThrowIfFalse(input.CanRead, nameof(input), "Stream cannot be read from.");
+            return Decorator.Enclose(input).ToByteArrayAsync(setup);
         }
 
         /// <summary>

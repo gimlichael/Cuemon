@@ -2,17 +2,16 @@
 using Cuemon.Text;
 using Cuemon.IO;
 using System.IO;
-using Cuemon.ComponentModel;
 
 namespace Cuemon.Extensions.Web
 {
     /// <summary>
-    /// Extension methods for the <see cref="byte"/> struct.
+    /// Extension methods for the <see cref="T:byte[]"/>.
     /// </summary>
     /// <remarks>
     /// Kudos to the mono-project team for this class. I only modified some of the original code to fit into this class. For the original code, have a visit here for the source code: https://github.com/mono/mono/blob/master/mcs/class/System.Web/System.Web/HttpUtility.cs or here for the mono-project website: http://www.mono-project.com/.
     /// </remarks>
-    public static class ByteExtensions
+    public static class ByteArrayExtensions
     {
         private static readonly char[] HexadecimalCharactersLowerCase = Alphanumeric.Hexadecimal.ToLowerInvariant().ToCharArray();
 
@@ -50,7 +49,7 @@ namespace Cuemon.Extensions.Web
                 o.Preamble = options.Preamble;
             }))
             {
-                return ConvertFactory.UseCodec<StreamByteArrayCodec>().Encode(result);
+                return Decorator.Enclose(result).ToByteArray();
             }
         }
 

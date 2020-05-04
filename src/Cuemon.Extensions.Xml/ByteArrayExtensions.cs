@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Xml;
-using Cuemon.ComponentModel;
 
 namespace Cuemon.Extensions.Xml
 {
     /// <summary>
-    /// Extension methods for the <see cref="byte"/> struct.
+    /// Extension methods for the <see cref="T:byte[]"/>.
     /// </summary>
-    public static class ByteExtensions
+    public static class ByteArrayExtensions
     {
         /// <summary>
         /// Converts the given <paramref name="value"/> to an <see cref="XmlReader"/>.
@@ -18,7 +17,7 @@ namespace Cuemon.Extensions.Xml
         public static XmlReader ToXmlReader(this byte[] value, Action<XmlReaderSettings> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            return ConvertFactory.UseCodec<StreamByteArrayCodec>().Decode(value).ToXmlReader(setup: setup);
+            return Decorator.Enclose(value).ToStream().ToXmlReader(setup: setup);
         }
     }
 }

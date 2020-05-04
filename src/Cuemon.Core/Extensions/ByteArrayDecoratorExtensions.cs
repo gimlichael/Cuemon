@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="T:byte[]"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="T:byte[]"/> tailored to adhere the decorator pattern.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

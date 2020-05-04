@@ -31,7 +31,6 @@ namespace Cuemon.ComponentModel
         /// <paramref name="setup"/> was initialized with an invalid <see cref="StreamEncodingOptions.Preamble"/>.
         /// </exception>
         /// <seealso cref="StreamEncodingOptions"/>
-        /// <seealso cref="StreamByteArrayCodec"/>
         public string Encode(Stream value, Action<StreamEncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
@@ -39,7 +38,7 @@ namespace Cuemon.ComponentModel
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = ByteOrderMark.DetectEncodingOrDefault(value, options.Encoding); }
             if (options.Preamble < PreambleSequence.Keep || options.Preamble > PreambleSequence.Remove) { throw new InvalidEnumArgumentException(nameof(setup), (int)options.Preamble, typeof(PreambleSequence)); }
 
-            var bytes = ConvertFactory.UseCodec<StreamByteArrayCodec>().Encode(value, o => o.LeaveOpen = options.LeaveOpen);
+            var bytes = Decorator.Enclose(value).ToByteArray(o => o.LeaveOpen = options.LeaveOpen);
             return Convertible.ToString(bytes, o =>
             {
                 o.Encoding = options.Encoding;
