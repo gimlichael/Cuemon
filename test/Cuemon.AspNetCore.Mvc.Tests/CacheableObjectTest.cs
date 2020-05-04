@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Mvc.Tests
 {
-    public class CacheableObjectTest : XunitTest
+    public class CacheableObjectTest : Test
     {
         public CacheableObjectTest(ITestOutputHelper output) : base(output)
         {
