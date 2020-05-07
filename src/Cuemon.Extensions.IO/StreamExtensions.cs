@@ -158,16 +158,44 @@ namespace Cuemon.Extensions.IO
             return ByteOrderMark.TryDetectEncoding(value, out result);
         }
 
+
+
         /// <summary>
-        /// Converts the specified <paramref name="value"/> to a string using the provided preferred encoding.
+        /// Converts the specified <paramref name="value"/> to a <see cref="string"/>.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="StreamEncodingOptions"/> which need to be configured.</param>
-        /// <returns>A <see cref="string"/> containing the decoded result of the specified <paramref name="value"/>.</returns>
-        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        /// <param name="setup">The <see cref="StreamReaderOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="string"/> containing the result of the specified <paramref name="value"/>.</returns>
+        /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        /// <exception cref="InvalidEnumArgumentException">
+        /// <paramref name="setup"/> was initialized with an invalid <see cref="StreamEncodingOptions.Preamble"/>.
+        /// </exception>
         public static string ToEncodedString(this Stream value, Action<StreamEncodingOptions> setup = null)
         {
-            return ConvertFactory.UseCodec<StreamStringCodec>().Encode(value, setup);
+            Validator.ThrowIfNull(value, nameof(value));
+            return Decorator.Enclose(value).ToEncodedString(setup);
+        }
+
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to a <see cref="string"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="Stream"/> to extend.</param>
+        /// <param name="setup">The <see cref="StreamReaderOptions"/> which may be configured.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="string"/> containing the result of the specified <paramref name="value"/>.</returns>
+        /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        /// <exception cref="InvalidEnumArgumentException">
+        /// <paramref name="setup"/> was initialized with an invalid <see cref="StreamEncodingOptions.Preamble"/>.
+        /// </exception>
+        public static Task<string> ToEncodedStringAsync(this Stream value, Action<StreamEncodingOptions> setup = null)
+        {
+            Validator.ThrowIfNull(value, nameof(value));
+            return Decorator.Enclose(value).ToEncodedStringAsync(setup);
         }
 
         /// <summary>

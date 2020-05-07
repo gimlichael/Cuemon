@@ -8,9 +8,9 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Core.Tests
 {
-    public class ByteArrayTest : Test
+    public class ByteArrayDecoratorExtensionsTest : Test
     {
-        public ByteArrayTest(ITestOutputHelper output) : base(output)
+        public ByteArrayDecoratorExtensionsTest(ITestOutputHelper output) : base(output)
         {
         }
 

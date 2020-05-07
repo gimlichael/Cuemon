@@ -1,7 +1,7 @@
 ﻿using System;
-using Cuemon.ComponentModel;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
+using Cuemon.IO;
 using Cuemon.Runtime.Serialization;
 
 namespace Cuemon.Extensions.Newtonsoft.Json.Diagnostics
@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Diagnostics
             });
             using (var json = formatter.Serialize(descriptor))
             {
-                return ConvertFactory.UseCodec<StreamStringCodec>().Encode(json);
+                return Decorator.Enclose(json).ToEncodedString();
             }
         }
     }

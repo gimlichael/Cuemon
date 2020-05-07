@@ -1,7 +1,7 @@
 ﻿using System;
-using Cuemon.ComponentModel;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xml.Serialization.Formatters;
+using Cuemon.IO;
 using Cuemon.Runtime.Serialization;
 
 namespace Cuemon.Extensions.Xml.Serialization.Diagnostics
@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Diagnostics
             });
             using (var xml = formatter.Serialize(descriptor))
             {
-                return ConvertFactory.UseCodec<StreamStringCodec>().Encode(xml);
+                return Decorator.Enclose(xml).ToEncodedString();
             }
         }
     }

@@ -337,7 +337,7 @@ namespace Cuemon.Integrity
         /// <exception cref="InvalidEnumArgumentException">
         /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
-        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static byte[] GetBytes(string input, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(input, nameof(input));
@@ -369,7 +369,7 @@ namespace Cuemon.Integrity
         /// <exception cref="InvalidEnumArgumentException">
         /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
-        /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
+        /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToString(byte[] input, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(input, nameof(input));
@@ -387,7 +387,6 @@ namespace Cuemon.Integrity
             }
             return options.Encoding.GetString(input, 0, input.Length);
         }
-
 
         /// <summary>
         /// Returns the specified <see cref="Enum"/> as a <see cref="T:byte[]"/>.
