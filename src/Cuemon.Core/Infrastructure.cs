@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cuemon
 {
@@ -17,6 +19,22 @@ namespace Cuemon
 
             source.CopyTo(destination, bufferSize);
             destination.Flush();
+
+            if (changePosition && source.CanSeek) { source.Position = lastPosition; }
+            if (changePosition && destination.CanSeek) { destination.Position = 0; }
+        }
+
+        internal static async Task CopyStreamAsync(Stream source, Stream destination, int bufferSize = 81920, CancellationToken ct = default, bool changePosition = true)
+        {
+            long lastPosition = 0;
+            if (changePosition && source.CanSeek)
+            {
+                lastPosition = source.Position;
+                if (source.CanSeek) { source.Position = 0; }
+            }
+
+            await source.CopyToAsync(destination, bufferSize, ct).ConfigureAwait(false);
+            await destination.FlushAsync(ct).ConfigureAwait(false);
 
             if (changePosition && source.CanSeek) { source.Position = lastPosition; }
             if (changePosition && destination.CanSeek) { destination.Position = 0; }

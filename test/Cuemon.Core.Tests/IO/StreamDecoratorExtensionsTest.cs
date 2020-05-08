@@ -18,6 +18,102 @@ namespace Cuemon.Core.Tests.IO
         }
 
         [Fact]
+        public void CompressBrotli_ShouldCompressAndDecompress()
+        {
+            var size = 1024 * 1024;
+            var fs = Generate.RandomString(size);
+            var os = Decorator.Enclose(fs).ToStream();
+            var cos = Decorator.Enclose(os).CompressBrotli();
+            var dos = Decorator.Enclose(cos).DecompressBrotli();
+            var osResult = Decorator.Enclose(os).ToEncodedString(o => o.LeaveOpen = true);
+            var cosResult = Decorator.Enclose(cos).ToEncodedString(o => o.LeaveOpen = true);
+            var dosResult = Decorator.Enclose(dos).ToEncodedString(o => o.LeaveOpen = true);
+
+            Assert.Equal(size, os.Length);
+            Assert.NotEqual(os.Length, cos.Length);
+            Assert.True(os.Length > cos.Length);
+            Assert.Equal(os.Length, dos.Length);
+            Assert.Equal(osResult, dosResult);
+            Assert.NotEqual(osResult, cosResult);
+
+            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+        }
+
+        [Fact]
+        public async Task CompressBrotliAsync_ShouldCompressAndDecompress()
+        {
+            var size = 1024 * 1024;
+            var fs = Generate.RandomString(size);
+            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            var cos = await Decorator.Enclose(os).CompressBrotliAsync();
+            var dos = await Decorator.Enclose(cos).DecompressBrotliAsync();
+            var osResult = await Decorator.Enclose(os).ToEncodedStringAsync(o => o.LeaveOpen = true);
+            var cosResult = await Decorator.Enclose(cos).ToEncodedStringAsync(o => o.LeaveOpen = true);
+            var dosResult = await Decorator.Enclose(dos).ToEncodedStringAsync(o => o.LeaveOpen = true);
+
+            Assert.Equal(size, os.Length);
+            Assert.NotEqual(os.Length, cos.Length);
+            Assert.True(os.Length > cos.Length);
+            Assert.Equal(os.Length, dos.Length);
+            Assert.Equal(osResult, dosResult);
+            Assert.NotEqual(osResult, cosResult);
+
+            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+        }
+
+        [Fact]
+        public void CompressDeflate_ShouldCompressAndDecompress()
+        {
+            var size = 1024 * 1024;
+            var fs = Generate.RandomString(size);
+            var os = Decorator.Enclose(fs).ToStream();
+            var cos = Decorator.Enclose(os).CompressDeflate();
+            var dos = Decorator.Enclose(cos).DecompressDeflate();
+            var osResult = Decorator.Enclose(os).ToEncodedString(o => o.LeaveOpen = true);
+            var cosResult = Decorator.Enclose(cos).ToEncodedString(o => o.LeaveOpen = true);
+            var dosResult = Decorator.Enclose(dos).ToEncodedString(o => o.LeaveOpen = true);
+
+            Assert.Equal(size, os.Length);
+            Assert.NotEqual(os.Length, cos.Length);
+            Assert.True(os.Length > cos.Length);
+            Assert.Equal(os.Length, dos.Length);
+            Assert.Equal(osResult, dosResult);
+            Assert.NotEqual(osResult, cosResult);
+
+            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+        }
+
+        [Fact]
+        public void CompressGZip_ShouldCompressAndDecompress()
+        {
+            var size = 1024 * 1024;
+            var fs = Generate.RandomString(size);
+            var os = Decorator.Enclose(fs).ToStream();
+            var cos = Decorator.Enclose(os).CompressGZip();
+            var dos = Decorator.Enclose(cos).DecompressGZip();
+            var osResult = Decorator.Enclose(os).ToEncodedString(o => o.LeaveOpen = true);
+            var cosResult = Decorator.Enclose(cos).ToEncodedString(o => o.LeaveOpen = true);
+            var dosResult = Decorator.Enclose(dos).ToEncodedString(o => o.LeaveOpen = true);
+
+            Assert.Equal(size, os.Length);
+            Assert.NotEqual(os.Length, cos.Length);
+            Assert.True(os.Length > cos.Length);
+            Assert.Equal(os.Length, dos.Length);
+            Assert.Equal(osResult, dosResult);
+            Assert.NotEqual(osResult, cosResult);
+
+            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+        }
+
+        [Fact]
         public void ToByteArray_ShouldConvertStreamToByteArrayWithDefaultOptions()
         {
             var size = 1024 * 1024;

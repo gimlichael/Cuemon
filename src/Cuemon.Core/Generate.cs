@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
 using Cuemon.Integrity;
 using Cuemon.Reflection;
+using Cuemon.Threading;
 
 namespace Cuemon
 {
@@ -147,17 +150,21 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="values"/> cannot be null.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="values"/> contains no elements.
+        /// </exception>
         public static string RandomString(int length, params string[] values)
         {
             Validator.ThrowIfNull(values, nameof(values));
-            var result = new StringBuilder(length);
-            for (var i = 0; i < length; i++)
+            Validator.ThrowIfEmptySequence(values, nameof(values));
+            var result = new ConcurrentBag<char>();
+            Parallel.For(0, length, i => 
             {
-                var index = RandomNumber(values.Length);
-                var indexLength = values[index].Length;
-                result.Append(values[index][RandomNumber(indexLength)]);
-            }
-            return result.ToString();
+               var index = RandomNumber(values.Length);
+               var indexLength = values[index].Length;
+                result.Add(values[index][RandomNumber(indexLength)]);
+            });
+            return Decorator.Enclose(result).ToStringEquivalent();
         }
 
         /// <summary>
