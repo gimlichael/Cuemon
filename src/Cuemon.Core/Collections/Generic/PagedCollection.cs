@@ -276,8 +276,8 @@ namespace Cuemon.Collections.Generic
         private int GetPageCount()
         {
             if (TotalElementCount == 0) { return 0; }
-            var presult = TotalElementCount / ConvertFactory.FromObject().ChangeTypeOrDefault<double>(Settings.PageSize);
-            return ConvertFactory.FromObject().ChangeTypeOrDefault<int>(Math.Ceiling(presult));
+            var presult = TotalElementCount / Decorator.Enclose<object>(Settings.PageSize).ChangeTypeOrDefault<double>();
+            return Decorator.Enclose<object>(Math.Ceiling(presult)).ChangeType<int>();
         }
 
         /// <summary>

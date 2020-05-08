@@ -113,7 +113,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
             var dictionaryType = valueType.GetGenericArguments().Length > 0 ? valueType.GetGenericArguments() : new[] { typeof(object), typeof(object) };
             var dictionary = typeof(Dictionary<,>).MakeGenericType(dictionaryType);
-            var castedValues = values.Select(pair => Template.CreateTwo(ConvertFactory.FromObject().ChangeType(pair.Key, dictionaryType[0]), ConvertFactory.FromObject().ChangeType(pair.Value, dictionaryType[1]))).ToList();
+            var castedValues = values.Select(pair => Template.CreateTwo(Decorator.Enclose(pair.Key).ChangeType(dictionaryType[0]), Decorator.Enclose(pair.Value).ChangeType(dictionaryType[1]))).ToList();
             var instance = Activator.CreateInstance(dictionary);
             var addMethod = valueType.GetMethod("Add");
             foreach (var item in castedValues)
@@ -133,7 +133,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
             var enumerableType = valueType.GetGenericArguments().FirstOrDefault() ?? typeof(object);
             var listEnumerable = typeof(List<>).MakeGenericType(enumerableType);
-            var castedValues = values.Where(pair => pair.Key == EnumerableElementName).Select(pair => ConvertFactory.FromObject().ChangeType(pair.Value, enumerableType)).ToList();
+            var castedValues = values.Where(pair => pair.Key == EnumerableElementName).Select(pair => Decorator.Enclose(pair.Value).ChangeType(enumerableType)).ToList();
             var instance = Activator.CreateInstance(listEnumerable);
             var addMethod = valueType.GetMethod("Add");
             foreach (var item in castedValues)
@@ -204,7 +204,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 {
                     foreach (var arg in arguments)
                     {
-                        args.Add(ConvertFactory.FromObject().ChangeType(values.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase)).Value, arg.ParameterType));
+                        args.Add(Decorator.Enclose(values.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase)).Value).ChangeType(arg.ParameterType));
                     }
                     break;
                 }
@@ -221,7 +221,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                     {
                         foreach (var arg in arguments)
                         {
-                            args.Add(ConvertFactory.FromObject().ChangeType(values.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase)).Value, arg.ParameterType));
+                            args.Add(Decorator.Enclose(values.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase)).Value).ChangeType(arg.ParameterType));
                         }
                         return method.Invoke(null, args.ToArray());
                     }
@@ -233,7 +233,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             foreach (var propertyName in propertyNames)
             {
                 var property = properties[propertyName];
-                property.SetValue(instance, ConvertFactory.FromObject().ChangeType(values.First(pair => pair.Key == propertyName).Value, property.PropertyType));
+                property.SetValue(instance, Decorator.Enclose(values.First(pair => pair.Key == propertyName).Value).ChangeType(property.PropertyType));
             }
             return instance;
         }

@@ -98,7 +98,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             var objects = new List<object>();
             foreach (var pi in descriptor.Parameters)
             {
-                objects.Add(ConvertFactory.FromObject().ChangeType(context.RouteData.Values[pi.Name], pi.ParameterType));
+                objects.Add(Decorator.Enclose(context.RouteData.Values[pi.Name]).ChangeType(pi.ParameterType));
             }
             return objects.ToArray();
         }

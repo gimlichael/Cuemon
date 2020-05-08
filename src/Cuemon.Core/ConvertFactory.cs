@@ -11,15 +11,6 @@ namespace Cuemon
     public static class ConvertFactory
     {
         /// <summary>
-        /// Creates an instance of <see cref="ObjectConverter"/>.
-        /// </summary>
-        /// <returns>An <see cref="ITypeConverter{TInput,TResult}"/> implementation of <see cref="ObjectConverter"/>.</returns>
-        public static ObjectConverter FromObject()
-        {
-            return new ObjectConverter();
-        }
-
-        /// <summary>
         /// Uses this instance.
         /// </summary>
         /// <typeparam name="TCodec">The type of the t encoder.</typeparam>

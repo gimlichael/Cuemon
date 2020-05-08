@@ -22,7 +22,7 @@ namespace Cuemon.Collections.Generic
         public PartitionerCollection(ICollection<T> source, int partitionSize = 128) : base(source, partitionSize)
         {
             Count = source.Count;
-            PartitionsCount = ConvertFactory.FromObject().ChangeTypeOrDefault<int>(Math.Ceiling(Count / ConvertFactory.FromObject().ChangeTypeOrDefault<double>(PartitionSize)));
+            PartitionsCount = Decorator.Enclose<object>(Math.Ceiling(Count / Decorator.Enclose<object>(PartitionSize).ChangeTypeOrDefault<double>(PartitionSize))).ChangeTypeOrDefault<int>();
         }
 
         /// <summary>

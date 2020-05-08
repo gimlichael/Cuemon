@@ -195,7 +195,7 @@ namespace Cuemon
         /// </exception>
         public TResult InstanceAs<TResult>(IFormatProvider provider)
         {
-            return (TResult)ConvertFactory.FromObject().ChangeType(Instance, InstanceType, o => o.FormatProvider = provider);
+            return (TResult)Decorator.Enclose<object>(Instance).ChangeType(InstanceType, o => o.FormatProvider = provider);
         }
         #endregion
     }

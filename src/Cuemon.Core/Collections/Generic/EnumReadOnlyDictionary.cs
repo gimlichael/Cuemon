@@ -33,7 +33,7 @@ namespace Cuemon.Collections.Generic
             var integral = Enum.GetUnderlyingType(typeof(TEnum));
             foreach (var value in values)
             {
-                dictionary.Add((IConvertible)ConvertFactory.FromObject().ChangeType(value, integral), value.ToString());
+                dictionary.Add((IConvertible)Decorator.Enclose(value).ChangeType(integral), value.ToString());
             }
             return dictionary;
         }

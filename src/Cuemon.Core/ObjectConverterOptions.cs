@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
+using Cuemon.ComponentModel;
 
-namespace Cuemon.ComponentModel
+namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="ObjectConverter"/>.

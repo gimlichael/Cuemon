@@ -45,7 +45,7 @@ namespace Cuemon.Extensions
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
         public static TResult As<TResult>(this object value)
         {
-            return ConvertFactory.FromObject().ChangeTypeOrDefault<TResult>(value);
+            return Decorator.Enclose(value).ChangeTypeOrDefault<TResult>();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Cuemon.Extensions
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
         public static TResult As<TResult>(this object value, TResult resultOnConversionNotPossible)
         {
-            return ConvertFactory.FromObject().ChangeTypeOrDefault(value, resultOnConversionNotPossible);
+            return Decorator.Enclose(value).ChangeTypeOrDefault(resultOnConversionNotPossible);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Cuemon.Extensions
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
         public static TResult As<TResult>(this object value, TResult resultOnConversionNotPossible, IFormatProvider provider)
         {
-            return ConvertFactory.FromObject().ChangeTypeOrDefault(value, resultOnConversionNotPossible, o => o.FormatProvider = provider);
+            return Decorator.Enclose(value).ChangeTypeOrDefault(resultOnConversionNotPossible, o => o.FormatProvider = provider);
         }
 
         /// <summary>

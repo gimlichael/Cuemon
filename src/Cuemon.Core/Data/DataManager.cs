@@ -351,7 +351,7 @@ namespace Cuemon.Data
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand"/> as the specified <paramref name="returnType"/>.</returns>
         public object ExecuteScalarAsType(IDataCommand dataCommand, Type returnType, IFormatProvider provider, params DbParameter[] parameters)
         {
-            return ConvertFactory.FromObject().ChangeType(ExecuteScalar(dataCommand, parameters), returnType, o => o.FormatProvider = provider);
+            return Decorator.Enclose(ExecuteScalar(dataCommand, parameters)).ChangeType(returnType, o => o.FormatProvider = provider);
         }
 
         /// <summary>
