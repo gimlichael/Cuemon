@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net.Http.Headers;
 using Cuemon.Collections.Generic;
-using Cuemon.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
@@ -27,7 +26,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </exception>
         public static bool TryAddOrUpdateHeader(this IDecorator<IHeaderDictionary> decorator, string key, StringValues value, bool useAsciiEncodingConversion = true)
         {
-            var headerValue = useAsciiEncodingConversion ? new StringValues(ConvertFactory.UseEncoder<AsciiStringEncoder>().Encode(value)) : value;
+            var headerValue = useAsciiEncodingConversion ? new StringValues(Decorator.Enclose<string>(value).ToAsciiEncodedString()) : value;
             if (headerValue != StringValues.Empty)
             {
                 return decorator.TryAddOrUpdate(key, Decorator.Enclose(headerValue.ToString().Where(c => !char.IsControl(c))).ToStringEquivalent());
