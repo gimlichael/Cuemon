@@ -1,4 +1,6 @@
-﻿namespace Cuemon.Integrity
+﻿using Cuemon.Integrity;
+
+namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="Convertible"/>.

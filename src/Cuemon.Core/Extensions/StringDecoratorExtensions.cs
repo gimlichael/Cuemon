@@ -16,6 +16,24 @@ namespace Cuemon
     public static class StringDecoratorExtensions
     {
         /// <summary>
+        /// Converts the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> to its equivalent <see cref="T:byte[]"/> representation.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
+        /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="T:byte[]"/> containing the result of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        /// <exception cref="InvalidEnumArgumentException">
+        /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
+        /// </exception>
+        public static byte[] ToByteArray(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            return Convertible.GetBytes(decorator.Inner, setup);
+        }
+
+        /// <summary>
         /// Encodes all the characters in the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> to its encoded <see cref="string"/> variant.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>

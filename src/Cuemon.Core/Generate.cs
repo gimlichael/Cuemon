@@ -49,13 +49,10 @@ namespace Cuemon
             var options = Patterns.Configure(setup);
             if (instance == null) { return options.NullValue; }
 
-            if (!options.BypassOverrideCheck)
+            if (!options.BypassOverrideCheck && TypeInsight.FromInstance(instance).When(type => type.GetMethods().SingleOrDefault(m => m.Name == nameof(ToString) && m.GetParameters().Length == 0), out var mi).IsOverridden())
             {
-                if (TypeInsight.FromInstance(instance).When(type => type.GetMethods().SingleOrDefault(m => m.Name == nameof(ToString) && m.GetParameters().Length == 0), out var mi).IsOverridden())
-                {
-                    var stringResult = instance.ToString();
-                    return mi.DeclaringType == typeof(bool) ? stringResult.ToLowerInvariant() : stringResult;
-                }
+                var stringResult = instance.ToString();
+                return mi.DeclaringType == typeof(bool) ? stringResult.ToLowerInvariant() : stringResult;
             }
 
             var instanceType = instance.GetType();

@@ -4,9 +4,10 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Cuemon.Integrity;
 using Cuemon.Text;
 
-namespace Cuemon.Integrity
+namespace Cuemon
 {
     /// <summary>
     /// Provides a set of static methods, suitable for verifying integrity of data, that convert <see cref="IConvertible"/> implementations to and from a sequence of bytes.

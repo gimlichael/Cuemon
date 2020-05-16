@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cuemon.Core.Tests.Assets
+﻿namespace Cuemon.Core.Tests.Assets
 {
     public class NotifierDecorator : INotifier
     {

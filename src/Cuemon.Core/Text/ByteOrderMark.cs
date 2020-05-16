@@ -138,7 +138,7 @@ namespace Cuemon.Text
             var startingPosition = value.Position;
             value.Position = 0;
             value.Read(byteOrderMarks, 0, 4); // only read the first 4 bytes
-            value.Seek(startingPosition, SeekOrigin.Begin); // reset to original position}
+            value.Seek(startingPosition, SeekOrigin.Begin); // reset to original position
 
             return TryDetectEncoding(byteOrderMarks, out result);
         }
