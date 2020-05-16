@@ -29,7 +29,7 @@ namespace Cuemon.Core.Tests
         {
             var result = Decorator.Enclose(_number).ChangeType(typeof(double));
             Assert.IsType<double>(result);
-            Assert.Equal(Convert.ToDouble(_number, new ObjectConverterOptions().FormatProvider), result);
+            Assert.Equal(Convert.ToDouble(_number, new ObjectFormattingOptions().FormatProvider), result);
             TestOutput.WriteLine(result.ToString());
         }
 

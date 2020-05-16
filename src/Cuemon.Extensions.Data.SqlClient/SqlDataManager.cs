@@ -10,7 +10,7 @@ using Cuemon.Data;
 namespace Cuemon.Extensions.Data.SqlClient
 {
     /// <summary>
-    /// The SqlDataManager is the primary class of the <see cref="Cuemon.Data.SqlClient"/> namespace that can be used to execute commands targeted Microsoft SQL Server.
+    /// The SqlDataManager is the primary class of the <see cref="SqlClient"/> namespace that can be used to execute commands targeted Microsoft SQL Server.
     /// </summary>
     public class SqlDataManager : DataManager
     {

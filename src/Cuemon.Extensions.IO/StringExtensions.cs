@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
-using Cuemon.ComponentModel;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions.IO

@@ -78,7 +78,7 @@ namespace Cuemon.Core.Tests
                 Decorator.Enclose(notifier).Send();
             });
             Assert.Contains("Value cannot be null.", ex.Message);
-            Assert.Equal("source", ex.ParamName);
+            Assert.Equal("inner", ex.ParamName);
         }
     }
 }

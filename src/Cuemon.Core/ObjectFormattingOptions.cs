@@ -1,20 +1,20 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
-using Cuemon.ComponentModel;
+using Cuemon.Text;
 
 namespace Cuemon
 {
     /// <summary>
-    /// Configuration options for <see cref="ObjectConverter"/>.
+    /// Configuration options for <see cref="ParserFactory.FromObject"/> and methods of <see cref="ObjectDecoratorExtensions"/>.
     /// </summary>
-    public class ObjectConverterOptions : FormattingOptions<IFormatProvider>
+    public class ObjectFormattingOptions : FormattingOptions<IFormatProvider>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectConverterOptions"/> class.
+        /// Initializes a new instance of the <see cref="ObjectFormattingOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="ObjectConverterOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="ObjectFormattingOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -30,7 +30,7 @@ namespace Cuemon
         ///     </item>
         /// </list>
         /// </remarks>
-        public ObjectConverterOptions()
+        public ObjectFormattingOptions()
         {
             FormatProvider = CultureInfo.InvariantCulture;
         }

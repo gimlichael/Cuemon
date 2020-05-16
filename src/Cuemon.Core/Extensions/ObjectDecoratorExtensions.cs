@@ -20,10 +20,10 @@ namespace Cuemon
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
         /// <param name="fallbackResult">The value to return when a conversion is not possible. Default is <c>default</c> of <typeparamref name="T"/>.</param>
-        /// <param name="setup">The <see cref="ObjectConverterOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ObjectFormattingOptions"/> which may be configured.</param>
         /// <returns>An <see cref="object"/> of type <typeparamref name="T"/> equivalent to the enclosed <see cref="object"/> of the specified <paramref name="decorator"/> when a conversion is possible; otherwise <paramref name="fallbackResult"/> is returned.</returns>
         /// <remarks>This method first checks if the enclosed <see cref="object"/> of the specified <paramref name="decorator"/> is compatible with <typeparamref name="T"/>; if incompatible the method continues with <see cref="ChangeType{T}"/> for the operation.</remarks>
-        public static T ChangeTypeOrDefault<T>(this IDecorator<object> decorator, T fallbackResult = default, Action<ObjectConverterOptions> setup = null)
+        public static T ChangeTypeOrDefault<T>(this IDecorator<object> decorator, T fallbackResult = default, Action<ObjectFormattingOptions> setup = null)
         {
             if (decorator.Inner is T result) { return result; }
             return Patterns.InvokeOrDefault(() => ChangeType<T>(decorator, setup), fallbackResult);
@@ -34,7 +34,7 @@ namespace Cuemon
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
-        /// <param name="setup">The <see cref="ObjectConverterOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ObjectFormattingOptions"/> which may be configured.</param>
         /// <returns>An <see cref="object"/> of type <typeparamref name="T"/> equivalent to the enclosed <see cref="object"/> of the specified <paramref name="decorator"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
@@ -42,10 +42,10 @@ namespace Cuemon
         /// <exception cref="AggregateException">
         /// The enclosed <see cref="object"/> of <paramref name="decorator"/> could not be converted.
         /// </exception>
-        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectConverterOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectConverterOptions.DescriptorContext"/>.</remarks>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectFormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectFormattingOptions.DescriptorContext"/>.</remarks>
         /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
-        public static T ChangeType<T>(this IDecorator<object> decorator, Action<ObjectConverterOptions> setup = null)
+        public static T ChangeType<T>(this IDecorator<object> decorator, Action<ObjectFormattingOptions> setup = null)
         {
             return (T)ChangeType(decorator, typeof(T), setup);
         }
@@ -55,7 +55,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
         /// <param name="targetType">The type of the object to return.</param>
-        /// <param name="setup">The <see cref="ObjectConverterOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ObjectFormattingOptions"/> which may be configured.</param>
         /// <returns>An <see cref="object"/> of type <paramref name="targetType"/> equivalent to the enclosed <see cref="object"/> of the specified <paramref name="decorator"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
@@ -63,10 +63,10 @@ namespace Cuemon
         /// <exception cref="AggregateException">
         /// The enclosed <see cref="object"/> of <paramref name="decorator"/> could not be converted.
         /// </exception>
-        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectConverterOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectConverterOptions.DescriptorContext"/>.</remarks>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectFormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectFormattingOptions.DescriptorContext"/>.</remarks>
         /// <seealso cref="Convert.ChangeType(object,Type)"/>
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
-        public static object ChangeType(this IDecorator<object> decorator, Type targetType, Action<ObjectConverterOptions> setup = null)
+        public static object ChangeType(this IDecorator<object> decorator, Type targetType, Action<ObjectFormattingOptions> setup = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             Validator.ThrowIfNull(targetType, nameof(targetType));

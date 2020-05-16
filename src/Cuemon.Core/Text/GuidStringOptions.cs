@@ -1,15 +1,15 @@
 ﻿namespace Cuemon.Text
 {
     /// <summary>
-    /// Configuration options for <see cref="GuidParser"/>.
+    /// Configuration options for <see cref="ParserFactory.FromGuid"/>.
     /// </summary>
-    public class GuidOptions
+    public class GuidStringOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GuidOptions"/> class.
+        /// Initializes a new instance of the <see cref="GuidStringOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="GuidOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="GuidStringOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -21,7 +21,7 @@
         ///     </item>
         /// </list>
         /// </remarks>
-        public GuidOptions()
+        public GuidStringOptions()
         {
             Formats = GuidFormats.B | GuidFormats.D | GuidFormats.P;
         }

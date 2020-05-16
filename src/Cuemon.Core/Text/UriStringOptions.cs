@@ -5,9 +5,9 @@ using Cuemon.Collections.Generic;
 namespace Cuemon.Text
 {
     /// <summary>
-    /// Configuration options for <see cref="SimpleUriParser"/>.
+    /// Configuration options for <see cref="ParserFactory.FromUri"/>.
     /// </summary>
-    public class SimpleUriOptions
+    public class UriStringOptions
     {
         /// <summary>
         /// Gets all supported URI schemes.
@@ -16,10 +16,10 @@ namespace Cuemon.Text
         public static IEnumerable<UriScheme> AllUriSchemes => Arguments.ToEnumerableOf(UriScheme.File, UriScheme.Ftp, UriScheme.Gopher, UriScheme.Http, UriScheme.Https, UriScheme.Mailto, UriScheme.NetPipe, UriScheme.NetTcp, UriScheme.News, UriScheme.Nntp);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleUriOptions"/> class.
+        /// Initializes a new instance of the <see cref="UriStringOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="SimpleUriOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="UriStringOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -35,7 +35,7 @@ namespace Cuemon.Text
         ///     </item>
         /// </list>
         /// </remarks>
-        public SimpleUriOptions()
+        public UriStringOptions()
         {
             Kind = UriKind.Absolute;
             Schemes = new List<UriScheme>(AllUriSchemes);

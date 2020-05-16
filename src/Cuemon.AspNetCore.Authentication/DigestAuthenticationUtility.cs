@@ -127,7 +127,7 @@ namespace Cuemon.AspNetCore.Authentication
         public static bool DefaultNonceExpiredParser(string nonce, TimeSpan timeToLive)
         {
             Validator.ThrowIfNullOrEmpty(nonce, nameof(nonce));
-            if (ParseFactory.FromBase64().TryParse(nonce, out var rawNonce))
+            if (ParserFactory.FromBase64().TryParse(nonce, out var rawNonce))
             {
                 var nonceProtocol = Convertible.ToString(rawNonce, options =>
                 {

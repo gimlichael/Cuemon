@@ -12,7 +12,7 @@ namespace Cuemon
     /// </summary>
     public static class StringFactory
     {
-        private static readonly IDictionary<UriScheme, string> UriSchemeToStringLookupTable = UriSchemeParser.StringToUriSchemeLookupTable.ToDictionary(pair => pair.Value, pair => pair.Key);
+        private static readonly IDictionary<UriScheme, string> UriSchemeToStringLookupTable = ParserFactory.StringToUriSchemeLookupTable.ToDictionary(pair => pair.Value, pair => pair.Key);
 
         /// <summary>
         /// Creates a hexadecimal string representation from the specified <paramref name="value"/>.
@@ -84,7 +84,7 @@ namespace Cuemon
         /// Creates a protocol-relative URL string representation from the specified <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="Uri"/> to convert.</param>
-        /// <param name="setup">The <see cref="ProtocolRelativeUrlOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ProtocolRelativeUriStringOptions"/> which may be configured.</param>
         /// <returns>A protocol-relative URL string representation that is equivalent to <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
@@ -92,7 +92,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be an absolute URI.
         /// </exception>
-        public static string CreateProtocolRelativeUrl(Uri value, Action<ProtocolRelativeUrlOptions> setup = null)
+        public static string CreateProtocolRelativeUrl(Uri value, Action<ProtocolRelativeUriStringOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfFalse(value.IsAbsoluteUri, nameof(value), "Uri must be absolute.");

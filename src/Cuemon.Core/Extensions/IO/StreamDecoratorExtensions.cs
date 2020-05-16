@@ -307,7 +307,7 @@ namespace Cuemon.IO
                 #if NETSTANDARD2_1
                 await using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
                 {
-                    await Infrastructure.CopyStreamAsync(uncompressed, target, options.BufferSize, options.CancellationToken).ConfigureAwait(false);;
+                    await Infrastructure.CopyStreamAsync(uncompressed, target, options.BufferSize, options.CancellationToken).ConfigureAwait(false);
                 }
                 #else
                 using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))

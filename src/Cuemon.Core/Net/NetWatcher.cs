@@ -68,7 +68,7 @@ namespace Cuemon.Net
 		public NetWatcher(Uri requestUri, TimeSpan dueTime, TimeSpan period, bool checkResponseData) : base(dueTime, period)
 		{
             Validator.ThrowIfNull(requestUri, nameof(requestUri));
-            var scheme = ParseFactory.FromUriScheme().Parse(requestUri.Scheme);
+            var scheme = ParserFactory.FromUriScheme().Parse(requestUri.Scheme);
 			switch (scheme)
 			{
 				case UriScheme.File:

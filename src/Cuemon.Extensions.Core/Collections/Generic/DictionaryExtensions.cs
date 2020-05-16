@@ -89,7 +89,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <param name="key">The key of the element to add.</param>
         /// <param name="value">The value of the element to add.</param>
         /// <param name="condition">The function delegate that specifies the condition for adding the element.</param>
-        /// <returns><c>true</c> if the key/value pair was added to the enclosed <see cref="IDictionary{TKey,TValue}"/> of the <paramref name="decorator"/> successfully; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the key/value pair was added to the <paramref name="dictionary"/> successfully; otherwise, <c>false</c>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="dictionary"/> cannot be null -or-
         /// <paramref name="key"/> cannot be null -or-

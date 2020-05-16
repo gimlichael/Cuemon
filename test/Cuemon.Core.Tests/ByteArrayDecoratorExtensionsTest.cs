@@ -1,8 +1,6 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
-using Cuemon.Integrity;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -25,7 +23,7 @@ namespace Cuemon.Core.Tests
             {
                 var result = sr.ReadToEnd();
                 Assert.Equal(size, s.Length);
-                Assert.True(result.All(b => b == '*'), "Expected all elements to have the value of '*'.");
+                Assert.All(result, c => Assert.Equal('*', c));
             }
         }
 
@@ -40,7 +38,7 @@ namespace Cuemon.Core.Tests
             {
                 var result = await sr.ReadToEndAsync();
                 Assert.Equal(size, s.Length);
-                Assert.True(result.All(b => b == '*'), "Expected all elements to have the value of '*'.");
+                Assert.All(result, c => Assert.Equal('*', c));
             }
         }
     }

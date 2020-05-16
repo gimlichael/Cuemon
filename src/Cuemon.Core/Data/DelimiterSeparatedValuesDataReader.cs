@@ -21,7 +21,7 @@ namespace Cuemon.Data
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
         /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
         /// <param name="qualifier">The qualifier specification. Default is double-quote (").</param>
-        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="SimpleValueParser.Parse"/>.</param>
+        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="ParserFactory.FromValueType"/>.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="header"/> cannot be empty or consist only of white-space characters -or-
         /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/>.
@@ -31,7 +31,7 @@ namespace Cuemon.Data
         /// <paramref name="delimiter"/> is null -or-
         /// <paramref name="qualifier"/> is null.
         /// </exception>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header = null, char delimiter = ',', char qualifier = '"', Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParseFactory.FromSimpleValue().Parse)
+        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header = null, char delimiter = ',', char qualifier = '"', Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParserFactory.FromValueType().Parse)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(delimiter, nameof(delimiter));

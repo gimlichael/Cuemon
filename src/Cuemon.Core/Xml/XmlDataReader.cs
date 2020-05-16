@@ -18,11 +18,11 @@ namespace Cuemon.Xml
         /// Initializes a new instance of the <see cref="XmlDataReader"/> class.
         /// </summary>
         /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data.</param>
-        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="SimpleValueParser.Parse"/>.</param>
+        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="ParserFactory.FromValueType"/>.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        public XmlDataReader(XmlReader reader, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParseFactory.FromSimpleValue().Parse)
+        public XmlDataReader(XmlReader reader, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParserFactory.FromValueType().Parse)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Reader = reader;

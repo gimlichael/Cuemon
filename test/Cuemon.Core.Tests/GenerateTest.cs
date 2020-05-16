@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
@@ -22,7 +21,7 @@ namespace Cuemon.Core.Tests
                 strings.Add(Generate.RandomString(length));
             }
             Assert.All(strings, s => Assert.True(s.Length == length));
-            Assert.All(strings, s => strings.Single(s1 => s1 == s));
+            Assert.All(strings, s => Assert.Single(strings, s));
         }
     }
 }

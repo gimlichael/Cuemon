@@ -322,7 +322,7 @@ namespace Cuemon.Net
             var uris = new List<Uri>();
             foreach (var uri in uriStrings)
             {
-                if (ParseFactory.FromUri().TryParse(uri, out var realUri, o => o.Kind = UriKind.Absolute)) { uris.Add(realUri); }
+                if (ParserFactory.FromUri().TryParse(uri, out var realUri, o => o.Kind = UriKind.Absolute)) { uris.Add(realUri); }
             }
 	        return uris;
 	    }
@@ -336,7 +336,7 @@ namespace Cuemon.Net
             var watchers = new List<NetWatcher>();
             foreach (var uri in Uris)
             {
-                switch (ParseFactory.FromUriScheme().Parse(uri.Scheme))
+                switch (ParserFactory.FromUriScheme().Parse(uri.Scheme))
                 {
                     case UriScheme.File:
                     case UriScheme.Http:

@@ -97,17 +97,17 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="input"/> has illegal base64 characters.
         /// </exception>
-        /// <seealso cref="UrlEncodedBase64Parser"/>
+        /// <seealso cref="ParserFactory.FromUrlEncodedBase64"/>
         public static byte[] FromUrlEncodedBase64String(this string input)
         {
-            return ParseFactory.FromUrlEncodedBase64().Parse(input);
+            return ParserFactory.FromUrlEncodedBase64().Parse(input);
         }
 
         /// <summary>
         /// Converts the specified <paramref name="input"/> of a GUID to its equivalent <see cref="Guid"/> structure.
         /// </summary>
         /// <param name="input">The <see cref="string"/> to extend.</param>
-        /// <param name="setup">The <see cref="GuidOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="GuidStringOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Guid"/> that is equivalent to <paramref name="input"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="input"/> cannot be null.
@@ -118,11 +118,10 @@ namespace Cuemon.Extensions
         /// <exception cref="FormatException">
         /// The specified <paramref name="input"/> was not recognized to be a GUID.
         /// </exception>
-        /// <seealso cref="GuidParser"/>
-        /// <seealso cref="GuidOptions"/>
-        public static Guid ToGuid(string input, Action<GuidOptions> setup = null)
+        /// <seealso cref="ParserFactory.FromGuid"/>
+        public static Guid ToGuid(string input, Action<GuidStringOptions> setup = null)
         {
-            return ParseFactory.FromGuid().Parse(input, setup);
+            return ParserFactory.FromGuid().Parse(input, setup);
         }
 
         /// <summary>
@@ -139,10 +138,10 @@ namespace Cuemon.Extensions
         /// <exception cref="FormatException">
         /// <paramref name="input"/> must consist only of binary digits.
         /// </exception>
-        /// <seealso cref="BinaryDigitsParser"/>
+        /// <seealso cref="ParserFactory.FromBinaryDigits"/>
         public static byte[] FromBinaryDigits(this string input)
         {
-            return ParseFactory.FromBinaryDigits().Parse(input);
+            return ParserFactory.FromBinaryDigits().Parse(input);
         }
 
         /// <summary>
@@ -845,7 +844,7 @@ namespace Cuemon.Extensions
 
         private static bool CanConvertString<T>(string s, CultureInfo culture, ITypeDescriptorContext context)
         {
-            return ParseFactory.FromAnything().TryParse<T>(s, out _, o =>
+            return ParserFactory.FromObject().TryParse<T>(s, out _, o =>
             {
                 o.FormatProvider = culture;
                 o.DescriptorContext = context;
@@ -865,9 +864,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be hexadecimal.
         /// </exception>
+        /// <seealso cref="ParserFactory.FromHexadecimal"/>
         public static string FromHexadecimal(this string value, Action<EncodingOptions> setup = null)
         {
-            return Convertible.ToString(ParseFactory.FromHexadecimal().Parse(value), setup);
+            return Convertible.ToString(ParserFactory.FromHexadecimal().Parse(value), setup);
         }
 
         /// <summary>
@@ -898,9 +898,10 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> does not represents an enumeration.
         /// </exception>
+        /// <seealso cref="ParserFactory.FromEnum"/>
         public static TEnum ToEnum<TEnum>(this string value, bool ignoreCase = true) where TEnum : struct, IConvertible
         {
-            return ParseFactory.FromEnum().Parse<TEnum>(value, o => o.IgnoreCase = ignoreCase);
+            return ParserFactory.FromEnum().Parse<TEnum>(value, o => o.IgnoreCase = ignoreCase);
         }
 
         /// <summary>

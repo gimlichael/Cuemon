@@ -30,34 +30,34 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         /// </summary>
         /// <typeparam name="T">The type of the enumeration to validate.</typeparam>
         /// <param name="value">The <see cref="string"/> containing the name or value used to attempt to construct an <see cref="Enum"/>.</param>
-        /// <param name="setup">The <see cref="EnumOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="EnumStringOptions"/> which may be configured.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> is a valid enumeration; otherwise, <c>false</c>.</returns>
-        public static bool IsEnum<T>(string value, Action<EnumOptions> setup = null) where T : struct, IConvertible
+        public static bool IsEnum<T>(string value, Action<EnumStringOptions> setup = null) where T : struct, IConvertible
         {
             if (string.IsNullOrWhiteSpace(value)) { return false; }
-            return typeof(T).GetTypeInfo().IsEnum && ParseFactory.FromEnum().TryParse<T>(value, out _, setup);
+            return typeof(T).GetTypeInfo().IsEnum && ParserFactory.FromEnum().TryParse<T>(value, out _, setup);
         }
 
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is valid by attempting to construct a URI.
         /// </summary>
         /// <param name="value">The <see cref="string"/> used to attempt to construct a <see cref="Uri"/>.</param>
-        /// <param name="setup">The <see cref="ProtocolRelativeUrlOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ProtocolRelativeUriStringOptions"/> which may be configured.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> is a protocol relative URI; otherwise, <c>false</c>.</returns>
-        public static bool IsProtocolRelativeUrl(string value, Action<ProtocolRelativeUrlOptions> setup = null)
+        public static bool IsProtocolRelativeUrl(string value, Action<ProtocolRelativeUriStringOptions> setup = null)
         {
-            return ParseFactory.FromProtocolRelativeUrl().TryParse(value, out _, setup);
+            return ParserFactory.FromProtocolRelativeUri().TryParse(value, out _, setup);
         }
 
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is valid by attempting to construct a URI.
         /// </summary>
         /// <param name="value">The <see cref="string"/> used to attempt to construct a <see cref="Uri"/>.</param>
-        /// <param name="setup">The <see cref="SimpleUriOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="UriStringOptions"/> which may be configured.</param>
         /// <returns><c>true</c> if the specified <paramref name="value"/> is a valid URI; otherwise, <c>false</c>.</returns>
-        public static bool IsUri(string value, Action<SimpleUriOptions> setup = null)
+        public static bool IsUri(string value, Action<UriStringOptions> setup = null)
         {
-            return ParseFactory.FromUri().TryParse(value, out _, setup);
+            return ParserFactory.FromUri().TryParse(value, out _, setup);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsBase64(string value)
         {
             if (string.IsNullOrEmpty(value)) { return false; }
-            return ParseFactory.FromBase64().TryParse(value, out _);
+            return ParserFactory.FromBase64().TryParse(value, out _);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsGuid(string value, GuidFormats format)
         {
             if (string.IsNullOrWhiteSpace(value)) { return false; }
-            return ParseFactory.FromGuid().TryParse(value, out _, o => o.Formats = format);
+            return ParserFactory.FromGuid().TryParse(value, out _, o => o.Formats = format);
         }
 
         /// <summary>

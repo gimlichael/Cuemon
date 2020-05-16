@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                         if (reader.TokenType == JsonToken.EndArray) { goto case JsonToken.EndArray; }
                         if (reader.TokenType != JsonToken.StartArray && reader.TokenType != JsonToken.StartObject && reader.TokenType != JsonToken.EndObject)
                         {
-                            typeStrongValue = ParseFactory.FromSimpleValue().Parse(reader.Value.ToString());
+                            typeStrongValue = ParserFactory.FromValueType().Parse(reader.Value.ToString());
                             array.Add(new DataPair(hierarchy[index].Data[PropertyNameKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
                         }
                         while (reader.Read()) { goto case JsonToken.StartArray; }
@@ -61,7 +61,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                     case JsonToken.Integer:
                     case JsonToken.Null:
                     case JsonToken.String:
-                        typeStrongValue = ParseFactory.FromSimpleValue().Parse(reader.Value.ToString());
+                        typeStrongValue = ParserFactory.FromValueType().Parse(reader.Value.ToString());
                         hierarchy[index].Replace(new DataPair(hierarchy[index].Data[PropertyNameKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
                         hierarchy[index].Data.Remove(PropertyNameKey);
                         break;

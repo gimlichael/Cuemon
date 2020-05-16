@@ -50,6 +50,10 @@ namespace Cuemon
         /// <summary>
         /// Specifies that the URI is an Internet news group and is accessed through the Network News Transport Protocol (NNTP).
         /// </summary>
-        Nntp
+        Nntp,
+        /// <summary>
+        /// Specifies that the URI is accessed through the Secure File Transfer Protocol (SFTP).
+        /// </summary>
+        Sftp
     }
 }

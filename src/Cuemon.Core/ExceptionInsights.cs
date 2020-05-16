@@ -172,7 +172,7 @@ namespace Cuemon
                 ed.AddEvidence(context, info.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries), s => s.ToDictionary(k => k.Substring(0, k.IndexOf(':')), v =>
                 {
                     var presult = v.Substring(v.IndexOf(' ') + 1);
-                    return ParseFactory.FromSimpleValue().Parse(presult == "null" ? null : presult);
+                    return ParserFactory.FromValueType().Parse(presult == "null" ? null : presult);
                 }));
             }
         }

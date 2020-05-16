@@ -3,17 +3,17 @@
 namespace Cuemon.Text
 {
     /// <summary>
-    /// Configuration options for <see cref="ProtocolRelativeUrlParser"/>.
+    /// Configuration options for <see cref="ParserFactory.FromProtocolRelativeUri"/>.
     /// </summary>
-    public class ProtocolRelativeUrlOptions
+    public class ProtocolRelativeUriStringOptions
     {
         private string _relativeReference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProtocolRelativeUrlOptions"/> class.
+        /// Initializes a new instance of the <see cref="ProtocolRelativeUriStringOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="ProtocolRelativeUrlOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="ProtocolRelativeUriStringOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -29,7 +29,7 @@ namespace Cuemon.Text
         ///     </item>
         /// </list>
         /// </remarks>
-        public ProtocolRelativeUrlOptions()
+        public ProtocolRelativeUriStringOptions()
         {
             Protocol = UriScheme.Https;
             RelativeReference = Alphanumeric.NetworkPathReference;

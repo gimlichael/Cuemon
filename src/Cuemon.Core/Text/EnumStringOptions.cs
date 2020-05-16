@@ -1,15 +1,15 @@
 ﻿namespace Cuemon.Text
 {
     /// <summary>
-    /// Configuration options for <see cref="EnumParser"/>.
+    /// Configuration options for <see cref="ParserFactory.FromEnum"/>.
     /// </summary>
-    public class EnumOptions
+    public class EnumStringOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnumOptions"/> class.
+        /// Initializes a new instance of the <see cref="EnumStringOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="EnumOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="EnumStringOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -21,7 +21,7 @@
         ///     </item>
         /// </list>
         /// </remarks>
-        public EnumOptions()
+        public EnumStringOptions()
         {
             IgnoreCase = true;
         }
