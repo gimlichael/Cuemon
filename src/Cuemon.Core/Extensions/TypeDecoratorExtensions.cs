@@ -65,7 +65,7 @@ namespace Cuemon
             foreach (var attributeType in attributeTypes) { if (decorator.Inner.GetCustomAttributes(attributeType, true).Any()) { return true; } }
             foreach (var m in decorator.Inner.GetMembers())
             {
-                if (Decorator.Enclose(m).HasAttribute()) { return true; }
+                if (Decorator.Enclose(m).HasAttribute(attributeTypes)) { return true; }
             }
             return false;
         }
