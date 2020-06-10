@@ -32,7 +32,7 @@ namespace Cuemon.Extensions.Reflection
         public static MethodBase ToMethodBase(this Type caller, Type[] types = null, BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, StringComparison comparison = StringComparison.Ordinal, [CallerMemberName] string memberName = "")
         {
             Validator.ThrowIfNull(caller, nameof(caller));
-            return TypeInsight.FromType(caller).MatchMember(types, flags, comparison, memberName);
+            return Decorator.Enclose(caller).MatchMember(types, flags, comparison, memberName);
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace Cuemon.Globalization
                 return cultures.Values;
             }
 
-            using (var lfdSpecificCultures = AssemblyInsight.FromType(typeof(World)).GetManifestResources("CultureInfo.SpecificCultures.dsv", ManifestResourceMatch.ContainsName).Values.Single())
+            using (var lfdSpecificCultures = Decorator.Enclose(typeof(World).Assembly).GetManifestResources("CultureInfo.SpecificCultures.dsv", ManifestResourceMatch.ContainsName).Values.Single())
             {
                 using (var reader = new StreamReader(lfdSpecificCultures))
                 {

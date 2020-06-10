@@ -71,7 +71,7 @@ namespace Cuemon
 
         private string SecondExceptionString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "There is a delegate specified on the factory, '{0}', but it leads to a null referenced delegate wrapper.", TypeInsight.FromType(GetType()).ToHumanReadableString(o => o.FullName = true));
+            return string.Format(CultureInfo.InvariantCulture, "There is a delegate specified on the factory, '{0}', but it leads to a null referenced delegate wrapper.", Decorator.Enclose(GetType()).ToFriendlyName(o => o.FullName = true));
         }
     }
 }

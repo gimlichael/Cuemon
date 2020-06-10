@@ -44,7 +44,7 @@ namespace Cuemon
                 case TypeCode.String:
                     return wrapper.Instance.ToString();
                 default:
-                    if (TypeInsight.FromType(wrapper.InstanceType).HasKeyValuePairContract())
+                    if (Decorator.Enclose(wrapper.InstanceType).HasKeyValuePairImplementation())
                     {
                         var keyProperty = wrapper.InstanceType.GetProperty("Key");
                         var valueProperty = wrapper.InstanceType.GetProperty("Value");
@@ -53,10 +53,9 @@ namespace Cuemon
                         return string.Format(CultureInfo.InvariantCulture, "[{0},{1}]", keyValue, valueValue);
                     }
 
-                    var reflector = TypeInsight.FromType(wrapper.InstanceType);
-                    if (reflector.HasComparerContract() || reflector.HasEqualityComparerContract())
+                    if (Decorator.Enclose(wrapper.InstanceType).HasComparerImplementation() || Decorator.Enclose(wrapper.InstanceType).HasEqualityComparerImplementation())
                     {
-                        return TypeInsight.FromType(wrapper.InstanceType).ToHumanReadableString();
+                        return Decorator.Enclose(wrapper.InstanceType).ToFriendlyName();
                     }
 
                     switch (wrapper.InstanceType.Name.ToUpperInvariant())
@@ -66,7 +65,7 @@ namespace Cuemon
                         case "GUID":
                             return wrapper.InstanceAs<Guid>(CultureInfo.InvariantCulture).ToString("D");
                         case "RUNTIMETYPE":
-                            return TypeInsight.FromType(wrapper.InstanceAs<Type>()).ToHumanReadableString();
+                            return Decorator.Enclose(wrapper.InstanceAs<Type>()).ToFriendlyName();
                         case "URI":
                             return wrapper.InstanceAs<Uri>().OriginalString;
                         default:

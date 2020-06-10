@@ -43,20 +43,23 @@ namespace Cuemon
         /// 3: any public properties is appended to the result if <see cref="object.ToString"/> has not been overridden
         /// Note: do not call this method from an overridden ToString(..) method without setting <see cref="ObjectPortrayalOptions.BypassOverrideCheck"/> to <c>true</c>; otherwise a <see cref="StackOverflowException"/> will occur.
         /// </remarks>
-        /// <seealso cref="DelimitedString.Create{T}"/>
         public static string ObjectPortrayal(object instance, Action<ObjectPortrayalOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
             if (instance == null) { return options.NullValue; }
 
-            if (!options.BypassOverrideCheck && TypeInsight.FromInstance(instance).When(type => type.GetMethods().SingleOrDefault(m => m.Name == nameof(ToString) && m.GetParameters().Length == 0), out var mi).IsOverridden())
+            var instanceType = instance.GetType();
+            if (!options.BypassOverrideCheck)
             {
-                var stringResult = instance.ToString();
-                return mi.DeclaringType == typeof(bool) ? stringResult.ToLowerInvariant() : stringResult;
+                var mi = instanceType.GetMethods().SingleOrDefault(m => m.Name == nameof(ToString) && m.GetParameters().Length == 0);
+                if (Decorator.Enclose(mi).IsOverridden())
+                {
+                    var stringResult = instance.ToString();
+                    return mi.DeclaringType == typeof(bool) ? stringResult.ToLowerInvariant() : stringResult;
+                }
             }
 
-            var instanceType = instance.GetType();
-            var instanceSignature = new StringBuilder(string.Format(options.FormatProvider, "{0}", TypeInsight.FromType(instanceType).ToHumanReadableString(o => o.FullName = true)));
+            var instanceSignature = new StringBuilder(string.Format(options.FormatProvider, "{0}", Decorator.Enclose(instanceType).ToFriendlyName(o => o.FullName = true)));
             var properties = instanceType.GetRuntimeProperties().Where(options.PropertiesPredicate);
             instanceSignature.AppendFormat(" {{ {0} }}", DelimitedString.Create(properties, o =>
             {

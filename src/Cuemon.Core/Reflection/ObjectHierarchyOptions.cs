@@ -43,9 +43,8 @@ namespace Cuemon.Reflection
                     case TypeCode.String:
                         return true;
                     default:
-                        var reflector = TypeInsight.FromType(source);
-                        if (reflector.HasKeyValuePairContract()) { return true; }
-                        if (reflector.HasType(typeof(MemberInfo))) { return true; }
+                        if (Decorator.Enclose(source).HasKeyValuePairImplementation()) { return true; }
+                        if (Decorator.Enclose(source).HasTypes(typeof(MemberInfo))) { return true; }
                         return false;
                 }
             };
@@ -61,7 +60,7 @@ namespace Cuemon.Reflection
                         property.Name.Equals("HResult", StringComparison.Ordinal) ||
                         property.Name.Equals("TargetSite", StringComparison.Ordinal));
             };
-            HasCircularReference = i => TypeInsight.FromType(i.GetType()).HasCircularReference(i);
+            HasCircularReference = i => Decorator.Enclose(i.GetType()).HasCircularReference(i);
             ValueResolver = Infrastructure.DefaultPropertyValueResolver;
         }
 

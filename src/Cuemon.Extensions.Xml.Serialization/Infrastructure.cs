@@ -18,16 +18,16 @@ namespace Cuemon.Extensions.Xml.Serialization
 
         internal static bool IsNodeEnumerable(this IHierarchy<object> node)
         {
-            return TypeInsight.FromType(node.InstanceType).HasEnumerableContract() && (node.InstanceType != typeof(string));
+            return Decorator.Enclose(node.InstanceType).HasEnumerableImplementation() && (node.InstanceType != typeof(string));
         }
 
         internal static XmlQualifiedEntity LookupXmlStartElement(this IHierarchy<object> node, XmlQualifiedEntity qualifiedRootEntity = null)
         {
             if (node == null) { throw new ArgumentNullException(nameof(node)); }
             if (qualifiedRootEntity != null && !qualifiedRootEntity.LocalName.IsNullOrWhiteSpace()) { return qualifiedRootEntity; }
-            var hasRootAttribute = TypeInsight.FromType(node.InstanceType).HasAttribute(typeof(XmlRootAttribute));
-            var hasElementAttribute = node.HasMemberReference && MemberInsight.FromMember(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
-            var rootOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : TypeInsight.FromType(node.InstanceType).ToHumanReadableString(o => o.ExcludeGenericArguments = true).SanitizeXmlElementName();
+            var hasRootAttribute = Decorator.Enclose(node.InstanceType).HasAttribute(typeof(XmlRootAttribute));
+            var hasElementAttribute = node.HasMemberReference && Decorator.Enclose(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
+            var rootOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : Decorator.Enclose(node.InstanceType).ToFriendlyName(o => o.ExcludeGenericArguments = true).SanitizeXmlElementName();
             string ns = null;
 
             if (hasRootAttribute || hasElementAttribute)

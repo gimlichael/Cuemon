@@ -82,9 +82,9 @@ namespace Cuemon
             {
                 if (property.CanRead)
                 {
-                    if (TypeInsight.FromType(property.PropertyType).IsComplex())
+                    if (Decorator.Enclose(property.PropertyType).IsComplex())
                     {
-                        return string.Format(provider, "{0}={1}", property.Name, TypeInsight.FromType(property.PropertyType).ToHumanReadableString(o => o.FullName = true));
+                        return string.Format(provider, "{0}={1}", property.Name, Decorator.Enclose(property.PropertyType).ToFriendlyName(o => o.FullName = true));
                     }
                     var instanceValue = Infrastructure.DefaultPropertyValueResolver(instance, property);
                     return string.Format(provider, "{0}={1}", property.Name, instanceValue ?? NullValue);

@@ -264,11 +264,10 @@ namespace Cuemon
                 {
                     if (options.SkipProperty(property)) { continue; }
                     if (!property.CanRead) { continue; }
-                    var reflector = TypeInsight.FromType(currentType);
-                    if (reflector.HasEnumerableContract())
+                    if (Decorator.Enclose(currentType).HasEnumerableImplementation())
                     {
                         if (property.GetIndexParameters().Length > 0) { continue; }
-                        if (reflector.HasDictionaryContract())
+                        if (Decorator.Enclose(currentType).HasDictionaryImplementation())
                         {
                             if (property.Name == "Keys" || property.Name == "Values") { continue; }
                         }
@@ -278,7 +277,7 @@ namespace Cuemon
                     if (propertyValue == null) { continue; }
                     index++;
                     result[(int)current.Data[IndexKey]].Add(propertyValue, property);
-                    if (TypeInsight.FromType(property.PropertyType).IsComplex())
+                    if (Decorator.Enclose(property.PropertyType).IsComplex())
                     {
                         var circularCalls = 0;
                         if (current.Data.ContainsKey(CircularReferenceKey))

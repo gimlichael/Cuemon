@@ -75,7 +75,7 @@ namespace Cuemon
             try
             {
                 var isEnum = targetType.GetTypeInfo().IsEnum;
-                var isNullable = TypeInsight.FromType(targetType).IsNullable();
+                var isNullable = Decorator.Enclose(targetType).IsNullable();
                 return Convert.ChangeType(isEnum ? Enum.Parse(targetType, decorator.Inner.ToString()) : decorator.Inner, isNullable ? Nullable.GetUnderlyingType(targetType) : targetType, options.FormatProvider);
             }
             catch (Exception first)
@@ -104,13 +104,9 @@ namespace Cuemon
         /// <paramref name="decorator"/> cannot be null -or-
         /// <paramref name="delimiter"/> cannot be null.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="delimiter"/> cannot be empty or consist only of white-space characters.
-        /// </exception>
         public static string ToDelimitedString<T>(this IDecorator<IEnumerable<T>> decorator, string delimiter = ",", Func<T, string> converter = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNullOrWhitespace(delimiter, nameof(delimiter));
             return DelimitedString.Create(decorator.Inner, o =>
             {
                 o.Delimiter = delimiter;

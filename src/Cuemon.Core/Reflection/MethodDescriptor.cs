@@ -36,7 +36,7 @@ namespace Cuemon.Reflection
         {
             if (method == null) { throw new ArgumentNullException(nameof(method)); }
             var methodName = string.IsNullOrEmpty(method.Name) ? "NotAvailable" : method.Name;
-            var isPresumedProperty = methodName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) | methodName.StartsWith("set_", StringComparison.OrdinalIgnoreCase);
+            var isPresumedProperty = methodName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) || methodName.StartsWith("set_", StringComparison.OrdinalIgnoreCase);
             IsProperty = isPresumedProperty;
             MethodName = isPresumedProperty ? methodName.Remove(0, 4) : methodName;
             Caller = caller;
@@ -260,7 +260,7 @@ namespace Cuemon.Reflection
         /// </remarks>
         public string ToString(bool fullName)
         {
-            var className = Caller == null ? "NotAvailable" : TypeInsight.FromType(Caller).ToHumanReadableString(o => o.FullName = fullName);
+            var className = Caller == null ? "NotAvailable" : Decorator.Enclose(Caller).ToFriendlyName(o => o.FullName = fullName);
             var signature = new StringBuilder(string.Concat(className, ".", MethodName));
             if (!IsProperty) { signature.Append("("); }
             if (Parameters.Any())

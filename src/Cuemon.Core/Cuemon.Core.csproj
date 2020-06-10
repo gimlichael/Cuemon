@@ -38,9 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Data\DataConnection.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Update="Data\DataConnection.cs" />
   </ItemGroup>
 
 </Project>

@@ -82,9 +82,9 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 w.WriteXmlRootElement(o, (writer, sequence, qe) =>
                 {
                     var type = sequence.GetType();
-                    var hasKeyValuePairType = type.GetGenericArguments().Any(gt => gt.IsKeyValuePair());
+                    var hasKeyValuePairType = type.GetGenericArguments().Any(gt => gt.HasKeyValuePairImplementation());
 
-                    if (type.IsDictionary() || hasKeyValuePairType)
+                    if (type.HasDictionaryImplementation() || hasKeyValuePairType)
                     {
                         foreach (var element in sequence)
                         {
@@ -97,7 +97,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                             if (valuePropertyType == typeof(object) && valueValue != null) { valuePropertyType = valueValue.GetType(); }
                             writer.WriteStartElement("Item");
                             writer.WriteAttributeString("name", keyValue.ToString());
-                            if (TypeInsight.FromType(valuePropertyType).IsComplex())
+                            if (Decorator.Enclose(valuePropertyType).IsComplex())
                             {
                                 writer.WriteObject(valueValue, valuePropertyType);
                             }
@@ -115,7 +115,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                             if (item == null) { continue; }
                             var itemType = item.GetType();
                             writer.WriteStartElement("Item");
-                            if (TypeInsight.FromType(itemType).IsComplex())
+                            if (Decorator.Enclose(itemType).IsComplex())
                             {
                                 writer.WriteObject(item, itemType);
                             }
@@ -127,7 +127,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                         }
                     }
                 }, q);
-            }, (reader, type) => type.IsDictionary() ? reader.ToHierarchy().UseDictionary(type.GetGenericArguments()) : reader.ToHierarchy().UseCollection(type.GetGenericArguments().First()), type => type != typeof(string));
+            }, (reader, type) => type.HasDictionaryImplementation() ? reader.ToHierarchy().UseDictionary(type.GetGenericArguments()) : reader.ToHierarchy().UseCollection(type.GetGenericArguments().First()), type => type != typeof(string));
         }
 
         /// <summary>

@@ -4,11 +4,11 @@ using System.Globalization;
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Configuration options for <see cref="TypeInsight.ToHumanReadableString" />.
+    /// Configuration options for <see cref="TypeDecoratorExtensions.ToFriendlyName" />.
     /// </summary>
     public sealed class TypeNameOptions : FormattingOptions<CultureInfo>
     {
-        private Func<Type, IFormatProvider, bool, string> _humanReadableStringConverter;
+        private Func<Type, IFormatProvider, bool, string> _friendlyNameStringConverter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeNameOptions"/> class.
@@ -33,8 +33,13 @@ namespace Cuemon.Reflection
         ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="HumanReadableStringConverter"/></term>
-        ///         <description><code>(type, provider, fullname) => fullname ? type.FullName : type.Name;</code></description>
+        ///         <term><see cref="FriendlyNameStringConverter"/></term>
+        ///         <description><code>(type, provider, fullname) =>
+        ///{
+        ///    var typeName = fullname ? type.FullName.ToString(provider) : type.Name.ToString(provider);
+        ///    var indexOfGraveAccent = typeName.IndexOf('`');
+        ///    return indexOfGraveAccent >= 0 ? typeName.Remove(indexOfGraveAccent) : typeName;
+        ///};</code></description>
         ///     </item>
         /// </list>
         /// </remarks>
@@ -43,7 +48,12 @@ namespace Cuemon.Reflection
             ExcludeGenericArguments = false;
             FormatProvider = CultureInfo.InvariantCulture;
             FullName = false;
-            HumanReadableStringConverter = (type, provider, fullname) => fullname ? type.FullName : type.Name;
+            FriendlyNameStringConverter = (type, provider, fullname) =>
+            {
+                var typeName = fullname ? type.FullName.ToString(provider) : type.Name.ToString(provider);
+                var indexOfGraveAccent = typeName.IndexOf('`');
+                return indexOfGraveAccent >= 0 ? typeName.Remove(indexOfGraveAccent) : typeName;
+            };
         }
 
         /// <summary>
@@ -65,13 +75,13 @@ namespace Cuemon.Reflection
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public Func<Type, IFormatProvider, bool, string> HumanReadableStringConverter
+        public Func<Type, IFormatProvider, bool, string> FriendlyNameStringConverter
         {
-            get => _humanReadableStringConverter;
+            get => _friendlyNameStringConverter;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));
-                _humanReadableStringConverter = value;
+                _friendlyNameStringConverter = value;
             }
         }
     }

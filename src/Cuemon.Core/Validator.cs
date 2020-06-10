@@ -1089,7 +1089,7 @@ namespace Cuemon
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType(value).HasInterface(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value).HasInterface(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -1137,7 +1137,7 @@ namespace Cuemon
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
-                ThrowWhen(c => c.IsTrue(() => TypeInsight.FromType<T>().HasInterface(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(typeof(T)).HasInterface(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
@@ -1185,7 +1185,7 @@ namespace Cuemon
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType<T>().HasInterface(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(typeof(T)).HasInterface(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (TypeArgumentOutOfRangeException ex)
             {
@@ -1236,7 +1236,7 @@ namespace Cuemon
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
-                ThrowWhen(c => c.IsFalse(() => TypeInsight.FromType(value).HasInterface(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
+                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value).HasInterface(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
             }
             catch (ArgumentOutOfRangeException ex)
             {
