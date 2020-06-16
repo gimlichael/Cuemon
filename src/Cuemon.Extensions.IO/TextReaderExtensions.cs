@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Cuemon.Extensions.Threading.Tasks;
 
 namespace Cuemon.Extensions.IO
 {
@@ -24,9 +23,9 @@ namespace Cuemon.Extensions.IO
             Validator.ThrowIfLowerThanOrEqual(bufferSize, 0, nameof(bufferSize));
             var buffer = new char[bufferSize];
             int read;
-            while ((read = await reader.ReadAsync(buffer, 0, buffer.Length).ContinueWithSuppressedContext()) != 0)
+            while ((read = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) != 0)
             {
-                await writer.WriteAsync(buffer, 0, read).ContinueWithSuppressedContext();
+                await writer.WriteAsync(buffer, 0, read).ConfigureAwait(false);
             }
         }
 
@@ -55,7 +54,7 @@ namespace Cuemon.Extensions.IO
             Validator.ThrowIfNull(reader, nameof(reader));
             var lines = new List<string>();
             string line;
-            while ((line = await reader.ReadLineAsync()) != null)
+            while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
             {
                 lines.Add(line);
             }
