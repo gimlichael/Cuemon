@@ -1,17 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="AutoFixture" Version="4.13.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2">
@@ -25,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Web\Cuemon.Extensions.Web.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit\Cuemon.Extensions.Xunit.csproj" />
   </ItemGroup>
 

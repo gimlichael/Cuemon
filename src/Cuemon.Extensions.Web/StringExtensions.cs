@@ -25,7 +25,7 @@ namespace Cuemon.Extensions.Web
             if (value == null)  { return null;}
             if (value == string.Empty) { return string.Empty; }
 
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             var needEncode = false;
             var len = value.Length;
             for (var i = 0; i < len; i++)
@@ -60,7 +60,7 @@ namespace Cuemon.Extensions.Web
             if (null == value) { return null; }
             if (value.IndexOf('%') == -1 && value.IndexOf('+') == -1) { return value; }
 
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             long len = value.Length;
             var bytes = new List<byte>();
 

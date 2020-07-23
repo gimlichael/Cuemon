@@ -44,7 +44,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             if (decorator == null || responseHeaders == null) { return; }
             foreach (var header in responseHeaders)
             {
-                decorator.TryAddOrUpdate(header.Key, header.Value != null ? Decorator.Enclose(header.Value).ToDelimitedString() : "");
+                decorator.TryAddOrUpdate(header.Key, header.Value != null ? DelimitedString.Create(header.Value) : "");
             }
         }
     }

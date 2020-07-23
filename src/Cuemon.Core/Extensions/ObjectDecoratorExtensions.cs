@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
-using Cuemon.Reflection;
 
 namespace Cuemon
 {
@@ -90,28 +88,6 @@ namespace Cuemon
                     throw new AggregateException(first, second);
                 }
             }
-        }
-
-        /// <summary>
-        /// Converts the enclosed <see cref="IEnumerable{T}"/> of the <paramref name="decorator"/> to a string of <paramref name="delimiter"/> delimited values.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements of the sequence to convert.</typeparam>
-        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
-        /// <param name="delimiter">The delimiter specification.</param>
-        /// <param name="converter">The function delegate that converts <typeparamref name="T"/> to a string representation once per iteration.</param>
-        /// <returns>A <see cref="string"/> of delimited values from the by parameter specified <paramref name="delimiter"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null -or-
-        /// <paramref name="delimiter"/> cannot be null.
-        /// </exception>
-        public static string ToDelimitedString<T>(this IDecorator<IEnumerable<T>> decorator, string delimiter = ",", Func<T, string> converter = null)
-        {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            return DelimitedString.Create(decorator.Inner, o =>
-            {
-                o.Delimiter = delimiter;
-                if (converter != null) { o.StringConverter = converter; }
-            });
         }
 
         /// <summary>

@@ -32,14 +32,18 @@ namespace Cuemon.Extensions.Collections.Specialized
         /// Creates a <see cref="IDictionary{TKey,TValue}"/> from the specified <paramref name="nvc"/>.
         /// </summary>
         /// <param name="nvc">The <see cref="NameValueCollection"/> to extend.</param>
+        /// <param name="setup">The <see cref="DelimitedStringOptions"/> which may be configured.</param>
         /// <returns>A <see cref="IDictionary{TKey,TValue}"/> that is equivalent to the specified <paramref name="nvc"/>.</returns>
-        public static IDictionary<string, string[]> ToDictionary(this NameValueCollection nvc)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="nvc"/> cannot be null.
+        /// </exception>
+        public static IDictionary<string, string[]> ToDictionary(this NameValueCollection nvc, Action<DelimitedStringOptions> setup = null)
         {
             Validator.ThrowIfNull(nvc, nameof(nvc));
             var result = new Dictionary<string, string[]>();
             foreach (string item in nvc)
             {
-                result.Add(item, nvc[item].Split(','));
+                result.Add(item, DelimitedString.Split(nvc[item], setup));
             }
             return result;
         }

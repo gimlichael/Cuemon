@@ -26,7 +26,7 @@ namespace Cuemon.Extensions
         /// <returns>A new <see cref="DateTime"/> value initialized to <see cref="DateTimeKind.Utc"/> that has the same number of ticks as the object represented by the <paramref name="value"/> parameter.</returns>
         public static DateTime ToUtcKind(this DateTime value)
         {
-            return ToKind(value, DateTimeKind.Utc);
+            return Decorator.Enclose(value).ToUtcKind();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Cuemon.Extensions
         /// <returns>A new <see cref="DateTime"/> value initialized to <see cref="DateTimeKind.Local"/> that has the same number of ticks as the object represented by the <paramref name="value"/> parameter.</returns>
         public static DateTime ToLocalKind(this DateTime value)
         {
-            return ToKind(value, DateTimeKind.Local);
+            return Decorator.Enclose(value).ToLocalKind();
         }
 
         /// <summary>
@@ -46,13 +46,7 @@ namespace Cuemon.Extensions
         /// <returns>A new <see cref="DateTime"/> value initialized to <see cref="DateTimeKind.Unspecified"/> that has the same number of ticks as the object represented by the <paramref name="value"/> parameter.</returns>
         public static DateTime ToDefaultKind(this DateTime value)
         {
-            return ToKind(value, DateTimeKind.Unspecified);
-        }
-
-        private static DateTime ToKind(DateTime value, DateTimeKind kind)
-        {
-            if (value.Kind != kind) { value = DateTime.SpecifyKind(value, kind); }
-            return value;
+            return Decorator.Enclose(value).ToDefaultKind();
         }
 
         /// <summary>
@@ -140,17 +134,6 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTime"/> value that is rounded towards positive infinity.
-        /// </summary>
-        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
-        /// <param name="interval">The <see cref="TimeSpan"/> value that specifies the rounding of <paramref name="value"/>.</param>
-        /// <returns>A <see cref="DateTime"/> value that is rounded towards positive infinity.</returns>
-        public static DateTime Ceiling(this DateTime value, TimeSpan interval)
-        {
-            return Round(value, interval, VerticalDirection.Up);
-        }
-
-        /// <summary>
         /// Returns a <see cref="DateTime"/> value that is rounded towards negative infinity.
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> to extend.</param>
@@ -178,6 +161,17 @@ namespace Cuemon.Extensions
         public static DateTime Ceiling(this DateTime value, double interval, TimeUnit timeUnit)
         {
             return Round(value, interval, timeUnit, VerticalDirection.Up);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="DateTime"/> value that is rounded towards positive infinity.
+        /// </summary>
+        /// <param name="value">The <see cref="DateTime"/> to extend.</param>
+        /// <param name="interval">The <see cref="TimeSpan"/> value that specifies the rounding of <paramref name="value"/>.</param>
+        /// <returns>A <see cref="DateTime"/> value that is rounded towards positive infinity.</returns>
+        public static DateTime Ceiling(this DateTime value, TimeSpan interval)
+        {
+            return Round(value, interval, VerticalDirection.Up);
         }
 
         /// <summary>

@@ -33,10 +33,10 @@ namespace Cuemon.Extensions.Web.Security
             Validator.ThrowIfNullOrWhitespace(uriString, nameof(uriString));
             Validator.ThrowIfNull(secret, nameof(secret));
             
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             var qsc = uriString.ToQueryStringCollection();
-            if (start.HasValue) { qsc.Add(options.StartFieldName, start.Value.ToUtcKind().ToString("s") + "Z"); }
-            if (expiry.HasValue) { qsc.Add(options.ExpiryFieldName, expiry.Value.ToUtcKind().ToString("s") + "Z"); }
+            if (start.HasValue) { qsc.Add(options.StartFieldName, Decorator.Enclose(start.Value).ToUtcKind().ToString("s") + "Z"); }
+            if (expiry.HasValue) { qsc.Add(options.ExpiryFieldName, Decorator.Enclose(expiry.Value).ToUtcKind().ToString("s") + "Z"); }
             uriString = FormattableString.Invariant($"{uriString.SkipQueryString()}{qsc.ToQueryString(options.UrlEncode)}");
             qsc.Add(options.SignatureFieldName, HashFactory.CreateHmacCrypto(secret, options.Algorithm).ComputeHash(options.CanonicalRepresentationBuilder(uriString)).ToUrlEncodedBase64String());
 
@@ -60,14 +60,14 @@ namespace Cuemon.Extensions.Web.Security
 
             var message = "The specified signature is invalid.";
             var utcNow = DateTime.UtcNow;
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             var qsc = signedUriString.ToQueryStringCollection();
             var signature = qsc[options.SignatureFieldName];
             var signedStart = qsc[options.StartFieldName];
             var signedExpiry = qsc[options.ExpiryFieldName];
-            if (!signedStart.IsNullOrWhiteSpace() && DateTime.Parse(signedStart, null, DateTimeStyles.RoundtripKind) > utcNow) { throw new SecurityException(message); }
-            if (!signedExpiry.IsNullOrWhiteSpace() && DateTime.Parse(signedExpiry, null, DateTimeStyles.RoundtripKind) <= utcNow) { throw new SecurityException(message); }
-            if (signature.IsNullOrWhiteSpace()) { throw new SecurityException(message); }
+            if (!string.IsNullOrWhiteSpace(signedStart) && DateTime.Parse(signedStart, null, DateTimeStyles.RoundtripKind) > utcNow) { throw new SecurityException(message); }
+            if (!string.IsNullOrWhiteSpace(signedExpiry) && DateTime.Parse(signedExpiry, null, DateTimeStyles.RoundtripKind) <= utcNow) { throw new SecurityException(message); }
+            if (string.IsNullOrWhiteSpace(signature)) { throw new SecurityException(message); }
             qsc.Remove(options.SignatureFieldName);
 
             var computedSignature = HashFactory.CreateHmacCrypto(secret, options.Algorithm).ComputeHash(options.CanonicalRepresentationBuilder(FormattableString.Invariant($"{signedUriString.SkipQueryString()}{qsc.ToQueryString()}"))).ToUrlEncodedBase64String();

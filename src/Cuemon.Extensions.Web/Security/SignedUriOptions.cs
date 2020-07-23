@@ -153,7 +153,7 @@ namespace Cuemon.Extensions.Web.Security
         /// Gets a value indicating whether this instance has a Content-MD5 header representation.
         /// </summary>
         /// <value><c>true</c> if this instance has a Content-MD5 header representation; otherwise, <c>false</c>.</value>
-        public bool HasContentMd5Header => !ContentMd5Header.IsNullOrWhiteSpace();
+        public bool HasContentMd5Header => !string.IsNullOrWhiteSpace(ContentMd5Header);
 
         /// <summary>
         /// Gets or sets the Content-MD5 header representation.

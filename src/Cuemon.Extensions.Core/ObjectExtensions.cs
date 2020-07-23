@@ -94,24 +94,19 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="source"/> to a string of <paramref name="delimiter"/> delimited values.
+        /// Converts the specified <paramref name="source"/> to a string of delimited values.
         /// </summary>
         /// <typeparam name="T">The type of the elements of the sequence to convert.</typeparam>
         /// <param name="source">A sequence of elements to be converted.</param>
-        /// <param name="delimiter">The delimiter specification.</param>
-        /// <param name="converter">The function delegate that converts <typeparamref name="T"/> to a string representation once per iteration.</param>
-        /// <returns>A <see cref="string"/> of delimited values from the by parameter specified delimiter.</returns>
+        /// <param name="setup">The <see cref="DelimitedStringOptions{T}"/> which may be configured.</param>
+        /// <returns>A <see cref="string"/> of delimited values.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> cannot be null -or-
-        /// <paramref name="delimiter"/> cannot be null.
+        /// <paramref name="source"/> cannot be null.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="delimiter"/> cannot be empty or consist only of white-space characters.
-        /// </exception>
-        public static string ToDelimitedString<T>(this IEnumerable<T> source, string delimiter = ",", Func<T, string> converter = null)
+        public static string ToDelimitedString<T>(this IEnumerable<T> source, Action<DelimitedStringOptions<T>> setup = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            return Decorator.Enclose(source).ToDelimitedString(delimiter, converter);
+            return DelimitedString.Create(source, setup);
         }
 
         /// <summary>

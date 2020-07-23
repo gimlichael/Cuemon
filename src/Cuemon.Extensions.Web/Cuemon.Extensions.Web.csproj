@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.Collections.Specialized\Cuemon.Extensions.Collections.Specialized.csproj" />
   </ItemGroup>
 
 </Project>

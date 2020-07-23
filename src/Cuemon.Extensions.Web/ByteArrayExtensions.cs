@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.Web
             Validator.ThrowIfLowerThan(bytesToRead, 0, nameof(bytesToRead));
             Validator.ThrowIfGreaterThan(bytesToRead, bytes.Length - position, nameof(bytesToRead));
 
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             using (var result = StreamFactory.Create(UrlEncodeCharWriter, bytes, position, bytesToRead, HexadecimalCharactersLowerCase, o =>
             {
                 o.Encoding = options.Encoding;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Cuemon.Extensions.Collections.Specialized;
+using Cuemon.Collections.Specialized;
 
 namespace Cuemon.Extensions.Web
 {
@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.Web
         public static string ToQueryString(this IDictionary<string, string[]> query, bool urlEncode = false)
         {
             Validator.ThrowIfNull(query, nameof(query));
-            return query.ToNameValueCollection().ToQueryString(urlEncode);
+            return Decorator.Enclose(query).ToNameValueCollection().ToQueryString(urlEncode);
         }
     }
 }

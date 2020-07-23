@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using Cuemon.Collections.Specialized;
 
 namespace Cuemon.Extensions.Collections.Specialized
 {
@@ -12,16 +14,15 @@ namespace Cuemon.Extensions.Collections.Specialized
         /// Creates a <see cref="NameValueCollection"/> from the specified <paramref name="source"/>.
         /// </summary>
         /// <param name="source">An <see cref="IDictionary{TKey,TValue}"/> to convert into an <see cref="NameValueCollection"/> equivalent.</param>
+        /// <param name="setup">The <see cref="T:DelimitedStringOptions{string}"/> which may be configured.</param>
         /// <returns>A <see cref="NameValueCollection"/> that is equivalent to the specified <paramref name="source"/>.</returns>
-        public static NameValueCollection ToNameValueCollection(this IDictionary<string, string[]> source)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null.
+        /// </exception>
+        public static NameValueCollection ToNameValueCollection(this IDictionary<string, string[]> source, Action<DelimitedStringOptions<string>> setup = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            var result = new NameValueCollection();
-            foreach (var item in source)
-            {
-                result.Add(item.Key, item.Value.ToDelimitedString());
-            }
-            return result;
+            return Decorator.Enclose(source).ToNameValueCollection(setup);
         }
     }
 }

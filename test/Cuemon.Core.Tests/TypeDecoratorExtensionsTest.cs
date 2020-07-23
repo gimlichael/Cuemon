@@ -30,7 +30,7 @@ namespace Cuemon.Core.Tests
         {
             var msType = typeof(Stream);
             var selfToDerived = Decorator.Enclose(msType).GetDerivedTypes();
-            TestOutput.WriteLine(Decorator.Enclose(selfToDerived.Where(t => t.IsPublic)).ToDelimitedString(Environment.NewLine));
+            TestOutput.WriteLine(DelimitedString.Create(selfToDerived.Where(t => t.IsPublic), o => o.Delimiter = Environment.NewLine));
 
             Assert.DoesNotContain(selfToDerived, t => t == typeof(object));
             Assert.DoesNotContain(selfToDerived, t => t == typeof(MarshalByRefObject));
@@ -45,7 +45,7 @@ namespace Cuemon.Core.Tests
         {
             var msType = typeof(Stream);
             var inheritedToSelf = Decorator.Enclose(msType).GetInheritedTypes();
-            TestOutput.WriteLine(Decorator.Enclose(inheritedToSelf.Where(t => t.IsPublic)).ToDelimitedString(Environment.NewLine));
+            TestOutput.WriteLine(DelimitedString.Create(inheritedToSelf.Where(t => t.IsPublic), o => o.Delimiter = Environment.NewLine));
 
             Assert.Contains(inheritedToSelf, t => t == typeof(object));
             Assert.Contains(inheritedToSelf, t => t == typeof(MarshalByRefObject));
@@ -60,7 +60,7 @@ namespace Cuemon.Core.Tests
         {
             var msType = typeof(Stream);
             var hierarchy = Decorator.Enclose(msType).GetHierarchyTypes();
-            TestOutput.WriteLine(Decorator.Enclose(hierarchy.Where(t => t.IsPublic)).ToDelimitedString(Environment.NewLine));
+            TestOutput.WriteLine(DelimitedString.Create(hierarchy.Where(t => t.IsPublic), o => o.Delimiter = Environment.NewLine));
 
             Assert.Contains(hierarchy, t => t == typeof(object));
             Assert.Contains(hierarchy, t => t == typeof(MarshalByRefObject));

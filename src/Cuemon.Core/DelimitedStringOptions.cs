@@ -44,14 +44,14 @@ namespace Cuemon
         /// <paramref name="value"/> is null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> is empty or consist only of white-space characters.
+        /// <paramref name="value"/> cannot be empty.
         /// </exception>
         public string Delimiter
         {
             get => _delimiter;
             set
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrEmpty(value, nameof(value));
                 _delimiter = value;
             }
         }
@@ -64,14 +64,14 @@ namespace Cuemon
         /// <paramref name="value"/> is null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> is empty or consist only of white-space characters.
+        /// <paramref name="value"/> cannot be empty.
         /// </exception>
         public string Qualifier
         {
             get => _qualifier;
             set
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrEmpty(value, nameof(value));
                 _qualifier = value;
             }
         }
