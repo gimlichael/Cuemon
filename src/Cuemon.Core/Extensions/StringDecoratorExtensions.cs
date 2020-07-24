@@ -129,6 +129,28 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Converts the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> to its equivalent <see cref="Uri"/> representation.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
+        /// <param name="uriKind">Specifies whether the URI string is a relative URI, absolute URI, or is indeterminate.</param>
+        /// <returns>A <see cref="Uri"/> that corresponds to the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> and <paramref name="uriKind"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// The enclosed <see cref="string"/> of the specified <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The enclosed <see cref="string"/> of the specified <paramref name="decorator"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
+        public static Uri ToUri(this IDecorator<string> decorator, UriKind uriKind = UriKind.Absolute)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNullOrWhitespace(decorator.Inner, nameof(decorator));
+            return new Uri(decorator.Inner, uriKind);
+        }
+
+        /// <summary>
         /// Determines whether the beginning of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> matches at least one string in the specified sequence of <paramref name="strings"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>

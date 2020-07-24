@@ -229,10 +229,16 @@ namespace Cuemon.Extensions
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="uriKind">Specifies whether the URI string is a relative URI, absolute URI, or is indeterminate.</param>
         /// <returns>A <see cref="Uri"/> that corresponds to <paramref name="value"/> and <paramref name="uriKind"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
         public static Uri ToUri(this string value, UriKind uriKind = UriKind.Absolute)
         {
             Validator.ThrowIfNullOrWhitespace(value, nameof(value));
-            return new Uri(value, uriKind);
+            return Decorator.Enclose(value).ToUri(uriKind);
         }
 
         /// <summary>
@@ -243,16 +249,6 @@ namespace Cuemon.Extensions
         public static bool IsNullOrEmpty(this string value)
         {
             return string.IsNullOrEmpty(value);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="value"/> is null, empty, or consists only of white-space characters.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <returns><c>true</c> if the value parameter is null or an empty string (""), or if value consists exclusively of white-space characters; otherwise, <c>false</c>.</returns>
-        public static bool IsNullOrWhiteSpace(this string value)
-        {
-            return string.IsNullOrWhiteSpace(value);
         }
 
         /// <summary>
@@ -273,6 +269,16 @@ namespace Cuemon.Extensions
                 if (string.IsNullOrEmpty(value)) { return true; }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="value"/> is null, empty, or consists only of white-space characters.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/> to extend.</param>
+        /// <returns><c>true</c> if the value parameter is null or an empty string (""), or if value consists exclusively of white-space characters; otherwise, <c>false</c>.</returns>
+        public static bool IsNullOrWhiteSpace(this string value)
+        {
+            return string.IsNullOrWhiteSpace(value);
         }
 
         /// <summary>

@@ -38,39 +38,16 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Attempts to converts the specified <paramref name="value"/> to a given type. If the conversion is not possible the result is set to <b>default(TResult)</b>.
+        /// Attempts to converts the specified <paramref name="value"/> to a given type. If the conversion is not possible the result is set to <paramref name="fallbackResult"/>.
         /// </summary>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="value">The object to convert the underlying type.</param>
-        /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
-        public static TResult As<TResult>(this object value)
+        /// <param name="fallbackResult">The value to return when a conversion is not possible. Default is <c>default</c> of <typeparamref name="T"/>.</param>
+        /// <param name="setup">The <see cref="ObjectFormattingOptions"/> which may be configured.</param>
+        /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="T"/>.</returns>
+        public static T As<T>(this object value, T fallbackResult = default, Action<ObjectFormattingOptions> setup = null)
         {
-            return Decorator.Enclose(value).ChangeTypeOrDefault<TResult>();
-        }
-
-        /// <summary>
-        /// Attempts to converts the specified <paramref name="value"/> to a given type. If the conversion is not possible the result is set to <paramref name="resultOnConversionNotPossible"/>.
-        /// </summary>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="value">The object to convert the underlying type.</param>
-        /// <param name="resultOnConversionNotPossible">The value to return if the conversion is not possible.</param>
-        /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
-        public static TResult As<TResult>(this object value, TResult resultOnConversionNotPossible)
-        {
-            return Decorator.Enclose(value).ChangeTypeOrDefault(resultOnConversionNotPossible);
-        }
-
-        /// <summary>
-        /// Attempts to converts the specified <paramref name="value"/> to a given type. If the conversion is not possible the result is set to <paramref name="resultOnConversionNotPossible"/>.
-        /// </summary>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="value">The object to convert the underlying type.</param>
-        /// <param name="resultOnConversionNotPossible">The value to return if the conversion is not possible.</param>
-        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
-        /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="TResult"/>.</returns>
-        public static TResult As<TResult>(this object value, TResult resultOnConversionNotPossible, IFormatProvider provider)
-        {
-            return Decorator.Enclose(value).ChangeTypeOrDefault(resultOnConversionNotPossible, o => o.FormatProvider = provider);
+            return Decorator.Enclose(value).ChangeTypeOrDefault(fallbackResult, setup);
         }
 
         /// <summary>

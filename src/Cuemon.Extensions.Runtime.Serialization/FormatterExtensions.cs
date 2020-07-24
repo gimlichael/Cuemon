@@ -36,7 +36,7 @@ namespace Cuemon.Extensions.Runtime.Serialization
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
             var uri = hierarchy.FindSingleInstance(h => h.Instance.Name.Equals("OriginalString", StringComparison.OrdinalIgnoreCase));
-            return uri == null ? hierarchy.UseGenericConverter<Uri>() : uri.Value.ToString().ToUri();
+            return uri == null ? hierarchy.UseGenericConverter<Uri>() : Decorator.Enclose(uri.Value.ToString()).ToUri();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Cuemon.Extensions.Runtime.Serialization
         public static DateTime UseDateTimeFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            return hierarchy.Instance.Type == typeof(DateTime) ? hierarchy.Instance.Value.As<DateTime>() : hierarchy.UseGenericConverter<DateTime>();
+            return hierarchy.Instance.Type == typeof(DateTime) ? Decorator.Enclose(hierarchy.Instance.Value).ChangeTypeOrDefault<DateTime>() : hierarchy.UseGenericConverter<DateTime>();
         }
 
         /// <summary>
