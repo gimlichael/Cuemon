@@ -30,7 +30,7 @@ namespace Cuemon.Extensions.Xml.Linq
         public static bool TryParseXElement(this string value, LoadOptions options, out XElement result)
         {
             result = null;
-            if (value.IsNullOrWhiteSpace()) { return false; }
+            if (string.IsNullOrWhiteSpace(value)) { return false; }
             if (value.IndexOf("<", StringComparison.Ordinal) == 0)
             {
                 try

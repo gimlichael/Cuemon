@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon
@@ -126,6 +126,61 @@ namespace Cuemon
                 ms.Position = 0;
                 return ms;
             });
+        }
+
+        /// <summary>
+        /// Determines whether the beginning of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> matches at least one string in the specified sequence of <paramref name="strings"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
+        /// <param name="strings">A sequence of <see cref="string"/> values to match against.</param>
+        /// <returns><c>true</c> if at least one value matches the beginning of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>; otherwise, <c>false</c>.</returns>
+        /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
+        public static bool StartsWith(this IDecorator<string> decorator, IEnumerable<string> strings)
+        {
+            return StartsWith(decorator, StringComparison.OrdinalIgnoreCase, strings);
+        }
+
+        /// <summary>
+        /// Determines whether the beginning of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> matches at least one string in the specified sequence of <paramref name="strings"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="strings">A sequence of <see cref="string"/> values to match against.</param>
+        /// <returns><c>true</c> if at least one value matches the beginning of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>; otherwise, <c>false</c>.</returns>
+        public static bool StartsWith(this IDecorator<string> decorator, StringComparison comparison, IEnumerable<string> strings)
+        {
+            if (decorator?.Inner == null) { return false; }
+            if (strings == null) { return false; }
+            foreach (var startWithValue in strings)
+            {
+                if (decorator.Inner.StartsWith(startWithValue, comparison)) { return true; }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the beginning of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> matches at least one string in the specified sequence of <paramref name="strings"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
+        /// <param name="strings">A sequence of <see cref="string"/> values to match against.</param>
+        /// <returns><c>true</c> if at least one value matches the beginning of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>; otherwise, <c>false</c>.</returns>
+        /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
+        public static bool StartsWith(this IDecorator<string> decorator, params string[] strings)
+        {
+            return StartsWith(decorator, (IEnumerable<string>)strings);
+        }
+
+        /// <summary>
+        /// Determines whether the beginning of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> matches at least one string in the specified sequence of <paramref name="strings"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="strings">A sequence of <see cref="string"/> values to match against.</param>
+        /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
+        /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
+        public static bool StartsWith(this IDecorator<string> decorator, StringComparison comparison, params string[] strings)
+        {
+            return StartsWith(decorator, comparison, (IEnumerable<string>)strings);
         }
     }
 }

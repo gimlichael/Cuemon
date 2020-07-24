@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cuemon.Diagnostics;
-using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions
@@ -731,29 +730,23 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <param name="startWithValues">A sequence of <see cref="string"/> values to match against.</param>
+        /// <param name="strings">A sequence of <see cref="string"/> values to match against.</param>
         /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
-        public static bool StartsWith(this string value, StringComparison comparison, IEnumerable<string> startWithValues)
+        public static bool StartsWith(this string value, StringComparison comparison, IEnumerable<string> strings)
         {
-            if (value == null) { return false; }
-            if (startWithValues == null) { return false; }
-            foreach (var startWithValue in startWithValues)
-            {
-                if (value.StartsWith(startWithValue, comparison)) { return true; }
-            }
-            return false;
+            return Decorator.Enclose(value).StartsWith(comparison, strings);
         }
 
         /// <summary>
         /// Determines whether the beginning of an instance of <see cref="string"/> matches at least one string in the specified sequence of strings.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="startWithValues">A sequence of <see cref="string"/> values to match against.</param>
+        /// <param name="strings">A sequence of <see cref="string"/> values to match against.</param>
         /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
         /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
-        public static bool StartsWith(this string value, params string[] startWithValues)
+        public static bool StartsWith(this string value, params string[] strings)
         {
-            return StartsWith(value, (IEnumerable<string>)startWithValues);
+            return StartsWith(value, (IEnumerable<string>)strings);
         }
 
         /// <summary>
@@ -761,12 +754,12 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <param name="startWithValues">A sequence of <see cref="string"/> values to match against.</param>
+        /// <param name="strings">A sequence of <see cref="string"/> values to match against.</param>
         /// <returns><c>true</c> if at least one value matches the beginning of this string; otherwise, <c>false</c>.</returns>
         /// <remarks>This match is performed by using a default value of <see cref="StringComparison.OrdinalIgnoreCase"/>.</remarks>
-        public static bool StartsWith(this string value, StringComparison comparison, params string[] startWithValues)
+        public static bool StartsWith(this string value, StringComparison comparison, params string[] strings)
         {
-            return StartsWith(value, comparison, (IEnumerable<string>)startWithValues);
+            return StartsWith(value, comparison, (IEnumerable<string>)strings);
         }
 
         /// <summary>

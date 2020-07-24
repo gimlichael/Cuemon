@@ -57,7 +57,7 @@ namespace Cuemon.Extensions.Xml
         public static string SanitizeXmlElementName(this string value)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (value.StartsWith(StringComparison.OrdinalIgnoreCase, Alphanumeric.Numbers.ToEnumerable().Concat(new[] { "." } )))
+            if (Decorator.Enclose(value).StartsWith(StringComparison.OrdinalIgnoreCase, Decorator.Enclose(Alphanumeric.Numbers).ToEnumerable().Concat(new[] { "." } )))
             {
                 var startIndex = 0;
                 var numericsAndPunctual = new List<char>(Alphanumeric.Numbers.ToCharArray().Concat(new[] { '.' }));
