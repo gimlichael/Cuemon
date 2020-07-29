@@ -20,6 +20,9 @@ namespace Cuemon.Net.Http
         /// Initializes a new instance of the <see cref="HttpManager" /> class.
         /// </summary>
         /// <param name="setup">The <see cref="HttpManagerOptions"/> which may be configured.</param>
+        /// <exception cref="ArgumentNullException">
+        /// The <see cref="HttpManagerOptions.HandlerFactory"/> of the <paramref name="setup"/> delegate cannot be null.
+        /// </exception>
         public HttpManager(Action<HttpManagerOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
