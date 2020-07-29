@@ -33,12 +33,4 @@
     <EmbeddedResource Include="Globalization\CultureInfo.SpecificCultures.dsv" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Data\DataConnection.cs" />
-  </ItemGroup>
-
 </Project>

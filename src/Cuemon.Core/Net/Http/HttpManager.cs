@@ -25,7 +25,7 @@ namespace Cuemon.Net.Http
             var options = Patterns.Configure(setup);
             _httpClient = new Lazy<HttpClient>(() =>
             {
-                Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), FormattableString.Invariant($"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.SetHandlerFactory)}."));
+                Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), FormattableString.Invariant($"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.HandlerFactory)}."));
                 var client = new HttpClient(options.HandlerFactory.Invoke(), options.DisposeHandler);
                 foreach (var header in options.DefaultRequestHeaders)
                 {
@@ -146,6 +146,10 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="contentType"/> cannot be null -or-
+        /// <paramref name="content"/> cannot be null.
+        /// </exception>
         public Task<HttpResponseMessage> HttpPostAsync(Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(HttpMethod.Post, location, contentType, content, ct);
@@ -159,6 +163,10 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="contentType"/> cannot be null -or-
+        /// <paramref name="content"/> cannot be null.
+        /// </exception>
         public Task<HttpResponseMessage> HttpPostAsync(Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(HttpMethod.Post, location, contentType, content, ct);
@@ -172,6 +180,10 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="contentType"/> cannot be null -or-
+        /// <paramref name="content"/> cannot be null.
+        /// </exception>
         public Task<HttpResponseMessage> HttpPutAsync(Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(HttpMethod.Put, location, contentType, content, ct);
@@ -185,6 +197,10 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="contentType"/> cannot be null -or-
+        /// <paramref name="content"/> cannot be null.
+        /// </exception>
         public Task<HttpResponseMessage> HttpPutAsync(Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(HttpMethod.Put, location, contentType, content, ct);
@@ -198,6 +214,10 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="contentType"/> cannot be null -or-
+        /// <paramref name="content"/> cannot be null.
+        /// </exception>
         public Task<HttpResponseMessage> HttpPatchAsync(Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(new HttpMethod(HttpPatchVerb), location, contentType, content, ct);
@@ -211,6 +231,10 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="contentType"/> cannot be null -or-
+        /// <paramref name="content"/> cannot be null.
+        /// </exception>
         public Task<HttpResponseMessage> HttpPatchAsync(Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             return HttpAsync(new HttpMethod(HttpPatchVerb), location, contentType, content, ct);
@@ -225,6 +249,11 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="method"/> cannot be null -or-
+        /// <paramref name="contentType"/> cannot be null -or-
+        /// <paramref name="content"/> cannot be null.
+        /// </exception>
         public Task<HttpResponseMessage> HttpAsync(HttpMethod method, Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
             Validator.ThrowIfNullOrEmpty(contentType, nameof(contentType));
@@ -240,6 +269,11 @@ namespace Cuemon.Net.Http
         /// <param name="content">The HTTP request content sent to the server.</param>
         /// <param name="ct">The cancellation token to cancel operation.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="method"/> cannot be null -or-
+        /// <paramref name="contentType"/> cannot be null -or-
+        /// <paramref name="content"/> cannot be null.
+        /// </exception>
         public Task<HttpResponseMessage> HttpAsync(HttpMethod method, Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
             Validator.ThrowIfNull(method, nameof(method));
@@ -260,6 +294,9 @@ namespace Cuemon.Net.Http
         /// <param name="location">The <see cref="Uri"/> to request.</param>
         /// <param name="setup">The <see cref="HttpRequestOptions"/> which need to be configured.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="setup"/> cannot be null.
+        /// </exception>
         public virtual Task<HttpResponseMessage> HttpAsync(Uri location, Action<HttpRequestOptions> setup)
         {
             Validator.ThrowIfNull(setup, nameof(setup));

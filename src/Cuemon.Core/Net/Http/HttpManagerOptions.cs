@@ -22,7 +22,7 @@ namespace Cuemon.Net.Http
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="DisposeHandler"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="DefaultRequestHeaders"/></term>
@@ -40,12 +40,12 @@ namespace Cuemon.Net.Http
         /// </remarks>
         public HttpManagerOptions()
         {
-            SetHandlerFactory<HttpClientHandler>(handler =>
+            HandlerFactory = () => new HttpClientHandler()
             {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                handler.MaxAutomaticRedirections = 10;
-            });
-            DisposeHandler = true;
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                MaxAutomaticRedirections = 10
+            };
+            DisposeHandler = false;
             DefaultRequestHeaders = new Dictionary<string, string>()
             {
                 { "Connection", "Keep-Alive" }
@@ -70,16 +70,6 @@ namespace Cuemon.Net.Http
         /// </summary>
         /// <value>The HTTP handler stack to use for sending requests.</value>
         public Func<HttpMessageHandler> HandlerFactory { get; private set; }
-
-        /// <summary>
-        /// Sets the <see cref="HandlerFactory"/> property using the specified <paramref name="setup"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the <see cref="HttpMessageHandler"/> to use.</typeparam>
-        /// <param name="setup">The <typeparamref name="T"/> which need to be configured.</param>
-        public void SetHandlerFactory<T>(Action<T> setup) where T : HttpMessageHandler, new()
-        {
-            HandlerFactory = () => Patterns.Configure(setup);
-        }
 
         /// <summary>
         /// Gets or sets the timespan to wait before the request times out. Default is 2 minutes.
