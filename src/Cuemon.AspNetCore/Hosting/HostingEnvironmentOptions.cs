@@ -1,8 +1,7 @@
 ﻿using System;
-using Cuemon.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Cuemon.Extensions.AspNetCore.Hosting
+namespace Cuemon.AspNetCore.Hosting
 {
     /// <summary>
     /// Configuration options for <see cref="HostingEnvironmentMiddleware"/>.
