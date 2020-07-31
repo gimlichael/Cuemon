@@ -10,6 +10,7 @@ namespace Cuemon.Extensions.Net.Http
 
         protected override void Dispose(bool disposing)
         {
+            // The lifetime of this is tracked separately by ActiveHandler
         }
     }
 }
