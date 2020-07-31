@@ -23,21 +23,30 @@ namespace Cuemon.Net.Http
         /// <exception cref="ArgumentNullException">
         /// The <see cref="HttpManagerOptions.HandlerFactory"/> of the <paramref name="setup"/> delegate cannot be null.
         /// </exception>
-        public HttpManager(Action<HttpManagerOptions> setup = null)
+        public HttpManager(Action<HttpManagerOptions> setup = null) : this(() =>
         {
             var options = Patterns.Configure(setup);
-            _httpClient = new Lazy<HttpClient>(() =>
+            Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), FormattableString.Invariant($"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.HandlerFactory)}."));
+            var client = new HttpClient(options.HandlerFactory.Invoke(), options.DisposeHandler);
+            foreach (var header in options.DefaultRequestHeaders)
             {
-                Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), FormattableString.Invariant($"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.HandlerFactory)}."));
-                var client = new HttpClient(options.HandlerFactory.Invoke(), options.DisposeHandler);
-                foreach (var header in options.DefaultRequestHeaders)
-                {
-                    if (client.DefaultRequestHeaders.Contains(header.Key)) { continue; }
-                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
-                }
-                client.Timeout = options.Timeout;
-                return client;
-            });
+                if (client.DefaultRequestHeaders.Contains(header.Key)) { continue; }
+                client.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+            client.Timeout = options.Timeout;
+            return client;
+        })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpManager"/> class.
+        /// </summary>
+        /// <param name="clientFactory">The function delegate that creates and configures an <see cref="HttpClient"/> instance.</param>
+        public HttpManager(Func<HttpClient> clientFactory)
+        {
+            Validator.ThrowIfNull(clientFactory, nameof(clientFactory));
+            _httpClient = new Lazy<HttpClient>(clientFactory.Invoke);
         }
 
         /// <summary>
