@@ -3,7 +3,6 @@ using Cuemon.AspNetCore.Builder;
 using Cuemon.AspNetCore.Hosting;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
-using Cuemon.Extensions.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 
 namespace Cuemon.Extensions.AspNetCore.Builder
