@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -11,20 +10,20 @@ namespace Cuemon.Extensions.Runtime.Serialization
     /// <summary>
     /// Extension methods for <see cref="Formatter"/> class.
     /// </summary>
-    public static class FormatterExtensions
+    public static class HierarchyExtensions
     {
-        private static readonly IList<KeyValuePair<Type, string>> ConvertibleTypes = typeof(bool).GetTypeInfo().Assembly.GetTypes().Where(t => t.GetTypeInfo().IsPrimitive).Select(t => new KeyValuePair<Type, string>(t, t.Name.Split('.').Last())).ToList();
-
         /// <summary>
         /// A formatter implementation that resolves a <see cref="TimeSpan"/>.
         /// </summary>
         /// <param name="hierarchy">The hierarchy to parse.</param>
         /// <returns>A <see cref="TimeSpan"/> from the specified <paramref name="hierarchy"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="hierarchy"/> cannot be null.
+        /// </exception>
         public static TimeSpan UseTimeSpanFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            var ticks = hierarchy.FindSingleInstance(h => h.Instance.Name.Equals("Ticks", StringComparison.OrdinalIgnoreCase));
-            return ticks == null ? hierarchy.UseGenericConverter<TimeSpan>() : TimeSpan.FromTicks(Convert.ToInt64(ticks.Value));
+            return Decorator.Enclose(hierarchy).UseTimeSpanFormatter();
         }
 
         /// <summary>
@@ -32,11 +31,13 @@ namespace Cuemon.Extensions.Runtime.Serialization
         /// </summary>
         /// <param name="hierarchy">The hierarchy to parse.</param>
         /// <returns>A <see cref="Uri"/> from the specified <paramref name="hierarchy"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="hierarchy"/> cannot be null.
+        /// </exception>
         public static Uri UseUriFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            var uri = hierarchy.FindSingleInstance(h => h.Instance.Name.Equals("OriginalString", StringComparison.OrdinalIgnoreCase));
-            return uri == null ? hierarchy.UseGenericConverter<Uri>() : Decorator.Enclose(uri.Value.ToString()).ToUri();
+            return Decorator.Enclose(hierarchy).UseUriFormatter();
         }
 
         /// <summary>
@@ -44,10 +45,13 @@ namespace Cuemon.Extensions.Runtime.Serialization
         /// </summary>
         /// <param name="hierarchy">The hierarchy to parse.</param>
         /// <returns>A <see cref="DateTime"/> from the specified <paramref name="hierarchy"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="hierarchy"/> cannot be null.
+        /// </exception>
         public static DateTime UseDateTimeFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            return hierarchy.Instance.Type == typeof(DateTime) ? Decorator.Enclose(hierarchy.Instance.Value).ChangeTypeOrDefault<DateTime>() : hierarchy.UseGenericConverter<DateTime>();
+            return Decorator.Enclose(hierarchy).UseDateTimeFormatter();
         }
 
         /// <summary>
@@ -55,16 +59,13 @@ namespace Cuemon.Extensions.Runtime.Serialization
         /// </summary>
         /// <param name="hierarchy">The hierarchy to parse.</param>
         /// <returns>A <see cref="IConvertible"/> from the specified <paramref name="hierarchy"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="hierarchy"/> cannot be null.
+        /// </exception>
         public static IConvertible UseConvertibleFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            var i = hierarchy.FindSingleInstance(h => ConvertibleTypes.Select(pair => pair.Value).Contains(h.Instance.Name));
-            return Decorator.Enclose(i.Value).ChangeType(ConvertibleTypes.Single(pair => pair.Value == i.Name).Key) as IConvertible;
-        }
-
-        private static T UseGenericConverter<T>(this IHierarchy<DataPair> hierarchy)
-        {
-            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(hierarchy.Instance.Value.ToString());
+            return Decorator.Enclose(hierarchy).UseConvertibleFormatter();
         }
 
         /// <summary>
@@ -72,10 +73,13 @@ namespace Cuemon.Extensions.Runtime.Serialization
         /// </summary>
         /// <param name="hierarchy">The hierarchy to parse.</param>
         /// <returns>A <see cref="Guid"/> from the specified <paramref name="hierarchy"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="hierarchy"/> cannot be null.
+        /// </exception>
         public static Guid UseGuidFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            return UseGenericConverter<Guid>(hierarchy);
+            return Decorator.Enclose(hierarchy).UseGuidFormatter();
         }
 
         /// <summary>
@@ -83,10 +87,13 @@ namespace Cuemon.Extensions.Runtime.Serialization
         /// </summary>
         /// <param name="hierarchy">The hierarchy to parse.</param>
         /// <returns>A <see cref="string"/> from the specified <paramref name="hierarchy"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="hierarchy"/> cannot be null.
+        /// </exception>
         public static string UseStringFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            return UseGenericConverter<string>(hierarchy);
+            return Decorator.Enclose(hierarchy).UseStringFormatter();
         }
 
         /// <summary>
@@ -94,10 +101,13 @@ namespace Cuemon.Extensions.Runtime.Serialization
         /// </summary>
         /// <param name="hierarchy">The hierarchy to parse.</param>
         /// <returns>A <see cref="decimal"/> from the specified <paramref name="hierarchy"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="hierarchy"/> cannot be null.
+        /// </exception>
         public static decimal UseDecimalFormatter(this IHierarchy<DataPair> hierarchy)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            return UseGenericConverter<decimal>(hierarchy);
+            return Decorator.Enclose(hierarchy).UseDecimalFormatter();
         }
 
         private static IEnumerable<object> ParseCollectionItem(this IEnumerable<IHierarchy<DataPair>> items, Type valueType)

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Cuemon.Collections.Generic;
-using Cuemon.Reflection;
 
 namespace Cuemon.Extensions.Reflection
 {
@@ -41,11 +38,13 @@ namespace Cuemon.Extensions.Reflection
         /// <typeparam name="T">The type to exclude properties on <paramref name="type"/>.</typeparam>
         /// <param name="type">The type that contains the properties to include except those defined on <typeparamref name="T"/>.</param>
         /// <returns>A collection of properties for the specified <paramref name="type"/> except those defined on <typeparamref name="T"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="type"/> cannot be null.
+        /// </exception>
         public static IEnumerable<PropertyInfo> GetRuntimePropertiesExceptOf<T>(this Type type)
         {
-            var baseProperties = typeof(T).GetRuntimeProperties();
-            var typeProperties = type.GetRuntimeProperties();
-            return typeProperties.Except(baseProperties, DynamicEqualityComparer.Create<PropertyInfo>(pi => Generate.HashCode32(FormattableString.Invariant($"{pi.Name}-{pi.PropertyType.Name}")), (x, y) => x.Name == y.Name && x.PropertyType.Name == y.PropertyType.Name));
+            Validator.ThrowIfNull(type, nameof(type));
+            return Decorator.Enclose(type).GetRuntimePropertiesExceptOf<T>();
         }
 
         /// <summary>

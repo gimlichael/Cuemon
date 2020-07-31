@@ -20,6 +20,23 @@ namespace Cuemon
         private static ConcurrentDictionary<string, bool> ComplexValueTypeLookup { get; } = new ConcurrentDictionary<string, bool>();
 
         /// <summary>
+        /// Retrieves a collection that represents all the properties defined on the enclosed <see cref="Type"/> of the <paramref name="decorator"/> except those defined on <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type to exclude properties on the enclosed <see cref="Type"/> of the <paramref name="decorator"/>.</typeparam>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <returns>A collection of properties for the enclosed <see cref="Type"/> of the <paramref name="decorator"/> except those defined on <typeparamref name="T"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static IEnumerable<PropertyInfo> GetRuntimePropertiesExceptOf<T>(this IDecorator<Type> decorator)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            var baseProperties = typeof(T).GetRuntimeProperties();
+            var typeProperties = decorator.Inner.GetRuntimeProperties();
+            return typeProperties.Except(baseProperties, DynamicEqualityComparer.Create<PropertyInfo>(pi => Generate.HashCode32(FormattableString.Invariant($"{pi.Name}-{pi.PropertyType.Name}")), (x, y) => x.Name == y.Name && x.PropertyType.Name == y.PropertyType.Name));
+        }
+
+        /// <summary>
         /// Determines whether the enclosed <see cref="Type"/> of the <paramref name="decorator"/> contains one or more of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>

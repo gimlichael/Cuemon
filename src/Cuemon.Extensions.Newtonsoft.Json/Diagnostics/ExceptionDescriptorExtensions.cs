@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Diagnostics
         /// <returns>A JSON formatted string that represents the specified <paramref name="descriptor"/>.</returns>
         public static string ToInsightsJsonString(this ExceptionDescriptor descriptor, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             var formatter = new JsonFormatter(o =>
             {
                 o.SynchronizeWithJsonConvert = true;

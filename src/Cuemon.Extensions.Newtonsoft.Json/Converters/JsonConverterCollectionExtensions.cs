@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Reflection;
-using Cuemon.Extensions.Runtime.Serialization;
 using Cuemon.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -44,7 +42,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         {
             converters.Add(DynamicJsonConverter.Create<ExceptionDescriptor>((writer, descriptor) =>
             {
-                var options = setup.Configure();
+                var options = Patterns.Configure(setup);
                 writer.WriteStartObject();
                 writer.WritePropertyName("error", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteStartObject();
@@ -108,7 +106,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WritePropertyName("totalSeconds", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(ts.TotalSeconds);
                 writer.WriteEndObject();
-            }, (reader, ts) => reader.ToHierarchy().UseTimeSpanFormatter()));
+            }, (reader, ts) => Decorator.Enclose(reader.ToHierarchy()).UseTimeSpanFormatter()));
         }
 
         /// <summary>
@@ -137,12 +135,12 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteValue(dp.Name);
                 if (dp.HasValue)
                 {
-                    var value = (dp.Type == typeof(Uri)) ? dp.Value.As<Uri>().OriginalString : dp.Value;
+                    var value = (dp.Type == typeof(Uri)) ? Decorator.Enclose(dp.Value).ChangeTypeOrDefault<Uri>().OriginalString : dp.Value;
                     writer.WritePropertyName("value");
                     writer.WriteValue(value);
                 }
                 writer.WritePropertyName("type");
-                writer.WriteValue(dp.Type.ToFriendlyName());
+                writer.WriteValue(Decorator.Enclose(dp.Type).ToFriendlyName());
                 writer.WriteEndObject();
             }));
         }
@@ -159,13 +157,13 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
 
         private static void WriteExceptionCore(JsonWriter writer, Exception exception, bool includeStackTrace)
         {
-            if (!exception.Source.IsNullOrWhiteSpace())
+            if (!string.IsNullOrWhiteSpace(exception.Source))
             {
                 writer.WritePropertyName("source", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(exception.Source);
             }
 
-            if (!exception.Message.IsNullOrWhiteSpace())
+            if (!string.IsNullOrWhiteSpace(exception.Message))
             {
                 writer.WritePropertyName("message", JsonConvert.DefaultSettings.UseCamelCase);
                 writer.WriteValue(exception.Message);
@@ -195,7 +193,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteEndObject();
             }
 
-            var properties = exception.GetType().GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => pi.PropertyType.IsSimple());
+            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => !Decorator.Enclose(pi.PropertyType).IsComplex());
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);

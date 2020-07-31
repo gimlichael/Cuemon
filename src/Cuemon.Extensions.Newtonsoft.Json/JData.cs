@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         public static IEnumerable<JDataResult> ReadAll(Stream json, Action<StreamReaderOptions> setup = null)
         {
             Validator.ThrowIfNull(json, nameof(json));
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             using (var sr = new StreamReader(json, options.Encoding, false, options.BufferSize, options.LeaveOpen))
             {
                 

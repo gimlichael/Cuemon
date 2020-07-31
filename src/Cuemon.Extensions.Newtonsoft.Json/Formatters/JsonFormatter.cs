@@ -24,7 +24,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
-        public JsonFormatter(Action<JsonFormatterOptions> setup) : this(setup.Configure())
+        public JsonFormatter(Action<JsonFormatterOptions> setup) : this(Patterns.Configure(setup))
         {
         }
 
