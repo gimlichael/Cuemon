@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Cuemon.Collections.Generic;
 
 namespace Cuemon.Extensions
 {
@@ -25,14 +23,7 @@ namespace Cuemon.Extensions
         public static IEnumerable<Exception> Flatten(this Exception exception)
         {
             Validator.ThrowIfNull(exception, nameof(exception));
-            if (exception is AggregateException ae) { return ae.Flatten().InnerExceptions; }
-            return Hierarchy.WhileSourceTraversalHasElements(exception, FlattenCallback).Skip(1);
-        }
-
-        private static IEnumerable<Exception> FlattenCallback(Exception source)
-        {
-            if (source is AggregateException ae) { return ae.Flatten().InnerExceptions; }
-            return source.InnerException == null ? Enumerable.Empty<Exception>() : Arguments.Yield(source.InnerException);
+            return Decorator.Enclose(exception).Flatten();
         }
     }
 }
