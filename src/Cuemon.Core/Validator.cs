@@ -1007,50 +1007,6 @@ namespace Cuemon
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </exception>
-        public static void ThrowIfContainsType(Type value, string paramName, params Type[] types)
-        {
-            ThrowIfContainsType(value, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </exception>
-        public static void ThrowIfContainsType(Type value, string paramName, string message, params Type[] types)
-        {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="value"/>.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
@@ -1288,6 +1244,91 @@ namespace Cuemon
             }
         }
 
+                /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfContainsType(Type value, string paramName, params Type[] types)
+        {
+            ThrowIfContainsType(value, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfContainsType(Type value, string paramName, string message, params Type[] types)
+        {
+            ThrowIfNull(value, nameof(value));
+            ThrowIfNull(types, nameof(types));
+            try
+            {
+                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
+            }
+        }
+
+                /// <summary>
+        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <typeparamref name="T"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="TypeArgumentOutOfRangeException">
+        /// <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfContainsType<T>(string typeParamName, params Type[] types)
+        {
+            ThrowIfContainsType<T>(typeParamName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <typeparamref name="T"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="TypeArgumentOutOfRangeException">
+        /// <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        public static void ThrowIfContainsType<T>(string typeParamName, string message, params Type[] types)
+        {
+            ThrowIfNull(types, nameof(types));
+            try
+            {
+                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
+            }
+            catch (TypeArgumentOutOfRangeException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
+            }
+        }
+
         /// <summary>
         /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
@@ -1373,47 +1414,6 @@ namespace Cuemon
             catch (ArgumentOutOfRangeException ex)
             {
                 throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </summary>
-        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <typeparamref name="T"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="types"/> is null.
-        /// </exception>
-        /// <exception cref="TypeArgumentOutOfRangeException">
-        /// <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </exception>
-        public static void ThrowIfContainsType<T>(string typeParamName, params Type[] types)
-        {
-            ThrowIfContainsType<T>(typeParamName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </summary>
-        /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <typeparamref name="T"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="types"/> is null.
-        /// </exception>
-        /// <exception cref="TypeArgumentOutOfRangeException">
-        /// <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </exception>
-        public static void ThrowIfContainsType<T>(string typeParamName, string message, params Type[] types)
-        {
-            ThrowIfNull(types, nameof(types));
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (TypeArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
             }
         }
 
