@@ -21,9 +21,9 @@ namespace Cuemon.Extensions.Integrity
         public static CacheValidator GetCacheValidator(this Assembly assembly, bool readByteForByteChecksum = false, Action<CacheValidatorOptions> setup = null)
         {
             if (assembly == null || assembly.IsDynamic) { return CacheValidator.Default; }
-            var assemblyHashCode64 = assembly.FullName.GetHashCode64();
+            var assemblyHashCode64 = Generate.HashCode64(assembly.FullName);
             var assemblyLocation = assembly.Location;
-            return assemblyLocation.IsNullOrEmpty() ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : new FileInfo(assemblyLocation).GetCacheValidator(Patterns.ConfigureExchange<CacheValidatorOptions, FileChecksumOptions>(setup, (cvo, fco) => 
+            return string.IsNullOrEmpty(assemblyLocation) ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, setup) : new FileInfo(assemblyLocation).GetCacheValidator(Patterns.ConfigureExchange<CacheValidatorOptions, FileChecksumOptions>(setup, (cvo, fco) => 
             {
                 fco.BytesToRead = readByteForByteChecksum ? int.MaxValue : 0;
                 fco.Algorithm = cvo.Algorithm;
