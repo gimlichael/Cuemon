@@ -15,7 +15,7 @@ namespace Cuemon.Extensions.Net.Tests.Http
     {
         public UriExtensionsTest(ITestOutputHelper output) : base(output)
         {
-            UriExtensions.DefaultUriExtensionsClientFactory = new SlimHttpClientFactory(() => new HttpClientHandler()
+            UriExtensions.DefaultHttpClientFactory = new SlimHttpClientFactory(() => new HttpClientHandler()
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
                 MaxAutomaticRedirections = 10
