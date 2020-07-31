@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -9,10 +10,32 @@ using Cuemon.Net.Http;
 namespace Cuemon.Extensions.Net.Http
 {
     /// <summary>
-    /// This is an extension implementation of the most common methods on the <see cref="HttpManager"/> class.
+    /// Extension methods for the <see cref="Uri"/> struct.
     /// </summary>
-    public static class HttpManagerExtensions
+    public static class UriExtensions
     {
+        private static readonly string HandlerName = $"{nameof(UriExtensions)}.{nameof(DefaultUriExtensionsClientFactory)}";
+
+        private static IHttpClientFactory _defaultUriExtensionsClientFactory = new SlimHttpClientFactory(() => new HttpClientHandler()
+        {
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+            MaxAutomaticRedirections = 10
+        });
+
+        /// <summary>
+        /// Gets or sets the default <see cref="IHttpClientFactory"/> implementation for the extensions methods on this class.
+        /// </summary>
+        /// <value>The default <see cref="IHttpClientFactory"/> implementation for the URI extensions methods on this class.</value>
+        public static IHttpClientFactory DefaultUriExtensionsClientFactory
+        {
+            get => _defaultUriExtensionsClientFactory;
+            set
+            {
+                if (value == null) { return; }
+                _defaultUriExtensionsClientFactory = value;
+            }
+        }
+
         /// <summary>
         /// Send a DELETE request to the specified Uri as an asynchronous operation.
         /// </summary>
@@ -21,10 +44,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpDeleteAsync(this Uri location, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpDeleteAsync(location, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpDeleteAsync(location, ct);
         }
 
         /// <summary>
@@ -35,10 +55,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpGetAsync(this Uri location, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpGetAsync(location, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpGetAsync(location, ct);
         }
 
         /// <summary>
@@ -49,10 +66,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpHeadAsync(this Uri location, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpHeadAsync(location, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpHeadAsync(location, ct);
         }
 
         /// <summary>
@@ -63,10 +77,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpOptionsAsync(this Uri location, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpOptionsAsync(location, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpOptionsAsync(location, ct);
         }
 
         /// <summary>
@@ -79,10 +90,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPostAsync(location, contentType, content, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpPostAsync(location, contentType, content, ct);
         }
 
         /// <summary>
@@ -95,10 +103,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpPostAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPostAsync(location, contentType, content, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpPostAsync(location, contentType, content, ct);
         }
 
         /// <summary>
@@ -111,10 +116,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPutAsync(location, contentType, content, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpPutAsync(location, contentType, content, ct);
         }
 
         /// <summary>
@@ -127,10 +129,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpPutAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPutAsync(location, contentType, content, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpPutAsync(location, contentType, content, ct);
         }
 
         /// <summary>
@@ -143,10 +142,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPatchAsync(location, contentType, content, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpPatchAsync(location, contentType, content, ct);
         }
 
         /// <summary>
@@ -159,10 +155,8 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpPatchAsync(this Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpPatchAsync(location, contentType, content, ct);
-            }
+
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpPatchAsync(location, contentType, content, ct);
         }
 
         /// <summary>
@@ -173,10 +167,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpTraceAsync(this Uri location, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpTraceAsync(location, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpTraceAsync(location, ct);
         }
 
         /// <summary>
@@ -190,10 +181,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, string contentType, Stream content, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location, contentType, content, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpAsync(method, location, contentType, content, ct);
         }
 
         /// <summary>
@@ -207,10 +195,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpAsync(this Uri location, HttpMethod method, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(method, location, contentType, content, ct);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpAsync(method, location, contentType, content, ct);
         }
 
         /// <summary>
@@ -221,10 +206,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         public static async Task<HttpResponseMessage> HttpAsync(this Uri location, Action<HttpRequestOptions> setup)
         {
-            using (var manager = new HttpManager())
-            {
-                return await manager.HttpAsync(location, setup);
-            }
+            return await HttpManagerFactory.CreateManager(DefaultUriExtensionsClientFactory, HandlerName).HttpAsync(location, setup);
         }
     }
 }
