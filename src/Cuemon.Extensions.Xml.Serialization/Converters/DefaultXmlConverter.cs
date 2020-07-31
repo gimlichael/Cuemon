@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
-using Cuemon.Extensions.Collections.Generic;
+using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Converters;
@@ -57,9 +57,9 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(objectType, nameof(objectType));
-            if (objectType.HasEnumerableImplementation() && objectType != typeof(string))
+            if (Decorator.Enclose(objectType).HasEnumerableImplementation() && objectType != typeof(string))
             {
-                if (objectType.HasDictionaryImplementation())
+                if (Decorator.Enclose(objectType).HasDictionaryImplementation())
                 {
                     return ParseReadXmlDictionary(reader, objectType);
                 }
@@ -186,7 +186,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                         break;
                     case XmlNodeType.CDATA:
                     case XmlNodeType.Text:
-                        values.TryAddOrUpdate(key, reader.Value);
+                        Decorator.Enclose(values).TryAddOrUpdate(key, reader.Value);
                         break;
                 }
             }
@@ -243,7 +243,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             if (node.HasXmlIgnoreAttribute()) { return; }
 
             var writerMethod = node.InstanceType.GetMethod(XmlWriterMethod, new MemberReflection(excludeStatic: true));
-            var useWriterMethod = (writerMethod != null) && node.InstanceType.HasInterfaces(typeof(IXmlSerializable));
+            var useWriterMethod = (writerMethod != null) && Decorator.Enclose(node.InstanceType).HasInterface(typeof(IXmlSerializable));
 
             if (useWriterMethod)
             {
@@ -326,7 +326,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
             {
                 if (childNode.HasXmlIgnoreAttribute()) { continue; }
                 if (!childNode.InstanceType.GetTypeInfo().IsValueType && childNode.Instance == null) { continue; }
-                if (childNode.InstanceType.HasEnumerableImplementation() && childNode.InstanceType != typeof(string) && !childNode.InstanceType.HasDictionaryImplementation())
+                if (Decorator.Enclose(childNode.InstanceType).HasEnumerableImplementation() && childNode.InstanceType != typeof(string) && !Decorator.Enclose(childNode.InstanceType).HasDictionaryImplementation())
                 {
                     var i = childNode.Instance as IEnumerable;
                     if (i == null || !i.Cast<object>().Any()) { continue; }

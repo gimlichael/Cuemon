@@ -66,7 +66,7 @@ namespace Cuemon.Extensions.Xml.Serialization
                         break;
                     case XmlNodeType.CDATA:
                     case XmlNodeType.Text:
-                        var indexToApplyText = hierarchy[index].Data.ContainsKey(XmlReaderKey) ? index : hierarchy[index].Data["parent"].As<int>();
+                        var indexToApplyText = hierarchy[index].Data.ContainsKey(XmlReaderKey) ? index : Decorator.Enclose(hierarchy[index].Data["parent"]).ChangeTypeOrDefault<int>();
                         typeStrongValue = ParserFactory.FromValueType().Parse(reader.Value);
                         hierarchy[indexToApplyText].Replace(new DataPair(hierarchy[indexToApplyText].Data[XmlReaderKey]?.ToString(), typeStrongValue, typeStrongValue.GetType()));
                         hierarchy[indexToApplyText].Data.Remove(XmlReaderKey);

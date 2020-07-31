@@ -2,7 +2,6 @@
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Extensions.Xml;
 using Cuemon.Extensions.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -44,9 +43,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                 var raw = formatter.Serialize(value).CopyXmlStream(o => o.Encoding = selectedEncoding);
                 using (var streamReader = new StreamReader(raw, selectedEncoding))
                 {
-                    await streamReader.CopyToAsync(textWriter).ContinueWithSuppressedContext();
+                    await streamReader.CopyToAsync(textWriter).ConfigureAwait(false);
                 }
-                await textWriter.FlushAsync().ContinueWithSuppressedContext();
+                await textWriter.FlushAsync().ConfigureAwait(false);
             }
         }
 

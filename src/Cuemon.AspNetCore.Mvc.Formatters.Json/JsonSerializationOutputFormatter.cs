@@ -3,7 +3,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
-using Cuemon.Extensions.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
@@ -42,9 +41,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
                 JsonFormatter formatter = new JsonFormatter(FormatterOptions);
                 using (var streamReader = new StreamReader(formatter.Serialize(value)))
                 {
-                    await streamReader.CopyToAsync(textWriter).ContinueWithSuppressedContext();
+                    await streamReader.CopyToAsync(textWriter).ConfigureAwait(false);
                 }
-                await textWriter.FlushAsync().ContinueWithSuppressedContext();
+                await textWriter.FlushAsync().ConfigureAwait(false);
             }
         }
 

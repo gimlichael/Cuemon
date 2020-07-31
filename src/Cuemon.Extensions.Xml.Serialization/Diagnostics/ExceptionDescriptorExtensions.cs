@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Diagnostics
         /// <returns>An XML formatted string that represents the specified <paramref name="descriptor"/>.</returns>
         public static string ToInsightsXmlString(this ExceptionDescriptor descriptor, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             var formatter = new XmlFormatter(o =>
             {
                 o.SynchronizeWithXmlConvert = true;

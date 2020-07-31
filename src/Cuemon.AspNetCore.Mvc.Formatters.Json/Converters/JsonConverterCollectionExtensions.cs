@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json.Converters
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
         public static void AddHttpExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             converters.Add(DynamicJsonConverter.Create<HttpExceptionDescriptor>((writer, descriptor) =>
             {
                 writer.WriteStartObject();
@@ -55,12 +55,12 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json.Converters
                     }
                     writer.WriteEndObject();
                 }
-                if (!descriptor.CorrelationId.IsNullOrWhiteSpace())
+                if (!string.IsNullOrWhiteSpace(descriptor.CorrelationId))
                 {
                     writer.WritePropertyName("correlationId", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteValue(descriptor.CorrelationId);
                 }
-                if (!descriptor.RequestId.IsNullOrWhiteSpace())
+                if (!string.IsNullOrWhiteSpace(descriptor.RequestId))
                 {
                     writer.WritePropertyName("requestId", JsonConvert.DefaultSettings.UseCamelCase);
                     writer.WriteValue(descriptor.RequestId);

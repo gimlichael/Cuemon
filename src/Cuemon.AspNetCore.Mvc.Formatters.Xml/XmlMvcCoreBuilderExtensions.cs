@@ -1,6 +1,6 @@
 ﻿using System;
+using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters;
-using Cuemon.Extensions.Collections.Generic;
 using Cuemon.Extensions.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,7 +68,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 
         private static Action<XmlFormatterOptions> DefaultXmlFormatterOptions(Action<XmlFormatterOptions> setup)
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             return o =>
             {
                 o.IncludeExceptionStackTrace = options.IncludeExceptionStackTrace;
@@ -76,7 +76,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                 o.Settings.Writer = options.Settings.Writer;
                 o.Settings.RootName = options.Settings.RootName;
                 o.Settings.Reader = options.Settings.Reader;
-                o.Settings.Converters.AddRange(options.Settings.Converters);
+                Decorator.Enclose(o.Settings.Converters).AddRange(options.Settings.Converters);
                 o.Settings.Converters.AddStringValuesConverter();
                 o.Settings.Converters.AddHeaderDictionaryConverter();
                 o.Settings.Converters.AddQueryCollectionConverter();

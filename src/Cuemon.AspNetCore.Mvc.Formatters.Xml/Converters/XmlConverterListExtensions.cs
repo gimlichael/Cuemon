@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
         public static void AddHttpExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             converters.AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, qe) =>
             {
                 writer.WriteStartElement("HttpExceptionDescriptor");
@@ -65,8 +65,8 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
                     }
                     writer.WriteEndElement();
                 }
-                if (!descriptor.CorrelationId.IsNullOrWhiteSpace()) { writer.WriteElementString("CorrelationId", descriptor.CorrelationId); }
-                if (!descriptor.RequestId.IsNullOrWhiteSpace()) { writer.WriteElementString("RequestId", descriptor.RequestId); }
+                if (!string.IsNullOrWhiteSpace(descriptor.CorrelationId)) { writer.WriteElementString("CorrelationId", descriptor.CorrelationId); }
+                if (!string.IsNullOrWhiteSpace(descriptor.RequestId)) { writer.WriteElementString("RequestId", descriptor.RequestId); }
                 writer.WriteEndElement();
             });
         }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
-using Cuemon.Extensions.Reflection;
 using Cuemon.Reflection;
 using Cuemon.Xml.Serialization;
 
@@ -13,7 +12,7 @@ namespace Cuemon.Extensions.Xml.Serialization
     {
         internal static bool HasXmlIgnoreAttribute(this IHierarchy<object> node)
         {
-            return node.HasMemberReference && node.MemberReference.HasAttributes(typeof(XmlIgnoreAttribute));
+            return node.HasMemberReference && Decorator.Enclose(node.MemberReference).HasAttribute(typeof(XmlIgnoreAttribute));
         }
 
         internal static bool IsNodeEnumerable(this IHierarchy<object> node)
@@ -24,7 +23,7 @@ namespace Cuemon.Extensions.Xml.Serialization
         internal static XmlQualifiedEntity LookupXmlStartElement(this IHierarchy<object> node, XmlQualifiedEntity qualifiedRootEntity = null)
         {
             if (node == null) { throw new ArgumentNullException(nameof(node)); }
-            if (qualifiedRootEntity != null && !qualifiedRootEntity.LocalName.IsNullOrWhiteSpace()) { return qualifiedRootEntity; }
+            if (qualifiedRootEntity != null && !string.IsNullOrWhiteSpace(qualifiedRootEntity.LocalName)) { return qualifiedRootEntity; }
             var hasRootAttribute = Decorator.Enclose(node.InstanceType).HasAttribute(typeof(XmlRootAttribute));
             var hasElementAttribute = node.HasMemberReference && Decorator.Enclose(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
             var rootOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : Decorator.Enclose(node.InstanceType).ToFriendlyName(o => o.ExcludeGenericArguments = true).SanitizeXmlElementName();

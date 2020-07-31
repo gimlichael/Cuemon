@@ -5,10 +5,8 @@ using System.Globalization;
 using System.Linq;
 using System.Xml;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Reflection;
 using Cuemon.Extensions.Runtime.Serialization;
 using Cuemon.Extensions.Xml.Linq;
-using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Converters;
@@ -82,9 +80,9 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 w.WriteXmlRootElement(o, (writer, sequence, qe) =>
                 {
                     var type = sequence.GetType();
-                    var hasKeyValuePairType = type.GetGenericArguments().Any(gt => gt.HasKeyValuePairImplementation());
+                    var hasKeyValuePairType = type.GetGenericArguments().Any(gt => Decorator.Enclose(gt).HasKeyValuePairImplementation());
 
-                    if (type.HasDictionaryImplementation() || hasKeyValuePairType)
+                    if (Decorator.Enclose(type).HasDictionaryImplementation() || hasKeyValuePairType)
                     {
                         foreach (var element in sequence)
                         {
@@ -127,7 +125,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                         }
                     }
                 }, q);
-            }, (reader, type) => type.HasDictionaryImplementation() ? reader.ToHierarchy().UseDictionary(type.GetGenericArguments()) : reader.ToHierarchy().UseCollection(type.GetGenericArguments().First()), type => type != typeof(string));
+            }, (reader, type) => Decorator.Enclose(type).HasDictionaryImplementation() ? reader.ToHierarchy().UseDictionary(type.GetGenericArguments()) : reader.ToHierarchy().UseCollection(type.GetGenericArguments().First()), type => type != typeof(string));
         }
 
         /// <summary>
@@ -137,7 +135,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which may be configured.</param>
         public static void AddExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             converters.AddXmlConverter<ExceptionDescriptor>((writer, descriptor, qe) =>
             {
                 writer.WriteStartElement("ExceptionDescriptor");
@@ -220,8 +218,8 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         {
             converters.AddXmlConverter<string>((w, s, q) =>
             {
-                if (s.IsNullOrWhiteSpace()) { return; }
-                if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(typeof(string).ToFriendlyName()); }
+                if (string.IsNullOrWhiteSpace(s)) { return; }
+                if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(string)).ToFriendlyName()); }
                 w.WriteEncapsulatingElementIfNotNull(s, q, (writer, value) =>
                 {
                     if (value.IsXmlString())
@@ -280,7 +278,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 writer.WriteEndElement();
             }
 
-            var properties = exception.GetType().GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => pi.PropertyType.IsSimple());
+            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => !Decorator.Enclose(pi.PropertyType).IsComplex());
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);
