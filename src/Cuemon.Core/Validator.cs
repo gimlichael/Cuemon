@@ -1533,6 +1533,27 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> represents an enumeration.
+        /// </summary>
+        /// <param name="value">The type to check is an enumeration.</param>
+        /// <param name="paramName">The name of the type parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> represents an enumeration.
+        /// </exception>
+        public static void ThrowIfEnumType(Type value, string paramName, string message = "Value represents an enumeration.")
+        {
+            try
+            {
+                ThrowWhen(c => c.IsTrue(() => value.GetTypeInfo().IsEnum).Create(() => new ArgumentException(message, paramName)).TryThrow());
+            }
+            catch (TypeArgumentException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
+            }
+        }
+
+        /// <summary>
         /// Validates and throws an <see cref="TypeArgumentException"/> if the specified <typeparamref name="TEnum"/> represents an enumeration.
         /// </summary>
         /// <typeparam name="TEnum">The type to check is an enumeration.</typeparam>
@@ -1571,27 +1592,6 @@ namespace Cuemon
             catch (TypeArgumentException ex)
             {
                 throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> represents an enumeration.
-        /// </summary>
-        /// <param name="value">The type to check is an enumeration.</param>
-        /// <param name="paramName">The name of the type parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> represents an enumeration.
-        /// </exception>
-        public static void ThrowIfEnumType(Type value, string paramName, string message = "Value represents an enumeration.")
-        {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => value.GetTypeInfo().IsEnum).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (TypeArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
 
