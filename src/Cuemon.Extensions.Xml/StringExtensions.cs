@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Cuemon.Xml;
 
 namespace Cuemon.Extensions.Xml
 {
@@ -10,22 +8,18 @@ namespace Cuemon.Extensions.Xml
     /// </summary>
     public static class StringExtensions
     {
-        private static readonly string[][] EscapeStringPairs = new[] { new[] { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" }, new[] {"<", ">", "\"", "'", "&"} };
-
         /// <summary>
         /// Escapes the given XML <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
         public static string EscapeXml(this string value)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var replacePairs = new List<StringReplacePair>();
-            for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
-            {
-                replacePairs.Add(new StringReplacePair(EscapeStringPairs[1][b], EscapeStringPairs[0][b]));
-            }
-            return StringReplacePair.ReplaceAll(value, replacePairs, StringComparison.Ordinal);
+            return Decorator.Enclose(value).EscapeXml();
         }
 
         /// <summary>
@@ -33,15 +27,13 @@ namespace Cuemon.Extensions.Xml
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <returns>The input <paramref name="value"/> with an unescaped equivalent.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
         public static string UnescapeXml(this string value)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            var builder = new StringBuilder(value);
-            for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
-            {
-                builder.Replace(EscapeStringPairs[0][b], EscapeStringPairs[1][b]);
-            }
-            return builder.ToString();
+            return Decorator.Enclose(value).UnescapeXml();
         }
 
         /// <summary>
@@ -49,6 +41,9 @@ namespace Cuemon.Extensions.Xml
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
         /// <returns>A sanitized <see cref="string"/> of <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
         /// <remarks>Sanitation rules are as follows:<br/>
         /// 1. Names can contain letters, numbers, and these 4 characters: _ | : | . | -<br/>
         /// 2. Names cannot start with a number or punctuation character<br/>
@@ -57,29 +52,7 @@ namespace Cuemon.Extensions.Xml
         public static string SanitizeXmlElementName(this string value)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (Decorator.Enclose(value).StartsWith(StringComparison.OrdinalIgnoreCase, Decorator.Enclose(Alphanumeric.Numbers).ToEnumerable().Concat(new[] { "." } )))
-            {
-                var startIndex = 0;
-                var numericsAndPunctual = new List<char>(Alphanumeric.Numbers.ToCharArray().Concat(new[] { '.' }));
-                foreach (var c in value)
-                {
-                    if (numericsAndPunctual.Contains(c))
-                    {
-                        startIndex++;
-                        continue;
-                    }
-                    break;
-                }
-                return SanitizeXmlElementName(value.Substring(startIndex));
-            }
-
-            var validElementName = new StringBuilder();
-            foreach (var c in value)
-            {
-                var validCharacters = new List<char>(Alphanumeric.LettersAndNumbers.ToCharArray().Concat(new[] { '_', ':', '.', '-' }));
-                if (validCharacters.Contains(c)) { validElementName.Append(c); }
-            }
-            return validElementName.ToString();
+            return Decorator.Enclose(value).SanitizeXmlElementName();
         }
 
         /// <summary>
@@ -94,9 +67,7 @@ namespace Cuemon.Extensions.Xml
         /// </remarks>
         public static string SanitizeXmlElementText(this string value, bool cdataSection = false)
         {
-            if (string.IsNullOrEmpty(value)) { return value; }
-            value = StringReplacePair.RemoveAll(value, '\x0001', '\x0002', '\x0003', '\x0004', '\x0005', '\x0006', '\x0007', '\x0008', '\x0011', '\x0012', '\x0014', '\x0015', '\x0016', '\x0017', '\x0018', '\x0019');
-            return cdataSection ? StringReplacePair.RemoveAll(value, "]]>") : value;
+            return Decorator.Enclose(value).SanitizeXmlElementText(cdataSection);
         }
     }
 }

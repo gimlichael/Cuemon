@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using Cuemon.Reflection;
+using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Extensions.Xml.Serialization
@@ -26,7 +27,7 @@ namespace Cuemon.Extensions.Xml.Serialization
             if (qualifiedRootEntity != null && !string.IsNullOrWhiteSpace(qualifiedRootEntity.LocalName)) { return qualifiedRootEntity; }
             var hasRootAttribute = Decorator.Enclose(node.InstanceType).HasAttribute(typeof(XmlRootAttribute));
             var hasElementAttribute = node.HasMemberReference && Decorator.Enclose(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
-            var rootOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : Decorator.Enclose(node.InstanceType).ToFriendlyName(o => o.ExcludeGenericArguments = true).SanitizeXmlElementName();
+            var rootOrElementName = node.HasMemberReference ? Decorator.Enclose(node.MemberReference.Name).SanitizeXmlElementName() : Decorator.Enclose(Decorator.Enclose(node.InstanceType).ToFriendlyName(o => o.ExcludeGenericArguments = true)).SanitizeXmlElementName();
             string ns = null;
 
             if (hasRootAttribute || hasElementAttribute)
@@ -53,7 +54,7 @@ namespace Cuemon.Extensions.Xml.Serialization
             }
 
             var instance = node.Instance as XmlQualifiedEntity;
-            return instance ?? new XmlQualifiedEntity(rootOrElementName.SanitizeXmlElementName(), ns);
+            return instance ?? new XmlQualifiedEntity(Decorator.Enclose(rootOrElementName).SanitizeXmlElementName(), ns);
         }
 
         internal static IEnumerable<IHierarchy<T>> OrderByXmlAttributes<T>(this IEnumerable<IHierarchy<T>> sequence)

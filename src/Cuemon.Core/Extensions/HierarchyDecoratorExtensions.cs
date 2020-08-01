@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace Cuemon
             var uri = decorator.Inner.FindSingleInstance(h => h.Instance.Name.Equals("OriginalString", StringComparison.OrdinalIgnoreCase));
             return uri == null ? decorator.Inner.UseGenericConverter<Uri>() : Decorator.Enclose(uri.Value.ToString()).ToUri();
         }
-        
+
         /// <summary>
         /// A formatter implementation that resolves a <see cref="DateTime"/>.
         /// </summary>
@@ -113,9 +114,140 @@ namespace Cuemon
             return UseGenericConverter<decimal>(decorator.Inner);
         }
 
+        /// <summary>
+        /// A formatter implementation that resolves a <see cref="ICollection"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{DataPair}}"/> to extend.</param>
+        /// <param name="valueType">The type of the objects in the collection.</param>
+        /// <returns>A <see cref="ICollection"/> of <paramref name="valueType"/> from the enclosed <see cref="T:IHierarchy{DataPair}"/> of the <paramref name="decorator"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static ICollection UseCollection(this IDecorator<IHierarchy<DataPair>> decorator, Type valueType)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            var items = decorator.Inner.GetChildren();
+            var list = typeof(List<>).MakeGenericType(valueType);
+            var listInstance = Activator.CreateInstance(list);
+            var addMethod = list.GetMethod("Add");
+            foreach (var item in items.ParseCollectionItem(valueType))
+            {
+                addMethod.Invoke(listInstance, new[] { item });
+            }
+            return listInstance as ICollection;
+        }
+
+        /// <summary>
+        /// A formatter implementation that resolves a <see cref="IDictionary"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{DataPair}}"/> to extend.</param>
+        /// <param name="valueTypes">The value types that forms a <see cref="KeyValuePair{TKey,TValue}"/>.</param>
+        /// <returns>A <see cref="IDictionary"/> with <see cref="KeyValuePair{TKey,TValue}"/> of <paramref name="valueTypes"/> from the enclosed <see cref="T:IHierarchy{DataPair}"/> of the <paramref name="decorator"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static IDictionary UseDictionary(this IDecorator<IHierarchy<DataPair>> decorator, Type[] valueTypes)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            var items = decorator.Inner.GetChildren();
+            var dic = typeof(Dictionary<,>).MakeGenericType(valueTypes);
+            var dicInstance = Activator.CreateInstance(dic);
+            var addMethod = dic.GetMethod("Add");
+            foreach (var item in items.ParseDictionaryItem(valueTypes))
+            {
+                addMethod.Invoke(dicInstance, new[] { item.Key, item.Value });
+            }
+            return dicInstance as IDictionary;
+        }
+
         private static T UseGenericConverter<T>(this IHierarchy<DataPair> hierarchy)
         {
             return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(hierarchy.Instance.Value.ToString());
+        }
+
+        private static IEnumerable<object> ParseCollectionItem(this IEnumerable<IHierarchy<DataPair>> items, Type valueType)
+        {
+            var valueTypeInfo = valueType.GetTypeInfo();
+            if (valueTypeInfo.IsPrimitive)
+            {
+                return items.Select(i => Decorator.Enclose(i).UseConvertibleFormatter());
+            }
+
+            if (valueType == typeof(Uri))
+            {
+                return items.Select(i => Decorator.Enclose(i).UseUriFormatter());
+            }
+
+            if (valueType == typeof(decimal))
+            {
+                return items.Select(i => Decorator.Enclose(i).UseDecimalFormatter()).Cast<object>();
+            }
+
+            if (valueType == typeof(string))
+            {
+                return items.Select(i => Decorator.Enclose(i).UseStringFormatter());
+            }
+
+            if (valueType == typeof(Guid))
+            {
+                return items.Select(i => Decorator.Enclose(i).UseGuidFormatter()).Cast<object>();
+            }
+
+            if (valueType == typeof(DateTime))
+            {
+                return items.Select(i => Decorator.Enclose(i).UseDateTimeFormatter()).Cast<object>();
+            }
+
+            if (valueType == typeof(TimeSpan))
+            {
+                return items.Select(i => Decorator.Enclose(i).UseTimeSpanFormatter()).Cast<object>();
+            }
+
+            return new List<object>();
+        }
+
+        private static IEnumerable<KeyValuePair<object, object>> ParseDictionaryItem(this IEnumerable<IHierarchy<DataPair>> items, Type[] valueTypes)
+        {
+            var valueType = valueTypes[1];
+            var valueTypeInfo = valueType.GetTypeInfo();
+            var dicItems = items.ToDictionary(h => h, h => h.GetChildren().SingleOrDefault());
+
+            if (valueTypeInfo.IsPrimitive)
+            {
+                return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseConvertibleFormatter()));
+            }
+
+            if (valueType == typeof(Uri))
+            {
+                return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseUriFormatter()));
+            }
+
+            if (valueType == typeof(decimal))
+            {
+                return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseDecimalFormatter()));
+            }
+
+            if (valueType == typeof(string))
+            {
+                return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseStringFormatter()));
+            }
+
+            if (valueType == typeof(Guid))
+            {
+                return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseGuidFormatter()));
+            }
+
+            if (valueType == typeof(DateTime))
+            {
+                return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseDateTimeFormatter()));
+            }
+
+            if (valueType == typeof(TimeSpan))
+            {
+                return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseTimeSpanFormatter()));
+            }
+
+            return new Dictionary<object, object>();
         }
     }
 }

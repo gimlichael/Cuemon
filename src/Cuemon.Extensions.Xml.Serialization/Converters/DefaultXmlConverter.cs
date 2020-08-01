@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
+using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Converters;
 
@@ -272,7 +273,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
             var isType = node.Instance is Type;
             var nodeType = isType ? (Type)node.Instance : node.InstanceType;
-            var attributeOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : Decorator.Enclose(nodeType).ToFriendlyName().SanitizeXmlElementName();
+            var attributeOrElementName = node.HasMemberReference ? Decorator.Enclose(node.MemberReference.Name).SanitizeXmlElementName() : Decorator.Enclose(Decorator.Enclose(nodeType).ToFriendlyName()).SanitizeXmlElementName();
 
             if (!hasAttributeAttribute && !hasElementAttribute && !hasTextAttribute)
             {

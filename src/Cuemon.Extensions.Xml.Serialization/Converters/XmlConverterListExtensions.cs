@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Xml;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Runtime.Serialization;
-using Cuemon.Extensions.Xml.Linq;
 using Cuemon.Runtime.Serialization;
+using Cuemon.Xml;
+using Cuemon.Xml.Linq;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Converters;
 
@@ -125,7 +125,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                         }
                     }
                 }, q);
-            }, (reader, type) => Decorator.Enclose(type).HasDictionaryImplementation() ? reader.ToHierarchy().UseDictionary(type.GetGenericArguments()) : reader.ToHierarchy().UseCollection(type.GetGenericArguments().First()), type => type != typeof(string));
+            }, (reader, type) => Decorator.Enclose(type).HasDictionaryImplementation() ? Decorator.Enclose(reader.ToHierarchy()).UseDictionary(type.GetGenericArguments()) : Decorator.Enclose(reader.ToHierarchy()).UseCollection(type.GetGenericArguments().First()), type => type != typeof(string));
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// <param name="converters">The list of XML converters.</param>
         public static void AddUriConverter(this IList<XmlConverter> converters)
         {
-            converters.AddXmlConverter(reader: (reader, type) => reader.ToHierarchy().UseUriFormatter());
+            converters.AddXmlConverter(reader: (reader, type) => Decorator.Enclose(reader.ToHierarchy()).UseUriFormatter());
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 {
                     writer.WriteValue(value.ToString("u", CultureInfo.InvariantCulture));
                 });
-            },(reader, type) => reader.ToHierarchy().UseDateTimeFormatter());
+            },(reader, type) => Decorator.Enclose(reader.ToHierarchy()).UseDateTimeFormatter());
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// <param name="converters">The list of XML converters.</param>
         public static void AddTimeSpanConverter(this IList<XmlConverter> converters)
         {
-            converters.AddXmlConverter(reader: (reader, type) => reader.ToHierarchy().UseTimeSpanFormatter());
+            converters.AddXmlConverter(reader: (reader, type) => Decorator.Enclose(reader.ToHierarchy()).UseTimeSpanFormatter());
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(string)).ToFriendlyName()); }
                 w.WriteEncapsulatingElementIfNotNull(s, q, (writer, value) =>
                 {
-                    if (value.IsXmlString())
+                    if (Decorator.Enclose(value).IsXmlString())
                     {
                         writer.WriteCData(value);
                     }
@@ -237,7 +237,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         private static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
             var exceptionType = exception.GetType();
-            writer.WriteStartElement(exceptionType.Name.SanitizeXmlElementName());
+            writer.WriteStartElement(Decorator.Enclose(exceptionType.Name).SanitizeXmlElementName());
             writer.WriteAttributeString("namespace", exceptionType.Namespace);
             WriteExceptionCore(writer, exception, includeStackTrace);
             writer.WriteEndElement();
@@ -271,8 +271,8 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 writer.WriteStartElement("Data");
                 foreach (DictionaryEntry entry in exception.Data)
                 {
-                    writer.WriteStartElement(entry.Key.ToString().SanitizeXmlElementName());
-                    writer.WriteString(entry.Value.ToString().SanitizeXmlElementText());
+                    writer.WriteStartElement(Decorator.Enclose(entry.Key.ToString()).SanitizeXmlElementName());
+                    writer.WriteString(Decorator.Enclose(entry.Value.ToString()).SanitizeXmlElementText());
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
@@ -301,7 +301,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
                 foreach (var inner in innerExceptions)
                 {
                     var exceptionType = inner.GetType();
-                    writer.WriteStartElement(exceptionType.Name.SanitizeXmlElementName());
+                    writer.WriteStartElement(Decorator.Enclose(exceptionType.Name).SanitizeXmlElementName());
                     writer.WriteAttributeString("namespace", exceptionType.Namespace);
                     WriteExceptionCore(writer, inner, includeStackTrace);
                     endElementsToWrite++;

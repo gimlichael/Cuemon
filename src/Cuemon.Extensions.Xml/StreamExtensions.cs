@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using Cuemon.Text;
+using Cuemon.Xml;
 using Cuemon.Xml.XPath;
 
 namespace Cuemon.Extensions.Xml
@@ -24,11 +25,7 @@ namespace Cuemon.Extensions.Xml
         public static XmlReader ToXmlReader(this Stream value, Encoding encoding = null, Action<XmlReaderSettings> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (encoding == null) { value.TryDetectXmlEncoding(out encoding); }
-            if (value.CanSeek) { value.Position = 0; }
-            var options = Patterns.Configure(setup);
-            var reader = XmlReader.Create(new StreamReader(value, encoding), options);
-            return reader;
+            return Decorator.Enclose(value).ToXmlReader(encoding, setup);
         }
 
         /// <summary>
@@ -75,35 +72,7 @@ namespace Cuemon.Extensions.Xml
         public static bool TryDetectXmlEncoding(this Stream value, out Encoding result)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            result = new UTF8Encoding(false);
-            if (!ByteOrderMark.TryDetectEncoding(value, out var encoding))
-            {
-                long startingPosition = -1;
-                if (value.CanSeek)
-                {
-                    startingPosition = value.Position;
-                    value.Position = 0;
-                }
-
-                var document = new XmlDocument();
-                document.Load(value);
-                if (document.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
-                {
-                    var declaration = (XmlDeclaration)document.FirstChild;
-                    if (!string.IsNullOrEmpty(declaration.Encoding))
-                    {
-                        result = Encoding.GetEncoding(declaration.Encoding);
-                        return true;
-                    }
-                }
-                if (value.CanSeek) { value.Seek(startingPosition, SeekOrigin.Begin); }
-            }
-            else
-            {
-                result = encoding;
-                return true;
-            }
-            return false;
+            return Decorator.Enclose(value).TryDetectXmlEncoding(out result);
         }
 
         /// <summary>

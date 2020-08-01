@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
-using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon.IO
