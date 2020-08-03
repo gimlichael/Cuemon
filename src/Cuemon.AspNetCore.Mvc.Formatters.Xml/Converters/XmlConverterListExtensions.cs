@@ -4,11 +4,10 @@ using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Xml.Serialization;
-using Cuemon.Extensions.Xml.Serialization.Converters;
-using Cuemon.Runtime.Serialization;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Converters;
+using Cuemon.Runtime.Serialization;
+using Cuemon.Xml;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
@@ -40,7 +39,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         public static void AddHttpExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
-            converters.AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, qe) =>
+            Decorator.Enclose(converters).AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, qe) =>
             {
                 writer.WriteStartElement("HttpExceptionDescriptor");
                 writer.WriteStartElement("Error");
@@ -51,7 +50,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
                 if (options.IncludeFailure)
                 {
                     writer.WriteStartElement("Failure");
-                    writer.WriteObject(descriptor.Failure);
+                    Decorator.Enclose(writer).WriteObject(descriptor.Failure);
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
@@ -61,7 +60,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
                     foreach (var evidence in descriptor.Evidence)
                     {
                         if (evidence.Value == null) { continue; }
-                        writer.WriteObject(evidence.Value, evidence.Value.GetType(), o => o.RootName = new XmlQualifiedEntity(evidence.Key));
+                        Decorator.Enclose(writer).WriteObject(evidence.Value, evidence.Value.GetType(), o => o.RootName = new XmlQualifiedEntity(evidence.Key));
                     }
                     writer.WriteEndElement();
                 }
@@ -77,7 +76,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <param name="converters">The list of XML converters.</param>
         public static void AddStringValuesConverter(this IList<XmlConverter> converters)
         {
-            converters.InsertXmlConverter<StringValues>(0, (writer, values, qe) =>
+            Decorator.Enclose(converters).InsertXmlConverter<StringValues>(0, (writer, values, qe) =>
             {
                 if (values.Count <= 1)
                 {
@@ -96,13 +95,13 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <param name="converters">The list of XML converters.</param>
         public static void AddHeaderDictionaryConverter(this IList<XmlConverter> converters)
         {
-            converters.InsertXmlConverter<IHeaderDictionary>(0, (writer, headers, qe) =>
+            Decorator.Enclose(converters).InsertXmlConverter<IHeaderDictionary>(0, (writer, headers, qe) =>
             {
                 foreach (var header in headers)
                 {
                     writer.WriteStartElement("Header");
                     writer.WriteAttributeString("name", header.Key);
-                    writer.WriteObject(header.Value);
+                    Decorator.Enclose(writer).WriteObject(header.Value);
                     writer.WriteEndElement();
                 }
             });
@@ -114,13 +113,13 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <param name="converters">The list of XML converters.</param>
         public static void AddQueryCollectionConverter(this IList<XmlConverter> converters)
         {
-            converters.InsertXmlConverter<IQueryCollection>(0, (writer, collection, qe) =>
+            Decorator.Enclose(converters).InsertXmlConverter<IQueryCollection>(0, (writer, collection, qe) =>
             {
                 foreach (var pair in collection)
                 {
                     writer.WriteStartElement("Field");
                     writer.WriteAttributeString("key", pair.Key);
-                    writer.WriteObject(pair.Value);
+                    Decorator.Enclose(writer).WriteObject(pair.Value);
                     writer.WriteEndElement();
                 }
             });
@@ -132,13 +131,13 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <param name="converters">The list of XML converters.</param>
         public static void AddFormCollectionConverter(this IList<XmlConverter> converters)
         {
-            converters.InsertXmlConverter<IFormCollection>(0, (writer, collection, qe) =>
+            Decorator.Enclose(converters).InsertXmlConverter<IFormCollection>(0, (writer, collection, qe) =>
             {
                 foreach (var pair in collection)
                 {
                     writer.WriteStartElement("Field");
                     writer.WriteAttributeString("key", pair.Key);
-                    writer.WriteObject(pair.Value);
+                    Decorator.Enclose(writer).WriteObject(pair.Value);
                     writer.WriteEndElement();
                 }
             });
@@ -150,7 +149,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <param name="converters">The list of XML converters.</param>
         public static void AddCookieCollectionConverter(this IList<XmlConverter> converters)
         {
-            converters.InsertXmlConverter<IRequestCookieCollection>(0, (writer, collection, qe) =>
+            Decorator.Enclose(converters).InsertXmlConverter<IRequestCookieCollection>(0, (writer, collection, qe) =>
             {
                 foreach (var pair in collection)
                 {

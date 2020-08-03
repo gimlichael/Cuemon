@@ -11,7 +11,7 @@
     <Product>Cuemon .NET Standard</Product>
     <AssemblyName>Cuemon.Extensions.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xml</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Xml assembly provides extension methods for XML scenarios such as escaping, conversions and parsing.</Description>
+    <Description>The Cuemon.Extensions.Xml assembly provides extension methods for XML scenarios such as escaping, conversions, parsing, serialization and deserialization.</Description>
     <Company>Weubphoria</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Weubphoria 2009-2020. All rights reserved.</Copyright>
@@ -29,7 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,6 +14,43 @@ namespace Cuemon.Xml
     public static class StreamDecoratorExtensions
     {
         /// <summary>
+        /// Copies the entire XML of the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> following the output format of <paramref name="setup"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{Stream}"/> to extend.</param>
+        /// <param name="setup">The <see cref="XmlWriterSettings"/> which may be configured.</param>
+        /// <returns>A <see cref="Stream"/> that is equivalent to the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> following the output format of <paramref name="setup"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static Stream CopyXmlStream(this IDecorator<Stream> decorator, Action<XmlWriterSettings> setup = null)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+
+            long startingPosition = -1;
+            if (decorator.Inner.CanSeek)
+            {
+                startingPosition = decorator.Inner.Position;
+                decorator.Inner.Position = 0;
+            }
+
+            var options = Patterns.Configure(setup);
+            return Disposable.SafeInvoke(() => new MemoryStream(), ms =>
+            {
+                var document = new XmlDocument();
+                document.Load(decorator.Inner);
+                using (var writer = XmlWriter.Create(ms, options))
+                {
+                    document.Save(writer);
+                    writer.Flush();
+                }
+
+                if (decorator.Inner.CanSeek) { decorator.Inner.Seek(startingPosition, SeekOrigin.Begin); } // reset to original position
+                ms.Position = 0;
+                return ms;
+            });
+        }
+
+        /// <summary>
         /// Converts the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> to an <see cref="XmlReader"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{Stream}"/> to extend.</param>

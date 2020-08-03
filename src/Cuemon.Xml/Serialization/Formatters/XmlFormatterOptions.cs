@@ -1,8 +1,8 @@
 ﻿using System;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Xml.Serialization.Converters;
+using Cuemon.Xml.Serialization.Converters;
 
-namespace Cuemon.Extensions.Xml.Serialization.Formatters
+namespace Cuemon.Xml.Serialization.Formatters
 {
     /// <summary>
     /// Specifies options that is related to <see cref="XmlFormatter"/> operations.
@@ -48,13 +48,14 @@ namespace Cuemon.Extensions.Xml.Serialization.Formatters
             IncludeExceptionStackTrace = false;
             XmlSerializerOptions.DefaultConverters = list =>
             {
-                list.AddExceptionDescriptorConverter();
-                list.AddExceptionConverter(() => IncludeExceptionStackTrace);
-                list.AddEnumerableConverter();
-                list.AddUriConverter();
-                list.AddDateTimeConverter();
-                list.AddTimeSpanConverter();
-                list.AddStringConverter();
+                Decorator.Enclose(list)
+                    .AddExceptionDescriptorConverter()
+                    .AddExceptionConverter(() => IncludeExceptionStackTrace)
+                    .AddEnumerableConverter()
+                    .AddUriConverter()
+                    .AddDateTimeConverter()
+                    .AddTimeSpanConverter()
+                    .AddStringConverter();
             };
             Settings = new XmlSerializerOptions();
         }

@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Xml;
-using Cuemon.Extensions.Xml.Serialization.Formatters;
+using Cuemon.Xml.Serialization.Formatters;
+using Cuemon.IO;
+using Cuemon.Xml;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
@@ -40,10 +40,10 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {
                 var formatter = new XmlFormatter(FormatterOptions);
-                var raw = formatter.Serialize(value).CopyXmlStream(o => o.Encoding = selectedEncoding);
+                var raw = Decorator.Enclose(formatter.Serialize(value)).CopyXmlStream(o => o.Encoding = selectedEncoding);
                 using (var streamReader = new StreamReader(raw, selectedEncoding))
                 {
-                    await streamReader.CopyToAsync(textWriter).ConfigureAwait(false);
+                    await Decorator.Enclose(streamReader).CopyToAsync(textWriter).ConfigureAwait(false);
                 }
                 await textWriter.FlushAsync().ConfigureAwait(false);
             }

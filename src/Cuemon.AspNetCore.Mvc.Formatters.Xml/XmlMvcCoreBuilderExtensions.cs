@@ -1,7 +1,7 @@
 ﻿using System;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters;
-using Cuemon.Extensions.Xml.Serialization.Formatters;
+using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

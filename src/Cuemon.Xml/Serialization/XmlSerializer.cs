@@ -1,12 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using Cuemon.Extensions.Xml.Serialization.Converters;
-using Cuemon.Xml;
-using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Converters;
 
-namespace Cuemon.Extensions.Xml.Serialization
+namespace Cuemon.Xml.Serialization
 {
     /// <summary>
     /// Serializes and deserializes objects into and from the XML format.
@@ -57,6 +54,21 @@ namespace Cuemon.Extensions.Xml.Serialization
         }
 
         /// <summary>
+        /// Serializes the specified <paramref name="value"/> into an XML format.
+        /// </summary>
+        /// <param name="writer">The writer used in the serialization process.</param>
+        /// <param name="value">The object to serialize to XML format.</param>
+        /// <param name="objectType">The type of the object to serialize.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="writer"/> cannot be null.
+        /// </exception>
+        public void Serialize(XmlWriter writer, object value, Type objectType)
+        {
+            Validator.ThrowIfNull(writer, nameof(writer));
+            GetWriterConverter(objectType).WriteXml(writer, value);
+        }
+
+        /// <summary>
         /// Deserializes the specified <paramref name="value"/> into an object of <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the object to deserialize.</typeparam>
@@ -96,32 +108,27 @@ namespace Cuemon.Extensions.Xml.Serialization
             }
         }
 
+        private object Deserialize(XmlReader reader, Type objectType)
+        {
+            return GetReaderConverter(objectType).ReadXml(reader, objectType);
+        }
+
         private XmlSerializer(XmlSerializerOptions settings)
         {
             Settings = settings ?? new XmlSerializerOptions();
-        }
-
-        internal void Serialize(XmlWriter writer, object value, Type objectType)
-        {
-            GetWriterConverter(objectType).WriteXml(writer, value);
-        }
-
-        internal object Deserialize(XmlReader reader, Type objectType)
-        {
-            return GetReaderConverter(objectType).ReadXml(reader, objectType);
         }
 
         internal XmlSerializerOptions Settings { get; }
 
         internal XmlConverter GetReaderConverter(Type objectType)
         {
-            var converter = Settings.Converters.FirstOrDefaultReaderConverter(objectType);
+            var converter = Decorator.Enclose(Settings.Converters).FirstOrDefaultReaderConverter(objectType);
             return converter ?? new DefaultXmlConverter(Settings.RootName, Settings.Converters);
         }
 
         internal XmlConverter GetWriterConverter(Type objectType)
         {
-            var converter = Settings.Converters.FirstOrDefaultWriterConverter(objectType);
+            var converter = Decorator.Enclose(Settings.Converters).FirstOrDefaultWriterConverter(objectType);
             if (converter is DynamicXmlConverterCore dc)
             {
                 if (Settings.RootName != null && dc.RootName == null) { dc.RootName = Settings.RootName; }

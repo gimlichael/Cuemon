@@ -1,26 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using Cuemon.Text;
 
-namespace Cuemon.Extensions.Xml.Serialization
+namespace Cuemon.Xml
 {
     /// <summary>
-    /// Extension methods for the <see cref="XmlReader"/>.
+    /// Extension methods for the <see cref="XmlReader"/> class tailored to adhere the decorator pattern.
     /// </summary>
-    public static class XmlReaderExtensions
+    /// <seealso cref="IDecorator{T}"/>
+    /// <seealso cref="Decorator{T}"/>
+    public static class XmlReaderDecoratorExtensions
     {
         private const string XmlReaderKey = "reader.Name";
 
         /// <summary>
-        /// Converts the XML hierarchy of an <see cref="XmlReader"/> into an <see cref="IHierarchy{T}"/>.
+        /// Converts the XML hierarchy of the enclosed <see cref="XmlReader"/> of the specified <paramref name="decorator"/> into an <see cref="IHierarchy{T}"/>.
         /// </summary>
-        /// <param name="reader">The reader to convert.</param>
-        /// <returns>An <see cref="IHierarchy{T}"/> implementation that uses <see cref="DataPair"/>.</returns>
-        public static IHierarchy<DataPair> ToHierarchy(this XmlReader reader)
+        /// <param name="decorator">The <see cref="T:IDecorator{XmlReader}" /> to extend.</param>
+        /// <returns>An <see cref="T:IHierarchy{DataPair}"/> implementation.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static IHierarchy<DataPair> ToHierarchy(this IDecorator<XmlReader> decorator)
         {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
             var index = 0;
             var depthIndexes = new Dictionary<int, Dictionary<int, int>>();
             var dimension = 0;
+            var reader = decorator.Inner;
             IHierarchy<DataPair> hierarchy = new Hierarchy<DataPair>();
             List<DataPair> attributes = null;
             while (reader.Read())

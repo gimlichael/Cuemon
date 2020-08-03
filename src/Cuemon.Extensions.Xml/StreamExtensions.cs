@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using Cuemon.Text;
 using Cuemon.Xml;
 using Cuemon.Xml.XPath;
 

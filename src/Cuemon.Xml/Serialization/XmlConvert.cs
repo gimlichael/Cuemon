@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon.Extensions.Xml.Serialization
+namespace Cuemon.Xml.Serialization
 {
     /// <summary>
     /// Provides methods for converting between .NET types and XML types.

@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
+
     <ProjectReference Include="..\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
   </ItemGroup>
 

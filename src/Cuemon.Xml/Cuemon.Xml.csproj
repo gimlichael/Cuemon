@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,9 +9,9 @@
 
   <PropertyGroup>
     <Product>Cuemon .NET Standard</Product>
-    <AssemblyName>Cuemon.Extensions.Xml.Serialization</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Xml.Serialization</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Xml.Serialization assembly provides extension methods for XML scenarios focused on serialization and deserialization.</Description>
+    <AssemblyName>Cuemon.Xml</AssemblyName>
+    <AssemblyTitle>Cuemon.Xml</AssemblyTitle>
+    <Description>The Cuemon.Xml assembly is a member of the Cuemon .NET Standard family and provides enhancements to the System.Xml namespace.</Description>
     <Company>Weubphoria</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Weubphoria 2009-2020. All rights reserved.</Copyright>
@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
-    
   </ItemGroup>
 
 </Project>
