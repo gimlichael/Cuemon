@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Cuemon.Xml.Serialization
+namespace Cuemon.Extensions.Xml.Serialization
 {
     /// <summary>
     /// A class designed to help assure qualified names in XML serializations.

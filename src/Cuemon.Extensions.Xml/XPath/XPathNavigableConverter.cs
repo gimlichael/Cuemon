@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.XPath;
 using Cuemon.Text;
 
-namespace Cuemon.Xml.XPath
+namespace Cuemon.Extensions.Xml.XPath
 {
     /// <summary>
     /// This utility class is designed to make <see cref="IXPathNavigable"/> related conversions easier to work with.

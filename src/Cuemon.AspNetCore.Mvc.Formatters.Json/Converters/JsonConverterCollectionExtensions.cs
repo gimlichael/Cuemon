@@ -10,16 +10,17 @@ using Newtonsoft.Json;
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json.Converters
 {
     /// <summary>
-    /// Extension methods for the <see cref="ICollection{JsonConverter}"/>.
+    /// Extension methods for the <see cref="JsonConverter"/> class.
     /// </summary>
     public static class JsonConverterCollectionExtensions
     {
         /// <summary>
         /// Adds an <see cref="HttpExceptionDescriptor"/> JSON converter to the list.
         /// </summary>
-        /// <param name="converters">The list of JSON converters.</param>
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
-        public static void AddHttpExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddHttpExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
             converters.Add(DynamicJsonConverter.Create<HttpExceptionDescriptor>((writer, descriptor) =>
@@ -67,13 +68,15 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json.Converters
                 }
                 writer.WriteEndObject();
             }));
+            return converters;
         }
 
         /// <summary>
         /// Adds an <see cref="StringValues"/> JSON converter to the list.
         /// </summary>
-        /// <param name="converters">The list of JSON converters.</param>
-        public static void AddStringValuesConverter(this ICollection<JsonConverter> converters)
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddStringValuesConverter(this ICollection<JsonConverter> converters)
         {
             converters.Add(DynamicJsonConverter.Create<StringValues>((writer, values) =>
             {
@@ -88,6 +91,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json.Converters
                     writer.WriteEndArray();
                 }
             }));
+            return converters;
         }
     }
 }

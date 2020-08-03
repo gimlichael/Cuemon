@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml;
-using Cuemon.Xml.Serialization.Converters;
+using Cuemon.Extensions.Xml.Serialization.Converters;
 
-namespace Cuemon.Xml.Serialization
+namespace Cuemon.Extensions.Xml.Serialization
 {
     /// <summary>
     /// Provides a factory based way to create and wrap an <see cref="XmlConverter"/> implementation.
@@ -112,15 +112,15 @@ namespace Cuemon.Xml.Serialization
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <seealso cref="T:Cuemon.Xml.Serialization.Converters.XmlConverter" /> can XML.
+        /// Gets a value indicating whether this <seealso cref="T:Cuemon.Extensions.Xml.Serialization.Converters.XmlConverter" /> can XML.
         /// </summary>
-        /// <value><c>true</c> if this <seealso cref="T:Cuemon.Xml.Serialization.Converters.XmlConverter" /> can read XML; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if this <seealso cref="T:Cuemon.Extensions.Xml.Serialization.Converters.XmlConverter" /> can read XML; otherwise, <c>false</c>.</value>
         public override bool CanRead => Reader != null;
 
         /// <summary>
-        /// Gets a value indicating whether this <seealso cref="T:Cuemon.Xml.Serialization.Converters.XmlConverter" /> can write XML.
+        /// Gets a value indicating whether this <seealso cref="T:Cuemon.Extensions.Xml.Serialization.Converters.XmlConverter" /> can write XML.
         /// </summary>
-        /// <value><c>true</c> if this <seealso cref="T:Cuemon.Xml.Serialization.Converters.XmlConverter" /> can write XML; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if this <seealso cref="T:Cuemon.Extensions.Xml.Serialization.Converters.XmlConverter" /> can write XML; otherwise, <c>false</c>.</value>
         public override bool CanWrite => Writer != null;
     }
 }

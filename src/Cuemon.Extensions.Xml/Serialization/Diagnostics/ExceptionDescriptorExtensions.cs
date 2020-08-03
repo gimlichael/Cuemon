@@ -1,8 +1,8 @@
 ﻿using System;
 using Cuemon.Diagnostics;
+using Cuemon.Extensions.Xml.Serialization.Formatters;
 using Cuemon.IO;
 using Cuemon.Runtime.Serialization;
-using Cuemon.Xml.Serialization.Formatters;
 
 namespace Cuemon.Extensions.Xml.Serialization.Diagnostics
 {

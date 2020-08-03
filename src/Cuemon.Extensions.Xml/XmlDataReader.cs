@@ -5,7 +5,7 @@ using System.Xml;
 using Cuemon.Data;
 using Cuemon.Text;
 
-namespace Cuemon.Xml
+namespace Cuemon.Extensions.Xml
 {
     /// <summary>
     /// Provides a way of reading a forward-only stream of rows from an XML based data source. This class cannot be inherited.

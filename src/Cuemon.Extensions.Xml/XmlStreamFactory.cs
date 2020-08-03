@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml;
 
-namespace Cuemon.Xml
+namespace Cuemon.Extensions.Xml
 {
     /// <summary>
     /// Provides access to factory methods for creating and configuring <see cref="Stream"/> instances.

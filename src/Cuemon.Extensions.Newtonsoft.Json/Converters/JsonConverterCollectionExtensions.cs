@@ -11,34 +11,39 @@ using Newtonsoft.Json.Serialization;
 namespace Cuemon.Extensions.Newtonsoft.Json.Converters
 {
     /// <summary>
-    /// Extension methods for the <see cref="ICollection{JsonConverter}"/>.
+    /// Extension methods for the <see cref="JsonConverter"/> class.
     /// </summary>
     public static class JsonConverterCollectionExtensions
     {
         /// <summary>
         /// Adds an <see cref="Enum"/> JSON converter to the list.
         /// </summary>
-        /// <param name="converters">The list of JSON converters.</param>
-        public static void AddStringEnumConverter(this ICollection<JsonConverter> converters)
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddStringEnumConverter(this ICollection<JsonConverter> converters)
         {
             converters.Add(new StringEnumConverter());
+            return converters;
         }
 
         /// <summary>
         /// Adds a combined <see cref="Enum"/> and <see cref="FlagsAttribute"/> JSON converter to the list.
         /// </summary>
-        /// <param name="converters">The list of JSON converters.</param>
-        public static void AddStringFlagsEnumConverter(this ICollection<JsonConverter> converters)
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddStringFlagsEnumConverter(this ICollection<JsonConverter> converters)
         {
             converters.Add(new StringFlagsEnumConverter(new CamelCaseNamingStrategy()));
+            return converters;
         }
 
         /// <summary>
         /// Adds an <see cref="ExceptionDescriptor"/> JSON converter to the list.
         /// </summary>
-        /// <param name="converters">The list of JSON converters.</param>
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
-        public static void AddExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
             converters.Add(DynamicJsonConverter.Create<ExceptionDescriptor>((writer, descriptor) =>
             {
@@ -74,13 +79,15 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 }
                 writer.WriteEndObject();
             }));
+            return converters;
         }
 
         /// <summary>
         /// Adds a <see cref="TimeSpan"/> JSON converter to the list.
         /// </summary>
-        /// <param name="converters">The list of JSON converters.</param>
-        public static void AddTimeSpanConverter(this ICollection<JsonConverter> converters)
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddTimeSpanConverter(this ICollection<JsonConverter> converters)
         {
             converters.Add(DynamicJsonConverter.Create((writer, ts) =>
             {
@@ -107,26 +114,30 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteValue(ts.TotalSeconds);
                 writer.WriteEndObject();
             }, (reader, ts) => Decorator.Enclose(reader.ToHierarchy()).UseTimeSpanFormatter()));
+            return converters;
         }
 
         /// <summary>
         /// Adds an <see cref="Exception" /> JSON converter to the list.
         /// </summary>
-        /// <param name="converters">The list of JSON converters.</param>
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
         /// <param name="includeStackTraceFactory">The function delegate that is invoked when it is needed to determine whether the stack of an exception is included in the converted result.</param>
-        public static void AddExceptionConverter(this ICollection<JsonConverter> converters, Func<bool> includeStackTraceFactory)
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddExceptionConverter(this ICollection<JsonConverter> converters, Func<bool> includeStackTraceFactory)
         {
             converters.Add(DynamicJsonConverter.Create<Exception>((writer, exception) =>
             {
                 WriteException(writer, exception, includeStackTraceFactory?.Invoke() ?? false);
             }));
+            return converters;
         }
 
         /// <summary>
         /// Adds an <see cref="DataPair" /> JSON converter to the list.
         /// </summary>
-        /// <param name="converters">The list of JSON converters.</param>
-        public static void AddDataPairConverter(this ICollection<JsonConverter> converters)
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddDataPairConverter(this ICollection<JsonConverter> converters)
         {
             converters.Add(DynamicJsonConverter.Create<DataPair>((writer, dp) =>
             {
@@ -143,6 +154,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteValue(Decorator.Enclose(dp.Type).ToFriendlyName());
                 writer.WriteEndObject();
             }));
+            return converters;
         }
 
         private static void WriteException(JsonWriter writer, Exception exception, bool includeStackTrace)

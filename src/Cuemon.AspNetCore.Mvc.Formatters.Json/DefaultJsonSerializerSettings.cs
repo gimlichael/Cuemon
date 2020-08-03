@@ -28,17 +28,17 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
             DateFormatHandling = DateFormatHandling.IsoDateFormat;
             DateTimeZoneHandling = DateTimeZoneHandling.Utc;
             ContractResolver = new CamelCasePropertyNamesContractResolver();
-            Converters.AddStringValuesConverter();
-            Converters.AddHttpExceptionDescriptorConverter(o =>
-            {
-                o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
-                o.IncludeFailure = IncludeExceptionDescriptorFailure;
-            });
-            Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
-            Converters.AddDataPairConverter();
-            Converters.AddStringEnumConverter();
-            Converters.AddStringFlagsEnumConverter();
-            Converters.AddTimeSpanConverter();
+            Converters.AddStringValuesConverter()
+                .AddHttpExceptionDescriptorConverter(o =>
+                {
+                    o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
+                    o.IncludeFailure = IncludeExceptionDescriptorFailure;
+                })
+                .AddExceptionConverter(() => IncludeExceptionStackTrace)
+                .AddDataPairConverter()
+                .AddStringEnumConverter()
+                .AddStringFlagsEnumConverter()
+                .AddTimeSpanConverter();
         }
 
         /// <summary>

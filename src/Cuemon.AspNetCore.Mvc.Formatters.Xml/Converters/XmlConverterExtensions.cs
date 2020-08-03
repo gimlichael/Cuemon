@@ -4,42 +4,43 @@ using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Diagnostics;
-using Cuemon.Xml.Serialization;
-using Cuemon.Xml.Serialization.Converters;
+using Cuemon.Extensions.Xml;
+using Cuemon.Extensions.Xml.Serialization;
+using Cuemon.Extensions.Xml.Serialization.Converters;
 using Cuemon.Runtime.Serialization;
-using Cuemon.Xml;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
 {
     /// <summary>
-    /// Extension methods for the <see cref=" IList{XmlConverter}"/>.
+    /// Extension methods for the <see cref=" XmlConverter"/> class.
     /// </summary>
-    public static class XmlConverterListExtensions
+    public static class XmlConverterExtensions
     {
-        static XmlConverterListExtensions()
+        static XmlConverterExtensions()
         {
             XmlSerializerOptions.DefaultConverters += list =>
             {
-                list.AddHttpExceptionDescriptorConverter();
-                list.AddStringValuesConverter();
-                list.AddHeaderDictionaryConverter();
-                list.AddFormCollectionConverter();
-                list.AddQueryCollectionConverter();
-                list.AddCookieCollectionConverter();
+                list.AddHttpExceptionDescriptorConverter()
+                    .AddStringValuesConverter()
+                    .AddHeaderDictionaryConverter()
+                    .AddFormCollectionConverter()
+                    .AddQueryCollectionConverter()
+                    .AddCookieCollectionConverter();
             };
         }
 
         /// <summary>
         /// Adds an <see cref="ExceptionDescriptor"/> XML converter to the list.
         /// </summary>
-        /// <param name="converters">The list of XML converters.</param>
+        /// <param name="converters">The <see cref="T:IList{XmlConverter}" /> to extend.</param>
         /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
-        public static void AddHttpExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static IList<XmlConverter> AddHttpExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
-            Decorator.Enclose(converters).AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, qe) =>
+            return converters.AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, qe) =>
             {
                 writer.WriteStartElement("HttpExceptionDescriptor");
                 writer.WriteStartElement("Error");
@@ -50,7 +51,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
                 if (options.IncludeFailure)
                 {
                     writer.WriteStartElement("Failure");
-                    Decorator.Enclose(writer).WriteObject(descriptor.Failure);
+                    writer.WriteObject(descriptor.Failure);
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
@@ -60,7 +61,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
                     foreach (var evidence in descriptor.Evidence)
                     {
                         if (evidence.Value == null) { continue; }
-                        Decorator.Enclose(writer).WriteObject(evidence.Value, evidence.Value.GetType(), o => o.RootName = new XmlQualifiedEntity(evidence.Key));
+                        writer.WriteObject(evidence.Value, evidence.Value.GetType(), o => o.RootName = new XmlQualifiedEntity(evidence.Key));
                     }
                     writer.WriteEndElement();
                 }
@@ -73,10 +74,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <summary>
         /// Adds an <see cref="StringValues"/> XML converter to the list.
         /// </summary>
-        /// <param name="converters">The list of XML converters.</param>
-        public static void AddStringValuesConverter(this IList<XmlConverter> converters)
+        /// <param name="converters">The <see cref="T:IList{XmlConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static IList<XmlConverter> AddStringValuesConverter(this IList<XmlConverter> converters)
         {
-            Decorator.Enclose(converters).InsertXmlConverter<StringValues>(0, (writer, values, qe) =>
+            return converters.InsertXmlConverter<StringValues>(0, (writer, values, qe) =>
             {
                 if (values.Count <= 1)
                 {
@@ -93,15 +95,16 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// Adds an <see cref="IHeaderDictionary"/> XML converter to the list.
         /// </summary>
         /// <param name="converters">The list of XML converters.</param>
-        public static void AddHeaderDictionaryConverter(this IList<XmlConverter> converters)
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static IList<XmlConverter> AddHeaderDictionaryConverter(this IList<XmlConverter> converters)
         {
-            Decorator.Enclose(converters).InsertXmlConverter<IHeaderDictionary>(0, (writer, headers, qe) =>
+            return converters.InsertXmlConverter<IHeaderDictionary>(0, (writer, headers, qe) =>
             {
                 foreach (var header in headers)
                 {
                     writer.WriteStartElement("Header");
                     writer.WriteAttributeString("name", header.Key);
-                    Decorator.Enclose(writer).WriteObject(header.Value);
+                    writer.WriteObject(header.Value);
                     writer.WriteEndElement();
                 }
             });
@@ -110,16 +113,17 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <summary>
         /// Adds an <see cref="IQueryCollection"/> XML converter to the list.
         /// </summary>
-        /// <param name="converters">The list of XML converters.</param>
-        public static void AddQueryCollectionConverter(this IList<XmlConverter> converters)
+        /// <param name="converters">The <see cref="T:IList{XmlConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static IList<XmlConverter> AddQueryCollectionConverter(this IList<XmlConverter> converters)
         {
-            Decorator.Enclose(converters).InsertXmlConverter<IQueryCollection>(0, (writer, collection, qe) =>
+            return converters.InsertXmlConverter<IQueryCollection>(0, (writer, collection, qe) =>
             {
                 foreach (var pair in collection)
                 {
                     writer.WriteStartElement("Field");
                     writer.WriteAttributeString("key", pair.Key);
-                    Decorator.Enclose(writer).WriteObject(pair.Value);
+                    writer.WriteObject(pair.Value);
                     writer.WriteEndElement();
                 }
             });
@@ -128,16 +132,17 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <summary>
         /// Adds an <see cref="IFormCollection"/> XML converter to the list.
         /// </summary>
-        /// <param name="converters">The list of XML converters.</param>
-        public static void AddFormCollectionConverter(this IList<XmlConverter> converters)
+        /// <param name="converters">The <see cref="T:IList{XmlConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static IList<XmlConverter> AddFormCollectionConverter(this IList<XmlConverter> converters)
         {
-            Decorator.Enclose(converters).InsertXmlConverter<IFormCollection>(0, (writer, collection, qe) =>
+            return converters.InsertXmlConverter<IFormCollection>(0, (writer, collection, qe) =>
             {
                 foreach (var pair in collection)
                 {
                     writer.WriteStartElement("Field");
                     writer.WriteAttributeString("key", pair.Key);
-                    Decorator.Enclose(writer).WriteObject(pair.Value);
+                    writer.WriteObject(pair.Value);
                     writer.WriteEndElement();
                 }
             });
@@ -146,10 +151,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <summary>
         /// Adds an <see cref="IRequestCookieCollection"/> XML converter to the list.
         /// </summary>
-        /// <param name="converters">The list of XML converters.</param>
-        public static void AddCookieCollectionConverter(this IList<XmlConverter> converters)
+        /// <param name="converters">The <see cref="T:IList{XmlConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static IList<XmlConverter> AddCookieCollectionConverter(this IList<XmlConverter> converters)
         {
-            Decorator.Enclose(converters).InsertXmlConverter<IRequestCookieCollection>(0, (writer, collection, qe) =>
+            return converters.InsertXmlConverter<IRequestCookieCollection>(0, (writer, collection, qe) =>
             {
                 foreach (var pair in collection)
                 {

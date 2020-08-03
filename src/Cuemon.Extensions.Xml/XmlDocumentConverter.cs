@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using Cuemon.IO;
 
-namespace Cuemon.Xml
+namespace Cuemon.Extensions.Xml
 {
     /// <summary>
     /// This utility class is designed to make <see cref="XmlDocument"/> related conversions easier to work with.

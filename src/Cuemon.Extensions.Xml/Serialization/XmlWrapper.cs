@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Serialization;
 
-namespace Cuemon.Xml.Serialization
+namespace Cuemon.Extensions.Xml.Serialization
 {
     /// <summary>
     /// Provide ways to override the default XML serialization.
