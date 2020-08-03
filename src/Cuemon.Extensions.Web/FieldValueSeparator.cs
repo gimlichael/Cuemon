@@ -1,7 +1,7 @@
-﻿namespace Cuemon.Web
+﻿namespace Cuemon.Extensions.Web
 {
     /// <summary>
-    /// Specifies a range of key-value seperators.
+    /// Specifies a range of key-value separators.
     /// </summary>
     public enum FieldValueSeparator
     {
