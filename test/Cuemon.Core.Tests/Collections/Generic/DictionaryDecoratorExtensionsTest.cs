@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
-using Cuemon.Collections.Generic;
 using Xunit;
 
-namespace Cuemon.Core.Collections.Generic
+namespace Cuemon.Collections.Generic
 {
     public class DictionaryDecoratorExtensionsTest
     {

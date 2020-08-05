@@ -1,8 +1,7 @@
 using AutoFixture;
-using Cuemon.Text;
 using Xunit;
 
-namespace Cuemon.Core.Text
+namespace Cuemon.Text
 {
     public class StemTest
     {

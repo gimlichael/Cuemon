@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core
+namespace Cuemon
 {
     public class CalculatorTest : Test
     {

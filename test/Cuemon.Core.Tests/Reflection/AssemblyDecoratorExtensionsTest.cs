@@ -2,11 +2,10 @@
 using System.ComponentModel;
 using System.Linq;
 using Cuemon.Extensions.Xunit;
-using Cuemon.Reflection;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core.Reflection
+namespace Cuemon.Reflection
 {
     public class AssemblyDecoratorExtensionsTest : Test
     {

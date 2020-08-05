@@ -1,8 +1,8 @@
 ﻿using System;
-using Cuemon.Core.Assets;
+using Cuemon.Assets;
 using Xunit;
 
-namespace Cuemon.Core
+namespace Cuemon
 {
     public class DecoratorTest
     {

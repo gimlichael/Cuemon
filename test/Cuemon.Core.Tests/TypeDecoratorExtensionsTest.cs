@@ -11,13 +11,13 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
-using Cuemon.Core.Assets;
+using Cuemon.Assets;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Reflection;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core
+namespace Cuemon
 {
     public class TypeDecoratorExtensionsTest : Test
     {

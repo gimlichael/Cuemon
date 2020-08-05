@@ -1,4 +1,4 @@
-﻿namespace Cuemon.Core.Assets
+﻿namespace Cuemon.Assets
 {
     public class TwitterNotifierDecorator  : NotifierDecorator
     {

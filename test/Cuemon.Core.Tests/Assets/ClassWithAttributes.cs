@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Cuemon.Core.Assets
+namespace Cuemon.Assets
 {
     [DataContract]
     public class ClassWithAttributes

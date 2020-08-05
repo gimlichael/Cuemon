@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
-using Cuemon.IO;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core.IO
+namespace Cuemon.IO
 {
     public class StreamDecoratorExtensionsTest : Test
     {

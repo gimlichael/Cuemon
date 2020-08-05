@@ -2,11 +2,10 @@
 using System.ComponentModel;
 using System.Globalization;
 using Cuemon.Extensions.Xunit;
-using Cuemon.Text;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core.Text
+namespace Cuemon.Text
 {
     public class ParserFactoryTest : Test
     {

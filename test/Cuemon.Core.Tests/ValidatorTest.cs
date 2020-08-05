@@ -5,7 +5,7 @@ using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core
+namespace Cuemon
 {
     public class ValidatorTest : Test
     {
