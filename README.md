@@ -1,4 +1,4 @@
-![Cuemon .NET Core](https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png)
+![Cuemon .NET Standard](https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png)
 
 Cuemon .NET Standard
 --------------------
@@ -9,7 +9,11 @@ An Azure DevOps pipeline is currently in progress.
 
 Once automated and tested thoroughly, it will be pushed to a new branch, release, and hereafter again tested and lastly to master and Nuget packages.
 
-Stays tuned!
+[![Build Status](https://gimlichael.visualstudio.com/CuemonCore/_apis/build/status/CuemonCore%20-%20Development%20-%20CI?branchName=development)](https://gimlichael.visualstudio.com/CuemonCore/_build/latest?definitionId=1&branchName=development)
+
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=CuemonCore)](https://sonarcloud.io/dashboard?id=CuemonCore)
+
+Stay tuned!
 
 Useful links for this project:
 
