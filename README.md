@@ -10,8 +10,17 @@ An Azure DevOps pipeline is currently in progress.
 Once automated and tested thoroughly, it will be pushed to a new branch, release, and hereafter again tested and lastly to master and Nuget packages.
 
 [![Build Status](https://gimlichael.visualstudio.com/CuemonCore/_apis/build/status/CuemonCore%20-%20Development%20-%20CI?branchName=development)](https://gimlichael.visualstudio.com/CuemonCore/_build/latest?definitionId=1&branchName=development)
-
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=bugs)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=code_smells)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=coverage)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=ncloc)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=security_rating)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=sqale_index)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=CuemonCore)
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=CuemonCore)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=CuemonCore)
 
 Stay tuned!
 
