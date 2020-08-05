@@ -50,17 +50,6 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Returns a <see cref="TimeSpan"/> value that is rounded towards positive infinity.
-        /// </summary>
-        /// <param name="value">A <see cref="TimeSpan"/> value to be rounded.</param>
-        /// <param name="interval">The <see cref="TimeSpan"/> value that specifies the rounding of <paramref name="value"/>.</param>
-        /// <returns>A <see cref="TimeSpan"/> value that is rounded towards positive infinity.</returns>
-        public static TimeSpan Ceiling(this TimeSpan value, TimeSpan interval)
-        {
-            return Round(value, interval, VerticalDirection.Up);
-        }
-
-        /// <summary>
         /// Returns a <see cref="TimeSpan"/> value that is rounded towards negative infinity.
         /// </summary>
         /// <param name="value">A <see cref="TimeSpan"/> value to be rounded.</param>
@@ -70,6 +59,17 @@ namespace Cuemon.Extensions
         public static TimeSpan Floor(this TimeSpan value, double interval, TimeUnit timeUnit)
         {
             return Round(value, interval, timeUnit, VerticalDirection.Down);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan"/> value that is rounded towards positive infinity.
+        /// </summary>
+        /// <param name="value">A <see cref="TimeSpan"/> value to be rounded.</param>
+        /// <param name="interval">The <see cref="TimeSpan"/> value that specifies the rounding of <paramref name="value"/>.</param>
+        /// <returns>A <see cref="TimeSpan"/> value that is rounded towards positive infinity.</returns>
+        public static TimeSpan Ceiling(this TimeSpan value, TimeSpan interval)
+        {
+            return Round(value, interval, VerticalDirection.Up);
         }
 
         /// <summary>

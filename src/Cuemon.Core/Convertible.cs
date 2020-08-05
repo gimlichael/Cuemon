@@ -359,6 +359,51 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Returns the specified <see cref="Enum"/> as a <see cref="T:byte[]"/>.
+        /// </summary>
+        /// <param name="input">The <see cref="Enum"/> to convert.</param>
+        /// <param name="setup">The <see cref="EndianOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
+        public static byte[] GetBytes(Enum input, Action<EndianOptions> setup = null)
+        {
+            var tc = input.GetTypeCode();
+            var c = input as IConvertible;
+            switch (tc)
+            {
+                case TypeCode.Byte:
+                {
+                    return GetBytes(c.ToByte(CultureInfo.InvariantCulture), setup);
+                }
+                case TypeCode.Int16:
+                {
+                    return GetBytes(c.ToInt16(CultureInfo.InvariantCulture), setup);
+                }
+                case TypeCode.Int64:
+                {
+                    return GetBytes(c.ToInt64(CultureInfo.InvariantCulture), setup);
+                }
+                case TypeCode.UInt16:
+                {
+                    return GetBytes(c.ToUInt16(CultureInfo.InvariantCulture), setup);
+                }
+                case TypeCode.UInt32:
+                {
+                    return GetBytes(c.ToUInt32(CultureInfo.InvariantCulture), setup);
+                }
+                case TypeCode.UInt64:
+                {
+                    return GetBytes(c.ToUInt64(CultureInfo.InvariantCulture), setup);
+                }
+                case TypeCode.SByte:
+                {
+                    return GetBytes(c.ToSByte(CultureInfo.InvariantCulture), setup);
+                }
+                default:
+                    return GetBytes(c.ToInt32(CultureInfo.InvariantCulture), setup);
+            }
+        }
+
+        /// <summary>
         /// Returns the specified <see cref="T:byte[]"/> as its equivalent <see cref="string"/> representation.
         /// </summary>
         /// <param name="input">The <see cref="T:byte[]"/> to convert.</param>
@@ -387,51 +432,6 @@ namespace Cuemon
                     throw new InvalidEnumArgumentException(nameof(setup), (int)options.Preamble, typeof(PreambleSequence));
             }
             return options.Encoding.GetString(input, 0, input.Length);
-        }
-
-        /// <summary>
-        /// Returns the specified <see cref="Enum"/> as a <see cref="T:byte[]"/>.
-        /// </summary>
-        /// <param name="input">The <see cref="Enum"/> to convert.</param>
-        /// <param name="setup">The <see cref="EndianOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
-        public static byte[] GetBytes(Enum input, Action<EndianOptions> setup = null)
-        {
-            var tc = input.GetTypeCode();
-            var c = input as IConvertible;
-            switch (tc)
-            {
-                case TypeCode.Byte:
-                    {
-                        return GetBytes(c.ToByte(CultureInfo.InvariantCulture), setup);
-                    }
-                case TypeCode.Int16:
-                    {
-                        return GetBytes(c.ToInt16(CultureInfo.InvariantCulture), setup);
-                    }
-                case TypeCode.Int64:
-                    {
-                        return GetBytes(c.ToInt64(CultureInfo.InvariantCulture), setup);
-                    }
-                case TypeCode.UInt16:
-                    {
-                        return GetBytes(c.ToUInt16(CultureInfo.InvariantCulture), setup);
-                    }
-                case TypeCode.UInt32:
-                    {
-                        return GetBytes(c.ToUInt32(CultureInfo.InvariantCulture), setup);
-                    }
-                case TypeCode.UInt64:
-                    {
-                        return GetBytes(c.ToUInt64(CultureInfo.InvariantCulture), setup);
-                    }
-                case TypeCode.SByte:
-                    {
-                        return GetBytes(c.ToSByte(CultureInfo.InvariantCulture), setup);
-                    }
-                default:
-                    return GetBytes(c.ToInt32(CultureInfo.InvariantCulture), setup);
-            }
         }
 
         /// <summary>

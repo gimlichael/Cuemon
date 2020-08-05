@@ -23,20 +23,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Indicates that the specified function delegate <paramref name="condition"/> must evaluate <c>false</c>.
-        /// </summary>
-        /// <param name="condition">The function delegate that determines if an <see cref="Exception"/> is thrown.</param>
-        /// <returns>An <see cref="ExceptionHandler{T}"/> with the specified <paramref name="condition"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="condition"/> cannot be null.
-        /// </exception>
-        public ExceptionHandler<TException> IsFalse(Func<bool> condition)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            return new ExceptionHandler<TException>(condition, false);
-        }
-
-        /// <summary>
         /// Indicates that the specified function delegate <paramref name="condition"/> must evaluate <c>true</c>.
         /// </summary>
         /// <typeparam name="TResult">The type of the out result value of the function delegate <paramref name="condition"/>.</typeparam>
@@ -49,6 +35,20 @@ namespace Cuemon
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             return new ExceptionHandler<TException, TResult>(condition, true);
+        }
+
+        /// <summary>
+        /// Indicates that the specified function delegate <paramref name="condition"/> must evaluate <c>false</c>.
+        /// </summary>
+        /// <param name="condition">The function delegate that determines if an <see cref="Exception"/> is thrown.</param>
+        /// <returns>An <see cref="ExceptionHandler{T}"/> with the specified <paramref name="condition"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="condition"/> cannot be null.
+        /// </exception>
+        public ExceptionHandler<TException> IsFalse(Func<bool> condition)
+        {
+            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
+            return new ExceptionHandler<TException>(condition, false);
         }
 
         /// <summary>

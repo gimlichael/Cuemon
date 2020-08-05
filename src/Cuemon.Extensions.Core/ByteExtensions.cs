@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions

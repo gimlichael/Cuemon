@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
-using Cuemon.Integrity;
 using Cuemon.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

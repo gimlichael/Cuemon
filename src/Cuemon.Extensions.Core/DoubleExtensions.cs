@@ -1,6 +1,5 @@
 ﻿using System;
-using Cuemon.Diagnostics;
-using Cuemon;
+
 namespace Cuemon.Extensions
 {
     /// <summary>
