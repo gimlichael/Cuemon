@@ -5,7 +5,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
 
-namespace Cuemon.Net.Mail
+namespace Cuemon.Extensions.Net.Mail
 {
     /// <summary>
     /// Provides a way for applications to distribute one or more e-mails in batches by using the Simple Mail Transfer Protocol (SMTP).

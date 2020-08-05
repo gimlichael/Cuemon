@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cuemon.Net.Http
+namespace Cuemon.Extensions.Net.Http
 {
     /// <summary>
     /// Provides ways for sending HTTP requests and receiving HTTP responses from a resource identified by a URI.

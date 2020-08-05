@@ -5,7 +5,7 @@ using Cuemon.Collections.Generic;
 using Cuemon.Runtime;
 using Cuemon.Text;
 
-namespace Cuemon.Net
+namespace Cuemon.Extensions.Net
 {
 	/// <summary>
 	/// This <see cref="NetDependency"/> class will monitor any changes occurred to a Uniform Resource Identifier while notifying subscribing objects.

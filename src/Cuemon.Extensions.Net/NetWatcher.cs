@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using Cuemon.Extensions.Net.Http;
 using Cuemon.Integrity;
-using Cuemon.Net.Http;
 using Cuemon.Runtime;
 using Cuemon.Text;
 
-namespace Cuemon.Net
+namespace Cuemon.Extensions.Net
 {
     /// <summary>
     /// A <see cref="Watcher"/> implementation, that can monitor and signal changes of one or more URI locations by raising the <see cref="Watcher.Changed"/> event.
