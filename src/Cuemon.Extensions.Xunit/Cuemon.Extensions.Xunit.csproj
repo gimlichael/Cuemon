@@ -5,6 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
+    <ProjectGuid>0d0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,9 +13,9 @@
     <AssemblyName>Cuemon.Extensions.Xunit</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xunit</AssemblyTitle>
     <Description>The Cuemon.Extensions.Xunit assembly provides extension methods and general improvements to the xunit.abstractions package.</Description>
-    <Company>Weubphoria</Company>
+    <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Weubphoria 2009-2020. All rights reserved.</Copyright>
+    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
     <FileVersion>6.0.2020.25</FileVersion>
     <Version>6.0.2020.25</Version>
     <AssemblyVersion>6.0.2020.0</AssemblyVersion>
@@ -29,7 +30,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.6" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">

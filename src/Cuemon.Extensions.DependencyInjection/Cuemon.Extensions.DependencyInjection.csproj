@@ -5,6 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
+    <ProjectGuid>040bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,9 +13,9 @@
     <AssemblyName>Cuemon.Extensions.DependencyInjection</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.DependencyInjection</AssemblyTitle>
     <Description>The Cuemon.Extensions.DependencyInjection assembly provides extension methods to the Microsoft.Extensions.DependencyInjection package.</Description>
-    <Company>Weubphoria</Company>
+    <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Weubphoria 2009-2020. All rights reserved.</Copyright>
+    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
     <FileVersion>6.0.2020.25</FileVersion>
     <Version>6.0.2020.25</Version>
     <AssemblyVersion>6.0.2020.0</AssemblyVersion>
