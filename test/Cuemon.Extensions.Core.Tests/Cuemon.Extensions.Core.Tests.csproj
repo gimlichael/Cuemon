@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <RootNamespace>Cuemon.Extensions.Core</RootNamespace>
+    <RootNamespace>Cuemon.Extensions</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
