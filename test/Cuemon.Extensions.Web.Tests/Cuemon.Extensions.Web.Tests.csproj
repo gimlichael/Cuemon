@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>Cuemon.Extensions.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

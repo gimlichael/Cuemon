@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using Cuemon.Collections.Generic;
-using Cuemon.Reflection;
 
 namespace Cuemon
 {
@@ -245,11 +244,36 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> contains no elements.
         /// </exception>
-        public static void ThrowIfEmptySequence<T>(IEnumerable<T> value, string paramName, string message = "Value contains no elements.")
+        public static void ThrowIfSequenceEmpty<T>(IEnumerable<T> value, string paramName, string message = "Value contains no elements.")
         {
             try
             {
                 ThrowWhen(c => c.IsFalse(value.Any).Create(() => new ArgumentException(message, paramName)).TryThrow());
+            }
+            catch (ArgumentException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null or has no elements.
+        /// </summary>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> contains no elements.
+        /// </exception>
+        public static void ThrowIfSequenceNullOrEmpty<T>(IEnumerable<T> value, string paramName, string message = "Value contains no elements.")
+        {
+            try
+            {
+                ThrowIfNull(value, paramName);
+                ThrowIfSequenceEmpty(value, paramName);
             }
             catch (ArgumentException ex)
             {
@@ -1288,7 +1312,7 @@ namespace Cuemon
             }
         }
 
-                /// <summary>
+         /// <summary>
         /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
@@ -1547,7 +1571,7 @@ namespace Cuemon
             {
                 ThrowWhen(c => c.IsTrue(() => value.GetTypeInfo().IsEnum).Create(() => new ArgumentException(message, paramName)).TryThrow());
             }
-            catch (TypeArgumentException ex)
+            catch (ArgumentException ex)
             {
                 throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }

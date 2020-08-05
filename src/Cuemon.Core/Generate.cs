@@ -154,8 +154,7 @@ namespace Cuemon
         /// </exception>
         public static string RandomString(int length, params string[] values)
         {
-            Validator.ThrowIfNull(values, nameof(values));
-            Validator.ThrowIfEmptySequence(values, nameof(values));
+            Validator.ThrowIfSequenceNullOrEmpty(values, nameof(values));
             var result = new ConcurrentBag<char>();
             Parallel.For(0, length, i => 
             {

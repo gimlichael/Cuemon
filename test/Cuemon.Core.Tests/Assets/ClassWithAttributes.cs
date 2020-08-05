@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
-namespace Cuemon.Core.Tests.Assets
+namespace Cuemon.Core.Assets
 {
     [DataContract]
     public class ClassWithAttributes

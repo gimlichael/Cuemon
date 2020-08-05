@@ -3,13 +3,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Cuemon.Extensions.Net.Http;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Threading;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Extensions.Net.Tests.Http
+namespace Cuemon.Extensions.Net.Http
 {
     public class UriExtensionsTest : Test
     {

@@ -6,7 +6,7 @@ using Cuemon.Text;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core.Tests.Text
+namespace Cuemon.Core.Text
 {
     public class ParserFactoryTest : Test
     {

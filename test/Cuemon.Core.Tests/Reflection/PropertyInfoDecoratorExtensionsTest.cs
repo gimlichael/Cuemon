@@ -1,11 +1,11 @@
 ﻿using System;
-using Cuemon.Core.Tests.Assets;
+using Cuemon.Core.Assets;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Reflection;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core.Tests.Reflection
+namespace Cuemon.Core.Reflection
 {
     public class PropertyInfoDecoratorExtensionsTest : Test
     {

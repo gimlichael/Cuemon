@@ -3,7 +3,7 @@ using System.Linq;
 using AutoFixture;
 using Xunit;
 
-namespace Cuemon.Core.Tests
+namespace Cuemon.Core
 {
     public class CharDecoratorExtensionsTest
     {

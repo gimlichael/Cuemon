@@ -41,10 +41,15 @@ namespace Cuemon.Data
         /// <param name="values">The values to be generated in the specified format for the query fragment.</param>
         /// <param name="distinct">if set to <c>true</c>, <paramref name="values"/> will be filtered for doublets.</param>
         /// <returns>A query fragment in the desired format.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="values"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="values"/> contains no elements.
+        /// </exception>
         public static string Embed(this QueryFormat format, IEnumerable<string> values, bool distinct = false)
         {
-            Validator.ThrowIfNull(values, nameof(values));
-            Validator.ThrowIfEmptySequence(values, nameof(values));
+            Validator.ThrowIfSequenceNullOrEmpty(values, nameof(values));
             if (distinct) { values = new List<string>(values.Distinct()).ToArray(); }
             switch (format)
             {

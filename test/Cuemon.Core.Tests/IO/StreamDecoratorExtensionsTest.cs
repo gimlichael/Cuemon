@@ -8,7 +8,7 @@ using Cuemon.IO;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core.Tests.IO
+namespace Cuemon.Core.IO
 {
     public class StreamDecoratorExtensionsTest : Test
     {

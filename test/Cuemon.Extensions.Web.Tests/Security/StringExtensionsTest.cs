@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Security;
-using Cuemon.Extensions.Web.Security;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Extensions.Web.Tests.Security
+namespace Cuemon.Extensions.Web.Security
 {
     public class StringExtensionsTest : Test
     {

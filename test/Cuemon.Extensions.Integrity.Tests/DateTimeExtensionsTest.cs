@@ -4,7 +4,7 @@ using Cuemon.Integrity;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Extensions.Integrity.Tests
+namespace Cuemon.Extensions.Integrity
 {
     public class DateTimeExtensionsTest : Test
     {

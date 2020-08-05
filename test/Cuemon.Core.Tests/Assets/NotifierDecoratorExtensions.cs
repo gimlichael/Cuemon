@@ -1,4 +1,4 @@
-﻿namespace Cuemon.Core.Tests.Assets
+﻿namespace Cuemon.Core.Assets
 {
     public static class NotifierDecoratorExtensions
     {

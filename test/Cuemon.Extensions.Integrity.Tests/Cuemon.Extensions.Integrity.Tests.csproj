@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>Cuemon.Extensions.Integrity.Tests</AssemblyName>
+
+    <RootNamespace>Cuemon.Extensions.Integrity</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

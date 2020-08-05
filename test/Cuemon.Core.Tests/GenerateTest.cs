@@ -3,7 +3,7 @@ using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core.Tests
+namespace Cuemon.Core
 {
     public class GenerateTest : Test
     {

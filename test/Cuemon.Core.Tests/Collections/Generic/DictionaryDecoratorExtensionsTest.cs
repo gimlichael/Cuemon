@@ -4,7 +4,7 @@ using AutoFixture;
 using Cuemon.Collections.Generic;
 using Xunit;
 
-namespace Cuemon.Core.Tests.Collections.Generic
+namespace Cuemon.Core.Collections.Generic
 {
     public class DictionaryDecoratorExtensionsTest
     {

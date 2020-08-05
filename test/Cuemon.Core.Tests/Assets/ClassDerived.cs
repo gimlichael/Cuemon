@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon.Core.Tests.Assets
+namespace Cuemon.Core.Assets
 {
     public sealed class ClassDerived : ClassBase
     {

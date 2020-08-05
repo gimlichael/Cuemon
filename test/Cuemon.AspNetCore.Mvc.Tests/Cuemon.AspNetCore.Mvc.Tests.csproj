@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>Cuemon.AspNetCore.Mvc</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

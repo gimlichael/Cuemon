@@ -6,7 +6,7 @@ using Cuemon.Reflection;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Core.Tests.Reflection
+namespace Cuemon.Core.Reflection
 {
     public class AssemblyDecoratorExtensionsTest : Test
     {

@@ -4,7 +4,7 @@ using Cuemon.Integrity;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.AspNetCore.Mvc.Tests
+namespace Cuemon.AspNetCore.Mvc
 {
     public class CacheableObjectTest : Test
     {
