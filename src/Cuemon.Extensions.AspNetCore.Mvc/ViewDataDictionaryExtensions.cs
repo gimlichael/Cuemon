@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cuemon.AspNetCore.Mvc;
-using Cuemon.Extensions.Collections.Generic;
+using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
                 list.Add(bc);
             }
            
-            viewData.TryAddOrUpdate(BreadcrumbKey, list);
+            Decorator.Enclose(viewData).TryAddOrUpdate(BreadcrumbKey, list);
         }
 
         /// <summary>

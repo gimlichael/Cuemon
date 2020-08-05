@@ -79,6 +79,16 @@ namespace Cuemon.Extensions
             return Condition.IsCountableSequence(source);
         }
 
+        /// <summary>
+        /// Determines whether the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence).
+        /// </summary>
+        /// <param name="source">The value to test for a sequence of countable characters.</param>
+        /// <returns><c>true</c> if the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
+        public static bool IsCountableSequence(this IEnumerable<long> source)
+        {
+            return Condition.IsCountableSequence(source);
+        }
+
 
         /// <summary>
         /// Determines whether the specified <paramref name="value"/> is an even number.
@@ -98,16 +108,6 @@ namespace Cuemon.Extensions
         public static bool IsOdd(this int value)
         {
             return Condition.IsOdd(value);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence).
-        /// </summary>
-        /// <param name="source">The value to test for a sequence of countable characters.</param>
-        /// <returns><c>true</c> if the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
-        public static bool IsCountableSequence(this IEnumerable<long> source)
-        {
-            return Condition.IsCountableSequence(source);
         }
     }
 }

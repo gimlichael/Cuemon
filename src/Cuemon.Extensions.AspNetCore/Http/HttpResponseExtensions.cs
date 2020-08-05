@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Extensions.Threading.Tasks;
 using Cuemon.Integrity;
 using Microsoft.AspNetCore.Http;
 
@@ -58,7 +57,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             var bodyContent = body?.Invoke();
             if (bodyContent != null)
             {
-                await response.Body.WriteAsync(bodyContent, 0, bodyContent.Length).ContinueWithSuppressedContext();
+                await response.Body.WriteAsync(bodyContent, 0, bodyContent.Length).ConfigureAwait(false);
             }
         }
 

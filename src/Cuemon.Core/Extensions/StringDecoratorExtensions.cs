@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,51 @@ namespace Cuemon
     /// <seealso cref="Decorator{T}"/>
     public static class StringDecoratorExtensions
     {
+        /// <summary>
+        /// Converts the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> to either lowercase, UPPERCASE, Title Case or unaltered.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
+        /// <param name="method">The method to use in the conversion.</param>
+        /// <returns>A <see cref="string"/> that corresponds to the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> with the applied conversion <paramref name="method"/>.</returns>
+        /// <remarks>Uses <see cref="CultureInfo.InvariantCulture"/> for the conversion.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static string ToCasing(this IDecorator<string> decorator, CasingMethod method = CasingMethod.Default)
+        {
+            return ToCasing(decorator, method, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Converts the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> to either lowercase, UPPERCASE, Title Case or unaltered using the specified <paramref name="culture"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
+        /// <param name="method">The method to use in the conversion.</param>
+        /// <param name="culture">The culture rules to apply the conversion.</param>
+        /// <returns>A <see cref="string"/> that corresponds to the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> with the applied conversion <paramref name="method"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null -or-
+        /// <paramref name="culture"/> cannot be null.
+        /// </exception>
+        public static string ToCasing(this IDecorator<string> decorator, CasingMethod method, CultureInfo culture)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(culture, nameof(culture));
+            var value = decorator.Inner;
+            switch (method)
+            {
+                case CasingMethod.Default:
+                    return value;
+                case CasingMethod.LowerCase:
+                    return culture.TextInfo.ToLower(value);
+                case CasingMethod.TitleCase:
+                    return culture.TextInfo.ToTitleCase(value);
+                case CasingMethod.UpperCase:
+                    return culture.TextInfo.ToUpper(value);
+            }
+            return value;
+        }
+
         /// <summary>
         /// Converts the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> to its equivalent <see cref="T:byte[]"/> representation.
         /// </summary>

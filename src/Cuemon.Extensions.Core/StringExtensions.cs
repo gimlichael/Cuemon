@@ -193,7 +193,7 @@ namespace Cuemon.Extensions
         /// <param name="method">The method to use in the conversion.</param>
         /// <returns>A <see cref="string"/> that corresponds to <paramref name="value"/> with the applied conversion <paramref name="method"/>.</returns>
         /// <remarks>Uses <see cref="CultureInfo.InvariantCulture"/> for the conversion.</remarks>
-        public static string ToCasing(this string value, CasingMethod method)
+        public static string ToCasing(this string value, CasingMethod method = CasingMethod.Default)
         {
             return ToCasing(value, method, CultureInfo.InvariantCulture);
         }
@@ -205,22 +205,14 @@ namespace Cuemon.Extensions
         /// <param name="method">The method to use in the conversion.</param>
         /// <param name="culture">The culture rules to apply the conversion.</param>
         /// <returns>A <see cref="string"/> that corresponds to <paramref name="value"/> with the applied conversion <paramref name="method"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null -or-
+        /// <paramref name="culture"/> cannot be null.
+        /// </exception>
         public static string ToCasing(this string value, CasingMethod method, CultureInfo culture)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(culture, nameof(culture));
-            switch (method)
-            {
-                case CasingMethod.Default:
-                    return value;
-                case CasingMethod.LowerCase:
-                    return culture.TextInfo.ToLower(value);
-                case CasingMethod.TitleCase:
-                    return culture.TextInfo.ToTitleCase(value);
-                case CasingMethod.UpperCase:
-                    return culture.TextInfo.ToUpper(value);
-            }
-            return value;
+            return Decorator.Enclose(value).ToCasing(method, culture);
         }
 
         /// <summary>

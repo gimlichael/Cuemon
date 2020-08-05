@@ -43,9 +43,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
             {
                 var utcNow = DateTime.UtcNow;
                 var range = new TimeRange(UtcChanged, utcNow);
-                if (_version.IsNullOrEmpty() || range.Duration >= Options.TimeToLive)
+                if (string.IsNullOrEmpty(_version) || range.Duration >= Options.TimeToLive)
                 {
-                    _version = Generate.RandomString(Options.PreferredLength.Max(6), Options.PreferredCharacters).ToCasing(Options.PreferredCasing);
+                    _version = Decorator.Enclose(Generate.RandomString(Decorator.Enclose(Options.PreferredLength).Max(6), Options.PreferredCharacters)).ToCasing(Options.PreferredCasing);
                     UtcChanged = utcNow;
                 }
                 return _version;

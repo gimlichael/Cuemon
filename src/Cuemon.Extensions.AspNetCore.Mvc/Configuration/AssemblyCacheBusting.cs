@@ -1,4 +1,5 @@
-﻿using Cuemon.Extensions.Integrity;
+﻿using System;
+using Cuemon.Extensions.Integrity;
 using Microsoft.Extensions.Options;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
@@ -16,7 +17,8 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
         public AssemblyCacheBusting(IOptions<AssemblyCacheBustingOptions> setup)
         {
             var options = setup.Value;
-            Version = options.Assembly?.GetCacheValidator(options.ReadByteForByteChecksum, o => o.Algorithm = options.Algorithm).Checksum.ToHexadecimalString().ToCasing(options.PreferredCasing);
+            var version = options.Assembly?.GetCacheValidator(options.ReadByteForByteChecksum, o => o.Algorithm = options.Algorithm).Checksum.ToHexadecimalString() ?? Guid.NewGuid().ToString("N"); // fallback to Guid.NewGuid
+            Version = Decorator.Enclose(version).ToCasing(options.PreferredCasing);
         }
 
         /// <summary>
