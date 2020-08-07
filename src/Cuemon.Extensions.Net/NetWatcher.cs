@@ -120,40 +120,16 @@ namespace Cuemon.Extensions.Net
 			lock (_locker)
 			{
                 var currentSignature = SignatureDefault;
-                var listenerHeader = string.Format(CultureInfo.InvariantCulture, "Cuemon.Net.NetWatcher; Interval={0} seconds", Period.TotalSeconds);
+                
 				var utcLastModified = DateTime.UtcNow;
 				switch (Scheme)
 				{
 					case UriScheme.File:
-						utcLastModified = File.GetLastWriteTimeUtc(RequestUri.LocalPath);
-						if (CheckResponseData)
-						{
-							using (var stream = new FileStream(RequestUri.LocalPath, FileMode.Open, FileAccess.Read))
-							{
-								stream.Position = 0;
-								currentSignature = HashFactory.CreateCryptoSha256().ComputeHash(stream).ToHexadecimalString();
-							}
-						}
+						HandleSignalingFile(ref utcLastModified, ref currentSignature);
 						break;
 					case UriScheme.Http:
                     case UriScheme.Https:
-				        using (var manager = new HttpManager())
-				        {
-				            manager.DefaultRequestHeaders.Add("Listener-Object", listenerHeader);
-				            using (var response = CheckResponseData ? manager.HttpGetAsync(RequestUri).Result : manager.HttpHeadAsync(RequestUri).Result)
-				            {
-				                switch (HttpMethodConverter.ToHttpMethod(response.RequestMessage.Method))
-				                {
-                                    case HttpMethods.Get:
-                                        var etag = response.Headers.ETag;
-                                        currentSignature = string.IsNullOrEmpty(etag.Tag) ? HashFactory.CreateCryptoSha256().ComputeHash(response.Content.ReadAsByteArrayAsync().Result).ToHexadecimalString() : etag.Tag;
-                                        break;
-                                    case HttpMethods.Head:
-                                        utcLastModified = response.Content.Headers.LastModified?.UtcDateTime ?? DateTime.MaxValue;
-                                        break;
-				                }
-				            }
-				        }
+						HandleSignalingHttp(ref utcLastModified, ref currentSignature);
 						break;
 					default:
 						throw new InvalidOperationException("Only allowed schemes for now is File, HTTP or HTTPS.");
@@ -178,6 +154,41 @@ namespace Cuemon.Extensions.Net
 				}
 			}
 		}
+
+        private void HandleSignalingFile(ref DateTime utcLastModified, ref string currentSignature)
+        {
+            utcLastModified = File.GetLastWriteTimeUtc(RequestUri.LocalPath);
+            if (CheckResponseData)
+            {
+                using (var stream = new FileStream(RequestUri.LocalPath, FileMode.Open, FileAccess.Read))
+                {
+                    stream.Position = 0;
+                    currentSignature = HashFactory.CreateCryptoSha256().ComputeHash(stream).ToHexadecimalString();
+                }
+            }
+        }
+
+        private void HandleSignalingHttp(ref DateTime utcLastModified, ref string currentSignature)
+        {
+            var listenerHeader = string.Format(CultureInfo.InvariantCulture, "Cuemon.Net.NetWatcher; Interval={0} seconds", Period.TotalSeconds);
+            using (var manager = new HttpManager())
+            {
+                manager.DefaultRequestHeaders.Add("Listener-Object", listenerHeader);
+                using (var response = CheckResponseData ? manager.HttpGetAsync(RequestUri).Result : manager.HttpHeadAsync(RequestUri).Result)
+                {
+                    switch (HttpMethodConverter.ToHttpMethod(response.RequestMessage.Method))
+                    {
+                        case HttpMethods.Get:
+                            var etag = response.Headers.ETag;
+                            currentSignature = string.IsNullOrEmpty(etag.Tag) ? HashFactory.CreateCryptoSha256().ComputeHash(response.Content.ReadAsByteArrayAsync().Result).ToHexadecimalString() : etag.Tag;
+                            break;
+                        case HttpMethods.Head:
+                            utcLastModified = response.Content.Headers.LastModified?.UtcDateTime ?? DateTime.MaxValue;
+                            break;
+                    }
+                }
+            }
+        }
 		#endregion
 	}
 }

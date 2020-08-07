@@ -1,8 +1,10 @@
-![Cuemon .NET Standard](https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png)
+![Cuemon](https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png)
 
-Cuemon .NET Standard
+Cuemon
 --------------------
-The Cuemon .NET Standard is a free and flexible assembly package for the Microsoft .NET Standard ecosystem. It was built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof. Ideal for .NET Standard, .NET Core, Universal Windows Platform and .NET Framework 4.6.1 and newer.
+Cuemon is a free and flexible assembly package for the Microsoft .NET ecosystem. It was built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof. Ideal for .NET, .NET Standard, .NET Core, Universal Windows Platform and .NET Framework 4.6.1 and newer.
+
+![License](https://img.shields.io/github/license/gimlichael/cuemoncore)
 
 This development branch contains the latest version which has been completely refactored and updated to suport .NET Core 3.1.
 An Azure DevOps pipeline is currently in progress.
@@ -25,9 +27,9 @@ Once automated and tested thoroughly, it will be pushed to a new branch, release
 
 Stay tuned!
 
-Useful links for this project:
+Useful links for this project (will soon be changed for the forthcoming release):
 
-* [Cuemon .NET](http://www.cuemon.net/)
+* [Cuemon .NET Standard](http://www.cuemon.net/)
 * Cuemon .NET Standard Package on [Nuget](https://www.nuget.org/packages/Cuemon.Core.Package/)
 * Cuemon ASP.NET Core Package on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Package/)
 * Cuemon.AspNetCore on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore/)

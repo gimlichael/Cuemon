@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
+    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Net</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Net</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Net assembly provides extension methods to the System.Net namespace.</Description>
+    <Description>The Cuemon.Extensions.Net assembly is a proud member of the Cuemon family that provides extensions methods and enhancements to the System.Net namespace. A versatile HttpManager that transparently promotes the HttpClient is included along with a lightweight SMTP Client.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
