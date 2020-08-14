@@ -913,7 +913,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static TimeSpan ToTimeSpan(this string value, TimeUnit timeUnit)
         {
-            return TimeMeasure.CreateTimeSpan(double.Parse(value), timeUnit);
+            return Decorator.Enclose(double.Parse(value)).ToTimeSpan(timeUnit);
         }
 
         /// <summary>

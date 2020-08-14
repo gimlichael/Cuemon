@@ -190,7 +190,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static DateTime Round(this DateTime value, double interval, TimeUnit timeUnit, VerticalDirection direction)
         {
-            return Round(value, TimeMeasure.CreateTimeSpan(interval, timeUnit), direction);
+            return Round(value, Decorator.Enclose(interval).ToTimeSpan(timeUnit), direction);
         }
 
         /// <summary>

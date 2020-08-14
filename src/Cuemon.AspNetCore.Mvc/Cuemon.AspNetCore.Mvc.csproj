@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
+    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.AspNetCore.Mvc</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore.Mvc</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore.Mvc assembly is a supplement to Microsoft ASP.NET Core.</Description>
+    <Description>The Cuemon.AspNetCore.Mvc assembly is a fit companion to the Microsoft.AspNetCore.Mvc namespace that provides an abundant range of filters and action results to your codebelt.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Diagnostics\Cuemon.Extensions.Diagnostics.csproj" />
   </ItemGroup>
 
 </Project>

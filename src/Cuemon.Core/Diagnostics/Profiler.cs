@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cuemon.Reflection;
 
 namespace Cuemon.Diagnostics
 {
@@ -18,7 +19,7 @@ namespace Cuemon.Diagnostics
         /// Gets or sets the information about the member being profiled.
         /// </summary>
         /// <value>The information about the member being profiled.</value>
-        public string Member { get; set; }
+        public MethodDescriptor Member { get; set; }
 
         /// <summary>
         /// Gets or sets the data associated with the <see cref="Member"/> being profiled.

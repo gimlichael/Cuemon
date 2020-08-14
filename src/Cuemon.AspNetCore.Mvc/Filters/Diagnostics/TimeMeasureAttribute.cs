@@ -1,5 +1,4 @@
 ﻿using System;
-using Cuemon.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -57,7 +56,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             #endif
             return new TimeMeasuringFilter(Options.Create(new TimeMeasuringOptions()
             {
-                TimeMeasureCompletedThreshold = TimeMeasure.CreateTimeSpan(Threshold, ThresholdTimeUnit)
+                TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit)
             }), he);
         }
 

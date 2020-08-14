@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Http.Headers;
-using Cuemon.Diagnostics;
+using Cuemon.Extensions.Diagnostics;
 using Cuemon.Reflection;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -64,7 +64,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 var verifiedObjects = context.ActionArguments.Values.ToArray();
                 if (verifiedObjects.Length == expectedObjects.Length) { expectedObjects = verifiedObjects; }
                 var md = Options.MethodDescriptor?.Invoke() ?? ParseMethodDescriptor(descriptor);
-                Profiler.Member = md.ToString();
+                Profiler.Member = md;
                 Profiler.Data = md.MergeParameters(Options.RuntimeParameters ?? expectedObjects);
             }
         }
