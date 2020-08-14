@@ -61,17 +61,7 @@ namespace Cuemon
         /// <param name="delegateIsNull">The value of a condition that can be either <c>true</c> or <c>false</c>.</param>
         protected void ThrowIfNoValidDelegate(bool delegateIsNull)
         {
-            if (!HasDelegate) { throw new InvalidOperationException(Condition.TernaryIf(delegateIsNull, FirstExceptionString, SecondExceptionString)); }
-        }
-
-        private string FirstExceptionString()
-        {
-            return "There is no delegate specified on the factory.";
-        }
-
-        private string SecondExceptionString()
-        {
-            return string.Format(CultureInfo.InvariantCulture, "There is a delegate specified on the factory, '{0}', but it leads to a null referenced delegate wrapper.", Decorator.Enclose(GetType()).ToFriendlyName(o => o.FullName = true));
+            if (!HasDelegate) { throw new InvalidOperationException(delegateIsNull ? "There is no delegate specified on the factory." : FormattableString.Invariant($"There is a delegate specified on the factory, '{Decorator.Enclose(GetType()).ToFriendlyName(o => o.FullName = true)}', but it leads to a null referenced delegate wrapper.")); }
         }
     }
 }
