@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
+    <Product>Cuemon</Product>
     <RootNamespace>Cuemon</RootNamespace>
     <AssemblyName>Cuemon.Core</AssemblyName>
     <AssemblyTitle>Cuemon</AssemblyTitle>
-    <Description>The Cuemon.Core assembly is the patriarch of the Cuemon .NET Standard family and provides fundamental-, utility- and base-classes that define commonly-used value and reference data types, events and event handlers, interfaces, attribute, and feature rich delegates to greatly support functional programming. A great addition to the well established System namespace to make your daily operations easier to work with.</Description>
+    <Description>The Cuemon.Core assembly is the patriarch of the Cuemon family and provides fundamental-, utility- and base-classes that define commonly-used value and reference data types, events and event handlers, interfaces, attribute, and feature rich delegates to greatly support functional programming. A great addition to the well established System namespace to make your daily operations easier to work with.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
