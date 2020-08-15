@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Data;
+using Cuemon.Data;
 
-namespace Cuemon.Data
+namespace Cuemon.Extensions.Data
 {
     /// <summary>
     /// This is an extensions implementation of the most common methods on the <see cref="DataTransfer"/> class.

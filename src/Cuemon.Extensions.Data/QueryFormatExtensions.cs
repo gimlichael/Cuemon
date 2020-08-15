@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Cuemon.Data;
 
-namespace Cuemon.Data
+namespace Cuemon.Extensions.Data
 {
     /// <summary>
     /// Extension methods for the <see cref="QueryFormat"/> enum.

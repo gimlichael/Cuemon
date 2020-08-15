@@ -5,7 +5,6 @@ using System.Data.Common;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using Cuemon.Integrity;
 
 namespace Cuemon.Data
 {
@@ -30,12 +29,6 @@ namespace Cuemon.Data
         /// </summary>
         /// <value>The default connection string.</value>
         public static string DefaultConnectionString { get; set; }
-
-        /// <summary>
-        /// Gets or sets the callback delegate that will provide options for transient fault handling.
-        /// </summary>
-        /// <value>An <see cref="Action{T}"/> with the options for transient fault handling.</value>
-        public abstract Action<TransientOperationOptions> TransientFaultHandlingOptionsCallback { get; set; }
         #endregion
 
         #region Methods
@@ -97,38 +90,6 @@ namespace Cuemon.Data
         }
 
         /// <summary>
-        /// Creates and returns a sequence of column names resolved from the specified <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">The reader to resolve column names from.</param>
-        /// <returns>A sequence of column names resolved from the specified <paramref name="reader"/>.</returns>
-        public static IEnumerable<string> GetReaderColumnNames(DbDataReader reader)
-        {
-            if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
-            if (reader.IsClosed) { throw new ArgumentException("Reader is closed.", nameof(reader)); }
-            var columns = GetReaderColumns(reader);
-            foreach (var column in columns)
-            {
-                yield return column.Key;
-            }
-        }
-
-        /// <summary>
-        /// Creates and returns a sequence of column values resolved from the specified <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">The reader to resolve column values from.</param>
-        /// <returns>A sequence of column values resolved from the specified <paramref name="reader"/>.</returns>
-        public static IEnumerable<object> GetReaderColumnValues(DbDataReader reader)
-        {
-            if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
-            if (reader.IsClosed) { throw new ArgumentException("Reader is closed.", nameof(reader)); }
-            var columns = GetReaderColumns(reader);
-            foreach (var column in columns)
-            {
-                yield return column.Value;
-            }
-        }
-
-        /// <summary>
         /// Creates and returns a <see cref="KeyValuePair{TKey,TValue}"/> sequence of column names and values resolved from the specified <paramref name="reader"/>.
         /// </summary>
         /// <param name="reader">The reader to resolve column names and values from.</param>
@@ -137,6 +98,11 @@ namespace Cuemon.Data
         {
             if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
             if (reader.IsClosed) { throw new ArgumentException("Reader is closed.", nameof(reader)); }
+            return GetReaderColumnsIterator(reader);
+        }
+
+        private static IEnumerable<KeyValuePair<string, object>> GetReaderColumnsIterator(DbDataReader reader)
+        {
             for (var f = 0; f < reader.FieldCount; f++)
             {
                 yield return new KeyValuePair<string, object>(reader.GetName(f), reader.GetValue(f));
@@ -175,7 +141,7 @@ namespace Cuemon.Data
             }
             finally
             {
-                if (tempStream != null) { tempStream.Dispose(); }
+                tempStream?.Dispose();
             }
             return stream;
         }
@@ -562,7 +528,7 @@ namespace Cuemon.Data
         /// <returns>A value of <typeparamref name="T"/> that is equal to the invoked method of the <see cref="DbCommand"/> object.</returns>
         protected virtual T ExecuteCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> commandInvoker)
         {
-            return TransientOperation.WithFunc(() => InvokeCommandCore(dataCommand, parameters, commandInvoker), TransientFaultHandlingOptionsCallback);
+            return InvokeCommandCore(dataCommand, parameters, commandInvoker);
         }
 
         private T InvokeCommandCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> sqlInvoker)
@@ -578,7 +544,7 @@ namespace Cuemon.Data
             }
             finally
             {
-                if (command != null) { command.Parameters.Clear(); }
+                command?.Parameters.Clear();
             }
             return result;
         }
@@ -589,13 +555,6 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>System.Data.Common.DbCommand</returns>
-        /// <remarks>
-        /// If <see cref="TransientFaultHandlingOptionsCallback"/> has the <see cref="TransientOperationOptions.EnableRecovery"/> set to <c>true</c>, this method will with it's default implementation try to gracefully recover from transient faults when the following condition is met:<br/>
-        /// <see cref="TransientOperationOptions.RetryAttempts"/> is less than the current attempt starting from 1 with a maximum of <see cref="byte.MaxValue"/> retries<br/>
-        /// <see cref="TransientOperationOptions.DetectionStrategy"/> must evaluate to <c>true</c><br/>
-        /// In case of a transient failure the default implementation will use <see cref="TransientOperationOptions.RetryStrategy"/>.<br/>
-        /// In any other case the originating exception is thrown.
-        /// </remarks>
         protected virtual DbCommand ExecuteCommandCore(IDataCommand dataCommand, params DbParameter[] parameters)
         {
             if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
@@ -608,7 +567,7 @@ namespace Cuemon.Data
             }
             catch (Exception)
             {
-                if (command != null) { command.Parameters.Clear(); }
+                command?.Parameters.Clear();
                 throw;
             }
             return command;
@@ -616,8 +575,8 @@ namespace Cuemon.Data
 
         private void OpenConnection(DbCommand command)
         {
-            if (command == null) { throw new ArgumentNullException(nameof(command)); }
-            if (command.Connection == null) { throw new ArgumentNullException(nameof(command), "No connection was set for this command object."); }
+            Validator.ThrowIfNull(command, nameof(command));
+            Validator.ThrowIfNull(command.Connection, nameof(command), $"The connection of the {nameof(command)} was not set.");
             if (command.Connection.State != ConnectionState.Open) { command.Connection.Open(); }
         }
 

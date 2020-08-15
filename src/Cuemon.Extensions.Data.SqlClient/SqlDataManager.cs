@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using Cuemon.Collections.Generic;
 using Cuemon.Data;
+using Cuemon.Extensions.Resilience;
 
 namespace Cuemon.Extensions.Data.SqlClient
 {
@@ -45,10 +46,10 @@ namespace Cuemon.Extensions.Data.SqlClient
         /// </summary>
         /// <value>An <see cref="Action{T}" /> with the options for transient fault handling.</value>
         /// <remarks>
-        /// This implementation is compatible with transient related faults on Microsoft SQL Azure including the latest addition of error code 10928 and 10929.<br/>
+        /// This implementation is compatible with transient related faults on Microsoft SQL Azure.<br/>
         /// Microsoft SQL Server is supported as well.
         /// </remarks>
-        public override Action<TransientOperationOptions> TransientFaultHandlingOptionsCallback { get; set; } = options =>
+        public Action<TransientOperationOptions> TransientFaultHandlingOptionsCallback { get; set; } = options =>
         {
             options.EnableRecovery = true;
             options.DetectionStrategy = exception =>
@@ -154,8 +155,31 @@ namespace Cuemon.Extensions.Data.SqlClient
         public override DataManager Clone()
         {
             return new SqlDataManager(ConnectionString);
-
         }
+
+        /// <summary>
+        /// Core method for executing methods on the <see cref="T:System.Data.Common.DbCommand" /> object resolved from the virtual <see cref="M:Cuemon.Data.DataManager.ExecuteCommandCore(Cuemon.Data.IDataCommand,System.Data.Common.DbParameter[])" /> method.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="dataCommand">The data command to execute.</param>
+        /// <param name="parameters">The parameters to use in the command.</param>
+        /// <param name="commandInvoker">The function delegate that will invoke a method on the resolved <see cref="T:System.Data.Common.DbCommand" /> from the virtual <see cref="M:Cuemon.Data.DataManager.ExecuteCommandCore(Cuemon.Data.IDataCommand,System.Data.Common.DbParameter[])" /> method.</param>
+        /// <returns>A value of <typeparamref name="T" /> that is equal to the invoked method of the <see cref="T:System.Data.Common.DbCommand" /> object.</returns>
+        /// <remarks>
+        /// If <see cref="TransientFaultHandlingOptionsCallback"/> is null, no SQL operation is wrapped inside a transient fault handling operation.
+        /// Otherwise, if <see cref="TransientFaultHandlingOptionsCallback"/> has the <see cref="TransientOperationOptions.EnableRecovery"/> set to <c>true</c>, this method will, with it's default implementation, try to gracefully recover from transient faults when the following condition is met:<br/>
+        /// <see cref="TransientOperationOptions.RetryAttempts"/> is less than the current attempt starting from 1 with a maximum of <see cref="byte.MaxValue"/> retries<br/>
+        /// <see cref="TransientOperationOptions.DetectionStrategy"/> must evaluate to <c>true</c><br/>
+        /// In case of a transient failure the default implementation will use <see cref="TransientOperationOptions.RetryStrategy"/>.<br/>
+        /// In any other case the originating exception is thrown.
+        /// </remarks>
+        protected override T ExecuteCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> commandInvoker)
+        {
+            return TransientFaultHandlingOptionsCallback == null 
+                ? base.ExecuteCore(dataCommand, parameters, commandInvoker) 
+                : TransientOperation.WithFunc(() => base.ExecuteCore(dataCommand, parameters, commandInvoker), TransientFaultHandlingOptionsCallback);
+        }
+
         /// <summary>
         /// Gets the command object used by all execute related methods.
         /// </summary>
@@ -171,24 +195,28 @@ namespace Cuemon.Extensions.Data.SqlClient
             try
             {
                 tempCommand = new SqlCommand(dataCommand.Text, new SqlConnection(ConnectionString));
-                foreach (SqlParameter parameter in parameters) // we use the explicit type, as this is a >Sql<DataManager class
+                foreach (var parameter in parameters)
                 {
-                    // handle dates so they are compatible with SQL 200X and forward
-                    if (parameter.SqlDbType == SqlDbType.SmallDateTime || parameter.SqlDbType == SqlDbType.DateTime)
+                    if (parameter is SqlParameter sqlParameter)
                     {
-                        if (parameter.Value != null && DateTime.TryParse(parameter.Value.ToString(), out var dateTime))
+                        // handle dates so they are compatible with SQL 200X and forward
+                        if (sqlParameter.SqlDbType == SqlDbType.SmallDateTime || sqlParameter.SqlDbType == SqlDbType.DateTime)
                         {
-                            if (dateTime == DateTime.MinValue)
+                            if (parameter.Value != null && DateTime.TryParse(parameter.Value.ToString(), out var dateTime))
                             {
-                                parameter.Value = parameter.SqlDbType == SqlDbType.DateTime ? DateTime.Parse("1753-01-01", CultureInfo.InvariantCulture) : DateTime.Parse("1900-01-01", CultureInfo.InvariantCulture);
-                            }
+                                if (dateTime == DateTime.MinValue)
+                                {
+                                    parameter.Value = sqlParameter.SqlDbType == SqlDbType.DateTime ? DateTime.Parse("1753-01-01", CultureInfo.InvariantCulture) : DateTime.Parse("1900-01-01", CultureInfo.InvariantCulture);
+                                }
 
-                            if (dateTime == DateTime.MaxValue && parameter.SqlDbType == SqlDbType.SmallDateTime)
-                            {
-                                parameter.Value = DateTime.Parse("2079-06-01", CultureInfo.InvariantCulture);
+                                if (dateTime == DateTime.MaxValue && sqlParameter.SqlDbType == SqlDbType.SmallDateTime)
+                                {
+                                    parameter.Value = DateTime.Parse("2079-06-01", CultureInfo.InvariantCulture);
+                                }
                             }
                         }
                     }
+
                     if (parameter.Value == null) { parameter.Value = DBNull.Value; }
                     tempCommand.Parameters.Add(parameter);
                 }
