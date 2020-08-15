@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Reflection;
 using Cuemon.Runtime.Serialization;
 
 namespace Cuemon.Extensions.Diagnostics
@@ -23,7 +22,7 @@ namespace Cuemon.Extensions.Diagnostics
         public static string ToInsightsString(this ExceptionDescriptor descriptor, Action<ExceptionDescriptorSerializationOptions> setup = null)
         {
             Validator.ThrowIfNull(descriptor, nameof(descriptor));
-            var options = setup.Configure();
+            var options = Patterns.Configure(setup);
             var builder = new StringBuilder();
             builder.AppendLine("Error");
             builder.AppendLine(FormattableString.Invariant($"{Alphanumeric.Tab}Code: {descriptor.Code}"));
@@ -122,7 +121,7 @@ namespace Cuemon.Extensions.Diagnostics
                 }
             }
 
-            var properties = exception.GetType().GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => pi.PropertyType.IsSimple());
+            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => !Decorator.Enclose(pi.PropertyType).IsComplex());
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);
