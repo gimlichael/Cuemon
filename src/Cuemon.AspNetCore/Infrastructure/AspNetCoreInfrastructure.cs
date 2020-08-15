@@ -29,7 +29,7 @@ namespace Cuemon.AspNetCore.Infrastructure
                         transformer?.Invoke(message, context.Response);
                         return Task.CompletedTask;
                     });
-                    throw new UserAgentException((int)message.StatusCode, await message.Content.ReadAsStringAsync());
+                    throw new UserAgentException((int)message.StatusCode, await message.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
         }
@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Infrastructure
             {
                 try
                 {
-                    await ThrottleLocker.WaitAsync();
+                    await ThrottleLocker.WaitAsync().ConfigureAwait(false);
 
                     if (!tc.TryGetValue(throttlingContext, out var tr))
                     {
@@ -71,7 +71,7 @@ namespace Cuemon.AspNetCore.Infrastructure
                                 transformer?.Invoke(message, context.Response);
                                 return Task.CompletedTask;
                             });
-                            throw new ThrottlingException((int)message.StatusCode, await message.Content.ReadAsStringAsync(), tr.Quota.RateLimit, delta, reset);
+                            throw new ThrottlingException((int)message.StatusCode, await message.Content.ReadAsStringAsync().ConfigureAwait(false), tr.Quota.RateLimit, delta, reset);
                         }
                     }
 

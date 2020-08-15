@@ -44,7 +44,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                 {
                     response.StatusCode = (int) message.StatusCode;
                     Decorator.Enclose(response.Headers).TryAddOrUpdateHeaders(message.Headers);
-                    await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync());
+                    await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
                 }).ConfigureAwait(false);
             }
             catch (UserAgentException)
