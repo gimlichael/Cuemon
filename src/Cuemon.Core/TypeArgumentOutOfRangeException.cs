@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace Cuemon
 {
     /// <summary>
     /// The exception that is thrown when the value of an type argument is outside the allowable range of values as defined by the invoked method.
     /// </summary>
+    [Serializable]
     public class TypeArgumentOutOfRangeException : ArgumentOutOfRangeException
     {
         /// <summary>
@@ -19,7 +21,7 @@ namespace Cuemon
         /// Initializes a new instance of the <see cref="TypeArgumentOutOfRangeException"/> class.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
-        public TypeArgumentOutOfRangeException(string typeParamName) : this(string.Format(CultureInfo.InvariantCulture, "Type parameter name: {0}.", typeParamName), "Specified type argument was out of the range of valid values.")
+        public TypeArgumentOutOfRangeException(string typeParamName) : this(typeParamName, "Specified type argument was out of the range of valid values.")
         {
         }
 
@@ -28,7 +30,7 @@ namespace Cuemon
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">The message that describes the error.</param>
-        public TypeArgumentOutOfRangeException(string typeParamName, string message) : base(message, typeParamName)
+        public TypeArgumentOutOfRangeException(string typeParamName, string message) : base(typeParamName, message)
         {
         }
 
@@ -38,7 +40,7 @@ namespace Cuemon
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="actualValue">The value of the argument that causes this exception.</param>
         /// <param name="message">The message that describes the error.</param>
-        public TypeArgumentOutOfRangeException(string typeParamName, object actualValue, string message) : base(message, actualValue, typeParamName)
+        public TypeArgumentOutOfRangeException(string typeParamName, object actualValue, string message) : base(typeParamName, actualValue, message)
         {
         }
 
@@ -48,6 +50,15 @@ namespace Cuemon
         /// <param name="message">The message that describes the error.</param>
         /// <param name="innerException">The exception that is the cause of the current exception. If the innerException parameter is not a null reference, the current exception is raised in a catch block that handles the inner exception.</param>
         public TypeArgumentOutOfRangeException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeArgumentOutOfRangeException"/> class.
+        /// </summary>
+        /// <param name="info">The object that holds the serialized object data.</param>
+        /// <param name="context">The contextual information about the source or destination.</param>
+        protected TypeArgumentOutOfRangeException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
