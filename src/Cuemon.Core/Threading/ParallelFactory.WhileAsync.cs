@@ -174,7 +174,7 @@ namespace Cuemon.Threading
                 var queue = new List<Task>();
                 while (workChunks > 1 && readForward)
                 {
-                    readForward = await iterator.ReadAsync();
+                    readForward = await iterator.ReadAsync().ConfigureAwait(false);
                     if (!readForward) { break; }
                     var shallowWorkerFactory = workerFactory.Clone();
                     queue.Add(Task.Factory.StartNew(element =>
