@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.AspNetCore.Http
@@ -7,6 +8,7 @@ namespace Cuemon.AspNetCore.Http
     /// Provides a base-class for exceptions based on an HTTP status code.
     /// </summary>
     /// <seealso cref="Exception" />
+    [Serializable]
     public abstract class HttpStatusCodeException : Exception
     {
         /// <summary>
@@ -22,9 +24,30 @@ namespace Cuemon.AspNetCore.Http
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="HttpStatusCodeException"/> class.
+        /// </summary>
+        /// <param name="info">The object that holds the serialized object data.</param>
+        /// <param name="context">The contextual information about the source or destination.</param>
+        protected HttpStatusCodeException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            StatusCode = info.GetInt32(nameof(StatusCode));
+        }
+
+        /// <summary>
         /// Gets the HTTP status code associated with this exception.
         /// </summary>
         /// <value>The HTTP status code associated with this exception.</value>
         public int StatusCode { get; }
+
+        /// <summary>
+        /// When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> with information about the exception.
+        /// </summary>
+        /// <param name="info">The object that holds the serialized object data.</param>
+        /// <param name="context">The contextual information about the source or destination.</param>
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(StatusCode), StatusCode);
+            base.GetObjectData(info, context);
+        }
     }
 }
