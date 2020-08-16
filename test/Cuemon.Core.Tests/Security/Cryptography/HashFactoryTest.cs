@@ -4,7 +4,7 @@ using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Integrity
+namespace Cuemon.Security.Cryptography
 {
     public class HashFactoryTest : Test
     {
