@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon.Extensions.Net.Http
+namespace Cuemon.Net.Http
 {
     /// <summary>
     /// Defines the official HTTP data transfer method (such as GET, POST, or HEAD) used by the client to query a web server.

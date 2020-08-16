@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using Cuemon.Threading;
 
-namespace Cuemon.Extensions.Net.Http
+namespace Cuemon.Net.Http
 {
     /// <summary>
     /// Specifies options that is related to <see cref="HttpManager"/> operations.

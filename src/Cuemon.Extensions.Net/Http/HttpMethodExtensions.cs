@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using Cuemon.Net.Http;
 
 namespace Cuemon.Extensions.Net.Http
 {

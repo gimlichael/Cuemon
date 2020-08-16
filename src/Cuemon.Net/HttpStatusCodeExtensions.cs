@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Cuemon.Extensions.Net
+namespace Cuemon.Net
 {
     /// <summary>
     /// Extension methods for the <see cref="HttpStatusCode"/> enum.

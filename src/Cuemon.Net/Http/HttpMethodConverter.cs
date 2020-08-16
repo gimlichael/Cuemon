@@ -3,7 +3,7 @@ using System.Net.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Text;
 
-namespace Cuemon.Extensions.Net.Http
+namespace Cuemon.Net.Http
 {
     /// <summary>
     /// This utility class is designed to make <see cref="HttpMethod"/> related conversions easier to work with.

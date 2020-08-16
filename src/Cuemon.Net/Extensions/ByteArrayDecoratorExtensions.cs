@@ -1,40 +1,40 @@
 ﻿using System;
-using Cuemon.Text;
-using Cuemon.IO;
 using System.IO;
+using Cuemon.IO;
+using Cuemon.Text;
 
-namespace Cuemon.Extensions.Web
+namespace Cuemon.Net
 {
     /// <summary>
-    /// Extension methods for the <see cref="T:byte[]"/>.
+    /// Extension methods for the <see cref="T:byte[]"/> tailored to adhere the decorator pattern.
     /// </summary>
-    /// <remarks>
-    /// Kudos to the mono-project team for this class. I only modified some of the original code to fit into this class. For the original code, have a visit here for the source code: https://github.com/mono/mono/blob/master/mcs/class/System.Web/System.Web/HttpUtility.cs or here for the mono-project website: http://www.mono-project.com/.
-    /// </remarks>
-    public static class ByteArrayExtensions
+    /// <seealso cref="IDecorator{T}"/>
+    /// <seealso cref="Decorator{T}"/>
+    public static class ByteArrayDecoratorExtensions
     {
         private static readonly char[] HexadecimalCharactersLowerCase = Alphanumeric.Hexadecimal.ToLowerInvariant().ToCharArray();
 
         /// <summary>
-        /// Converts the specified <paramref name="bytes"/> into a URL-encoded array of bytes, starting at the specified <paramref name="position"/> in the array and continuing for the specified number of <paramref name="bytesToRead"/>.
+        /// Converts the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/> into a URL-encoded array of bytes, starting at the specified <paramref name="position"/> in the array and continuing for the specified number of <paramref name="bytesToRead"/>.
         /// </summary>
-        /// <param name="bytes">The <see cref="T:byte[]"/> to extend.</param>
+        /// <param name="decorator">The <see cref="T:IDecorator{byte[]}"/> to extend.</param>
         /// <param name="position">The position in the byte array at which to begin encoding.</param>
         /// <param name="bytesToRead">The number of bytes to encode.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
         /// <returns>An encoded <see cref="T:byte[]"/>.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="bytes"/> cannot be null.
+        /// <paramref name="decorator"/> cannot be null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="position" /> is lower than 0 - or -
         /// <paramref name="bytesToRead" /> is lower than 0 - or -
-        /// <paramref name="position" /> is greater than or equal to the length of <paramref name="bytes"/> - or -
-        /// <paramref name="bytesToRead" /> is greater than (the length of <paramref name="bytes"/> minus <paramref name="position"/>).
+        /// <paramref name="position" /> is greater than or equal to the length of the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/> - or -
+        /// <paramref name="bytesToRead" /> is greater than (the length of the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/> minus <paramref name="position"/>).
         /// </exception>
-        public static byte[] UrlEncode(this byte[] bytes, int position = 0, int bytesToRead = -1, Action<EncodingOptions> setup = null)
+        public static byte[] UrlEncode(this IDecorator<byte[]> decorator, int position = 0, int bytesToRead = -1, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(bytes, nameof(bytes));
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            var bytes = decorator.Inner;
             if (bytes.Length == 0) { return new byte[0]; }
 
             Validator.ThrowIfLowerThan(position, 0, nameof(position));

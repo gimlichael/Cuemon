@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cuemon.Collections.Specialized;
 
-namespace Cuemon.Extensions.Web
+namespace Cuemon.Extensions.Net
 {
     /// <summary>
     /// Extension methods for the <see cref="IDictionary{TKey,TValue}"/> interface.

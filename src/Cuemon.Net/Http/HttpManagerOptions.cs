@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 
-namespace Cuemon.Extensions.Net.Http
+namespace Cuemon.Net.Http
 {
     /// <summary>
     /// Specifies options that is related to the <see cref="HttpManager"/> class.

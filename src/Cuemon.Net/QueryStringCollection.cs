@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Specialized;
+using Cuemon.Net.Collections.Specialized;
 
-namespace Cuemon.Extensions.Web
+namespace Cuemon.Net
 {
     /// <summary>
     /// Provides a collection of string values that is equivalent to a query string of an <see cref="Uri"/>.
@@ -32,8 +33,16 @@ namespace Cuemon.Extensions.Web
         /// <param name="urlDecode">Specify <c>true</c> to decode the <paramref name="query"/> that has been encoded for transmission in a URL; otherwise, <c>false</c>.</param>
         public QueryStringCollection(string query, bool urlDecode = false)
         {
-            Validator.ThrowIfNull(query, nameof(query));
-            Add(Infrastructure.ParseFieldValuePairs(query, FieldValueSeparator.Ampersand, urlDecode));
+            Add(Decorator.Enclose(query, false).ToQueryString(urlDecode));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return Decorator.Enclose(this).ToString(FieldValueSeparator.Ampersand, false);
         }
     }
 }

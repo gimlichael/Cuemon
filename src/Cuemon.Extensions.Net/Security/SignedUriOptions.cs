@@ -1,8 +1,7 @@
 ﻿using System;
-using Cuemon.Integrity;
 using Cuemon.Security.Cryptography;
 
-namespace Cuemon.Extensions.Web.Security
+namespace Cuemon.Extensions.Net.Security
 {
     /// <summary>
     /// Configuration options for <see cref="StringExtensions.ToSignedUri"/> and <see cref="UriExtensions.ToSignedUri"/>.

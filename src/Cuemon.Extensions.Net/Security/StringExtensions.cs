@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Security;
-using Cuemon.Integrity;
+using Cuemon.Net;
+using Cuemon.Security.Cryptography;
 
-namespace Cuemon.Extensions.Web.Security
+namespace Cuemon.Extensions.Net.Security
 {
     /// <summary>
     /// Extension methods for the <see cref="string"/> class.

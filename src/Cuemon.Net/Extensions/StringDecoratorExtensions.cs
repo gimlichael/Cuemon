@@ -2,27 +2,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Cuemon.Net.Collections.Specialized;
 using Cuemon.Text;
 
-namespace Cuemon.Extensions.Web
+namespace Cuemon.Net
 {
     /// <summary>
-    /// Extension methods for the <see cref="string"/> class.
+    /// Extension methods for the <see cref="string"/> class tailored to adhere the decorator pattern.
     /// </summary>
+    /// <seealso cref="IDecorator{T}"/>
+    /// <seealso cref="Decorator{T}"/>
     /// <remarks>
     /// Kudos to the mono-project team for this class. I only modified some of the original code to fit into this class. For the original code, have a visit here for the source code: https://github.com/mono/mono/blob/master/mcs/class/System.Web/System.Web/HttpUtility.cs or here for the mono-project website: http://www.mono-project.com/.
     /// </remarks>
-    public static class StringExtensions
+    public static class StringDecoratorExtensions
     {
         /// <summary>
-        /// Encodes a URL string.
+        /// Encodes a URL string from the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>.
         /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
         /// <returns>An URL encoded string.</returns>
-        public static string UrlEncode(this string value, Action<EncodingOptions> setup = null)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static string UrlEncode(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
         {
-            if (value == null)  { return null;}
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            var value = decorator.Inner;
+            if (value == null) { return null; }
             if (value == string.Empty) { return string.Empty; }
 
             var options = Patterns.Configure(setup);
@@ -45,18 +53,23 @@ namespace Cuemon.Extensions.Web
             var bytes = new byte[options.Encoding.GetMaxByteCount(value.Length)];
             var realLen = options.Encoding.GetBytes(value, 0, value.Length, bytes, 0);
 
-            var encodedBytes = bytes.UrlEncode(0, realLen);
+            var encodedBytes = Decorator.Enclose(bytes).UrlEncode(0, realLen);
             return Encoding.ASCII.GetString(encodedBytes, 0, encodedBytes.Length);
         }
 
         /// <summary>
-        /// Converts a string that has been encoded for transmission in a URL into a decoded string.
+        /// Converts the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> that has been encoded for transmission in a URL into a decoded string.
         /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
+        /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
         /// <returns>An URL decoded string.</returns>
-        public static string UrlDecode(this string value, Action<EncodingOptions> setup = null)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static string UrlDecode(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
         {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            var value = decorator.Inner;
             if (null == value) { return null; }
             if (value.IndexOf('%') == -1 && value.IndexOf('+') == -1) { return value; }
 
@@ -89,7 +102,7 @@ namespace Cuemon.Extensions.Web
                         WriteCharBytes(bytes, (char)xchar, options.Encoding);
                         i += 2;
                     }
-                    else 
+                    else
                     {
                         WriteCharBytes(bytes, '%', options.Encoding);
                     }
@@ -110,7 +123,7 @@ namespace Cuemon.Extensions.Web
                 foreach (var b in e.GetBytes(new[] { ch })) { buf.Add(b); }
             }
             else
-            { 
+            {
                 buf.Add((byte)ch);
             }
         }
@@ -123,7 +136,7 @@ namespace Cuemon.Extensions.Web
             if (c >= 'A' && c <= 'F') { return c - 'A' + 10; }
             return -1;
         }
-        
+
         private static int GetChar(string str, int offset, int length)
         {
             var val = 0;
@@ -137,6 +150,25 @@ namespace Cuemon.Extensions.Web
                 val = (val << 4) + current;
             }
             return val;
+        }
+
+        internal static QueryStringCollection ToQueryString(this IDecorator<string> decorator, bool urlDecode)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            var fieldValuePairs = decorator.Inner ?? "";
+            var modifiedFieldValuePairs = new QueryStringCollection();
+            if (fieldValuePairs.Length == 0) { return modifiedFieldValuePairs; }
+            var characterSeparator = NameValueCollectionDecoratorExtensions.GetSeparator(FieldValueSeparator.Ampersand);
+            if (fieldValuePairs.StartsWith("?", StringComparison.OrdinalIgnoreCase)) { fieldValuePairs = fieldValuePairs.Remove(0, 1); }
+            var namesAndValues = fieldValuePairs.Split(characterSeparator);
+            foreach (var nameAndValue in namesAndValues)
+            {
+                var equalLocation = nameAndValue.IndexOf("=", StringComparison.OrdinalIgnoreCase);
+                if (equalLocation < 0) { continue; } // we have no parameter values, just a value pair like lcid=1030& or lcid=1030&test
+                var value = equalLocation == nameAndValue.Length ? null : urlDecode ? Decorator.Enclose(nameAndValue.Substring(equalLocation + 1)).UrlDecode() : nameAndValue.Substring(equalLocation + 1);
+                modifiedFieldValuePairs.Add(nameAndValue.Substring(0, nameAndValue.IndexOf("=", StringComparison.OrdinalIgnoreCase)), value);
+            }
+            return modifiedFieldValuePairs;
         }
     }
 }

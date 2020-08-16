@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security;
 
-namespace Cuemon.Extensions.Web.Security
+namespace Cuemon.Extensions.Net.Security
 {
     /// <summary>
     /// Extension methods for the <see cref="Uri"/> class.

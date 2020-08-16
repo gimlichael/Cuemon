@@ -1,6 +1,8 @@
 ﻿using System.Collections.Specialized;
+using Cuemon.Net;
+using Cuemon.Net.Collections.Specialized;
 
-namespace Cuemon.Extensions.Web
+namespace Cuemon.Extensions.Net
 {
     /// <summary>
     /// Extension methods for the <see cref="NameValueCollection"/> class.
@@ -16,7 +18,7 @@ namespace Cuemon.Extensions.Web
         public static string ToQueryString(this NameValueCollection nvc, bool urlEncode = false)
         {
             Validator.ThrowIfNull(nvc, nameof(nvc));
-            return Infrastructure.ParseFieldValuePairs(nvc, FieldValueSeparator.Ampersand, urlEncode);
+            return Decorator.Enclose(nvc).ToString(FieldValueSeparator.Ampersand, urlEncode);
         }
     }
 }
