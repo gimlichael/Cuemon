@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon

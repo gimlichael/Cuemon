@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Cuemon.Collections.Generic;
 using Cuemon.Configuration;
+using Cuemon.IO;
 using Cuemon.Text;
 
 namespace Cuemon.Security.Cryptography
@@ -265,7 +266,7 @@ namespace Cuemon.Security.Cryptography
         {
             return ComputeHash(Disposable.SafeInvoke(() => new MemoryStream(), destination =>
             {
-                Infrastructure.CopyStream(input, destination);
+                Decorator.Enclose(input).CopyStream(destination);
                 return destination;
             }).ToArray());
         }

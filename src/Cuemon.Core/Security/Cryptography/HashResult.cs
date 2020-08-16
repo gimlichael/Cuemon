@@ -1,7 +1,4 @@
 ﻿using System;
-using System.IO;
-using Cuemon.Integrity;
-using Cuemon.IO;
 
 namespace Cuemon.Security.Cryptography
 {
@@ -12,33 +9,6 @@ namespace Cuemon.Security.Cryptography
     {
         private readonly byte[] _input;
 
-        /// <summary>
-        /// Converts the specified <paramref name="file"/> to an object implementing the <see cref="IIntegrity"/> interface.
-        /// </summary>
-        /// <param name="file">The <see cref="FileInfo"/> to convert.</param>
-        /// <param name="setup">The <see cref="FileIntegrityOptions"/> which need to be configured.</param>
-        /// <returns>An object implementing the <see cref="IIntegrity"/> interface that represents the integrity of <paramref name="file"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="file"/> cannot be null.
-        /// </exception>
-        public static IIntegrity FromFileInfo(FileInfo file, Action<FileIntegrityOptions> setup)
-        {
-            Validator.ThrowIfNull(file, nameof(file));
-            var options = Patterns.Configure(setup);
-            if (options.BytesToRead > 0)
-            {
-                long buffer = options.BytesToRead;
-                if (file.Length < buffer) { buffer = file.Length; }
-
-                var checksumBytes = new byte[buffer];
-                using (var openFile = file.OpenRead())
-                {
-                    openFile.Read(checksumBytes, 0, (int)buffer);
-                }
-                return options.IntegrityConverter(file, checksumBytes);
-            }
-            return options.IntegrityConverter(file, new byte[0]);
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HashResult"/> class.

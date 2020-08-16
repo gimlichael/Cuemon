@@ -1,6 +1,4 @@
-﻿using Cuemon.Integrity;
-
-namespace Cuemon
+﻿namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="Convertible"/>.
@@ -20,19 +18,19 @@ namespace Cuemon
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="Converters"/></term>
-        ///         <description><see cref="ConvertibleConverterCollection"/></description>
+        ///         <description><see cref="ConvertibleConverterDictionary"/></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public ConvertibleOptions()
         {
-            Converters = new ConvertibleConverterCollection();
+            Converters = new ConvertibleConverterDictionary();
         }
 
         /// <summary>
         /// Gets the converters associated with this instance.
         /// </summary>
         /// <value>The converters associated with this instance.</value>
-        public ConvertibleConverterCollection Converters { get; }
+        public ConvertibleConverterDictionary Converters { get; }
     }
 }
