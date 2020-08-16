@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using Cuemon.Extensions.Xml.Serialization.Converters;
+using Cuemon.Xml.Serialization.Converters;
 
-namespace Cuemon.Extensions.Xml.Serialization
+namespace Cuemon.Xml.Serialization
 {
     /// <summary>
     /// Serializes and deserializes objects into and from the XML format.
@@ -87,7 +87,7 @@ namespace Cuemon.Extensions.Xml.Serialization
         /// <returns>An object of <paramref name="objectType"/>.</returns>
         public object Deserialize(Stream value, Type objectType)
         {
-            using (var reader = value.ToXmlReader(null, settings =>
+            using (var reader = Decorator.Enclose(value).ToXmlReader(null, settings =>
             {
                 settings.ConformanceLevel = Settings.Reader.ConformanceLevel;
                 settings.IgnoreComments = Settings.Reader.IgnoreComments;
@@ -122,13 +122,13 @@ namespace Cuemon.Extensions.Xml.Serialization
 
         internal XmlConverter GetReaderConverter(Type objectType)
         {
-            var converter = Settings.Converters.FirstOrDefaultReaderConverter(objectType);
+            var converter = Decorator.Enclose(Settings.Converters).FirstOrDefaultReaderConverter(objectType);
             return converter ?? new DefaultXmlConverter(Settings.RootName, Settings.Converters);
         }
 
         internal XmlConverter GetWriterConverter(Type objectType)
         {
-            var converter = Settings.Converters.FirstOrDefaultWriterConverter(objectType);
+            var converter = Decorator.Enclose(Settings.Converters).FirstOrDefaultWriterConverter(objectType);
             if (converter is DynamicXmlConverterCore dc)
             {
                 if (Settings.RootName != null && dc.RootName == null) { dc.RootName = Settings.RootName; }

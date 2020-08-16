@@ -1,6 +1,6 @@
 ﻿using Cuemon.Text;
 
-namespace Cuemon.Extensions.Xml
+namespace Cuemon.Xml
 {
     /// <summary>
     /// Configuration options for <see cref="XmlEncodingOptions"/>.

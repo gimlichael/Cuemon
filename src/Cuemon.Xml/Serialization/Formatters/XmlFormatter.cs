@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using Cuemon.Extensions.Xml.Serialization.Converters;
 using Cuemon.Runtime.Serialization.Formatters;
+using Cuemon.Xml.Serialization.Converters;
 
-namespace Cuemon.Extensions.Xml.Serialization.Formatters
+namespace Cuemon.Xml.Serialization.Formatters
 {
     /// <summary>
     /// Serializes and deserializes an object in XML format.
@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Formatters
         {
             Validator.ThrowIfNull(options, nameof(options));
             Options = options;
-            if (options.SynchronizeWithXmlConvert) { options.Settings.ApplyToDefaultSettings(); }
+            if (options.SynchronizeWithXmlConvert) { Decorator.Enclose(options.Settings).ApplyToDefaultSettings(); }
         }
 
         /// <summary>

@@ -3,7 +3,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Cuemon.Extensions.Xml.Serialization
+namespace Cuemon.Xml.Serialization
 {
     /// <summary>
     /// Provides a factory based way to create and wrap an <see cref="IXmlSerializable"/> implementation.

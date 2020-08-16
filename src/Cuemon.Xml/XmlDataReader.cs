@@ -5,7 +5,7 @@ using System.Xml;
 using Cuemon.Data;
 using Cuemon.Text;
 
-namespace Cuemon.Extensions.Xml
+namespace Cuemon.Xml
 {
     /// <summary>
     /// Provides a way of reading a forward-only stream of rows from an XML based data source. This class cannot be inherited.
@@ -61,7 +61,7 @@ namespace Cuemon.Extensions.Xml
         public bool Read()
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
-            return ReadNext();
+            return ReadNext(default);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Cuemon.Extensions.Xml
         /// <exception cref="ObjectDisposedException">
         /// This instance has been disposed.
         /// </exception>
-        protected override bool ReadNext(bool optional = default)
+        protected override bool ReadNext(bool optional)
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
             var reader = Reader;

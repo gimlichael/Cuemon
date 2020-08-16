@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon.Extensions.Xml.Serialization
+namespace Cuemon.Xml.Serialization
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     internal sealed class XmlWrapperAttribute : Attribute

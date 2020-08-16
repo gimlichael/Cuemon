@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace Cuemon.Extensions.Xml.Serialization.Converters
+namespace Cuemon.Xml.Serialization.Converters
 {
     /// <summary>
     /// Converts an object to and from XML.

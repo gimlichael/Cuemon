@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml;
-using Cuemon.Extensions.Xml.Serialization.Converters;
+using Cuemon.Xml.Serialization.Converters;
 
-namespace Cuemon.Extensions.Xml.Serialization
+namespace Cuemon.Xml.Serialization
 {
     /// <summary>
     /// Provides a factory based way to create and wrap an <see cref="XmlConverter"/> implementation.

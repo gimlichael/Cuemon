@@ -1,13 +1,12 @@
-﻿using System;
-using System.Xml;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using Cuemon.Xml.Linq;
 
 namespace Cuemon.Extensions.Xml.Linq
 {
     /// <summary>
-    /// Extension methods for the <see cref="XElement"/> class.
+    /// Extension methods for the <see cref="string"/> class.
     /// </summary>
-    public static class XElementExtensions
+    public static class StringExtensions
     {
         /// <summary>
         /// Tries to load an <see cref="XElement" /> from a <paramref name="value" /> that contains XML.
@@ -29,21 +28,7 @@ namespace Cuemon.Extensions.Xml.Linq
         /// <returns><c>true</c> if the <paramref name="value"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>
         public static bool TryParseXElement(this string value, LoadOptions options, out XElement result)
         {
-            result = null;
-            if (string.IsNullOrWhiteSpace(value)) { return false; }
-            if (value.IndexOf("<", StringComparison.Ordinal) == 0)
-            {
-                try
-                {
-                    result = XElement.Parse(value, options);
-                    return true;
-                }
-                catch (XmlException)
-                {
-                    // ignored as we are in a TryParse method
-                }
-            }
-            return false;
+            return Decorator.Enclose(value).TryParseXElement(options, out result);
         }
 
         /// <summary>

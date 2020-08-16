@@ -3,8 +3,8 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using Cuemon.Extensions.Xml.XPath;
-using Cuemon.Text;
+using Cuemon.Xml;
+using Cuemon.Xml.XPath;
 
 namespace Cuemon.Extensions.Xml
 {
@@ -21,13 +21,13 @@ namespace Cuemon.Extensions.Xml
         /// <param name="setup">The <see cref="XmlReaderSettings"/> which may be configured.</param>
         /// <returns>An <see cref="XmlReader"/> representation of <paramref name="value"/>.</returns>
         /// <remarks>If <paramref name="encoding"/> is null, an <see cref="Encoding"/> object will be attempted resolved by <see cref="TryDetectXmlEncoding"/>.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
         public static XmlReader ToXmlReader(this Stream value, Encoding encoding = null, Action<XmlReaderSettings> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            if (encoding == null) { TryDetectXmlEncoding(value, out encoding); }
-            if (value.CanSeek) { value.Position = 0; }
-            var options = Patterns.Configure(setup);
-            return XmlReader.Create(new StreamReader(value, encoding), options);
+            return Decorator.Enclose(value).ToXmlReader(encoding, setup);
         }
 
         /// <summary>
@@ -36,10 +36,12 @@ namespace Cuemon.Extensions.Xml
         /// <param name="value">The XML <see cref="Stream"/> to extend.</param>
         /// <param name="setup">The <see cref="XmlWriterSettings"/> which may be configured.</param>
         /// <returns>A <see cref="Stream"/> that is equivalent to <paramref name="value"/> following the output format of <paramref name="setup"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
         public static Stream CopyXmlStream(this Stream value, Action<XmlWriterSettings> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(setup, nameof(setup));
 
             long startingPosition = -1;
             if (value.CanSeek)
@@ -71,38 +73,13 @@ namespace Cuemon.Extensions.Xml
         /// <param name="value">The XML <see cref="Stream"/> to extend.</param>
         /// <param name="result">When this method returns, it contains the <see cref="Encoding"/> value equivalent to the encoding level of the XML document contained in <paramref name="value"/>, if the conversion succeeded, or a null reference (Nothing in Visual Basic) if the conversion failed. The conversion fails if the <paramref name="value"/> parameter is null, does not contain BOM information or does not contain an <see cref="XmlDeclaration"/>.</param>
         /// <returns><c>true</c> if the <paramref name="value"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
         public static bool TryDetectXmlEncoding(this Stream value, out Encoding result)
         {
             Validator.ThrowIfNull(value, nameof(value));
-            result = new UTF8Encoding(false);
-            if (!ByteOrderMark.TryDetectEncoding(value, out var encoding))
-            {
-                long startingPosition = -1;
-                if (value.CanSeek)
-                {
-                    startingPosition = value.Position;
-                    value.Position = 0;
-                }
-
-                var document = new XmlDocument();
-                document.Load(value);
-                if (document.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
-                {
-                    var declaration = (XmlDeclaration)document.FirstChild;
-                    if (!string.IsNullOrEmpty(declaration.Encoding))
-                    {
-                        result = Encoding.GetEncoding(declaration.Encoding);
-                        return true;
-                    }
-                }
-                if (value.CanSeek) { value.Seek(startingPosition, SeekOrigin.Begin); }
-            }
-            else
-            {
-                result = encoding;
-                return true;
-            }
-            return false;
+            return Decorator.Enclose(value).TryDetectXmlEncoding(out result);
         }
 
         /// <summary>
@@ -115,7 +92,7 @@ namespace Cuemon.Extensions.Xml
         {
             Validator.ThrowIfNull(value, nameof(value));
             var options = Patterns.Configure(setup);
-            var navigable = XPathNavigableConverter.FromStream(value, true);
+            var navigable = XPathDocumentFactory.CreateDocument(value, true);
             var navigator = navigable.CreateNavigator();
             return Disposable.SafeInvoke(() => new MemoryStream(), ms => 
             {

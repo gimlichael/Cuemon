@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using Cuemon.Extensions.Xml.Serialization.Converters;
+using Cuemon.Xml.Serialization.Converters;
 
-namespace Cuemon.Extensions.Xml.Serialization
+namespace Cuemon.Xml.Serialization
 {
     /// <summary>
     /// Configuration options for <see cref="XmlSerializer"/>.

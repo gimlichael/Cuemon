@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Reflection;
 using System.Xml;
-using Cuemon.Collections.Generic;
-using Cuemon.Extensions.Xml.Serialization;
-using Cuemon.Reflection;
-using Cuemon.Runtime.Serialization;
+using Cuemon.Xml;
+using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Extensions.Xml
 {
@@ -25,7 +22,6 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static void WriteObject<T>(this XmlWriter writer, T value, Action<XmlSerializerOptions> setup = null)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
             WriteObject(writer, value, typeof(T), setup);
         }
 
@@ -42,8 +38,7 @@ namespace Cuemon.Extensions.Xml
         public static void WriteObject(this XmlWriter writer, object value, Type objectType, Action<XmlSerializerOptions> setup = null)
         {
             Validator.ThrowIfNull(writer, nameof(writer));
-            var serializer = XmlSerializer.Create(setup == null ? null : Patterns.Configure(setup));
-            serializer.Serialize(writer, value, objectType);
+            Decorator.Enclose(writer).WriteObject(value, objectType, setup);
         }
 
         /// <summary>
@@ -57,7 +52,7 @@ namespace Cuemon.Extensions.Xml
         public static void WriteStartElement(this XmlWriter writer, XmlQualifiedEntity elementName)
         {
             Validator.ThrowIfNull(writer, nameof(writer));
-            writer.WriteStartElement(elementName.Prefix, elementName.LocalName, elementName.Namespace);
+            Decorator.Enclose(writer).WriteStartElement(elementName);
         }
 
         /// <summary>
@@ -75,14 +70,7 @@ namespace Cuemon.Extensions.Xml
         public static void WriteEncapsulatingElementWhenNotNull<T>(this XmlWriter writer, T value, XmlQualifiedEntity elementName, Action<XmlWriter, T> nodeWriter)
         {
             Validator.ThrowIfNull(writer, nameof(writer));
-            if (elementName == null)
-            {
-                nodeWriter(writer, value);
-                return;
-            }
-            WriteStartElement(writer, elementName);
-            nodeWriter(writer, value);
-            writer.WriteEndElement();
+            Decorator.Enclose(writer).WriteEncapsulatingElementIfNotNull(value, elementName, nodeWriter);
         }
 
         /// <summary>
@@ -99,46 +87,7 @@ namespace Cuemon.Extensions.Xml
         public static void WriteXmlRootElement<T>(this XmlWriter writer, T value, Action<XmlWriter, T, XmlQualifiedEntity> treeWriter, XmlQualifiedEntity rootEntity = null)
         {
             Validator.ThrowIfNull(writer, nameof(writer));
-            WriteXmlRootElementCore(writer, value, (w, o) => treeWriter(w, value, rootEntity), null, rootEntity);
-        }
-
-        internal static void WriteXmlRootElement(this IDecorator<XmlWriter> decorator, object value, Action<XmlWriter, IHierarchy<object>> treeWriter, XmlQualifiedEntity rootEntity = null)
-        {
-            WriteXmlRootElementCore(decorator.Inner, value, null, treeWriter, rootEntity);
-        }
-
-        private static void WriteXmlRootElementCore(XmlWriter writer, object value, Action<XmlWriter, object> treeWriterPublic, Action<XmlWriter, IHierarchy<object>> treeWriterInternal, XmlQualifiedEntity rootEntity = null)
-        {
-            Validator.ThrowIfNull(writer, nameof(writer));
-            if (value == null) { return; }
-            try
-            {
-                IHierarchy<object> nodes;
-                XmlQualifiedEntity rootElement;
-                if (treeWriterInternal == null)
-                {
-                    nodes = new Hierarchy<object>().Add(value);
-                    rootElement = nodes.GetXmlRootOrElement(rootEntity);
-                    writer.WriteStartElement(rootElement.Prefix, rootElement.LocalName, rootElement.Namespace);
-                    treeWriterPublic?.Invoke(writer, value);
-                }
-                else
-                {
-                    nodes = new HierarchySerializer(value).Nodes;
-                    rootElement = nodes.GetXmlRootOrElement(rootEntity);
-                    writer.WriteStartElement(rootElement.Prefix, rootElement.LocalName, rootElement.Namespace);
-                    treeWriterInternal(writer, nodes);
-                }
-            }
-            catch (Exception ex)
-            {
-                var innerException = ex;
-                if (innerException is OutOfMemoryException) { throw; }
-                if (innerException is TargetInvocationException) { innerException = innerException.InnerException; }
-                throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the XML document.", innerException), Decorator.Enclose(typeof(XmlWriterExtensions)).MatchMember(flags: new MemberReflection(excludeInheritancePath: true)), Arguments.ToArray(writer, value));
-            }
-            writer.WriteEndElement();
-            writer.Flush();
+            Decorator.Enclose(writer).WriteXmlRootElement(value, treeWriter, rootEntity);
         }
     }
 }

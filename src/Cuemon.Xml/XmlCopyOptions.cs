@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace Cuemon.Extensions.Xml
+namespace Cuemon.Xml
 {
     /// <summary>
     /// Configuration options for <see cref="XmlWriter"/>.

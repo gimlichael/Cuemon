@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Extensions.Xml.Serialization
 {
@@ -17,7 +18,7 @@ namespace Cuemon.Extensions.Xml.Serialization
         public static void ApplyToDefaultSettings(this XmlSerializerOptions options)
         {
             Validator.ThrowIfNull(options, nameof(options));
-            XmlConvert.DefaultSettings = () => options;
+            Decorator.Enclose(options).ApplyToDefaultSettings();
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
 
-namespace Cuemon.Extensions.Xml.Serialization.Converters
+namespace Cuemon.Xml.Serialization.Converters
 {
     /// <summary>
     /// Provides a default way to convert objects to and from XML.
@@ -87,7 +87,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         private object ParseReadXmlDictionary(XmlReader reader, Type valueType)
         {
             var values = new Dictionary<string, string>();
-            var hierarchy = reader.ToHierarchy();
+            var hierarchy = Decorator.Enclose(reader).ToHierarchy();
             var items = hierarchy.Find(h => h.Instance.Name == EnumerableElementName && h.Depth == 1).ToList();
             foreach (var item in items)
             {
@@ -124,7 +124,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         private object ParseReadXmlEnumerable(XmlReader reader, Type valueType)
         {
             var values = new List<KeyValuePair<string, string>>();
-            var hierarchy = reader.ToHierarchy();
+            var hierarchy = Decorator.Enclose(reader).ToHierarchy();
             var items = hierarchy.Find(h => h.Instance.Name == EnumerableElementName && h.Depth == 1).ToList();
             if (items.FirstOrDefault()?.HasChildren ?? false) { throw new NotSupportedException("Deserialization of complex objects is not supported in this version."); }
             values.AddRange(items.Select(h => new KeyValuePair<string, string>(h.Instance.Name, h.Instance.Value.ToString())));
@@ -238,7 +238,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
         private void WriteXmlNodes(XmlWriter writer, IHierarchy<object> node)
         {
-            if (node.HasXmlIgnoreAttribute()) { return; }
+            if (Decorator.Enclose(node).HasXmlIgnoreAttribute()) { return; }
 
             var writerMethod = node.InstanceType.GetMethod(XmlWriterMethod, new MemberReflection(excludeStatic: true));
             var useWriterMethod = (writerMethod != null) && Decorator.Enclose(node.InstanceType).HasInterface(typeof(IXmlSerializable));
@@ -255,9 +255,9 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
         private void WriteXmlValue(XmlWriter writer, IHierarchy<object> node)
         {
-            if (node.IsNodeEnumerable()) { return; }
+            if (Decorator.Enclose(node).IsNodeEnumerable()) { return; }
 
-            var converter = Converters.FirstOrDefaultWriterConverter(node.InstanceType);
+            var converter = Decorator.Enclose(Converters).FirstOrDefaultWriterConverter(node.InstanceType);
             if (converter != null)
             {
                 converter.WriteXml(writer, node.Instance);
@@ -270,7 +270,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
             var isType = node.Instance is Type;
             var nodeType = isType ? (Type)node.Instance : node.InstanceType;
-            var attributeOrElementName = node.HasMemberReference ? node.MemberReference.Name.SanitizeXmlElementName() : Decorator.Enclose(nodeType).ToFriendlyName().SanitizeXmlElementName();
+            var attributeOrElementName = node.HasMemberReference ? Decorator.Enclose(node.MemberReference.Name).SanitizeXmlElementName() : Decorator.Enclose(Decorator.Enclose(nodeType).ToFriendlyName()).SanitizeXmlElementName();
 
             if (!hasAttributeAttribute && !hasElementAttribute && !hasTextAttribute)
             {
@@ -320,18 +320,18 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
 
         private void WriteXmlChildren(XmlWriter writer, IHierarchy<object> node)
         {
-            foreach (var childNode in node.GetChildren().OrderByXmlAttributes())
+            foreach (var childNode in Decorator.Enclose(node.GetChildren()).OrderByXmlAttributes())
             {
-                if (childNode.HasXmlIgnoreAttribute()) { continue; }
+                if (Decorator.Enclose(childNode).HasXmlIgnoreAttribute()) { continue; }
                 if (!childNode.InstanceType.GetTypeInfo().IsValueType && childNode.Instance == null) { continue; }
                 if (Decorator.Enclose(childNode.InstanceType).HasEnumerableImplementation() && childNode.InstanceType != typeof(string) && !Decorator.Enclose(childNode.InstanceType).HasDictionaryImplementation())
                 {
                     var i = childNode.Instance as IEnumerable;
                     if (i == null || !i.Cast<object>().Any()) { continue; }
                 }
-                var qualifiedEntity = childNode.GetXmlRootOrElement();
-                if (childNode.HasChildren && Decorator.Enclose(childNode.InstanceType).IsComplex()) { writer.WriteStartElement(qualifiedEntity); }
-                var converter = Converters.FirstOrDefaultWriterConverter(childNode.InstanceType);
+                var qualifiedEntity = Decorator.Enclose(childNode).GetXmlRootOrElement();
+                if (childNode.HasChildren && Decorator.Enclose(childNode.InstanceType).IsComplex()) { Decorator.Enclose(writer).WriteStartElement(qualifiedEntity); }
+                var converter = Decorator.Enclose(Converters).FirstOrDefaultWriterConverter(childNode.InstanceType);
                 if (converter != null)
                 {
                     converter.WriteXml(writer, childNode.Instance, qualifiedEntity);
