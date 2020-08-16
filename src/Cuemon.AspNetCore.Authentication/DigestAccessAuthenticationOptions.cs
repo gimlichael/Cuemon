@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.Integrity;
+using Cuemon.Security.Cryptography;
 
 namespace Cuemon.AspNetCore.Authentication
 {

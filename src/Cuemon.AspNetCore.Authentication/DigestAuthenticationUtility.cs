@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Cuemon.Integrity;
+using Cuemon.Security.Cryptography;
 using Cuemon.Text;
 
 namespace Cuemon.AspNetCore.Authentication
