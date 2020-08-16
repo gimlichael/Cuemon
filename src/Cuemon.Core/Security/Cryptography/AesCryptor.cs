@@ -2,7 +2,6 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon.Security.Cryptography
