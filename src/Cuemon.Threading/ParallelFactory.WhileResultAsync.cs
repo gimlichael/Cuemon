@@ -181,13 +181,13 @@ namespace Cuemon.Threading
             var readForward = true;
             var sorter = long.MinValue;
 
-            for (;;)
+            while (true)
             {
                 var workChunks = options.PartitionSize;
                 var queue = new List<Task>();
                 while (workChunks > 1 && readForward)
                 {
-                    readForward = await iterator.ReadAsync();
+                    readForward = await iterator.ReadAsync().ConfigureAwait(false);
                     if (!readForward) { break; }
                     
                     var shallowWorkerFactory = workerFactory.Clone();

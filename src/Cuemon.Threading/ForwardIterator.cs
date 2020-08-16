@@ -22,7 +22,7 @@ namespace Cuemon.Threading
 
         public async Task<bool> ReadAsync()
         {
-            if (await Condition())
+            if (await Condition().ConfigureAwait(false))
             {
                 Current = Provider(Reader);
                 return true;

@@ -1,18 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
-    <ProjectGuid>060bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+    <ProjectGuid>170bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
-    <AssemblyName>Cuemon.Extensions.IO</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.IO</AssemblyTitle>
-    <Description>The Cuemon.Extensions.IO assembly provides extension methods to the System.IO namespace.</Description>
+    <Product>Cuemon</Product>
+    <AssemblyName>Cuemon.IO</AssemblyName>
+    <AssemblyTitle>Cuemon.IO</AssemblyTitle>
+    <Description>The Cuemon.IO assembly provides extensions methods and a lightweight resilience framework to support transient fault handling.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
@@ -23,14 +23,8 @@
     <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-  </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
   </ItemGroup>
 
 </Project>

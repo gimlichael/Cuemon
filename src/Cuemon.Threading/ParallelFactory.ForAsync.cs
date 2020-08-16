@@ -343,7 +343,7 @@ namespace Cuemon.Threading
             var options = Patterns.Configure(setup);
             var exceptions = new ConcurrentBag<Exception>();
 
-            for (;;)
+            while (true)
             {
                 var workChunks = options.PartitionSize;
                 var queue = new List<Task>();

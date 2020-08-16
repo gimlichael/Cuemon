@@ -325,7 +325,7 @@ namespace Cuemon.Threading
             var exceptions = new ConcurrentBag<Exception>();
             var result = new ConcurrentDictionary<TNumber, TResult>();
 
-            for (;;)
+            while (true)
             {
                 var workChunks = options.PartitionSize;
                 var queue = new List<Task>();
