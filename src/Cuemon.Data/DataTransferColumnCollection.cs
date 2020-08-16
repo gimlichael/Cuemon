@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-// ReSharper disable PossibleNullReferenceException
 
 namespace Cuemon.Data
 {

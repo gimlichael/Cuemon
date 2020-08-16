@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Common;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace Cuemon.Data
@@ -139,7 +140,7 @@ namespace Cuemon.Data
                         _defaultFields = new OrderedDictionary();
                         if (UseOrdinal)
                         {
-                            foreach (IndexMapping mapping in Mappings)
+                            foreach (var mapping in Mappings.Where(mapping => mapping is IndexMapping).Cast<IndexMapping>())
                             {
                                 _defaultFields.Add(mapping.SourceIndex, null);
                             }
@@ -212,33 +213,33 @@ namespace Cuemon.Data
         /// <summary>
         /// Gets the value of the specified column as a Boolean.
         /// </summary>
-        /// <param name="i">The zero-based column ordinal.</param>
+        /// <param name="ordinal">The zero-based column ordinal.</param>
         /// <returns>The value of the column.</returns>
-        public override bool GetBoolean(int i)
+        public override bool GetBoolean(int ordinal)
         {
-            return Convert.ToBoolean(GetValue(i), CultureInfo.InvariantCulture);
+            return Convert.ToBoolean(GetValue(ordinal), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Gets the 8-bit unsigned integer value of the specified column.
         /// </summary>
-        /// <param name="i">The zero-based column ordinal.</param>
+        /// <param name="ordinal">The zero-based column ordinal.</param>
         /// <returns>The 8-bit unsigned integer value of the specified column.</returns>
-        public override byte GetByte(int i)
+        public override byte GetByte(int ordinal)
         {
-            return Convert.ToByte(GetValue(i), CultureInfo.InvariantCulture);
+            return Convert.ToByte(GetValue(ordinal), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Reads a stream of bytes from the specified column, starting at location indicated by dataOffset, into the buffer, starting at the location indicated by bufferOffset.
         /// </summary>
-        /// <param name="i">The zero-based column ordinal.</param>
-        /// <param name="fieldOffset">The index within the row from which to begin the read operation.</param>
+        /// <param name="ordinal">The zero-based column ordinal.</param>
+        /// <param name="dataOffset">The index within the row from which to begin the read operation.</param>
         /// <param name="buffer">The buffer into which to copy the data.</param>
-        /// <param name="bufferoffset">The index with the buffer to which the data will be copied.</param>
+        /// <param name="bufferOffset">The index with the buffer to which the data will be copied.</param>
         /// <param name="length">The maximum number of characters to read.</param>
         /// <returns>The actual number of bytes read.</returns>
-        public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        public override long GetBytes(int ordinal, long dataOffset, byte[] buffer, int bufferOffset, int length)
         {
             return 0;
         }
@@ -246,41 +247,41 @@ namespace Cuemon.Data
         /// <summary>
         /// Gets the character value of the specified column.
         /// </summary>
-        /// <param name="i">The zero-based column ordinal.</param>
+        /// <param name="ordinal">The zero-based column ordinal.</param>
         /// <returns>The character value of the specified column.</returns>
-        public override char GetChar(int i)
+        public override char GetChar(int ordinal)
         {
-            return Convert.ToChar(GetValue(i), CultureInfo.InvariantCulture);
+            return Convert.ToChar(GetValue(ordinal), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Gets the date and time data value of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The date and time data value of the specified field.</returns>
-        public override DateTime GetDateTime(int i)
+        public override DateTime GetDateTime(int ordinal)
         {
-            return (DateTime)GetValue(i);
+            return (DateTime)GetValue(ordinal);
         }
 
         /// <summary>
         /// Gets the fixed-position numeric value of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The fixed-position numeric value of the specified field.</returns>
-        public override decimal GetDecimal(int i)
+        public override decimal GetDecimal(int ordinal)
         {
-            return Convert.ToDecimal(GetValue(i), CultureInfo.InvariantCulture);
+            return Convert.ToDecimal(GetValue(ordinal), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Gets the double-precision floating point number of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The double-precision floating point number of the specified field.</returns>
-        public override double GetDouble(int i)
+        public override double GetDouble(int ordinal)
         {
-            return Convert.ToDouble(GetValue(i), CultureInfo.InvariantCulture);
+            return Convert.ToDouble(GetValue(ordinal), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -296,74 +297,74 @@ namespace Cuemon.Data
         /// <summary>
         /// Gets the <see cref="T:System.Type" /> information corresponding to the type of <see cref="T:System.Object" /> that would be returned from <see cref="M:System.Data.IDataRecord.GetValue(System.Int32)" />.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The <see cref="T:System.Type" /> information corresponding to the type of <see cref="T:System.Object" /> that would be returned from <see cref="M:System.Data.IDataRecord.GetValue(System.Int32)" />.</returns>
-        public override Type GetFieldType(int i)
+        public override Type GetFieldType(int ordinal)
         {
-            return GetValue(i).GetType();
+            return GetValue(ordinal).GetType();
         }
 
         /// <summary>
         /// Gets the single-precision floating point number of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The single-precision floating point number of the specified field.</returns>
-        public override float GetFloat(int i)
+        public override float GetFloat(int ordinal)
         {
-            return Convert.ToSingle(GetValue(i), CultureInfo.InvariantCulture);
+            return Convert.ToSingle(GetValue(ordinal), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Returns the GUID value of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The GUID value of the specified field.</returns>
-        public override Guid GetGuid(int i)
+        public override Guid GetGuid(int ordinal)
         {
-            return (Guid)GetValue(i);
+            return (Guid)GetValue(ordinal);
         }
 
         /// <summary>
         /// Gets the 16-bit signed integer value of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The 16-bit signed integer value of the specified field.</returns>
-        public override short GetInt16(int i)
+        public override short GetInt16(int ordinal)
         {
-            return Convert.ToInt16(GetValue(i), CultureInfo.InvariantCulture);
+            return Convert.ToInt16(GetValue(ordinal), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Gets the 32-bit signed integer value of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The 32-bit signed integer value of the specified field.</returns>
-        public override int GetInt32(int i)
+        public override int GetInt32(int ordinal)
         {
-            return Convert.ToInt32(GetValue(i), CultureInfo.InvariantCulture);
+            return Convert.ToInt32(GetValue(ordinal), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Gets the 64-bit signed integer value of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The 64-bit signed integer value of the specified field.</returns>
-        public override long GetInt64(int i)
+        public override long GetInt64(int ordinal)
         {
-            return Convert.ToInt64(GetValue(i), CultureInfo.InvariantCulture);
+            return Convert.ToInt64(GetValue(ordinal), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Gets the name for the field to find.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The name of the field or the empty string (""), if there is no value to return.</returns>
-        public override string GetName(int i)
+        public override string GetName(int ordinal)
         {
             var current = 0;
             foreach (var mapping in Mappings)
             {
-                if (i == current) { return mapping.Source; }
+                if (ordinal == current) { return mapping.Source; }
                 current++;
             }
             return string.Empty;
@@ -395,31 +396,31 @@ namespace Cuemon.Data
         /// <summary>
         /// Gets the string value of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The string value of the specified field.</returns>
-        public override string GetString(int i)
+        public override string GetString(int ordinal)
         {
-            return GetValue(i) as string;
+            return GetValue(ordinal) as string;
         }
 
         /// <summary>
         /// Return the value of the specified field.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>The <see cref="T:System.Object" /> which will contain the field value upon return.</returns>
-        public override object GetValue(int i)
+        public override object GetValue(int ordinal)
         {
-            return Fields[i];
+            return Fields[ordinal];
         }
 
         /// <summary>
         /// Return whether the specified field is set to null.
         /// </summary>
-        /// <param name="i">The index of the field to find.</param>
+        /// <param name="ordinal">The index of the field to find.</param>
         /// <returns>true if the specified field is set to null; otherwise, false.</returns>
-        public override bool IsDBNull(int i)
+        public override bool IsDBNull(int ordinal)
         {
-            return GetValue(i) == null || GetValue(i) == DBNull.Value;
+            return GetValue(ordinal) == null || GetValue(ordinal) == DBNull.Value;
         }
 
         /// <summary>
@@ -481,13 +482,13 @@ namespace Cuemon.Data
         /// <summary>
         /// Reads a stream of characters from the specified column, starting at location indicated by dataOffset, into the buffer, starting at the location indicated by bufferOffset.
         /// </summary>
-        /// <param name="i">The zero-based column ordinal.</param>
-        /// <param name="fieldoffset">The index within the row from which to begin the read operation.</param>
+        /// <param name="ordinal">The zero-based column ordinal.</param>
+        /// <param name="dataOffset">The index within the row from which to begin the read operation.</param>
         /// <param name="buffer">The buffer into which to copy the data.</param>
-        /// <param name="bufferoffset">The index with the buffer to which the data will be copied.</param>
+        /// <param name="bufferOffset">The index with the buffer to which the data will be copied.</param>
         /// <param name="length">The maximum number of characters to read.</param>
         /// <returns>The actual number of characters read.</returns>
-        public override long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
+        public override long GetChars(int ordinal, long dataOffset, char[] buffer, int bufferOffset, int length)
         {
             return 0;
         }
@@ -495,9 +496,9 @@ namespace Cuemon.Data
         /// <summary>
         /// Gets the name of the data type.
         /// </summary>
-        /// <param name="i">The zero-based column ordinal.</param>
+        /// <param name="ordinal">The zero-based column ordinal.</param>
         /// <returns>System.String.</returns>
-        public override string GetDataTypeName(int i)
+        public override string GetDataTypeName(int ordinal)
         {
             return typeof(string).ToString();
         }

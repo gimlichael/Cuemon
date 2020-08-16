@@ -3,19 +3,21 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Cuemon.Text;
 
 namespace Cuemon.Data
 {
     /// <summary>
-    /// Provides a way of reading a forward-only stream of rows from a DSV based data source. This class cannot be inherited.
+    /// Provides a concurrent way of reading a forward-only stream of rows from a DSV (Delimiter Separated Values) based data source. This class cannot be inherited.
     /// </summary>
-    public sealed class DelimiterSeparatedValuesDataReader : DataReader<string[]>
+    public sealed class ConcurrentDsvDataReader : DataReader<string[]>
     {
         private int _rowCount;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelimiterSeparatedValuesDataReader"/> class.
+        /// Initializes a new instance of the <see cref="DsvDataReader"/> class.
         /// </summary>
         /// <param name="reader">The <see cref="StreamReader"/> object that contains the DSV data.</param>
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
@@ -31,18 +33,18 @@ namespace Cuemon.Data
         /// <paramref name="delimiter"/> is null -or-
         /// <paramref name="qualifier"/> is null.
         /// </exception>
-        public DelimiterSeparatedValuesDataReader(StreamReader reader, string header = null, char delimiter = ',', char qualifier = '"', Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParserFactory.FromValueType().Parse)
+        public ConcurrentDsvDataReader(StreamReader reader, string header = null, char delimiter = ',', char qualifier = '"', Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParserFactory.FromValueType().Parse)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
-            Validator.ThrowIfNull(delimiter, nameof(delimiter));
-            Validator.ThrowIfNull(qualifier, nameof(qualifier));
+
             if (header == null)
             {
                 header = reader.ReadLine();
-                Validator.ThrowIfNullOrWhitespace(header, nameof(header));
+                Validator.ThrowIfNull(header, nameof(header));
             }
+
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
-            
+
             Reader = reader;
             Header = DelimitedString.Split(header, o =>
             {
@@ -51,6 +53,9 @@ namespace Cuemon.Data
             });
             Delimiter = delimiter;
             Qualifier = qualifier;
+            var headerFields = new OrderedDictionary();
+            foreach (var hf in Header) { headerFields.Add(hf, null); }
+            SetFields(headerFields);
         }
 
         private StreamReader Reader { get; }
@@ -71,48 +76,74 @@ namespace Cuemon.Data
         /// Gets the qualifier that surrounds a field.
         /// </summary>
         /// <value>The qualifier that surrounds a field.</value>
-        public char Qualifier { get;  }
+        public char Qualifier { get; }
 
         /// <summary>
         /// Gets the currently processed row count of this instance.
         /// </summary>
         /// <value>The currently processed row count of this instance.</value>
-        /// <remarks>This property is incremented when the invoked <see cref="Read"/> method returns <c>true</c>.</remarks>
+        /// <remarks>This property is incremented when the invoked <see cref="ReadAsync"/> method returns <c>true</c>.</remarks>
         public override int RowCount => _rowCount;
 
         /// <summary>
-        /// Advances this instance to the next line of the DSV data source.
+        /// Gets the value that indicates that no more rows exists.
+        /// </summary>
+        /// <value>The value that indicates that no more rows exists.</value>
+        protected override string[] NullRead => null;
+
+        /// <summary>
+        /// Called when this object is being disposed by either <see cref="Disposable.Dispose()" /> or <see cref="Disposable.Dispose(bool)" /> having <c>disposing</c> set to <c>true</c> and <see cref="Disposable.Disposed" /> is <c>false</c>.
+        /// </summary>
+        protected override void OnDisposeManagedResources()
+        {
+            Reader?.Dispose();
+            Ss?.Dispose();
+        }
+
+        private static readonly SemaphoreSlim Ss = new SemaphoreSlim(1);
+
+        /// <summary>
+        /// Asynchronously advances this instance to the next line of the DSV data source.
         /// </summary>
         /// <returns><c>true</c> if there are more lines; otherwise, <c>false</c>.</returns>
         /// <exception cref="ObjectDisposedException">
         /// This instance has been disposed.
         /// </exception>
-        public bool Read()
+        public async Task<bool> ReadAsync()
         {
-            if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
-            string line;
-            while ((line = Reader.ReadLine()) != null)
+            await Ss.WaitAsync().ConfigureAwait(false);
+            try
             {
-                var tb = new TokenBuilder(Delimiter, Qualifier, Header.Length).Append(line);
-                while (!tb.IsValid && !Reader.EndOfStream)
+                if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
+                string line;
+                while ((line = await Reader.ReadLineAsync().ConfigureAwait(false)) != null)
                 {
-                    tb.Append(Reader.ReadLine());
+
+                    var tb = new TokenBuilder(Delimiter, Qualifier, Header.Length).Append(line);
+                    while (!tb.IsValid && !Reader.EndOfStream)
+                    {
+                        tb.Append(await Reader.ReadLineAsync().ConfigureAwait(false));
+                    }
+                    Interlocked.Increment(ref _rowCount);
+                    return ReadNext(DelimitedString.Split(tb.ToString(), o =>
+                    {
+                        o.Delimiter = Delimiter.ToString(CultureInfo.InvariantCulture);
+                        o.Qualifier = Qualifier.ToString(CultureInfo.InvariantCulture);
+                    })) != NullRead;
                 }
-                _rowCount++;
-                return ReadNext(DelimitedString.Split(tb.ToString(), o =>
-                {
-                    o.Delimiter = Delimiter.ToString(CultureInfo.InvariantCulture);
-                    o.Qualifier = Qualifier.ToString(CultureInfo.InvariantCulture);
-                })) != null;
+                return false;
             }
-            return false;
+            finally
+            {
+               Ss.Release();
+            }
         }
 
         /// <summary>
         /// Advances this instance to the next record.
         /// </summary>
         /// <returns>A <see cref="T:string[]"/> for as long as there are rows; <see cref="NullRead"/> when no more rows exists.</returns>
-        protected override string[] ReadNext(string[] columns = null)
+        protected override string[] ReadNext(string[] columns)
         {
             if (columns != NullRead)
             {
@@ -132,20 +163,6 @@ namespace Cuemon.Data
                 SetFields(fields);
             }
             return columns;
-        }
-
-        /// <summary>
-        /// Gets the value that indicates that no more rows exists.
-        /// </summary>
-        /// <value>The value that indicates that no more rows exists.</value>
-        protected override string[] NullRead => null;
-
-        /// <summary>
-        /// Called when this object is being disposed by either <see cref="Disposable.Dispose()" /> or <see cref="Disposable.Dispose(bool)" /> having <c>disposing</c> set to <c>true</c> and <see cref="Disposable.Disposed" /> is <c>false</c>.
-        /// </summary>
-        protected override void OnDisposeManagedResources()
-        {
-            Reader?.Dispose();
         }
     }
 }

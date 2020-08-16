@@ -91,7 +91,7 @@ namespace Cuemon.Data
 
         bool IDataReader.Read()
         {
-            var value = ReadNext();
+            var value = ReadNext(default);
             return !value.Equals(NullRead);
         }
 
@@ -105,7 +105,7 @@ namespace Cuemon.Data
         /// Advances the <see cref="T:IDataReader" /> to the next record.
         /// </summary>
         /// <returns><typeparamref name="TRead"/> for as long as there are rows; <see cref="NullRead"/> when no more rows exists.</returns>
-        protected abstract TRead ReadNext(TRead optional = default);
+        protected abstract TRead ReadNext(TRead optional);
 
         /// <summary>
         /// Sets the fields of the current record invoked by <see cref="ReadNext"/>.

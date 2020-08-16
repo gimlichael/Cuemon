@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using Cuemon.Collections.Generic;
 using Cuemon.Data;
-using Cuemon.Extensions.Resilience;
+using Cuemon.Resilience;
 
 namespace Cuemon.Extensions.Data.SqlClient
 {
