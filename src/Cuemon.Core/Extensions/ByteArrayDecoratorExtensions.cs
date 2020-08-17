@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Cuemon.Integrity;
 using Cuemon.Text;
 
 namespace Cuemon
@@ -16,7 +15,7 @@ namespace Cuemon
         /// <summary>
         /// Converts the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/> to its equivalent <see cref="string"/> representation.
         /// </summary>
-        /// <param name="decorator">The <see cref="IDecorator{Stream}"/> to extend.</param>
+        /// <param name="decorator">The <see cref="T:IDecorator{byte[]}"/> to extend.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
         /// <returns>A <see cref="string"/> that is equivalent to the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/>.</returns>
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
@@ -29,7 +28,7 @@ namespace Cuemon
         /// <summary>
         /// Converts the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/> to its equivalent <see cref="Stream"/> representation.
         /// </summary>
-        /// <param name="decorator">The <see cref="IDecorator{Stream}"/> to extend.</param>
+        /// <param name="decorator">The <see cref="T:IDecorator{byte[]}"/> to extend.</param>
         /// <returns>A <see cref="Stream"/> that is equivalent to the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
@@ -48,7 +47,7 @@ namespace Cuemon
         /// <summary>
         /// Converts the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/> to its equivalent <see cref="Stream"/> representation.
         /// </summary>
-        /// <param name="decorator">The <see cref="IDecorator{Stream}"/> to extend.</param>
+        /// <param name="decorator">The <see cref="T:IDecorator{byte[]}"/> to extend.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Stream"/> that is equivalent to the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
