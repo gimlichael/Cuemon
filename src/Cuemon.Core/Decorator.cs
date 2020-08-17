@@ -12,13 +12,14 @@ namespace Cuemon
         /// </summary>
         /// <typeparam name="T">The type of the <paramref name="inner"/> to decorate.</typeparam>
         /// <param name="inner">The type to decorate.</param>
+        /// <param name="throwIfNull"><c>true</c> to throw an <see cref="ArgumentNullException"/> when <paramref name="inner"/> is null; <c>false</c> to allow <paramref name="inner"/> to be null. Default is <c>true</c>.</param>
         /// <returns>An instance of <see cref="Decorator{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="inner"/> cannot be null.
         /// </exception>
-        public static Decorator<T> Enclose<T>(T inner)
+        public static Decorator<T> Enclose<T>(T inner, bool throwIfNull = true)
         {
-            return new Decorator<T>(inner);
+            return new Decorator<T>(inner, throwIfNull);
         }
 
         /// <summary>
@@ -49,12 +50,13 @@ namespace Cuemon
         /// Initializes a new instance of the <see cref="Decorator{T}"/> class.
         /// </summary>
         /// <param name="inner">The type to decorate.</param>
+        /// <param name="throwIfNull"><c>true</c> to throw an <see cref="ArgumentNullException"/> when <paramref name="inner"/> is null; <c>false</c> to allow <paramref name="inner"/> to be null..</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="inner"/> cannot be null.
         /// </exception>
-        internal Decorator(T inner)
+        internal Decorator(T inner, bool throwIfNull)
         {
-            Validator.ThrowIfNull(inner, nameof(inner));
+            if (throwIfNull) { Validator.ThrowIfNull(inner, nameof(inner)); }
             Inner = inner;
         }
 
