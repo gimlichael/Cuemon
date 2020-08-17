@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
-using Cuemon.Integrity;
 using Cuemon.Reflection;
+using Cuemon.Security.Cryptography;
 
 namespace Cuemon
 {

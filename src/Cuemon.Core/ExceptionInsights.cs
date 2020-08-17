@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using Cuemon.Diagnostics;
-using Cuemon.Integrity;
 using Cuemon.Reflection;
 using Cuemon.Text;
 using Cuemon.Threading;

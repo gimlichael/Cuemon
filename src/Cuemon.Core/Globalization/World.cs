@@ -19,7 +19,7 @@ namespace Cuemon.Globalization
         internal static readonly Lazy<IEnumerable<CultureInfo>> SpecificCultures = new Lazy<IEnumerable<CultureInfo>>(() =>
         {
             var cultures = new SortedList<string, CultureInfo>();
-            var specificCultures = CultureInfoGetCultures?.Invoke(null, new object[] { CultureTypesSpecificCultures }) as CultureInfo[];
+            var specificCultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
             if (specificCultures != null)
             {
                 foreach (var c in specificCultures)
