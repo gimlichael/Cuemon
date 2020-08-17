@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Cuemon.Extensions.Resilience
+namespace Cuemon.Resilience
 {
     /// <summary>
     /// The exception that is thrown when a latency related operation was taking to long to complete.

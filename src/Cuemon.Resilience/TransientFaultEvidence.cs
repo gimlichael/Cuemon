@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon.Extensions.Resilience
+namespace Cuemon.Resilience
 {
     /// <summary>
     /// Provides evidence about a faulted <see cref="TransientOperation"/>.
