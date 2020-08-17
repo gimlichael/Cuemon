@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Integrity;
+using Cuemon.Data.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Headers;
 

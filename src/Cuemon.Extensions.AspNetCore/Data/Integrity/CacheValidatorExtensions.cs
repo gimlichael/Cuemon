@@ -1,7 +1,7 @@
-﻿using Cuemon.Integrity;
+﻿using Cuemon.Data.Integrity;
 using Microsoft.Net.Http.Headers;
 
-namespace Cuemon.Extensions.AspNetCore.Integrity
+namespace Cuemon.Extensions.AspNetCore.Data.Integrity
 {
     /// <summary>
     /// Extension methods for the <see cref="CacheValidator"/> class.
@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.AspNetCore.Integrity
         public static EntityTagHeaderValue ToEntityTag(this CacheValidator validator)
         {
             Validator.ThrowIfNull(validator, nameof(validator));
-            return validator.ToEntityTagHeaderValue(validator.Strength != ChecksumStrength.Strong);
+            return validator.ToEntityTagHeaderValue(validator.Strength != EntityDataIntegrityStrength.Strong);
         }
     }
 }

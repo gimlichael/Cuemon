@@ -1,9 +1,9 @@
 ﻿using System;
 using Cuemon.AspNetCore.Http.Headers;
-using Cuemon.Integrity;
+using Cuemon.Data.Integrity;
 using Microsoft.Net.Http.Headers;
 
-namespace Cuemon.Extensions.AspNetCore.Integrity
+namespace Cuemon.Extensions.AspNetCore.Data.Integrity
 {
     /// <summary>
     /// Extension methods for the <see cref="ChecksumBuilder"/> class.

@@ -3,7 +3,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Configuration;
-using Cuemon.Integrity;
+using Cuemon.Data;
+using Cuemon.Data.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -38,7 +39,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                 Decorator.Enclose(context.HttpContext.Request).IsGetOrHeadMethod() &&
                 (Decorator.Enclose(context.HttpContext.Response.StatusCode).IsSuccessStatusCode() || Decorator.Enclose(context.HttpContext.Response.StatusCode).IsNotModifiedStatusCode()))
             {
-                if (context.Result is ObjectResult result && result.Value is ICacheableIntegrity integrity && integrity.Checksum.HasValue)
+                if (context.Result is ObjectResult result && result.Value is IEntityDataIntegrity integrity && integrity.Checksum.HasValue)
                 {
                     useFallbackToEntityTagResponseParser = false;
                     Options.EntityTagProvider.Invoke(integrity, context.HttpContext);

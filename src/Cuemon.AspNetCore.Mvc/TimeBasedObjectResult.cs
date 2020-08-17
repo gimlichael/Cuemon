@@ -1,9 +1,10 @@
 ﻿using System;
-using Cuemon.Integrity;
+using Cuemon.Data;
+using Cuemon.Data.Integrity;
 
 namespace Cuemon.AspNetCore.Mvc
 {
-    internal class TimeBasedObjectResult : CacheableObjectResult, ICacheableTimestamp
+    internal class TimeBasedObjectResult : CacheableObjectResult, IEntityDataTimestamp
     {
         internal TimeBasedObjectResult(object instance, DateTime created, DateTime? modified) : base(instance)
         {

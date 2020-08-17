@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.Integrity;
+using Cuemon.Data.Integrity;
 using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Http.Headers

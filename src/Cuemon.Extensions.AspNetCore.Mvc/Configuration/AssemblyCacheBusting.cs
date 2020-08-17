@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.Extensions.Integrity;
+using Cuemon.Extensions.Data.Integrity;
 using Microsoft.Extensions.Options;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration

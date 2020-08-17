@@ -1,7 +1,8 @@
 ﻿using System;
 using Cuemon.AspNetCore.Mvc;
 using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
-using Cuemon.Integrity;
+using Cuemon.Data;
+using Cuemon.Data.Integrity;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc
 {
@@ -17,7 +18,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         /// <param name="timestampProvider">The function delegate that resolves a timestamp from when the specified <paramref name="instance"/> was first created, expressed as the Coordinated Universal Time (UTC).</param>
         /// <param name="changedTimestampProvider">The function delegate that resolves a timestamp from when the specified <paramref name="instance"/> was last modified, expressed as the Coordinated Universal Time (UTC).</param>
         /// <returns>An <see cref="ICacheableObjectResult" /> implementation.</returns>
-        /// <seealso cref="ICacheableTimestamp" />
+        /// <seealso cref="IEntityDataTimestamp" />
         /// <seealso cref="CacheableObjectResult" />
         /// <seealso cref="HttpLastModifiedHeaderFilter"/>
         /// <seealso cref="HttpCacheableFilter"/>
@@ -33,7 +34,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         /// <param name="checksumProvider">The function delegate that resolves a checksum defining the data integrity of the specified <paramref name="instance"/>.</param>
         /// <param name="weakChecksumProvider">The function delegate that resolves a value hinting whether the specified <paramref name="checksumProvider"/> resembles a weak or a strong checksum strength.</param>
         /// <returns>An <see cref="ICacheableObjectResult" /> implementation.</returns>
-        /// <seealso cref="ICacheableIntegrity" />
+        /// <seealso cref="IEntityDataIntegrity" />
         /// <seealso cref="CacheableObjectResult" />
         /// <seealso cref="HttpEntityTagHeaderFilter"/>
         /// <seealso cref="HttpCacheableFilter"/>
@@ -51,9 +52,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         /// <param name="changedTimestampProvider">The function delegate that resolves a timestamp from when the specified <paramref name="instance"/> was last modified, expressed as the Coordinated Universal Time (UTC).</param>
         /// <param name="weakChecksumProvider">The function delegate that resolves a value hinting whether the specified <paramref name="checksumProvider"/> resembles a weak or a strong checksum strength.</param>
         /// <returns>An <see cref="ICacheableObjectResult" /> implementation.</returns>
-        /// <seealso cref="ICacheableTimestamp" />
-        /// <seealso cref="ICacheableIntegrity" />
-        /// <seealso cref="ICacheableEntity" />
+        /// <seealso cref="IEntityDataTimestamp" />
+        /// <seealso cref="IEntityDataIntegrity" />
+        /// <seealso cref="IEntityData" />
         /// <seealso cref="CacheableObjectResult" />
         /// <seealso cref="HttpLastModifiedHeaderFilter"/>
         /// <seealso cref="HttpEntityTagHeaderFilter"/>
@@ -71,7 +72,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         /// <param name="timestampProvider">The function delegate that resolves a timestamp from when the specified <paramref name="instance"/> was first created, expressed as the Coordinated Universal Time (UTC).</param>
         /// <param name="changedTimestampProvider">The function delegate that resolves a timestamp from when the specified <paramref name="instance"/> was last modified, expressed as the Coordinated Universal Time (UTC).</param>
         /// <returns>An <see cref="ICacheableObjectResult" /> implementation.</returns>
-        /// <seealso cref="ICacheableTimestamp" />
+        /// <seealso cref="IEntityDataTimestamp" />
         /// <seealso cref="CacheableObjectResult{T}" />
         /// <seealso cref="HttpLastModifiedHeaderFilter"/>
         /// <seealso cref="HttpCacheableFilter"/>
@@ -88,7 +89,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         /// <param name="checksumProvider">The function delegate that resolves a checksum defining the data integrity of the specified <paramref name="instance"/>.</param>
         /// <param name="weakChecksumProvider">The function delegate that resolves a value hinting whether the specified <paramref name="checksumProvider"/> resembles a weak or a strong checksum strength.</param>
         /// <returns>An <see cref="ICacheableObjectResult" /> implementation.</returns>
-        /// <seealso cref="ICacheableIntegrity" />
+        /// <seealso cref="IEntityDataIntegrity" />
         /// <seealso cref="CacheableObjectResult{T}" />
         /// <seealso cref="HttpEntityTagHeaderFilter"/>
         /// <seealso cref="HttpCacheableFilter"/>
@@ -107,9 +108,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         /// <param name="changedTimestampProvider">The function delegate that resolves a timestamp from when the specified <paramref name="instance"/> was last modified, expressed as the Coordinated Universal Time (UTC).</param>
         /// <param name="weakChecksumProvider">The function delegate that resolves a value hinting whether the specified <paramref name="checksumProvider"/> resembles a weak or a strong checksum strength.</param>
         /// <returns>An <see cref="ICacheableObjectResult" /> implementation.</returns>
-        /// <seealso cref="ICacheableTimestamp" />
-        /// <seealso cref="ICacheableIntegrity" />
-        /// <seealso cref="ICacheableEntity" />
+        /// <seealso cref="IEntityDataTimestamp" />
+        /// <seealso cref="IEntityDataIntegrity" />
+        /// <seealso cref="IEntityData" />
         /// <seealso cref="CacheableObjectResult{T}" />
         /// <seealso cref="HttpLastModifiedHeaderFilter"/>
         /// <seealso cref="HttpEntityTagHeaderFilter"/>

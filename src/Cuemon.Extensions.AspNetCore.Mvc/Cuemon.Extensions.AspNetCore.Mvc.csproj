@@ -32,7 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.Integrity\Cuemon.Extensions.Integrity.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Data.Integrity\Cuemon.Extensions.Data.Integrity.csproj" />
   </ItemGroup>
 
 </Project>

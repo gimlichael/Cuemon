@@ -2,7 +2,7 @@
 using System.Globalization;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Collections.Generic;
-using Cuemon.Integrity;
+using Cuemon.Data.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;

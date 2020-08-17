@@ -1,6 +1,7 @@
 ﻿using System;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Integrity;
+using Cuemon.Data;
+using Cuemon.Data.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -49,9 +50,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         public bool HasLastModifiedProvider => LastModifiedProvider != null;
 
         /// <summary>
-        /// Gets or sets the delegate that is invoked when a result of a <see cref="ResultExecutingContext"/> is an <see cref="ObjectResult"/> and the value is an <see cref="ICacheableTimestamp"/> implementation.
+        /// Gets or sets the delegate that is invoked when a result of a <see cref="ResultExecutingContext"/> is an <see cref="ObjectResult"/> and the value is an <see cref="IEntityDataTimestamp"/> implementation.
         /// </summary>
         /// <value>The delegate that provides an HTTP Last-Modified header.</value>
-        public Action<ICacheableTimestamp, HttpContext> LastModifiedProvider { get; set; }
+        public Action<IEntityDataTimestamp, HttpContext> LastModifiedProvider { get; set; }
     }
 }

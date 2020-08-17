@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Integrity;
+using Cuemon.Data;
+using Cuemon.Data.Integrity;
+using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -59,7 +61,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
             EntityTagProvider = (integrity, context) =>
             {
                 var builder = new ChecksumBuilder(integrity.Checksum.GetBytes());
-                Decorator.Enclose(context.Response).TryAddOrUpdateEntityTagHeader(context.Request, builder, integrity.Validation == ChecksumStrength.Weak);
+                Decorator.Enclose(context.Response).TryAddOrUpdateEntityTagHeader(context.Request, builder, integrity.Validation == EntityDataIntegrityStrength.Weak);
             };
             EntityTagResponseParser = (body, request, response) =>
             {
@@ -76,10 +78,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         public bool UseEntityTagResponseParser { get; set; }
 
         /// <summary>
-        /// Gets or sets the delegate that is invoked when a result of a <see cref="ResultExecutingContext"/> is an <see cref="ObjectResult"/> and the value is an <see cref="ICacheableIntegrity"/> implementation.
+        /// Gets or sets the delegate that is invoked when a result of a <see cref="ResultExecutingContext"/> is an <see cref="ObjectResult"/> and the value is an <see cref="IEntityDataIntegrity"/> implementation.
         /// </summary>
         /// <value>The delegate that provides an HTTP ETag header.</value>
-        public Action<ICacheableIntegrity, HttpContext> EntityTagProvider { get; set; }
+        public Action<IEntityDataIntegrity, HttpContext> EntityTagProvider { get; set; }
 
         /// <summary>
         /// Gets or sets the delegate that is invoked as a fallback from the <see cref="EntityTagProvider"/> when <see cref="UseEntityTagResponseParser"/> is set to <c>true</c>.

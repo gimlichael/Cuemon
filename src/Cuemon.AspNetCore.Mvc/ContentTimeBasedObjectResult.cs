@@ -1,30 +1,31 @@
 ﻿using System;
-using Cuemon.Integrity;
+using Cuemon.Data.Integrity;
+using Cuemon.Security.Cryptography;
 
 namespace Cuemon.AspNetCore.Mvc
 {
-    internal class ContentTimeBasedObjectResult :  CacheableObjectResult, ICacheableEntity
+    internal class ContentTimeBasedObjectResult :  CacheableObjectResult, IEntityData
     {
-        internal ContentTimeBasedObjectResult(object instance, ICacheableTimestamp timestamp, ICacheableIntegrity integrity) : base(instance)
+        internal ContentTimeBasedObjectResult(object instance, IEntityDataTimestamp timestamp, IEntityDataIntegrity dataIntegrity) : base(instance)
         {
             Created = timestamp.Created;
-            Checksum = integrity.Checksum;
+            Checksum = dataIntegrity.Checksum;
             Modified = timestamp.Modified;
-            Validation = integrity.Validation;
+            Validation = dataIntegrity.Validation;
         }
 
         public DateTime Created { get; set; }
 
         public DateTime? Modified { get; set; }
 
-        public ChecksumStrength Validation { get; set; }
+        public EntityDataIntegrityStrength Validation { get; set; }
 
         public HashResult Checksum { get; set; }
     }
 
     internal class ContentTimeBasedObjectResult<T> : ContentTimeBasedObjectResult
     {
-        internal ContentTimeBasedObjectResult(T instance, ICacheableTimestamp timestamp, ICacheableIntegrity integrity) : base(instance, timestamp, integrity)
+        internal ContentTimeBasedObjectResult(T instance, IEntityDataTimestamp timestamp, IEntityDataIntegrity dataIntegrity) : base(instance, timestamp, dataIntegrity)
         {
         }
     }

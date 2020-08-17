@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Configuration;
-using Cuemon.Integrity;
+using Cuemon.Data;
+using Cuemon.Data.Integrity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -35,7 +36,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                 Decorator.Enclose(context.HttpContext.Request).IsGetOrHeadMethod() && 
                 Decorator.Enclose(context.HttpContext.Response.StatusCode).IsSuccessStatusCode())
             {
-                if (context.Result is ObjectResult result && result.Value is ICacheableTimestamp timestamp) { Options.LastModifiedProvider.Invoke(timestamp, context.HttpContext); }
+                if (context.Result is ObjectResult result && result.Value is IEntityDataTimestamp timestamp) { Options.LastModifiedProvider.Invoke(timestamp, context.HttpContext); }
             }
             return Task.CompletedTask;
         }

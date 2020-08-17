@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Cuemon.Integrity;
+using Cuemon.Security.Cryptography;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
 {

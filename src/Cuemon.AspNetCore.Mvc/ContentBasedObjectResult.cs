@@ -1,20 +1,21 @@
-﻿using Cuemon.Integrity;
+﻿using Cuemon.Data.Integrity;
+using Cuemon.Security.Cryptography;
 
 namespace Cuemon.AspNetCore.Mvc
 {
-    internal class ContentBasedObjectResult : CacheableObjectResult, ICacheableIntegrity
+    internal class ContentBasedObjectResult : CacheableObjectResult, IEntityDataIntegrity
     {
         internal ContentBasedObjectResult(object instance, byte[] checksum, bool isWeak = false) : base(instance)
         {
             Checksum = new HashResult(checksum);
             Validation = checksum == null || checksum.Length == 0 
-                ? ChecksumStrength.None 
+                ? EntityDataIntegrityStrength.Unspecified 
                 : isWeak
-                    ? ChecksumStrength.Weak
-                    : ChecksumStrength.Strong;
+                    ? EntityDataIntegrityStrength.Weak
+                    : EntityDataIntegrityStrength.Strong;
         }
 
-        public ChecksumStrength Validation { get; }
+        public EntityDataIntegrityStrength Validation { get; }
 
         public HashResult Checksum { get; }
     }

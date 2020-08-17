@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Integrity;
+using Cuemon.Data.Integrity;
 using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.Extensions.AspNetCore.Http

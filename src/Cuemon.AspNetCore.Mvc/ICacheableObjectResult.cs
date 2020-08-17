@@ -1,13 +1,13 @@
-﻿using Cuemon.Integrity;
+﻿using Cuemon.Data.Integrity;
 
 namespace Cuemon.AspNetCore.Mvc
 {
     /// <summary>
     /// An interface for providing hints to an implementor that an object is cacheable.
     /// </summary>
-    /// <seealso cref="ICacheableTimestamp"/>.
-    /// <seealso cref="ICacheableIntegrity"/>.
-    /// <seealso cref="ICacheableEntity"/>.
+    /// <seealso cref="IEntityDataTimestamp"/>.
+    /// <seealso cref="IEntityDataIntegrity"/>.
+    /// <seealso cref="IEntityData"/>.
     public interface ICacheableObjectResult 
     {
         /// <summary>
