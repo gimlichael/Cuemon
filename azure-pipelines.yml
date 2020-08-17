@@ -4,16 +4,29 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- development
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: UseDotNet@2
+  displayName: 'Use .Net Core SDK 2.2.110 (SonarCloud)'
+  inputs:
+    version: 2.2.110
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: UseDotNet@2
+  displayName: 'Use .Net Core 3.1.302'
+  inputs:
+    version: 3.1.302
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '$(Parameters.projects)'
+
+- task: DownloadSecureFile@1
+  displayName: 'Download cuemon.snk'
+  inputs:
+    secureFile: 'cuemon.snk'
