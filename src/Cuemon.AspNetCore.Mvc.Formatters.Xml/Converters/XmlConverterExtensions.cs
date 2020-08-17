@@ -5,9 +5,10 @@ using System.Linq;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xml;
-using Cuemon.Extensions.Xml.Serialization;
 using Cuemon.Extensions.Xml.Serialization.Converters;
 using Cuemon.Runtime.Serialization;
+using Cuemon.Xml.Serialization;
+using Cuemon.Xml.Serialization.Converters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 

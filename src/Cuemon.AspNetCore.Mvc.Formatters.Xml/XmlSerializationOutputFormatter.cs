@@ -2,8 +2,8 @@
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xml;
-using Cuemon.Extensions.Xml.Serialization.Formatters;
 using Cuemon.IO;
+using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 
