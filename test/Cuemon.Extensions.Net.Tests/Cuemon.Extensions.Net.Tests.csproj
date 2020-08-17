@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Net\Cuemon.Extensions.Net.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit\Cuemon.Extensions.Xunit.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Threading\Cuemon.Threading.csproj" />
   </ItemGroup>
 
 </Project>

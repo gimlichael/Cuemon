@@ -1,6 +1,6 @@
 ﻿using System;
+using Cuemon.Data.Integrity;
 using Cuemon.Extensions.Xunit;
-using Cuemon.Integrity;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -17,8 +17,8 @@ namespace Cuemon.AspNetCore.Mvc
         {
             var or = Generate.RandomString(2048);
             var cor = CacheableObjectFactory.CreateCacheableObjectResult(or, () => DateTime.MinValue, () => DateTime.MaxValue);
-            Assert.IsAssignableFrom<ICacheableTimestamp>(cor);
-            if (cor.Value is ICacheableTimestamp timestamp)
+            Assert.IsAssignableFrom<IEntityDataTimestamp>(cor);
+            if (cor.Value is IEntityDataTimestamp timestamp)
             {
                 Assert.True(timestamp.Created == DateTime.MinValue);
                 Assert.True(timestamp.Modified == DateTime.MinValue);
@@ -32,10 +32,10 @@ namespace Cuemon.AspNetCore.Mvc
             var or = Generate.RandomString(2048);
             var orBytes = Convertible.GetBytes(or);
             var cor = CacheableObjectFactory.CreateCacheableObjectResult(or, () => orBytes, () => false);
-            Assert.IsAssignableFrom<ICacheableIntegrity>(cor);
-            if (cor.Value is ICacheableIntegrity integrity)
+            Assert.IsAssignableFrom<IEntityDataIntegrity>(cor);
+            if (cor.Value is IEntityDataIntegrity integrity)
             {
-                Assert.True(integrity.Validation == ChecksumStrength.Strong);
+                Assert.True(integrity.Validation == EntityDataIntegrityStrength.Strong);
                 Assert.True(integrity.Checksum.GetBytes() == orBytes);
             }
             Assert.Equal(cor.Value, or);
@@ -47,12 +47,12 @@ namespace Cuemon.AspNetCore.Mvc
             var or = Generate.RandomString(2048);
             var orBytes = Convertible.GetBytes(or);
             var cor = CacheableObjectFactory.CreateCacheableObjectResult(or, () => DateTime.MinValue, () => orBytes, () => DateTime.MaxValue, () => false);
-            Assert.IsAssignableFrom<ICacheableEntity>(cor);
-            if (cor.Value is ICacheableEntity entity)
+            Assert.IsAssignableFrom<IEntityData>(cor);
+            if (cor.Value is IEntityData entity)
             {
                 Assert.True(entity.Created == DateTime.MinValue);
                 Assert.True(entity.Modified == DateTime.MinValue);
-                Assert.True(entity.Validation == ChecksumStrength.Strong);
+                Assert.True(entity.Validation == EntityDataIntegrityStrength.Strong);
                 Assert.True(entity.Checksum.GetBytes() == orBytes);
             }
             Assert.Equal(cor.Value, or);

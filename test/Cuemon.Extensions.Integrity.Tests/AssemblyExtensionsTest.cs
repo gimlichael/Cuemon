@@ -1,9 +1,9 @@
+using Cuemon.Data.Integrity;
 using Cuemon.Extensions.Xunit;
-using Cuemon.Integrity;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Extensions.Integrity
+namespace Cuemon.Extensions.Data.Integrity
 {
     public class AssemblyExtensionsTest : Test
     {
@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.Integrity
 
             var a = typeof(AssemblyExtensionsTest).Assembly;
             var cv = a.GetCacheValidator();
-            Assert.Equal(ChecksumStrength.Strong, cv.Strength);
+            Assert.Equal(EntityDataIntegrityStrength.Strong, cv.Strength);
             Assert.NotEqual(cv.ToString(), CacheValidator.Default.ToString());
             TestOutput.WriteLine(cv.ToString());
         }

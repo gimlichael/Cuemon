@@ -4,7 +4,7 @@ using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Extensions.Web.Security
+namespace Cuemon.Extensions.Net.Security
 {
     public class StringExtensionsTest : Test
     {

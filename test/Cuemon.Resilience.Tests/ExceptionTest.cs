@@ -5,7 +5,7 @@ using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Extensions.Resilience
+namespace Cuemon.Resilience
 {
     public class ExceptionTest : Test
     {
