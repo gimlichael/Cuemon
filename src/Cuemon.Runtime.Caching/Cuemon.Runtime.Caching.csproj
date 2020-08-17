@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <ProjectGuid>160bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Product>Cuemon</Product>
+    <AssemblyName>Cuemon.Runtime.Caching</AssemblyName>
+    <AssemblyTitle>Cuemon.Runtime.Caching</AssemblyTitle>
+    <Description>The Cuemon.Runtime.Caching assembly provides access to abstractions related to the System.Threading namespace.</Description>
+    <Company>Geekle</Company>
+    <Authors>Michael Mortensen</Authors>
+    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
+    <FileVersion>6.0.2020.25</FileVersion>
+    <Version>6.0.2020.25</Version>
+    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
+    <Authors>Michael Mortensen</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+  </ItemGroup>
+
+</Project>
