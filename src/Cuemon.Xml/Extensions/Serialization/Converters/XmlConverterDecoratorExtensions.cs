@@ -299,7 +299,7 @@ namespace Cuemon.Xml.Serialization.Converters
         {
             var exceptionType = exception.GetType();
             writer.WriteStartElement(Decorator.Enclose(exceptionType.Name).SanitizeXmlElementName());
-            writer.WriteAttributeString("namespace", exceptionType.Namespace);
+            if (exceptionType.Namespace != null) { writer.WriteAttributeString("namespace", exceptionType.Namespace); }
             WriteExceptionCore(writer, exception, includeStackTrace);
             writer.WriteEndElement();
         }
@@ -352,10 +352,15 @@ namespace Cuemon.Xml.Serialization.Converters
 
         private static void WriteInnerExceptions(XmlWriter writer, Exception exception, bool includeStackTrace)
         {
-            var aggregated = exception as AggregateException;
             var innerExceptions = new List<Exception>();
-            if (aggregated != null) { innerExceptions.AddRange(aggregated.Flatten().InnerExceptions); }
-            if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
+            if (exception is AggregateException aggregated)
+            {
+                innerExceptions.AddRange(aggregated.Flatten().InnerExceptions);
+            }
+            else
+            {
+                if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }    
+            }
             if (innerExceptions.Count > 0)
             {
                 var endElementsToWrite = 0;
@@ -363,7 +368,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 {
                     var exceptionType = inner.GetType();
                     writer.WriteStartElement(Decorator.Enclose(exceptionType.Name).SanitizeXmlElementName());
-                    writer.WriteAttributeString("namespace", exceptionType.Namespace);
+                    if (exceptionType.Namespace != null) { writer.WriteAttributeString("namespace", exceptionType.Namespace); }
                     WriteExceptionCore(writer, inner, includeStackTrace);
                     endElementsToWrite++;
                 }
