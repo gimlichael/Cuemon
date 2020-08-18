@@ -12,7 +12,7 @@
     <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xml</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Xml assembly provides several extensions methods for XML scenarios such as escaping, conversions, parsing, sanitizing, serialization and deserialization.</Description>
+    <Description>The Cuemon.Extensions.Xml assembly provides several extension methods for XML scenarios such as escaping, conversions, parsing, sanitizing, serialization and deserialization.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>

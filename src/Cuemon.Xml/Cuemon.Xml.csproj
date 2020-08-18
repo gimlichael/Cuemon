@@ -12,7 +12,7 @@
     <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Xml</AssemblyTitle>
-    <Description>The Cuemon.Xml assembly provides access to features that extends both the System.Xml- and System.Xml.Serialization namespace. Included is a lightweight XML serializer framework that offers the same flexibility provided by the JSON equivalent from Newtonsoft.</Description>
+    <Description>The Cuemon.Xml assembly provides access to features that extends both the System.Xml- and System.Xml.Serialization namespaces. Included is a lightweight XML serializer framework that offers the same flexibility provided by the JSON equivalent from Newtonsoft.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
