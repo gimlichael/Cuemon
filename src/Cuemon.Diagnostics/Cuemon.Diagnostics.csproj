@@ -5,14 +5,14 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
-    <ProjectGuid>0f0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+    <ProjectGuid>1a0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
     <Product>Cuemon</Product>
-    <AssemblyName>Cuemon.Extensions.Diagnostics</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Diagnostics</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Diagnostics assembly provides extension methods for diagnostics related implementations.</Description>
+    <AssemblyName>Cuemon.Diagnostics</AssemblyName>
+    <AssemblyTitle>Cuemon.Diagnostics</AssemblyTitle>
+    <Description>The Cuemon.Diagnostics assembly provides access to features that extends the System.Diagnostics namespace.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
@@ -24,7 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
   </ItemGroup>
 
 </Project>
