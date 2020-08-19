@@ -36,8 +36,8 @@ namespace Cuemon.Reflection
             var disposableTypesCount = Decorator.Enclose(disposableTypes).Inner.Count();
             var configurationTypesCount = Decorator.Enclose(configurationTypes).Inner.Count();
 
-            Assert.Equal(676, allTypesCount);
-            Assert.Equal(8, disposableTypesCount);
+            Assert.Equal(532, allTypesCount);
+            Assert.Equal(7, disposableTypesCount);
             Assert.Equal(2, configurationTypesCount);
         }
 
