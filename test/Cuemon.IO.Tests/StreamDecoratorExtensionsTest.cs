@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
 using Xunit;
@@ -61,6 +62,41 @@ namespace Cuemon.IO
             TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
             TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
             TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+        }
+
+        
+        [Fact]
+        public async Task CompressGZipAsync_ShouldCompressAndDecompress()
+        {
+            var size = 1024 * 1024;
+            var fs = Generate.RandomString(size);
+            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            var cos = await Decorator.Enclose(os).CompressGZipAsync();
+            var dos = await Decorator.Enclose(cos).DecompressGZipAsync();
+            var osResult = await Decorator.Enclose(os).ToEncodedStringAsync(o => o.LeaveOpen = true);
+            var cosResult = await Decorator.Enclose(cos).ToEncodedStringAsync(o => o.LeaveOpen = true);
+            var dosResult = await Decorator.Enclose(dos).ToEncodedStringAsync(o => o.LeaveOpen = true);
+
+            Assert.Equal(size, os.Length);
+            Assert.NotEqual(os.Length, cos.Length);
+            Assert.True(os.Length > cos.Length);
+            Assert.Equal(os.Length, dos.Length);
+            Assert.Equal(osResult, dosResult);
+            Assert.NotEqual(osResult, cosResult);
+
+            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+        }
+
+        [Fact]
+        public async Task CompressGZipAsync_ShouldThrowTaskCanceledException()
+        {
+            var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
+            var size = 1024 * 1024;
+            var fs = Generate.RandomString(size);
+            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            await Assert.ThrowsAsync<TaskCanceledException>(async () => await Decorator.Enclose(os).CompressGZipAsync(o => o.CancellationToken = ctsShouldFail.Token));
         }
 
         [Fact]
