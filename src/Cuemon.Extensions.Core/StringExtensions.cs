@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Cuemon.Diagnostics;
 using Cuemon.Text;
 
 namespace Cuemon.Extensions
