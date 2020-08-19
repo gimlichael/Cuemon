@@ -266,23 +266,23 @@ namespace Cuemon.IO
 
         private static Task<Stream> CompressAsync<T>(IDecorator<Stream> decorator, StreamCompressionOptions options, Func<Stream, CompressionLevel, bool, T> decompressor) where T : Stream
         {
-            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async target =>
+            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
                 #if NETSTANDARD2_1
                 await using (var compressed = decompressor(target, options.Level, true))
                 {
-                    await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, options.CancellationToken).ConfigureAwait(false);
+                    await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, ct).ConfigureAwait(false);
                 }
                 #else
                 using (var compressed = decompressor(target, options.Level, true))
                 {
-                    await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, options.CancellationToken).ConfigureAwait(false);
+                    await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, ct).ConfigureAwait(false);
                 }
                 #endif
-                await target.FlushAsync(options.CancellationToken).ConfigureAwait(false);
+                await target.FlushAsync(ct).ConfigureAwait(false);
                 target.Position = 0;
                 return target;
-            });
+            }, options.CancellationToken);
         }
 
         private static Stream Decompress<T>(IDecorator<Stream> decorator, StreamCopyOptions options, Func<Stream, CompressionMode, bool, T> compressor) where T : Stream
@@ -301,23 +301,23 @@ namespace Cuemon.IO
 
         private static Task<Stream> DecompressAsync<T>(IDecorator<Stream> decorator, StreamCopyOptions options, Func<Stream, CompressionMode, bool, T> compressor) where T : Stream
         {
-            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async target =>
+            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
                 #if NETSTANDARD2_1
                 await using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
                 {
-                    await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, options.CancellationToken).ConfigureAwait(false);
+                    await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, ct).ConfigureAwait(false);
                 }
                 #else
                 using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
                 {
-                    await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, options.CancellationToken).ConfigureAwait(false);
+                    await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, ct).ConfigureAwait(false);
                 }
                 #endif
-                await target.FlushAsync(options.CancellationToken).ConfigureAwait(false);
+                await target.FlushAsync(ct).ConfigureAwait(false);
                 target.Position = 0;
                 return target;
-            });
+            }, options.CancellationToken);
         }
 
         /// <summary>

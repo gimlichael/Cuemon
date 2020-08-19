@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Text;
 
@@ -48,19 +49,20 @@ namespace Cuemon
         /// Converts the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/> to its equivalent <see cref="Stream"/> representation.
         /// </summary>
         /// <param name="decorator">The <see cref="T:IDecorator{byte[]}"/> to extend.</param>
+        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Stream"/> that is equivalent to the enclosed <see cref="T:byte[]"/> of the specified <paramref name="decorator"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static Task<Stream> ToStreamAsync(this IDecorator<byte[]> decorator)
+        public static Task<Stream> ToStreamAsync(this IDecorator<byte[]> decorator, CancellationToken ct = default)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(decorator.Inner.Length), async ms =>
+            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(decorator.Inner.Length), async (ms, cti) =>
             {
-                await ms.WriteAsync(decorator.Inner, 0, decorator.Inner.Length).ConfigureAwait(false);
+                await ms.WriteAsync(decorator.Inner, 0, decorator.Inner.Length, cti).ConfigureAwait(false);
                 ms.Position = 0;
                 return ms;
-            });
+            }, ct);
         }
     }
 }

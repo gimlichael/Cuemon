@@ -164,14 +164,14 @@ namespace Cuemon
         public static Task<Stream> ToStreamAsync(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async ms =>
+            var options = Patterns.Configure(setup);
+            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, ct) =>
             {
                 var bytes = Convertible.GetBytes(decorator.Inner, setup);
-                var options = Patterns.Configure(setup);
-                await ms.WriteAsync(bytes, 0, bytes.Length, options.CancellationToken).ConfigureAwait(false);
+                await ms.WriteAsync(bytes, 0, bytes.Length, ct).ConfigureAwait(false);
                 ms.Position = 0;
                 return ms;
-            });
+            }, options.CancellationToken);
         }
 
         /// <summary>
