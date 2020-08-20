@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cuemon.Diagnostics;
-using Cuemon.Runtime.Serialization;
 
 namespace Cuemon.Extensions.Diagnostics
 {
@@ -17,9 +16,9 @@ namespace Cuemon.Extensions.Diagnostics
         /// Converts the specified <paramref name="descriptor"/> to its equivalent string representation.
         /// </summary>
         /// <param name="descriptor">The <see cref="ExceptionDescriptor"/> to extend.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which may be configured.</param>
         /// <returns>A string that represents the specified <paramref name="descriptor"/>.</returns>
-        public static string ToInsightsString(this ExceptionDescriptor descriptor, Action<ExceptionDescriptorSerializationOptions> setup = null)
+        public static string ToInsightsString(this ExceptionDescriptor descriptor, Action<ExceptionDescriptorOptions> setup = null)
         {
             Validator.ThrowIfNull(descriptor, nameof(descriptor));
             var options = Patterns.Configure(setup);

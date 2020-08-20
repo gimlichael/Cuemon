@@ -1,17 +1,15 @@
-﻿using Cuemon.Diagnostics;
-
-namespace Cuemon.Runtime.Serialization
+﻿namespace Cuemon.Diagnostics
 {
     /// <summary>
     /// Specifies options that is related to <see cref="ExceptionDescriptor"/> operations.
     /// </summary>
-    public class ExceptionDescriptorSerializationOptions
+    public class ExceptionDescriptorOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionDescriptorSerializationOptions"/> class.
+        /// Initializes a new instance of the <see cref="ExceptionDescriptorOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="ExceptionDescriptorSerializationOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="ExceptionDescriptorOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -31,7 +29,7 @@ namespace Cuemon.Runtime.Serialization
         ///     </item>
         /// </list>
         /// </remarks>
-        public ExceptionDescriptorSerializationOptions()
+        public ExceptionDescriptorOptions()
         {
             IncludeFailure = true;
             IncludeStackTrace = true;

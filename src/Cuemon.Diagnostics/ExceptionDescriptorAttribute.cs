@@ -12,8 +12,6 @@ namespace Cuemon.Diagnostics
     public class ExceptionDescriptorAttribute : Attribute, IMessageLocalizer
     {
         private string _helpLink;
-        private string _message;
-        private readonly Lazy<string> _messageResolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionDescriptorAttribute"/> class.
@@ -24,19 +22,21 @@ namespace Cuemon.Diagnostics
             Validator.ThrowIfNull(failureType, nameof(failureType));
             Validator.ThrowIfNotContainsType(failureType, nameof(failureType), "The specified type is not an Exception.", typeof(Exception));
             FailureType = failureType;
-            _messageResolver = new Lazy<string>(() =>
+            Message = InitializeFromResource();
+        }
+
+        private string InitializeFromResource()
+        {
+            if (!string.IsNullOrWhiteSpace(MessageResourceName) && MessageResourceType != null)
             {
-                if (!string.IsNullOrWhiteSpace(MessageResourceName) && MessageResourceType != null)
+                var property = MessageResourceType.GetProperty(MessageResourceName, BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic);
+                var getMethod = property?.GetGetMethod(true);
+                if (getMethod != null && (getMethod.IsAssembly || getMethod.IsPublic))
                 {
-                    var property = MessageResourceType.GetProperty(MessageResourceName, BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic);
-                    var getMethod = property?.GetGetMethod(true);
-                    if (getMethod != null && (getMethod.IsAssembly || getMethod.IsPublic))
-                    {
-                        return property.GetValue(null, null) as string;
-                    }
+                    return property.GetValue(null, null) as string;
                 }
-                return _message;
-            });
+            }
+            return null;
         }
 
         /// <summary>
@@ -49,11 +49,7 @@ namespace Cuemon.Diagnostics
         /// Gets or sets a default message that describes the current failure.
         /// </summary>
         /// <value>The default message that explains the reason for the failure.</value>
-        public string Message
-        {
-            get => _messageResolver.Value;
-            set => _message = value;
-        }
+        public string Message { get; set; }
 
         /// <summary>
         /// Gets or sets the resource name (property name) to use as the key for lookups on the resource type.

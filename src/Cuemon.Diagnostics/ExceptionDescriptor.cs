@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using Cuemon.Collections.Generic;
+using Cuemon.Text;
 
 namespace Cuemon.Diagnostics
 {
@@ -13,6 +15,74 @@ namespace Cuemon.Diagnostics
     {
         private readonly IDictionary<string, object> _evidence;
         private readonly Lazy<IReadOnlyDictionary<string, object>> _lazyEvidence;
+        private const int IndexOfThrower = 0;
+        private const int IndexOfRuntimeParameters = 1;
+        private const int IndexOfThreadInfo = 2;
+        private const int IndexOfProcessInfo = 3;
+        private const int IndexOfEnvironmentInfo = 4;
+
+        /// <summary>
+        /// Converts the specified <paramref name="exception"/> to a developer friendly <see cref="ExceptionDescriptor"/>.
+        /// </summary>
+        /// <param name="exception">The <see cref="Exception"/> to convert.</param>
+        /// <param name="code">The error code that uniquely identifies the type of failure. Default is "UnhandledException".</param>
+        /// <param name="message">The message that explains the reason for the failure. Default is "An unhandled exception occurred.".</param>
+        /// <param name="helpLink">The optional link to a help page associated with this failure.</param>
+        /// <returns>An <see cref="ExceptionDescriptor"/> initialized with the provided arguments, and (if embedded) enriched with insights of the <paramref name="exception"/>.</returns>
+        /// <remarks>Any meta data embedded by <see cref="ExceptionInsights.Embed{T}(T,object[],SystemSnapshot)"/> will be extracted and added as evidence to the final result.</remarks>
+        public static ExceptionDescriptor Extract(Exception exception, string code = "UnhandledException", string message = "An unhandled exception occurred.", Uri helpLink = null)
+        {
+            Validator.ThrowIfNull(exception, nameof(exception));
+            var ed = new ExceptionDescriptor(exception, code, message, helpLink);
+            var base64Segments = RetrieveAndSweepExceptionData(exception);
+            if (!string.IsNullOrWhiteSpace(base64Segments))
+            {
+                var insights = base64Segments.Split('.');
+                if (insights.Length == 5)
+                {
+                    var builder = new StringBuilder();
+                    builder.AppendLine(exception.ToString());
+                    var memberSignature = Convertible.ToString(Convert.FromBase64String(insights[IndexOfThrower]));
+                    var runtimeParameters = Convertible.ToString(Convert.FromBase64String(insights[IndexOfRuntimeParameters]));
+                    ed.AddEvidence("Thrower", new MemberEvidence(memberSignature, string.IsNullOrWhiteSpace(runtimeParameters) ? null : runtimeParameters.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToDictionary(k => k.Substring(0, k.IndexOf('=')), v => v.Substring(v.IndexOf('=') + 1))), evidence => evidence);
+                    TryAddEvidence(ed, "Thread", insights[IndexOfThreadInfo]);
+                    TryAddEvidence(ed, "Process", insights[IndexOfProcessInfo]);
+                    TryAddEvidence(ed, "Environment", insights[IndexOfEnvironmentInfo]);
+                }
+            }
+            return ed;
+        }
+
+        private static string RetrieveAndSweepExceptionData(Exception exception)
+        {
+            string result = null;
+            var stack = new Stack<Exception>();
+            stack.Push(exception);
+            while (stack.Count > 0)
+            {
+                var e = stack.Pop();
+                if (e.Data[ExceptionInsights.Key] is string base64Segments && !string.IsNullOrWhiteSpace(base64Segments))
+                {
+                    if (result == null) { result = base64Segments; }
+                    e.Data.Remove(ExceptionInsights.Key);
+                }
+                if (e.InnerException != null) { stack.Push(e.InnerException); }
+            }
+            return result;
+        }
+
+        private static void TryAddEvidence(ExceptionDescriptor ed, string context, string base64)
+        {
+            var info = Convertible.ToString(Convert.FromBase64String(base64));
+            if (!string.IsNullOrWhiteSpace(info))
+            {
+                ed.AddEvidence(context, info.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries), s => s.ToDictionary(k => k.Substring(0, k.IndexOf(':')), v =>
+                {
+                    var presult = v.Substring(v.IndexOf(' ') + 1);
+                    return ParserFactory.FromValueType().Parse(presult == "null" ? null : presult);
+                }));
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionDescriptor"/> class.
