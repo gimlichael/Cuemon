@@ -6,7 +6,6 @@ using Cuemon.AspNetCore.Http;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xml;
 using Cuemon.Extensions.Xml.Serialization.Converters;
-using Cuemon.Runtime.Serialization;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Converters;
 using Microsoft.AspNetCore.Http;
@@ -36,9 +35,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// Adds an <see cref="ExceptionDescriptor"/> XML converter to the list.
         /// </summary>
         /// <param name="converters">The <see cref="T:IList{XmlConverter}" /> to extend.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which may be configured.</param>
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
-        public static IList<XmlConverter> AddHttpExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorSerializationOptions> setup = null)
+        public static IList<XmlConverter> AddHttpExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
             return converters.AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, qe) =>

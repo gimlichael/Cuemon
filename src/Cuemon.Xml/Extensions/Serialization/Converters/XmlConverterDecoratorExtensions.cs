@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Xml;
 using Cuemon.Diagnostics;
-using Cuemon.Runtime.Serialization;
 using Cuemon.Xml.Linq;
 
 namespace Cuemon.Xml.Serialization.Converters
@@ -157,12 +156,12 @@ namespace Cuemon.Xml.Serialization.Converters
         /// Adds an <see cref="ExceptionDescriptor"/> XML converter to the enclosed <see cref="T:IList{XmlConverter}"/> of the specified <paramref name="decorator"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="T:IDecorator{IList{XmlConverter}}" /> to extend.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorSerializationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which may be configured.</param>
         /// <returns>A reference to <paramref name="decorator"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static IDecorator<IList<XmlConverter>> AddExceptionDescriptorConverter(this IDecorator<IList<XmlConverter>> decorator, Action<ExceptionDescriptorSerializationOptions> setup = null)
+        public static IDecorator<IList<XmlConverter>> AddExceptionDescriptorConverter(this IDecorator<IList<XmlConverter>> decorator, Action<ExceptionDescriptorOptions> setup = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             var options = Patterns.Configure(setup);

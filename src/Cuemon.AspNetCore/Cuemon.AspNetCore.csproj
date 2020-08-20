@@ -42,6 +42,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
     <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>
 
