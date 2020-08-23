@@ -12,7 +12,7 @@
     <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Resilience</AssemblyName>
     <AssemblyTitle>Cuemon.Resilience</AssemblyTitle>
-    <Description>The Cuemon.Resilience assembly provides extensions methods and a lightweight resilience framework to support transient fault handling.</Description>
+    <Description>The Cuemon.Resilience assembly provides extension methods and a lightweight resilience framework to support transient fault handling.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
