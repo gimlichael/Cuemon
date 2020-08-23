@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using Cuemon.Extensions.Xunit;
+using Cuemon.Reflection;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -34,7 +36,7 @@ namespace Cuemon.Resilience
         [Fact]
         public void TransientFaultException_ShouldBeSerializable()
         {
-            var ex = new TransientFaultException(Generate.RandomString(25), new TransientFaultEvidence(10, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(2), "Class1.SomeMethod()"));
+            var ex = new TransientFaultException(Generate.RandomString(25), new TransientFaultEvidence(10, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(2), MethodDescriptor.Create(MethodBase.GetCurrentMethod())));
 
             TestOutput.WriteLine(ex.ToString());
 
@@ -44,6 +46,8 @@ namespace Cuemon.Resilience
                 bf.Serialize(ms, ex);
                 ms.Position = 0;
                 var desEx = bf.Deserialize(ms) as TransientFaultException;
+                TestOutput.WriteLine(ex.Evidence.GetHashCode().ToString());
+                TestOutput.WriteLine(desEx.Evidence.GetHashCode().ToString());
                 Assert.Equal(ex.Evidence, desEx.Evidence);
                 Assert.Equal(ex.Message, desEx.Message);
                 Assert.Equal(ex.ToString(), desEx.ToString());

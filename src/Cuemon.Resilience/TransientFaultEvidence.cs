@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.Serialization;
+using Cuemon.Reflection;
 
 namespace Cuemon.Resilience
 {
@@ -6,54 +8,71 @@ namespace Cuemon.Resilience
     /// Provides evidence about a faulted <see cref="TransientOperation"/>.
     /// </summary>
     [Serializable]
-    public class TransientFaultEvidence : IEquatable<TransientFaultEvidence>
+    public class TransientFaultEvidence : IEquatable<TransientFaultEvidence>, ISerializable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransientFaultEvidence"/> class.
         /// </summary>
-        /// <param name="attempts">The number of attempts the <paramref name="member"/> was invoked.</param>
-        /// <param name="recoveryWaitTime">The last wait time attempting recovery of <paramref name="member"/>.</param>
-        /// <param name="totalRecoveryWaitTime">The total wait time attempting recovery of <paramref name="member"/>.</param>
-        /// <param name="latency">The latency experienced with <paramref name="member"/>.</param>
-        /// <param name="member">The member being protected from a transient fault.</param>
-        public TransientFaultEvidence(int attempts, TimeSpan recoveryWaitTime, TimeSpan totalRecoveryWaitTime, TimeSpan latency, string member)
+        /// <param name="attempts">The number of attempts the <paramref name="descriptor"/> was invoked.</param>
+        /// <param name="recoveryWaitTime">The last wait time attempting recovery of <paramref name="descriptor"/>.</param>
+        /// <param name="totalRecoveryWaitTime">The total wait time attempting recovery of <paramref name="descriptor"/>.</param>
+        /// <param name="latency">The latency experienced with <paramref name="descriptor"/>.</param>
+        /// <param name="descriptor">The information about the method being protected from a transient fault.</param>
+        public TransientFaultEvidence(int attempts, TimeSpan recoveryWaitTime, TimeSpan totalRecoveryWaitTime, TimeSpan latency, MethodDescriptor descriptor)
         {
             Attempts = attempts;
             RecoveryWaitTime = recoveryWaitTime;
             TotalRecoveryWaitTime = totalRecoveryWaitTime;
             Latency = latency;
-            Member = member;
+            Descriptor = descriptor;
+            DescriptorSerializationCapture = descriptor?.ToString();
         }
 
         /// <summary>
-        /// Gets the number of attempts the <see cref="Member"/> was invoked.
+        /// Initializes a new instance of the <see cref="TransientFaultEvidence"/> class.
         /// </summary>
-        /// <value>The number of attempts the <see cref="Member"/> was invoked.</value>
+        /// <param name="info">The object that holds the serialized object data.</param>
+        /// <param name="context">The contextual information about the source or destination.</param>
+        protected TransientFaultEvidence(SerializationInfo info, StreamingContext context)
+        {
+            Attempts = info.GetInt32(nameof(Attempts));
+            RecoveryWaitTime = (TimeSpan)info.GetValue(nameof(RecoveryWaitTime), typeof(TimeSpan));
+            TotalRecoveryWaitTime = (TimeSpan)info.GetValue(nameof(TotalRecoveryWaitTime), typeof(TimeSpan));
+            Latency = (TimeSpan)info.GetValue(nameof(Latency), typeof(TimeSpan));
+            DescriptorSerializationCapture = info.GetString(nameof(DescriptorSerializationCapture));
+        }
+
+        /// <summary>
+        /// Gets the number of attempts the <see cref="Descriptor"/> was invoked.
+        /// </summary>
+        /// <value>The number of attempts the <see cref="Descriptor"/> was invoked.</value>
         public int Attempts { get; }
 
         /// <summary>
-        /// Gets the last wait time attempting recovery of <see cref="Member"/>.
+        /// Gets the last wait time attempting recovery of <see cref="Descriptor"/>.
         /// </summary>
-        /// <value>The last wait time attempting recovery of <see cref="Member"/>.</value>
+        /// <value>The last wait time attempting recovery of <see cref="Descriptor"/>.</value>
         public TimeSpan RecoveryWaitTime { get; }
 
         /// <summary>
-        /// Gets the total wait time attempting recovery of <see cref="Member"/>.
+        /// Gets the total wait time attempting recovery of <see cref="Descriptor"/>.
         /// </summary>
-        /// <value>The total wait time attempting recovery of <see cref="Member"/>.</value>
+        /// <value>The total wait time attempting recovery of <see cref="Descriptor"/>.</value>
         public TimeSpan TotalRecoveryWaitTime { get; }
 
         /// <summary>
-        /// Gets the latency experienced with <see cref="Member"/>.
+        /// Gets the latency experienced with <see cref="Descriptor"/>.
         /// </summary>
-        /// <value>The latency experienced with <see cref="Member"/>.</value>
+        /// <value>The latency experienced with <see cref="Descriptor"/>.</value>
         public TimeSpan Latency { get; }
 
         /// <summary>
-        /// Gets the member being protected from a transient fault.
+        /// Gets the information about the method being protected from a transient fault.
         /// </summary>
-        /// <value>The member being protected from a transient fault.</value>
-        public string Member { get; }
+        /// <value>The information about the method being protected from a transient fault.</value>
+        public MethodDescriptor Descriptor { get; }
+
+        private string DescriptorSerializationCapture { get; set; }
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
@@ -61,7 +80,23 @@ namespace Cuemon.Resilience
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return FormattableString.Invariant($"{Member} was invoked {Attempts} time(s) over a period of {Latency.Add(TotalRecoveryWaitTime)}. Last recovery wait time was {RecoveryWaitTime}, giving a total recovery wait time of {TotalRecoveryWaitTime}. Latency was {Latency}.");
+            var descriptor = Descriptor?.ToString() ?? DescriptorSerializationCapture;
+            return FormattableString.Invariant($"{descriptor} was invoked {Attempts} time(s) over a period of {Latency.Add(TotalRecoveryWaitTime)}. Last recovery wait time was {RecoveryWaitTime}, giving a total recovery wait time of {TotalRecoveryWaitTime}. Latency was {Latency}.");
+        }
+
+
+        /// <summary>
+        /// When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with information about the exception.
+        /// </summary>
+        /// <param name="info">The object that holds the serialized object data.</param>
+        /// <param name="context">The contextual information about the source or destination.</param>
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(Latency), Latency);
+            info.AddValue(nameof(TotalRecoveryWaitTime), TotalRecoveryWaitTime);
+            info.AddValue(nameof(RecoveryWaitTime), RecoveryWaitTime);
+            info.AddValue(nameof(Attempts), Attempts);
+            info.AddValue(nameof(DescriptorSerializationCapture), Descriptor.ToString());
         }
 
         /// <summary>
@@ -73,7 +108,7 @@ namespace Cuemon.Resilience
         {
             if (ReferenceEquals(null, other)) { return false; }
             if (ReferenceEquals(this, other)) { return true; }
-            return Attempts == other.Attempts && RecoveryWaitTime.Equals(other.RecoveryWaitTime) && TotalRecoveryWaitTime.Equals(other.TotalRecoveryWaitTime) && Latency.Equals(other.Latency) && Member == other.Member;
+            return Attempts == other.Attempts && RecoveryWaitTime.Equals(other.RecoveryWaitTime) && TotalRecoveryWaitTime.Equals(other.TotalRecoveryWaitTime) && Latency.Equals(other.Latency) && DescriptorSerializationCapture.Equals(other.DescriptorSerializationCapture);
         }
 
         /// <summary>
@@ -95,7 +130,9 @@ namespace Cuemon.Resilience
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return Generate.HashCode32(RecoveryWaitTime.Ticks, TotalRecoveryWaitTime.Ticks, Latency.Ticks, Member);
+            // ReSharper disable once NonReadonlyMemberInGetHashCode
+            var descriptor = Descriptor?.ToString() ?? DescriptorSerializationCapture;
+            return Generate.HashCode32(RecoveryWaitTime.Ticks, TotalRecoveryWaitTime.Ticks, Latency.Ticks, descriptor);
         }
     }
 }
