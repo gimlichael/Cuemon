@@ -11,7 +11,6 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// </summary>
     public class HttpRequestEvidence
     {
-        // TODO: REMEMBER TO TEST THIS THOROUGHLY ON ASPNET CORE 3
         internal HttpRequestEvidence(HttpRequest request, Func<Stream, string> bodyParser = null)
         {
             var hasMultipartContentType = request.GetMultipartBoundary().Length > 0;
@@ -23,7 +22,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             if (request.HasFormContentType && !hasMultipartContentType) { Form = request.Form; }
             Cookies = request.Cookies;
             #if NETCOREAPP
-            Body = bodyParser(request.BodyReader.AsStream(true));
+            var requestBody = new MemoryStream();
+            Decorator.Enclose(request.BodyReader.AsStream(true)).CopyStream(requestBody);
+            Body =  bodyParser(requestBody);
             #else
             Body = bodyParser(request.Body);
             #endif
