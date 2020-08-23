@@ -1,4 +1,7 @@
-﻿namespace Cuemon
+﻿using System;
+using Cuemon.Collections.Generic;
+
+namespace Cuemon
 {
     /// <summary>
     /// Represents a <see cref="Template"/> with an empty value.
@@ -625,6 +628,16 @@
         public virtual object[] ToArray()
         {
             return new object[0];
+        }
+
+        /// <summary>
+        /// Returns an array of objects that represent the arguments passed to this instance concatenated with the specified <paramref name="additionalArgs"/>.
+        /// </summary>
+        /// <param name="additionalArgs">The additional arguments to concatenate with the objects that represent the arguments passed to this instance.</param>
+        /// <returns>An array of objects that represent the arguments passed to this instance concatenated with the specified <paramref name="additionalArgs"/>.</returns>
+        public object[] ToArray(params object[] additionalArgs)
+        {
+            return Arguments.Concat(ToArray(), additionalArgs);
         }
 
         /// <summary>
