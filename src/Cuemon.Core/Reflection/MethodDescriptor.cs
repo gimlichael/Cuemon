@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -34,85 +35,33 @@ namespace Cuemon.Reflection
         /// </exception>
         public MethodDescriptor(Type caller, MethodBase method)
         {
-            if (method == null) { throw new ArgumentNullException(nameof(method)); }
-            var methodName = string.IsNullOrEmpty(method.Name) ? "NotAvailable" : method.Name;
-            var isPresumedProperty = methodName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) || methodName.StartsWith("set_", StringComparison.OrdinalIgnoreCase);
-            IsProperty = isPresumedProperty;
-            MethodName = isPresumedProperty ? methodName.Remove(0, 4) : methodName;
-            Caller = caller;
-            Parameters = ParameterSignature.Parse(method);
-            HasParameters = Parameters.Any();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
-        /// </summary>
-        /// <param name="caller">The class on which the <paramref name="methodName"/> resides.</param>
-        /// <param name="methodName">The name of the method.</param>
-        /// <remarks>This represents a method with no parameters.</remarks>
-        public MethodDescriptor(Type caller, string methodName) : this(caller, methodName, new ParameterSignature[0])
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
-        /// </summary>
-        /// <param name="caller">The class on which the <paramref name="methodName"/> resides.</param>
-        /// <param name="methodName">The name of the method.</param>
-        /// <param name="isProperty">A value indicating whether the method is a property. Default is <c>false</c>.</param>
-        /// <remarks>This represents a method with no parameters or a normal property.</remarks>
-        public MethodDescriptor(Type caller, string methodName, bool isProperty) : this(caller, methodName, isProperty, new ParameterSignature[0])
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
-        /// </summary>
-        /// <param name="caller">The class on which the <paramref name="methodName"/> resides.</param>
-        /// <param name="methodName">The name of the method.</param>
-        /// <param name="parameters">A sequence of <see cref="ParameterSignature"/> that represent the parameter signature of the method.</param>
-        /// <remarks>This represents a method with one or more parameters.</remarks>
-        public MethodDescriptor(Type caller, string methodName, params ParameterSignature[] parameters) : this(caller, methodName, false, parameters)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MethodDescriptor" /> class.
-        /// </summary>
-        /// <param name="caller">The class on which the <paramref name="methodName"/> resides.</param>
-        /// <param name="methodName">The name of the method.</param>
-        /// <param name="isProperty">A value indicating whether the method is a property. Default is <c>false</c>.</param>
-        /// <param name="parameters">A sequence of <see cref="ParameterSignature" /> that represent the parameter signature of the method.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="caller"/> is null or <br/>
-        /// <paramref name="methodName"/> is null.
-        /// </exception>
-        /// <remarks>This represents a method with one or more parameters or a property indexer.</remarks>
-        public MethodDescriptor(Type caller, string methodName, bool isProperty, params ParameterSignature[] parameters)
-        {
             Validator.ThrowIfNull(caller, nameof(caller));
-            Validator.ThrowIfNullOrWhitespace(methodName, nameof(methodName));
-
+            Validator.ThrowIfNull(method, nameof(method));
             Caller = caller;
-            MethodName = methodName;
-            IsProperty = isProperty;
-            Parameters = parameters ?? new ParameterSignature[0];
-            HasParameters = (parameters != null && parameters.Length > 0);
+            Method = method;
+            Parameters = ParameterSignature.Parse(Method);
+            HasParameters = Parameters.Any();
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Gets the name of the class where the method is located.
+        /// Gets the <see cref="Type"/> of the class where the <see cref="Method"/> is located.
         /// </summary>
-        /// <value>The name of the class where the method is located.</value>
+        /// <value>The <see cref="Type"/> of the class where the <see cref="Method"/> is located.</value>
         public Type Caller { get; }
+
+        /// <summary>
+        /// Gets the <see cref="MethodBase"/> of this instance.
+        /// </summary>
+        /// <value>The <see cref="MethodBase"/> of this instance.</value>
+        public MethodBase Method { get; }
 
         /// <summary>
         /// Gets the name of the method.
         /// </summary>
         /// <value>The name of the method.</value>
-        public string MethodName { get; }
+        public string MethodName => string.IsNullOrEmpty(Method.Name) ? "NotAvailable" : Method.Name;
 
         /// <summary>
         /// Gets the parameter of the method.
@@ -130,11 +79,28 @@ namespace Cuemon.Reflection
         /// Gets a value indicating whether the method is a property.
         /// </summary>
         /// <value><c>true</c> if the method is a property; otherwise, <c>false</c>.</value>
-        public bool IsProperty { get; }
+        public bool IsProperty => MethodName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) || MethodName.StartsWith("set_", StringComparison.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Gets the runtime arguments, if any, that was associated with this instance.
+        /// </summary>
+        /// <value>The runtime arguments, if any, that was associated with this instance.</value>
+        public IReadOnlyDictionary<string, object> RuntimeArguments { get; private set; } = new ReadOnlyDictionary<string, object>(new Dictionary<string, object>());
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Associates the specified <paramref name="arguments"/> to this instance.
+        /// </summary>
+        /// <param name="arguments">The runtime arguments to associate with this instance.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        public MethodDescriptor AppendRuntimeArguments(params object[] arguments)
+        {
+            RuntimeArguments = new ReadOnlyDictionary<string, object>(MergeParameters(arguments));
+            return this;
+        }
+
         /// <summary>
         /// Creates and returns a <see cref="MethodDescriptor"/> object and automatically determines the type of the signature (be that method or property).
         /// </summary>
@@ -144,54 +110,6 @@ namespace Cuemon.Reflection
         public static MethodDescriptor Create(MethodBase method)
         {
             return new MethodDescriptor(method);
-        }
-
-        /// <summary>
-        /// Creates and returns a <see cref="MethodDescriptor"/> object.
-        /// </summary>
-        /// <param name="caller">The class on which the <paramref name="methodName"/> resides.</param>
-        /// <param name="methodName">The name of the method.</param>
-        /// <returns>A <see cref="MethodDescriptor"/> object.</returns>
-        public static MethodDescriptor CreateMethod(Type caller, string methodName)
-        {
-            return new MethodDescriptor(caller, methodName);
-        }
-
-        /// <summary>
-        /// Creates and returns a <see cref="MethodDescriptor"/> object.
-        /// </summary>
-        /// <param name="caller">The class on which the <paramref name="methodName"/> resides.</param>
-        /// <param name="methodName">The name of the method.</param>
-        /// <param name="parameters">A sequence of <see cref="ParameterSignature" /> that represent the parameter signature of the method.</param>
-        /// <returns>A <see cref="MethodDescriptor"/> object.</returns>
-        public static MethodDescriptor CreateMethod(Type caller, string methodName, params ParameterSignature[] parameters)
-        {
-            return new MethodDescriptor(caller, methodName, parameters);
-        }
-
-        /// <summary>
-        /// Creates and returns a <see cref="MethodDescriptor"/> object.
-        /// </summary>
-        /// <param name="caller">The class on which the <paramref name="propertyName"/> resides.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>A <see cref="MethodDescriptor"/> object with <see cref="IsProperty"/> initialized to <c>true</c>.</returns>
-        /// <remarks>Although confusing a property is to be thought of as a method with either one or two methods (Get, Set) contained inside the property declaration.</remarks>
-        public static MethodDescriptor CreateProperty(Type caller, string propertyName)
-        {
-            return new MethodDescriptor(caller, propertyName, true);
-        }
-
-        /// <summary>
-        /// Creates and returns a <see cref="MethodDescriptor"/> object.
-        /// </summary>
-        /// <param name="caller">The class on which the <paramref name="propertyName"/> resides.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <param name="parameters">A sequence of <see cref="ParameterSignature" /> that represent the parameter signature of the method.</param>
-        /// <returns>A <see cref="MethodDescriptor"/> object with <see cref="IsProperty"/> initialized to <c>true</c>.</returns>
-        /// <remarks>Although confusing a property is to be thought of as a method with either one or two methods (Get, Set) contained inside the property declaration.</remarks>
-        public static MethodDescriptor CreateProperty(Type caller, string propertyName, params ParameterSignature[] parameters)
-        {
-            return new MethodDescriptor(caller, propertyName, true, parameters);
         }
 
         /// <summary>
@@ -260,7 +178,7 @@ namespace Cuemon.Reflection
         /// </remarks>
         public string ToString(bool fullName)
         {
-            var className = Caller == null ? "NotAvailable" : Decorator.Enclose(Caller).ToFriendlyName(o => o.FullName = fullName);
+            var className = Decorator.Enclose(Caller).ToFriendlyName(o => o.FullName = fullName);
             var signature = new StringBuilder(string.Concat(className, ".", MethodName));
             if (!IsProperty) { signature.Append("("); }
             if (Parameters.Any())
