@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace Cuemon.Data
@@ -53,14 +56,14 @@ namespace Cuemon.Data
         /// The maximum amount of records that can be retrieved from a repository.
         /// </value>
         public int ReadLimit
-    	{
-			get => _readLimit;
+        {
+            get => _readLimit;
             set
-			{
+            {
                 Validator.ThrowIfLowerThanOrEqual(value, 0, nameof(value), "Value must be a positive number.");
-				_readLimit = value;
-			}
-    	}
+                _readLimit = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether a query is restricted in how many records (<see cref="ReadLimit"/>) can be retrieved from a repository. Default is false.
@@ -114,6 +117,44 @@ namespace Cuemon.Data
 
         #region Methods
         /// <summary>
+        /// Encodes the specified sequence of <paramref name="values"/> into the desired <paramref name="format"/> of fragments.
+        /// </summary>
+        /// <param name="format">One of the enumeration values that specifies the fragment to produce.</param>
+        /// <param name="values">The <see cref="IEnumerable{String}"/> to convert into the desired <paramref name="format"/> of fragments.</param>
+        /// <param name="distinct">if set to <c>true</c>, <paramref name="values"/> will be filtered for doublets.</param>
+        /// <returns>A query fragment in the desired format.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="values"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="values"/> contains no elements.
+        /// </exception>
+        public static string EncodeFragment(QueryFormat format, IEnumerable<string> values, bool distinct = false)
+        {
+            Validator.ThrowIfSequenceNullOrEmpty(values, nameof(values));
+            if (distinct) { values = new List<string>(values.Distinct()); }
+            switch (format)
+            {
+                case QueryFormat.Delimited:
+                    return DelimitedString.Create(values);
+                case QueryFormat.DelimitedString:
+                    return DelimitedString.Create(values, o =>
+                    {
+                        o.Delimiter = ",";
+                        o.StringConverter = s => FormattableString.Invariant($"'{s}'");
+                    });
+                case QueryFormat.DelimitedSquareBracket:
+                    return DelimitedString.Create(values, o =>
+                    {
+                        o.Delimiter = ",";
+                        o.StringConverter = s => FormattableString.Invariant($"[{s}]");
+                    });
+                default:
+                    throw new InvalidEnumArgumentException(nameof(format), (int)format, typeof(QueryFormat));
+            }
+        }
+
+        /// <summary>
         /// Create and returns the builded query from the specified <see cref="QueryType"/>.
         /// </summary>
         /// <param name="queryType">Type of the query to create.</param>
@@ -135,9 +176,11 @@ namespace Cuemon.Data
         /// Appends the specified query fragment to the end of this instance.
         /// </summary>
         /// <param name="queryFragment">The query fragment to append.</param>
-        protected void Append(string queryFragment)
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        protected QueryBuilder Append(string queryFragment)
         {
             Query.Append(queryFragment);
+            return this;
         }
 
         /// <summary>
@@ -146,9 +189,11 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="queryFragment">The query fragment to append.</param>
         /// <param name="args">An array of objects to format.</param>
-        protected void Append(string queryFragment, params object[] args)
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        protected QueryBuilder Append(string queryFragment, params object[] args)
         {
             Query.AppendFormat(CultureInfo.InvariantCulture, queryFragment, args);
+            return this;
         }
 
         /// <summary>

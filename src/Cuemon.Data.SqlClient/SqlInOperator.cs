@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using Cuemon.Data;
 
-namespace Cuemon.Extensions.Data.SqlClient
+namespace Cuemon.Data.SqlClient
 {
     /// <summary>
     /// Provides a safe way to include a Transact-SQL WHERE clause with an IN operator to execute against a SQL Server database.

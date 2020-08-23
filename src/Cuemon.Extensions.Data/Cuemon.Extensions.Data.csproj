@@ -12,7 +12,7 @@
     <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Data</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Data</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Data assembly provides extensions methods related to the Cuemon.Data namespace.</Description>
+    <Description>The Cuemon.Extensions.Data assembly provides extension methods related to the Cuemon.Data namespace.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>

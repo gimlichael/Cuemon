@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Data.Inte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Net", "src\Cuemon.Extensions.Net\Cuemon.Extensions.Net.csproj", "{070BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Data.SqlClient", "src\Cuemon.Extensions.Data.SqlClient\Cuemon.Extensions.Data.SqlClient.csproj", "{030BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Data.SqlClient", "src\Cuemon.Data.SqlClient\Cuemon.Data.SqlClient.csproj", "{030BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore", "src\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj", "{A40ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
@@ -101,9 +101,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Threading
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Collections.Generic", "src\Cuemon.Extensions.Collections.Generic\Cuemon.Extensions.Collections.Generic.csproj", "{190BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Diagnostics", "src\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj", "{FB35EE15-EEEC-499F-AB13-8E8DB8343BCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Diagnostics", "src\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj", "{1A0BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Diagnostics.Tests", "test\Cuemon.Diagnostics.Tests\Cuemon.Diagnostics.Tests.csproj", "{06559CB0-899C-4B48-AFB8-633CBF97A766}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Diagnostics.Tests", "test\Cuemon.Diagnostics.Tests\Cuemon.Diagnostics.Tests.csproj", "{06559CB0-899C-4B48-AFB8-633CBF97A766}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -299,10 +299,10 @@ Global
 		{190BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{190BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{190BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB35EE15-EEEC-499F-AB13-8E8DB8343BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB35EE15-EEEC-499F-AB13-8E8DB8343BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB35EE15-EEEC-499F-AB13-8E8DB8343BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB35EE15-EEEC-499F-AB13-8E8DB8343BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A0BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A0BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A0BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A0BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.Build.0 = Release|Any CPU
 		{06559CB0-899C-4B48-AFB8-633CBF97A766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06559CB0-899C-4B48-AFB8-633CBF97A766}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06559CB0-899C-4B48-AFB8-633CBF97A766}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -359,7 +359,7 @@ Global
 		{9B4435A6-2A9A-426B-BB22-899F7F9711CC} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{180BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{190BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
-		{FB35EE15-EEEC-499F-AB13-8E8DB8343BCF} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{1A0BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{06559CB0-899C-4B48-AFB8-633CBF97A766} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

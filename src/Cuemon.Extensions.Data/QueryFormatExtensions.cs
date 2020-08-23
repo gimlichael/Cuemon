@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using Cuemon.Data;
 
 namespace Cuemon.Extensions.Data
@@ -51,26 +49,7 @@ namespace Cuemon.Extensions.Data
         public static string Embed(this QueryFormat format, IEnumerable<string> values, bool distinct = false)
         {
             Validator.ThrowIfSequenceNullOrEmpty(values, nameof(values));
-            if (distinct) { values = new List<string>(values.Distinct()).ToArray(); }
-            switch (format)
-            {
-                case QueryFormat.Delimited:
-                    return DelimitedString.Create(values);
-                case QueryFormat.DelimitedString:
-                    return DelimitedString.Create(values, o =>
-                    {
-                        o.Delimiter = ",";
-                        o.StringConverter = s => FormattableString.Invariant($"'{s}'");
-                    });
-                case QueryFormat.DelimitedSquareBracket:
-                    return DelimitedString.Create(values, o =>
-                    {
-                        o.Delimiter = ",";
-                        o.StringConverter = s => FormattableString.Invariant($"[{s}]");
-                    });
-                default:
-                    throw new InvalidEnumArgumentException(nameof(format), (int)format, typeof(QueryFormat));
-            }
+            return QueryBuilder.EncodeFragment(format, values, distinct);
         }
     }
 }

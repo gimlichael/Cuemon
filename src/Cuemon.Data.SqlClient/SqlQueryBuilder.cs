@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Cuemon.Data;
 
-namespace Cuemon.Extensions.Data.SqlClient
+namespace Cuemon.Data.SqlClient
 {
     /// <summary>
     /// A Microsoft SQL implementation of the <see cref="QueryBuilder"/> class.
@@ -95,8 +94,8 @@ namespace Cuemon.Extensions.Data.SqlClient
             {
                 Append(EnableTableAndColumnEncapsulation ? "INSERT INTO [{0}] ({1}) VALUES ({2})" : "INSERT INTO {0} ({1}) VALUES ({2})",
                     string.IsNullOrEmpty(tableName) ? TableName : tableName,
-                    EnableTableAndColumnEncapsulation ? QueryFormat.DelimitedSquareBracket.Embed(columns) : QueryFormat.Delimited.Embed(columns),
-                    QueryFormat.Delimited.Embed(parameters));
+                    EnableTableAndColumnEncapsulation ? EncodeFragment(QueryFormat.DelimitedSquareBracket, columns) : EncodeFragment(QueryFormat.Delimited, columns),
+                    EncodeFragment(QueryFormat.Delimited, parameters));
             }
             else
             {
@@ -129,10 +128,10 @@ namespace Cuemon.Extensions.Data.SqlClient
             {
                 Append("TOP {0} ", ReadLimit);
             }
-            Append(EnableTableAndColumnEncapsulation ? QueryFormat.DelimitedSquareBracket.Embed(columns, true) : QueryFormat.Delimited.Embed(columns, true));
+            Append(EnableTableAndColumnEncapsulation ? EncodeFragment(QueryFormat.DelimitedSquareBracket, columns, true) : EncodeFragment(QueryFormat.Delimited, columns, true));
             if (enableSquareBracketEncapsulationOnTable)
             {
-                enableSquareBracketEncapsulationOnTable = !(tableName.Contains("[") && tableName.Contains("]")); // check if we have an overriden tableName with square brackets already integrated and reverse the boolean result.
+                enableSquareBracketEncapsulationOnTable = !(tableName.Contains("[") && tableName.Contains("]")); // check if we have an overridden tableName with square brackets already integrated and reverse the boolean result.
             }
             Append(enableSquareBracketEncapsulationOnTable ? " FROM [{0}]" : " FROM {0}", string.IsNullOrEmpty(tableName) ? TableName : tableName);
             if (EnableDirtyReads) { Append(" WITH(NOLOCK)"); }

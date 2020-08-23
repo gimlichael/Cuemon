@@ -5,10 +5,9 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using Cuemon.Collections.Generic;
-using Cuemon.Data;
 using Cuemon.Resilience;
 
-namespace Cuemon.Extensions.Data.SqlClient
+namespace Cuemon.Data.SqlClient
 {
     /// <summary>
     /// The SqlDataManager is the primary class of the <see cref="SqlClient"/> namespace that can be used to execute commands targeted Microsoft SQL Server.

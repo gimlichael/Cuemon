@@ -10,9 +10,9 @@
 
   <PropertyGroup>
     <Product>Cuemon</Product>
-    <AssemblyName>Cuemon.Extensions.Data.SqlClient</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Data.SqlClient</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Data.SqlClient assembly provides different Microsoft SQL Server implementations of different abstractions found in the Cuemon.Data namespace.</Description>
+    <AssemblyName>Cuemon.Data.SqlClient</AssemblyName>
+    <AssemblyTitle>Cuemon.Data.SqlClient</AssemblyTitle>
+    <Description>The Cuemon.Data.SqlClient assembly provides different Microsoft SQL Server implementations of different abstractions found in the Cuemon.Data namespace.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
@@ -24,7 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Extensions.Data\Cuemon.Extensions.Data.csproj" />
+    <ProjectReference Include="..\Cuemon.Data\Cuemon.Data.csproj" />
     <ProjectReference Include="..\Cuemon.Resilience\Cuemon.Resilience.csproj" />
   </ItemGroup>
 
