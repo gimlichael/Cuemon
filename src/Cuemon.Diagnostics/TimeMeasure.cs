@@ -2,7 +2,7 @@
 using System.Reflection;
 using Cuemon.Reflection;
 
-namespace Cuemon.Extensions.Diagnostics
+namespace Cuemon.Diagnostics
 {
     /// <summary>
     /// Provides a flexible, generic and lambda friendly way to perform time measuring operations.

@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Reflection;
 
-namespace Cuemon.Extensions.Diagnostics
+namespace Cuemon.Diagnostics
 {
     public static partial class TimeMeasure
     {

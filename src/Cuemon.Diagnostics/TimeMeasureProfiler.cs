@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
-using Cuemon.Diagnostics;
 
-namespace Cuemon.Extensions.Diagnostics
+namespace Cuemon.Diagnostics
 {
     /// <summary>
     /// Represents a profiler that is optimized for time measuring operations.

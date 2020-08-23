@@ -1,7 +1,6 @@
 ﻿using System;
-using Cuemon.Diagnostics;
 
-namespace Cuemon.Extensions.Diagnostics
+namespace Cuemon.Diagnostics
 {
     /// <summary>
     /// Specifies options that is related to <see cref="TimeMeasureProfiler" /> operations.
