@@ -213,7 +213,6 @@ ModelManifest.xml
 
 # Strong-Name Key
 *.snk
-/src/Cuemon.Core/Cuemon.Core.csproj.DotSettings
 
 # SonarLint
 .sonarlint/
