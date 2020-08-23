@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.Extensions.Diagnostics;
+using Cuemon.Diagnostics;
 using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics

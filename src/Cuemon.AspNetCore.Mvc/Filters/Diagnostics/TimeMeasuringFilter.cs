@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Http.Headers;
-using Cuemon.Extensions.Diagnostics;
+using Cuemon.Diagnostics;
 using Cuemon.Reflection;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;

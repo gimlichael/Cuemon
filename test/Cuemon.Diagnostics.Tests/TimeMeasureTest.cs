@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Cuemon.Extensions.Diagnostics;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
