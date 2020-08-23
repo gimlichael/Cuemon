@@ -3,10 +3,28 @@
 namespace Cuemon.Collections.Generic
 {
     /// <summary>
-    /// Provides a set of static methods for typing (no conversion) a variable number of arguments into its equivalent <see cref="IEnumerable{T}"/>.
+    /// Provides a set of static methods for both typing (no conversion) and converting a variable number of arguments into its equivalent <see cref="T:object[]"/>, <see cref="IEnumerable{T}"/> and <see cref="T:T[]"/>.
     /// </summary>
     public static class Arguments
     {
+        /// <summary>
+        /// Concatenates two arrays.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the input arrays.</typeparam>
+        /// <param name="args1">The first array to concatenate.</param>
+        /// <param name="args2">The array to concatenate to the first array.</param>
+        /// <returns>An <see cref="T:T[]"/> that contains the concatenated elements of the two input arrays.</returns>
+        public static T[] Concat<T>(T[] args1, T[] args2)
+        {
+            if (args1 == null) { return new T[0]; }
+            if (args2 == null) { return args1; }
+            if (args1.Length == 0 || args2.Length == 0) { return args1.Length == 0 ? args2 : args1; }
+            var result = new T[args1.Length + args2.Length];
+            args1.CopyTo(result, 0);
+            args2.CopyTo(result, args2.Length);
+            return result;
+        }
+
         /// <summary>
         /// Returns the input typed as <see cref="T:T[]"/>.
         /// </summary>
