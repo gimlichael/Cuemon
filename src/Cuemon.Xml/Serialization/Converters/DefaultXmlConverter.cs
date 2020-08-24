@@ -189,6 +189,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 }
             }
 
+            var hasDefaultCtor = false;
             var constructors = valueType.GetConstructors(new MemberReflection(excludeStatic: true)).ToList();
             var properties = valueType.GetProperties(new MemberReflection(excludeStatic: true)).Where(info => info.CanWrite).ToDictionary(info => info.Name);
             var propertyNames = properties.Select(info => info.Key).Intersect(values.Select(pair => pair.Key), StringComparer.OrdinalIgnoreCase).ToList();
@@ -200,6 +201,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 var argumentsLength = arguments.Select(info => info.Name).Intersect(values.Select(pair => pair.Key), StringComparer.OrdinalIgnoreCase).Count();
                 if (arguments.Length == argumentsLength)
                 {
+                    if (!hasDefaultCtor && argumentsLength == 0) { hasDefaultCtor = true; }
                     foreach (var arg in arguments)
                     {
                         args.Add(Decorator.Enclose(values.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase)).Value).ChangeType(arg.ParameterType));
@@ -224,7 +226,7 @@ namespace Cuemon.Xml.Serialization.Converters
                         return method.Invoke(null, args.ToArray());
                     }
                 }
-                throw new SerializationException("Unable to find a suitable constructor or static method for deserialization.");
+                if (!hasDefaultCtor) { throw new SerializationException("Unable to find a suitable constructor or static method for deserialization."); }
             }
 
             var instance = Activator.CreateInstance(valueType, args.ToArray());
