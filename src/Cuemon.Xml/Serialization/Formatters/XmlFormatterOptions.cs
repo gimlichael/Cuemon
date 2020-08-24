@@ -46,7 +46,7 @@ namespace Cuemon.Xml.Serialization.Formatters
             IncludeExceptionDescriptorFailure = true;
             IncludeExceptionDescriptorEvidence = true;
             IncludeExceptionStackTrace = false;
-            XmlSerializerOptions.DefaultConverters = list =>
+            XmlSerializerOptions.DefaultConverters += list =>
             {
                 Decorator.Enclose(list)
                     .AddExceptionDescriptorConverter()

@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
+    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml</AssemblyTitle>
-    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml assembly is a serialization supplement to Microsoft ASP.NET Core.</Description>
+    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml assembly provides extension methods and XML formatters for ASP.NET Core MVC.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>

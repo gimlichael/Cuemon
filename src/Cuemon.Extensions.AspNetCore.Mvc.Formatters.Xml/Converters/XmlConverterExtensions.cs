@@ -18,19 +18,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
     /// </summary>
     public static class XmlConverterExtensions
     {
-        static XmlConverterExtensions()
-        {
-            XmlSerializerOptions.DefaultConverters += list =>
-            {
-                list.AddHttpExceptionDescriptorConverter()
-                    .AddStringValuesConverter()
-                    .AddHeaderDictionaryConverter()
-                    .AddFormCollectionConverter()
-                    .AddQueryCollectionConverter()
-                    .AddCookieCollectionConverter();
-            };
-        }
-
         /// <summary>
         /// Adds an <see cref="ExceptionDescriptor"/> XML converter to the list.
         /// </summary>
