@@ -11,23 +11,23 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// </summary>
     public class HttpRequestEvidence
     {
-        internal HttpRequestEvidence(HttpRequest request, Func<Stream, string> bodyParser = null)
+        internal HttpRequestEvidence(HttpRequest request, Func<Stream, string> bodyConverter = null)
         {
             var hasMultipartContentType = request.GetMultipartBoundary().Length > 0;
-            if (bodyParser == null) { bodyParser = body => hasMultipartContentType ? null : Decorator.Enclose(body).ToEncodedString(); }
+            if (bodyConverter == null) { bodyConverter = body => hasMultipartContentType ? null : Decorator.Enclose(body).ToEncodedString(); }
             Location = request.GetDisplayUrl();
             Method = request.Method;
             Headers = request.Headers;
             Query = request.Query;
             if (request.HasFormContentType && !hasMultipartContentType) { Form = request.Form; }
             Cookies = request.Cookies;
-            #if NETCOREAPP
             var requestBody = new MemoryStream();
-            Decorator.Enclose(request.BodyReader.AsStream(true)).CopyStream(requestBody);
-            Body =  bodyParser(requestBody);
-            #else
-            Body = bodyParser(request.Body);
-            #endif
+            if (request.HttpContext.Items.TryGetValue(FaultDescriptorFilter.HttpContextItemsKeyForCapturedRequestBody, out var capturedRequestBody) && capturedRequestBody is MemoryStream crb)
+            {
+                crb.Position = 0;
+                requestBody = crb;
+            }
+            Body = bodyConverter(requestBody);
         }
 
         /// <summary>
