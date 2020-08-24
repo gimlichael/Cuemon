@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
-    <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json</AssemblyTitle>
-    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json assembly is a serialization supplement to Microsoft ASP.NET Core.</Description>
+    <Product>Cuemon</Product>
+    <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json</AssemblyTitle>
+    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json assembly provides extension methods and JSON formatters for ASP.NET Core MVC that uses the Newtonsoft.Json package.</Description>
     <Company>Geekle</Company>
     <Authors>Michael Mortensen</Authors>
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>

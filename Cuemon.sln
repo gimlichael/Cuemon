@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.AspNetCore", "src\Cu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Newtonsoft.Json", "src\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj", "{080BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml", "src\Cuemon.AspNetCore.Mvc.Formatters.Xml\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj", "{A70ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml", "src\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj", "{A70ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json", "src\Cuemon.AspNetCore.Mvc.Formatters.Json\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json.csproj", "{A60ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json", "src\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.csproj", "{A60ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.IO", "src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj", "{060BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject

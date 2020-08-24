@@ -5,30 +5,26 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
 {
     /// <summary>
-    /// Extension methods for adding JSON formatters to MVC.
+    /// Extension methods for the <see cref="IMvcBuilder"/> interface.
     /// </summary>
-    public static class JsonMvcCoreBuilderExtensions
+    public static class MvcBuilderExtensions
     {
-        /// <summary>
-        /// Adds the JSON Serializer formatters to MVC.
-        /// </summary>
-        /// <param name="builder">The <see cref="IMvcCoreBuilder"/>.</param>
-        /// <returns>The <see cref="IMvcCoreBuilder"/>.</returns>
-        public static IMvcCoreBuilder AddJsonSerializationFormatters(this IMvcCoreBuilder builder)
+        static MvcBuilderExtensions()
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
-            builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
-            return builder;
+            Bootstrapper.Initialize();
         }
 
         /// <summary>
-        /// Adds the JSON Serializer formatters to MVC.
+        /// Adds the JSON serializer formatters to MVC.
         /// </summary>
         /// <param name="builder">The <see cref="IMvcBuilder"/>.</param>
-        /// <returns>The <see cref="IMvcBuilder"/>.</returns>
+        /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="builder"/> cannot be null.
+        /// </exception>
         public static IMvcBuilder AddJsonSerializationFormatters(this IMvcBuilder builder)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
@@ -37,16 +33,20 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
         }
 
         /// <summary>
-        /// Adds configuration of <see cref="JsonFormatterOptions"/> for the application.
+        /// Adds the JSON serializer formatters to MVC.
         /// </summary>
         /// <param name="builder">The <see cref="IMvcBuilder"/>.</param>
         /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
-        /// <returns>The <see cref="IMvcBuilder"/>.</returns>
-        public static IMvcCoreBuilder AddJsonFormatterOptions(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
+        /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="builder"/> cannot be null -or-
+        /// <paramref name="setup"/> cannot be null.
+        /// </exception>
+        public static IMvcBuilder AddJsonSerializationFormatters(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            Validator.ThrowIfNull(setup, nameof(setup));
-            builder.Services.Configure(setup);
+            AddJsonSerializationFormatters(builder);
+            AddJsonFormatterOptions(builder, setup);
             return builder;
         }
 
@@ -55,7 +55,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
         /// </summary>
         /// <param name="builder">The <see cref="IMvcBuilder"/>.</param>
         /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
-        /// <returns>The <see cref="IMvcBuilder"/>.</returns>
+        /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="builder"/> cannot be null -or-
+        /// <paramref name="setup"/> cannot be null.
+        /// </exception>
         public static IMvcBuilder AddJsonFormatterOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));

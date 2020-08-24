@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
 {
     /// <summary>
     /// Extension methods for the <see cref="JsonSerializerSettings"/> class.

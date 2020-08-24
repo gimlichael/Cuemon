@@ -7,7 +7,7 @@ using Cuemon.Extensions.Newtonsoft.Json;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Json.Converters
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
 {
     /// <summary>
     /// Extension methods for the <see cref="JsonConverter"/> class.
