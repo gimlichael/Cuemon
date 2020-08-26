@@ -36,7 +36,7 @@ namespace Cuemon.Reflection
             var disposableTypesCount = Decorator.Enclose(disposableTypes).Inner.Count();
             var configurationTypesCount = Decorator.Enclose(configurationTypes).Inner.Count();
 
-            Assert.Equal(525, allTypesCount);
+            Assert.Equal(528, allTypesCount);
             Assert.Equal(7, disposableTypesCount);
             Assert.Equal(2, configurationTypesCount);
         }
@@ -46,7 +46,9 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetAssemblyVersion();
-            Assert.Equal("6.0.2020.0", v.ToString());
+            Assert.Equal("6.0.0.0", v.ToString());
+            Assert.True(v.HasAlphanumericVersion);
+            Assert.False(v.IsSemanticVersion());
         }
 
         [Fact]
@@ -54,7 +56,9 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetFileVersion();
-            Assert.Equal("6.0.2020.25", v.ToString());
+            Assert.False(v.IsSemanticVersion());
+            Assert.True(v.HasAlphanumericVersion);
+            Assert.Equal("6.0.0", v.ToString());
         }
 
         [Fact]
@@ -62,7 +66,10 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetProductVersion();
-            Assert.Equal("6.0.2020.25", v.ToString());
+            Assert.True(v.IsSemanticVersion());
+            Assert.True(v.HasAlphanumericVersion);
+            Assert.Equal("6.0", v.ToVersion().ToString());
+            Assert.Contains("-prerelease", v.ToString());
         }
 
         [Fact]
