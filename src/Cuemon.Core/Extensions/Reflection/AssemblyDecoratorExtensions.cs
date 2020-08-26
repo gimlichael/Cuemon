@@ -62,47 +62,47 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
-        /// Returns a <see cref="Version"/> that represents the <see cref="AssemblyVersionAttribute"/> of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>.
+        /// Returns a <see cref="VersionResult"/> that represents the <see cref="AssemblyVersionAttribute"/> of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
-        /// <returns>A <see cref="Version"/> that represents the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>.</returns>
+        /// <returns>A <see cref="VersionResult"/> that represents the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static Version GetAssemblyVersion(this IDecorator<Assembly> decorator)
+        public static VersionResult GetAssemblyVersion(this IDecorator<Assembly> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            return decorator.Inner.GetName().Version;
+            return new VersionResult(decorator.Inner.GetName().Version);
         }
 
         /// <summary>
-        /// Returns a <see cref="Version"/> that represents the <see cref="AssemblyFileVersionAttribute"/> of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>.
+        /// Returns a <see cref="VersionResult"/> that represents the <see cref="AssemblyFileVersionAttribute"/> of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
-        /// <returns>A <see cref="Version"/> that represents the file version of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>; null if no <see cref="AssemblyFileVersionAttribute"/> could be retrieved.</returns>
+        /// <returns>A <see cref="VersionResult"/> that represents the file version of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>; null if no <see cref="AssemblyFileVersionAttribute"/> could be retrieved.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static Version GetFileVersion(this IDecorator<Assembly> decorator)
+        public static VersionResult GetFileVersion(this IDecorator<Assembly> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             var version = decorator.Inner.GetCustomAttribute<AssemblyFileVersionAttribute>();
-            return version == null ? null : new Version(version.Version);
+            return new VersionResult(version.Version);
         }
 
         /// <summary>
-        /// Returns a <see cref="Version"/> that represents the <see cref="AssemblyInformationalVersionAttribute"/> of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>.
+        /// Returns a <see cref="VersionResult"/> that represents the <see cref="AssemblyInformationalVersionAttribute"/> of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
-        /// <returns>A <see cref="Version"/> that represents the product version of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>; null if no <see cref="AssemblyInformationalVersionAttribute"/> could be retrieved.</returns>
+        /// <returns>A <see cref="VersionResult"/> that represents the product version of the underlying <see cref="Assembly"/> of the <paramref name="decorator"/>; null if no <see cref="AssemblyInformationalVersionAttribute"/> could be retrieved.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static Version GetProductVersion(this IDecorator<Assembly> decorator)
+        public static VersionResult GetProductVersion(this IDecorator<Assembly> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             var version = decorator.Inner.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
-            return version == null ? null : new Version(version.InformationalVersion);
+            return new VersionResult(version.InformationalVersion);
         }
 
         /// <summary>
