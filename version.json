@@ -4,7 +4,7 @@
   "assemblyVersion":
   {
     "version": "6.0.2020.25",
-    "precision": "build"
+    "precision": "revision"
   },
   "publicReleaseRefSpec": [
     "^refs/heads/master$",
