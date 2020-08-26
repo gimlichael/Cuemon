@@ -1,7 +1,6 @@
 ﻿using System;
 using Cuemon.AspNetCore.Mvc;
 using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
-using Cuemon.Data;
 using Cuemon.Data.Integrity;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc
