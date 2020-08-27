@@ -34,7 +34,7 @@ steps:
 - task: DownloadSecureFile@1
   displayName: 'Download cuemon.snk'
   inputs:
-    secureFile: '15606b59-2e5f-4cf8-a50d-66fa026bb391'
+    secureFile: 'cuemon.snk'
 
 - task: CopyFiles@2
   displayName: 'Copy cuemon.snk to $(System.DefaultWorkingDirectory)\$(BuildSource)'
