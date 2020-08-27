@@ -96,6 +96,7 @@ steps:
     pollingTimeoutSec: '300'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: Cuemon'
   inputs:
-    ArtifactName: Cuemon
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Cuemon'
+    publishLocation: 'Container'
