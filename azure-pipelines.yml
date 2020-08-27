@@ -50,10 +50,10 @@ steps:
 
 - task: SonarCloudPrepare@1
   inputs:
-    SonarCloud: $(SONAR_CONNECTION)
-    organization: $(SONAR_ORGANIZATION)
+    SonarCloud: '$(SONAR_CONNECTION)'
+    organization: '$(SONAR_ORGANIZATION)'
     scannerMode: 'MSBuild'
-    projectKey: $(SONAR_PROJECTKEY)
+    projectKey: '$(SONAR_PROJECTKEY)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build netcoreapp3.0'
