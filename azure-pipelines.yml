@@ -1,6 +1,11 @@
 trigger:
 - development
 
+variables:
+  SONAR_CONNECTION: $(sonarConnection)
+  SONAR_ORGANIZATION: $(sonarOrganization)
+  SONAR_PROJECTKEY: $(sonarProjectKey)
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -45,14 +50,10 @@ steps:
 
 - task: SonarCloudPrepare@1
   inputs:
-    SonarCloud: $env:SONAR_CONNECTION
-    organization: $env:SONAR_ORGANIZATION
+    SonarCloud: $(SONAR_CONNECTION)
+    organization: $(SONAR_ORGANIZATION)
     scannerMode: 'MSBuild'
-    projectKey: $env:SONAR_PROJECTKEY
-  env:
-    SONAR_CONNECTION: $(sonarConnection)
-    SONAR_ORGANIZATION: $(sonarOrganization)
-    SONAR_PROJECTKEY: $(sonarProjectKey)
+    projectKey: $(SONAR_PROJECTKEY)
 
 - task: DotNetCoreCLI@2
   displayName: 'Build netcoreapp3.0'
