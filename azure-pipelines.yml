@@ -42,11 +42,11 @@ steps:
     secureFile: 'cuemon.snk'
 
 - task: CopyFiles@2
-  displayName: 'Copy cuemon.snk to $(System.DefaultWorkingDirectory)\$(BuildSource)'
+  displayName: 'Copy cuemon.snk to $(System.DefaultWorkingDirectory)'
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: cuemon.snk
-    TargetFolder: '$(System.DefaultWorkingDirectory)\$(BuildSource)'
+    TargetFolder: '$(System.DefaultWorkingDirectory)'
 
 - task: SonarCloudPrepare@1
   inputs:
