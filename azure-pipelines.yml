@@ -1,10 +1,6 @@
 trigger:
 - development
 
-variables:
-  SONAR_ORGANIZATION: $(sonarOrganization)
-  SONAR_PROJECTKEY: $(sonarProjectKey)
-
 pool:
   vmImage: 'windows-2019'
 
@@ -50,9 +46,10 @@ steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'Cuemon-SonarCloud'
-    organization: '$(SONAR_ORGANIZATION)'
+    organization: 'geekle'
     scannerMode: 'MSBuild'
-    projectKey: '$(SONAR_PROJECTKEY)'
+    projectKey: 'Cuemon'
+    projectName: 'Cuemon'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build netcoreapp3.0'
