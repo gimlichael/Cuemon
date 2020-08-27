@@ -43,7 +43,16 @@ steps:
     Contents: cuemon.snk
     TargetFolder: '$(System.DefaultWorkingDirectory)\$(BuildSource)'
 
-# INSERT SONAR CLOUD PREPARE HERE
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: '$env:SONAR_CONNECTION'
+    organization: '$env:SONAR_ORGANIZATION'
+    scannerMode: 'MSBuild'
+    projectKey: '$env:SONAR_PROJECTKEY'
+  env:
+    SONAR_CONNECTION: $(sonarConnection)
+    SONAR_ORGANIZATION: $(sonarOrganization)
+    SONAR_PROJECTKEY: $(sonarProjectKey)
 
 - task: DotNetCoreCLI@2
   displayName: 'Build netcoreapp3.0'
@@ -78,10 +87,11 @@ steps:
     projects: 'test/**/*.csproj'
     arguments: '--configuration $(BuildConfiguration)  --collect "Code coverage" '
 
-# INSERT SONAR CLOUD RUN ANALYSIS
+- task: SonarCloudAnalyze@1
 
-
-# INSERT SONAR CLOUD PUBLISH QUALITY GATE RESULT
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: Cuemon'
