@@ -2,12 +2,11 @@ trigger:
 - development
 
 variables:
-  SONAR_CONNECTION: $(sonarConnection)
   SONAR_ORGANIZATION: $(sonarOrganization)
   SONAR_PROJECTKEY: $(sonarProjectKey)
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-2019'
 
 steps:
 - task: UseDotNet@2
