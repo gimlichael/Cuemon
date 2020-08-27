@@ -33,7 +33,7 @@ steps:
   displayName: Restore
   inputs:
     command: restore
-    projects: '$(Parameters.projects)'
+    projects: '**/*.csproj'
 
 - task: DownloadSecureFile@1
   displayName: 'Download cuemon.snk'
