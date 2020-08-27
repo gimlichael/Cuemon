@@ -4,6 +4,16 @@
     <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
+    <AssemblyOriginatorKeyFile>$(System.DefaultWorkingDirectory)\cuemon.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'false'">
+    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
     <Authors>Michael Mortensen</Authors>
@@ -18,12 +28,11 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <CodeAnalysisRuleSet>..\..\.sonarlint\cuemoncorecsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-    <ItemGroup Condition="'$(IsTestProject)' == 'false'">
+  <ItemGroup Condition="'$(IsTestProject)' == 'false'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="all" />
   </ItemGroup>
