@@ -2,39 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
     <ProjectGuid>070bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Net</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Net</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Net assembly provides extensions methods (query-string parsing, encoding, decoding, security and http communication) and features related to the System.Net namespace. A versatile HttpManager that transparently promotes the HttpClient is included along with a lightweight SMTP Client.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Description>The Cuemon.Extensions.Net assembly provides extension methods (query-string parsing, encoding, decoding, security and http communication) and features related to the System.Net namespace. A versatile HttpManager that transparently promotes the HttpClient is included.</Description>
+    <PackageTags>extension-methods extensions to-signed-uri validate-signed-uri http-manager-factory slim-http-client-factory i-http-client-factory</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Mail\" />
   </ItemGroup>
 
   <ItemGroup>
