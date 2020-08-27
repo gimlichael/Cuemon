@@ -30,12 +30,6 @@ steps:
 - script: 'nbgv cloud'
   displayName: 'Set Version using NBGV'
 
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: '**/*.csproj'
-
 - task: DownloadSecureFile@1
   displayName: 'Download cuemon.snk'
   inputs:
@@ -47,6 +41,12 @@ steps:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: cuemon.snk
     TargetFolder: '$(System.DefaultWorkingDirectory)'
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
 
 - task: SonarCloudPrepare@1
   inputs:
