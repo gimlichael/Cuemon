@@ -1,6 +1,11 @@
 trigger:
 - development
 
+variables:
+  BuildSource: 'src'
+  BuildPlatform: 'Any CPU'
+  BuildConfiguration: 'Debug'
+
 pool:
   vmImage: 'windows-2019'
 
