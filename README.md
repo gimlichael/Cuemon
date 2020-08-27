@@ -4,26 +4,30 @@ Cuemon
 --------------------
 Cuemon is a free and flexible assembly package for the Microsoft .NET ecosystem. It was built to extend and boost your codebelt - providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof. Ideal for .NET, .NET Standard, .NET Core, Universal Windows Platform and .NET Framework 4.6.1 and newer.
 
-![License](https://img.shields.io/github/license/gimlichael/cuemoncore)
+![License](https://img.shields.io/github/license/gimlichael/cuemon)
 
 This development branch contains the latest version which has been completely refactored and updated to suport .NET Core 3.1.
-An Azure DevOps pipeline is currently in progress.
+All CI and CD will be runned on Azure DevOps and is currently in process of being tweaked.
 
-Once automated and tested thoroughly, it will be pushed to a new branch, release, and hereafter again tested and lastly to master and Nuget packages.
+Once fully automated and tested thoroughly, it will be pushed to a new branch, release, and hereafter again tested and lastly to master and Nuget packages.
 
-[![Build Status](https://gimlichael.visualstudio.com/CuemonCore/_apis/build/status/CuemonCore%20-%20Development%20-%20CI?branchName=development)](https://gimlichael.visualstudio.com/CuemonCore/_build/latest?definitionId=1&branchName=development)
+Another big change for this upcoming release is the versioning; the world has spoken - and chosen semantic versioning.
 
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=bugs)](https://sonarcloud.io/dashboard?id=CuemonCore)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=code_smells)](https://sonarcloud.io/dashboard?id=CuemonCore)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=coverage)](https://sonarcloud.io/dashboard?id=CuemonCore)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=ncloc)](https://sonarcloud.io/dashboard?id=CuemonCore)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=CuemonCore)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=CuemonCore)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=security_rating)](https://sonarcloud.io/dashboard?id=CuemonCore)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=sqale_index)](https://sonarcloud.io/dashboard?id=CuemonCore)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=CuemonCore&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=CuemonCore)
+The release for now is planned to be 6.0.0.
 
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=CuemonCore)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Build Status](https://dev.azure.com/gimlichael/Cuemon/_apis/build/status/gimlichael.Cuemon?branchName=development)](https://dev.azure.com/gimlichael/Cuemon/_build/latest?definitionId=9&branchName=development)
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=bugs)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=code_smells)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=coverage)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=ncloc)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=security_rating)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=sqale_index)](https://sonarcloud.io/dashboard?id=CuemonCore)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=CuemonCore)
+
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=Cuemon)](https://sonarcloud.io/dashboard?id=CuemonCore)
 
 Stay tuned!
 
