@@ -42,6 +42,10 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+    <SourceRoot Include="$(MSBuildThisFileDirectory)/"/>
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <IsPackable>false</IsPackable>
