@@ -64,9 +64,9 @@ jobs:
     displayName: 'Build netcoreapp3.0'
     inputs:
       projects: |
-      src/**/Cuemon.AspNetCore*.csproj
-      src/**/Cuemon.Extensions.AspNetCore*.csproj
-      src/**/Cuemon.Extensions.Xunit.csproj
+        src/**/Cuemon.AspNetCore*.csproj
+        src/**/Cuemon.Extensions.AspNetCore*.csproj
+        src/**/Cuemon.Extensions.Xunit.csproj
       arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netcoreapp3.0 --framework netcoreapp3.0'
       workingDirectory: '$(BuildSource)'
 
@@ -74,8 +74,8 @@ jobs:
     displayName: 'Build netstandard2.1'
     inputs:
       projects: |
-      src/**/Cuemon.Extensions.IO.csproj
-      src/**/Cuemon.IO.csproj
+        src/**/Cuemon.Extensions.IO.csproj
+        src/**/Cuemon.IO.csproj
       arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netstandard2.1 --framework netstandard2.1'
       workingDirectory: '$(BuildSource)'
 
