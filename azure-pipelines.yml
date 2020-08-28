@@ -6,97 +6,101 @@ variables:
   BuildPlatform: 'Any CPU'
   BuildConfiguration: 'Debug'
 
-pool:
-  vmImage: 'windows-2019'
+jobs:
+- job: CI
+  timeoutInMinutes: 360
 
-steps:
-- task: UseDotNet@2
-  displayName: 'Use .Net Core SDK 2.2.110 (SonarCloud)'
-  inputs:
-    version: 2.2.110
+  pool:
+    vmImage: 'windows-2019'
 
-- task: UseDotNet@2
-  displayName: 'Use .Net Core 3.1.302'
-  inputs:
-    version: 3.1.302
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Use .Net Core SDK 2.2.110 (SonarCloud)'
+    inputs:
+      version: 2.2.110
 
-- task: DotNetCoreCLI@2
-  displayName: 'Install NBGV tool'
-  inputs:
-    command: custom
-    custom: tool
-    arguments: 'install --global nbgv'
+  - task: UseDotNet@2
+    displayName: 'Use .Net Core 3.1.302'
+    inputs:
+      version: 3.1.302
 
-- script: 'nbgv cloud'
-  displayName: 'Set Version using NBGV'
+  - task: DotNetCoreCLI@2
+    displayName: 'Install NBGV tool'
+    inputs:
+      command: custom
+      custom: tool
+      arguments: 'install --global nbgv'
 
-- task: DownloadSecureFile@1
-  displayName: 'Download cuemon.snk'
-  inputs:
-    secureFile: 'cuemon.snk'
+  - script: 'nbgv cloud'
+    displayName: 'Set Version using NBGV'
 
-- task: CopyFiles@2
-  displayName: 'Copy cuemon.snk to $(System.DefaultWorkingDirectory)'
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: cuemon.snk
-    TargetFolder: '$(System.DefaultWorkingDirectory)'
+  - task: DownloadSecureFile@1
+    displayName: 'Download cuemon.snk'
+    inputs:
+      secureFile: 'cuemon.snk'
 
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: '**/*.csproj'
+  - task: CopyFiles@2
+    displayName: 'Copy cuemon.snk to $(System.DefaultWorkingDirectory)'
+    inputs:
+      SourceFolder: '$(Agent.TempDirectory)'
+      Contents: cuemon.snk
+      TargetFolder: '$(System.DefaultWorkingDirectory)'
 
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'Cuemon-SonarCloud'
-    organization: 'geekle'
-    scannerMode: 'MSBuild'
-    projectKey: 'Cuemon'
-    projectName: 'Cuemon'
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      command: restore
+      projects: '**/*.csproj'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build netcoreapp3.0'
-  inputs:
-    projects: |
-     src/**/Cuemon.AspNetCore*.csproj
-     src/**/Cuemon.Extensions.AspNetCore*.csproj
-     src/**/Cuemon.Extensions.Xunit.csproj
-    arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netcoreapp3.0 --framework netcoreapp3.0'
-    workingDirectory: '$(BuildSource)'
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'Cuemon-SonarCloud'
+      organization: 'geekle'
+      scannerMode: 'MSBuild'
+      projectKey: 'Cuemon'
+      projectName: 'Cuemon'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build netstandard2.1'
-  inputs:
-    projects: |
-     src/**/Cuemon.Extensions.IO.csproj
-     src/**/Cuemon.IO.csproj
-    arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netstandard2.1 --framework netstandard2.1'
-    workingDirectory: '$(BuildSource)'
+  - task: DotNetCoreCLI@2
+    displayName: 'Build netcoreapp3.0'
+    inputs:
+      projects: |
+      src/**/Cuemon.AspNetCore*.csproj
+      src/**/Cuemon.Extensions.AspNetCore*.csproj
+      src/**/Cuemon.Extensions.Xunit.csproj
+      arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netcoreapp3.0 --framework netcoreapp3.0'
+      workingDirectory: '$(BuildSource)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build netstandard2.0'
-  inputs:
-    projects: 'src/**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netstandard2.0 --framework netstandard2.0'
-    workingDirectory: '$(BuildSource)'
+  - task: DotNetCoreCLI@2
+    displayName: 'Build netstandard2.1'
+    inputs:
+      projects: |
+      src/**/Cuemon.Extensions.IO.csproj
+      src/**/Cuemon.IO.csproj
+      arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netstandard2.1 --framework netstandard2.1'
+      workingDirectory: '$(BuildSource)'
 
-- task: DotNetCoreCLI@2
-  displayName: Test
-  inputs:
-    command: test
-    projects: 'test/**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)  --collect "Code coverage" '
+  - task: DotNetCoreCLI@2
+    displayName: 'Build netstandard2.0'
+    inputs:
+      projects: 'src/**/*.csproj'
+      arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netstandard2.0 --framework netstandard2.0'
+      workingDirectory: '$(BuildSource)'
 
-- task: SonarCloudAnalyze@1
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: 'test/**/*.csproj'
+      arguments: '--configuration $(BuildConfiguration)  --collect "Code coverage" '
 
-- task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
+  - task: SonarCloudAnalyze@1
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'Cuemon'
-    publishLocation: 'Container'
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'Cuemon'
+      publishLocation: 'Container'
