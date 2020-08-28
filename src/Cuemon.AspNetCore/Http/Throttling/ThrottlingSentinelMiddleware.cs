@@ -35,19 +35,19 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// Executes the <see cref="ThrottlingSentinelMiddleware" />.
         /// </summary>
         /// <param name="context">The context of the current request.</param>
-        /// <param name="tc">The dependency injected <see cref="IThrottlingCache"/> of <see cref="InvokeAsync"/>.</param>
+        /// <param name="di">The dependency injected <see cref="IThrottlingCache"/> of <see cref="InvokeAsync"/>.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
-        public override async Task InvokeAsync(HttpContext context, IThrottlingCache tc)
+        public override async Task InvokeAsync(HttpContext context, IThrottlingCache di)
         {
             var exception = false;
             try
             {
-                await AspNetCoreInfrastructure.InvokeThrottlerSentinelAsync(context, tc, Options, async (message, response) =>
+                await AspNetCoreInfrastructure.InvokeThrottlerSentinelAsync(context, di, Options, async (message, response) =>
                 {
-                    response.StatusCode = (int) message.StatusCode;
+                    response.StatusCode = (int)message.StatusCode;
                     Decorator.Enclose(response.Headers).TryAddOrUpdateHeaders(message.Headers);
-                    await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync());
-                });
+                    await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
+                }).ConfigureAwait(false);
             }
             catch (ThrottlingException)
             {
