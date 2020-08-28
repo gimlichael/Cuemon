@@ -4,7 +4,7 @@ trigger:
 variables:
   BuildSource: 'src'
   BuildPlatform: 'Any CPU'
-  BuildConfiguration: 'Debug'
+  BuildConfiguration: 'Release'
 
 jobs:
 - job: CI
@@ -59,6 +59,7 @@ jobs:
       scannerMode: 'MSBuild'
       projectKey: 'Cuemon'
       projectName: 'Cuemon'
+      projectVersion: '$(Build.SourceVersion)'
 
   - task: DotNetCoreCLI@2
     displayName: 'Build netcoreapp3.0'
@@ -91,7 +92,7 @@ jobs:
     inputs:
       command: test
       projects: 'test/**/*.csproj'
-      arguments: '--configuration $(BuildConfiguration)  --collect "Code coverage" '
+      arguments: '--configuration $(BuildConfiguration)  --collect "Code coverage"'
 
   - task: SonarCloudAnalyze@1
 

@@ -9,6 +9,10 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'false'">
+    <CodeAnalysisRuleSet>..\..\.sonarlint\cuemoncorecsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
     <Authors>Michael Mortensen</Authors>
@@ -25,15 +29,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
-    <CodeAnalysisRuleSet>..\..\.sonarlint\cuemoncorecsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' == 'false'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(IsTestProject)' == 'false'">
+  <ItemGroup Condition="'$(IsTestProject)' == 'false' AND '$(TF_BUILD)' == 'false'">
     <AdditionalFiles Include="..\..\.sonarlint\cuemoncore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
@@ -56,10 +54,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="1.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
