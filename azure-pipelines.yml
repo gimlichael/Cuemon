@@ -15,14 +15,14 @@ jobs:
 
   steps:
   - task: UseDotNet@2
-    displayName: 'Use .Net Core SDK 2.2.110 (SonarCloud)'
+    displayName: 'Use .Net Core SDK 2.2.207 (SonarCloud)'
     inputs:
-      version: 2.2.110
+      version: 2.2.207
 
   - task: UseDotNet@2
-    displayName: 'Use .Net Core 3.1.302'
+    displayName: 'Use .Net Core 3.1.401'
     inputs:
-      version: 3.1.302
+      version: 3.1.401
 
   - task: DotNetCoreCLI@2
     displayName: 'Install NBGV tool'
@@ -50,7 +50,7 @@ jobs:
     displayName: Restore
     inputs:
       command: restore
-      projects: '**/*.csproj'
+      projects: '**/Cuemon.Core.csproj'
 
   - task: SonarCloudPrepare@1
     inputs:
@@ -59,40 +59,23 @@ jobs:
       scannerMode: 'MSBuild'
       projectKey: 'Cuemon'
       projectName: 'Cuemon'
-      projectVersion: '$(Build.SourceVersion)'
+      projectVersion: '$(GitVersion.NuGetVersion)'
 
   - task: DotNetCoreCLI@2
-    displayName: 'Build netcoreapp3.0'
+    displayName: 'Build and Pack Assemblies'
     inputs:
-      projects: |
-        src/**/Cuemon.AspNetCore*.csproj
-        src/**/Cuemon.Extensions.AspNetCore*.csproj
-        src/**/Cuemon.Extensions.Xunit.csproj
-      arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netcoreapp3.0 --framework netcoreapp3.0'
-      workingDirectory: '$(BuildSource)'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Build netstandard2.1'
-    inputs:
-      projects: |
-        src/**/Cuemon.Extensions.IO.csproj
-        src/**/Cuemon.IO.csproj
-      arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netstandard2.1 --framework netstandard2.1'
-      workingDirectory: '$(BuildSource)'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Build netstandard2.0'
-    inputs:
-      projects: 'src/**/*.csproj'
-      arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)\netstandard2.0 --framework netstandard2.0'
-      workingDirectory: '$(BuildSource)'
+      command: pack
+      packagesToPack: 'src/**/Cuemon.Core.csproj'
+      configuration: '$(BuildConfiguration)'
+      packDirectory: '$(Build.ArtifactStagingDirectory)\artifacts'
+      verbosityPack: Minimal
 
   - task: DotNetCoreCLI@2
     displayName: Test
     inputs:
       command: test
-      projects: 'test/**/*.csproj'
-      arguments: '--configuration $(BuildConfiguration)  --collect "Code coverage"'
+      projects: 'test/**/Cuemon.Core.Tests.csproj'
+      arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'
 
   - task: SonarCloudAnalyze@1
 
@@ -100,8 +83,6 @@ jobs:
     inputs:
       pollingTimeoutSec: '300'
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'Cuemon'
-      publishLocation: 'Container'
+  - publish: $(Build.ArtifactStagingDirectory)\artifacts
+    displayName: Publish Artifacts (Nuget)
+    artifact: BuildPackages
