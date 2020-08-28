@@ -39,12 +39,14 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
         /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="builder"/> cannot be null.
+        /// <paramref name="builder"/> cannot be null -or-
+        /// <paramref name="setup"/> cannot be null.
         /// </exception>
         public static IMvcCoreBuilder AddJsonSerializationFormatters(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
+            AddJsonSerializationFormatters(builder);
+            AddJsonFormatterOptions(builder, setup);
             return builder;
         }
 
