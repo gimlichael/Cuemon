@@ -255,12 +255,15 @@ namespace Cuemon
             var defaultString = Decorator.Enclose(typeof(Tuple<Guid, string, int, char, double, object>)).ToFriendlyName();
             var fullNameString = Decorator.Enclose(typeof(Tuple<Guid, string, int, char, double, object>)).ToFriendlyName(o => o.FullName = true);
             var noGenericsString = Decorator.Enclose(typeof(Tuple<Guid, string, int, char, double, object>)).ToFriendlyName(o => o.ExcludeGenericArguments = true);
-            var seCultureInfo = Decorator.Enclose(typeof(Tuple<Guid, string, int, char, double, object>)).ToFriendlyName(o => o.FormatProvider = CultureInfo.GetCultureInfo("se-SV"));
 
             Assert.Equal("Tuple<Guid,String,Int32,Char,Double,Object>", defaultString);
             Assert.Equal("System.Tuple<System.Guid,System.String,System.Int32,System.Char,System.Double,System.Object>", fullNameString);
             Assert.Equal("Tuple", noGenericsString);
-            Assert.Equal("Tuple<Guid;String;Int32;Char;Double;Object>", seCultureInfo);
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                var seCultureInfo = Decorator.Enclose(typeof(Tuple<Guid, string, int, char, double, object>)).ToFriendlyName(o => o.FormatProvider = CultureInfo.GetCultureInfo("se-SV")); // unix has different culture interpretation
+                Assert.Equal("Tuple<Guid;String;Int32;Char;Double;Object>", seCultureInfo);
+            }
         }
 
         [Fact]

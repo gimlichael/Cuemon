@@ -154,6 +154,7 @@ namespace Cuemon
             Action body = () =>
             {
                 var o = new UnmanagedDisposable();
+                Assert.NotEqual(IntPtr.Zero, o._libHandle);
                 Assert.NotEqual(IntPtr.Zero, o._handle);
                 unmanaged = new WeakReference<UnmanagedDisposable>(o, true);
             };

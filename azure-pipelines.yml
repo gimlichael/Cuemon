@@ -50,39 +50,42 @@ jobs:
     displayName: Restore
     inputs:
       command: restore
-      projects: '**/Cuemon.Core.csproj'
+      projects: '**/*.csproj'
 
   - task: SonarCloudPrepare@1
+    displayName: 'Prepare Analysis on SonarCloud'
     inputs:
       SonarCloud: 'Cuemon-SonarCloud'
       organization: 'geekle'
       scannerMode: 'MSBuild'
       projectKey: 'Cuemon'
       projectName: 'Cuemon'
-      projectVersion: '$(GitVersion.NuGetVersion)'
+      projectVersion: '$(GitAssemblyInformationalVersion)'
 
   - task: DotNetCoreCLI@2
     displayName: 'Build and Pack Assemblies'
     inputs:
       command: pack
-      packagesToPack: 'src/**/Cuemon.Core.csproj'
+      packagesToPack: 'src/**/*.csproj'
       configuration: '$(BuildConfiguration)'
-      packDirectory: '$(Build.ArtifactStagingDirectory)\artifacts'
+      packDirectory: '$(Build.ArtifactStagingDirectory)/artifacts'
       verbosityPack: Minimal
 
   - task: DotNetCoreCLI@2
     displayName: Test
     inputs:
       command: test
-      projects: 'test/**/Cuemon.Core.Tests.csproj'
+      projects: 'test/**/*.csproj'
       arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'
 
   - task: SonarCloudAnalyze@1
+    displayName: 'Run Sonar Cloud Code Analysis'
 
   - task: SonarCloudPublish@1
+    displayName: 'Publish Quality Gate Result to Sonar Cloud'
     inputs:
       pollingTimeoutSec: '300'
 
   - publish: $(Build.ArtifactStagingDirectory)\artifacts
-    displayName: Publish Artifacts (Nuget)
+    displayName: 'Publish Artifacts (Nuget)'
     artifact: BuildPackages

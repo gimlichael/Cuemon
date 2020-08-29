@@ -9,8 +9,8 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TF_BUILD)' == 'false'">
-    <CodeAnalysisRuleSet>..\..\.sonarlint\cuemoncorecsharp.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup Condition="'$(TF_BUILD)' != 'true'">
+    <CodeAnalysisRuleSet>..\..\.sonarlint\cuemoncsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
@@ -31,8 +31,8 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' == 'false' AND '$(TF_BUILD)' == 'false'">
-    <AdditionalFiles Include="..\..\.sonarlint\cuemoncore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  <ItemGroup Condition="'$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
+    <AdditionalFiles Include="..\..\.sonarlint\cuemon\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' == 'false'">
@@ -54,6 +54,14 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.msbuild" Version="2.9.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="1.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
