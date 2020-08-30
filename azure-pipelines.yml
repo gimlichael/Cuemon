@@ -67,7 +67,8 @@ jobs:
     displayName: Restore
     inputs:
       command: restore
-      projects: **/*.csproj
+      projects: |
+        **/*.csproj
 
   - task: SonarCloudPrepare@1
     condition: eq(variables['Agent.OS'], 'Linux')
