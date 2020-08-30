@@ -2,16 +2,25 @@ trigger:
 - development
 
 variables:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
   BuildSource: 'src'
   BuildPlatform: 'Any CPU'
   BuildConfiguration: 'Release'
 
 jobs:
 - job: CI
-  timeoutInMinutes: 360
+  timeoutInMinutes: 120
+
+  strategy:
+    matrix:
+      Linux_Build_and_Test:
+        imageName: 'ubuntu-20.04'
+      Windows_Build_and_Test:
+        imageName: 'windows-2019'
 
   pool:
-    vmImage: 'windows-2019'
+    vmImage: $(imageName)
 
   steps:
   - task: UseDotNet@2
@@ -30,6 +39,14 @@ jobs:
       command: custom
       custom: tool
       arguments: 'install --global nbgv'
+
+  - task: DotNetCoreCLI@2
+    condition: eq(variables['Agent.OS'], 'Linux')
+    displayName: 'Install ReportGenerator tool'
+    inputs:
+      command: custom
+      custom: tool
+      arguments: install --global dotnet-reportgenerator-globaltool
 
   - script: 'nbgv cloud'
     displayName: 'Set Version using NBGV'
@@ -50,9 +67,10 @@ jobs:
     displayName: Restore
     inputs:
       command: restore
-      projects: '**/*.csproj'
+      projects: **/*.csproj
 
   - task: SonarCloudPrepare@1
+    condition: eq(variables['Agent.OS'], 'Linux')
     displayName: 'Prepare Analysis on SonarCloud'
     inputs:
       SonarCloud: 'Cuemon-SonarCloud'
@@ -61,32 +79,72 @@ jobs:
       projectKey: 'Cuemon'
       projectName: 'Cuemon'
       projectVersion: '$(GitAssemblyInformationalVersion)'
+      extraProperties: |
+        sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*opencover.xml
+        sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
   - task: DotNetCoreCLI@2
-    displayName: 'Build and Pack Assemblies'
+    displayName: 'Build netcoreapp3.0 compatible Assemblies'
     inputs:
-      command: pack
-      packagesToPack: 'src/**/*.csproj'
-      configuration: '$(BuildConfiguration)'
-      packDirectory: '$(Build.ArtifactStagingDirectory)/artifacts'
-      verbosityPack: Minimal
+      command: 'build'
+      projects: |
+        src/**/Cuemon.AspNetCore*.csproj
+        src/**/Cuemon.Extensions.AspNetCore*.csproj
+        src/**/Cuemon.Extensions.Xunit.csproj
+      arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)/netcoreapp3.0 --framework netcoreapp3.0'
+      workingDirectory: '$(BuildSource)'
 
   - task: DotNetCoreCLI@2
-    displayName: Test
+    displayName: 'Build netstandard2.1 compatible Assemblies'
     inputs:
-      command: test
-      projects: 'test/**/*.csproj'
-      arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'
+      command: 'build'
+      projects: |
+        src/**/Cuemon.Extensions.IO.csproj
+        src/**/Cuemon.IO.csproj
+      arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)/netstandard2.1 --framework netstandard2.1'
+      workingDirectory: '$(BuildSource)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build netstandard2.0 compatible Assemblies'
+    inputs:
+      command: 'build'
+      projects: src/**/*.csproj
+      arguments: '--configuration $(BuildConfiguration) --no-restore --output $(Build.ArtifactStagingDirectory)/netstandard2.0 --framework netstandard2.0'
+      workingDirectory: '$(BuildSource)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Test Solution'
+    inputs:
+      command: 'test'
+      projects: test/**/*.csproj
+      arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
       publishTestResults: true
 
+  - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
+    condition: eq(variables['Agent.OS'], 'Linux')
+    displayName: 'Create Code Coverage Reports'
+
+  - task: PublishCodeCoverageResults@1
+    condition: eq(variables['Agent.OS'], 'Linux')
+    displayName: 'Publish Code Coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(Build.SourcesDirectory)/Coverage/Cobertura.xml'
+      reportDirectory: '$(Build.SourcesDirectory)/Coverage'
+
   - task: SonarCloudAnalyze@1
+    condition: eq(variables['Agent.OS'], 'Linux')
     displayName: 'Run Sonar Cloud Code Analysis'
 
   - task: SonarCloudPublish@1
+    condition: eq(variables['Agent.OS'], 'Linux')
     displayName: 'Publish Quality Gate Result to Sonar Cloud'
     inputs:
       pollingTimeoutSec: '300'
 
-  - publish: $(Build.ArtifactStagingDirectory)\artifacts
-    displayName: 'Publish Artifacts (Nuget)'
-    artifact: BuildPackages
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish compiled DLLs'
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: Packages
+      publishLocation: Container
