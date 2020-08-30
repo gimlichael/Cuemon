@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Diagnostics</AssemblyName>
     <AssemblyTitle>Cuemon.Diagnostics</AssemblyTitle>
-    <Description>The Cuemon.Diagnostics assembly provides access to features that extends the System.Diagnostics namespace.</Description>
+    <Description>The Cuemon.Diagnostics namespace contains features that extends the System.Diagnostics namespace.</Description>
     <PackageTags>time-measuring async-time-measuring profiler exception-descriptor</PackageTags>
   </PropertyGroup>
 

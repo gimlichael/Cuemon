@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.DependencyInjection</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.DependencyInjection</AssemblyTitle>
-    <Description>The Cuemon.Extensions.DependencyInjection assembly provides access to extension methods that supports the Microsoft.Extensions.DependencyInjection namespace.</Description>
+    <Description>The Cuemon.Extensions.DependencyInjection namespace contains extension methods and features related to the Microsoft.Extensions.DependencyInjection namespace.</Description>
     <PackageTags>extension-methods extensions add tryadd</PackageTags>
   </PropertyGroup>
 

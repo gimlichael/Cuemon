@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Xunit</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xunit</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Xunit assembly provides access to extension methods and abstractions that supports the Xunit.Abstractions namespace.</Description>
+    <Description>The Cuemon.Extensions.Xunit namespace contains extension methods and features related to the Xunit.Abstractions namespace.</Description>
     <PackageTags>test host-test</PackageTags>
   </PropertyGroup>
 

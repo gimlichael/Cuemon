@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.AspNetCore.Authentication</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore.Authentication</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore.Authentication assembly provides supplemental ways of authentication forms to Microsoft ASP.NET Core.</Description>
-    <PackageTags></PackageTags>
+    <Description>The Cuemon.AspNetCore.Authentication namespace contains implementations of authentication forms and features related to the Cuemon.AspNetCore namespace.</Description>
+    <PackageTags>basic-authentication digest-access-authentication hmac-authentication</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

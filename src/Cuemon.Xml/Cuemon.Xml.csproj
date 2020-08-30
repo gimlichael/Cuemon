@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Xml</AssemblyTitle>
-    <Description>The Cuemon.Xml assembly provides access to features that extends both the System.Xml- and System.Xml.Serialization namespaces. Included is a lightweight XML serializer framework that offers the same flexibility provided by the JSON equivalent from Newtonsoft.</Description>
+    <Description>The Cuemon.Xml namespace contains features related to both the System.Xml- and System.Xml.Serialization namespaces. Included is a lightweight XML serializer framework that offers the same flexibility provided by the JSON equivalent from Newtonsoft.</Description>
     <PackageTags>xml-formatter xml-converter xml-serializer xml-factories</PackageTags>
   </PropertyGroup>
 

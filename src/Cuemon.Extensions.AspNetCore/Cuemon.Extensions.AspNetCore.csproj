@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.AspNetCore</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.AspNetCore</AssemblyTitle>
-    <Description>The Cuemon.Extensions.AspNetCore assembly provides extension methods and general improvement to the Cuemon.AspNetCore assembly.</Description>
-    <PackageTags>extension-methods extensions</PackageTags>
+    <Description>The Cuemon.Extensions.AspNetCore namespace contains extension methods and features related to the Cuemon.AspNetCore namespace.</Description>
+    <PackageTags>extension-methods extensions memory-throttling-cache use-hosting-environment-header use-correlation-identifier-header use-request-identifier-header use-user-agent-sentinel use-custom-throttling-sentinel</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">

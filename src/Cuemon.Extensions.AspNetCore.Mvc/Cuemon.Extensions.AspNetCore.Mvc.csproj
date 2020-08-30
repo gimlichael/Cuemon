@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc</AssemblyTitle>
-    <Description>The Cuemon.Extensions.AspNetCore.Mvc assembly provides extension methods and general improvement to the Cuemon.AspNetCore assembly.</Description>
-    <PackageTags>extension-methods extensions</PackageTags>
+    <Description>The Cuemon.Extensions.AspNetCore.Mvc namespace contains extension methods and features related to the Cuemon.AspNetCore.Mvc namespace.</Description>
+    <PackageTags>extension-methods extensions assembly-cache-busting cache-busting dynamic-cache-busting use-when make-cacheable</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

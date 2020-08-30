@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.AspNetCore</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore assembly is a supplement to Microsoft ASP.NET Core.</Description>
-    <PackageTags></PackageTags>
+    <Description>The Cuemon.AspNetCore namespace contains abundant features related to the Microsoft.AspNetCore namespace.</Description>
+    <PackageTags>configurable-middleware middleware user-agent-sentinel throttling hosting-environment cache-busting application-builder-factory</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">

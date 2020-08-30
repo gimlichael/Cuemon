@@ -9,7 +9,7 @@
     <Product>Cuemon .NET Standard</Product>
     <AssemblyName>Cuemon.Extensions.Reflection</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Reflection</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Reflection assembly provides extension methods to the System.Reflection namespace.</Description>
+    <Description>The Cuemon.Extensions.Reflection namespace contains extension methods and features related to the System.Reflection namespace.</Description>
     <PackageTags>extension-methods extensions get-assembly-version get-file-version get-product-version is-debug-build has-attributes is-auto-property get-runtime-properties-except-of</PackageTags>
   </PropertyGroup>
 

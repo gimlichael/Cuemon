@@ -8,8 +8,6 @@ namespace Cuemon.Extensions.Xml
     /// </summary>
     public static class StringExtensions
     {
-        private static readonly string[][] EscapeStringPairs = new[] { new[] { "&lt;", "&gt;", "&quot;", "&apos;", "&amp;" }, new[] {"<", ">", "\"", "'", "&"} };
-
         /// <summary>
         /// Escapes the given XML <paramref name="value"/>.
         /// </summary>

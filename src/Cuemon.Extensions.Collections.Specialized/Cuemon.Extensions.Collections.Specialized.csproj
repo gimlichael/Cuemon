@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Collections.Specialized</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Collections.Specialized</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Collections.Specialized assembly provides access to extension methods that supports the Cuemon.Collections.Specialized namespace.</Description>
-    <PackageTags>extension-methods extensions</PackageTags>
+    <Description>The Cuemon.Extensions.Collections.Specialized namespace contains extension methods and features related to the Cuemon.Collections.Specialized namespace.</Description>
+    <PackageTags>extension-methods extensions to-name-value-collection to-dictionary</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

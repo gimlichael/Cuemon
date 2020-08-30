@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml</AssemblyTitle>
-    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml assembly provides extension methods and XML formatters for ASP.NET Core MVC.</Description>
-    <PackageTags>extension-methods extensions</PackageTags>
+    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace provides extension methods and XML formatters for ASP.NET Core MVC.</Description>
+    <PackageTags>extension-methods extensions xml-converters</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">

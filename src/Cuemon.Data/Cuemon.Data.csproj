@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Data</AssemblyName>
     <AssemblyTitle>Cuemon.Data</AssemblyTitle>
-    <Description>The Cuemon.Data assembly provides access to abstractions related to the System.Data namespace.</Description>
+    <Description>The Cuemon.Data namespace contains abstractions related to the System.Data namespace.</Description>
     <PackageTags>database db abstractions dto data-transfer row column bulk-copy</PackageTags>
   </PropertyGroup>
 

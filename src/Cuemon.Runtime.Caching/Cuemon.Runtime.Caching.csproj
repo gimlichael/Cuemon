@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Runtime.Caching</AssemblyName>
     <AssemblyTitle>Cuemon.Runtime.Caching</AssemblyTitle>
-    <Description>The Cuemon.Runtime.Caching assembly provides access to features that extends the System.Runtime.Caching namespace.</Description>
+    <Description>The Cuemon.Runtime.Caching namespace contains features related to the System.Runtime.Caching namespace.</Description>
     <PackageTags>caching-manager</PackageTags>
   </PropertyGroup>
 

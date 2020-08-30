@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Data.SqlClient</AssemblyName>
     <AssemblyTitle>Cuemon.Data.SqlClient</AssemblyTitle>
-    <Description>The Cuemon.Data.SqlClient assembly provides different Microsoft SQL Server implementations of different abstractions found in the Cuemon.Data namespace.</Description>
+    <Description>The Cuemon.Data.SqlClient namespace contains different Microsoft SQL Server implementations of different abstractions found in the Cuemon.Data namespace.</Description>
     <PackageTags>sql sql-in-operator sql-query-builder sql-data-manager transient-fault-handling</PackageTags>
   </PropertyGroup>
 

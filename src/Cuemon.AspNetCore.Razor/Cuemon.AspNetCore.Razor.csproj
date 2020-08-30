@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.AspNetCore.Razor</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore.Razor</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore.Razor assembly is a supplement to Microsoft ASP.NET Core.</Description>
-    <PackageTags></PackageTags>
+    <Description>The Cuemon.AspNetCore.Razor namespace contains features related to the Microsoft.AspNetCore.Razor namespace.</Description>
+    <PackageTags>cdn-tag-helper cdn-uri-scheme image-cdn-tag-helper link-cdn-tag-helper script-cdn-tag-helper</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Net</AssemblyName>
     <AssemblyTitle>Cuemon.Net</AssemblyTitle>
-    <Description>The Cuemon.Net assembly provides access to features that extends the System.Net namespace and includes a lightweight SMTP Client.</Description>
+    <Description>The Cuemon.Net namespace contains classes for HTTP communication, a lightweight SMTP Client while and other neat features related to the System.Net namespace.</Description>
     <PackageTags>http-manager http-get http-post http-put http-patch http-delete http-trace mail-distributor smtp-client</PackageTags>
   </PropertyGroup>
 

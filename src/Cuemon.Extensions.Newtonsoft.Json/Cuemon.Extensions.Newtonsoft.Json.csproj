@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Newtonsoft.Json</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Newtonsoft.Json</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Newtonsoft.Json assembly provides extension methods and general improvements that supports the Newtonsoft.Json namespace.</Description>
+    <Description>The Cuemon.Extensions.Newtonsoft.Json namespace contains extension methods and features related to the Newtonsoft.Json namespace.</Description>
     <PackageTags>extension-methods extensions jdata jdata-result json-converter json-formatter</PackageTags>
   </PropertyGroup>
 
