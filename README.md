@@ -17,17 +17,27 @@ The release for now is planned to be 6.0.0.
 
 [![Build Status](https://dev.azure.com/gimlichael/Cuemon/_apis/build/status/gimlichael.Cuemon?branchName=development)](https://dev.azure.com/gimlichael/Cuemon/_build/latest?definitionId=9&branchName=development)
 
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=bugs)](https://sonarcloud.io/dashboard?id=Cuemon)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=code_smells)](https://sonarcloud.io/dashboard?id=Cuemon)
+[![codecov](https://codecov.io/gh/gimlichael/Cuemon/branch/development/graph/badge.svg)](https://codecov.io/gh/gimlichael/Cuemon)
+
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=coverage)](https://sonarcloud.io/dashboard?id=Cuemon)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=ncloc)](https://sonarcloud.io/dashboard?id=Cuemon)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=Cuemon)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=Cuemon)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=security_rating)](https://sonarcloud.io/dashboard?id=Cuemon)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=sqale_index)](https://sonarcloud.io/dashboard?id=Cuemon)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=Cuemon)
 
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=Cuemon)](https://sonarcloud.io/dashboard?id=Cuemon)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=Cuemon)
+
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=Cuemon)
+
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=security_rating)](https://sonarcloud.io/dashboard?id=Cuemon)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=ncloc)](https://sonarcloud.io/dashboard?id=Cuemon)
+
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=code_smells)](https://sonarcloud.io/dashboard?id=Cuemon)
+
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=sqale_index)](https://sonarcloud.io/dashboard?id=Cuemon)
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=bugs)](https://sonarcloud.io/dashboard?id=Cuemon)
+
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=Cuemon)
 
 Stay tuned!
 
