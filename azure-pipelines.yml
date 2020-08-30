@@ -118,7 +118,7 @@ jobs:
     inputs:
       command: 'test'
       projects: test/**/*.csproj
-      arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+      arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
       publishTestResults: true
 
   - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
