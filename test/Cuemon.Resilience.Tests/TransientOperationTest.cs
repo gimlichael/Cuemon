@@ -279,8 +279,13 @@ namespace Cuemon.Resilience
             var profiler = await TimeMeasure.WithActionAsync(async ct =>
             {
                 var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithActionAsync(AsyncActionTransientOperation.TriggerLatencyExceptionAsync, id, _retryTracker, ct, TransientOperationOptionsCallback));
+                
+                TestOutput.WriteLine(aex.ToString());
+
                 Assert.IsType<LatencyException>(aex.InnerExceptions.First());
-                Assert.Equal(NormalRunIncrement + DescriptiveExceptionCauseIncrement, aex.InnerExceptions.Count);
+
+                var low = NormalRunIncrement + DescriptiveExceptionCauseIncrement;
+                Assert.InRange(aex.InnerExceptions.Count, low, low + 1); // expect 2 - allow 3 in rare cases
                 TestOutput.WriteLine(aex.ToString());
             });
 
