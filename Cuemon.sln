@@ -55,7 +55,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Net.Tests", "test\Cuemon.Extensions.Net.Tests\Cuemon.Extensions.Net.Tests.csproj", "{E1C8F634-F655-487D-80B4-82F5F149FBA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Data.Integrity.Tests", "test\Cuemon.Extensions.Integrity.Tests\Cuemon.Extensions.Data.Integrity.Tests.csproj", "{4B1D7CA2-67E0-4D54-BBCA-6607A7770E44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Data.Integrity.Tests", "test\Cuemon.Extensions.Data.Integrity.Tests\Cuemon.Extensions.Data.Integrity.Tests.csproj", "{4B1D7CA2-67E0-4D54-BBCA-6607A7770E44}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Core.Tests", "test\Cuemon.Extensions.Core.Tests\Cuemon.Extensions.Core.Tests.csproj", "{6ACD0AEE-4B47-4B29-9EA8-4FF9C20FF2F6}"
 EndProject
