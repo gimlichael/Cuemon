@@ -69,7 +69,7 @@ namespace Cuemon.Reflection
             Assert.True(v.IsSemanticVersion());
             Assert.True(v.HasAlphanumericVersion);
             Assert.Equal("6.0", v.ToVersion().ToString());
-            Assert.Contains("-prerelease", v.ToString());
+            Assert.Contains("-preview", v.ToString());
         }
 
         [Fact]
