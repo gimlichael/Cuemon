@@ -1,14 +1,4 @@
 ﻿<Project>
-  <PropertyGroup>
-    <TargetFrameworkMonikerAssemblyAttributesPath>$([System.IO.Path]::Combine('$(IntermediateOutputPath)','$(TargetFrameworkMoniker).AssemblyAttributes$(DefaultLanguageSourceExtension)'))</TargetFrameworkMonikerAssemblyAttributesPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <EmbeddedFiles Include="$(GeneratedAssemblyInfoFile)"/>
-  </ItemGroup>
-  <ItemGroup>
-    <SourceRoot Include="$(NuGetPackageRoot)" />
-  </ItemGroup>
-
   <Target Name="CoverletGetPathMap"
           DependsOnTargets="InitializeSourceRootMappedPaths"
           Returns="@(_LocalTopLevelSourceRoot)"
@@ -17,4 +7,13 @@
       <_LocalTopLevelSourceRoot Include="@(SourceRoot)" Condition="'%(SourceRoot.NestedRoot)' == ''"/>
     </ItemGroup>
   </Target>
+
+<!--   <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec" Condition="'$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
+    <ReadLinesFromFile File="notes.txt" >
+      <Output TaskParameter="Lines" ItemName="PackageReleaseNotesLines"/>
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <PackageReleaseNotes>@(PackageReleaseNotesLines, '%0a')</PackageReleaseNotes>
+    </PropertyGroup>
+  </Target> -->
 </Project>
