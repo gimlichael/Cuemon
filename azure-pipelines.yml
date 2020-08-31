@@ -24,6 +24,7 @@ jobs:
 
   steps:
   - task: UseDotNet@2
+    condition: eq(variables['Agent.OS'], 'Linux')
     displayName: 'Use .Net Core SDK 2.2.207 (SonarCloud)'
     inputs:
       version: 2.2.207
@@ -148,7 +149,7 @@ jobs:
       pollingTimeoutSec: '300'
 
   - task: DotNetCoreCLI@2
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
     displayName: dotnet pack
     inputs:
       command: pack
@@ -156,7 +157,7 @@ jobs:
       nobuild: true
 
   - task: PublishBuildArtifacts@1
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
     displayName: 'Store NuGet Packages'
     inputs:
       PathtoPublish: $(Build.ArtifactStagingDirectory)
@@ -164,7 +165,7 @@ jobs:
       publishLocation: Container
 
   - task: NuGetCommand@2
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
     displayName: 'Publish NuGet Packages to https://nuget.cuemon.net/v3/index.json'
     inputs:
       command: 'push'
