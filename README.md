@@ -39,6 +39,23 @@ The release for now is planned to be 6.0.0.
 
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=Cuemon)
 
+Want to try out the new and improved Cuemon?
+
+To consume a CI build, create a `NuGet.Config` in your root solution directory and add following content:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <clear />
+    <!-- Cuemon CI build feed -->
+    <add key="cuemon" value="https://nuget.cuemon.net/v3/index.json" /> 
+    <!-- Defaul nuget feed -->
+    <add key="nuget" value="https://api.nuget.org/v3/index.json" /> 
+  </packageSources>
+</configuration>
+```
+
 Stay tuned!
 
 Useful links for this project (will soon be changed for the forthcoming release):
