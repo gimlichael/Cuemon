@@ -156,8 +156,18 @@ jobs:
       nobuild: true
 
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish compiled DLLs'
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: 'Store NuGet Packages'
     inputs:
       PathtoPublish: $(Build.ArtifactStagingDirectory)
       ArtifactName: Packages
       publishLocation: Container
+
+  - task: NuGetCommand@2
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: 'Publish NuGet Packages to https://nuget.cuemon.net/v3/index.json'
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+      nuGetFeedType: 'external'
+      publishFeedCredentials: 'Cuemon-Nuget'
