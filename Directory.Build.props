@@ -35,16 +35,13 @@
     <AdditionalFiles Include="..\..\.sonarlint\cuemon\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' == 'false'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="all" />
+  <ItemGroup Condition="'$(NuGetPackageRoot)' != ''">
+    <SourceRoot Include="$(NuGetPackageRoot)" RepositoryUrl="https://github.com/gimlichael/Cuemon" />
   </ItemGroup>
 
-  <ItemGroup>
-    <SourceRoot Include="$(MSBuildThisFileDirectory)/" RepositoryUrl="https://github.com/gimlichael/Cuemon"/>
+  <ItemGroup Condition="'$(IsTestProject)' == 'false'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all"/>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
@@ -73,5 +70,4 @@
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit\Cuemon.Extensions.Xunit.csproj" />
   </ItemGroup>
-
 </Project>
