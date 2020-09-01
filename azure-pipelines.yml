@@ -172,12 +172,3 @@ jobs:
       packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
       nuGetFeedType: 'external'
       publishFeedCredentials: 'Cuemon-Nuget'
-
-  - task: NuGetCommand@2
-    condition: eq(variables['Agent.OS'], 'Windows_NT')
-    displayName: 'Publish NuGet Symbol Packages to https://nuget.cuemon.net/v3/index.json'
-    inputs:
-      command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)/*.snupkg'
-      nuGetFeedType: 'external'
-      publishFeedCredentials: 'Cuemon-Nuget'
