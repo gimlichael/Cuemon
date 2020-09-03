@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Text;
-using Cuemon.Threading;
 
 namespace Cuemon.Text
 {
     /// <summary>
     /// Configuration options related to <see cref="Encoding"/>.
     /// </summary>
-    public class EncodingOptions : AsyncOptions, IEncodingOptions
+    public class EncodingOptions : IEncodingOptions
     {
         private Encoding _encoding;
 

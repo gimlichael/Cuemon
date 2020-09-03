@@ -1,7 +1,7 @@
 ﻿using System;
 using Cuemon.Threading;
 
-namespace Cuemon
+namespace Cuemon.IO
 {
     /// <summary>
     /// Configuration options for <see cref="IDisposable"/>.

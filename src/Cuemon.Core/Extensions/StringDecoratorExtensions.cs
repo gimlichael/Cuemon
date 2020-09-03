@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Text;
 
@@ -152,6 +153,7 @@ namespace Cuemon
         /// Converts the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> to a <see cref="Stream"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{String}"/> to extend.</param>
+        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Stream"/> containing the result of the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>.</returns>
         /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
@@ -161,17 +163,17 @@ namespace Cuemon
         /// <exception cref="InvalidEnumArgumentException">
         /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
-        public static Task<Stream> ToStreamAsync(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
+        public static Task<Stream> ToStreamAsync(this IDecorator<string> decorator, CancellationToken ct = default, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             var options = Patterns.Configure(setup);
-            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, ct) =>
+            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, token) =>
             {
                 var bytes = Convertible.GetBytes(decorator.Inner, setup);
-                await ms.WriteAsync(bytes, 0, bytes.Length, ct).ConfigureAwait(false);
+                await ms.WriteAsync(bytes, 0, bytes.Length, token).ConfigureAwait(false);
                 ms.Position = 0;
                 return ms;
-            }, options.CancellationToken);
+            }, ct);
         }
 
         /// <summary>
