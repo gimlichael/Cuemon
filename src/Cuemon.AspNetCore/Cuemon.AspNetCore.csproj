@@ -26,8 +26,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
-    <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
     <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
+    <ProjectReference Include="..\Cuemon.Data.Integrity\Cuemon.Data.Integrity.csproj" />
+    <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
   </ItemGroup>
 
 </Project>

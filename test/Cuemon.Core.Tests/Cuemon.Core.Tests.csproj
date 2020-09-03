@@ -21,4 +21,8 @@
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>

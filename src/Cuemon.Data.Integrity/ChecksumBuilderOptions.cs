@@ -1,7 +1,6 @@
-﻿using Cuemon.Data.Integrity;
-using Cuemon.Security.Cryptography;
+﻿using Cuemon.Security.Cryptography;
 
-namespace Cuemon.Integrity
+namespace Cuemon.Data.Integrity
 {
     /// <summary>
     /// Configuration options for <see cref="ChecksumBuilder"/>.
