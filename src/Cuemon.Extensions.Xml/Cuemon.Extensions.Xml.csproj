@@ -14,6 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
     <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
   </ItemGroup>
 

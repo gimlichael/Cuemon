@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>
 
 </Project>
