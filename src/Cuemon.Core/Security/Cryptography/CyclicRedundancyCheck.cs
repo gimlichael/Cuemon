@@ -10,9 +10,6 @@ namespace Cuemon.Security.Cryptography
     public abstract class CyclicRedundancyCheck : Hash<CyclicRedundancyCheckOptions>
     {
         private readonly Lazy<List<ulong>> _lazyLookup;
-        private readonly ulong _initialValue;
-        private readonly ulong _finalXor;
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CyclicRedundancyCheck"/> class.
@@ -24,8 +21,8 @@ namespace Cuemon.Security.Cryptography
         protected CyclicRedundancyCheck(ulong polynomial, ulong initialValue, ulong finalXor, Action<CyclicRedundancyCheckOptions> setup) : base(setup)
         {
             _lazyLookup = new Lazy<List<ulong>>(() => PolynomialTableInitializerCore(polynomial));
-            _initialValue = initialValue;
-            _finalXor = finalXor;
+            InitialValue = initialValue;
+            FinalXor = finalXor;
         }
 
         private List<ulong> PolynomialTableInitializerCore(ulong polynomial)
@@ -70,12 +67,12 @@ namespace Cuemon.Security.Cryptography
         /// Gets the CRC initial value of the register.
         /// </summary>
         /// <value>The CRC initial value of the register.</value>
-        public ulong InitialValue => _initialValue;
+        public ulong InitialValue { get; }
 
         /// <summary>
         /// Gets the CRC final value that is XORed to the final register value.
         /// </summary>
         /// <value>The CRC final value that is XORed to the final register value.</value>
-        public ulong FinalXor => _finalXor;
+        public ulong FinalXor { get; }
     }
 }
