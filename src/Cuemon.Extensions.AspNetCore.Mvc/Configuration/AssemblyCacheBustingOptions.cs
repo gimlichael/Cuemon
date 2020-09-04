@@ -36,7 +36,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
         public AssemblyCacheBustingOptions()
         {
             Assembly = Assembly.GetEntryAssembly();
-            Algorithm = CryptoAlgorithm.Md5;
+            Algorithm = UnkeyedCryptoAlgorithm.Md5;
             ReadByteForByteChecksum = false;
         }
 
@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
         /// Gets or sets the hash algorithm to use for the computation of <see cref="Assembly"/>.
         /// </summary>
         /// <value>The hash algorithm to use for the computation of <see cref="Assembly"/>.</value>
-        public CryptoAlgorithm Algorithm { get; set; }
+        public UnkeyedCryptoAlgorithm Algorithm { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="Assembly"/> will be read byte-for-byte when computing the checksum.

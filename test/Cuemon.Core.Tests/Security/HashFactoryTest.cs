@@ -1,10 +1,9 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Security
 {
     public class HashFactoryTest : Test
     {
@@ -137,113 +136,6 @@ namespace Cuemon.Security.Cryptography
         {
             var h = HashFactory.CreateCrc(CyclicRedundancyCheckAlgorithm.Crc32CdRomEdc);
             Assert.Equal("D9B8B5E9", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString().ToUpper());
-        }
-
-        [Fact]
-        public void CreateHmacCryptoMd5_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateHmacCryptoMd5(Decorator.Enclose("unittest").ToByteArray());
-            Assert.Equal("d0ee1decd115feac4608976f28e19e10", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("34bdd10e5c71eb6860294d19f2db8233", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("70adffcc026ac757db66de1bbb005e04", h.ComputeHash("what-a-feeling-#-¤-%-!-cover-from-dj-bobo-128379539285784289529893278278173981247983251311").ToHexadecimalString());
-        }
-
-        [Fact]
-        public void CreateHmacCryptoSha1_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateHmacCryptoSha1(Decorator.Enclose("unittest").ToByteArray());
-            Assert.Equal("0c7d9d4461c66d2d6eafef7211689abd20b28b39", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("62ea258e7e4d0522fe5e2b06e1ab600051c542c4", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("bae9d2e09c9b5f65f9a7a3c5a55748b180ee65c1", h.ComputeHash("what-a-feeling-#-¤-%-!-cover-from-dj-bobo-128379539285784289529893278278173981247983251311").ToHexadecimalString());
-        }
-
-        [Fact]
-        public void CreateHmacCryptoSha256_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateHmacCryptoSha256(Decorator.Enclose("unittest").ToByteArray());
-            Assert.Equal("c06272f221bcbfc6783c059e85d7ecdb412e80f2c2b704c27885d64d984d95e3", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("1fd4ff25f71fa49435bc6996bbbaeeb9abe2f47ed3256b8a9f44b8eea49a23b5", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("38367544d02183414967e4669cd298ca6d644db6c6bfa903afae497c6ab300fa", h.ComputeHash("what-a-feeling-#-¤-%-!-cover-from-dj-bobo-128379539285784289529893278278173981247983251311").ToHexadecimalString());
-        }
-
-        [Fact]
-        public void CreateHmacCryptoSha384_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateHmacCryptoSha384(Decorator.Enclose("unittest").ToByteArray());
-            Assert.Equal("87d90ce62441fd39f81d327fb4d3a9902d80a0d8312a961fdfc9b1bcf756afd77f0f0596d30a868a3cda1c49abf1a3ee", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("7a90151a628de76431d11cf01200a7213f0dc491f7677aafbcd232e512521ca1ac3771d2b6204fa1ab6b54cf085ba2d3", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("3b00f1f207819422761a22b918c69a3e16ae0d5268c01ad331311184b6a809b927b324f75d8cb8f1cee0f849382558bd", h.ComputeHash("what-a-feeling-#-¤-%-!-cover-from-dj-bobo-128379539285784289529893278278173981247983251311").ToHexadecimalString());
-        }
-
-        [Fact]
-        public void CreateHmacCryptoSha512_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateHmacCryptoSha512(Decorator.Enclose("unittest").ToByteArray());
-            Assert.Equal("db0087dde1ad907c11037243bf700a9f08430899edfc19fe1fadb7d4e6846182fa0100762cf42c64828f1bfe41493275b98f5c0c1a80300656e0d97f9f1d892e", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("7b674e1138c2ee91828fcf5318d356e72a9c9e4e533234181640b0d1728f305db656bb7e57c95e101c0efbed9290454ef0c37f514c8dfb85f003c483bf0f236a", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("33520bc89652184cf5a17600a78a513db44a0b7eb1fb001525ab0e77c94afcb45b7878b259cd37896ddbbc5dff76d2cbb8f57eaf44c4f4aac77695fe8fe28992", h.ComputeHash("what-a-feeling-#-¤-%-!-cover-from-dj-bobo-128379539285784289529893278278173981247983251311").ToHexadecimalString());
-        }
-        
-        [Fact]
-        public void CreateCryptoSha512_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateCryptoSha512();
-            Assert.Equal("1e07be23c26a86ea37ea810c8ec7809352515a970e9253c26f536cfc7a9996c45c8370583e0a78fa4a90041d71a4ceab7423f19c71b9d5a3e01249f0bebd5894", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("bb96c2fc40d2d54617d6f276febe571f623a8dadf0b734855299b0e107fda32cf6b69f2da32b36445d73690b93cbd0f7bfc20e0f7f28553d2a4428f23b716e90", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("0b6cbac838dfe7f47ea1bd0df00ec282fdf45510c92161072ccfb84035390c4da743d9c3b954eaa1b0f86fc9861b23cc6c8667ab232c11c686432ebb5c8c3f27", h.ComputeHash(Guid.Empty.ToByteArray()).ToHexadecimalString());
-        }
-
-        [Fact]
-        public void CreateCryptoSha384_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateCryptoSha384();
-            Assert.Equal("1761336e3f7cbfe51deb137f026f89e01a448e3b1fafa64039c1464ee8732f11a5341a6f41e0c202294736ed64db1a84", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("90ae531f24e48697904a4d0286f354c50a350ebb6c2b9efcb22f71c96ceaeffc11c6095e9ca0df0ec30bf685dcf2e5e5", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("7210af19145ec2a8e250a7fe8e9eeeac1301e524daab82366c36be614dc35402a289101e48cad61c45337f2f32c14fdc", h.ComputeHash(VerticalDirection.Up).ToHexadecimalString());
-        }
-
-        [Fact]
-        public void CreateCryptoSha256_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateCryptoSha256();
-            Assert.Equal("db4bfcbd4da0cd85a60c3c37d3fbd8805c77f15fc6b1fdfe614ee0a7c8fdb4c0", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("db4bfcbd4da0cd85a60c3c37d3fbd8805c77f15fc6b1fdfe614ee0a7c8fdb4c0", h.ComputeHash(Decorator.Enclose(Alphanumeric.LettersAndNumbers).ToStream()).ToHexadecimalString());
-            Assert.Equal("84d89877f0d4041efb6bf91a16f0248f2fd573e6af05c19f96bedb9f882f7882", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("53ab3a50f51855beeae9721ab68656312c7f105b9b34bbfa97875dbfda72dbc6", h.ComputeHash(DateTime.UnixEpoch).ToHexadecimalString());
-            Assert.Equal("1f1a24c833be74a0f4f99007aa70a51e2456e41f745a5628721ea2b8e1c07641", h.ComputeHash(213, "fdfsfsf", 9999).ToHexadecimalString());
-        }
-
-        [Fact]
-        public void CreateCryptoSha1_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateCryptoSha1();
-            Assert.Equal("761c457bf73b14d27e9e9265c46f4b4dda11f940", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("761c457bf73b14d27e9e9265c46f4b4dda11f940", h.ComputeHash(Decorator.Enclose(Alphanumeric.LettersAndNumbers).ToStream()).ToHexadecimalString());
-            Assert.Equal("87acec17cd9dcd20a716cc2cf67417b71c8a7016", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("485bad9954c874513b8ff7b6d5ea459ac65dd075", h.ComputeHash(decimal.MinValue).ToHexadecimalString());
-            Assert.Equal("ec9a4348d9ffcb19403f5b90e9eefe4cedcd6ee1", h.ComputeHash(43402934324).ToHexadecimalString());
-        }
-
-        [Fact]
-        public void CreateCryptoMd5_LittleEndian_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateCryptoMd5(o => o.ByteOrder = Endianness.LittleEndian);
-            Assert.Equal("193112cee1d1a35660f02e95a28bfea2", h.ComputeHash(32131535).ToHexadecimalString());
-            Assert.Equal("d174ab98d277d9f5a5611c2c9f419d9f", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("d174ab98d277d9f5a5611c2c9f419d9f", h.ComputeHash(Decorator.Enclose(Alphanumeric.LettersAndNumbers).ToStream()).ToHexadecimalString());
-            Assert.Equal("781e5e245d69b566979b86e28d23f2c7", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("612f309087565745ca61c53fcaf6fa7d", h.ComputeHash(212).ToHexadecimalString());
-        }
-
-        [Fact]
-        public void CreateCryptoMd5_BigEndian_ShouldBeValidHashResult()
-        {
-            var h = HashFactory.CreateCryptoMd5(o => o.ByteOrder = Endianness.BigEndian);
-            Assert.Equal("d52654efa276b2ab12ca067dccaf953f", h.ComputeHash(32131535).ToHexadecimalString());
-            Assert.Equal("d174ab98d277d9f5a5611c2c9f419d9f", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
-            Assert.Equal("d174ab98d277d9f5a5611c2c9f419d9f", h.ComputeHash(Decorator.Enclose(Alphanumeric.LettersAndNumbers).ToStream()).ToHexadecimalString());
-            Assert.Equal("781e5e245d69b566979b86e28d23f2c7", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("fb7b8d4f62e2be708ceca1114b439d5d", h.ComputeHash(212).ToHexadecimalString());
         }
 
         [Fact]
