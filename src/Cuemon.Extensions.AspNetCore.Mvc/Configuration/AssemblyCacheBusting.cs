@@ -1,5 +1,6 @@
 ﻿using System;
 using Cuemon.Extensions.Data.Integrity;
+using Cuemon.Security.Cryptography;
 using Microsoft.Extensions.Options;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
@@ -17,7 +18,10 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
         public AssemblyCacheBusting(IOptions<AssemblyCacheBustingOptions> setup)
         {
             var options = setup.Value;
-            var version = options.Assembly?.GetCacheValidator(options.ReadByteForByteChecksum, o => o.Algorithm = options.Algorithm).Checksum.ToHexadecimalString() ?? Guid.NewGuid().ToString("N"); // fallback to Guid.NewGuid
+            var version = options.Assembly?.GetCacheValidator(() => UnkeyedHashFactory.CreateCrypto(options.Algorithm), o =>
+            {
+                if (options.ReadByteForByteChecksum) { o.BytesToRead = int.MaxValue; }
+            }).Checksum.ToHexadecimalString() ?? Guid.NewGuid().ToString("N"); // fallback to Guid.NewGuid
             Version = Decorator.Enclose(version).ToCasing(options.PreferredCasing);
         }
 

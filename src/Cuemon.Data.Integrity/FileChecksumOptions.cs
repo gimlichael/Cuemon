@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Cuemon.IO;
-using Cuemon.Security.Cryptography;
 
 namespace Cuemon.Data.Integrity
 {
@@ -20,10 +19,6 @@ namespace Cuemon.Data.Integrity
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="Algorithm"/></term>
-        ///         <description><see cref="CryptoAlgorithm.Md5"/></description>
-        ///     </item>
-        ///     <item>
         ///         <term><see cref="Method"/></term>
         ///         <description><see cref="EntityDataIntegrityMethod.Unaltered"/></description>
         ///     </item>
@@ -31,15 +26,9 @@ namespace Cuemon.Data.Integrity
         /// </remarks>
         public FileChecksumOptions()
         {
-            Algorithm = CryptoAlgorithm.Md5;
             Method = EntityDataIntegrityMethod.Unaltered;
         }
 
-        /// <summary>
-        /// Gets or sets the hash algorithm to use for the checksum computation.
-        /// </summary>
-        /// <value>The hash algorithm to use for the checksum computation.</value>
-        public CryptoAlgorithm Algorithm { get; set; }
 
         /// <summary>
         /// Gets an enumeration value of <see cref="EntityDataIntegrityMethod"/> indicating how a checksum is generated.

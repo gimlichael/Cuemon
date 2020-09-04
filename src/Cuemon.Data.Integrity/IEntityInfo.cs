@@ -5,7 +5,7 @@
     /// </summary>
     /// <seealso cref="IEntityDataTimestamp" />
     /// <seealso cref="IEntityDataIntegrity" />
-    public interface IEntityData : IEntityDataTimestamp, IEntityDataIntegrity
+    public interface IEntityInfo : IEntityDataTimestamp, IEntityDataIntegrity
     {
     }
 }

@@ -16,10 +16,15 @@ namespace Cuemon.Extensions.Data.Integrity
         {
 
             var a = typeof(AssemblyExtensionsTest).Assembly;
-            var cv = a.GetCacheValidator();
-            Assert.Equal(EntityDataIntegrityStrength.Strong, cv.Strength);
-            Assert.NotEqual(cv.ToString(), CacheValidator.Default.ToString());
-            TestOutput.WriteLine(cv.ToString());
+            var cv1 = a.GetCacheValidator();
+            Assert.Equal(EntityDataIntegrityValidation.Weak, cv1.Validation);
+            var cv2 = a.GetCacheValidator(setup: o => o.BytesToRead = 400);
+            Assert.Equal(EntityDataIntegrityValidation.Strong, cv2.Validation);
+            Assert.NotEqual(cv1.ToString(), CacheValidator.Default.ToString());
+            Assert.NotEqual(cv2.ToString(), CacheValidator.Default.ToString());
+            Assert.NotEqual(cv1.ToString(), cv2.ToString());
+            TestOutput.WriteLine(cv1.ToString());
+            TestOutput.WriteLine(cv2.ToString());
         }
     }
 }

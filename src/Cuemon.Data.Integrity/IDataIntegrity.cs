@@ -1,4 +1,4 @@
-﻿using Cuemon.Security.Cryptography;
+﻿using Cuemon.Security;
 
 namespace Cuemon.Data.Integrity
 {

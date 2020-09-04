@@ -13,32 +13,42 @@ namespace Cuemon.Extensions.Data.Integrity
         }
 
         [Fact]
-        public void GetCacheValidator_ShouldHaveNoneIntegrityChecksum()
+        public void GetCacheValidator_UseDefaultMethod_ShouldHaveUnspecifiedIntegrityValidation()
         {
             var dt = DateTime.UnixEpoch.GetCacheValidator();
-            var expected = "d41d8cd98f00b204e9800998ecf8427e";
+            var expected = "6c62272e07bb014262b821756295c58d";
             Assert.Equal(expected, dt.ToString());
-            Assert.Equal(EntityDataIntegrityStrength.Unspecified, dt.Strength);
+            Assert.Equal(EntityDataIntegrityValidation.Unspecified, dt.Validation);
             TestOutput.WriteLine(dt.ToString());
         }
 
         [Fact]
-        public void GetCacheValidator_ShouldHaveWeakIntegrityChecksum()
+        public void GetCacheValidator_UseTimestampMethod_ShouldHaveUnspecifiedIntegrityValidation()
         {
-            var dt = DateTime.UnixEpoch.GetCacheValidator(DateTime.UnixEpoch.AddDays(7), o => o.Method = EntityDataIntegrityMethod.Timestamp);
-            var expected = "15f5959e2cf903cf2bf3dc93d4c89cb3";
+            var dt = DateTime.UnixEpoch.GetCacheValidator(DateTime.UnixEpoch.AddDays(7), method: EntityDataIntegrityMethod.Timestamp);
+            var expected = "1192c6957365995ad3a62bff3cf1b3ad";
             Assert.Equal(expected, dt.ToString());
-            Assert.Equal(EntityDataIntegrityStrength.Weak, dt.Strength);
+            Assert.Equal(EntityDataIntegrityValidation.Unspecified, dt.Validation);
             TestOutput.WriteLine(dt.ToString());
         }
 
         [Fact]
-        public void GetCacheValidator_ShouldHaveStrongIntegrityChecksum()
+        public void GetCacheValidator_UseDefaultMethod_ShouldHaveWeakIntegrityValidation()
         {
-            var dt = DateTime.UnixEpoch.GetCacheValidator(DateTime.UnixEpoch.AddDays(7), 1234567890);
-            var expected = "bbb1f04aceb3b6903f7f364a25501220";
+            var dt = DateTime.UnixEpoch.GetCacheValidator(DateTime.UnixEpoch.AddDays(7), Convertible.GetBytes(1234567890));
+            var expected = "65567817ef757277b806e833c0139a60";
             Assert.Equal(expected, dt.ToString());
-            Assert.Equal(EntityDataIntegrityStrength.Strong, dt.Strength);
+            Assert.Equal(EntityDataIntegrityValidation.Weak, dt.Validation);
+            TestOutput.WriteLine(dt.ToString());
+        }
+
+        [Fact]
+        public void GetCacheValidator_UseDefaultMethod_ShouldHaveStrongIntegrityValidation()
+        {
+            var dt = DateTime.UnixEpoch.GetCacheValidator(DateTime.UnixEpoch.AddDays(7), Convertible.GetBytes(1234567890), EntityDataIntegrityValidation.Strong);
+            var expected = "65567817ef757277b806e833c0139a60";
+            Assert.Equal(expected, dt.ToString());
+            Assert.Equal(EntityDataIntegrityValidation.Strong, dt.Validation);
             TestOutput.WriteLine(dt.ToString());
         }
     }

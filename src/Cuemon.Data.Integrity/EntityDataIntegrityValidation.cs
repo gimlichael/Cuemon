@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the validation strength of a data checksum.
     /// </summary>
-    public enum EntityDataIntegrityStrength
+    public enum EntityDataIntegrityValidation
     {
         /// <summary>
         /// Indicates that no checksum strength was specified.
