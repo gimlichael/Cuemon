@@ -42,12 +42,28 @@ namespace Cuemon.Data.Integrity
             Validation = validation;
         }
 
+        /// <summary>
+        /// Gets a <see cref="DateTime"/> value from when data this resource represents was first created, expressed as the Coordinated Universal Time (UTC).
+        /// </summary>
+        /// <value>The timestamp from when data this resource represents was first created.</value>
         public DateTime Created { get; }
 
+        /// <summary>
+        /// Gets a <see cref="DateTime"/> value from when data this resource represents was last modified, expressed as the Coordinated Universal Time (UTC).
+        /// </summary>
+        /// <value>The timestamp from when data this resource represents was last modified.</value>
         public DateTime? Modified { get; }
 
+        /// <summary>
+        /// Gets a <see cref="HashResult"/> that represents the integrity of this instance.
+        /// </summary>
+        /// <value>The checksum that represents the integrity of this instance.</value>
         public HashResult Checksum { get; }
 
+        /// <summary>
+        /// Gets the validation strength of the integrity of this resource.
+        /// </summary>
+        /// <value>The validation strength of the integrity of this resource.</value>
         public EntityDataIntegrityValidation Validation { get; }
     }
 }
