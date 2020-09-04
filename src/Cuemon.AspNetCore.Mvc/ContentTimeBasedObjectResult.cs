@@ -1,10 +1,10 @@
 ﻿using System;
 using Cuemon.Data.Integrity;
-using Cuemon.Security.Cryptography;
+using Cuemon.Security;
 
 namespace Cuemon.AspNetCore.Mvc
 {
-    internal class ContentTimeBasedObjectResult :  CacheableObjectResult, IEntityData
+    internal class ContentTimeBasedObjectResult :  CacheableObjectResult, IEntityInfo
     {
         internal ContentTimeBasedObjectResult(object instance, IEntityDataTimestamp timestamp, IEntityDataIntegrity dataIntegrity) : base(instance)
         {
@@ -18,7 +18,7 @@ namespace Cuemon.AspNetCore.Mvc
 
         public DateTime? Modified { get; set; }
 
-        public EntityDataIntegrityStrength Validation { get; set; }
+        public EntityDataIntegrityValidation Validation { get; set; }
 
         public HashResult Checksum { get; set; }
     }

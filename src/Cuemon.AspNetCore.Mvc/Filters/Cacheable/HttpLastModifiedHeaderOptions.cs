@@ -28,7 +28,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         ///         <description><code>
         ///            (timestamp, context) =>
         ///            {
-        ///                context.Response.SetLastModifiedHeaderInformation(context.Request, timestamp.Modified ?? timestamp.Created);
+        ///                Decorator.Enclose(context.Response).TryAddOrUpdateLastModifiedHeader(context.Request, timestamp.Modified ?? timestamp.Created);
         ///            };
         ///         </code></description>
         ///     </item>

@@ -17,8 +17,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpLastModifiedHeaderFilter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="HttpLastModifiedHeaderOptions"/> which need to be configured.</param>
-        public HttpLastModifiedHeaderFilter(Action<HttpLastModifiedHeaderOptions> setup)
+        /// <param name="setup">The <see cref="HttpLastModifiedHeaderOptions"/> which may be configured.</param>
+        public HttpLastModifiedHeaderFilter(Action<HttpLastModifiedHeaderOptions> setup = null)
         {
             Options = Patterns.Configure(setup);
         }

@@ -86,7 +86,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// <returns>An <see cref="ICacheableObjectResult" /> implementation.</returns>
         /// <seealso cref="IEntityDataTimestamp" />
         /// <seealso cref="IEntityDataIntegrity" />
-        /// <seealso cref="IEntityData" />
+        /// <seealso cref="IEntityInfo" />
         /// <seealso cref="CacheableObjectResult" />
         /// <seealso cref="HttpLastModifiedHeaderFilter"/>
         /// <seealso cref="HttpEntityTagHeaderFilter"/>
@@ -110,7 +110,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// <returns>An <see cref="ICacheableObjectResult" /> implementation.</returns>
         /// <seealso cref="IEntityDataTimestamp" />
         /// <seealso cref="IEntityDataIntegrity" />
-        /// <seealso cref="IEntityData" />
+        /// <seealso cref="IEntityInfo" />
         /// <seealso cref="CacheableObjectResult{T}" />
         /// <seealso cref="HttpLastModifiedHeaderFilter"/>
         /// <seealso cref="HttpEntityTagHeaderFilter"/>

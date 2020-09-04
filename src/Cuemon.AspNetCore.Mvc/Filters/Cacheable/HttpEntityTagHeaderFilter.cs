@@ -19,8 +19,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpEntityTagHeaderFilter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="HttpEntityTagHeaderOptions" /> which need to be configured.</param>
-        public HttpEntityTagHeaderFilter(Action<HttpEntityTagHeaderOptions> setup)
+        /// <param name="setup">The <see cref="HttpEntityTagHeaderOptions" /> which may be configured.</param>
+        public HttpEntityTagHeaderFilter(Action<HttpEntityTagHeaderOptions> setup = null)
         {
             Options = Patterns.Configure(setup);
         }
