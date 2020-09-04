@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using Cuemon.Net.Http;
 using Cuemon.Runtime;
-using Cuemon.Security.Cryptography;
+using Cuemon.Security;
 using Cuemon.Text;
 
 namespace Cuemon.Net
@@ -163,7 +163,7 @@ namespace Cuemon.Net
                 using (var stream = new FileStream(RequestUri.LocalPath, FileMode.Open, FileAccess.Read))
                 {
                     stream.Position = 0;
-                    currentSignature = HashFactory.CreateCryptoSha256().ComputeHash(stream).ToHexadecimalString();
+                    currentSignature = HashFactory.CreateFnv256().ComputeHash(stream).ToHexadecimalString();
                 }
             }
         }
@@ -180,7 +180,7 @@ namespace Cuemon.Net
                     {
                         case HttpMethods.Get:
                             var etag = response.Headers.ETag;
-                            currentSignature = string.IsNullOrEmpty(etag.Tag) ? HashFactory.CreateCryptoSha256().ComputeHash(response.Content.ReadAsByteArrayAsync().Result).ToHexadecimalString() : etag.Tag;
+                            currentSignature = string.IsNullOrEmpty(etag.Tag) ? HashFactory.CreateFnv256().ComputeHash(response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult()).ToHexadecimalString() : etag.Tag;
                             break;
                         case HttpMethods.Head:
                             utcLastModified = response.Content.Headers.LastModified?.UtcDateTime ?? DateTime.MaxValue;
