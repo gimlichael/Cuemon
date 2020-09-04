@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Security
 {
     /// <summary>
     /// Represents the result of a computed checksum operation.
@@ -8,7 +8,6 @@ namespace Cuemon.Security.Cryptography
     public class HashResult : IEquatable<HashResult>
     {
         private readonly byte[] _input;
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HashResult"/> class.
@@ -31,6 +30,7 @@ namespace Cuemon.Security.Cryptography
         /// <value>The copy of the original value that reflects a computed operation.</value>
         public byte[] GetBytes()
         {
+            if (_input.Length == 0) { return new byte[0]; }
             var copy = new byte[_input.Length];
             Array.Copy(_input, copy, copy.Length);
             return copy;

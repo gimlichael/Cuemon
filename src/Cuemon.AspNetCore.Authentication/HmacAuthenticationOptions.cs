@@ -22,7 +22,7 @@ namespace Cuemon.AspNetCore.Authentication
             AuthenticationScheme = "HMAC";
             Algorithm = KeyedCryptoAlgorithm.HmacSha1;
             MessageDescriptor = context => FormattableString.Invariant($"{context.Request.Method}:{context.Request.GetDisplayUrl()}:{context.Request.Headers[HeaderNames.ContentMD5].FirstOrDefault()}:{context.Request.Headers[HeaderNames.ContentType].FirstOrDefault()}:{context.Request.Headers[HeaderNames.Date].FirstOrDefault()}:{context.Request.Headers[HeaderNames.UserAgent].FirstOrDefault()}");
-            HmacSigner = parameters => HashFactory.CreateHmacCrypto(parameters.PrivateKey, parameters.Algorithm).ComputeHash(parameters.Message, o =>
+            HmacSigner = parameters => KeyedHashFactory.CreateHmacCrypto(parameters.PrivateKey, parameters.Algorithm).ComputeHash(parameters.Message, o =>
             {
                 o.Encoding = Encoding.UTF8;
             }).GetBytes();

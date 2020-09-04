@@ -1,4 +1,4 @@
-﻿namespace Cuemon.Security.Cryptography
+﻿namespace Cuemon.Security
 {
     /// <summary>
     /// Configuration options for <see cref="FowlerNollVoHash"/>.

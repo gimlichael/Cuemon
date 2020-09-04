@@ -70,49 +70,49 @@ namespace Cuemon.AspNetCore.Authentication
         public const string CredentialAlgorithm = "algorithm";
 
         /// <summary>
-        /// Computes a by parameter defined <see cref="CryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication HA1.
+        /// Computes a by parameter defined <see cref="UnkeyedCryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication HA1.
         /// </summary>
         /// <param name="credentials">The credentials of the HA1 computed value (<see cref="CredentialUserName"/>, <see cref="CredentialRealm"/>).</param>
         /// <param name="password">The password to include in the HA1 computed value.</param>
         /// <param name="algorithm">The algorithm to use when computing the HA1 value.</param>
         /// <returns>A <see cref="string"/> in the format of H('<paramref name="credentials"/>[CredentialUserName]:<paramref name="credentials"/>[CredentialRealm]:<paramref name="password"/>').</returns>
-        public static string ComputeHash1(IDictionary<string, string> credentials, string password, CryptoAlgorithm algorithm)
+        public static string ComputeHash1(IDictionary<string, string> credentials, string password, UnkeyedCryptoAlgorithm algorithm)
         {
             ValidateCredentials(credentials, CredentialUserName, CredentialRealm);
-            return HashFactory.CreateCrypto(algorithm).ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}", credentials[CredentialUserName], credentials[CredentialRealm], password), o =>
+            return UnkeyedHashFactory.CreateCrypto(algorithm).ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}", credentials[CredentialUserName], credentials[CredentialRealm], password), o =>
             {
                 o.Encoding = Encoding.UTF8;
             }).ToHexadecimalString();
         }
 
         /// <summary>
-        /// Computes a by parameter defined <see cref="CryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication HA2.
+        /// Computes a by parameter defined <see cref="UnkeyedCryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication HA2.
         /// </summary>
         /// <param name="credentials">The credentials of the HA2 computed value (<see cref="CredentialDigestUri"/>).</param>
         /// <param name="httpMethod">The HTTP method to include in the HA2 computed value.</param>
         /// <param name="algorithm">The algorithm to use when computing the HA2 value.</param>
         /// <returns>A <see cref="string"/> in the format of H('<paramref name="httpMethod"/>:<paramref name="credentials"/>[CredentialDigestUri]').</returns>
-        public static string ComputeHash2(IDictionary<string, string> credentials, string httpMethod, CryptoAlgorithm algorithm)
+        public static string ComputeHash2(IDictionary<string, string> credentials, string httpMethod, UnkeyedCryptoAlgorithm algorithm)
         {
             ValidateCredentials(credentials, CredentialDigestUri);
-            return HashFactory.CreateCrypto(algorithm).ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}", httpMethod, credentials[CredentialDigestUri]), o =>
+            return UnkeyedHashFactory.CreateCrypto(algorithm).ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}", httpMethod, credentials[CredentialDigestUri]), o =>
             {
                 o.Encoding = Encoding.UTF8;
             }).ToHexadecimalString();
         }
 
         /// <summary>
-        /// Computes a by parameter defined <see cref="CryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication RESPONSE.
+        /// Computes a by parameter defined <see cref="UnkeyedCryptoAlgorithm"/> hash value of the required values for the HTTP Digest access authentication RESPONSE.
         /// </summary>
         /// <param name="credentials">The credentials of the RESPONSE computed value (<see cref="CredentialNonce"/>, <see cref="CredentialNonceCount"/>, <see cref="CredentialClientNonce"/>, <see cref="CredentialQualityOfProtection"/>).</param>
         /// <param name="hash1">The HA1 to include in the RESPONSE computed value.</param>
         /// <param name="hash2">The HA2 to include in the RESPONSE computed value.</param>
         /// <param name="algorithm">The algorithm to use when computing the RESPONSE value.</param>
         /// <returns>A <see cref="string"/> in the format of H('<paramref name="hash1"/>:<paramref name="credentials"/>[CredentialNonce]:<paramref name="credentials"/>[CredentialNonceCount]:<paramref name="credentials"/>[CredentialClientNonce]:<paramref name="credentials"/>[CredentialQualityOfProtection]:<paramref name="hash2"/>').</returns>
-        public static byte[] ComputeResponse(IDictionary<string, string> credentials, string hash1, string hash2, CryptoAlgorithm algorithm)
+        public static byte[] ComputeResponse(IDictionary<string, string> credentials, string hash1, string hash2, UnkeyedCryptoAlgorithm algorithm)
         {
             ValidateCredentials(credentials, CredentialNonce, CredentialNonceCount, CredentialClientNonce, CredentialQualityOfProtection);
-            return HashFactory.CreateCrypto(algorithm).ComputeHash(FormattableString.Invariant($"{hash1}:{credentials[CredentialNonce]}:{credentials[CredentialNonceCount]}:{credentials[CredentialClientNonce]}:{credentials[CredentialQualityOfProtection]}:{hash2}"), o =>
+            return UnkeyedHashFactory.CreateCrypto(algorithm).ComputeHash(FormattableString.Invariant($"{hash1}:{credentials[CredentialNonce]}:{credentials[CredentialNonceCount]}:{credentials[CredentialClientNonce]}:{credentials[CredentialQualityOfProtection]}:{hash2}"), o =>
             {
                 o.Encoding = Encoding.UTF8;
             }).GetBytes();
@@ -175,13 +175,13 @@ namespace Cuemon.AspNetCore.Authentication
         /// </summary>
         /// <param name="algorithm">The algorithm to convert.</param>
         /// <returns>A string containing either MD5, SHA-256 or SHA-512-256.</returns>
-        public static string ParseAlgorithm(CryptoAlgorithm algorithm)
+        public static string ParseAlgorithm(UnkeyedCryptoAlgorithm algorithm)
         {
             switch (algorithm)
             {
-                case CryptoAlgorithm.Sha256:
+                case UnkeyedCryptoAlgorithm.Sha256:
                     return "SHA-256";
-                case CryptoAlgorithm.Sha512:
+                case UnkeyedCryptoAlgorithm.Sha512:
                     return "SHA-512-256";
                 default:
                     return "MD5";
@@ -199,7 +199,7 @@ namespace Cuemon.AspNetCore.Authentication
 
         private static string ComputeNonceHash(DateTime timeStamp, string entityTag, byte[] privateKey)
         {
-            return HashFactory.CreateCryptoSha256().ComputeHash(timeStamp, entityTag, Convert.ToBase64String(privateKey)).ToHexadecimalString();
+            return UnkeyedHashFactory.CreateCryptoSha256().ComputeHash(timeStamp, entityTag, Convert.ToBase64String(privateKey)).ToHexadecimalString();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// </summary>
         public DigestAccessAuthenticationOptions()
         {
-            Algorithm = CryptoAlgorithm.Md5;
+            Algorithm = UnkeyedCryptoAlgorithm.Md5;
             OpaqueGenerator = DigestAuthenticationUtility.DefaultOpaqueGenerator;
             NonceExpiredParser = DigestAuthenticationUtility.DefaultNonceExpiredParser;
             NonceGenerator = DigestAuthenticationUtility.DefaultNonceGenerator;
@@ -40,10 +40,10 @@ namespace Cuemon.AspNetCore.Authentication
         public Func<DigestAccessAuthenticationParameters, byte[]> DigestAccessSigner { get; set; }
 
         /// <summary>
-        /// Gets or sets the algorithm of the HTTP Digest Access Authentication. Default is <see cref="CryptoAlgorithm.Md5"/>.
+        /// Gets or sets the algorithm of the HTTP Digest Access Authentication. Default is <see cref="UnkeyedCryptoAlgorithm.Md5"/>.
         /// </summary>
         /// <value>The algorithm of the HTTP Digest Access Authentication.</value>
-        public CryptoAlgorithm Algorithm { get; set; }
+        public UnkeyedCryptoAlgorithm Algorithm { get; set; }
 
         /// <summary>
         /// Gets the realm that defines the protection space.

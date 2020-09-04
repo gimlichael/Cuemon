@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
-using Cuemon.Security.Cryptography;
+using Cuemon.Security;
 
 namespace Cuemon
 {

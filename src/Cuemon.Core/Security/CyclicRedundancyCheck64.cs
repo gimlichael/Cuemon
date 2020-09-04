@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Security
 {
     /// <summary>
     /// Provides a CRC-64 implementation of the CRC (Cyclic Redundancy Check) checksum algorithm for 64-bit hash values. This class cannot be inherited.

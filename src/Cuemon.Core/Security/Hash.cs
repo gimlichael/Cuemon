@@ -6,7 +6,7 @@ using Cuemon.Configuration;
 using Cuemon.IO;
 using Cuemon.Text;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Security
 {
     /// <summary>
     /// Represents the base class from which all implementations of hash algorithms and checksums should derive.

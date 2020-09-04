@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Security
 {
     /// <summary>
     /// Provides a CRC-32 implementation of the CRC (Cyclic Redundancy Check) checksum algorithm for 32-bit hash values. This class cannot be inherited.

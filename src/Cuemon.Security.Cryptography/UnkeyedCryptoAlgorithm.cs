@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the different implementations of a cryptographic hashing algorithm.
     /// </summary>
-    public enum  CryptoAlgorithm
+    public enum  UnkeyedCryptoAlgorithm
     {
         /// <summary>
         /// The Message Digest 5 (MD5) algorithm (128 bits).

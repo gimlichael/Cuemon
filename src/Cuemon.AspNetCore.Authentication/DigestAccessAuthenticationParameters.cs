@@ -15,7 +15,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <param name="httpMethod">The HTTP method to include in the HA2 computed value.</param>
         /// <param name="password">The password to include in the HA1 computed value.</param>
         /// <param name="algorithm">The algorithm to use when computing the HA1-, HA2-, and response hash values.</param>
-        internal DigestAccessAuthenticationParameters(ImmutableDictionary<string, string> credentials, string httpMethod, string password, CryptoAlgorithm algorithm)
+        internal DigestAccessAuthenticationParameters(ImmutableDictionary<string, string> credentials, string httpMethod, string password, UnkeyedCryptoAlgorithm algorithm)
         {
             Credentials = credentials;
             HttpMethod = httpMethod;
@@ -45,6 +45,6 @@ namespace Cuemon.AspNetCore.Authentication
         /// Gets the algorithm to use when computing the HA1-, HA2-, and response hash values.
         /// </summary>
         /// <value>The algorithm to use when computing the HA1-, HA2-, and response hash values.</value>
-        public CryptoAlgorithm Algorithm { get; }
+        public UnkeyedCryptoAlgorithm Algorithm { get; }
     }
 }

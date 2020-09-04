@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Security
 {
     /// <summary>
     /// Represents the base class from which all implementations of the Fowler–Noll–Vo non-cryptographic hashing algorithm must derive.

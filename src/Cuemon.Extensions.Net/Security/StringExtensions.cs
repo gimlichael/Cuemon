@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.Net.Security
             if (start.HasValue) { qsc.Add(options.StartFieldName, Decorator.Enclose(start.Value).ToUtcKind().ToString("s") + "Z"); }
             if (expiry.HasValue) { qsc.Add(options.ExpiryFieldName, Decorator.Enclose(expiry.Value).ToUtcKind().ToString("s") + "Z"); }
             uriString = FormattableString.Invariant($"{uriString.SkipQueryString()}{qsc.ToQueryString(options.UrlEncode)}");
-            qsc.Add(options.SignatureFieldName, HashFactory.CreateHmacCrypto(secret, options.Algorithm).ComputeHash(options.CanonicalRepresentationBuilder(uriString)).ToUrlEncodedBase64String());
+            qsc.Add(options.SignatureFieldName, KeyedHashFactory.CreateHmacCrypto(secret, options.Algorithm).ComputeHash(options.CanonicalRepresentationBuilder(uriString)).ToUrlEncodedBase64String());
 
             return new Uri(FormattableString.Invariant($"{uriString.SkipQueryString()}{qsc.ToQueryString(options.UrlEncode)}"));
         }
@@ -71,7 +71,7 @@ namespace Cuemon.Extensions.Net.Security
             if (string.IsNullOrWhiteSpace(signature)) { throw new SecurityException(message); }
             qsc.Remove(options.SignatureFieldName);
 
-            var computedSignature = HashFactory.CreateHmacCrypto(secret, options.Algorithm).ComputeHash(options.CanonicalRepresentationBuilder(FormattableString.Invariant($"{signedUriString.SkipQueryString()}{qsc.ToQueryString()}"))).ToUrlEncodedBase64String();
+            var computedSignature = KeyedHashFactory.CreateHmacCrypto(secret, options.Algorithm).ComputeHash(options.CanonicalRepresentationBuilder(FormattableString.Invariant($"{signedUriString.SkipQueryString()}{qsc.ToQueryString()}"))).ToUrlEncodedBase64String();
             if (!signature.Equals(computedSignature, StringComparison.Ordinal)) { throw new SecurityException(message); }
         }
 

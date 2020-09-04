@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Security
 {
     /// <summary>
     /// Provides an implementation of the FVN (Fowler–Noll–Vo) non-cryptographic hashing algorithm for 256-bit hash values. This class cannot be inherited.

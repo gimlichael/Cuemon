@@ -1,4 +1,4 @@
-﻿namespace Cuemon.Security.Cryptography
+﻿namespace Cuemon.Security
 {
     /// <summary>
     /// Defines the algorithms of the Fowler-Noll-Vo hash function.

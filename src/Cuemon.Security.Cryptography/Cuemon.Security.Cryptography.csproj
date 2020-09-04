@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProjectGuid>1b0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Cuemon.Security.Cryptography</AssemblyName>
+    <AssemblyTitle>Cuemon.Security.Cryptography</AssemblyTitle>
+    <Description>The Cuemon.Security.Cryptography namespace contains .</Description>
+    <PackageTags></PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+  </ItemGroup>
+
+</Project>

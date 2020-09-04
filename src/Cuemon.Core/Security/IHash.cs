@@ -1,9 +1,9 @@
 ﻿using System.IO;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Security
 {
     /// <summary>
-    /// Defines the bare minimum of cryptographic transformations.
+    /// Defines the bare minimum of both non-cryptographic and cryptographic transformations.
     /// </summary>
     public interface IHash
     {

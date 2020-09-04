@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Net\Cuemon.Net.csproj" />
+    <ProjectReference Include="..\Cuemon.Security.Cryptography\Cuemon.Security.Cryptography.csproj" />
   </ItemGroup>
 
 </Project>

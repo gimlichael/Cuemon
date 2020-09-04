@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cuemon.Security.Cryptography
+namespace Cuemon.Security
 {
     /// <summary>
     /// Represents the base class from which all implementations of the CRC (Cyclic Redundancy Check) checksum algorithm must derive.
