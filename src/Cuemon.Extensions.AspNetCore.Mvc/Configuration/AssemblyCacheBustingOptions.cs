@@ -25,7 +25,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
         ///     </item>
         ///     <item>
         ///         <term><see cref="Algorithm"/></term>
-        ///         <description><see cref="CryptoAlgorithm.Md5"/></description>
+        ///         <description><see cref="UnkeyedCryptoAlgorithm.Md5"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ReadByteForByteChecksum"/></term>
