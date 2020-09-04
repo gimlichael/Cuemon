@@ -1,5 +1,4 @@
-﻿using System;
-using Cuemon.Collections.Generic;
+﻿using Cuemon.Collections.Generic;
 
 namespace Cuemon
 {
