@@ -36,8 +36,8 @@ namespace Cuemon.Reflection
             var disposableTypesCount = Decorator.Enclose(disposableTypes).Inner.Count();
             var configurationTypesCount = Decorator.Enclose(configurationTypes).Inner.Count();
 
-            Assert.InRange(allTypesCount, 525, 530); // range because of tooling on CI adding dynamic types
-            Assert.Equal(7, disposableTypesCount);
+            Assert.InRange(allTypesCount, 485, 490); // range because of tooling on CI adding dynamic types
+            Assert.Equal(4, disposableTypesCount);
             Assert.Equal(2, configurationTypesCount);
         }
 

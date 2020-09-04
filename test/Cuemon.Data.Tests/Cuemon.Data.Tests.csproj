@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\DsvDataReaderTest_Wiki.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\DsvDataReaderTest_Wiki.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Data\Cuemon.Data.csproj" />
   </ItemGroup>
 
