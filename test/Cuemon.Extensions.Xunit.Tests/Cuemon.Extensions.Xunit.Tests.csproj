@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Cuemon.Extensions.Xunit</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit\Cuemon.Extensions.Xunit.csproj" />
+  </ItemGroup>
+
+</Project>
