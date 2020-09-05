@@ -1,0 +1,22 @@
+﻿6.0.0
+# New Features (NET Core)
+- Added new extension methods for IHostEnvironment: IsLocalDevelopment and IsNonProduction
+
+# New Features (NET Standard)
+- Added new extension methods for IHostingEnvironment: IsLocalDevelopment and IsNonProduction
+
+# Bug Fixes
+-
+-
+
+# Improvements
+-
+-
+
+# Quality Actions
+-
+-
+
+# Other Changes
+-
+-
