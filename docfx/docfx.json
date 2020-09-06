@@ -1,0 +1,859 @@
+{
+  // "metadata": [
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Core/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Data/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.data",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Data.Integrity/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.data.integrity",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Integrity/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.integrity",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Data.SqlClient/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.data.sqlclient",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Diagnostics/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.diagnostics",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.IO/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.io",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.1"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Net/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.net",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Resilience/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.resilience",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Runtime.Caching/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.runtime.caching",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Security.Cryptography/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.security.cryptography",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Threading/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.threading",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Xml/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.xml",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Collections.Generic/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.collections.generic",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Collections.Specialized/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.collections.specialized",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Core/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Data/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.data",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Data.Integrity/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.data.integrity",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.DependencyInjection/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.dependencyinjection",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Diagnostics/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.diagnostics",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.IO/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.io",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.1"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Net/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.net",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Newtonsoft.Json/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.newtonsoft.json",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Reflection/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.reflection",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Text/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.text",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Threading/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.threading",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Xml/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.xml",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netstandard2.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.AspNetCore/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/aspnet/cuemon.aspnetcore",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netcoreapp3.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.AspNetCore.Authentication/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/aspnet/cuemon.aspnetcore.authentication",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netcoreapp3.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.AspNetCore.Mvc/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/aspnet/cuemon.aspnetcore.mvc",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netcoreapp3.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.AspNetCore.Razor/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/aspnet/cuemon.aspnetcore.razor",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netcoreapp3.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.AspNetCore/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/aspnet/cuemon.extensions.aspnetcore",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netcoreapp3.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.AspNetCore.Mvc/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/aspnet/cuemon.extensions.aspnetcore.mvc",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netcoreapp3.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/aspnet/cuemon.extensions.aspnetcore.mvc.formatters.newtonsoft.json",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netcoreapp3.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/aspnet/cuemon.extensions.aspnetcore.mvc.formatters.xml",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netcoreapp3.0"
+  //     }
+  //   },
+  //   {
+  //     "src": [
+  //       {
+  //         "files": [
+  //           "Cuemon.Extensions.Xunit/**.cs*"
+  //         ],
+  //         "exclude": [
+  //           "**/bin/**",
+  //           "**/obj/**"
+  //         ],
+  //         "src": "../src"
+  //       }
+  //     ],
+  //     "dest": "api/dotnet/cuemon.extensions.xunit",
+  //     "filter": "filterConfig.yml",
+  //     "properties": {
+  //       "TargetFramework": "netcoreapp3.0"
+  //     }
+  //   }
+  // ],
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Core/**.cs*",
+            "Cuemon.Data/**.cs*",
+            "Cuemon.Data.Integrity/**.cs*",
+            "Cuemon.Data.SqlClient/**.cs*",
+            "Cuemon.Diagnostics/**.cs*",
+            "Cuemon.IO/**.cs*",
+            "Cuemon.Net/**.cs*",
+            "Cuemon.Resilience/**.cs*",
+            "Cuemon.Runtime.Caching/**.cs*",
+            "Cuemon.Security.Cryptography/**.cs*",
+            "Cuemon.Threading/**.cs*",
+            "Cuemon.Xml/**.cs*"
+          ],
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/dotnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "netstandard2.1"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.Collections.Generic/**.cs*",
+            "Cuemon.Extensions.Collections.Specialized/**.cs*",
+            "Cuemon.Extensions.Core/**.cs*",
+            "Cuemon.Extensions.Data/**.cs*",
+            "Cuemon.Extensions.Data.Integrity/**.cs*",
+            "Cuemon.Extensions.DependencyInjection/**.cs*",
+            "Cuemon.Extensions.Diagnostics/**.cs*",
+            "Cuemon.Extensions.IO/**.cs*",
+            "Cuemon.Extensions.Net/**.cs*",
+            "Cuemon.Extensions.Newtonsoft.Json/**.cs*",
+            "Cuemon.Extensions.Reflection/**.cs*",
+            "Cuemon.Extensions.Text/**.cs*",
+            "Cuemon.Extensions.Threading/**.cs*",
+            "Cuemon.Extensions.Xml/**.cs*",
+            "Cuemon.Extensions.Xunit/**.cs*"
+          ],
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/dotnet/ext",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "netstandard2.1"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.AspNetCore/**.cs*",
+            "Cuemon.AspNetCore.Authentication/**.cs*",
+            "Cuemon.AspNetCore.Mvc/**.cs*",
+            "Cuemon.AspNetCore.Razor/**.cs*"
+          ],
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/aspnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "netcoreapp3.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.AspNetCore/**.cs*",
+            "Cuemon.Extensions.AspNetCore.Mvc/**.cs*",
+            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.cs*",
+            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.cs*"
+          ],
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/aspnet/ext",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "netcoreapp3.0"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**/*.yml",
+          "api/**/*.md",
+          "toc.yml",
+          "*.md"
+        ],
+        "exclude": [
+          "bin/**",
+          "obj/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "globalMetadata": {
+      "_appTitle": "Cuemon",
+      "_appFooter": "<span>Copyright 2008-2020 Geekle. All rights reserved. Code with passion; love your code; deliver with pride. 👨‍💻️🔥❤️🚀🤘<br>Generated by <strong>DocFX</strong></span>",
+      "_appLogoPath": "images/50x50.png",
+      "_appFaviconPath": "images/favicon.ico",
+      "_enableSearch": false,
+      "_disableContribution": false,
+      "_gitContribute": {
+        "repo": "https://github.com/gimlichael/Cuemon",
+        "branch": "development"
+      },
+      "_gitUrlPattern": "github"
+    },
+    "dest": "wwwroot",
+    "globalMetadataFiles": [],
+    "fileMetadataFiles": [],
+    "template": [
+      "default",
+      "templates/cuemon"
+    ],
+    "overwrite": [
+      {
+        "files": [
+          "api/namespaces/**.md"
+        ],
+        "exclude": [
+          "obj/**",
+          "wwwroot/**"
+        ]
+      }
+    ],
+    "postProcessors": [],
+    "markdownEngineName": "markdig",
+    "noLangKeyword": false,
+    "keepFileLink": false,
+    "cleanupCacheHistory": false,
+    "disableGitFeatures": false,
+    "xrefService": [
+      "https://xref.docs.microsoft.com/query?uid={uid}" ]
+  }
+}

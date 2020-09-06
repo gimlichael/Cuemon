@@ -1,0 +1,60 @@
+nav .container {
+    margin: 5px auto;
+}
+
+nav .container .navbar-header {
+    padding-right: 25px;
+}
+
+.hero {
+    height: 400px;
+    font-weight: 300;
+    text-align: center;
+    background-image: url("https://nblcdn.net/cuemon/i/splash.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+.caption.header.cuemon {
+    color: #000;
+    position: absolute;
+    padding: 0 10px 7px;
+    background: rgba(0,0,0,0.5);
+}
+
+.wrap {
+    position: relative;
+    min-height: 400px;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+}
+
+.btn {
+    margin: 5px 0;
+}
+
+    .btn a {
+        color: white;
+    }
+
+#wrapper .container.nuget {
+    padding-top: 25px;
+}
+
+.btn-omen {
+    background-color: #A177B0;
+    color: #fff;
+}
+
+.btn-omen-package {
+    background-color: #7C528B;
+    color: #fff;
+}
+
+.container.nuget .row button {
+    margin-top: 30px;
+}
