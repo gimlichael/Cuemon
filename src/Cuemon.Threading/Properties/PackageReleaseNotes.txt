@@ -1,13 +1,13 @@
 ﻿Version: 6.0.0
 Availability: NET Standard 2.0
-
+ 
 # New Features
 - ADDED TimerFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating and configuring Timer instances
 - ADDED AsyncOptions class in the Cuemon.Threading namespace that specifies options that is related to asynchronous operations
-
+ 
 # Bug Fixes
 - APPLIED ConfigureAwait(false) to all async methods
-
+ 
 # Quality Actions
 - APPLIED while loop over for loop https://rules.sonarsource.com/csharp/RSPEC-1264
 - JUSTIFIED that types are allowed to have many generic parameters https://rules.sonarsource.com/csharp/RSPEC-2436
