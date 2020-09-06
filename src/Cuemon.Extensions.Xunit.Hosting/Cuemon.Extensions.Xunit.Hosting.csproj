@@ -12,6 +12,14 @@
     <PackageTags>host-test class-fixture host-fixture microsoft dependency injection host configuration hosting-environment service-provider configure-services</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.7" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
@@ -26,6 +34,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Extensions.Xunit\Cuemon.Extensions.Xunit.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.Hosting\Cuemon.Extensions.Hosting.csproj" />
   </ItemGroup>
 </Project>
