@@ -2,6 +2,6 @@
 Availability: NET Standard 2.0, NET Core 3.0
 
 # New Features
-- Added HostTest class in the Cuemon.Extensions.Xunit.Hosting namespace that represents a base class from which all implementations of unit testing, that uses Microsoft Dependency Injection, should derive
-- Added IHostFixture interface in the Cuemon.Extensions.Xunit.Hosting namespace that provides a way to use Microsoft Dependency Injection in unit tests
-- Added HostFixture class in the Cuemon.Extensions.Xunit.Hosting namespace that provides a default implementation of the IHostFixture interface
+- ADDED HostTest class in the Cuemon.Extensions.Xunit.Hosting namespace that represents a base class from which all implementations of unit testing, that uses Microsoft Dependency Injection, should derive
+- ADDED IHostFixture interface in the Cuemon.Extensions.Xunit.Hosting namespace that provides a way to use Microsoft Dependency Injection in unit tests
+- ADDED HostFixture class in the Cuemon.Extensions.Xunit.Hosting namespace that provides a default implementation of the IHostFixture interface

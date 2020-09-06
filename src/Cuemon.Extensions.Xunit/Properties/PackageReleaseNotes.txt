@@ -2,4 +2,4 @@
 Availability: NET Standard 2.0
 
 # New Features
-- Added Test class in the Cuemon.Extensions.Xunit namespace that represents the base class from which all implementations of unit testing should derive
+- ADDED Test class in the Cuemon.Extensions.Xunit namespace that represents the base class from which all implementations of unit testing should derive

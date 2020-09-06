@@ -2,4 +2,6 @@
 uid: Cuemon.Threading
 summary: *content
 ---
-The Cuemon.Collections namespace contains fundamental factories, classes and base classes that define invaluable value and reference types that greatly extends the System namespace. Abundant support for delegates and functional programming.
+The Cuemon.Threading namespace contains types that can prove helpful when working with concurrent operations. The namespace relates to the System.Threading namespace.
+
+Availability: NET Standard 2.0
