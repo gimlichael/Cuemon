@@ -8,12 +8,12 @@
     </ItemGroup>
   </Target>
 
-<!--   <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec" Condition="'$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
-    <ReadLinesFromFile File="notes.txt" >
+  <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec" Condition="'$(IsTestProject)' == 'false'">
+    <ReadLinesFromFile File="Properties/PackageReleaseNotes.txt" >
       <Output TaskParameter="Lines" ItemName="PackageReleaseNotesLines"/>
     </ReadLinesFromFile>
     <PropertyGroup>
       <PackageReleaseNotes>@(PackageReleaseNotesLines, '%0a')</PackageReleaseNotes>
     </PropertyGroup>
-  </Target> -->
+  </Target>
 </Project>
