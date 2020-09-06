@@ -21,12 +21,11 @@ namespace Cuemon.Threading
             var cb = new ConcurrentBag<int>();
             await ParallelFactory.ForEachAsync(ic, i =>
             {
-                Thread.Sleep(500); // todo: refactor to true async method
+                Thread.Sleep(50); // todo: refactor to true async method
                 cb.Add(Thread.CurrentThread.ManagedThreadId);
-            }, o => o.PartitionSize = 1000);
+            }, o => o.PartitionSize = 64);
 
             Assert.Equal(1000, cb.Count);
-            Assert.Equal(1000, cb.Distinct().Count());
         }
     }
 }

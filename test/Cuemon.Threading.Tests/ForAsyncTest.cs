@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
@@ -20,12 +19,11 @@ namespace Cuemon.Threading
             var cb = new ConcurrentBag<int>();
             await ParallelFactory.ForAsync(0, 1000, i =>
             {
-                Thread.Sleep(500); // todo: refactor to true async method
+                Thread.Sleep(50); // todo: refactor to true async method
                 cb.Add(Thread.CurrentThread.ManagedThreadId);
-            }, o => o.PartitionSize = 1000);
+            }, o => o.PartitionSize = 64);
 
             Assert.Equal(1000, cb.Count);
-            Assert.Equal(1000, cb.Distinct().Count());
         }
     }
 }

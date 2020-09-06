@@ -22,12 +22,11 @@ namespace Cuemon.Threading
             var fakeReader = new ConcurrentQueue<int>(Generate.RangeOf(1000, i => i));
             await ParallelFactory.WhileAsync(fakeReader, () => Task.FromResult(fakeReader.TryPeek(out _)), cq => cq.TryDequeue(out var x), i =>
             {
-                Thread.Sleep(500); // todo: refactor to true async method
+                Thread.Sleep(50); // todo: refactor to true async method
                 cb.Add(Thread.CurrentThread.ManagedThreadId);
-            }, o => o.PartitionSize = 1000);
+            }, o => o.PartitionSize = 64);
 
             Assert.Equal(1000, cb.Count);
-            Assert.Equal(1000, cb.Distinct().Count());
         }
     }
 }
