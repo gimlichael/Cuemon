@@ -1,0 +1,28 @@
+﻿6.0.0
+# Upgrade Steps
+- [ACTION REQUIRED]
+-
+
+# Breaking Changes
+- REMOVED StringFormatter class in the Cuemon namespace
+- REMOVED StandardizedDateTimeFormatPattern enum in the Cuemon namespace
+
+# New Features
+-
+-
+
+# Bug Fixes
+-
+-
+
+# Improvements
+-
+-
+
+# Quality Actions
+-
+-
+
+# Other Changes
+-
+-

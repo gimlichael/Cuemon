@@ -9,7 +9,7 @@
     <RootNamespace>Cuemon</RootNamespace>
     <AssemblyName>Cuemon.Core</AssemblyName>
     <AssemblyTitle>Cuemon</AssemblyTitle>
-    <Description>The Cuemon namespace contains fundamental factories, classes and base classes that define invaluable value and reference types that greatly extends the System namespace. Abundant support for delegates and functional programming.</Description>
+    <Description>The Cuemon namespace contains fundamental factories, classes and base classes that define invaluable reference and value types that greatly extends the System namespace. Abundant support for delegates and functional programming.</Description>
     <PackageTags>action-factory bit-unit byte-unit calculator configure configure-revert configure-exchange configurable condition options-pattern data-reader decorator delimited-string disposable finalize-disposable safe-invoke safe-invoke-async func-factory patterns reference-project clean-architecture clean-code task-action-factory task-func-factory template template-factory time-range time-unit validator guard text-encoding parser-factory security aes-cryptor cyclic-redundancy-check fowler-noll-vo-hash hash-factory hash-result hmac-message-digest hmac-secure-hash-algorithm keyed-crypto-hash keyed-crypto-algorithm message-digest non-crypto-algorithm secure-hash-algorithm unkeyed-crypto-hash</PackageTags>
   </PropertyGroup>
 
