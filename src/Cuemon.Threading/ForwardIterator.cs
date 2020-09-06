@@ -8,13 +8,13 @@ namespace Cuemon.Threading
         internal ForwardIterator(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider)
         {
             Reader = reader;
-            Condition = condition;
+            ConditionAsync = condition;
             Provider = provider;
         }
 
         private TReader Reader { get; }
 
-        private Func<Task<bool>> Condition { get; }
+        private Func<Task<bool>> ConditionAsync { get; }
 
         private Func<TReader, TElement> Provider { get; }
 
@@ -22,7 +22,7 @@ namespace Cuemon.Threading
 
         public async Task<bool> ReadAsync()
         {
-            if (await Condition().ConfigureAwait(false))
+            if (await ConditionAsync().ConfigureAwait(false))
             {
                 Current = Provider(Reader);
                 return true;
