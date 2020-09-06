@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Xunit</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xunit</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Xunit namespace contains features that is related to the Xunit.Abstractions namespace.</Description>
+    <Description>The Cuemon.Extensions.Xunit namespace contains types that provides a uniform way of doing unit testing. The namespace relates to the Xunit.Abstractions namespace.</Description>
     <PackageTags>test test-output test-disposable test-cleanup</PackageTags>
   </PropertyGroup>
 
