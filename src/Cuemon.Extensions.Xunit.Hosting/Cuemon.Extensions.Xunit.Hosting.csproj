@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
+    <ProjectGuid>1e0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Cuemon.Extensions.Xunit.Hosting</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions.Xunit.Hosting</AssemblyTitle>
+    <Description>The Cuemon.Extensions.Xunit.Hosting namespace contains types that  provides a uniform way of doing unit testing that is used in conjunction with Microsoft Dependency Injection. The namespace relates to the Xunit.Abstractions namespace.</Description>
+    <PackageTags>host-test</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Extensions.Xunit\Cuemon.Extensions.Xunit.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Hosting\Cuemon.Extensions.Hosting.csproj" />
+  </ItemGroup>
+</Project>
