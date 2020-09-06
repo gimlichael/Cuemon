@@ -219,3 +219,8 @@ ModelManifest.xml
 
 # Resharper
 *.DotSettings
+
+# DocFx
+/docfx/wwwroot
+/docfx/api/**/*.yml
+/docfx/**/*.manifest
