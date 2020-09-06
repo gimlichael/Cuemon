@@ -10,7 +10,7 @@ namespace Cuemon.Extensions.Xunit
         private const string ExpectedStringValue = "AllIsGood";
         private bool _onDisposeManagedResourcesCalled;
 
-        public TestTest(ITestOutputHelper output = null) : base(output)
+        public TestTest(ITestOutputHelper output) : base(output)
         {
         }
 
