@@ -6,14 +6,18 @@
 
   <ItemGroup>
     <None Remove="Assets\DsvDataReaderTest_Wiki.csv" />
+    <None Remove="Assets\Professional.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\DsvDataReaderTest_Wiki.csv" />
+    <EmbeddedResource Include="Assets\Professional.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Data\Cuemon.Data.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>
 
 </Project>
