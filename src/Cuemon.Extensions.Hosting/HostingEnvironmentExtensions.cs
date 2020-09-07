@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿#if NETSTANDARD
+using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Hosting
 {
-    #if NETSTANDARD
     /// <summary>
     /// Extension methods for the <see cref="IHostingEnvironment"/> interface.
     /// </summary>
@@ -28,5 +28,5 @@ namespace Cuemon.Extensions.Hosting
             return !environment.IsProduction();
         }
     }
-    #endif
 }
+#endif
