@@ -8,7 +8,7 @@ Availability: NET Standard 2.0
 # Bug Fixes
 - APPLIED ConfigureAwait(false) to all async methods
  
-# Quality Actions
+# Quality Analysis Actions
 - APPLIED while loop over for loop https://rules.sonarsource.com/csharp/RSPEC-1264
 - JUSTIFIED that types are allowed to have many generic parameters https://rules.sonarsource.com/csharp/RSPEC-2436
 - JUSTIFIED that methods are allowed to have many generic parameters https://rules.sonarsource.com/csharp/RSPEC-107
