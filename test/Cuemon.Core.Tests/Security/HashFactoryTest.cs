@@ -7,7 +7,7 @@ namespace Cuemon.Security
 {
     public class HashFactoryTest : Test
     {
-        public HashFactoryTest(ITestOutputHelper output = null) : base(output)
+        public HashFactoryTest(ITestOutputHelper output) : base(output)
         {
         }
 

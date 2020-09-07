@@ -10,7 +10,7 @@ namespace Cuemon
 {
     public class StringDecoratorExtensionsTest : Test
     {
-        public StringDecoratorExtensionsTest(ITestOutputHelper output = null) : base(output)
+        public StringDecoratorExtensionsTest(ITestOutputHelper output) : base(output)
         {
         }
 

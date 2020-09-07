@@ -10,7 +10,7 @@ namespace Cuemon
     {
         private readonly string _number = $"{Generate.RandomString(5, Alphanumeric.Numbers)},{Generate.RandomNumber(0, 99):D2}";
 
-        public ObjectDecoratorExtensionsTest(ITestOutputHelper output = null) : base(output)
+        public ObjectDecoratorExtensionsTest(ITestOutputHelper output) : base(output)
         {
         }
 

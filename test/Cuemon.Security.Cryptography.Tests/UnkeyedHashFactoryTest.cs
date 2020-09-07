@@ -7,7 +7,7 @@ namespace Cuemon.Security.Cryptography
 {
     public class UnkeyedHashFactoryTest : Test
     {
-        public UnkeyedHashFactoryTest(ITestOutputHelper output = null) : base(output)
+        public UnkeyedHashFactoryTest(ITestOutputHelper output) : base(output)
         {
         }
 

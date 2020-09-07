@@ -6,7 +6,7 @@ namespace Cuemon
 {
     public class CalculatorTest : Test
     {
-        public CalculatorTest(ITestOutputHelper output = null) : base(output)
+        public CalculatorTest(ITestOutputHelper output) : base(output)
         {
         }
 

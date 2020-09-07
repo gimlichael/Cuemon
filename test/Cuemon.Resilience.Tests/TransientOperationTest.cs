@@ -24,7 +24,7 @@ namespace Cuemon.Resilience
         private static readonly TimeSpan ExpectedRecoveryWaitTime = TimeSpan.FromSeconds(1);
         private static readonly TimeSpan ExpectedMaximumAllowedLatency = TimeSpan.FromMilliseconds(250);
 
-        public TransientOperationTest(ITestOutputHelper output = null) : base(output)
+        public TransientOperationTest(ITestOutputHelper output) : base(output)
         {
             TransientOperation.FaultCallback = evidence => RetryTrackerCallback(evidence, _transientFaultTracker);
             TransientOperationOptionsCallback = o =>

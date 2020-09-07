@@ -7,7 +7,7 @@ namespace Cuemon.Extensions
 {
     public class ValidatorExtensionsTest : Test
     {
-        public ValidatorExtensionsTest(ITestOutputHelper output = null) : base(output)
+        public ValidatorExtensionsTest(ITestOutputHelper output) : base(output)
         {
             
         }

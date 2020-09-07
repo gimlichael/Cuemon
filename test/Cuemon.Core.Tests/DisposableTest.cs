@@ -12,7 +12,7 @@ namespace Cuemon
 {
     public class DisposableTest : Test
     {
-        public DisposableTest(ITestOutputHelper output = null) : base(output)
+        public DisposableTest(ITestOutputHelper output) : base(output)
         {
             
         }

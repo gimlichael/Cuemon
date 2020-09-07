@@ -11,7 +11,7 @@ namespace Cuemon.Security.Cryptography
         private readonly byte[] _secretKey;
         private readonly byte[] _iv;
 
-        public AesCryptorTest(ITestOutputHelper output = null) : base(output)
+        public AesCryptorTest(ITestOutputHelper output) : base(output)
         {
             _secretKey = AesCryptor.GenerateKey();
             _iv = AesCryptor.GenerateInitializationVector();

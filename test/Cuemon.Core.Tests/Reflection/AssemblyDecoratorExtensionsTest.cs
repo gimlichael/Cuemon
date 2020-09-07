@@ -9,7 +9,7 @@ namespace Cuemon.Reflection
 {
     public class AssemblyDecoratorExtensionsTest : Test
     {
-        public AssemblyDecoratorExtensionsTest(ITestOutputHelper output = null) : base(output)
+        public AssemblyDecoratorExtensionsTest(ITestOutputHelper output) : base(output)
         {
         }
 

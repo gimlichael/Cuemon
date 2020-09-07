@@ -10,7 +10,7 @@ namespace Cuemon.Data
 {
     public class DsvDataReaderTest : Test
     {
-        public DsvDataReaderTest(ITestOutputHelper output = null) : base(output)
+        public DsvDataReaderTest(ITestOutputHelper output) : base(output)
         {
         }
 

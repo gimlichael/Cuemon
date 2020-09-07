@@ -6,7 +6,7 @@ namespace Cuemon.Security.Cryptography
 {
     public class KeyedHashFactoryTest : Test
     {
-        public KeyedHashFactoryTest(ITestOutputHelper output = null) : base(output)
+        public KeyedHashFactoryTest(ITestOutputHelper output) : base(output)
         {
         }
 

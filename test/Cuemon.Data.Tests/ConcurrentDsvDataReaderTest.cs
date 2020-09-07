@@ -11,7 +11,7 @@ namespace Cuemon.Data
 {
     public class ConcurrentDsvDataReaderTest : Test
     {
-        public ConcurrentDsvDataReaderTest(ITestOutputHelper output = null) : base(output)
+        public ConcurrentDsvDataReaderTest(ITestOutputHelper output) : base(output)
         {
         }
 

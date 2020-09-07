@@ -21,7 +21,7 @@ namespace Cuemon
 {
     public class TypeDecoratorExtensionsTest : Test
     {
-        public TypeDecoratorExtensionsTest(ITestOutputHelper output = null) : base(output)
+        public TypeDecoratorExtensionsTest(ITestOutputHelper output) : base(output)
         {
         }
 
