@@ -166,7 +166,6 @@ namespace Cuemon
         public static Task<Stream> ToStreamAsync(this IDecorator<string> decorator, CancellationToken ct = default, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            var options = Patterns.Configure(setup);
             return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, token) =>
             {
                 var bytes = Convertible.GetBytes(decorator.Inner, setup);
