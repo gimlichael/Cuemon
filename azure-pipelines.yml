@@ -160,6 +160,9 @@ jobs:
   - task: WhiteSource Bolt@20
     condition: eq(variables['Agent.OS'], 'Windows_NT')
     displayName: 'WhiteSource Bolt'
+    inputs:
+      advance: true
+      exclude: 'test'
 
   - task: PublishBuildArtifacts@1
     condition: eq(variables['Agent.OS'], 'Windows_NT')
