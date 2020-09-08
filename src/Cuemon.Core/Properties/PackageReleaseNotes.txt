@@ -6,8 +6,8 @@ Availability: NET Standard 2.0
 -
 
 # Breaking Changes
-- REMOVED StringFormatter class in the Cuemon namespace
-- REMOVED StandardizedDateTimeFormatPattern enum in the Cuemon namespace
+- REMOVED StringFormatter class from the Cuemon namespace
+- REMOVED StandardizedDateTimeFormatPattern enum from the Cuemon namespace
 - MOVED AsyncOptions class in the Cuemon.Threading namespace to its own assembly (by the same name and namespace)
 
 # New Features
