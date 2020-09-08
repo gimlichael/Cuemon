@@ -5,7 +5,7 @@ using Cuemon.Xml.Serialization.Converters;
 namespace Cuemon.Xml.Serialization.Formatters
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="XmlFormatter"/> operations.
+    /// Configuration options for <see cref="XmlFormatter"/>.
     /// </summary>
     public class XmlFormatterOptions
     {
