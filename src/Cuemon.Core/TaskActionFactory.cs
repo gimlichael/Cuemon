@@ -451,6 +451,7 @@ namespace Cuemon
         public Task ExecuteMethodAsync(CancellationToken ct)
         {
             ThrowIfNoValidDelegate(Condition.IsNull(Method));
+            if (ct.IsCancellationRequested) { throw new TaskCanceledException(); }
             return Method.Invoke(GenericArguments, ct);
         }
 
