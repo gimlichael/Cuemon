@@ -1,6 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
@@ -20,7 +18,7 @@ namespace Cuemon.Threading
         {
             var cb = new ConcurrentBag<int>();
             var fakeReader = new ConcurrentQueue<int>(Generate.RangeOf(1000, i => i));
-            await ParallelFactory.WhileAsync(fakeReader, () => Task.FromResult(fakeReader.TryPeek(out _)), cq => cq.TryDequeue(out var x), i =>
+            await AdvancedParallelFactory.WhileAsync(fakeReader, () => Task.FromResult(fakeReader.TryPeek(out _)), cq => cq.TryDequeue(out var x), i =>
             {
                 Thread.Sleep(50); // todo: refactor to true async method
                 cb.Add(Thread.CurrentThread.ManagedThreadId);

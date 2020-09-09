@@ -1,6 +1,10 @@
 ﻿Version: 6.0.0
 Availability: NET Standard 2.0
  
+# Breaking Changes
+- REMOVED ThreadPoolUtility class from the Cuemon.Threading namespace
+- CHANGED ParallelFactory class in the Cuemon.Threading namespace; all members refactored to Async signature
+ 
 # New Features
 - ADDED TimerFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating and configuring Timer instances
 - ADDED AsyncOptions class in the Cuemon.Threading namespace that specifies options that is related to asynchronous operations
