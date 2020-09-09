@@ -1,6 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
@@ -9,18 +7,17 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Threading
 {
-    public class WhileAsyncTest : Test
+    public class ForAsyncTest : Test
     {
-        public WhileAsyncTest(ITestOutputHelper output) : base(output)
+        public ForAsyncTest(ITestOutputHelper output) : base(output)
         {
         }
 
         [Fact]
-        public async Task WhileAsyncTest_ShouldRunOn1000Threads()
+        public async Task ForAsync_ShouldRunOn1000Threads()
         {
             var cb = new ConcurrentBag<int>();
-            var fakeReader = new ConcurrentQueue<int>(Generate.RangeOf(1000, i => i));
-            await ParallelFactory.WhileAsync(fakeReader, () => Task.FromResult(fakeReader.TryPeek(out _)), cq => cq.TryDequeue(out var x), i =>
+            await ParallelFactory.ForAsync(0, 1000, i =>
             {
                 Thread.Sleep(50); // todo: refactor to true async method
                 cb.Add(Thread.CurrentThread.ManagedThreadId);

@@ -4,22 +4,22 @@ using System.Threading.Tasks;
 namespace Cuemon.Threading
 {
     /// <summary>
-    /// Configuration options for <see cref="ParallelFactory"/>.
+    /// Configuration options for <see cref="TaskFactory"/>.
     /// </summary>
-    public class AsyncTaskFactoryOptions : AsyncWorkloadOptions
+    public class TaskFactoryOptions : AsyncOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncTaskFactoryOptions"/> class.
+        /// Initializes a new instance of the <see cref="TaskFactoryOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="AsyncTaskFactoryOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="AsyncOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="AsyncWorkloadOptions.PartitionSize"/></term>
+        ///         <term><see cref="PartitionSize"/></term>
         ///         <description>2 x <see cref="Environment.ProcessorCount"/></description>
         ///     </item>
         ///     <item>
@@ -32,11 +32,18 @@ namespace Cuemon.Threading
         ///     </item>
         /// </list>
         /// </remarks>
-        public AsyncTaskFactoryOptions()
+        public TaskFactoryOptions()
         {
             CreationOptions = TaskCreationOptions.LongRunning;
             Scheduler = TaskScheduler.Current;
+            PartitionSize = 2 * Environment.ProcessorCount;
         }
+
+        /// <summary>
+        /// Gets or sets the size of the partition to allocate work to a set of tasks.
+        /// </summary>
+        /// <value>The size of the partition to allocate work to a set of tasks.</value>
+        public int PartitionSize { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="TaskCreationOptions"/> used to create the task.

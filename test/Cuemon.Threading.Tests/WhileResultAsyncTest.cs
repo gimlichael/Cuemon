@@ -19,7 +19,7 @@ namespace Cuemon.Threading
         {
             var cb = new ConcurrentBag<int>();
             var fakeReader = new ConcurrentQueue<int>(Generate.RangeOf(1000, i => i));
-            var result = await AdvancedParallelFactory.WhileResultAsync(fakeReader, () => Task.FromResult(fakeReader.TryPeek(out _)), cq =>
+            var result = await ParallelFactory.WhileResultAsync(fakeReader, () => Task.FromResult(fakeReader.TryPeek(out _)), cq =>
             {
                 if (cq.TryDequeue(out var x))
                 {
