@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Cuemon.Collections.Generic;
 
 namespace Cuemon.Threading
 {
@@ -14,13 +11,12 @@ namespace Cuemon.Threading
         /// <typeparam name="TSource">The type of the data in the source.</typeparam>
         /// <param name="source">The sequence to iterate over parallel.</param>
         /// <param name="worker">The delegate that is invoked once per iteration.</param>
-        /// <param name="setup">The <see cref="AsyncWorkloadOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static Task ForEachAsync<TSource>(IEnumerable<TSource> source, Func<TSource, CancellationToken, Task> worker, Action<AsyncWorkloadOptions> setup = null)
+        /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
+        public static void ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> worker, Action<AsyncTaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(worker, nameof(worker));
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default), setup);
+            ForEachCore(source, ActionFactory.Create(worker, default), setup);
         }
 
         /// <summary>
@@ -31,13 +27,12 @@ namespace Cuemon.Threading
         /// <param name="source">The sequence to iterate over parallel.</param>
         /// <param name="worker">The delegate that is invoked once per iteration.</param>
         /// <param name="arg">The parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="setup">The <see cref="AsyncWorkloadOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static Task ForEachAsync<TSource, T>(IEnumerable<TSource> source, Func<TSource, T, CancellationToken, Task> worker, T arg, Action<AsyncWorkloadOptions> setup = null)
+        /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
+        public static void ForEach<TSource, T>(IEnumerable<TSource> source, Action<TSource, T> worker, T arg, Action<AsyncTaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(worker, nameof(worker));
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg), setup);
+            ForEachCore(source, ActionFactory.Create(worker, default, arg), setup);
         }
 
         /// <summary>
@@ -50,13 +45,12 @@ namespace Cuemon.Threading
         /// <param name="worker">The delegate that is invoked once per iteration.</param>
         /// <param name="arg1">The first parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="setup">The <see cref="AsyncWorkloadOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static Task ForEachAsync<TSource, T1, T2>(IEnumerable<TSource> source, Func<TSource, T1, T2, CancellationToken, Task> worker, T1 arg1, T2 arg2, Action<AsyncWorkloadOptions> setup = null)
+        /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
+        public static void ForEach<TSource, T1, T2>(IEnumerable<TSource> source, Action<TSource, T1, T2> worker, T1 arg1, T2 arg2, Action<AsyncTaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(worker, nameof(worker));
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg1, arg2), setup);
+            ForEachCore(source, ActionFactory.Create(worker, default, arg1, arg2), setup);
         }
 
         /// <summary>
@@ -71,13 +65,12 @@ namespace Cuemon.Threading
         /// <param name="arg1">The first parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="setup">The <see cref="AsyncWorkloadOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static Task ForEachAsync<TSource, T1, T2, T3>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncWorkloadOptions> setup = null)
+        /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
+        public static void ForEach<TSource, T1, T2, T3>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncTaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(worker, nameof(worker));
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg1, arg2, arg3), setup);
+            ForEachCore(source, ActionFactory.Create(worker, default, arg1, arg2, arg3), setup);
         }
 
         /// <summary>
@@ -94,13 +87,12 @@ namespace Cuemon.Threading
         /// <param name="arg2">The second parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="setup">The <see cref="AsyncWorkloadOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static Task ForEachAsync<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncWorkloadOptions> setup = null)
+        /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
+        public static void ForEach<TSource, T1, T2, T3, T4>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncTaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(worker, nameof(worker));
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
+            ForEachCore(source, ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
         }
 
         /// <summary>
@@ -119,30 +111,17 @@ namespace Cuemon.Threading
         /// <param name="arg3">The third parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="worker" />.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="worker" />.</param>
-        /// <param name="setup">The <see cref="AsyncWorkloadOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public static Task ForEachAsync<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncWorkloadOptions> setup = null)
+        /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
+        public static void ForEach<TSource, T1, T2, T3, T4, T5>(IEnumerable<TSource> source, Action<TSource, T1, T2, T3, T4, T5> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncTaskFactoryOptions> setup = null)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(worker, nameof(worker));
-            return ForEachCoreAsync(source, TaskActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
+            ForEachCore(source, ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 
-        private static async Task ForEachCoreAsync<TSource, TWorker>(IEnumerable<TSource> source, TaskActionFactory<TWorker> workerFactory, Action<AsyncWorkloadOptions> setup) where TWorker : Template<TSource>
+        private static void ForEachCore<TSource, TWorker>(IEnumerable<TSource> source, ActionFactory<TWorker> workerFactory, Action<AsyncTaskFactoryOptions> setup) where TWorker : Template<TSource>
         {
-            var options = Patterns.Configure(setup);
-            var partitioner = new PartitionerEnumerable<TSource>(source, options.PartitionSize);
-            while (partitioner.HasPartitions)
-            {
-                var queue = new List<Task>();
-                foreach (var item in partitioner)
-                {
-                    workerFactory.GenericArguments.Arg1 = item;
-                    queue.Add(workerFactory.ExecuteMethodAsync(options.CancellationToken));
-                }
-                if (queue.Count == 0) { break; }
-                await Task.WhenAll(queue).ConfigureAwait(false);
-            }
+            new ActionForEachSynchronousLoop<TSource>(source, setup).PrepareExecution(workerFactory);
         }
     }
 }

@@ -1,27 +1,28 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Cuemon.Threading
 {
-    internal class ForwardIterator<TReader, TElement>
+    internal class AsyncForwardIterator<TReader, TElement>
     {
-        internal ForwardIterator(TReader reader, Func<bool> condition, Func<TReader, TElement> provider)
+        internal AsyncForwardIterator(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider)
         {
             Reader = reader;
-            Condition = condition;
+            ConditionAsync = condition;
             Provider = provider;
         }
 
         private TReader Reader { get; }
 
-        private Func<bool> Condition { get; }
+        private Func<Task<bool>> ConditionAsync { get; }
 
         private Func<TReader, TElement> Provider { get; }
 
         public TElement Current { get; private set; }
 
-        public bool Read()
+        public async Task<bool> ReadAsync()
         {
-            if (Condition())
+            if (await ConditionAsync().ConfigureAwait(false))
             {
                 Current = Provider(Reader);
                 return true;

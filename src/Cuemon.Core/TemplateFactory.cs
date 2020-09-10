@@ -62,5 +62,12 @@ namespace Cuemon
         {
             if (!HasDelegate) { throw new InvalidOperationException(delegateIsNull ? "There is no delegate specified on the factory." : FormattableString.Invariant($"There is a delegate specified on the factory, '{Decorator.Enclose(GetType()).ToFriendlyName(o => o.FullName = true)}', but it leads to a null referenced delegate wrapper.")); }
         }
+
+        /// <summary>
+        /// Creates a shallow copy of the current <see cref="TemplateFactory{TTuple}"/> object.
+        /// </summary>
+        /// <returns>A new <see cref="TemplateFactory{TTuple}"/> implementation that is a copy of this instance.</returns>
+        /// <remarks>When thread safety is required this is the method to invoke.</remarks>
+        public abstract TemplateFactory<TTuple> Clone();
     }
 }

@@ -477,7 +477,7 @@ namespace Cuemon
         /// </summary>
         /// <returns>A new <see cref="TaskFuncFactory{TTuple,TResult}"/> that is a copy of this instance.</returns>
         /// <remarks>When thread safety is required this is the method to invoke.</remarks>
-        public TaskFuncFactory<TTuple, TResult> Clone()
+        public override TemplateFactory<TTuple> Clone()
         {
             return new TaskFuncFactory<TTuple, TResult>(Method, GenericArguments.Clone() as TTuple);
         }

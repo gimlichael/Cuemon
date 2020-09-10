@@ -563,7 +563,7 @@ namespace Cuemon
         /// </summary>
         /// <returns>A new <see cref="TesterFuncFactory{TTuple,TResult,TSuccess}"/> that is a copy of this instance.</returns>
         /// <remarks>When thread safety is required this is the method to invoke.</remarks>
-        public TesterFuncFactory<TTuple, TResult, TSuccess> Clone()
+        public override TemplateFactory<TTuple> Clone()
         {
             return new TesterFuncFactory<TTuple, TResult, TSuccess>(Method, GenericArguments.Clone() as TTuple);
         }
