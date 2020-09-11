@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -13,6 +12,9 @@ namespace Cuemon.Threading
 {
     public class ParallelFactoryTest : Test
     {
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource(TimeSpan.FromMinutes(15));
+        private readonly int _extremePartitionSize = 2048;
+
         public ParallelFactoryTest(ITestOutputHelper output) : base(output)
         {
         }
@@ -28,7 +30,11 @@ namespace Cuemon.Threading
             {
                 Thread.Sleep(50);
                 cb.Add(i);
-            }, o => o.CreationOptions = TaskCreationOptions.None);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.CreationOptions = TaskCreationOptions.None;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(expected.SequenceEqual(cb.OrderBy(i => i)), "expected.SequenceEqual(cb.OrderBy(i => i))");
@@ -83,7 +89,7 @@ namespace Cuemon.Threading
             {
                 Thread.Sleep(1000);
                 cb.Add(i);
-            });
+            }, o => o.CancellationToken = _cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(expected.SequenceEqual(cb.OrderBy(i => i)), "expected.SequenceEqual(cb.OrderBy(i => i))");
@@ -100,7 +106,11 @@ namespace Cuemon.Threading
             {
                 Thread.Sleep(1);
                 cb.Add(i);
-            }, o => o.PartitionSize = 4096);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.PartitionSize = _extremePartitionSize;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(expected.SequenceEqual(cb.OrderBy(i => i)), "expected.SequenceEqual(cb.OrderBy(i => i))");
@@ -117,7 +127,11 @@ namespace Cuemon.Threading
                 Thread.Sleep(50);
                 cb.Add(i);
                 return i;
-            }, o => o.CreationOptions = TaskCreationOptions.None);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.CreationOptions = TaskCreationOptions.None;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -173,7 +187,7 @@ namespace Cuemon.Threading
                 Thread.Sleep(1000);
                 cb.Add(i);
                 return i;
-            });
+            }, o => o.CancellationToken = _cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -190,7 +204,11 @@ namespace Cuemon.Threading
                 Thread.Sleep(100);
                 cb.Add(i);
                 return i;
-            }, o => o.PartitionSize = 4096);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.PartitionSize = _extremePartitionSize;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -207,7 +225,11 @@ namespace Cuemon.Threading
             {
                 Thread.Sleep(50);
                 cb.Add(i);
-            }, o => o.CreationOptions = TaskCreationOptions.None);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.CreationOptions = TaskCreationOptions.None;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(ic.SequenceEqual(cb.OrderBy(i => i)), "ic.SequenceEqual(cb.OrderBy(i => i))");
@@ -263,7 +285,7 @@ namespace Cuemon.Threading
             {
                 Thread.Sleep(1000);
                 cb.Add(i);
-            });
+            }, o => o.CancellationToken = _cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(ic.SequenceEqual(cb.OrderBy(i => i)), "ic.SequenceEqual(cb.OrderBy(i => i))");
@@ -280,7 +302,11 @@ namespace Cuemon.Threading
             {
                 Thread.Sleep(100);
                 cb.Add(i);
-            }, o => o.PartitionSize = 4096);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.PartitionSize = _extremePartitionSize;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(ic.SequenceEqual(cb.OrderBy(i => i)), "ic.SequenceEqual(cb.OrderBy(i => i))");
@@ -298,7 +324,11 @@ namespace Cuemon.Threading
                 Thread.Sleep(50);
                 cb.Add(i);
                 return i;
-            }, o => o.CreationOptions = TaskCreationOptions.None);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.CreationOptions = TaskCreationOptions.None;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -358,7 +388,7 @@ namespace Cuemon.Threading
                 Thread.Sleep(1000);
                 cb.Add(i);
                 return i;
-            });
+            }, o => o.CancellationToken = _cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -376,7 +406,11 @@ namespace Cuemon.Threading
                 Thread.Sleep(100);
                 cb.Add(i);
                 return i;
-            }, o => o.PartitionSize = 4096);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.PartitionSize = _extremePartitionSize;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -394,7 +428,11 @@ namespace Cuemon.Threading
             {
                 Thread.Sleep(50);
                 cb.Add(i);
-            }, o => o.CreationOptions = TaskCreationOptions.None);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.CreationOptions = TaskCreationOptions.None;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(expected.SequenceEqual(cb.OrderBy(i => i)), "expected.SequenceEqual(cb.OrderBy(i => i))");
@@ -470,7 +508,11 @@ namespace Cuemon.Threading
             {
                 Thread.Sleep(100);
                 cb.Add(i);
-            }, o => o.PartitionSize = 4096);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.PartitionSize = _extremePartitionSize;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(expected.SequenceEqual(cb.OrderBy(i => i)), "expected.SequenceEqual(cb.OrderBy(i => i))");
@@ -489,7 +531,11 @@ namespace Cuemon.Threading
                 Thread.Sleep(50);
                 cb.Add(i);
                 return i;
-            }, o => o.CreationOptions = TaskCreationOptions.None);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.CreationOptions = TaskCreationOptions.None;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -549,7 +595,7 @@ namespace Cuemon.Threading
                 Thread.Sleep(1000);
                 cb.Add(i);
                 return i;
-            });
+            }, o => o.CancellationToken = _cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -568,7 +614,11 @@ namespace Cuemon.Threading
                 Thread.Sleep(100);
                 cb.Add(i);
                 return i;
-            }, o => o.PartitionSize = 4096);
+            }, o =>
+            {
+                o.CancellationToken = _cts.Token;
+                o.PartitionSize = _extremePartitionSize;
+            });
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
