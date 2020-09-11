@@ -70,14 +70,6 @@ namespace Cuemon.Threading
             TestOutput.WriteLine($"Threads processed: {cb.Count}.");
 
             Assert.InRange(cb.Count, 200, 500); // most threads should have executed before cancellation
-            
-            var remaining = 1;
-            while (remaining > 0) // exhaust remaining threads
-            {
-                var differenceBecauseOfBackgroundCancellation = cb.OrderBy(i => i).Except(Generate.RangeOf(cb.Count, i => i)).ToList();
-                remaining = differenceBecauseOfBackgroundCancellation.Count;
-            }
-            Assert.True(Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i)), "Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i))");
         }
 
         [Fact]
@@ -168,14 +160,6 @@ namespace Cuemon.Threading
             TestOutput.WriteLine($"Threads processed: {cb.Count}.");
 
             Assert.InRange(cb.Count, 200, 500); // most threads should have executed before cancellation
-            
-            var remaining = 1;
-            while (remaining > 0) // exhaust remaining threads
-            {
-                var differenceBecauseOfBackgroundCancellation = cb.OrderBy(i => i).Except(Generate.RangeOf(cb.Count, i => i)).ToList();
-                remaining = differenceBecauseOfBackgroundCancellation.Count;
-            }
-            Assert.True(Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i)), "Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i))");
         }
 
         [Fact]
@@ -266,14 +250,6 @@ namespace Cuemon.Threading
             TestOutput.WriteLine($"Threads processed: {cb.Count}.");
 
             Assert.InRange(cb.Count, 200, 500); // most threads should have executed before cancellation
-            
-            var remaining = 1;
-            while (remaining > 0) // exhaust remaining threads
-            {
-                var differenceBecauseOfBackgroundCancellation = cb.OrderBy(i => i).Except(Generate.RangeOf(cb.Count, i => i)).ToList();
-                remaining = differenceBecauseOfBackgroundCancellation.Count;
-            }
-            Assert.True(Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i)), "Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i))");
         }
 
         [Fact]
@@ -362,20 +338,10 @@ namespace Cuemon.Threading
 
             Assert.IsAssignableFrom<OperationCanceledException>(ae.InnerExceptions.FirstOrDefault(ex => ex.GetType().IsAssignableFrom(typeof(TaskCanceledException))));
 
-            Thread.Sleep(500); // wait for possible background threads being canceled
-
             TestOutput.WriteLine(x.ToString());
             TestOutput.WriteLine($"Threads processed: {cb.Count}.");
 
             Assert.InRange(cb.Count, 200, 500); // most threads should have executed before cancellation
-            
-            var remaining = 1;
-            while (remaining > 0) // exhaust remaining threads
-            {
-                var differenceBecauseOfBackgroundCancellation = cb.OrderBy(i => i).Except(Generate.RangeOf(cb.Count, i => i)).ToList();
-                remaining = differenceBecauseOfBackgroundCancellation.Count;
-            }
-            Assert.True(Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i)), "Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i))");
         }
 
         [Fact]
@@ -470,14 +436,6 @@ namespace Cuemon.Threading
             TestOutput.WriteLine($"Threads processed: {cb.Count}.");
 
             Assert.InRange(cb.Count, 200, 500); // most threads should have executed before cancellation
-
-            var remaining = 1;
-            while (remaining > 0) // exhaust remaining threads
-            {
-                var differenceBecauseOfBackgroundCancellation = cb.OrderBy(i => i).Except(Generate.RangeOf(cb.Count, i => i)).ToList();
-                remaining = differenceBecauseOfBackgroundCancellation.Count;
-            }
-            Assert.True(Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i)), "Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i))");
         }
 
         [Fact]
@@ -574,14 +532,6 @@ namespace Cuemon.Threading
             TestOutput.WriteLine($"Threads processed: {cb.Count}.");
 
             Assert.InRange(cb.Count, 200, 500); // most threads should have executed before cancellation
-
-            var remaining = 1;
-            while (remaining > 0) // exhaust remaining threads
-            {
-                var differenceBecauseOfBackgroundCancellation = cb.OrderBy(i => i).Except(Generate.RangeOf(cb.Count, i => i)).ToList();
-                remaining = differenceBecauseOfBackgroundCancellation.Count;
-            }
-            Assert.True(Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i)), "Generate.RangeOf(cb.Count, i => i).SequenceEqual(cb.OrderBy(i => i))");
         }
 
         [Fact]
