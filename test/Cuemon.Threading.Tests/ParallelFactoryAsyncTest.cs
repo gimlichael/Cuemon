@@ -13,9 +13,9 @@ namespace Cuemon.Threading
 {
     public class ParallelFactoryAsyncTest : Test
     {
-        private readonly CancellationTokenSource _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+        private readonly TimeSpan _maxAllowedTestTime = TimeSpan.FromMinutes(1);
+        private readonly TimeSpan _longRunningTaskWaitTime = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? TimeSpan.FromMilliseconds(1) : TimeSpan.FromMilliseconds(10);
         private readonly int _extremePartitionSize = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? 512 : 4096;
-        private readonly int _longRunningTaskInMs = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? 100 : 1000;
 
         public ParallelFactoryAsyncTest(ITestOutputHelper output) : base(output)
         {
@@ -24,6 +24,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForAsync_ShouldRunConcurrent()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = 1000;
             var expected = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
@@ -34,7 +35,7 @@ namespace Cuemon.Threading
                 cb.Add(i);
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = 64;
             });
 
@@ -68,15 +69,16 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForAsync_ShouldRunConcurrent_LongRunning_SystemPartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = sbyte.MaxValue;
             var expected = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
             await ParallelFactory.ForAsync(0, count, async (i, ct) =>
             {
-                await Task.Delay(_longRunningTaskInMs, ct);
+                await Task.Delay(_longRunningTaskWaitTime, ct);
                 cb.Add(i);
-            }, o => o.CancellationToken = _cts.Token);
+            }, o => o.CancellationToken = cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(expected.SequenceEqual(cb.OrderBy(i => i)), "expected.SequenceEqual(cb.OrderBy(i => i))");
@@ -102,6 +104,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForResultAsync_ShouldRunConcurrent()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = 1000;
             var cb = new ConcurrentBag<int>();
 
@@ -112,7 +115,7 @@ namespace Cuemon.Threading
                 return i;
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = 64;
             });
 
@@ -147,15 +150,16 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForResultAsync_ShouldRunConcurrent_LongRunning_SystemPartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = sbyte.MaxValue;
             var cb = new ConcurrentBag<int>();
 
             var result = await ParallelFactory.ForResultAsync(0, count, async (i, ct) =>
             {
-                await Task.Delay(_longRunningTaskInMs, ct);
+                await Task.Delay(_longRunningTaskWaitTime, ct);
                 cb.Add(i);
                 return i;
-            }, o => o.CancellationToken = _cts.Token);
+            }, o => o.CancellationToken = cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -164,6 +168,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForResultAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = short.MaxValue;
             var cb = new ConcurrentBag<int>();
 
@@ -174,7 +179,7 @@ namespace Cuemon.Threading
                 return i;
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = _extremePartitionSize;
             });
 
@@ -185,6 +190,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForEachAsync_ShouldRunConcurrent()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = 1000;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
@@ -195,7 +201,7 @@ namespace Cuemon.Threading
                 cb.Add(i);
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = 64;
             });
 
@@ -230,15 +236,16 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForEachAsync_ShouldRunConcurrent_LongRunning_SystemPartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = sbyte.MaxValue;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
             await ParallelFactory.ForEachAsync(ic, async (i, ct) =>
             {
-                await Task.Delay(_longRunningTaskInMs, ct);
+                await Task.Delay(_longRunningTaskWaitTime, ct);
                 cb.Add(i);
-            }, o => o.CancellationToken = _cts.Token);
+            }, o => o.CancellationToken = cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(ic.SequenceEqual(cb.OrderBy(i => i)), "ic.SequenceEqual(cb.OrderBy(i => i))");
@@ -247,6 +254,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForEachAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = short.MaxValue;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
@@ -257,7 +265,7 @@ namespace Cuemon.Threading
                 cb.Add(i);
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = _extremePartitionSize;
             });
 
@@ -268,6 +276,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForEachResultAsync_ShouldRunConcurrent()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = 1000;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
@@ -279,7 +288,7 @@ namespace Cuemon.Threading
                 return i;
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = 64;
             });
 
@@ -315,16 +324,17 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForEachResultAsync_ShouldRunConcurrent_LongRunning_SystemPartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = sbyte.MaxValue;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
             var result = await ParallelFactory.ForEachResultAsync(ic, async (i, ct) =>
             {
-                await Task.Delay(_longRunningTaskInMs, ct);
+                await Task.Delay(_longRunningTaskWaitTime, ct);
                 cb.Add(i);
                 return i;
-            }, o => o.CancellationToken = _cts.Token);
+            }, o => o.CancellationToken = cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -333,6 +343,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForEachResultAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = short.MaxValue;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
@@ -344,7 +355,7 @@ namespace Cuemon.Threading
                 return i;
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = _extremePartitionSize;
             });
 
@@ -355,6 +366,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task WhileAsync_ShouldRunConcurrent()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = 1000;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
@@ -366,7 +378,7 @@ namespace Cuemon.Threading
                 cb.Add(i);
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = 64;
             });
 
@@ -402,6 +414,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task WhileAsync_ShouldRunConcurrent_LongRunning_SystemPartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = sbyte.MaxValue;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
@@ -409,9 +422,9 @@ namespace Cuemon.Threading
 
             await AdvancedParallelFactory.WhileAsync(ic, () => Task.FromResult(ic.TryPeek(out _)), intProvider => intProvider.Dequeue(), async (i, ct) =>
             {
-                await Task.Delay(_longRunningTaskInMs, ct);
+                await Task.Delay(_longRunningTaskWaitTime, ct);
                 cb.Add(i);
-            }, o => o.CancellationToken = _cts.Token);
+            }, o => o.CancellationToken = cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(expected.SequenceEqual(cb.OrderBy(i => i)), "expected.SequenceEqual(cb.OrderBy(i => i))");
@@ -420,6 +433,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task WhileAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = short.MaxValue;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
@@ -431,7 +445,7 @@ namespace Cuemon.Threading
                 cb.Add(i);
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = _extremePartitionSize;
             });
 
@@ -442,6 +456,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task WhileResultAsync_ShouldRunConcurrent()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = 1000;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
@@ -454,7 +469,7 @@ namespace Cuemon.Threading
                 return i;
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = 64;
             });
 
@@ -491,6 +506,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task WhileResultAsync_ShouldRunConcurrent_LongRunning_SystemPartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = sbyte.MaxValue;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
@@ -498,10 +514,10 @@ namespace Cuemon.Threading
 
             var result = await AdvancedParallelFactory.WhileResultAsync(ic, () => Task.FromResult(ic.TryPeek(out _)), intProvider => intProvider.Dequeue(), async (i, ct) =>
             {
-                await Task.Delay(_longRunningTaskInMs, ct);
+                await Task.Delay(_longRunningTaskWaitTime, ct);
                 cb.Add(i);
                 return i;
-            }, o => o.CancellationToken = _cts.Token);
+            }, o => o.CancellationToken = cts.Token);
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
@@ -510,6 +526,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task WhileResultAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
+            var cts = new CancellationTokenSource(_maxAllowedTestTime);
             var count = short.MaxValue;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
@@ -522,7 +539,7 @@ namespace Cuemon.Threading
                 return i;
             }, o =>
             {
-                o.CancellationToken = _cts.Token;
+                o.CancellationToken = cts.Token;
                 o.PartitionSize = _extremePartitionSize;
             });
 
