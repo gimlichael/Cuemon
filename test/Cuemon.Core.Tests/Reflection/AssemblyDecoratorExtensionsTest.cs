@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using Cuemon.Assets;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
@@ -75,8 +76,8 @@ namespace Cuemon.Reflection
         [Fact]
         public void GetManifestResources_ShouldRetrieveCultureInfoSpecificCultures()
         {
-            var a = typeof(Disposable).Assembly;
-            var erbn = Decorator.Enclose(a).GetManifestResources($"{nameof(Cuemon)}.{nameof(Globalization)}.CultureInfo.SpecificCultures.dsv");
+            var a = typeof(ClassBase).Assembly;
+            var erbn = Decorator.Enclose(a).GetManifestResources($"{nameof(Cuemon)}.{nameof(Assets)}.CultureInfo.SpecificCultures.dsv");
             var erbnv = erbn.Single().Value;
             var erbce = Decorator.Enclose(a).GetManifestResources(".d", ManifestResourceMatch.ContainsExtension);
             var erbcev = erbn.Single().Value;
