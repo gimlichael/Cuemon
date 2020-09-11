@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
@@ -13,7 +14,8 @@ namespace Cuemon.Threading
     public class ParallelFactoryTest : Test
     {
         private readonly CancellationTokenSource _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-        private readonly int _extremePartitionSize = 2048;
+        private readonly int _extremePartitionSize = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? 512 : 4096;
+        private readonly int _longRunningTaskInMs = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? 100 : 1000;
 
         public ParallelFactoryTest(ITestOutputHelper output) : base(output)
         {
@@ -87,7 +89,7 @@ namespace Cuemon.Threading
 
             ParallelFactory.For(0, count, i =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(_longRunningTaskInMs);
                 cb.Add(i);
             }, o => o.CancellationToken = _cts.Token);
 
@@ -184,7 +186,7 @@ namespace Cuemon.Threading
 
             var result = ParallelFactory.ForResult(0, count, i =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(_longRunningTaskInMs);
                 cb.Add(i);
                 return i;
             }, o => o.CancellationToken = _cts.Token);
@@ -283,7 +285,7 @@ namespace Cuemon.Threading
 
             ParallelFactory.ForEach(ic, i =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(_longRunningTaskInMs);
                 cb.Add(i);
             }, o => o.CancellationToken = _cts.Token);
 
@@ -385,7 +387,7 @@ namespace Cuemon.Threading
 
             var result = ParallelFactory.ForEachResult(ic, i =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(_longRunningTaskInMs);
                 cb.Add(i);
                 return i;
             }, o => o.CancellationToken = _cts.Token);
@@ -488,7 +490,7 @@ namespace Cuemon.Threading
 
             AdvancedParallelFactory.While(ic, () => ic.TryPeek(out _), intProvider => intProvider.Dequeue(), i =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(_longRunningTaskInMs);
                 cb.Add(i);
             });
 
@@ -592,7 +594,7 @@ namespace Cuemon.Threading
 
             var result = AdvancedParallelFactory.WhileResult(ic, () => ic.TryPeek(out _), intProvider => intProvider.Dequeue(), i =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(_longRunningTaskInMs);
                 cb.Add(i);
                 return i;
             }, o => o.CancellationToken = _cts.Token);

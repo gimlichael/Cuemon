@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
@@ -13,7 +14,8 @@ namespace Cuemon.Threading
     public class ParallelFactoryAsyncTest : Test
     {
         private readonly CancellationTokenSource _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-        private readonly int _extremePartitionSize = 2048;
+        private readonly int _extremePartitionSize = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? 512 : 4096;
+        private readonly int _longRunningTaskInMs = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? 100 : 1000;
 
         public ParallelFactoryAsyncTest(ITestOutputHelper output) : base(output)
         {
@@ -72,7 +74,7 @@ namespace Cuemon.Threading
 
             await ParallelFactory.ForAsync(0, count, async (i, ct) =>
             {
-                await Task.Delay(1000, ct);
+                await Task.Delay(_longRunningTaskInMs, ct);
                 cb.Add(i);
             }, o => o.CancellationToken = _cts.Token);
 
@@ -150,7 +152,7 @@ namespace Cuemon.Threading
 
             var result = await ParallelFactory.ForResultAsync(0, count, async (i, ct) =>
             {
-                await Task.Delay(1000, ct);
+                await Task.Delay(_longRunningTaskInMs, ct);
                 cb.Add(i);
                 return i;
             }, o => o.CancellationToken = _cts.Token);
@@ -234,7 +236,7 @@ namespace Cuemon.Threading
 
             await ParallelFactory.ForEachAsync(ic, async (i, ct) =>
             {
-                await Task.Delay(1000, ct);
+                await Task.Delay(_longRunningTaskInMs, ct);
                 cb.Add(i);
             }, o => o.CancellationToken = _cts.Token);
 
@@ -319,7 +321,7 @@ namespace Cuemon.Threading
 
             var result = await ParallelFactory.ForEachResultAsync(ic, async (i, ct) =>
             {
-                await Task.Delay(1000, ct);
+                await Task.Delay(_longRunningTaskInMs, ct);
                 cb.Add(i);
                 return i;
             }, o => o.CancellationToken = _cts.Token);
@@ -407,7 +409,7 @@ namespace Cuemon.Threading
 
             await AdvancedParallelFactory.WhileAsync(ic, () => Task.FromResult(ic.TryPeek(out _)), intProvider => intProvider.Dequeue(), async (i, ct) =>
             {
-                await Task.Delay(1000, ct);
+                await Task.Delay(_longRunningTaskInMs, ct);
                 cb.Add(i);
             }, o => o.CancellationToken = _cts.Token);
 
@@ -496,7 +498,7 @@ namespace Cuemon.Threading
 
             var result = await AdvancedParallelFactory.WhileResultAsync(ic, () => Task.FromResult(ic.TryPeek(out _)), intProvider => intProvider.Dequeue(), async (i, ct) =>
             {
-                await Task.Delay(1000, ct);
+                await Task.Delay(_longRunningTaskInMs, ct);
                 cb.Add(i);
                 return i;
             }, o => o.CancellationToken = _cts.Token);
