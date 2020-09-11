@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using Cuemon.Reflection;
 
 namespace Cuemon.Globalization
 {
@@ -16,33 +14,9 @@ namespace Cuemon.Globalization
         {
             var cultures = new SortedList<string, CultureInfo>();
             var specificCultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            if (specificCultures != null)
+            foreach (var c in specificCultures)
             {
-                foreach (var c in specificCultures)
-                {
-                    cultures.Add(c.DisplayName, c);
-                }
-                return cultures.Values;
-            }
-
-            using (var lfdSpecificCultures = Decorator.Enclose(typeof(World).Assembly).GetManifestResources("CultureInfo.SpecificCultures.dsv", ManifestResourceMatch.ContainsName).Values.Single())
-            {
-                using (var reader = new StreamReader(lfdSpecificCultures))
-                {
-                    string specificCulture;
-                    while ((specificCulture = reader.ReadLine()) != null)
-                    {
-                        try
-                        {
-                            var c = new CultureInfo(specificCulture);
-                            cultures.Add(c.DisplayName, c);
-                        }
-                        catch (CultureNotFoundException)
-                        {
-                            // ignored on systems not supporting the specificCulture
-                        }
-                    }
-                }
+                cultures.Add(c.DisplayName, c);
             }
             return cultures.Values;
         });
