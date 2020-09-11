@@ -12,7 +12,7 @@ namespace Cuemon.Threading
 {
     public class ParallelFactoryTest : Test
     {
-        private readonly CancellationTokenSource _cts = new CancellationTokenSource(TimeSpan.FromMinutes(15));
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
         private readonly int _extremePartitionSize = 2048;
 
         public ParallelFactoryTest(ITestOutputHelper output) : base(output)
