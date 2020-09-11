@@ -95,26 +95,29 @@ namespace Cuemon
             Assert.Null(stream);
             Assert.Throws<ObjectDisposedException>(() => msRef.Length);
 
-            var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
-            msRef = null;
-            called = 0;
-            stream = await Disposable.SafeInvokeAsync(() => new MemoryStream(), async (ms, g, ct) =>
+            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             {
-                msRef = ms;
-                Assert.Equal(guid, g);
-                await Task.Delay(TimeSpan.FromSeconds(1));
-                await ms.WriteAsync(new byte[] { 1 }, ct);
-                ms.Position = 0;
-                return ms;
-            }, guid, ctsShouldFail.Token, (exception, g, ct) =>
-            {
-                Assert.Equal(guid, g);
-                Assert.True(exception is TaskCanceledException);
-                return Task.CompletedTask;
+                var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
+                msRef = null;
+                called = 0;
+                stream = await Disposable.SafeInvokeAsync(() => new MemoryStream(), async (ms, g, ct) =>
+                {
+                    msRef = ms;
+                    Assert.Equal(guid, g);
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    await ms.WriteAsync(new byte[] {1}, ct);
+                    ms.Position = 0;
+                    return ms;
+                }, guid, ctsShouldFail.Token, (exception, g, ct) =>
+                {
+                    Assert.Equal(guid, g);
+                    Assert.True(exception is TaskCanceledException);
+                    return Task.CompletedTask;
+                });
+                Assert.Equal(0, called);
+                Assert.Null(stream);
+                Assert.Throws<ObjectDisposedException>(() => msRef.Length);
             });
-            Assert.Equal(0, called);
-            Assert.Null(stream);
-            Assert.Throws<ObjectDisposedException>(() => msRef.Length);
 
             stream = await Disposable.SafeInvokeAsync(() => new MemoryStream(), async (ms, n1, n2, n3, n4, n5, ct) =>
             {
