@@ -10,7 +10,7 @@ variables:
 
 jobs:
 - job: CI
-  timeoutInMinutes: 75
+  timeoutInMinutes: 120
 
   strategy:
     matrix:
@@ -160,9 +160,6 @@ jobs:
   - task: WhiteSource Bolt@20
     condition: eq(variables['Agent.OS'], 'Windows_NT')
     displayName: 'WhiteSource Bolt'
-    inputs:
-      advance: true
-      exclude: 'test'
 
   - task: PublishBuildArtifacts@1
     condition: eq(variables['Agent.OS'], 'Windows_NT')
