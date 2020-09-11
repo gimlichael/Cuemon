@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace Cuemon.Threading
 {
-    internal sealed class FuncForSynchronousLoop<TSource, TResult> : ForSynchronousLoop<TSource> where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+    internal sealed class FuncForSynchronousLoop<TOperand, TResult> : ForSynchronousLoop<TOperand> where TOperand : struct, IComparable<TOperand>, IEquatable<TOperand>, IConvertible
     {
-        public FuncForSynchronousLoop(ForLoopRuleset<TSource> rules, Action<AsyncTaskFactoryOptions> setup) : base(rules, setup)
+        public FuncForSynchronousLoop(ForLoopRuleset<TOperand> rules, Action<AsyncTaskFactoryOptions> setup) : base(rules, setup)
         {
         }
 
-        private ConcurrentDictionary<TSource, TResult> Result { get; } = new ConcurrentDictionary<TSource, TResult>();
+        private ConcurrentDictionary<TOperand, TResult> Result { get; } = new ConcurrentDictionary<TOperand, TResult>();
 
 
         protected override void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker)
@@ -24,7 +24,7 @@ namespace Cuemon.Threading
             }
         }
 
-        public IReadOnlyCollection<TResult> GetResult<TWorker>(TemplateFactory<TWorker> worker) where TWorker : Template<TSource>
+        public IReadOnlyCollection<TResult> GetResult<TWorker>(TemplateFactory<TWorker> worker) where TWorker : Template<TOperand>
         {
             PrepareExecution(worker);
             return new ReadOnlyCollection<TResult>(Result.Values.ToList());

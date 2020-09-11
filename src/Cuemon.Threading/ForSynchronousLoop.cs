@@ -4,20 +4,20 @@ using System.Threading.Tasks;
 
 namespace Cuemon.Threading
 {
-    internal abstract class ForSynchronousLoop<TSource> : SynchronousLoop<TSource> where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+    internal abstract class ForSynchronousLoop<TOperand> : SynchronousLoop<TOperand> where TOperand : struct, IComparable<TOperand>, IEquatable<TOperand>, IConvertible
     {
-        protected ForSynchronousLoop(ForLoopRuleset<TSource> rules, Action<AsyncTaskFactoryOptions> setup) : base(setup)
+        protected ForSynchronousLoop(ForLoopRuleset<TOperand> rules, Action<AsyncTaskFactoryOptions> setup) : base(setup)
         {
             Rules = rules;
             From = rules.From;
             WhileCondition = () => true;
         }
 
-        protected TSource From { get; set; }
+        protected TOperand From { get; set; }
 
-        protected ForLoopRuleset<TSource> Rules { get; }
+        protected ForLoopRuleset<TOperand> Rules { get; }
 
-        protected TSource Processed { get; set; }
+        protected TOperand Processed { get; set; }
 
         protected int WorkChunks { get; set; }
 
@@ -47,7 +47,7 @@ namespace Cuemon.Threading
             From = Calculator.Calculate(Processed, Rules.Assignment, Rules.Step);
         }
 
-        protected abstract void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker) where TWorker : Template<TSource>;
+        protected abstract void FillWorkQueueWorkerFactory<TWorker>(TemplateFactory<TWorker> worker) where TWorker : Template<TOperand>;
 
         protected sealed override void OnWhileExecutingBeforeFillWorkQueue()
         {

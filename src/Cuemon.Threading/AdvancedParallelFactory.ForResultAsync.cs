@@ -180,8 +180,8 @@ namespace Cuemon.Threading
             var from = rules.From;
             var options = Patterns.Configure(setup);
             var result = new ConcurrentDictionary<TOperand, TResult>();
-
             TOperand processed = default;
+            
             while (true)
             {
                 var workChunks = options.PartitionSize;

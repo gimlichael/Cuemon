@@ -2,9 +2,9 @@
 
 namespace Cuemon.Threading
 {
-    internal sealed class ActionForSynchronousLoop<TSource> : ForSynchronousLoop<TSource> where TSource : struct, IComparable<TSource>, IEquatable<TSource>, IConvertible
+    internal sealed class ActionForSynchronousLoop<TOperand> : ForSynchronousLoop<TOperand> where TOperand : struct, IComparable<TOperand>, IEquatable<TOperand>, IConvertible
     {
-        public ActionForSynchronousLoop(ForLoopRuleset<TSource> rules, Action<AsyncTaskFactoryOptions> setup) : base(rules, setup)
+        public ActionForSynchronousLoop(ForLoopRuleset<TOperand> rules, Action<AsyncTaskFactoryOptions> setup) : base(rules, setup)
         {
         }
 

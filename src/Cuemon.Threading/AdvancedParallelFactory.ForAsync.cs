@@ -164,6 +164,7 @@ namespace Cuemon.Threading
             var from = rules.From;
             var options = Patterns.Configure(setup);
             TOperand processed = default;
+
             while (true)
             {
                 var workChunks = options.PartitionSize;

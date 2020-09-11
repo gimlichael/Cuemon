@@ -155,8 +155,8 @@ namespace Cuemon.Threading
             where TWorker : Template<TElement>
         {
             var options = Patterns.Configure(setup);
-            
             var readForward = true;
+            
             while (true)
             {
                 var workChunks = options.PartitionSize;

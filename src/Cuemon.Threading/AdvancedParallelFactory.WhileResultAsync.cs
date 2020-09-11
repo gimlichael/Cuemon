@@ -182,7 +182,6 @@ namespace Cuemon.Threading
                 {
                     readForward = await iterator.ReadAsync().ConfigureAwait(false);
                     if (!readForward) { break; }
-                    
                     workerFactory.GenericArguments.Arg1 = iterator.Current;
                     queue.Add(sorter, workerFactory.ExecuteMethodAsync(options.CancellationToken));
                     workChunks--;

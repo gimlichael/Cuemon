@@ -132,6 +132,7 @@ namespace Cuemon.Threading
         {
             var options = Patterns.Configure(setup);
             var partitioner = new PartitionerEnumerable<TSource>(source, options.PartitionSize);
+
             while (partitioner.HasPartitions)
             {
                 var queue = new List<Task>();
