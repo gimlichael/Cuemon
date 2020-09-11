@@ -1,12 +1,27 @@
 ﻿Version: 6.0.0
 Availability: NET Standard 2.0
  
+# Upgrade Steps
+- The extent of refactoring applied to this project resulted in so many breaking changes that a git diff is advisable
+ 
 # New Features
-- ADDED TimerFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating and configuring Timer instances
 - ADDED AsyncOptions class in the Cuemon.Threading namespace that specifies options that is related to asynchronous operations
+- ADDED AsyncTaskFactoryOptions class in the Cuemon.Threading namespace that specifies options that is related to both ParallelFactory and AdvancedParallelFactory
+- ADDED AsyncWorkloadOptions class in the Cuemon.Threading namespace that specifies options that is related to both ParallelFactory and AdvancedParallelFactory
+- ADDED AdvancedParallelFactory static class in the Cuemon.Threading namespace that provides a factory based way to work with advanced scenarios that encapsulate and re-use existing code while adding support for typically long-running parallel loops and regions
+- ADDED TimerFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating and configuring Timer instances
+- ADDED ForLoopRuleset class in the Cuemon.Threading namespace that specifies the rules of a for-loop control flow statement
+ 
+# Breaking Changes
+- REMOVED ThreadPoolUtility class from the Cuemon.Threading namespace
  
 # Bug Fixes
 - APPLIED ConfigureAwait(false) to all async methods
+- FIXED a bug that would lead to endless loop if workload was 1 (PartitionSize)
+ 
+# Improvements
+- All members now support true async functionality ForAsync, ForResultAsync, WhileAsync, WhileResultAsync, ForEachAsync and ForEachResultAsync
+- Advanced members was moved to the AdvancedParallelFactory class to conform to Framework Design Guidelines
  
 # Quality Analysis Actions
 - APPLIED while loop over for loop https://rules.sonarsource.com/csharp/RSPEC-1264

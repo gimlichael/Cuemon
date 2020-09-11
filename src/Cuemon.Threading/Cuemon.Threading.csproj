@@ -9,7 +9,7 @@
     <AssemblyName>Cuemon.Threading</AssemblyName>
     <AssemblyTitle>Cuemon.Threading</AssemblyTitle>
     <Description>The Cuemon.Threading namespace contains types that can prove helpful when working with concurrent operations. The namespace relates to the System.Threading namespace.</Description>
-    <PackageTags>parallel-factory for-async for-each-async for-each-result-async for-result-async while-async while-result-async</PackageTags>
+    <PackageTags>advanced-parallel-factory parallel-factory for-async for-each-async for-each-result-async for-result-async while-async while-result-async async-options timer-factory for-loop-ruleset</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
