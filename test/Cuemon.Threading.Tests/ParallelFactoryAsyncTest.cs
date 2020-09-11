@@ -410,7 +410,7 @@ namespace Cuemon.Threading
                 await Task.Delay(50, ct);
                 cb.Add(i);
                 return i;
-            }, o => o.PartitionSize = 1);
+            }, o => o.PartitionSize = 64);
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
