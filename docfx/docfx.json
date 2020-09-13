@@ -4,7 +4,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Core/**.cs*"
+  //           "Cuemon.Core/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -23,7 +23,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Data/**.cs*"
+  //           "Cuemon.Data/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -42,7 +42,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Data.Integrity/**.cs*"
+  //           "Cuemon.Data.Integrity/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -61,7 +61,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Integrity/**.cs*"
+  //           "Cuemon.Integrity/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -80,7 +80,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Data.SqlClient/**.cs*"
+  //           "Cuemon.Data.SqlClient/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -99,7 +99,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Diagnostics/**.cs*"
+  //           "Cuemon.Diagnostics/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -118,7 +118,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.IO/**.cs*"
+  //           "Cuemon.IO/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -137,7 +137,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Net/**.cs*"
+  //           "Cuemon.Net/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -156,7 +156,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Resilience/**.cs*"
+  //           "Cuemon.Resilience/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -175,7 +175,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Runtime.Caching/**.cs*"
+  //           "Cuemon.Runtime.Caching/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -194,7 +194,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Security.Cryptography/**.cs*"
+  //           "Cuemon.Security.Cryptography/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -213,7 +213,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Threading/**.cs*"
+  //           "Cuemon.Threading/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -232,7 +232,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Xml/**.cs*"
+  //           "Cuemon.Xml/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -251,7 +251,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Collections.Generic/**.cs*"
+  //           "Cuemon.Extensions.Collections.Generic/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -270,7 +270,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Collections.Specialized/**.cs*"
+  //           "Cuemon.Extensions.Collections.Specialized/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -289,7 +289,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Core/**.cs*"
+  //           "Cuemon.Extensions.Core/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -308,7 +308,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Data/**.cs*"
+  //           "Cuemon.Extensions.Data/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -327,7 +327,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Data.Integrity/**.cs*"
+  //           "Cuemon.Extensions.Data.Integrity/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -346,7 +346,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.DependencyInjection/**.cs*"
+  //           "Cuemon.Extensions.DependencyInjection/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -365,7 +365,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Diagnostics/**.cs*"
+  //           "Cuemon.Extensions.Diagnostics/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -384,7 +384,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.IO/**.cs*"
+  //           "Cuemon.Extensions.IO/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -403,7 +403,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Net/**.cs*"
+  //           "Cuemon.Extensions.Net/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -422,7 +422,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Newtonsoft.Json/**.cs*"
+  //           "Cuemon.Extensions.Newtonsoft.Json/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -441,7 +441,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Reflection/**.cs*"
+  //           "Cuemon.Extensions.Reflection/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -460,7 +460,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Text/**.cs*"
+  //           "Cuemon.Extensions.Text/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -479,7 +479,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Threading/**.cs*"
+  //           "Cuemon.Extensions.Threading/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -498,7 +498,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Xml/**.cs*"
+  //           "Cuemon.Extensions.Xml/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -517,7 +517,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.AspNetCore/**.cs*"
+  //           "Cuemon.AspNetCore/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -536,7 +536,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.AspNetCore.Authentication/**.cs*"
+  //           "Cuemon.AspNetCore.Authentication/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -555,7 +555,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.AspNetCore.Mvc/**.cs*"
+  //           "Cuemon.AspNetCore.Mvc/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -574,7 +574,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.AspNetCore.Razor/**.cs*"
+  //           "Cuemon.AspNetCore.Razor/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -593,7 +593,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.AspNetCore/**.cs*"
+  //           "Cuemon.Extensions.AspNetCore/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -612,7 +612,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.AspNetCore.Mvc/**.cs*"
+  //           "Cuemon.Extensions.AspNetCore.Mvc/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -631,7 +631,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.cs*"
+  //           "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -650,7 +650,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.cs*"
+  //           "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -669,7 +669,7 @@
   //     "src": [
   //       {
   //         "files": [
-  //           "Cuemon.Extensions.Xunit/**.cs*"
+  //           "Cuemon.Extensions.Xunit/**.csproj"
   //         ],
   //         "exclude": [
   //           "**/bin/**",
@@ -690,22 +690,18 @@
       "src": [
         {
           "files": [
-            "Cuemon.Core/**.cs*",
-            "Cuemon.Data/**.cs*",
-            "Cuemon.Data.Integrity/**.cs*",
-            "Cuemon.Data.SqlClient/**.cs*",
-            "Cuemon.Diagnostics/**.cs*",
-            "Cuemon.IO/**.cs*",
-            "Cuemon.Net/**.cs*",
-            "Cuemon.Resilience/**.cs*",
-            "Cuemon.Runtime.Caching/**.cs*",
-            "Cuemon.Security.Cryptography/**.cs*",
-            "Cuemon.Threading/**.cs*",
-            "Cuemon.Xml/**.cs*"
-          ],
-          "exclude": [
-            "**/bin/**",
-            "**/obj/**"
+            "Cuemon.Core/**.csproj",
+            "Cuemon.Data/**.csproj",
+            "Cuemon.Data.Integrity/**.csproj",
+            "Cuemon.Data.SqlClient/**.csproj",
+            "Cuemon.Diagnostics/**.csproj",
+            "Cuemon.IO/**.csproj",
+            "Cuemon.Net/**.csproj",
+            "Cuemon.Resilience/**.csproj",
+            "Cuemon.Runtime.Caching/**.csproj",
+            "Cuemon.Security.Cryptography/**.csproj",
+            "Cuemon.Threading/**.csproj",
+            "Cuemon.Xml/**.csproj"
           ],
           "src": "../src"
         }
@@ -720,25 +716,21 @@
       "src": [
         {
           "files": [
-            "Cuemon.Extensions.Collections.Generic/**.cs*",
-            "Cuemon.Extensions.Collections.Specialized/**.cs*",
-            "Cuemon.Extensions.Core/**.cs*",
-            "Cuemon.Extensions.Data/**.cs*",
-            "Cuemon.Extensions.Data.Integrity/**.cs*",
-            "Cuemon.Extensions.DependencyInjection/**.cs*",
-            "Cuemon.Extensions.Diagnostics/**.cs*",
-            "Cuemon.Extensions.IO/**.cs*",
-            "Cuemon.Extensions.Net/**.cs*",
-            "Cuemon.Extensions.Newtonsoft.Json/**.cs*",
-            "Cuemon.Extensions.Reflection/**.cs*",
-            "Cuemon.Extensions.Text/**.cs*",
-            "Cuemon.Extensions.Threading/**.cs*",
-            "Cuemon.Extensions.Xml/**.cs*",
-            "Cuemon.Extensions.Xunit/**.cs*"
-          ],
-          "exclude": [
-            "**/bin/**",
-            "**/obj/**"
+            "Cuemon.Extensions.Collections.Generic/**.csproj",
+            "Cuemon.Extensions.Collections.Specialized/**.csproj",
+            "Cuemon.Extensions.Core/**.csproj",
+            "Cuemon.Extensions.Data/**.csproj",
+            "Cuemon.Extensions.Data.Integrity/**.csproj",
+            "Cuemon.Extensions.DependencyInjection/**.csproj",
+            "Cuemon.Extensions.Diagnostics/**.csproj",
+            "Cuemon.Extensions.IO/**.csproj",
+            "Cuemon.Extensions.Net/**.csproj",
+            "Cuemon.Extensions.Newtonsoft.Json/**.csproj",
+            "Cuemon.Extensions.Reflection/**.csproj",
+            "Cuemon.Extensions.Text/**.csproj",
+            "Cuemon.Extensions.Threading/**.csproj",
+            "Cuemon.Extensions.Xml/**.csproj",
+            "Cuemon.Extensions.Xunit/**.csproj"
           ],
           "src": "../src"
         }
@@ -753,14 +745,10 @@
       "src": [
         {
           "files": [
-            "Cuemon.AspNetCore/**.cs*",
-            "Cuemon.AspNetCore.Authentication/**.cs*",
-            "Cuemon.AspNetCore.Mvc/**.cs*",
-            "Cuemon.AspNetCore.Razor/**.cs*"
-          ],
-          "exclude": [
-            "**/bin/**",
-            "**/obj/**"
+            "Cuemon.AspNetCore/**.csproj",
+            "Cuemon.AspNetCore.Authentication/**.csproj",
+            "Cuemon.AspNetCore.Mvc/**.csproj",
+            "Cuemon.AspNetCore.Razor/**.csproj"
           ],
           "src": "../src"
         }
@@ -775,14 +763,10 @@
       "src": [
         {
           "files": [
-            "Cuemon.Extensions.AspNetCore/**.cs*",
-            "Cuemon.Extensions.AspNetCore.Mvc/**.cs*",
-            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.cs*",
-            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.cs*"
-          ],
-          "exclude": [
-            "**/bin/**",
-            "**/obj/**"
+            "Cuemon.Extensions.AspNetCore/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Mvc/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.csproj"
           ],
           "src": "../src"
         }
