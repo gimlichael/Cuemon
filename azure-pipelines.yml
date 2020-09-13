@@ -10,7 +10,7 @@ variables:
 
 jobs:
 - job: CI
-  timeoutInMinutes: 120
+  timeoutInMinutes: 75
 
   strategy:
     matrix:
