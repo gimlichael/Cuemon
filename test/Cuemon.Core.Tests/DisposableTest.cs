@@ -95,7 +95,7 @@ namespace Cuemon
             Assert.Null(stream);
             Assert.Throws<ObjectDisposedException>(() => msRef.Length);
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
                 var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
                 msRef = null;

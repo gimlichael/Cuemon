@@ -50,7 +50,7 @@ namespace Cuemon.Threading
             var cb = new ConcurrentBag<int>();
             var cts = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
                 await ParallelFactory.ForAsync(0, count, async (i, ct) =>
                 {
@@ -130,7 +130,7 @@ namespace Cuemon.Threading
             var cb = new ConcurrentBag<int>();
             var cts = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
                 await ParallelFactory.ForResultAsync(0, count, async (i, ct) =>
                 {
@@ -217,7 +217,7 @@ namespace Cuemon.Threading
             var cb = new ConcurrentBag<int>();
             var cts = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
                 await ParallelFactory.ForEachAsync(ic, async (i, ct) =>
                 {
@@ -304,7 +304,7 @@ namespace Cuemon.Threading
             var cb = new ConcurrentBag<int>();
             var cts = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
                 await ParallelFactory.ForEachResultAsync(ic, async (i, ct) =>
                 {
@@ -395,7 +395,7 @@ namespace Cuemon.Threading
             var cb = new ConcurrentBag<int>();
             var cts = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
                 await AdvancedParallelFactory.WhileAsync(ic, () => Task.FromResult(ic.TryPeek(out _)), intProvider => intProvider.Dequeue(), async (i, ct) =>
                 {
@@ -486,7 +486,7 @@ namespace Cuemon.Threading
             var cb = new ConcurrentBag<int>();
             var cts = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
                 await AdvancedParallelFactory.WhileResultAsync(ic, () => Task.FromResult(ic.TryPeek(out _)), intProvider => intProvider.Dequeue(), async (i, ct) =>
                 {

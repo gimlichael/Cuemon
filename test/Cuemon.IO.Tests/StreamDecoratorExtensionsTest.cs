@@ -96,7 +96,7 @@ namespace Cuemon.IO
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
             var os = await Decorator.Enclose(fs).ToStreamAsync();
-            await Assert.ThrowsAsync<TaskCanceledException>(async () => await Decorator.Enclose(os).CompressGZipAsync(o => o.CancellationToken = ctsShouldFail.Token));
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await Decorator.Enclose(os).CompressGZipAsync(o => o.CancellationToken = ctsShouldFail.Token));
         }
 
         [Fact]
