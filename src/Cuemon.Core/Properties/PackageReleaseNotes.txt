@@ -1,31 +1,41 @@
 ﻿6.0.0
 Availability: NET Standard 2.0
-
+ 
 # Upgrade Steps
 - [ACTION REQUIRED]
 -
-
+ 
 # Breaking Changes
 - REMOVED StringFormatter class from the Cuemon namespace
 - REMOVED StandardizedDateTimeFormatPattern enum from the Cuemon namespace
 - MOVED AsyncOptions class in the Cuemon.Threading namespace to its own assembly (by the same name and namespace)
-
+- REMOVED JsonWebToken class from the Cuemon.Security.Web namespace
+- REMOVED JsonWebTokenHashAlgorithm class from the Cuemon.Security.Web namespace
+- REMOVED JsonWebTokenHashAlgorithmConverter class from the Cuemon.Security.Web namespace
+- REMOVED JsonWebTokenHeader class from the Cuemon.Security.Web namespace
+- REMOVED JsonWebTokenPayload class from the Cuemon.Security.Web namespace
+- REMOVED Obfuscator class from the Cuemon.Security namespace
+- REMOVED ObfuscatorMapping class from the Cuemon.Security namespace
+- REMOVED SecurityToken class from the Cuemon.Security namespace
+- REMOVED SecurityTokenSettings class from the Cuemon.Security namespace (replaced with SignedUriOptions in the Cuemon.Extensions.Net.Security namespace)
+- REMOVED SecurityUtility class from the Cuemon.Security namespace
+ 
 # New Features
 -
 -
-
+ 
 # Bug Fixes
 -
 -
-
+ 
 # Improvements
 -
 -
-
+ 
 # Quality Actions
 -
 -
-
+ 
 # Other Changes
 -
 -
