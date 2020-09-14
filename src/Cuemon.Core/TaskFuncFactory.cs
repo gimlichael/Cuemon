@@ -474,7 +474,7 @@ namespace Cuemon
         public Task<TResult> ExecuteMethodAsync(CancellationToken ct)
         {
             ThrowIfNoValidDelegate(Condition.IsNull(Method));
-            if (ct.IsCancellationRequested) { ct.ThrowIfCancellationRequested(); }
+            ct.ThrowIfCancellationRequested();
             return Method.Invoke(GenericArguments, ct);
         }
 
