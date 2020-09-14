@@ -465,10 +465,16 @@ namespace Cuemon
         /// </summary>
         /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate associated with this instance.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// No delegate was specified on the factory.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// The <paramref name="ct"/> was canceled.
+        /// </exception>
         public Task<TResult> ExecuteMethodAsync(CancellationToken ct)
         {
             ThrowIfNoValidDelegate(Condition.IsNull(Method));
-            if (ct.IsCancellationRequested) { throw new TaskCanceledException(); }
+            if (ct.IsCancellationRequested) { ct.ThrowIfCancellationRequested(); }
             return Method.Invoke(GenericArguments, ct);
         }
 
