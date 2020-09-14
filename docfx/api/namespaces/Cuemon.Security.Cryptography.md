@@ -2,4 +2,7 @@
 uid: Cuemon.Security.Cryptography
 summary: *content
 ---
-The Cuemon.Collections namespace contains fundamental factories, classes and base classes that define invaluable value and reference types that greatly extends the System namespace. Abundant support for delegates and functional programming.
+The Cuemon.Security.Cryptography namespace contains types related to cryptographic hashing (both keyed and non-keyed) and a ready-to-use implementation of the Advanced Encryption Standard (AES) symmetric algorithm. The namespace is an addition to the System.Security.Cryptography namespace.
+
+Availability: NET Standard 2.0
+Complements: [System.Security.Cryptography namespace](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography?view=netstandard-2.0)
