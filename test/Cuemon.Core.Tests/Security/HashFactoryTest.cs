@@ -12,6 +12,17 @@ namespace Cuemon.Security
         }
 
         [Fact]
+        public void CreateFnv64_Fnv1_ShouldHaveSizeOf64Bits()
+        {
+            var s1 = "957-KEY";
+            var s2 = "958-KEY";
+            var hf = HashFactory.CreateFnv64(o => o.Algorithm = FowlerNollVoAlgorithm.Fnv1a);
+            
+            TestOutput.WriteLine(hf.ComputeHash(s1).ToHexadecimalString());
+            TestOutput.WriteLine(hf.ComputeHash(s2).ToHexadecimalString());
+        }
+
+        [Fact]
         public void CreateCrc_Crc64_ShouldBeValidHashResult()
         {
             var h = HashFactory.CreateCrc(CyclicRedundancyCheckAlgorithm.Crc64);
@@ -188,7 +199,7 @@ namespace Cuemon.Security
             var h = HashFactory.CreateFnv1024(o => o.Algorithm = FowlerNollVoAlgorithm.Fnv1);
             Assert.Equal("70e427242b62d481df8f97b5a7c389f5f6df3457fda072841eb0ac24759648a39784a0ab922c4730b68efa7d0980de290e79de582d88c97e17c953592b9b70ce6dca5ccd19cd93182254abfe9ed6face84979b6793e44e46621ad88c76744b1296ed3934a03e443ce593f1d3dd137dcba2ac2c5edb2cc9c7353111c2327224ca", h.ComputeHash(Alphanumeric.LettersAndNumbers).ToHexadecimalString());
             Assert.Equal("c801f8e08ae91b180b98dd7d9f65ceb687ca86358c6905f60a7d1014c182b04f441590d012afb5871d0f57000000000000000000000000000000000000000000000000000000000000000000000000000000018045149ade1c79abe3b709a406f7d9205169bec59b126140bcb96f9d5d3e2ea91e0b2b52fa8d2d0d70ecdaeab2", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("98d7c19fbce653df221b9f717d3490ff95ca87fdaef30d1b823372f85b24a372f50e380000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007685cd81a491dbccc21ad06648d09a5c8cf5a78482054e91470b33dde77252caef66597", h.ComputeHash(byte.MinValue).ToHexadecimalString());
+            Assert.Equal("000000000000000098d7c19fbce653df221b9f717d3490ff95ca87fdaef30d1b823372f85b24a372f50e380000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007685cd81a491dbccc21ad06648d09a5c8cf5a78482054e91470b33dde77252caef66597", h.ComputeHash(byte.MinValue).ToHexadecimalString());
         }
 
         [Fact]
@@ -242,7 +253,8 @@ namespace Cuemon.Security
             var h = HashFactory.CreateFnv1024(o => o.Algorithm = FowlerNollVoAlgorithm.Fnv1a);
             Assert.Equal("199c0ace56c5c33d8bce6f7cf4bc4b555e0fc3ae8d37c4b7384678a34d96ae8192825ae6bcda63dbb9e3417d0980de290e79de582d88c97e17c9535950c35f4f16d311bc66d1ac2892d59f7b0697257eba9fc1e3accbc85729218306b34996eedf99292c814e8a75f41ddc5a5b5177b6e60c0211ad8d8f78395c7c2d2c483e7e", h.ComputeHash(Decorator.Enclose(Alphanumeric.LettersAndNumbers).ToStream()).ToHexadecimalString());
             Assert.Equal("c801f8e08ae91b180b98dd7d9f65ceb687ca86358c6905f60a7d1014c182b04ee2ab1bd0066e9857a7f7de000000000000000000000000000000000000000000000000000000000000000000000000000000018045149ade1c79abe3b709a406f7d9205169bec59b126140bcb96f9d5d3e2ea91dfc0f40af8e7e3f25d14c3186", h.ComputeHash(Alphanumeric.Numbers).ToHexadecimalString());
-            Assert.Equal("98d7c19fbce653df221b9f717d3490ff95ca87fdaef30d1b823372f85b24a372f50e380000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007685cd81a491dbccc21ad06648d09a5c8cf5a78482054e91470b33dde77252caef66597", h.ComputeHash(byte.MinValue).ToHexadecimalString());
+            Assert.Equal("000000000000000098d7c19fbce653df221b9f717d3490ff95ca87fdaef30d1b823372f85b24a372f50e380000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007685cd81a491dbccc21ad06648d09a5c8cf5a78482054e91470b33dde77252caef66597", h.ComputeHash(byte.MinValue).ToHexadecimalString());
+            
         }
     }
 }
