@@ -17,9 +17,9 @@ namespace Cuemon.Security
         /// <param name="setup">The <see cref="FowlerNollVoOptions"/> which need to be configured.</param>
         protected FowlerNollVoHash(short bits, BigInteger prime, BigInteger offsetBasis, Action<FowlerNollVoOptions> setup) : base(setup)
         {
+            Bits = bits;
             Prime = prime;
             OffsetBasis = offsetBasis;
-            Bits = BigInteger.Pow(2, bits);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Cuemon.Security
         /// Gets the size of the implementation in bits.
         /// </summary>
         /// <value>The size of the implementation in bits.</value>
-        public BigInteger Bits { get; }
+        public short Bits { get; }
 
         /// <summary>
         /// Computes the hash value for the specified <see cref="T:byte[]" />.
@@ -55,7 +55,6 @@ namespace Cuemon.Security
                     {
                         hash ^= b;
                         hash *= Prime;
-                        hash %= Bits;
                     }
                     break;
                 default:
@@ -63,12 +62,11 @@ namespace Cuemon.Security
                     {
                         hash *= Prime;
                         hash ^= b;
-                        hash %= Bits;
                     }
                     break;
             }
             var result = hash.ToByteArray();
-            if (Condition.IsOdd(result.Length)) { Array.Resize(ref result, result.Length - 1); }
+            Array.Resize(ref result, Bits / ByteUnit.BitsPerByte);
             result = Convertible.ReverseEndianness(result, o => o.ByteOrder = Options.ByteOrder);
             return new HashResult(result);
         }
