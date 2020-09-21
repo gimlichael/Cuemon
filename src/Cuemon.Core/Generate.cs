@@ -24,10 +24,12 @@ namespace Cuemon
         private static readonly ThreadLocal<Random> LocalRandomizer = new ThreadLocal<Random>(() =>
         {
             var rnd = new byte[4];
-            var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(rnd);
-            var seed = BitConverter.ToInt32(rnd, 0);
-            return new Random(seed);
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetNonZeroBytes(rnd);
+                var seed = BitConverter.ToInt32(rnd, 0);
+                return new Random(seed);
+            }
         });
 
         /// <summary>
@@ -156,10 +158,10 @@ namespace Cuemon
         {
             Validator.ThrowIfSequenceNullOrEmpty(values, nameof(values));
             var result = new ConcurrentBag<char>();
-            Parallel.For(0, length, i => 
+            Parallel.For(0, length, i =>
             {
-               var index = RandomNumber(values.Length);
-               var indexLength = values[index].Length;
+                var index = RandomNumber(values.Length);
+                var indexLength = values[index].Length;
                 result.Add(values[index][RandomNumber(indexLength)]);
             });
             return Decorator.Enclose(result).ToStringEquivalent();
