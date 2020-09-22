@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             Assert.Equal(items, _cache.Count());
             Assert.True(bag.OrderBy(l => l).SequenceEqual(_cache.Where(pair => pair.Value.Namespace == CacheEntry.NoScope).Select(pair => pair.Key).OrderBy(l => l))); // insure thread safety validation
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count());
         }
@@ -88,7 +88,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -138,7 +138,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -188,7 +188,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -238,7 +238,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -288,7 +288,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -338,7 +338,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -384,7 +384,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -434,7 +434,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -484,7 +484,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -534,7 +534,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -584,7 +584,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -634,7 +634,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -680,7 +680,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -730,7 +730,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -780,7 +780,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -830,7 +830,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -880,7 +880,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
@@ -930,7 +930,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             Assert.Equal(1, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
 
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(11));
 
             Assert.Equal(0, _cache.Count(CacheEnumerableExtensions.MemoizationScope));
         }
