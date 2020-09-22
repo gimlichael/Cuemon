@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProjectGuid>1f0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Cuemon.Extensions.Runtime.Caching</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions.Runtime.Caching</AssemblyTitle>
+    <Description>The Cuemon.Extensions.Runtime.Caching namespace contains extension methods and features that greatly complements the Cuemon.Runtime.Caching namespace.</Description>
+    <PackageTags>extension-methods extensions memoization get-or-add</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Runtime.Caching\Cuemon.Runtime.Caching.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Cuemon.Extensions.Runtime.Caching</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting\Cuemon.Extensions.Xunit.Hosting.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Runtime.Caching\Cuemon.Extensions.Runtime.Caching.csproj" />
+  </ItemGroup>
+
+</Project>

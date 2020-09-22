@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
     <AssemblyName>Cuemon.Extensions.Reflection</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Reflection</AssemblyTitle>
     <Description>The Cuemon.Extensions.Reflection namespace contains extension methods and features related to the System.Reflection namespace.</Description>
