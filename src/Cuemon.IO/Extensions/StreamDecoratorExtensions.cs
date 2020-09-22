@@ -456,7 +456,7 @@ namespace Cuemon.IO
 
         private static Stream Compress<T>(IDecorator<Stream> decorator, StreamCompressionOptions options, Func<Stream, CompressionLevel, bool, T> decompressor) where T : Stream
         {
-            return Disposable.SafeInvoke(() => new MemoryStream(), target =>
+            return Patterns.SafeInvoke(() => new MemoryStream(), target =>
             {
                 using (var compressed = decompressor(target, options.Level, true))
                 {
@@ -471,7 +471,7 @@ namespace Cuemon.IO
 
         private static Task<Stream> CompressAsync<T>(IDecorator<Stream> decorator, AsyncStreamCompressionOptions options, Func<Stream, CompressionLevel, bool, T> decompressor) where T : Stream
         {
-            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
+            return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
                 #if NETSTANDARD2_1
                 await using (var compressed = decompressor(target, options.Level, true))
@@ -492,7 +492,7 @@ namespace Cuemon.IO
 
         private static Stream Decompress<T>(IDecorator<Stream> decorator, StreamCopyOptions options, Func<Stream, CompressionMode, bool, T> compressor) where T : Stream
         {
-            return Disposable.SafeInvoke(() => new MemoryStream(), target =>
+            return Patterns.SafeInvoke(() => new MemoryStream(), target =>
             {
                 using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
                 {
@@ -507,7 +507,7 @@ namespace Cuemon.IO
 
         private static Task<Stream> DecompressAsync<T>(IDecorator<Stream> decorator, AsyncStreamCopyOptions options, Func<Stream, CompressionMode, bool, T> compressor) where T : Stream
         {
-            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
+            return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
                 #if NETSTANDARD2_1
                 await using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))

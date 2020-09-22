@@ -115,7 +115,7 @@ namespace Cuemon.IO
         private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : Template<StreamWriter>
         {
             var options = Patterns.Configure(setup);
-            return Disposable.SafeInvoke(() => new MemoryStream(options.BufferSize),  (ms, f) =>
+            return Patterns.SafeInvoke(() => new MemoryStream(options.BufferSize),  (ms, f) =>
             {
                 var writer = new InternalStreamWriter(ms, options);
                 {

@@ -140,7 +140,7 @@ namespace Cuemon
         public static Stream ToStream(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            return Disposable.SafeInvoke(() => new MemoryStream(), ms =>
+            return Patterns.SafeInvoke(() => new MemoryStream(), ms =>
             {
                 var bytes = Convertible.GetBytes(decorator.Inner, setup);
                 ms.Write(bytes, 0, bytes.Length);
@@ -166,7 +166,7 @@ namespace Cuemon
         public static Task<Stream> ToStreamAsync(this IDecorator<string> decorator, CancellationToken ct = default, Action<EncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, token) =>
+            return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, token) =>
             {
                 var bytes = Convertible.GetBytes(decorator.Inner, setup);
                 await ms.WriteAsync(bytes, 0, bytes.Length, token).ConfigureAwait(false);

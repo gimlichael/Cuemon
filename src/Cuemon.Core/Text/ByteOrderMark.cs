@@ -158,7 +158,7 @@ namespace Cuemon.Text
             var option = Patterns.Configure(setup);
             var bytes = Decorator.Enclose(value).ToByteArrayCore(leaveOpen: option.LeaveOpen);
             bytes = Remove(bytes, encoding);
-            return Disposable.SafeInvoke(() => new MemoryStream(bytes.Length), ms =>
+            return Patterns.SafeInvoke(() => new MemoryStream(bytes.Length), ms =>
             {
                 ms.Write(bytes, 0, bytes.Length);
                 ms.Position = 0;

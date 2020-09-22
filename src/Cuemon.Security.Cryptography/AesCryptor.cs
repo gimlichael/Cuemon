@@ -93,7 +93,7 @@ namespace Cuemon.Security.Cryptography
                 aes.Padding = options.Padding;
                 aes.Mode = options.Mode;
 
-                using (var sms = Disposable.SafeInvoke(() => new MemoryStream(), (ms, rijndael, bytes) =>
+                using (var sms = Patterns.SafeInvoke(() => new MemoryStream(), (ms, rijndael, bytes) =>
                 {
                     CryptoStream cryptoStream;
                     switch (mode)

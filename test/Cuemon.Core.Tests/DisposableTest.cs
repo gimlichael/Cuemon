@@ -22,7 +22,7 @@ namespace Cuemon
         {
             var guid = Guid.NewGuid();
             var called = 0;
-            var stream = Disposable.SafeInvoke(() => new MemoryStream(), ms =>
+            var stream = Patterns.SafeInvoke(() => new MemoryStream(), ms =>
             {
                 called++;
                 ms.WriteByte(1);
@@ -35,7 +35,7 @@ namespace Cuemon
 
             MemoryStream msRef = null;
             called = 0;
-            stream = Disposable.SafeInvoke(() => new MemoryStream(), (ms, g) =>
+            stream = Patterns.SafeInvoke(() => new MemoryStream(), (ms, g) =>
             {
                 msRef = ms;
                 Assert.Equal(guid, g);
@@ -49,7 +49,7 @@ namespace Cuemon
             Assert.Null(stream);
             Assert.Throws<ObjectDisposedException>(() => msRef.Length);
 
-            stream = Disposable.SafeInvoke(() => new MemoryStream(), (ms, n1, n2, n3, n4, n5) =>
+            stream = Patterns.SafeInvoke(() => new MemoryStream(), (ms, n1, n2, n3, n4, n5) =>
             {
                 called++;
                 ms.Write(Decorator.Enclose($"{n1}{n2}{n3}{n4}{n5}").ToByteArray());
@@ -67,7 +67,7 @@ namespace Cuemon
         {
             var guid = Guid.NewGuid();
             var called = 0;
-            var stream = await Disposable.SafeInvokeAsync(() => new MemoryStream(), async (ms, ct) =>
+            var stream = await Patterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, ct) =>
             {
                 called++;
                 await ms.WriteAsync(new byte[] { 1 }, ct);
@@ -80,7 +80,7 @@ namespace Cuemon
 
             MemoryStream msRef = null;
             called = 0;
-            stream = await Disposable.SafeInvokeAsync(() => new MemoryStream(), (ms, g, ct) =>
+            stream = await Patterns.SafeInvokeAsync(() => new MemoryStream(), (ms, g, ct) =>
             {
                 msRef = ms;
                 Assert.Equal(guid, g);
@@ -100,7 +100,7 @@ namespace Cuemon
                 var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
                 msRef = null;
                 called = 0;
-                stream = await Disposable.SafeInvokeAsync(() => new MemoryStream(), async (ms, g, ct) =>
+                stream = await Patterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, g, ct) =>
                 {
                     msRef = ms;
                     Assert.Equal(guid, g);
@@ -119,7 +119,7 @@ namespace Cuemon
                 Assert.Throws<ObjectDisposedException>(() => msRef.Length);
             });
 
-            stream = await Disposable.SafeInvokeAsync(() => new MemoryStream(), async (ms, n1, n2, n3, n4, n5, ct) =>
+            stream = await Patterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, n1, n2, n3, n4, n5, ct) =>
             {
                 called++;
                 var bytes = Decorator.Enclose($"{n1}{n2}{n3}{n4}{n5}").ToByteArray();

@@ -341,7 +341,7 @@ namespace Cuemon.Net
                     case UriScheme.File:
                     case UriScheme.Http:
                     case UriScheme.Https:
-                        var watcher = Disposable.SafeInvoke(() => new NetWatcher(uri, DueTime, Period, CheckResponseData), nw =>
+                        var watcher = Patterns.SafeInvoke(() => new NetWatcher(uri, DueTime, Period, CheckResponseData), nw =>
                         {
                             nw.Changed += WatcherChanged;
                             return nw;

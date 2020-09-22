@@ -264,7 +264,7 @@ namespace Cuemon.Security
         /// <returns>A <see cref="HashResult"/> containing the computed hash code of the specified <paramref name="input"/>.</returns>
         public virtual HashResult ComputeHash(Stream input)
         {
-            return ComputeHash(Disposable.SafeInvoke(() => new MemoryStream(), destination =>
+            return ComputeHash(Patterns.SafeInvoke(() => new MemoryStream(), destination =>
             {
                 Decorator.Enclose(input).CopyStreamCore(destination);
                 return destination;
