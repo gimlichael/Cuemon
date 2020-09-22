@@ -74,7 +74,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -124,7 +124,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -174,7 +174,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -224,7 +224,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -274,7 +274,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -324,7 +324,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -370,7 +370,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -420,7 +420,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -470,7 +470,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -520,7 +520,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -570,7 +570,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -620,7 +620,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -666,7 +666,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -716,7 +716,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -766,7 +766,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -816,7 +816,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -866,7 +866,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
@@ -916,7 +916,7 @@ namespace Cuemon.Extensions.Runtime.Caching
 
             foreach (var writeLockHit in turtle)
             {
-                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2));
+                Assert.InRange(writeLockHit, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5));
             }
 
             TestOutput.WriteLine($"Suspected hit-rate of PadLock: {turtle.Count}.");
