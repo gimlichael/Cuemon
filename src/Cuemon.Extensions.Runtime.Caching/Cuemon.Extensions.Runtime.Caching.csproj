@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Runtime.Caching</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Runtime.Caching</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Runtime.Caching namespace contains extension methods and features that greatly complements the Cuemon.Runtime.Caching namespace.</Description>
-    <PackageTags>extension-methods extensions memoization get-or-add</PackageTags>
+    <Description>The Cuemon.Extensions.Runtime.Caching namespace contains extension methods that complements the Cuemon.Runtime.Caching namespace by adding support for Memoization techniques and GetOrAdd convenience; both with vast overloads and extended by the ICacheEnumerable{TKey} interface for loose coupling.</Description>
+    <PackageTags>extension-methods extensions memoization memoize get-or-add thread-safe caching</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

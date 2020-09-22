@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Runtime.Caching</AssemblyName>
     <AssemblyTitle>Cuemon.Runtime.Caching</AssemblyTitle>
-    <Description>The Cuemon.Runtime.Caching namespace contains features related to the System.Runtime.Caching namespace.</Description>
-    <PackageTags>caching-manager</PackageTags>
+    <Description>The Cuemon.Runtime.Caching namespace contains types related to interfaces for generic caching in applications while providing a concrete in-memory cache implementation named SlimMemoryCache. The namespace is an addition to the System.Runtime.Caching namespace.</Description>
+    <PackageTags>i-cache-enumerable slim-memory-cache cache-entry cache-invalidation thread-safe</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
