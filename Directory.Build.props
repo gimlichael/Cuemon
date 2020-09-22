@@ -17,7 +17,7 @@
     <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
     <Authors>Michael Mortensen</Authors>
     <Company>Geekle</Company>
-    <Product>Cuemon</Product>
+    <Product>Cuemon for .NET</Product>
     <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
     <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
