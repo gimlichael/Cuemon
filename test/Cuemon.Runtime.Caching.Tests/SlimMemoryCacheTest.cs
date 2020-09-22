@@ -25,7 +25,7 @@ namespace Cuemon.Runtime.Caching
         private const string Absolute60Namespace = "Absolute60";
         private const string Dependency60Namespace = "Dependency60";
 
-        private const int NumberOfItemsToCache = 5000;
+        private const int NumberOfItemsToCache = 1000;
 
         public SlimMemoryCacheTest(HostFixture hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
         {

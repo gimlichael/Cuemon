@@ -26,7 +26,7 @@ namespace Cuemon.Extensions.Runtime.Caching
         [Fact]
         public void GetOrAdd_ShouldCacheAndReturnItemInOneGoUsingSlidingExpirationOfTenSeconds()
         {
-            var items = 25000;
+            var items = 1000;
             var expires = TimeSpan.FromSeconds(10);
             var keys = Generate.RangeOf(items, i => Guid.NewGuid().ToString("N")).ToList();
             var bag = new ConcurrentBag<long>();
@@ -55,7 +55,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<string>(ExpensiveRandomString);
                 var rs = _cache.Memoize(expires, value);
@@ -101,7 +101,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, string>(p1 =>
                 {
@@ -151,7 +151,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, int, string>((p1, p2) =>
                 {
@@ -201,7 +201,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, int, int, string>((p1, p2, p3) =>
                 {
@@ -251,7 +251,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, int, int, int, string>((p1, p2, p3, p4) =>
                 {
@@ -301,7 +301,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<byte, int, int, int, int, string>((p1, p2, p3, p4, p5) =>
                 {
@@ -351,7 +351,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<string>(ExpensiveRandomString);
                 var rs = _cache.Memoize(expires, value);
@@ -397,7 +397,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, string>(p1 =>
                 {
@@ -447,7 +447,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, int, string>((p1, p2) =>
                 {
@@ -497,7 +497,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, int, int, string>((p1, p2, p3) =>
                 {
@@ -547,7 +547,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, int, int, int, string>((p1, p2, p3, p4) =>
                 {
@@ -597,7 +597,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<byte, int, int, int, int, string>((p1, p2, p3, p4, p5) =>
                 {
@@ -647,7 +647,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<string>(ExpensiveRandomString);
                 var rs = _cache.Memoize(expires(), value);
@@ -693,7 +693,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, string>(p1 =>
                 {
@@ -743,7 +743,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, int, string>((p1, p2) =>
                 {
@@ -793,7 +793,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, int, int, string>((p1, p2, p3) =>
                 {
@@ -843,7 +843,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<int, int, int, int, string>((p1, p2, p3, p4) =>
                 {
@@ -893,7 +893,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             var values = new ConcurrentBag<string>();
 
             // we use Parallel because we want to assure thread safety of the extension method
-            Parallel.For(0, 25000, i =>
+            Parallel.For(0, 1000, i =>
             {
                 var value = new Func<byte, int, int, int, int, string>((p1, p2, p3, p4, p5) =>
                 {
