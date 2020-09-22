@@ -41,6 +41,7 @@
             "Cuemon.Extensions.Net/**.csproj",
             "Cuemon.Extensions.Newtonsoft.Json/**.csproj",
             "Cuemon.Extensions.Reflection/**.csproj",
+            "Cuemon.Extensions.Runtime.Caching/**.csproj",
             "Cuemon.Extensions.Text/**.csproj",
             "Cuemon.Extensions.Threading/**.csproj",
             "Cuemon.Extensions.Xml/**.csproj",
