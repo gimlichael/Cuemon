@@ -1,17 +1,19 @@
-﻿namespace Cuemon.Runtime.Caching
+﻿using System;
+using System.Threading;
+
+namespace Cuemon.Runtime.Caching
 {
     /// <summary>
     /// Provides access to caching in an application.
     /// </summary>
     public static class CachingManager
     {
+        private static readonly Lazy<SlimMemoryCache> Singleton = new Lazy<SlimMemoryCache>(LazyThreadSafetyMode.ExecutionAndPublication);
+
         /// <summary>
-        /// Gets a collection of cached objects for the current application domain.
+        /// Gets a singleton instance of <see cref="SlimMemoryCache"/> that is an in-memory cache for an application.
         /// </summary>
-        /// <value>A collection of cached objects for the current application domain.</value>
-        public static CacheCollection Cache
-        {
-            get { return CacheCollection.Cache; }
-        }
+        /// <value>A singleton instance of <see cref="SlimMemoryCache"/> that is an in-memory cache for an application.</value>
+        public static SlimMemoryCache Cache => Singleton.Value;
     }
 }
