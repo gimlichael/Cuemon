@@ -2,4 +2,8 @@
 uid: Cuemon.IO
 summary: *content
 ---
-The Cuemon.Collections namespace contains fundamental factories, classes and base classes that define invaluable value and reference types that greatly extends the System namespace. Abundant support for delegates and functional programming.
+The Cuemon.IO namespace contains types primarily focusing on configuration options for IO related operations. The namespace is an addition to the System.IO namespace.
+
+Availability: NET Standard 2.0, NET Standard 2.1
+
+Complements: [System.IO namespace](https://docs.microsoft.com/en-us/dotnet/api/system.io?view=netstandard-2.1)

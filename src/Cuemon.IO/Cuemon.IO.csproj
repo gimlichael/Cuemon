@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.IO</AssemblyName>
     <AssemblyTitle>Cuemon.IO</AssemblyTitle>
-    <Description>The Cuemon.IO namespace provides access to features that extends the System.IO namespace through IDecorator extension methods.</Description>
-    <PackageTags>textreader textwriter brotli gzip deflate async</PackageTags>
+    <Description>The Cuemon.IO namespace contains types primarily focusing on configuration options for IO related operations. The namespace is an addition to the System.IO namespace.</Description>
+    <PackageTags>text-reader text-writer compress decompress compression decompression conversion encoding brotli gzip deflate async</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
