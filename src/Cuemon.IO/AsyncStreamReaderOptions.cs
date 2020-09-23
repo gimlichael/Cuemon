@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Cuemon.Text;
 
 namespace Cuemon.IO
@@ -8,6 +9,8 @@ namespace Cuemon.IO
     /// </summary>
     public class AsyncStreamReaderOptions : AsyncStreamEncodingOptions
     {
+        private int _bufferSize;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncStreamReaderOptions"/> class.
         /// </summary>
@@ -38,9 +41,20 @@ namespace Cuemon.IO
         }
 
         /// <summary>
-        /// Gets or sets the minimum size of the buffer.
+        /// Gets or sets the size of the buffer.
         /// </summary>
-        /// <value>The minimum size of the buffer.</value>
-        public int BufferSize { get; set; }
+        /// <value>The size of the buffer.</value>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value" /> is lower than or equal to 0.
+        /// </exception>
+        public int BufferSize
+        {
+            get => _bufferSize;
+            set
+            {
+                Validator.ThrowIfLowerThanOrEqual(value, 0, nameof(value));
+                _bufferSize = value;
+            }
+        }
     }
 }

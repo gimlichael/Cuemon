@@ -7,7 +7,7 @@ namespace Cuemon.IO
     /// <summary>
     /// Configuration options for <see cref="Stream"/>.
     /// </summary>
-    public class StreamEncodingOptions : StreamOptions, IEncodingOptions
+    public class StreamEncodingOptions : DisposableOptions, IEncodingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StreamEncodingOptions"/> class.

@@ -6,9 +6,9 @@ using Cuemon.Text;
 namespace Cuemon.IO
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="StreamWriter" /> operations. This class cannot be inherited.
+    /// Configuration options for <see cref="StreamWriter" />.
     /// </summary>
-    public sealed class StreamWriterOptions : StreamEncodingOptions
+    public class StreamWriterOptions : StreamEncodingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StreamWriterOptions"/> class.

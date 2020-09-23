@@ -7,7 +7,7 @@ namespace Cuemon.IO
     /// <summary>
     /// Configuration options for <see cref="Stream"/>.
     /// </summary>
-    public class AsyncStreamEncodingOptions : AsyncStreamOptions, IEncodingOptions
+    public class AsyncStreamEncodingOptions : AsyncDisposableOptions, IEncodingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncStreamEncodingOptions"/> class.
