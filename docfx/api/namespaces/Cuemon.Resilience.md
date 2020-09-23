@@ -2,4 +2,6 @@
 uid: Cuemon.Resilience
 summary: *content
 ---
-The Cuemon.Collections namespace contains fundamental factories, classes and base classes that define invaluable value and reference types that greatly extends the System namespace. Abundant support for delegates and functional programming.
+The Cuemon.Resilience namespace contains types related to applying transient fault handling to existing code using intuitively named static methods that uses delegates to provide a lightweight resilience framework.
+
+Availability: NET Standard 2.0
