@@ -2,4 +2,6 @@
 uid: Cuemon.Xml.Serialization.Formatters
 summary: *content
 ---
-The Cuemon.Collections namespace contains fundamental factories, classes and base classes that define invaluable value and reference types that greatly extends the System namespace. Abundant support for delegates and functional programming.
+The Cuemon.Xml.Serialization.Formatters namespace contains types that are used to serialize and deserialize objects into and from XML format using a generic signature.
+
+Availability: NET Standard 2.0
