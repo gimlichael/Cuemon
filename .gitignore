@@ -224,4 +224,5 @@ ModelManifest.xml
 /docfx/wwwroot
 /docfx/api/**/*.yml
 /docfx/**/*.manifest
+/docfx/.vscode/docfx-assistant
 /.vscode/docfx-assistant
