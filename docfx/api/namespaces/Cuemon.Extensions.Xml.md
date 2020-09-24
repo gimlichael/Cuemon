@@ -23,9 +23,9 @@ NuGet packages 📦\
 |--:|:-:|---|
 |byte[]|⬇️|`ToXmlReader`|
 |DateTime|⬇️|`ToString`|
-|IHierarchy|⬇️|`HasXmlIgnoreAttribute`, `IsNodeEnumerable`, `GetXmlRootOrElement`, `OrderByXmlAttributes`|
+|IHierarchy{T}|⬇️|`HasXmlIgnoreAttribute`, `IsNodeEnumerable`, `GetXmlRootOrElement`, `OrderByXmlAttributes`|
 |Stream|⬇️|`ToXmlReader`, `CopyXmlStream`, `TryDetectXmlEncoding`, `RemoveXmlNamespaceDeclarations`|
 |String|⬇️|`EscapeXml`, `UnescapeXml`, `SanitizeXmlElementName`, `SanitizeXmlElementText`|
 |Uri|⬇️|`ToXmlReader`|
 |XmlReader|⬇️|`Chunk`, `ToHierarchy`, `ToStream`, `MoveToFirstElement`|
-|XmlWriter|⬇️|`WriteObject`, `WriteStartElement`, `WriteEncapsulatingElementWhenNotNull`, `WriteXmlRootElement`|
+|XmlWriter|⬇️|`WriteObject`, `WriteObject{T}`, `WriteStartElement`, `WriteEncapsulatingElementWhenNotNull{T}`, `WriteXmlRootElement{T}`|
