@@ -9,7 +9,7 @@
     <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xml</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Xml namespace contains extension methods and features related to the System.Xml namespace that provides access to XML scenarios such as escaping, conversions, parsing, sanitizing, serialization and deserialization.</Description>
+    <Description>The Cuemon.Extensions.Xml namespace contains extension methods related to the System.Xml namespace that provides access to XML scenarios such as escaping, conversions, parsing, sanitizing, serialization and deserialization.</Description>
     <PackageTags>extension-methods extensions to-xml-reader copy-xml-stream try-detect-xml-encoding chunk to-stream write-object</PackageTags>
   </PropertyGroup>
 
