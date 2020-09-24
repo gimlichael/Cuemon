@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Xunit.Hosting</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xunit.Hosting</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Xunit.Hosting namespace contains types that  provides a uniform way of doing unit testing that is used in conjunction with Microsoft Dependency Injection. The namespace relates to the Xunit.Abstractions namespace.</Description>
+    <Description>The Cuemon.Extensions.Xunit.Hosting namespace contains types that provides a uniform way of doing unit testing used in conjunction with Microsoft Dependency Injection. The namespace relates to the Xunit.Abstractions namespace.</Description>
     <PackageTags>host-test class-fixture host-fixture microsoft dependency injection host configuration hosting-environment service-provider configure-services</PackageTags>
   </PropertyGroup>
 
