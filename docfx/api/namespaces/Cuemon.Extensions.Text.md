@@ -6,7 +6,7 @@ The Cuemon.Extensions.Text namespace contains extension methods that complements
 
 Availability: NET Standard 2.0
 
-Related: [Cuemon.Text namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Text.html) 📘
+Complements: [Cuemon.Text namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Text.html) 🔗
 
 Github branches 🌱\
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Text)\

@@ -6,7 +6,7 @@ The Cuemon.Extensions.Xml.Serialization.Converters namespace contains extension 
 
 Availability: NET Standard 2.0
 
-Related: [Cuemon.Xml.Serialization.Converters namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.Serialization.Converters.html) 📘
+Complements: [Cuemon.Xml.Serialization.Converters namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.Serialization.Converters.html) 🔗
 
 Github branches 🌱\
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Xml/Serialization/Converters)\

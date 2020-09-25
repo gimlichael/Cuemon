@@ -6,7 +6,7 @@ The Cuemon.Extensions.Xml.Serialization.Diagnostics namespace contains extension
 
 Availability: NET Standard 2.0
 
-Related: [Cuemon.Diagnostics namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.html) 📘
+Complements: [Cuemon.Diagnostics namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.html) 🔗
 
 Github branches 🌱\
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Xml/Serialization/Diagnostics)\

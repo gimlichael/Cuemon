@@ -6,7 +6,7 @@ The Cuemon.Extensions.Xml namespace contains extension methods that complements 
 
 Availability: NET Standard 2.0
 
-Related: [Cuemon.Xml namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.html) 📘
+Complements: [Cuemon.Xml namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.html) 🔗
 
 Github branches 🌱\
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Xml)\

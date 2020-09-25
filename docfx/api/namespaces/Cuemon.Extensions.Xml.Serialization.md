@@ -6,7 +6,7 @@ The Cuemon.Extensions.Xml.Serialization namespace contains extension methods tha
 
 Availability: NET Standard 2.0
 
-Related: [Cuemon.Xml.Serialization namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.Serialization.html) 📘
+Complements: [Cuemon.Xml.Serialization namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.Serialization.html) 🔗
 
 Github branches 🌱\
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Xml/Serialization)\
