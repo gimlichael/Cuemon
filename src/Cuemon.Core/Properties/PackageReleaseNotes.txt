@@ -3,7 +3,7 @@ Availability: NET Standard 2.0
  
 # Upgrade Steps
 - To use the earlier built-in support for transient fault handling, please refer to the Cuemon.Resilience namespace, as it has been merged and refactored into this assembly
--
+- Any former extension methods of the Cuemon namespace (and related) was either removed completely or merged into there respective Cuemon.Extensions.* namespace equivalent
  
 # Breaking Changes
 - REMOVED StringFormatter class from the Cuemon namespace
@@ -19,6 +19,9 @@ Availability: NET Standard 2.0
 - REMOVED SecurityToken class from the Cuemon.Security namespace
 - REMOVED SecurityTokenSettings class from the Cuemon.Security namespace (replaced with SignedUriOptions in the Cuemon.Extensions.Net.Security namespace)
 - REMOVED SecurityUtility class from the Cuemon.Security namespace
+- REMOVED AssemblyExtensions class from the Cuemon.Reflection namespace
+- MOVED MemberInfoExtensions class from the Cuemon.Reflection namespace to Cuemon.Extensions.Reflection namespace
+- REMOVED MethodBaseConverterExtensions class from the Cuemon.Reflection namespace
 - MOVED LatencyException class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
 - MOVED TransientOperation class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
 - MOVED TransientFaultEvidence class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)

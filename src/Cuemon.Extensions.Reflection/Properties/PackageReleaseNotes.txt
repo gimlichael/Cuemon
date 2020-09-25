@@ -1,0 +1,8 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0
+ 
+# New Features
+- ADDED AssemblyExtensions class in the Cuemon.Extensions.Reflection namespace that consist of extension methods for the Assembly class: GetAssemblyVersion, GetFileVersion, GetProductVersion, IsDebugBuild
+- ADDED PropertyInfoExtensions class in the Cuemon.Extensions.Reflection namespace that consist of extension methods for the PropertyInfo class: IsAutoProperty
+- ADDED TypeExtensions class in the Cuemon.Extensions.Reflection namespace that consist of extension methods for the Type class: GetEmbeddedResources, ToMethodBase, GetRuntimePropertiesExceptOf{T}, ToFullNameIncludingAssemblyName
+ 

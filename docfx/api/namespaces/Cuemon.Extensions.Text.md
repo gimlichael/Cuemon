@@ -14,8 +14,8 @@ Github branches 🌱\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Text)
 
 NuGet packages 📦\
-[Cuemon.Text (CI)](https://nuget.cuemon.net/packages/Cuemon.Extensions.Text)\
-[Cuemon.Text (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Extensions.Text)
+[Cuemon.Extensions.Text (CI)](https://nuget.cuemon.net/packages/Cuemon.Extensions.Text)\
+[Cuemon.Extensions.Text (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Extensions.Text)
 
 ### Extension Methods
 
