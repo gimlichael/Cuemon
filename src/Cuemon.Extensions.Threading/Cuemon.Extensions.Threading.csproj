@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Threading</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Threading</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Threading namespace contains extension methods and features related to the System.Threading namespace.</Description>
+    <Description>The Cuemon.Extensions.Threading namespace contains extension methods that complements the System.Threading namespace.</Description>
     <PackageTags>extension-methods extensions continue-with-captured-context continue-with-suppressed-context</PackageTags>
   </PropertyGroup>
 
