@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xml</AssemblyTitle>
     <Description>The Cuemon.Extensions.Xml namespace contains extension methods that complements the Cuemon.Xml namespace while being an addition to the System.Xml namespace.</Description>
