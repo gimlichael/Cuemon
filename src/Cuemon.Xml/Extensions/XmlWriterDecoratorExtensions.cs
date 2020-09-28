@@ -5,6 +5,7 @@ using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Xml.Serialization;
+using Cuemon.Xml.Serialization.Formatters;
 
 namespace Cuemon.Xml
 {
@@ -21,11 +22,11 @@ namespace Cuemon.Xml
         /// <typeparam name="T">The type of the object to serialize.</typeparam>
         /// <param name="decorator">The <see cref="T:IDecorator{XmlWriter}" /> to extend.</param>
         /// <param name="value">The object to serialize.</param>
-        /// <param name="setup">The <see cref="XmlSerializerOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which may be configured.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static void WriteObject<T>(this IDecorator<XmlWriter> decorator, T value, Action<XmlSerializerOptions> setup = null)
+        public static void WriteObject<T>(this IDecorator<XmlWriter> decorator, T value, Action<XmlFormatterOptions> setup = null)
         {
             WriteObject(decorator, value, typeof(T), setup);
         }
@@ -36,15 +37,15 @@ namespace Cuemon.Xml
         /// <param name="decorator">The <see cref="T:IDecorator{XmlWriter}" /> to extend.</param>
         /// <param name="value">The object to serialize.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
-        /// <param name="setup">The <see cref="XmlSerializerOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which may be configured.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static void WriteObject(this IDecorator<XmlWriter> decorator, object value, Type objectType, Action<XmlSerializerOptions> setup = null)
+        public static void WriteObject(this IDecorator<XmlWriter> decorator, object value, Type objectType, Action<XmlFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            var serializer = XmlSerializer.Create(setup == null ? null : Patterns.Configure(setup));
-            serializer.Serialize(decorator.Inner, value, objectType);
+            var formatter = new XmlFormatter(setup);
+            formatter.SerializeToWriter(decorator.Inner, value, objectType);
         }
 
         /// <summary>

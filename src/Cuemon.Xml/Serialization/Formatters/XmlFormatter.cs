@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 using Cuemon.Runtime.Serialization.Formatters;
 using Cuemon.Xml.Serialization.Converters;
 
@@ -56,6 +57,21 @@ namespace Cuemon.Xml.Serialization.Formatters
             Validator.ThrowIfNull(objectType, nameof(objectType));
             var serializer = XmlSerializer.Create(Options.Settings);
             return serializer.Serialize(source, objectType);
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="source"/>  into an XML format.
+        /// </summary>
+        /// <param name="writer">The writer used in the serialization process.</param>
+        /// <param name="source">The object to serialize to XML format.</param>
+        /// <param name="objectType">The type of the object to serialize.</param>
+        /// <returns>A stream of the serialized <paramref name="source"/>.</returns>
+        public void SerializeToWriter(XmlWriter writer, object source, Type objectType)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(objectType, nameof(objectType));
+            var serializer = XmlSerializer.Create(Options.Settings);
+            serializer.Serialize(writer, source, objectType);
         }
 
         /// <summary>

@@ -48,7 +48,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
                     foreach (var evidence in descriptor.Evidence)
                     {
                         if (evidence.Value == null) { continue; }
-                        writer.WriteObject(evidence.Value, evidence.Value.GetType(), o => o.RootName = new XmlQualifiedEntity(evidence.Key));
+                        writer.WriteObject(evidence.Value, evidence.Value.GetType(), o => o.Settings.RootName = new XmlQualifiedEntity(evidence.Key));
                     }
                     writer.WriteEndElement();
                 }

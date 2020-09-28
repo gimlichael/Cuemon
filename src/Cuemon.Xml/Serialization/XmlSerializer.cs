@@ -62,7 +62,7 @@ namespace Cuemon.Xml.Serialization
         /// <exception cref="ArgumentNullException">
         /// <paramref name="writer"/> cannot be null.
         /// </exception>
-        public void Serialize(XmlWriter writer, object value, Type objectType)
+        internal void Serialize(XmlWriter writer, object value, Type objectType)
         {
             Validator.ThrowIfNull(writer, nameof(writer));
             GetWriterConverter(objectType).WriteXml(writer, value);

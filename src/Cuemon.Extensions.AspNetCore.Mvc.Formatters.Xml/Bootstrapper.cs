@@ -1,5 +1,5 @@
 ﻿using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters;
-using Cuemon.Xml.Serialization;
+using Cuemon.Xml.Serialization.Formatters;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 {
@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                     if (!_initialized)
                     {
                         _initialized = true;
-                        XmlSerializerOptions.DefaultConverters += list =>
+                        XmlFormatterOptions.DefaultConverters += list =>
                         {
                             list.AddHttpExceptionDescriptorConverter()
                                 .AddStringValuesConverter()
@@ -28,7 +28,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                         };
                     }
                 }
-                
             }
         }
     }
