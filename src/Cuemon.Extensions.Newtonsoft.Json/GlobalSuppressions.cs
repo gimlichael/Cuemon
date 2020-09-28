@@ -6,4 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Major Code Smell", "S3445:Exceptions should not be explicitly rethrown", Justification = "This is by design; we only want the stacktrace from within the validator method.", Scope = "member", Target = "~M:Cuemon.Extensions.Newtonsoft.Json.ValidatorExtensions.IfNotValidJsonDocument(Cuemon.Validator,Newtonsoft.Json.JsonReader@,System.String,System.String)")]
-[assembly: SuppressMessage("Major Code Smell", "S907:\"goto\" statement should not be used", Justification = "Lecacy code ;-)", Scope = "member", Target = "~M:Cuemon.Extensions.Newtonsoft.Json.JsonReaderExtensions.ToHierarchy(Newtonsoft.Json.JsonReader)~Cuemon.IHierarchy{Cuemon.DataPair}")]
+[assembly: SuppressMessage("Major Code Smell", "S907:\"goto\" statement should not be used", Justification = "Legacy code ;-)", Scope = "member", Target = "~M:Cuemon.Extensions.Newtonsoft.Json.JsonReaderExtensions.ToHierarchy(Newtonsoft.Json.JsonReader)~Cuemon.IHierarchy{Cuemon.DataPair}")]
