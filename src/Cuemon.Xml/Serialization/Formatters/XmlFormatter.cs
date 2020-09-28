@@ -51,6 +51,10 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// <param name="source">The object to serialize to XML format.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
         /// <returns>A stream of the serialized <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null -or-
+        /// <paramref name="objectType"/> cannot be null.
+        /// </exception>
         public override Stream Serialize(object source, Type objectType)
         {
             Validator.ThrowIfNull(source, nameof(source));
@@ -65,9 +69,14 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// <param name="writer">The writer used in the serialization process.</param>
         /// <param name="source">The object to serialize to XML format.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
-        /// <returns>A stream of the serialized <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="writer"/> cannot be null -or-
+        /// <paramref name="source"/> cannot be null -or-
+        /// <paramref name="objectType"/> cannot be null.
+        /// </exception>
         public void SerializeToWriter(XmlWriter writer, object source, Type objectType)
         {
+            Validator.ThrowIfNull(writer, nameof(writer));
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(objectType, nameof(objectType));
             var serializer = XmlSerializer.Create(Options.Settings);
@@ -80,6 +89,10 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// <param name="value">The stream from which to deserialize the object graph.</param>
         /// <param name="objectType">The type of the deserialized object.</param>
         /// <returns>An object of <paramref name="objectType"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null -or-
+        /// <paramref name="objectType"/> cannot be null.
+        /// </exception>
         public override object Deserialize(Stream value, Type objectType)
         {
             Validator.ThrowIfNull(value, nameof(value));
