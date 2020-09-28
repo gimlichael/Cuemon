@@ -218,10 +218,15 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
 
         private static void WriteInnerExceptions(JsonWriter writer, Exception exception, bool includeStackTrace)
         {
-            var aggregated = exception as AggregateException;
             var innerExceptions = new List<Exception>();
-            if (aggregated != null) { innerExceptions.AddRange(aggregated.Flatten().InnerExceptions); }
-            if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
+            if (exception is AggregateException aggregated)
+            {
+                innerExceptions.AddRange(aggregated.Flatten().InnerExceptions);
+            }
+            else
+            {
+                if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }    
+            }
             if (innerExceptions.Count > 0)
             {
                 var endElementsToWrite = 0;
