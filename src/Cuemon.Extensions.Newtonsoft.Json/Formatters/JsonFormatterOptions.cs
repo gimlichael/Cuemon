@@ -12,6 +12,17 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     /// </summary>
     public class JsonFormatterOptions
     {
+        static JsonFormatterOptions()
+        {
+            DefaultConverters = list =>
+            {
+                list.AddStringFlagsEnumConverter();
+                list.AddStringEnumConverter();
+                list.AddTimeSpanConverter();
+                list.AddDataPairConverter();
+            };
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonFormatterOptions"/> class.
         /// </summary>
@@ -61,19 +72,12 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-            DefaultConverters += list =>
+            Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
+            Settings.Converters.AddExceptionDescriptorConverter(o =>
             {
-                list.AddStringFlagsEnumConverter();
-                list.AddStringEnumConverter();
-                list.AddExceptionConverter(() => IncludeExceptionStackTrace);
-                list.AddExceptionDescriptorConverter(o =>
-                {
-                    o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
-                    o.IncludeFailure = IncludeExceptionDescriptorFailure;
-                });
-                list.AddTimeSpanConverter();
-                list.AddDataPairConverter();
-            };
+                o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
+                o.IncludeFailure = IncludeExceptionDescriptorFailure;
+            });
             DefaultConverters?.Invoke(Settings.Converters);
         }
 
