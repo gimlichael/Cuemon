@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cuemon.Collections.Generic;
 
 namespace Cuemon.Extensions.Newtonsoft.Json
 {
@@ -9,6 +10,22 @@ namespace Cuemon.Extensions.Newtonsoft.Json
     /// </summary>
     public static class JDataResultExtensions
     {
+        /// <summary>
+        /// Flattens the entirety of the JSON hierarchical <paramref name="source"/> into an <see cref="IEnumerable{JDataResult}"/> sequence.
+        /// </summary>
+        /// <param name="source">The <see cref="IEnumerable{JDataResult}"/> to extend.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence of <see cref="JDataResult"/> objects.</returns>
+        public static IEnumerable<JDataResult> Flatten(this IEnumerable<JDataResult> source)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            return FlattenCore(source);
+        }
+
+        private static IEnumerable<JDataResult> FlattenCore(IEnumerable<JDataResult> source)
+        {
+            return source.SelectMany(s => s.Children.Any() ? Arguments.Yield(s).Concat(Flatten(s.Children)) : Arguments.Yield(s));
+        }
+
         /// <summary>
         /// Extracts one or more values from JSON objects using the specified <paramref name="propertyNames"/> and <paramref name="extractor"/> delegate.
         /// </summary>
