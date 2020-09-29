@@ -1,0 +1,21 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0
+ 
+# Upgrade Steps
+- The Cuemon.Serialization.Json namespace was removed with this version
+- Any types found in the Cuemon.Serialization.Json namespace was merged into the Cuemon.Extensions.Newtonsoft.Json namespace
+ 
+# Breaking Changes
+- REMOVED JsonReaderParser class from the Cuemon.Extensions.Newtonsoft.Json namespace
+- RENAMED JsonReaderResult class in the Cuemon.Extensions.Newtonsoft.Json namespace to JDataResult (including some refactoring)
+- REMOVED JsonReaderResultExtensions class from the Cuemon.Extensions.Newtonsoft.Json namespace
+ 
+# New Features
+- CHANGED StringFlagsEnumConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to comply with Newtonsoft.Json.Serialization.NamingStrategy implementations
+- ADDED ExceptionDescriptorExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Diagnostics namespace that consist of extension methods for the ExceptionDescriptor class: ToInsightsJsonString
+- EXTENDED JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json namespace with several new options and a uniform way of adding default converters
+- ADDED JData class in the Cuemon.Extensions.Newtonsoft.Json namespace that provides a factory based way to parse and extract values from various sources of JSON data. Compliant with RFC 7159 as it uses JsonTextReader behind the scene
+- ADDED JDataResultExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace that consist of extension methods for the JDataResult class: ExtractArrayValues, ExtractObjectValues
+- EXTENDED JsonSerializerSettingsExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace with one new extension method for the JsonSerializerSettings class: UseCamelCase
+- ADDED ValidatorExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace that consist of extension methods for the Validator class: IfNotValidJsonDocument
+ 
