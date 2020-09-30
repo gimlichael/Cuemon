@@ -9,8 +9,6 @@ namespace Cuemon.Extensions.Net.Http
 {
     /// <summary>
     /// Provides a simple and lightweight implementation of the <see cref="IHttpClientFactory"/> interface.
-    /// Implements the <see cref="IHttpClientFactory" />
-    /// Implements the <see cref="IHttpMessageHandlerFactory" />
     /// </summary>
     /// <seealso cref="IHttpClientFactory" />
     /// <seealso cref="IHttpMessageHandlerFactory" />
