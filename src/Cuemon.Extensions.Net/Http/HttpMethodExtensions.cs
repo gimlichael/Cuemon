@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Cuemon.Net.Http;
 
 namespace Cuemon.Extensions.Net.Http
@@ -13,6 +14,9 @@ namespace Cuemon.Extensions.Net.Http
         /// </summary>
         /// <param name="method">The <see cref="HttpMethod"/> to be converted.</param>
         /// <returns>A <see cref="HttpMethods"/> representation of the specified <paramref name="method"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="method"/> cannot be null.
+        /// </exception>
         public static HttpMethods ToHttpMethod(this HttpMethod method)
         {
             return HttpMethodConverter.ToHttpMethod(method);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Text;
@@ -23,13 +24,17 @@ namespace Cuemon.Net.Http
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="source"/> to its equivalent <see cref="HttpMethods"/> representation.
+        /// Converts the specified <paramref name="method"/> to its equivalent <see cref="HttpMethods"/> representation.
         /// </summary>
-        /// <param name="source">The <see cref="HttpMethod"/> to be converted.</param>
-        /// <returns>A <see cref="HttpMethods"/> representation of the specified <paramref name="source"/>.</returns>
-        public static HttpMethods ToHttpMethod(HttpMethod source)
+        /// <param name="method">The <see cref="HttpMethod"/> to be converted.</param>
+        /// <returns>A <see cref="HttpMethods"/> representation of the specified <paramref name="method"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="method"/> cannot be null.
+        /// </exception>
+        public static HttpMethods ToHttpMethod(HttpMethod method)
         {
-            if (!StringToHttpMethodLookupTable.TryGetValue(source.Method, out var result))
+            Validator.ThrowIfNull(method, nameof(method));
+            if (!StringToHttpMethodLookupTable.TryGetValue(method.Method, out var result))
             {
                 result = HttpMethods.Get;
             }
