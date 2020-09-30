@@ -4,12 +4,12 @@
 - name: Core API
   href: api/dotnet
   topicHref: api/dotnet/index.md
-- name: Extensions for Core API
+- name: Extensions for Core APIs
   href: api/dotnet/ext
   topicHref: api/dotnet/ext/index.md
 - name: ASP.NET Core API
   href: api/aspnet
   topicHref: api/aspnet/index.md
-- name: Extensions for ASP.NET Core API
+- name: Extensions for ASP.NET Core APIs
   href: api/aspnet/ext
   topicHref: api/aspnet/ext/index.md

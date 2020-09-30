@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Net</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Net</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Net namespace contains extension methods (query-string parsing, encoding, decoding, security and http communication) and features related to the System.Net namespace. A versatile HttpManager that transparently promotes the HttpClient is included.</Description>
+    <Description>The Cuemon.Extensions.Net namespace contains both types and extension methods that complements the Cuemon.Net namespace while being an addition to the System.Net namespace. Includes support for both traditional and factory based ways of working with HttpClient instances while also including a simple and lightweight implementation of the IHttpClientFactory interface named SlimHttpClientFactory.</Description>
     <PackageTags>extension-methods extensions to-signed-uri validate-signed-uri http-manager-factory slim-http-client-factory i-http-client-factory</PackageTags>
   </PropertyGroup>
 
