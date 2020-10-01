@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Diagnostics</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Diagnostics</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Diagnostics namespace contains extension methods and features related to the Cuemon.Diagnostics namespace.</Description>
+    <Description>The Cuemon.Extensions.Diagnostics namespace contains extension methods that complements the Cuemon.Diagnostics namespace while being an addition to the System.Diagnostics namespace.</Description>
     <PackageTags>extension-methods extensions to-insights-string to-product-version to-file-version</PackageTags>
   </PropertyGroup>
 
