@@ -6,6 +6,8 @@ The Cuemon.Extensions.Threading namespace contains extension methods that comple
 
 Availability: NET Standard 2.0
 
+Complements: [System.Threading namespace](https://docs.microsoft.com/en-us/dotnet/api/system.threading?view=netstandard-2.0) 🔗
+
 Github branches 🌱\
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Threading)\
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Threading)\
