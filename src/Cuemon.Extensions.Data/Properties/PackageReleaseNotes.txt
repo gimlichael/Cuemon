@@ -1,0 +1,7 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0
+ 
+# New Features
+- ADDED DataTransferExtensions class in the Cuemon.Extensions.Data namespace that consist of extension methods for the IDataReader interface: ToColumns, ToRows
+- ADDED QueryFormatExtensions class in the Cuemon.Extensions.Data namespace that consist of extension methods for the QueryFormat enum: Embed
+ 

@@ -9,7 +9,7 @@
     <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Data</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Data</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Data namespace contains extension methods and features related to the Cuemon.Data namespace.</Description>
+    <Description>The Cuemon.Extensions.Data namespace contains extension methods that complements the Cuemon.Data namespace while being an addition to the System.Data namespace.</Description>
     <PackageTags>extension-methods extensions to-rows to-columns embed</PackageTags>
   </PropertyGroup>
 

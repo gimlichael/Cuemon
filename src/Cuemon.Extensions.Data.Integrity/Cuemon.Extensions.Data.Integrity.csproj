@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.Data.Integrity</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Data.Integrity</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Data.Integrity namespace contains extension methods and features related to the Cuemon.Data.Integrity namespace.</Description>
+    <Description>The Cuemon.Extensions.Data.Integrity namespace contains extension methods that complements the Cuemon.Data.Integrity namespace.</Description>
     <PackageTags>extension-methods extensions get-cache-validator combine-with</PackageTags>
   </PropertyGroup>
 
