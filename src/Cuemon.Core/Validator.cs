@@ -15,10 +15,10 @@ namespace Cuemon
         private static readonly Validator ExtendedValidator = new Validator();
 
         /// <summary>
-        /// Gets the singleton instance of the Validator functionality allowing for extensions methods like: <c>Validator.Throw.IfNotValidJsonDocument()</c>.
+        /// Gets the singleton instance of the Validator functionality allowing for extensions methods like: <c>Validator.ThrowIf.InvalidJsonDocument()</c>.
         /// </summary>
         /// <value>The singleton instance of the Validator functionality.</value>
-        public static Validator Throw { get; } = ExtendedValidator;
+        public static Validator ThrowIf { get; } = ExtendedValidator;
 
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> (or a derived counterpart) from the specified delegate <paramref name="condition"/>.

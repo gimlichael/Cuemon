@@ -57,7 +57,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         public static IEnumerable<JDataResult> ReadAll(JsonReader reader)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
-            Validator.Throw.IfNotValidJsonDocument(ref reader, nameof(reader));
+            Validator.ThrowIf.InvalidJsonDocument(ref reader, nameof(reader));
             return new JData(reader).Result.Value;
         }
 

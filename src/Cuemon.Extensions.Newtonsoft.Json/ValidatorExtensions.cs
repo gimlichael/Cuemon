@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> must be a JSON representation that complies with RFC 8259.
         /// </exception>
-        public static void IfNotValidJsonDocument(this Validator validator, ref JsonReader value, string paramName, string message = "Value must be a JSON representation that complies with RFC 8259.")
+        public static void InvalidJsonDocument(this Validator validator, ref JsonReader value, string paramName, string message = "Value must be a JSON representation that complies with RFC 8259.")
         {
             if (value == null) { return; }
             var reader = value;
