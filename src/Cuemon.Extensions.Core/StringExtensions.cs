@@ -22,25 +22,9 @@ namespace Cuemon.Extensions
         /// <returns>>A <see cref="string"/> that contains the set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.</returns>
         public static string Difference(this string first, string second)
         {
-            return DifferenceCore(first, second);
-        }
-
-        /// <summary>
-        /// Returns the distinct set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.
-        /// </summary>
-        /// <param name="first">The value where distinct characters that are not also in <paramref name="second"/> will be returned.</param>
-        /// <param name="second">The value to distinctively compare with <paramref name="first"/>.</param>
-        /// <returns>>A <see cref="string"/> that contains the distinct set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.</returns>
-        public static string DistinctDifference(this string first, string second)
-        {
-            return DifferenceCore(first, second, true);
-        }
-
-        private static string DifferenceCore(string first, string second, bool distinct = false)
-        {
             if (first == null) { first = string.Empty; }
             if (second == null) { second = string.Empty; }
-            return distinct ? string.Concat(second.Distinct().Except(first.Distinct())) : string.Concat(second.Except(first));
+            return string.Concat(second.Except(first));
         }
 
         /// <summary>
@@ -96,7 +80,7 @@ namespace Cuemon.Extensions
         /// <paramref name="input"/> has illegal base64 characters.
         /// </exception>
         /// <seealso cref="ParserFactory.FromUrlEncodedBase64"/>
-        public static byte[] FromUrlEncodedBase64String(this string input)
+        public static byte[] FromUrlEncodedBase64(this string input)
         {
             return ParserFactory.FromUrlEncodedBase64().Parse(input);
         }
@@ -117,7 +101,7 @@ namespace Cuemon.Extensions
         /// The specified <paramref name="input"/> was not recognized to be a GUID.
         /// </exception>
         /// <seealso cref="ParserFactory.FromGuid"/>
-        public static Guid ToGuid(string input, Action<GuidStringOptions> setup = null)
+        public static Guid ToGuid(this string input, Action<GuidStringOptions> setup = null)
         {
             return ParserFactory.FromGuid().Parse(input, setup);
         }
@@ -483,7 +467,7 @@ namespace Cuemon.Extensions
             {
                 if (DoEscapeOrUnescape(character))
                 {
-                    builder.AppendFormat(CultureInfo.InvariantCulture, character < byte.MaxValue ? "%{0:x2}" : "%u{0:x4}", (uint)character);
+                    builder.AppendFormat(CultureInfo.InvariantCulture, character < byte.MaxValue ? "%{0:X2}" : "%u{0:X4}", (uint)character);
                 }
                 else
                 {
@@ -513,7 +497,7 @@ namespace Cuemon.Extensions
             {
                 if (DoEscapeOrUnescape(i))
                 {
-                    builder.Replace(string.Format(CultureInfo.InvariantCulture, "%{0:x2}", i), Convert.ToChar(i).ToString());
+                    builder.Replace(string.Format(CultureInfo.InvariantCulture, "%{0:X2}", i), Convert.ToChar(i).ToString());
                 }
             }
             return builder.ToString();

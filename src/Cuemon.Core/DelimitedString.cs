@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 namespace Cuemon
 {
     /// <summary>
-    /// Provides a set of static methods to break a delimited string into substrings.
+    /// Provides a set of static methods to convert a sequence into a delimited string and break a delimited string into substrings.
     /// </summary>
     public static class DelimitedString
     {

@@ -17,5 +17,5 @@ Availability: NET Standard 2.0
 - ADDED JData class in the Cuemon.Extensions.Newtonsoft.Json namespace that provides a factory based way to parse and extract values from various sources of JSON data. Compliant with RFC 7159 as it uses JsonTextReader behind the scene
 - ADDED JDataResultExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace that consist of extension methods for the JDataResult class: ExtractArrayValues, ExtractObjectValues
 - EXTENDED JsonSerializerSettingsExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace with one new extension method for the JsonSerializerSettings class: UseCamelCase
-- ADDED ValidatorExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace that consist of extension methods for the Validator class: IfNotValidJsonDocument
+- ADDED ValidatorExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace that consist of extension methods for the Validator class: InvalidJsonDocument
  
