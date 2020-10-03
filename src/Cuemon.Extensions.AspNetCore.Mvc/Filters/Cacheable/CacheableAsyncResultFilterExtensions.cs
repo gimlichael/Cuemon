@@ -6,9 +6,9 @@ using Cuemon.Reflection;
 namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
 {
     /// <summary>
-    /// Extension methods for the <see cref="IList{ICacheableAsyncResultFilter}"/> interface.
+    /// Extension methods for the <see cref="ICacheableAsyncResultFilter"/> interface.
     /// </summary>
-    public static class CacheableAsyncResultFilterListExtensions
+    public static class CacheableAsyncResultFilterExtensions
     {
         /// <summary>
         /// Adds a HTTP related filter to the list.
