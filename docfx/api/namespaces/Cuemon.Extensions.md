@@ -21,7 +21,17 @@ NuGet packages 📦\
 
 |Type|Ext|Methods|
 |--:|:-:|---|
-|Assembly|⬇️|`GetAssemblyVersion`, `GetFileVersion`, `GetProductVersion`, `IsDebugBuild`|
-|MemberInfo|⬇️|`HasAttributes`|
-|PropertyInfo|⬇️|`IsAutoProperty`|
-|Type|⬇️|`GetEmbeddedResources`, `ToMethodBase`, `GetRuntimePropertiesExceptOf{T}`, `ToFullNameIncludingAssemblyName`|
+|Action|⬇️|`Configure{TOptions}`, `CreateInstance{T}`|
+|Byte|⬇️|`ToEncodedString`, `ToHexadecimalString`, `ToBinaryString`, `ToUrlEncodedBase64String`, `ToBase64String`, `TryDetectUnicodeEncoding`|
+|Char|⬇️|`ToEnumerable`, `FromChars`|
+|Condition|⬇️|`HasDifference`|
+|DateTime|⬇️|`ToUnixEpochTime`, `ToUtcKind`, `ToLocalKind`, `ToDefaultKind`, `IsWithinRange`, `IsTimeOfDayNight`, `IsTimeOfDayMorning`, `IsTimeOfDayForenoon`, `IsTimeOfDayAfternoon`, `IsTimeOfDayEvening`, `Floor`, `Ceiling`, `Round`|
+|Double|⬇️|`FromUnixEpochTime`, `ToTimeSpan`, `Factorial`, `RoundOff`|
+|Exception|⬇️|`Flatten`|
+|Int*|⬇️|`Min`, `Max`, `IsPrime`, `IsCountableSequence`, `IsEven`, `IsOdd`|
+|Mapping|⬇️|`Add`|
+|Object|⬇️|`UseWrapper{T}`, `As{T}`, `GetHashCode32{T}`, `GetHashCode64{T}`, `ToDelimitedString{T}`, `Adjust{T}`, `IsNullable{T}`|
+|String|⬇️|`Difference`, `ToCharArray`, `ToByteArray`, `FromUrlEncodedBase64`, `ToGuid`, `FromBinaryDigits`, `FromBase64`, `Join`, `ToCasing`, `ToUri`, `IsNullOrEmpty`, `IsNullOrWhiteSpace`, `IsEmailAddress`, `IsGuid`, `IsHex`, `IsNumeric`, `IsBase64`, `IsCountableSequence`, `SplitDelimited`, `Count`, `RemoveAll`, `ReplaceAll`, `JsEscape`, `JsUnescape`, `ContainsAny`, `ContainsAll`, `EqualsAny`, `StartsWith`, `TrimAll`, `IsSequenceOf{T}`, `FromHexadecimal`, `ToHexadecimal`, `ToEnum{TEnum}`, `ToTimeSpan`, `SubstringBefore`, `Chunk`, `SuffixWith`, `SuffixWithForwardingSlash`, `PrefixWith`|
+|TimeSpan|⬇️|`GetTotalNanoseconds`, `GetTotalMicroseconds`, `Floor`, `Ceiling`, `Round`|
+|Type|⬇️|`ToFriendlyName`, `ToTypeCode`, `HasEqualityComparerImplementation`, `HasComparableImplementation`, `HasComparerImplementation`, `HasEnumerableImplementation`, `HasDictionaryImplementation`, `HasKeyValuePairImplementation`, `IsNullable`, `HasAnonymousCharacteristics`, `IsComplex`, `IsSimple`, `GetDefaultValue`, `HasTypes`, `HasInterfaces`, `HasAttributes`|
+|Validator|⬇️|`HasDifference`, `NoDifference`|

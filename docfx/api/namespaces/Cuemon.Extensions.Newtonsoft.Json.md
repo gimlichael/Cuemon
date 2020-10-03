@@ -25,4 +25,4 @@ NuGet packages 📦\
 |JsonReader|⬇️|`ToHierarchy`|
 |JsonSerializerSettings|⬇️|`ApplyToDefaultSettings`, `UseCamelCase`|
 |JsonWriter|⬇️|`WriteObject`, `WritePropertyName`|
-|Validator|⬇️|`IfNotValidJsonDocument`|
+|Validator|⬇️|`InvalidJsonDocument`|
