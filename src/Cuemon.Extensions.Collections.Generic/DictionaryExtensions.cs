@@ -14,7 +14,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the <paramref name="dictionary"/>.</typeparam>
         /// <typeparam name="TValue">The type of the values in the <paramref name="dictionary"/>.</typeparam>
-        /// <param name="dictionary">The dictionary to extend.</param>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
         /// <param name="key">The key of the value to get.</param>
         /// <returns>Either the value associated with the specified <paramref name="key"/> or <c>default(<typeparamref name="TValue"/>)</c> when the key does not exists.</returns>
         /// <exception cref="ArgumentNullException">
@@ -32,7 +32,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the <paramref name="dictionary"/>.</typeparam>
         /// <typeparam name="TValue">The type of the values in the <paramref name="dictionary"/>.</typeparam>
-        /// <param name="dictionary">The dictionary to extend.</param>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
         /// <param name="key">The key of the value to get.</param>
         /// <param name="defaultProvider">The function delegate that will provide a default value when the <paramref name="key"/> does not exists in the <paramref name="dictionary"/>.</param>
         /// <returns>Either the value associated with the specified <paramref name="key"/> or a default value through <paramref name="defaultProvider"/> when the key does not exists.</returns>
@@ -52,7 +52,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the <paramref name="dictionary"/>.</typeparam>
         /// <typeparam name="TValue">The type of the values in the <paramref name="dictionary"/>.</typeparam>
-        /// <param name="dictionary">The dictionary to extend.</param>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
         /// <param name="key">The key of the value to get.</param>
         /// <param name="fallbackKeySelector">The function delegate that will resolve an alternate key from the specified <paramref name="key"/>.</param>
         /// <param name="value">When this method returns, contains the value associated with the specified <paramref name="key"/> or the alternate key resolved from <paramref name="fallbackKeySelector"/>, if the key is found; otherwise, the default value for the type of the value parameter. This parameter is passed uninitialized.</param>
@@ -71,7 +71,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </summary>
         /// <typeparam name="TKey">The <see cref="Type"/> of the key in the resulting <see cref="KeyValuePair{TKey,TValue}"/>.</typeparam>
         /// <typeparam name="TValue">The <see cref="Type"/> of the value in the resulting <see cref="KeyValuePair{TKey,TValue}"/>.</typeparam>
-        /// <param name="dictionary">An <see cref="IDictionary{TKey,TValue}"/> to convert into a <see cref="KeyValuePair{TKey,TValue}"/> equivalent sequence.</param>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
         /// <returns>A <see cref="KeyValuePair{TKey,TValue}"/> equivalent sequence of <paramref name="dictionary"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="dictionary"/> is null.
@@ -85,7 +85,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Attempts to add the specified <paramref name="key"/> and <paramref name="value"/> to the <paramref name="dictionary"/>.
         /// </summary>
-        /// <param name="dictionary">The dictionary to extend.</param>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
         /// <param name="key">The key of the element to add.</param>
         /// <param name="value">The value of the element to add.</param>
         /// <param name="condition">The function delegate that specifies the condition for adding the element.</param>
@@ -104,7 +104,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Attempts to add the specified <paramref name="key"/> and <paramref name="value"/> to the <paramref name="dictionary"/>.
         /// </summary>
-        /// <param name="dictionary">The dictionary to extend.</param>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
         /// <param name="key">The key of the element to add.</param>
         /// <param name="value">The value of the element to add.</param>
         /// <returns><c>true</c> if the key/value pair was added to the enclosed <see cref="IDictionary{TKey,TValue}"/> of the <paramref name="dictionary"/> successfully; otherwise, <c>false</c>.</returns>
@@ -121,7 +121,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Attempts to add or update an existing element with the provided <paramref name="key"/> to the <paramref name="dictionary"/> with the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="dictionary">The dictionary to extend.</param>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
         /// <param name="key">The key of the element to add or update.</param>
         /// <param name="value">The value of the element to add or update.</param>
         /// <exception cref="ArgumentNullException">
