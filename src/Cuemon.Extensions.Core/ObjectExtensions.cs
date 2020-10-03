@@ -65,7 +65,7 @@ namespace Cuemon.Extensions
         /// </summary>
         /// <param name="convertibles">A sequence of objects implementing the <see cref="IConvertible"/> interface.</param>
         /// <returns>A 64-bit signed integer that is the hash code of <paramref name="convertibles"/>.</returns>
-        public static long GetHashCode64<T>(this IEnumerable<T> convertibles) where T : struct, IConvertible
+        public static long GetHashCode64<T>(this IEnumerable<T> convertibles) where T : IConvertible
         {
             return Generate.HashCode64(convertibles.Cast<IConvertible>());
         }
@@ -101,21 +101,14 @@ namespace Cuemon.Extensions
         /// <summary>
         /// Determines whether the specified source is a nullable <see cref="ValueType"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the <paramref name="source"/> of <typeparamref name="T"/>.</typeparam>
-        /// <param name="source">The source type to check for nullable <see cref="ValueType"/>.</param>
+        /// <typeparam name="T">The type of the <paramref name="_"/> of <typeparamref name="T"/>.</typeparam>
+        /// <param name="_">The source type to check for nullable <see cref="ValueType"/>.</param>
         /// <returns>
         ///   <c>true</c> if the specified source is nullable; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsNullable<T>(this T source) { return false; }
-
-        /// <summary>
-        /// Determines whether the specified source is a nullable <see cref="ValueType"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the <paramref name="source"/> of <typeparamref name="T"/>.</typeparam>
-        /// <param name="source">The source type to check for nullable <see cref="ValueType"/>.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified source is nullable; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsNullable<T>(this T? source) where T : struct { return true; }
+        public static bool IsNullable<T>(this T _)
+        {
+            return typeof(T).IsNullable();
+        }
     }
 }
