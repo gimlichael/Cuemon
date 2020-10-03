@@ -2,7 +2,7 @@
 uid: Cuemon.Extensions.Collections.Generic
 summary: *content
 ---
-The Cuemon.Extensions.Collections.Specialized namespace contains extension methods that complements the Cuemon.Extensions.Collections.Generic namespace while being an addition to the System.Collections.Specialized namespace.
+The Cuemon.Extensions.Collections.Specialized namespace contains extension methods that complements the Cuemon.Collections.Generic namespace while being an addition to the System.Collections.Specialized namespace.
 
 Availability: NET Standard 2.0
 
