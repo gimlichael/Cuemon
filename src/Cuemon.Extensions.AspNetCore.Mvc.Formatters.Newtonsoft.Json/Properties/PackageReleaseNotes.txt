@@ -1,0 +1,13 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET Core 3.0
+ 
+# Upgrade Steps
+- The Cuemon.AspNetCore.Mvc.Formatters.Json namespace was removed with this version
+- Any types found in the Cuemon.AspNetCore.Mvc.Formatters.Json namespace was merged into the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+ 
+# Breaking Changes
+- REMOVED DefaultJsonSerializerSettings class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace as the default settings is given by JsonFormatterOptions
+ 
+# Improvements
+- COMPATIBLE with the changes applied to NET Core 3 in regards to only allowing asynchronous I/O
+ 

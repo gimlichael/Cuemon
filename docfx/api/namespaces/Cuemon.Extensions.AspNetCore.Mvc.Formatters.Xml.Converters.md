@@ -2,11 +2,11 @@
 uid: Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
 summary: *content
 ---
-The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters namespace contains extension methods that complements the Cuemon.Extensions.Xml.Converters namespace.
+The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters namespace contains extension methods that complements the Cuemon.Extensions.Xml.Serialization.Converters namespace.
 
 Availability: NET Standard 2.0, NET Core 3.0
 
-Complements: [Cuemon.Extensions.Xml.Converters namespace](https://docs.cuemon.net/api/aspnet/ext/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters.html) 🔗
+Complements: [Cuemon.Extensions.Xml.Serialization.Converters namespace](https://docs.cuemon.net/api/dotnet/ext/Cuemon.Extensions.Xml.Serialization.Converters.html) 🔗
 
 Github branches 🌱\
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml)\
