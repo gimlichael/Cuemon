@@ -2,4 +2,24 @@
 uid: Cuemon.Extensions.Collections.Specialized
 summary: *content
 ---
-The Cuemon.Collections namespace contains fundamental factories, classes and base classes that define invaluable value and reference types that greatly extends the System namespace. Abundant support for delegates and functional programming.
+The Cuemon.Extensions.Collections.Specialized namespace contains extension methods that complements the Cuemon namespace while being an addition to the System.Collections.Specialized namespace.
+
+Availability: NET Standard 2.0
+
+Complements: [Cuemon.Collections.Specialized namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Collections.Specialized.html) 🔗
+
+Github branches 🌱\
+[development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Collections.Specialized)\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Collections.Specialized)\
+[master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Collections.Specialized)
+
+NuGet packages 📦\
+[Cuemon.Extensions.Collections.Specialized (CI)](https://nuget.cuemon.net/packages/Cuemon.Extensions.Collections.Specialized)\
+[Cuemon.Extensions.Collections.Specialized (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Specialized)
+
+### Extension Methods
+
+|Type|Ext|Methods|
+|--:|:-:|---|
+|IDictionary{string, string[]}|⬇️|`ToNameValueCollection`|
+|NameValueCollection|⬇️|`ContainsKey`, `ToDictionary`|
