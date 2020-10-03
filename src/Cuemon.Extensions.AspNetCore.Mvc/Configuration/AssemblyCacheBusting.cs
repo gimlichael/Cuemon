@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.AspNetCore.Configuration;
 using Cuemon.Extensions.Data.Integrity;
 using Cuemon.Security.Cryptography;
 using Microsoft.Extensions.Options;

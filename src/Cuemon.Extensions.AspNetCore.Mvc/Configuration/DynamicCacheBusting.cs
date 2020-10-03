@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.AspNetCore.Configuration;
 using Cuemon.Configuration;
 using Microsoft.Extensions.Options;
 

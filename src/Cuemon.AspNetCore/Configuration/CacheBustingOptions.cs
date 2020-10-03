@@ -1,4 +1,4 @@
-﻿namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
+﻿namespace Cuemon.AspNetCore.Configuration
 {
     /// <summary>
     /// Specifies options that is related to <see cref="CacheBusting"/> operations.

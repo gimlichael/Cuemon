@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.AspNetCore.Configuration;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
 {
@@ -28,13 +29,13 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
         ///     </item>
         ///     <item>
         ///         <term><see cref="TimeToLive"/></term>
-        ///         <description>20 minutes</description>
+        ///         <description>12 hours</description>
         ///     </item>
         /// </list>
         /// </remarks>
         public DynamicCacheBustingOptions()
         {
-            TimeToLive = TimeSpan.FromMinutes(20);
+            TimeToLive = TimeSpan.FromHours(12);
             PreferredLength = 8;
             PreferredCharacters = Alphanumeric.LettersAndNumbers;
         }

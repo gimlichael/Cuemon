@@ -9,13 +9,23 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds a cache-busting service to the specified <see cref="IServiceCollection"/> based on a default instance of <see cref="AssemblyCacheBusting"/>.
+        /// Adds an <see cref="AssemblyCacheBusting"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
-        public static IServiceCollection AddCacheBusting(this IServiceCollection services)
+        public static IServiceCollection AddAssemblyCacheBusting(this IServiceCollection services)
         {
             return services.AddCacheBusting<AssemblyCacheBusting>();
+        }
+
+        /// <summary>
+        /// Adds an <see cref="DynamicCacheBusting"/> service to the specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
+        /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
+        public static IServiceCollection AddDynamicCacheBusting(this IServiceCollection services)
+        {
+            return services.AddCacheBusting<DynamicCacheBusting>();
         }
 
         /// <summary>
