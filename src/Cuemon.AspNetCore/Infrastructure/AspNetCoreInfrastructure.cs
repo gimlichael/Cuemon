@@ -58,9 +58,9 @@ namespace Cuemon.AspNetCore.Infrastructure
                     var window = new TimeRange(utcNow, tr.Expires);
                     var delta = window.Duration;
                     var reset = utcNow.Add(delta);
-                    Decorator.Enclose(context.Response.Headers).TryAddOrUpdate(options.RateLimitHeaderName, tr.Quota.RateLimit.ToString(CultureInfo.InvariantCulture));
-                    Decorator.Enclose(context.Response.Headers).TryAddOrUpdate(options.RateLimitRemainingHeaderName, Math.Max(tr.Quota.RateLimit - tr.Total, 0).ToString(CultureInfo.InvariantCulture));
-                    Decorator.Enclose(context.Response.Headers).TryAddOrUpdate(options.RateLimitResetHeaderName, Decorator.Enclose(reset).ToUnixEpochTime().ToString(CultureInfo.InvariantCulture));
+                    Decorator.Enclose(context.Response.Headers).AddOrUpdate(options.RateLimitHeaderName, tr.Quota.RateLimit.ToString(CultureInfo.InvariantCulture));
+                    Decorator.Enclose(context.Response.Headers).AddOrUpdate(options.RateLimitRemainingHeaderName, Math.Max(tr.Quota.RateLimit - tr.Total, 0).ToString(CultureInfo.InvariantCulture));
+                    Decorator.Enclose(context.Response.Headers).AddOrUpdate(options.RateLimitResetHeaderName, Decorator.Enclose(reset).ToUnixEpochTime().ToString(CultureInfo.InvariantCulture));
                     if (tr.Total > tr.Quota.RateLimit && tr.Expires > utcNow)
                     {
                         var message = options.ResponseBroker?.Invoke(delta, reset);

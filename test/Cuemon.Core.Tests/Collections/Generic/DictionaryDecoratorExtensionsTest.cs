@@ -88,11 +88,9 @@ namespace Cuemon.Collections.Generic
             var txt = "First Legion";
             var subtxt = " Rules the Galaxy";
             Assert.Equal(500, dic.Count);
-            var added = Decorator.Enclose(dic).TryAddOrUpdate(key, txt);
-            Assert.True(added);
+            Decorator.Enclose(dic).AddOrUpdate(key, txt);
             Assert.Equal(txt, dic[key]);
-            var updated = Decorator.Enclose(dic).TryAddOrUpdate(key, txt + subtxt);
-            Assert.True(updated);
+            Decorator.Enclose(dic).AddOrUpdate(key, txt + subtxt);
             Assert.Equal(string.Concat(txt, subtxt), dic[key]);
         }
 
@@ -104,8 +102,7 @@ namespace Cuemon.Collections.Generic
             var txt = "First Legion";
             Assert.Equal(500, dic.Count);
             Assert.Equal(elm.Value, dic.Last().Value);
-            var updated = Decorator.Enclose(dic).TryAddOrUpdate(elm.Key, txt);
-            Assert.True(updated);
+            Decorator.Enclose(dic).AddOrUpdate(elm.Key, txt);
             Assert.Equal(txt, dic.Last().Value);
             Assert.Equal(500, dic.Count);
         }

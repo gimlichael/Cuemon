@@ -135,11 +135,11 @@ namespace Cuemon.Collections.Generic
         /// <paramref name="decorator"/> cannot be null -or-
         /// <paramref name="key"/> cannot be null.
         /// </exception>
-        public static bool TryAddOrUpdate<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator, TKey key, TValue value)
+        public static void AddOrUpdate<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator, TKey key, TValue value)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             Validator.ThrowIfNull(key, nameof(key));
-            return decorator.Inner.ContainsKey(key) ? Patterns.TryInvoke(() => { decorator.Inner[key] = value; }) : TryAdd(decorator, key, value);
+            Condition.FlipFlop(decorator.Inner.ContainsKey(key), () => Patterns.TryInvoke(() => { decorator.Inner[key] = value; }), () => TryAdd(decorator, key, value));
         }
     }
 }

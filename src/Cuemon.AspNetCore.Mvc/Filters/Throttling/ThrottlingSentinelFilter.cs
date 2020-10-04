@@ -37,7 +37,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
             await AspNetCoreInfrastructure.InvokeThrottlerSentinelAsync(context.HttpContext, ThrottlingCache, Options, (message, response) =>
             {
                 response.StatusCode = (int) message.StatusCode;
-                Decorator.Enclose(response.Headers).TryAddOrUpdateHeaders(message.Headers);
+                Decorator.Enclose(response.Headers).AddOrUpdateHeaders(message.Headers);
             }).ConfigureAwait(false);
             await next().ConfigureAwait(false);
         }

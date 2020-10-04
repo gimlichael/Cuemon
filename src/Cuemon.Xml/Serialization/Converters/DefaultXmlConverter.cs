@@ -184,7 +184,7 @@ namespace Cuemon.Xml.Serialization.Converters
                         break;
                     case XmlNodeType.CDATA:
                     case XmlNodeType.Text:
-                        Decorator.Enclose(values).TryAddOrUpdate(key, reader.Value);
+                        Decorator.Enclose(values).AddOrUpdate(key, reader.Value);
                         break;
                 }
             }

@@ -38,7 +38,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         {
             LastModifiedProvider = (timestamp, context) =>
             {
-                Decorator.Enclose(context.Response).TryAddOrUpdateLastModifiedHeader(context.Request, timestamp.Modified ?? timestamp.Created);
+                Decorator.Enclose(context.Response).AddOrUpdateLastModifiedHeader(context.Request, timestamp.Modified ?? timestamp.Created);
             };
         }
 

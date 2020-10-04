@@ -128,10 +128,10 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <paramref name="dictionary"/> cannot be null -or-
         /// <paramref name="key"/> cannot be null.
         /// </exception>
-        public static bool TryAddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             Validator.ThrowIfNull(dictionary, nameof(dictionary));
-            return Decorator.Enclose(dictionary).TryAddOrUpdate(key, value);
+            Decorator.Enclose(dictionary).AddOrUpdate(key, value);
         }
     }
 }

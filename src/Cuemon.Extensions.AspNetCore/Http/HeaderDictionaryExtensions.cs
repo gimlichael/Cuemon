@@ -17,10 +17,10 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// <param name="key">The string to use as the key of the element to add.</param>
         /// <param name="value">The string to use as the value of the element to add.</param>
         /// <param name="useAsciiEncodingConversion">if set to <c>true</c> an ASCII encoding conversion is applied to the <paramref name="value"/>.</param>
-        public static bool TryAddOrUpdateHeader(this IHeaderDictionary dictionary, string key, StringValues value, bool useAsciiEncodingConversion = true)
+        public static void AddOrUpdateHeader(this IHeaderDictionary dictionary, string key, StringValues value, bool useAsciiEncodingConversion = true)
         {
             Validator.ThrowIfNull(dictionary, nameof(dictionary));
-            return Decorator.Enclose(dictionary).TryAddOrUpdateHeader(key, value, useAsciiEncodingConversion);
+            Decorator.Enclose(dictionary).AddOrUpdateHeader(key, value, useAsciiEncodingConversion);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// <param name="responseHeaders">The <see cref="HttpResponseHeaders"/> to copy.</param>
         public static void AddOrUpdateHeaders(this IHeaderDictionary dictionary, HttpResponseHeaders responseHeaders)
         {
-            Decorator.Enclose(dictionary).TryAddOrUpdateHeaders(responseHeaders);
+            Decorator.Enclose(dictionary).AddOrUpdateHeaders(responseHeaders);
         }
     }
 }

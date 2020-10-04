@@ -60,14 +60,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
             EntityTagProvider = (integrity, context) =>
             {
                 var builder = new ChecksumBuilder(integrity.Checksum.GetBytes(), () => HashFactory.CreateFnv128());
-                Decorator.Enclose(context.Response).TryAddOrUpdateEntityTagHeader(context.Request, builder, integrity.Validation == EntityDataIntegrityValidation.Weak);
+                Decorator.Enclose(context.Response).AddOrUpdateEntityTagHeader(context.Request, builder, integrity.Validation == EntityDataIntegrityValidation.Weak);
             };
             EntityTagResponseParser = (body, request, response) =>
             {
                 var ms = new MemoryStream();
                 Decorator.Enclose(body).CopyStream(ms);
                 var builder = new ChecksumBuilder(ms.ToArray(), () => UnkeyedHashFactory.CreateCryptoMd5());
-                Decorator.Enclose(response).TryAddOrUpdateEntityTagHeader(request, builder);
+                Decorator.Enclose(response).AddOrUpdateEntityTagHeader(request, builder);
             };
             UseEntityTagResponseParser = false;
         }
