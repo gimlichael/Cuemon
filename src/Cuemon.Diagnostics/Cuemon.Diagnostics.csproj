@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,7 +8,6 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Diagnostics</AssemblyName>
     <AssemblyTitle>Cuemon.Diagnostics</AssemblyTitle>
-    <Description>The Cuemon.Diagnostics namespace contains features that extends the System.Diagnostics namespace.</Description>
     <Description>The Cuemon.Diagnostics namespace contains types that provide ways for developers to describe exceptions including evidence to why an operation faulted. Also includes a flexible, generic and lambda friendly way to perform both synchronous and asynchronous time measuring operations. The namespace is an addition to the System.Diagnostics namespace.</Description>
     <PackageTags>time-measuring time-measure time-measure-profiler with-action with-func async-time-measuring with-action-async with-func-async profiler exception-descriptor</PackageTags>
   </PropertyGroup>

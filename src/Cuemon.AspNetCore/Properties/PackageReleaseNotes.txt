@@ -1,0 +1,12 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET Core 3.0
+ 
+# Upgrade Steps
+- Any former extension methods of the Cuemon.AspNetCore namespace was merged into the Cuemon.Extensions.AspNetCore namespace
+ 
+# Breaking Changes
+- 
+ 
+# Improvements
+- 
+ 
