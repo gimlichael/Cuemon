@@ -6,6 +6,22 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Collections.Generic\Cuemon.Extensions.Collections.Generic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TestContext.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestContext.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="TestContext.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestContext.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
