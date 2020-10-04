@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
         }
 
         /// <summary>
-        /// Adds an <see cref="DynamicCacheBusting"/> service to the specified <see cref="IServiceCollection"/>.
+        /// Adds a <see cref="DynamicCacheBusting"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
-        public static IServiceCollection AddCacheBusting<T>(this IServiceCollection services) where T : CacheBusting
+        public static IServiceCollection AddCacheBusting<T>(this IServiceCollection services) where T : class, ICacheBusting
         {
             Validator.ThrowIfNull(services, nameof(services));
             services.AddSingleton<ICacheBusting, T>();
