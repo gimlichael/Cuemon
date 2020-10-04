@@ -18,7 +18,8 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="setup">The <see cref="HostingEnvironmentOptions"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseHostingEnvironmentHeader(this IApplicationBuilder builder, Action<HostingEnvironmentOptions> setup = null)
+        /// <remarks>Default HTTP header name is <c>X-Hosting-Environment</c>.</remarks>
+        public static IApplicationBuilder UseHostingEnvironment(this IApplicationBuilder builder, Action<HostingEnvironmentOptions> setup = null)
         {
             return ApplicationBuilderFactory.UseMiddlewareConfigurable<HostingEnvironmentMiddleware, HostingEnvironmentOptions>(builder, setup);
         }
@@ -30,7 +31,7 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         /// <param name="setup">The <see cref="CorrelationIdentifierOptions"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <remarks>Default HTTP header name is <c>X-Correlation-ID</c>.</remarks>
-        public static IApplicationBuilder UseCorrelationIdentifierHeader(this IApplicationBuilder builder, Action<CorrelationIdentifierOptions> setup = null)
+        public static IApplicationBuilder UseCorrelationIdentifier(this IApplicationBuilder builder, Action<CorrelationIdentifierOptions> setup = null)
         {
             return ApplicationBuilderFactory.UseMiddlewareConfigurable<CorrelationIdentifierMiddleware, CorrelationIdentifierOptions>(builder, setup);
         }
@@ -42,7 +43,7 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         /// <param name="setup">The <see cref="RequestIdentifierOptions"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <remarks>Default HTTP header name is <c>X-Request-ID</c>.</remarks>
-        public static IApplicationBuilder UseRequestIdentifierHeader(this IApplicationBuilder builder, Action<RequestIdentifierOptions> setup = null)
+        public static IApplicationBuilder UseRequestIdentifier(this IApplicationBuilder builder, Action<RequestIdentifierOptions> setup = null)
         {
             return ApplicationBuilderFactory.UseMiddlewareConfigurable<RequestIdentifierMiddleware, RequestIdentifierOptions>(builder, setup);
         }
@@ -59,12 +60,12 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         }
 
         /// <summary>
-        /// Adds a custom rate limiting / throttling to the <see cref="IApplicationBuilder"/> request execution pipeline.
+        /// Adds a HTTP requests rate limiting / throttling guard to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="setup">The <see cref="ThrottlingSentinelOptions"/> middleware which need to be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseCustomThrottlingSentinel(this IApplicationBuilder builder, Action<ThrottlingSentinelOptions> setup)
+        public static IApplicationBuilder UseThrottlingSentinel(this IApplicationBuilder builder, Action<ThrottlingSentinelOptions> setup)
         {
             return ApplicationBuilderFactory.UseMiddlewareConfigurable<ThrottlingSentinelMiddleware, ThrottlingSentinelOptions>(builder, setup);
         }
