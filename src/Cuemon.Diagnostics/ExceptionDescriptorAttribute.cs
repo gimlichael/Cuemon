@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Cuemon.Globalization;
 
 namespace Cuemon.Diagnostics
@@ -9,9 +8,10 @@ namespace Cuemon.Diagnostics
     /// </summary>
     /// <seealso cref="Attribute" />
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class ExceptionDescriptorAttribute : Attribute, IMessageLocalizer
+    public class ExceptionDescriptorAttribute : ResourceAttribute
     {
         private string _helpLink;
+        private string _message;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionDescriptorAttribute"/> class.
@@ -22,21 +22,6 @@ namespace Cuemon.Diagnostics
             Validator.ThrowIfNull(failureType, nameof(failureType));
             Validator.ThrowIfNotContainsType(failureType, nameof(failureType), "The specified type is not an Exception.", typeof(Exception));
             FailureType = failureType;
-            Message = InitializeFromResource();
-        }
-
-        private string InitializeFromResource()
-        {
-            if (!string.IsNullOrWhiteSpace(MessageResourceName) && MessageResourceType != null)
-            {
-                var property = MessageResourceType.GetProperty(MessageResourceName, BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic);
-                var getMethod = property?.GetGetMethod(true);
-                if (getMethod != null && (getMethod.IsAssembly || getMethod.IsPublic))
-                {
-                    return property.GetValue(null, null) as string;
-                }
-            }
-            return null;
         }
 
         /// <summary>
@@ -49,19 +34,25 @@ namespace Cuemon.Diagnostics
         /// Gets or sets a default message that describes the current failure.
         /// </summary>
         /// <value>The default message that explains the reason for the failure.</value>
-        public string Message { get; set; }
+        public string Message
+        {
+            get
+            {
+                string localizedMessage = null;
+                if (ResourceType != null)
+                {
+                    localizedMessage = GetString(MessageResourceName);
+                }
+                return localizedMessage ?? _message;
+            }
+            set => _message = value;
+        }
 
         /// <summary>
-        /// Gets or sets the resource name (property name) to use as the key for lookups on the resource type.
+        /// Gets or sets the resource name (property name) to use as the key for looking up a localized message string.
         /// </summary>
-        /// <value>Use this property to set the name of the property within <see cref="MessageResourceType" /> that will provide a localized message that describes the current failure.</value>
+        /// <value>The resource name (property name) to use as the key for looking up a localized message string that describes the current failure.</value>
         public string MessageResourceName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the resource type to use for message lookups.
-        /// </summary>
-        /// <value>Use this property only in conjunction with <see cref="MessageResourceName" />. They are used together to retrieve localized messages at runtime.</value>
-        public Type MessageResourceType { get; set; }
 
         /// <summary>
         /// Gets or sets a link to the help page associated with this failure.
