@@ -43,7 +43,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                 await AspNetCoreInfrastructure.InvokeUserAgentSentinelAsync(context, Options, async (message, response) =>
                 {
                     response.StatusCode = (int) message.StatusCode;
-                    Decorator.Enclose(response.Headers).TryAddOrUpdateHeaders(message.Headers);
+                    Decorator.Enclose(response.Headers).AddOrUpdateHeaders(message.Headers);
                     await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
                 }).ConfigureAwait(false);
             }
