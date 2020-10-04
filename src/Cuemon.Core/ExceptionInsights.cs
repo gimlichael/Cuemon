@@ -56,7 +56,7 @@ namespace Cuemon
                 {
                     var rp = DelimitedString.Create(MethodDescriptor.MergeParameters(descriptor, runtimeParameters), o =>
                     {
-                        o.StringConverter = pair => FormattableString.Invariant($"{pair.Key}={pair.Value}");
+                        o.StringConverter = pair => FormattableString.Invariant($"{pair.Key}={pair.Value ?? "null"}");
                         o.Delimiter = FormattableString.Invariant($"{Alphanumeric.NewLine}");
                     });
                     builder.Append(Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{rp}"))));
@@ -72,6 +72,13 @@ namespace Cuemon
                 builder.Append(".");
                 builder.Append(empty);
             }
+            EmbedSystemSnapshot(builder, snapshot, empty);
+            if (exception.Data[Key] == null) { exception.Data.Add(Key, builder.ToString()); }
+            return exception;
+        }
+
+        private static void EmbedSystemSnapshot(StringBuilder builder, SystemSnapshot snapshot, string empty)
+        {
             builder.Append(".");
             if (snapshot.HasFlag(SystemSnapshot.CaptureThreadInfo))
             {
@@ -102,8 +109,6 @@ namespace Cuemon
             {
                 builder.Append(empty);
             }
-            if (exception.Data[Key] == null) { exception.Data.Add(Key, builder.ToString()); }
-            return exception;
         }
     }
 }
