@@ -1,0 +1,13 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0
+ 
+# Breaking Changes
+- REMOVED EventLogEntryType enum from the Cuemon.Diagnostics namespace as it is now (finally) part of .NET Platform Extensions and .NET Core
+- CHANGED ExceptionDescriptorAttribute class in the Cuemon.Diagnostics namespace to have a more simple and streamlined design
+- CHANGED TimeMeasure class in the Cuemon.Diagnostics namespace to fully support the Task-based Asynchronous Pattern (TAP) with cancellation 
+ 
+# New Features
+- ADDED ExceptionDescriptorOptions class into Cuemon.Diagnostics namespace that specifies configuration options for serializer implementations
+ 
+# Improvements
+- EXTENDED ExceptionDescriptor class in the Cuemon.Diagnostics namespace with a new static method: Extract

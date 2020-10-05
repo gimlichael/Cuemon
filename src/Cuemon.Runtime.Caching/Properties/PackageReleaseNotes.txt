@@ -5,14 +5,14 @@ Availability: NET Standard 2.0
 - Some features (such as Memoization techniques and GetOrAdd convenience) was moved to the Cuemon.Extensions.Runtime.Caching namespace as extension methods (to keep the ICacheEnumerable{TKey} slim)
 - The extent of refactoring applied to this project resulted in so many breaking changes that a git diff is advisable
  
+# Breaking Changes
+- CHANGED CachingManager class to return a singleton of SlimMemoryCache with default options (kept for legacy and convenience)
+- REPLACED Cache class in the Cuemon.Runtime.Caching namespace with CacheEntry and split the cache invalidation part into its own class; CacheInvalidation
+- REPLACED CacheCollection class in the Cuemon.Runtime.Caching namespace with SlimMemoryCache
+ 
 # New Features
 - ADDED CacheEntry class in the Cuemon.Runtime.Caching namespace that represents an individual cache entry in the cache
 - ADDED CacheInvalidation class in the Cuemon.Runtime.Caching namespace that represents a set of eviction and expiration details for a specific cache entry
 - ADDED ICacheEnumerable{TKey} interface in the Cuemon.Runtime.Caching namespace that is used to provide cache implementations for an application
 - ADDED SlimMemoryCache class in the Cuemon.Runtime.Caching namespace that represents the type that implements an in-memory cache for an application
 - ADDED SlimMemoryCacheOptions class in the Cuemon.Runtime.Caching namespace that specifies options related to SlimMemoryCache
- 
-# Breaking Changes
-- CHANGED CachingManager class to return a singleton of SlimMemoryCache with default options (kept for legacy and convenience)
-- REPLACED Cache class in the Cuemon.Runtime.Caching namespace with CacheEntry and split the cache invalidation part into its own class; CacheInvalidation
-- REPLACED CacheCollection class in the Cuemon.Runtime.Caching namespace with SlimMemoryCache

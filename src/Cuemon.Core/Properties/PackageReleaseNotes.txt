@@ -2,7 +2,8 @@
 Availability: NET Standard 2.0
  
 # Upgrade Steps
-- To use the earlier built-in support for transient fault handling, please refer to the Cuemon.Resilience namespace, as it has been merged and refactored into this assembly
+- To use the earlier built-in support for transient fault handling, please refer to the Cuemon.Resilience namespace, as it has been merged and refactored out of this assembly
+- To use the earlier built-in support for time-measuring and describing exceptions, please refer to the Cuemon.Diagnostics namespace, as it has been merged and refactored out of this assembly
 - Any former extension methods of the Cuemon namespace (and related) was either removed completely or merged into there respective Cuemon.Extensions.* namespace equivalent
  
 # Breaking Changes
