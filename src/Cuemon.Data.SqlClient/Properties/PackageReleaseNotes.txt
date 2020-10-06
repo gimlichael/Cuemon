@@ -1,0 +1,6 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0
+ 
+# Breaking Changes
+- CHANGED SqlDataManager class in the Cuemon.Data.SqlClient namespace to be less dependant on base class and applied quality gate actions
+- CHANGED SqlInOperator class in the Cuemon.Data.SqlClient namespace to adapt the changes made to the base class

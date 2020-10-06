@@ -8,6 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Data.SqlClient</AssemblyName>
     <AssemblyTitle>Cuemon.Data.SqlClient</AssemblyTitle>
+    <Description>The Cuemon.Data.SqlClient namespace contains types that provide ways for developers to work with Microsoft SQL Server integrations. Also includes a flexible, generic and lambda friendly way to perform both synchronous and asynchronous time measuring operations. The namespace is an addition to the System.Diagnostics namespace.</Description>
     <Description>The Cuemon.Data.SqlClient namespace contains different Microsoft SQL Server implementations of different abstractions found in the Cuemon.Data namespace.</Description>
     <PackageTags>sql sql-in-operator sql-query-builder sql-data-manager transient-fault-handling</PackageTags>
   </PropertyGroup>

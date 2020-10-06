@@ -585,7 +585,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns></returns>
+        /// <returns>An instance of a <see cref="DbCommand"/> implementation.</returns>
         protected abstract DbCommand GetCommandCore(IDataCommand dataCommand, params DbParameter[] parameters);
         #endregion
     }

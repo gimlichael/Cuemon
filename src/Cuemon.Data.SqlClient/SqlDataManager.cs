@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using Cuemon.Collections.Generic;
 using Cuemon.Resilience;
 
@@ -108,9 +110,9 @@ namespace Cuemon.Data.SqlClient
             if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
             if (dataCommand.Type != CommandType.Text) { throw new ArgumentException("This method only supports CommandType.Text specifications.", nameof(dataCommand)); }
             return ExecuteScalarAsInt32(new DataCommand(FormattableString.Invariant($"{dataCommand.Text} SELECT CONVERT(INT, SCOPE_IDENTITY())"))
-                {
-                    Timeout = dataCommand.Timeout
-                }, parameters);
+            {
+                Timeout = dataCommand.Timeout
+            }, parameters);
         }
 
         /// <summary>
@@ -174,8 +176,8 @@ namespace Cuemon.Data.SqlClient
         /// </remarks>
         protected override T ExecuteCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> commandInvoker)
         {
-            return TransientFaultHandlingOptionsCallback == null 
-                ? base.ExecuteCore(dataCommand, parameters, commandInvoker) 
+            return TransientFaultHandlingOptionsCallback == null
+                ? base.ExecuteCore(dataCommand, parameters, commandInvoker)
                 : TransientOperation.WithFunc(() => base.ExecuteCore(dataCommand, parameters, commandInvoker), TransientFaultHandlingOptionsCallback);
         }
 
@@ -184,49 +186,51 @@ namespace Cuemon.Data.SqlClient
         /// </summary>
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns></returns>
+        /// <returns>A a new <see cref="SqlCommand"/> instance.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="dataCommand"/> cannot be null -or-
+        /// <paramref name="parameters"/> cannot be null.
+        /// </exception>
         protected override DbCommand GetCommandCore(IDataCommand dataCommand, params DbParameter[] parameters)
         {
-            if (dataCommand == null) { throw new ArgumentNullException(nameof(dataCommand)); }
-            if (parameters == null) { throw new ArgumentNullException(nameof(parameters)); }
-            SqlCommand command;
-            SqlCommand tempCommand = null;
-            try
+            Validator.ThrowIfNull(dataCommand, nameof(dataCommand));
+            Validator.ThrowIfNull(parameters, nameof(parameters));
+            return Patterns.SafeInvoke(() => new SqlCommand(dataCommand.Text, new SqlConnection(ConnectionString)), sc =>
+           {
+               AddSqlParameters(sc, parameters);
+               return sc;
+           }, ex => throw ExceptionInsights.Embed(new InvalidOperationException("There is an error when creating a new SqlCommand.", ex), MethodBase.GetCurrentMethod(), Arguments.ToArray(dataCommand, parameters)));
+        }
+
+        private static void AddSqlParameters(SqlCommand command, IEnumerable<DbParameter> parameters)
+        {
+            foreach (var parameter in parameters)
             {
-                tempCommand = new SqlCommand(dataCommand.Text, new SqlConnection(ConnectionString));
-                foreach (var parameter in parameters)
+                if (parameter is SqlParameter sqlParameter)
                 {
-                    if (parameter is SqlParameter sqlParameter)
-                    {
-                        // handle dates so they are compatible with SQL 200X and forward
-                        if (sqlParameter.SqlDbType == SqlDbType.SmallDateTime || sqlParameter.SqlDbType == SqlDbType.DateTime)
-                        {
-                            if (parameter.Value != null && DateTime.TryParse(parameter.Value.ToString(), out var dateTime))
-                            {
-                                if (dateTime == DateTime.MinValue)
-                                {
-                                    parameter.Value = sqlParameter.SqlDbType == SqlDbType.DateTime ? DateTime.Parse("1753-01-01", CultureInfo.InvariantCulture) : DateTime.Parse("1900-01-01", CultureInfo.InvariantCulture);
-                                }
-
-                                if (dateTime == DateTime.MaxValue && sqlParameter.SqlDbType == SqlDbType.SmallDateTime)
-                                {
-                                    parameter.Value = DateTime.Parse("2079-06-01", CultureInfo.InvariantCulture);
-                                }
-                            }
-                        }
-                    }
-
-                    if (parameter.Value == null) { parameter.Value = DBNull.Value; }
-                    tempCommand.Parameters.Add(parameter);
+                    // handle dates so they are compatible with SQL 200X and forward
+                    if (sqlParameter.SqlDbType == SqlDbType.SmallDateTime || sqlParameter.SqlDbType == SqlDbType.DateTime) { HandleSqlDateTime(sqlParameter); }
                 }
-                command = tempCommand;
-                tempCommand = null;
+
+                if (parameter.Value == null) { parameter.Value = DBNull.Value; }
+                command.Parameters.Add(parameter);
             }
-            finally
+        }
+
+        private static void HandleSqlDateTime(SqlParameter parameter)
+        {
+            if (parameter.Value != null && DateTime.TryParse(parameter.Value.ToString(), out var dateTime))
             {
-                if (tempCommand != null) { tempCommand.Dispose(); }
+                if (dateTime == DateTime.MinValue)
+                {
+                    parameter.Value = parameter.SqlDbType == SqlDbType.DateTime ? DateTime.Parse("1753-01-01", CultureInfo.InvariantCulture) : DateTime.Parse("1900-01-01", CultureInfo.InvariantCulture);
+                }
+
+                if (dateTime == DateTime.MaxValue && parameter.SqlDbType == SqlDbType.SmallDateTime)
+                {
+                    parameter.Value = DateTime.Parse("2079-06-01", CultureInfo.InvariantCulture);
+                }
             }
-            return command;
         }
 
         private static SqlException ParseException(Exception exception)
