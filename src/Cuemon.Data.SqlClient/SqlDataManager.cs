@@ -206,10 +206,9 @@ namespace Cuemon.Data.SqlClient
         {
             foreach (var parameter in parameters)
             {
-                if (parameter is SqlParameter sqlParameter)
+                if (parameter is SqlParameter sqlParameter && (sqlParameter.SqlDbType == SqlDbType.SmallDateTime || sqlParameter.SqlDbType == SqlDbType.DateTime))
                 {
-                    // handle dates so they are compatible with SQL 200X and forward
-                    if (sqlParameter.SqlDbType == SqlDbType.SmallDateTime || sqlParameter.SqlDbType == SqlDbType.DateTime) { HandleSqlDateTime(sqlParameter); }
+                    HandleSqlDateTime(sqlParameter); // handle dates so they are compatible with SQL 200X and forward
                 }
 
                 if (parameter.Value == null) { parameter.Value = DBNull.Value; }
