@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,10 +24,20 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// <summary>
         /// Creates and configures the <see cref="IHost" /> of this instance.
         /// </summary>
-        /// <param name="hostTestType">The type of the object that inherits from <see cref="HostTest{T}"/>.</param>
-        /// <remarks><paramref name="hostTestType"/> was added to support those cases where the caller is required in the host configuration.</remarks>
-        public virtual void ConfigureHost(Type hostTestType)
+        /// <param name="hostTest">The object that inherits from <see cref="HostTest{T}"/>.</param>
+        /// <remarks><paramref name="hostTest"/> was added to support those cases where the caller is required in the host configuration.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="hostTest"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="hostTest"/> is not assignable from <see cref="HostTest{T}"/>.
+        /// </exception>
+        public virtual void ConfigureHost(Test hostTest)
         {
+            var hostTestType = hostTest?.GetType();
+            Validator.ThrowIfNull(hostTest, nameof(hostTest));
+            Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from HostTest<T>.", typeof(HostTest<>));
+
             Host = new HostBuilder()
                 .ConfigureHostConfiguration(config => config.AddEnvironmentVariables("DOTNET_"))
                 .ConfigureAppConfiguration((context, config) =>
@@ -38,9 +49,9 @@ namespace Cuemon.Extensions.Xunit.Hosting
                 })
                 .ConfigureServices((context, services) =>
                 {
+                    hostTestType.GetField("_configuration", BindingFlags.NonPublic).SetValue(hostTest, context.Configuration);
+                    hostTestType.GetField("_hostingEnvironment", BindingFlags.NonPublic).SetValue(hostTest, context.HostingEnvironment);
                     ConfigureServicesCallback(services);
-                    Configuration = context.Configuration;
-                    HostingEnvironment = context.HostingEnvironment;
                     ServiceProvider = services.BuildServiceProvider();
                 }).Build();
         }
@@ -52,36 +63,16 @@ namespace Cuemon.Extensions.Xunit.Hosting
         public Action<IServiceCollection> ConfigureServicesCallback { get; set; }
 
         /// <summary>
-        /// Gets the <see cref="IHost" /> initialized by this instance.
+        /// Gets or sets the <see cref="IHost" /> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IHost" /> initialized by this instance.</value>
-        public IHost Host { get; private set; }
+        public IHost Host { get; protected set; }
 
         /// <summary>
         /// Gets the <see cref="IServiceProvider" /> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IServiceProvider" /> initialized by this instance.</value>
-        public IServiceProvider ServiceProvider { get; private set; }
-
-        /// <summary>
-        /// Gets the <see cref="IConfiguration" /> initialized by this instance.
-        /// </summary>
-        /// <value>The <see cref="IConfiguration" /> initialized by this instance.</value>
-        public IConfiguration Configuration { get; private set; }
-
-        #if NETSTANDARD
-        /// <summary>
-        /// Gets the <see cref="IHostingEnvironment"/> initialized by this instance.
-        /// </summary>
-        /// <value>The <see cref="IHostingEnvironment"/> initialized by this instance.</value>
-        public IHostingEnvironment HostingEnvironment { get; private set; }
-        #elif NETCOREAPP
-        /// <summary>
-        /// Gets the <see cref="IHostEnvironment"/> initialized by this instance.
-        /// </summary>
-        /// <value>The <see cref="IHostEnvironment"/> initialized by this instance.</value>
-        public IHostEnvironment HostingEnvironment { get; private set; }
-        #endif
+        public IServiceProvider ServiceProvider { get; protected set; }
 
         /// <summary>
         /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.
