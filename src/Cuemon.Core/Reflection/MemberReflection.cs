@@ -29,12 +29,14 @@ namespace Cuemon.Reflection
         /// <param name="excludePrivate">if set to <c>true</c> non-public members are excluded from the binding constraint.</param>
         /// <param name="excludeStatic">if set to <c>true</c> static members are excluded from the binding constraint.</param>
         /// <param name="excludeInheritancePath">if set to <c>true</c> derived members of a type's inheritance path are excluded from the binding constraint.</param>
-        public MemberReflection(bool excludePrivate = false, bool excludeStatic = false, bool excludeInheritancePath = false) :
+        /// <param name="excludePublic">if set to <c>true</c> public members are excluded from the binding constraint.</param>
+        public MemberReflection(bool excludePrivate = false, bool excludeStatic = false, bool excludeInheritancePath = false, bool excludePublic = false) :
             this(o =>
             {
                 o.ExcludeInheritancePath = excludeInheritancePath;
                 o.ExcludePrivate = excludePrivate;
                 o.ExcludeStatic = excludeStatic;
+                o.ExcludePublic = excludePublic;
             })
         {
         }
@@ -50,6 +52,7 @@ namespace Cuemon.Reflection
             if (options.ExcludePrivate) { flags &= ~BindingFlags.NonPublic; }
             if (options.ExcludeStatic) { flags &= ~BindingFlags.Static; }
             if (options.ExcludeInheritancePath) { flags |= BindingFlags.DeclaredOnly; }
+            if (options.ExcludePublic) { flags &= ~BindingFlags.Public; }
             Flags = flags;
         }
 

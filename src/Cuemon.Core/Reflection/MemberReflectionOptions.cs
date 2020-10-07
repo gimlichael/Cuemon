@@ -27,6 +27,10 @@
         ///         <term><see cref="ExcludeStatic"/></term>
         ///         <description><c>false</c></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="ExcludePublic"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
         /// </list>
         /// </remarks>
         public MemberReflectionOptions()
@@ -34,6 +38,7 @@
             ExcludePrivate = false;
             ExcludeStatic = false;
             ExcludeInheritancePath = false;
+            ExcludePublic = false;
         }
 
         /// <summary>
@@ -53,5 +58,11 @@
         /// </summary>
         /// <value><c>true</c> if derived members of a type's inheritance path are excluded from the binding constraint; otherwise, <c>false</c>.</value>
         public bool ExcludeInheritancePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether public members are excluded from the binding constraint.
+        /// </summary>
+        /// <value><c>true</c> if public members are excluded from the binding constraint; otherwise, <c>false</c>.</value>
+        public bool ExcludePublic { get; set; }
     }
 }
