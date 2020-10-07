@@ -123,7 +123,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Runtime.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Runtime.Caching.Tests", "test\Cuemon.Extensions.Runtime.Caching.Tests\Cuemon.Extensions.Runtime.Caching.Tests.csproj", "{0F614FD1-BC7C-4F7F-9847-D3675614576C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.Newtonsoft.Json.Tests", "test\Cuemon.Extensions.Newtonsoft.Json.Tests\Cuemon.Extensions.Newtonsoft.Json.Tests.csproj", "{8A3E26BD-A3C4-4684-909B-1ABDFDB4108D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Newtonsoft.Json.Tests", "test\Cuemon.Extensions.Newtonsoft.Json.Tests\Cuemon.Extensions.Newtonsoft.Json.Tests.csproj", "{8A3E26BD-A3C4-4684-909B-1ABDFDB4108D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Data.SqlClient.Tests", "test\Cuemon.Data.SqlClient.Tests\Cuemon.Data.SqlClient.Tests.csproj", "{A9610C9E-1944-4771-A5E1-CE47ADA243D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -367,6 +369,10 @@ Global
 		{8A3E26BD-A3C4-4684-909B-1ABDFDB4108D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A3E26BD-A3C4-4684-909B-1ABDFDB4108D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A3E26BD-A3C4-4684-909B-1ABDFDB4108D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9610C9E-1944-4771-A5E1-CE47ADA243D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9610C9E-1944-4771-A5E1-CE47ADA243D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9610C9E-1944-4771-A5E1-CE47ADA243D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9610C9E-1944-4771-A5E1-CE47ADA243D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -431,6 +437,7 @@ Global
 		{1F0BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{0F614FD1-BC7C-4F7F-9847-D3675614576C} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{8A3E26BD-A3C4-4684-909B-1ABDFDB4108D} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
+		{A9610C9E-1944-4771-A5E1-CE47ADA243D5} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A848386-B682-4F6D-8254-B5F6247C3054}
