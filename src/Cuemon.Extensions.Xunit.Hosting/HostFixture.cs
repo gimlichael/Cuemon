@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using Cuemon.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,8 +51,10 @@ namespace Cuemon.Extensions.Xunit.Hosting
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    hostTestType.GetField("_configuration", BindingFlags.NonPublic).SetValue(hostTest, context.Configuration);
-                    hostTestType.GetField("_hostingEnvironment", BindingFlags.NonPublic).SetValue(hostTest, context.HostingEnvironment);
+                    var flags = new MemberReflection(excludeStatic: true, excludePublic: true).Flags;
+                    var hostTestTypeBase = Decorator.Enclose(hostTestType).GetInheritedTypes().Single(t => t.BaseType == typeof(Test));
+                    hostTestTypeBase.GetField("_configuration", flags).SetValue(hostTest, context.Configuration);
+                    hostTestTypeBase.GetField("_hostingEnvironment", flags).SetValue(hostTest, context.HostingEnvironment);
                     ConfigureServicesCallback(services);
                     ServiceProvider = services.BuildServiceProvider();
                 }).Build();
