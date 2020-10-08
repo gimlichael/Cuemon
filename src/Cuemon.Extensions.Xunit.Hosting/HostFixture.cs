@@ -55,6 +55,8 @@ namespace Cuemon.Extensions.Xunit.Hosting
                     var hostTestTypeBase = Decorator.Enclose(hostTestType).GetInheritedTypes().Single(t => t.BaseType == typeof(Test));
                     hostTestTypeBase.GetField("_configuration", flags).SetValue(hostTest, context.Configuration);
                     hostTestTypeBase.GetField("_hostingEnvironment", flags).SetValue(hostTest, context.HostingEnvironment);
+                    Configuration = context.Configuration;
+                    HostingEnvironment = context.HostingEnvironment;
                     ConfigureServicesCallback(services);
                     ServiceProvider = services.BuildServiceProvider();
                 }).Build();
@@ -70,13 +72,33 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// Gets or sets the <see cref="IHost" /> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IHost" /> initialized by this instance.</value>
-        public IHost Host { get; protected set; }
+        public IHost Host { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="IServiceProvider" /> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IServiceProvider" /> initialized by this instance.</value>
-        public IServiceProvider ServiceProvider { get; protected set; }
+        public IServiceProvider ServiceProvider { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="IConfiguration" /> initialized by this instance.
+        /// </summary>
+        /// <value>The <see cref="IConfiguration" /> initialized by this instance.</value>
+        public IConfiguration Configuration { get; private set; }
+
+        #if NETSTANDARD
+        /// <summary>
+        /// Gets the <see cref="IHostingEnvironment"/> initialized by this instance.
+        /// </summary>
+        /// <value>The <see cref="IHostingEnvironment"/> initialized by this instance.</value>
+        public IHostingEnvironment HostingEnvironment { get; private set; }
+        #elif NETCOREAPP
+        /// <summary>
+        /// Gets the <see cref="IHostEnvironment"/> initialized by this instance.
+        /// </summary>
+        /// <value>The <see cref="IHostEnvironment"/> initialized by this instance.</value>
+        public IHostEnvironment HostingEnvironment { get; private set; }
+        #endif
 
         /// <summary>
         /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.

@@ -37,6 +37,8 @@ namespace Cuemon.Extensions.Xunit.Hosting
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureHost(this);
             }
+            if (_configuration == null) { _configuration = hostFixture.Configuration; }
+            if (_hostingEnvironment == null) { _hostingEnvironment = hostFixture.HostingEnvironment; }
             Host = hostFixture.Host;
             ServiceProvider = hostFixture.ServiceProvider;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -27,6 +28,26 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// </summary>
         /// <value>The <see cref="IServiceProvider"/> initialized by the <see cref="IHost"/>.</value>
         IServiceProvider ServiceProvider { get; }
+
+        /// <summary>
+        /// Gets the <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.
+        /// </summary>
+        /// <value>The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</value>
+        IConfiguration Configuration { get; }
+
+        #if NETSTANDARD
+        /// <summary>
+        /// Gets the <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.
+        /// </summary>
+        /// <value>The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</value>
+        IHostingEnvironment HostingEnvironment { get; }
+        #elif NETCOREAPP
+        /// <summary>
+        /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
+        /// </summary>
+        /// <value>The <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.</value>
+        IHostEnvironment HostingEnvironment { get; }
+        #endif
 
         /// <summary>
         /// Creates and configures the <see cref="IHost"/> of this <see cref="IHostFixture"/>.
