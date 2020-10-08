@@ -155,10 +155,10 @@ namespace Cuemon.Data
         }
 
         /// <summary>
-        /// Create and returns the builded query from the specified <see cref="QueryType"/>.
+        /// Create and returns the query from the specified <see cref="QueryType"/>.
         /// </summary>
         /// <param name="queryType">Type of the query to create.</param>
-        /// <returns>The builded T-SQL query.</returns>
+        /// <returns>The result of the builder as a T-SQL query.</returns>
         public string GetQuery(QueryType queryType)
         {
             return GetQuery(queryType, null);

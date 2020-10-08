@@ -186,7 +186,7 @@ namespace Cuemon.Data
         /// <returns>
         /// A <b><see cref="int"/></b> value.
         /// </returns>
-        public int Execute(IDataCommand dataCommand, params DbParameter[] parameters)
+        public int Execute(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteCore(dataCommand, parameters, dbCommand =>
             {
@@ -209,7 +209,7 @@ namespace Cuemon.Data
         /// <returns>
         /// A <b><see cref="bool"/></b> value.
         /// </returns>
-        public bool ExecuteExists(IDataCommand dataCommand, params DbParameter[] parameters)
+        public bool ExecuteExists(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             using (var reader = ExecuteReader(dataCommand, parameters))
             {
@@ -223,7 +223,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns><see cref="int"/></returns>
-        public abstract int ExecuteIdentityInt32(IDataCommand dataCommand, params DbParameter[] parameters);
+        public abstract int ExecuteIdentityInt32(IDataCommand dataCommand, params IDbDataParameter[] parameters);
 
         /// <summary>
         /// Executes the command statement and returns an identity value as long.
@@ -231,7 +231,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns><see cref="long"/></returns>
-        public abstract long ExecuteIdentityInt64(IDataCommand dataCommand, params DbParameter[] parameters);
+        public abstract long ExecuteIdentityInt64(IDataCommand dataCommand, params IDbDataParameter[] parameters);
 
         /// <summary>
         /// Executes the command statement and returns an identity value as decimal.
@@ -239,7 +239,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns><see cref="decimal"/></returns>
-        public abstract decimal ExecuteIdentityDecimal(IDataCommand dataCommand, params DbParameter[] parameters);
+        public abstract decimal ExecuteIdentityDecimal(IDataCommand dataCommand, params IDbDataParameter[] parameters);
 
         /// <summary>
         /// Executes the command statement and returns an object supporting the DbDataReader interface.
@@ -249,7 +249,7 @@ namespace Cuemon.Data
         /// <returns>
         /// An object supporting the <b><see cref="DbDataReader"/></b> interface.
         /// </returns>
-        public DbDataReader ExecuteReader(IDataCommand dataCommand, params DbParameter[] parameters)
+        public DbDataReader ExecuteReader(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteCore(dataCommand, parameters, dbCommand => dbCommand.ExecuteReader(CommandBehavior.CloseConnection));
         }
@@ -262,7 +262,7 @@ namespace Cuemon.Data
         /// <returns>
         /// An <b><see cref="string"/></b> object.
         /// </returns>
-        public virtual string ExecuteXmlString(IDataCommand dataCommand, params DbParameter[] parameters)
+        public virtual string ExecuteXmlString(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             using (var reader = ExecuteReader(dataCommand, parameters))
             {
@@ -277,7 +277,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand"/>.</returns>
-        public object ExecuteScalar(IDataCommand dataCommand, params DbParameter[] parameters)
+        public object ExecuteScalar(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteCore(dataCommand, parameters, dbCommand =>
             {
@@ -301,7 +301,7 @@ namespace Cuemon.Data
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand"/> as the specified <paramref name="returnType"/>.</returns>
         /// <remarks>This method uses <see cref="CultureInfo.InvariantCulture"/> when casting the first column of the first row in the result from <paramref name="dataCommand"/>.</remarks>
-        public object ExecuteScalarAsType(IDataCommand dataCommand, Type returnType, params DbParameter[] parameters)
+        public object ExecuteScalarAsType(IDataCommand dataCommand, Type returnType, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAsType(dataCommand, returnType, CultureInfo.InvariantCulture, parameters);
         }
@@ -315,7 +315,7 @@ namespace Cuemon.Data
         /// <param name="provider">An object that supplies culture-specific formatting information.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand"/> as the specified <paramref name="returnType"/>.</returns>
-        public object ExecuteScalarAsType(IDataCommand dataCommand, Type returnType, IFormatProvider provider, params DbParameter[] parameters)
+        public object ExecuteScalarAsType(IDataCommand dataCommand, Type returnType, IFormatProvider provider, params IDbDataParameter[] parameters)
         {
             return Decorator.Enclose(ExecuteScalar(dataCommand, parameters)).ChangeType(returnType, o => o.FormatProvider = provider);
         }
@@ -329,7 +329,7 @@ namespace Cuemon.Data
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <typeparamref name="TResult"/>.</returns>
         /// <remarks>This method uses <see cref="CultureInfo.InvariantCulture"/> when casting the first column of the first row in the result from <paramref name="dataCommand"/>.</remarks>
-        public TResult ExecuteScalarAs<TResult>(IDataCommand dataCommand, params DbParameter[] parameters)
+        public TResult ExecuteScalarAs<TResult>(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return (TResult)ExecuteScalarAsType(dataCommand, typeof(TResult), parameters);
         }
@@ -343,7 +343,7 @@ namespace Cuemon.Data
         /// <param name="provider">An object that supplies culture-specific formatting information.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <typeparamref name="TResult"/>.</returns>
-        public TResult ExecuteScalarAs<TResult>(IDataCommand dataCommand, IFormatProvider provider, params DbParameter[] parameters)
+        public TResult ExecuteScalarAs<TResult>(IDataCommand dataCommand, IFormatProvider provider, params IDbDataParameter[] parameters)
         {
             return (TResult)ExecuteScalarAsType(dataCommand, typeof(TResult), provider, parameters);
         }
@@ -355,7 +355,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="bool"/>.</returns>
-        public bool ExecuteScalarAsBoolean(IDataCommand dataCommand, params DbParameter[] parameters)
+        public bool ExecuteScalarAsBoolean(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<bool>(dataCommand, parameters);
         }
@@ -368,7 +368,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="DateTime"/>.</returns>
-        public DateTime ExecuteScalarAsDateTime(IDataCommand dataCommand, params DbParameter[] parameters)
+        public DateTime ExecuteScalarAsDateTime(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<DateTime>(dataCommand, parameters);
         }
@@ -380,7 +380,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="short"/>.</returns>
-        public short ExecuteScalarAsInt16(IDataCommand dataCommand, params DbParameter[] parameters)
+        public short ExecuteScalarAsInt16(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<short>(dataCommand, parameters);
         }
@@ -392,7 +392,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="int"/>.</returns>
-        public int ExecuteScalarAsInt32(IDataCommand dataCommand, params DbParameter[] parameters)
+        public int ExecuteScalarAsInt32(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<int>(dataCommand, parameters);
         }
@@ -404,7 +404,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="long"/>.</returns>
-        public long ExecuteScalarAsInt64(IDataCommand dataCommand, params DbParameter[] parameters)
+        public long ExecuteScalarAsInt64(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<long>(dataCommand, parameters);
         }
@@ -416,7 +416,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="byte"/>.</returns>
-        public byte ExecuteScalarAsByte(IDataCommand dataCommand, params DbParameter[] parameters)
+        public byte ExecuteScalarAsByte(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<byte>(dataCommand, parameters);
         }
@@ -428,7 +428,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="sbyte"/>.</returns>
-        public sbyte ExecuteScalarAsSByte(IDataCommand dataCommand, params DbParameter[] parameters)
+        public sbyte ExecuteScalarAsSByte(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<sbyte>(dataCommand, parameters);
         }
@@ -440,7 +440,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="decimal"/>.</returns>
-        public decimal ExecuteScalarAsDecimal(IDataCommand dataCommand, params DbParameter[] parameters)
+        public decimal ExecuteScalarAsDecimal(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<decimal>(dataCommand, parameters);
         }
@@ -452,7 +452,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="double"/>.</returns>
-        public double ExecuteScalarAsDouble(IDataCommand dataCommand, params DbParameter[] parameters)
+        public double ExecuteScalarAsDouble(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<double>(dataCommand, parameters);
         }
@@ -464,7 +464,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="ushort"/>.</returns>
-        public ushort ExecuteScalarAsUInt16(IDataCommand dataCommand, params DbParameter[] parameters)
+        public ushort ExecuteScalarAsUInt16(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<ushort>(dataCommand, parameters);
         }
@@ -476,7 +476,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="uint"/>.</returns>
-        public uint ExecuteScalarAsUInt32(IDataCommand dataCommand, params DbParameter[] parameters)
+        public uint ExecuteScalarAsUInt32(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<uint>(dataCommand, parameters);
         }
@@ -488,7 +488,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="ulong"/>.</returns>
-        public ulong ExecuteScalarAsUInt64(IDataCommand dataCommand, params DbParameter[] parameters)
+        public ulong ExecuteScalarAsUInt64(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<ulong>(dataCommand, parameters);
         }
@@ -500,7 +500,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="string"/>.</returns>
-        public string ExecuteScalarAsString(IDataCommand dataCommand, params DbParameter[] parameters)
+        public string ExecuteScalarAsString(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<string>(dataCommand, parameters);
         }
@@ -513,7 +513,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="Guid"/>.</returns>
-        public Guid ExecuteScalarAsGuid(IDataCommand dataCommand, params DbParameter[] parameters)
+        public Guid ExecuteScalarAsGuid(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             return ExecuteScalarAs<Guid>(dataCommand, parameters);
         }
@@ -526,12 +526,12 @@ namespace Cuemon.Data
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <param name="commandInvoker">The function delegate that will invoke a method on the resolved <see cref="DbCommand"/> from the virtual <see cref="ExecuteCommandCore"/> method.</param>
         /// <returns>A value of <typeparamref name="T"/> that is equal to the invoked method of the <see cref="DbCommand"/> object.</returns>
-        protected virtual T ExecuteCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> commandInvoker)
+        protected virtual T ExecuteCore<T>(IDataCommand dataCommand, IDbDataParameter[] parameters, Func<DbCommand, T> commandInvoker)
         {
             return InvokeCommandCore(dataCommand, parameters, commandInvoker);
         }
 
-        private T InvokeCommandCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> sqlInvoker)
+        private T InvokeCommandCore<T>(IDataCommand dataCommand, IDbDataParameter[] parameters, Func<DbCommand, T> sqlInvoker)
         {
             T result;
             DbCommand command = null;
@@ -555,7 +555,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>System.Data.Common.DbCommand</returns>
-        protected virtual DbCommand ExecuteCommandCore(IDataCommand dataCommand, params DbParameter[] parameters)
+        protected virtual DbCommand ExecuteCommandCore(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
             DbCommand command = null;
@@ -586,7 +586,7 @@ namespace Cuemon.Data
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns>An instance of a <see cref="DbCommand"/> implementation.</returns>
-        protected abstract DbCommand GetCommandCore(IDataCommand dataCommand, params DbParameter[] parameters);
+        protected abstract DbCommand GetCommandCore(IDataCommand dataCommand, params IDbDataParameter[] parameters);
         #endregion
     }
 }

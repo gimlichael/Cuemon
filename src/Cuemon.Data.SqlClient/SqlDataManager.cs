@@ -105,7 +105,7 @@ namespace Cuemon.Data.SqlClient
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns><see cref="int"/></returns>
-        public override int ExecuteIdentityInt32(IDataCommand dataCommand, params DbParameter[] parameters)
+        public override int ExecuteIdentityInt32(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
             if (dataCommand.Type != CommandType.Text) { throw new ArgumentException("This method only supports CommandType.Text specifications.", nameof(dataCommand)); }
@@ -121,7 +121,7 @@ namespace Cuemon.Data.SqlClient
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns><see cref="long"/></returns>
-        public override long ExecuteIdentityInt64(IDataCommand dataCommand, params DbParameter[] parameters)
+        public override long ExecuteIdentityInt64(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
             if (dataCommand.Type != CommandType.Text) { throw new ArgumentException("This method only supports CommandType.Text specifications.", nameof(dataCommand)); }
@@ -137,7 +137,7 @@ namespace Cuemon.Data.SqlClient
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
         /// <returns><see cref="decimal"/></returns>
-        public override decimal ExecuteIdentityDecimal(IDataCommand dataCommand, params DbParameter[] parameters)
+        public override decimal ExecuteIdentityDecimal(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
             if (dataCommand.Type != CommandType.Text) { throw new ArgumentException("This method only supports CommandType.Text specifications.", nameof(dataCommand)); }
@@ -159,12 +159,12 @@ namespace Cuemon.Data.SqlClient
         }
 
         /// <summary>
-        /// Core method for executing methods on the <see cref="T:System.Data.Common.DbCommand" /> object resolved from the virtual <see cref="M:Cuemon.Data.DataManager.ExecuteCommandCore(Cuemon.Data.IDataCommand,System.Data.Common.DbParameter[])" /> method.
+        /// Core method for executing methods on the <see cref="T:System.Data.Common.DbCommand" /> object resolved from the virtual <see cref="M:Cuemon.Data.DataManager.ExecuteCommandCore(Cuemon.Data.IDataCommand,System.Data.Common.IDbDataParameter[])" /> method.
         /// </summary>
         /// <typeparam name="T">The type to return.</typeparam>
         /// <param name="dataCommand">The data command to execute.</param>
         /// <param name="parameters">The parameters to use in the command.</param>
-        /// <param name="commandInvoker">The function delegate that will invoke a method on the resolved <see cref="T:System.Data.Common.DbCommand" /> from the virtual <see cref="M:Cuemon.Data.DataManager.ExecuteCommandCore(Cuemon.Data.IDataCommand,System.Data.Common.DbParameter[])" /> method.</param>
+        /// <param name="commandInvoker">The function delegate that will invoke a method on the resolved <see cref="T:System.Data.Common.DbCommand" /> from the virtual <see cref="M:Cuemon.Data.DataManager.ExecuteCommandCore(Cuemon.Data.IDataCommand,System.Data.Common.IDbDataParameter[])" /> method.</param>
         /// <returns>A value of <typeparamref name="T" /> that is equal to the invoked method of the <see cref="T:System.Data.Common.DbCommand" /> object.</returns>
         /// <remarks>
         /// If <see cref="TransientFaultHandlingOptionsCallback"/> is null, no SQL operation is wrapped inside a transient fault handling operation.
@@ -174,7 +174,7 @@ namespace Cuemon.Data.SqlClient
         /// In case of a transient failure the default implementation will use <see cref="TransientOperationOptions.RetryStrategy"/>.<br/>
         /// In any other case the originating exception is thrown.
         /// </remarks>
-        protected override T ExecuteCore<T>(IDataCommand dataCommand, DbParameter[] parameters, Func<DbCommand, T> commandInvoker)
+        protected override T ExecuteCore<T>(IDataCommand dataCommand, IDbDataParameter[] parameters, Func<DbCommand, T> commandInvoker)
         {
             return TransientFaultHandlingOptionsCallback == null
                 ? base.ExecuteCore(dataCommand, parameters, commandInvoker)
@@ -191,7 +191,7 @@ namespace Cuemon.Data.SqlClient
         /// <paramref name="dataCommand"/> cannot be null -or-
         /// <paramref name="parameters"/> cannot be null.
         /// </exception>
-        protected override DbCommand GetCommandCore(IDataCommand dataCommand, params DbParameter[] parameters)
+        protected override DbCommand GetCommandCore(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
             Validator.ThrowIfNull(dataCommand, nameof(dataCommand));
             Validator.ThrowIfNull(parameters, nameof(parameters));
@@ -202,7 +202,7 @@ namespace Cuemon.Data.SqlClient
            }, ex => throw ExceptionInsights.Embed(new InvalidOperationException("There is an error when creating a new SqlCommand.", ex), MethodBase.GetCurrentMethod(), Arguments.ToArray(dataCommand, parameters)));
         }
 
-        private static void AddSqlParameters(SqlCommand command, IEnumerable<DbParameter> parameters)
+        private static void AddSqlParameters(SqlCommand command, IEnumerable<IDbDataParameter> parameters)
         {
             foreach (var parameter in parameters)
             {
