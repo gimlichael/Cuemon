@@ -72,13 +72,13 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// Gets or sets the <see cref="IHost" /> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IHost" /> initialized by this instance.</value>
-        public IHost Host { get; private set; }
+        public IHost Host { get; protected set; }
 
         /// <summary>
         /// Gets the <see cref="IServiceProvider" /> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IServiceProvider" /> initialized by this instance.</value>
-        public IServiceProvider ServiceProvider { get; private set; }
+        public IServiceProvider ServiceProvider { get; protected set; }
 
         /// <summary>
         /// Gets the <see cref="IConfiguration" /> initialized by this instance.
