@@ -134,11 +134,23 @@ jobs:
       workingDirectory: '$(BuildSource)'
 
   - task: DotNetCoreCLI@2
-    displayName: 'Test Solution'
+    displayName: 'Test Solution - Linux'
+    condition: eq(variables['Agent.OS'], 'Linux')
     inputs:
       command: 'test'
       projects: test/**/*.csproj
       arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+      publishTestResults: true
+    env:
+      ConnectionStrings__AdventureWorks: $(ConnectionStrings--AdventureWorks)
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Test Solution - Windows'
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
+    inputs:
+      command: 'test'
+      projects: test/**/*.csproj
+      arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
       publishTestResults: true
 
   - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
@@ -169,7 +181,7 @@ jobs:
 
   - task: DockerCompose@0
     condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Spin down SQL Server'
+    displayName: 'Take down SQL Server'
     inputs:
       containerregistrytype: 'Container Registry'
       dockerComposeFile: '**/docker-compose.yml'
