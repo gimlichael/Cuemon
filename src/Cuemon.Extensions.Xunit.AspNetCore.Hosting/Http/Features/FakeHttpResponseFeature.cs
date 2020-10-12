@@ -48,6 +48,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features
         public Task TriggerOnStarting()
         {
             _hasStarted = true;
+            StatusCode = 200;
             return HasOnStartingCallback ? _callback(_state) : Task.CompletedTask;
         }
     }
