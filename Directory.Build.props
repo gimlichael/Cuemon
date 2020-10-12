@@ -43,11 +43,11 @@
 
   <ItemGroup Condition="'$(IsTestProject)' == 'false'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all"/>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <RunAnalyzers>false</RunAnalyzers>
   </PropertyGroup>
