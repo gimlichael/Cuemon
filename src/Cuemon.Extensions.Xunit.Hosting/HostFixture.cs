@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Cuemon.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,6 +54,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
                     var hostTestTypeBase = Decorator.Enclose(hostTestType).GetInheritedTypes().Single(t => t.BaseType == typeof(Test));
                     hostTestTypeBase.GetField("_configuration", flags).SetValue(hostTest, context.Configuration);
                     hostTestTypeBase.GetField("_hostingEnvironment", flags).SetValue(hostTest, context.HostingEnvironment);
+
                     Configuration = context.Configuration;
                     HostingEnvironment = context.HostingEnvironment;
                     ConfigureServicesCallback(services);
@@ -84,20 +84,20 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// Gets the <see cref="IConfiguration" /> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IConfiguration" /> initialized by this instance.</value>
-        public IConfiguration Configuration { get; private set; }
+        public IConfiguration Configuration { get; protected set; }
 
         #if NETSTANDARD
         /// <summary>
         /// Gets the <see cref="IHostingEnvironment"/> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IHostingEnvironment"/> initialized by this instance.</value>
-        public IHostingEnvironment HostingEnvironment { get; private set; }
+        public IHostingEnvironment HostingEnvironment { get; protected set; }
         #elif NETCOREAPP
         /// <summary>
         /// Gets the <see cref="IHostEnvironment"/> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IHostEnvironment"/> initialized by this instance.</value>
-        public IHostEnvironment HostingEnvironment { get; private set; }
+        public IHostEnvironment HostingEnvironment { get; protected set; }
         #endif
 
         /// <summary>

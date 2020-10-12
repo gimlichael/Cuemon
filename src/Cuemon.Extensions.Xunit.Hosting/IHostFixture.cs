@@ -9,25 +9,19 @@ namespace Cuemon.Extensions.Xunit.Hosting
     /// Provides a way to use Microsoft Dependency Injection in unit tests.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    public interface IHostFixture : IDisposable
+    public interface IHostFixture : IServiceTest, IDisposable
     {
         /// <summary>
         /// Gets or sets the delegate that adds services to the container.
         /// </summary>
         /// <value>The delegate that adds services to the container.</value>
         Action<IServiceCollection> ConfigureServicesCallback { get; set; }
-
+        
         /// <summary>
         /// Gets the <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.
         /// </summary>
         /// <value>The <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.</value>
         IHost Host { get; }
-
-        /// <summary>
-        /// Gets the <see cref="IServiceProvider"/> initialized by the <see cref="IHost"/>.
-        /// </summary>
-        /// <value>The <see cref="IServiceProvider"/> initialized by the <see cref="IHost"/>.</value>
-        IServiceProvider ServiceProvider { get; }
 
         /// <summary>
         /// Gets the <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.

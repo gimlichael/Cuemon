@@ -7,7 +7,6 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
-
     /// <summary>
     /// Represents a base class from which all implementations of unit testing, that uses Microsoft Dependency Injection, should derive.
     /// </summary>
@@ -29,16 +28,25 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// </summary>
         /// <param name="hostFixture">An implementation of the <see cref="IHostFixture"/> interface.</param>
         /// <param name="output">An implementation of the <see cref="ITestOutputHelper"/> interface.</param>
-        protected HostTest(IHostFixture hostFixture, ITestOutputHelper output = null) : base(output)
+        protected HostTest(T hostFixture, ITestOutputHelper output = null) : base(output)
         {
             Validator.ThrowIfNull(hostFixture, nameof(hostFixture));
+            InitializeHostFixture(hostFixture);
+            if (_configuration == null) { _configuration = hostFixture.Configuration; }
+            if (_hostingEnvironment == null) { _hostingEnvironment = hostFixture.HostingEnvironment; }
+        }
+
+        /// <summary>
+        /// Initializes the specified host fixture.
+        /// </summary>
+        /// <param name="hostFixture">The host fixture to initialize.</param>
+        protected virtual void InitializeHostFixture(T hostFixture)
+        {
             if (!hostFixture.HasValidState())
             {
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureHost(this);
             }
-            if (_configuration == null) { _configuration = hostFixture.Configuration; }
-            if (_hostingEnvironment == null) { _hostingEnvironment = hostFixture.HostingEnvironment; }
             Host = hostFixture.Host;
             ServiceProvider = hostFixture.ServiceProvider;
         }
@@ -47,13 +55,13 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// Gets the <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.
         /// </summary>
         /// <value>The <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.</value>
-        public IHost Host { get; }
+        public IHost Host { get; protected set; }
 
         /// <summary>
         /// Gets the <see cref="IServiceProvider"/> initialized by the <see cref="IHost"/>.
         /// </summary>
         /// <value>The <see cref="IServiceProvider"/> initialized by the <see cref="IHost"/>.</value>
-        public IServiceProvider ServiceProvider { get; }
+        public IServiceProvider ServiceProvider { get; protected set; }
 
         /// <summary>
         /// Gets the <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.
