@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.AspNetCore.Hosting\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\" />
   </ItemGroup>
 
 </Project>
