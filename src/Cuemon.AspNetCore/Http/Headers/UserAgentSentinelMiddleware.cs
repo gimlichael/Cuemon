@@ -37,21 +37,17 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <returns>A task that represents the execution of this middleware.</returns>
         public override async Task InvokeAsync(HttpContext context)
         {
-            var exception = false;
-            try
+            await AspNetCoreInfrastructure.InvokeUserAgentSentinelAsync(context, Options, async (message, response) =>
             {
-                await AspNetCoreInfrastructure.InvokeUserAgentSentinelAsync(context, Options, async (message, response) =>
+                context.Response.OnStarting(() =>
                 {
-                    response.StatusCode = (int) message.StatusCode;
                     Decorator.Enclose(response.Headers).AddOrUpdateHeaders(message.Headers);
-                    await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
-                }).ConfigureAwait(false);
-            }
-            catch (UserAgentException)
-            {
-                exception = true;
-            }
-            if (!exception) { await Next(context).ConfigureAwait(false); }
+                    return Task.CompletedTask;
+                });
+                response.StatusCode = (int)message.StatusCode;
+                await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
+            }).ConfigureAwait(false);
+            await Next(context).ConfigureAwait(false);
         }
     }
 }

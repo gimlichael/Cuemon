@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <summary>
         /// Initializes a new instance of the <see cref="UserAgentSentinelOptions"/> class.
         /// </summary>
-                /// <remarks>
+        /// <remarks>
         /// The following table shows the initial property values for an instance of <see cref="UserAgentSentinelOptions"/>.
         /// <list type="table">
         ///     <listheader>
@@ -53,7 +53,6 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </remarks>
         public UserAgentSentinelOptions()
         {
-            UseGenericResponse = false;
             BadRequestMessage = "The requirements of the HTTP User-Agent header was not met.";
             ForbiddenMessage = "The HTTP User-Agent specified was rejected.";
             AllowedUserAgents = new List<string>();
@@ -65,14 +64,14 @@ namespace Cuemon.AspNetCore.Http.Headers
                                 AllowedUserAgents.Count > 0 &&
                                 !AllowedUserAgents.Any(allowedUserAgent => userAgent.Equals(allowedUserAgent, StringComparison.OrdinalIgnoreCase));
 
-                if (userAgentIsNullOrWhiteSpace || (forbidden && UseGenericResponse))
+                if (userAgentIsNullOrWhiteSpace || forbidden && UseGenericResponse)
                 {
                     return new HttpResponseMessage(HttpStatusCode.BadRequest)
                     {
                         Content = new StringContent(BadRequestMessage)
                     };
                 }
-                
+
                 if (forbidden)
                 {
                     return new HttpResponseMessage(HttpStatusCode.Forbidden)

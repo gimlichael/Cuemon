@@ -24,11 +24,7 @@ namespace Cuemon.AspNetCore.Infrastructure
                 var message = options.ResponseBroker?.Invoke(userAgent);
                 if (message != null)
                 {
-                    context.Response.OnStarting(() =>
-                    {
-                        transformer?.Invoke(message, context.Response);
-                        return Task.CompletedTask;
-                    });
+                    transformer?.Invoke(message, context.Response);
                     throw new UserAgentException((int)message.StatusCode, await message.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
