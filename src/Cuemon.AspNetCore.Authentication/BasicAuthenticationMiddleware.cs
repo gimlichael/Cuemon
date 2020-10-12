@@ -99,7 +99,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder builder, Action<BasicAuthenticationOptions> setup = null)
         {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<BasicAuthenticationMiddleware, BasicAuthenticationOptions>(builder, setup);
+            return MiddlewareBuilderFactory.UseMiddlewareConfigurable<BasicAuthenticationMiddleware, BasicAuthenticationOptions>(builder, setup);
         }
     }
 }

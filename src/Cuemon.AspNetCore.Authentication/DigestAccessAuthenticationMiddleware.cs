@@ -177,7 +177,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Action<DigestAccessAuthenticationOptions> setup = null)
         {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<DigestAccessAuthenticationMiddleware, DigestAccessAuthenticationOptions>(builder, setup);
+            return MiddlewareBuilderFactory.UseMiddlewareConfigurable<DigestAccessAuthenticationMiddleware, DigestAccessAuthenticationOptions>(builder, setup);
         }
     }
 }

@@ -103,7 +103,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IApplicationBuilder UseHmacAuthentication(this IApplicationBuilder builder, Action<HmacAuthenticationOptions> setup = null)
         {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<HmacAuthenticationMiddleware, HmacAuthenticationOptions>(builder, setup);
+            return MiddlewareBuilderFactory.UseMiddlewareConfigurable<HmacAuthenticationMiddleware, HmacAuthenticationOptions>(builder, setup);
         }
     }
 }
