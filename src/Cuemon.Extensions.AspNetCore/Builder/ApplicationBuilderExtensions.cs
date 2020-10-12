@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         /// <remarks>Default HTTP header name is <c>X-Hosting-Environment</c>.</remarks>
         public static IApplicationBuilder UseHostingEnvironment(this IApplicationBuilder builder, Action<HostingEnvironmentOptions> setup = null)
         {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<HostingEnvironmentMiddleware, HostingEnvironmentOptions>(builder, setup);
+            return MiddlewareBuilderFactory.UseMiddlewareConfigurable<HostingEnvironmentMiddleware, HostingEnvironmentOptions>(builder, setup);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         /// <remarks>Default HTTP header name is <c>X-Correlation-ID</c>.</remarks>
         public static IApplicationBuilder UseCorrelationIdentifier(this IApplicationBuilder builder, Action<CorrelationIdentifierOptions> setup = null)
         {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<CorrelationIdentifierMiddleware, CorrelationIdentifierOptions>(builder, setup);
+            return MiddlewareBuilderFactory.UseMiddlewareConfigurable<CorrelationIdentifierMiddleware, CorrelationIdentifierOptions>(builder, setup);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         /// <remarks>Default HTTP header name is <c>X-Request-ID</c>.</remarks>
         public static IApplicationBuilder UseRequestIdentifier(this IApplicationBuilder builder, Action<RequestIdentifierOptions> setup = null)
         {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<RequestIdentifierMiddleware, RequestIdentifierOptions>(builder, setup);
+            return MiddlewareBuilderFactory.UseMiddlewareConfigurable<RequestIdentifierMiddleware, RequestIdentifierOptions>(builder, setup);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IApplicationBuilder UseUserAgentSentinel(this IApplicationBuilder builder, Action<UserAgentSentinelOptions> setup = null)
         {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<UserAgentSentinelMiddleware, UserAgentSentinelOptions>(builder, setup);
+            return MiddlewareBuilderFactory.UseMiddlewareConfigurable<UserAgentSentinelMiddleware, UserAgentSentinelOptions>(builder, setup);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IApplicationBuilder UseThrottlingSentinel(this IApplicationBuilder builder, Action<ThrottlingSentinelOptions> setup)
         {
-            return ApplicationBuilderFactory.UseMiddlewareConfigurable<ThrottlingSentinelMiddleware, ThrottlingSentinelOptions>(builder, setup);
+            return MiddlewareBuilderFactory.UseMiddlewareConfigurable<ThrottlingSentinelMiddleware, ThrottlingSentinelOptions>(builder, setup);
         }
     }
 }
