@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Infrastructure;
 using Cuemon.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -37,7 +36,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <returns>A task that represents the execution of this middleware.</returns>
         public override async Task InvokeAsync(HttpContext context)
         {
-            await AspNetCoreInfrastructure.InvokeUserAgentSentinelAsync(context, Options, async (message, response) =>
+            await Decorator.Enclose(context).InvokeUserAgentSentinelAsync(Options, async (message, response) =>
             {
                 context.Response.OnStarting(() =>
                 {

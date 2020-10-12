@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
-using Cuemon.AspNetCore.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 
@@ -34,7 +34,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         /// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            await AspNetCoreInfrastructure.InvokeThrottlerSentinelAsync(context.HttpContext, ThrottlingCache, Options, (message, response) =>
+            await Decorator.Enclose(context.HttpContext).InvokeThrottlerSentinelAsync(ThrottlingCache, Options, (message, response) =>
             {
                 response.StatusCode = (int) message.StatusCode;
                 Decorator.Enclose(response.Headers).AddOrUpdateHeaders(message.Headers);

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -29,7 +30,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         /// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            await AspNetCoreInfrastructure.InvokeUserAgentSentinelAsync(context.HttpContext, Options, (message, response) =>
+            await Decorator.Enclose(context.HttpContext).InvokeUserAgentSentinelAsync(Options, (message, response) =>
             {
                 response.StatusCode = (int) message.StatusCode;
                 Decorator.Enclose(response.Headers).AddOrUpdateHeaders(message.Headers);
