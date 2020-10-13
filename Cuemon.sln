@@ -127,7 +127,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Newtonsof
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Data.SqlClient.Tests", "test\Cuemon.Data.SqlClient.Tests\Cuemon.Data.SqlClient.Tests.csproj", "{A9610C9E-1944-4771-A5E1-CE47ADA243D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.Hosting.AspNetCore", "src\Cuemon.Extensions.Xunit.AspNetCore.Hosting\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj", "{200BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.Hosting.AspNetCore", "src\Cuemon.Extensions.Xunit.Hosting.AspNetCore\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj", "{200BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
