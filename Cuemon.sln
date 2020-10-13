@@ -115,7 +115,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Hosting",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.Tests", "test\Cuemon.Extensions.Xunit.Tests\Cuemon.Extensions.Xunit.Tests.csproj", "{2108E7E7-F002-481C-B17F-918E76D98378}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Hosting.Xunit.Tests", "test\Cuemon.Extensions.Hosting.Xunit.Tests\Cuemon.Extensions.Hosting.Xunit.Tests.csproj", "{86B43822-0733-416E-8DA2-666C5657974F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.Hosting.Tests", "test\Cuemon.Extensions.Xunit.Hosting.Tests\Cuemon.Extensions.Xunit.Hosting.Tests.csproj", "{86B43822-0733-416E-8DA2-666C5657974F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Runtime.Caching.Tests", "test\Cuemon.Runtime.Caching.Tests\Cuemon.Runtime.Caching.Tests.csproj", "{581174AB-62AA-4A04-85DE-4F9E307C9712}"
 EndProject
