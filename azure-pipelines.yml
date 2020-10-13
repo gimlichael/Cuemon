@@ -139,8 +139,44 @@ jobs:
     inputs:
       command: 'build'
       projects: |
-        src/**/*.csproj
-        !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
+        src/**/Cuemon.AspNetCore.csproj
+        src/**/Cuemon.AspNetCore.Authentication.csproj
+        src/**/Cuemon.AspNetCore.Mvc.csproj
+        src/**/Cuemon.AspNetCore.Razor.csproj
+        src/**/Cuemon.Core.csproj
+        src/**/Cuemon.Data.csproj
+        src/**/Cuemon.Data.Integrity.csproj
+        src/**/Cuemon.Data.SqlClient.csproj
+        src/**/Cuemon.Diagnostics.csproj
+        src/**/Cuemon.Extensions.AspNetCore.csproj
+        src/**/Cuemon.Extensions.AspNetCore.Mvc.csproj
+        src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.csproj
+        src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj
+        src/**/Cuemon.Extensions.Collections.Generic.csproj
+        src/**/Cuemon.Extensions.Collections.Specialized.csproj
+        src/**/Cuemon.Extensions.Core.csproj
+        src/**/Cuemon.Extensions.Data.csproj
+        src/**/Cuemon.Extensions.Data.Integrity.csproj
+        src/**/Cuemon.Extensions.DependencyInjection.csproj
+        src/**/Cuemon.Extensions.Diagnostics.csproj
+        src/**/Cuemon.Extensions.Hosting.csproj
+        src/**/Cuemon.Extensions.IO.csproj
+        src/**/Cuemon.Extensions.Net.csproj
+        src/**/Cuemon.Extensions.Newtonsoft.Json.csproj
+        src/**/Cuemon.Extensions.Reflection.csproj
+        src/**/Cuemon.Extensions.Runtime.Caching.csproj
+        src/**/Cuemon.Extensions.Text.csproj
+        src/**/Cuemon.Extensions.Threading.csproj
+        src/**/Cuemon.Extensions.Xml.csproj
+        src/**/Cuemon.Extensions.Xunit.csproj
+        src/**/Cuemon.Extensions.Xunit.Hosting.csproj
+        src/**/Cuemon.IO.csproj
+        src/**/Cuemon.Net.csproj
+        src/**/Cuemon.Resilience.csproj
+        src/**/Cuemon.Runtime.Caching.csproj
+        src/**/Cuemon.Security.Cryptography.csproj
+        src/**/Cuemon.Threading.csproj
+        src/**/Cuemon.Xml.csproj
       arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
       workingDirectory: '$(BuildSource)'
 
