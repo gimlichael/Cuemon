@@ -71,7 +71,9 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             var host = server.Host;
 
             host.Start();
-            
+
+            ServiceProvider = host.Services;
+
             Host = host;
         }
 

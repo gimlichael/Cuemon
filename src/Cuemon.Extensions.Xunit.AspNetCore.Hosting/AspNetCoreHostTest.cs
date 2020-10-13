@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 hostFixture.ConfigureHost(this);
             }
             Host = hostFixture.Host;
-            ServiceProvider = hostFixture.ServiceProvider;
+            ServiceProvider = hostFixture.Host.Services;
             Application = hostFixture.Application;
         }
 
