@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cuemon.Extensions.AspNetCore.Builder;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Cuemon.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -56,6 +57,15 @@ namespace Cuemon.AspNetCore.Http.Headers
             Assert.Equal(expected, correlationId.ToString("N"));
 
             TestOutput.WriteLine(expected);
+        }
+
+        /// <summary>
+        /// Adds services to the container.
+        /// </summary>
+        /// <param name="services">The collection of service descriptors.</param>
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            services.AddTransient<IHttpContextAccessor, FakeHttpContextAccessor>();
         }
 
         public override void ConfigureApplication(IApplicationBuilder app)

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cuemon.Extensions.AspNetCore.Builder;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Xunit;
 using Xunit.Abstractions;
@@ -38,7 +39,7 @@ namespace Cuemon.AspNetCore.Hosting
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            base.ConfigureServices(services);
+            services.AddTransient<IHttpContextAccessor, FakeHttpContextAccessor>();
             services.Configure<HostingEnvironmentOptions>(o => o.HeaderName = "X-Environment");
         }
 

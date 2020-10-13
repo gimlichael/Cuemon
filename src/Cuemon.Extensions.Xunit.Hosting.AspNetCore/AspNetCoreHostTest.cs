@@ -1,7 +1,4 @@
-﻿using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Xunit.Abstractions;
 
@@ -40,6 +37,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             Host = hostFixture.Host;
             ServiceProvider = hostFixture.Host.Services;
             Application = hostFixture.Application;
+            Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
         
         /// <summary>
@@ -47,15 +45,6 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         /// </summary>
         /// <value>The <see cref="IApplicationBuilder"/> initialized by the <see cref="IHost"/>.</value>
         public IApplicationBuilder Application { get; protected set; }
-
-        /// <summary>
-        /// Adds services to the container.
-        /// </summary>
-        /// <param name="services">The collection of service descriptors.</param>
-        public override void ConfigureServices(IServiceCollection services)
-        {
-            services.AddTransient<IHttpContextAccessor, FakeHttpContextAccessor>();
-        }
 
         /// <summary>
         /// Configures the HTTP request pipeline.
