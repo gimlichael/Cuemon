@@ -66,6 +66,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         [Fact]
         public async Task InvokeAsync_ShouldRehydrate()
         {
+            var window = TimeSpan.FromSeconds(5);
             var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
                 app.UseThrottlingSentinel();
@@ -74,7 +75,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
             {
                 services.Configure<ThrottlingSentinelOptions>(o =>
                 {
-                    o.Quota = new ThrottleQuota(10, TimeSpan.FromSeconds(5));
+                    o.Quota = new ThrottleQuota(10, window);
                     o.ContextResolver = cr => nameof(ThrottlingSentinelMiddlewareTest);
                 });
                 services.AddSingleton<IHttpContextAccessor, FakeHttpContextAccessor>();
@@ -95,13 +96,13 @@ namespace Cuemon.AspNetCore.Http.Throttling
 
             TestOutput.WriteLine(te.Delta.ToString());
 
-            await Task.Delay(te.Delta);
+            await Task.Delay(window);
 
             await pipeline(context);
 
             var ce = cache[nameof(ThrottlingSentinelMiddlewareTest)];
 
-
+            Assert.True(window >= te.Delta, "window >= te.Delta");
             Assert.True(options.Value.UseRetryAfterHeader);
             Assert.Equal(StatusCodes.Status200OK, context.Response.StatusCode);
         }
