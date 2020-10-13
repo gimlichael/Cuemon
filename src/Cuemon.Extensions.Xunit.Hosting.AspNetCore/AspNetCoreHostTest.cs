@@ -1,6 +1,5 @@
 ﻿using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,9 +18,9 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         /// <summary>
         /// Initializes a new instance of the <see cref="AspNetCoreHostTest{T}"/> class.
         /// </summary>
-        /// <param name="aspNetCoreHostFixture">An implementation of the <see cref="IAspNetCoreHostFixture"/> interface.</param>
+        /// <param name="hostFixture">An implementation of the <see cref="IAspNetCoreHostFixture"/> interface.</param>
         /// <param name="output">An implementation of the <see cref="ITestOutputHelper"/> interface.</param>
-        protected AspNetCoreHostTest(T aspNetCoreHostFixture, ITestOutputHelper output = null) : base(aspNetCoreHostFixture, output)
+        protected AspNetCoreHostTest(T hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
         {
         }
 
@@ -33,6 +32,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         {
             if (!hostFixture.HasValidState())
             {
+                hostFixture.ConfigureCallback = Configure;
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureApplicationCallback = ConfigureApplication;
                 hostFixture.ConfigureHost(this);
@@ -41,13 +41,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             ServiceProvider = hostFixture.Host.Services;
             Application = hostFixture.Application;
         }
-
-        /// <summary>
-        /// Gets the <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.
-        /// </summary>
-        /// <value>The <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.</value>
-        public new IWebHost Host { get; protected set; }
-
+        
         /// <summary>
         /// Gets the <see cref="IApplicationBuilder"/> initialized by the <see cref="IHost"/>.
         /// </summary>

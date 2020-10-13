@@ -15,6 +15,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             _serviceConfigurator = serviceConfigurator;
             if (!hostFixture.HasValidState())
             {
+                hostFixture.ConfigureCallback = Configure;
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureApplicationCallback = ConfigureApplication;
                 hostFixture.ConfigureHost(this);
@@ -36,6 +37,14 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         public override void ConfigureServices(IServiceCollection services)
         {
             _serviceConfigurator(services);
+        }
+
+        /// <summary>
+        /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.
+        /// </summary>
+        protected override void OnDisposeManagedResources()
+        {
+            Host?.Dispose();
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System.IO;
-using System.Linq;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting;
-using Cuemon.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,13 +24,13 @@ namespace Cuemon.Data.SqlClient.Assets
                         .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
                         .AddEnvironmentVariables()
                         .AddUserSecrets<UserSecretsHostFixture>();
+
+                    ConfigureCallback(config.Build(), context.HostingEnvironment);
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    var flags = new MemberReflection(excludeStatic: true, excludePublic: true).Flags;
-                    var hostTestTypeBase = Decorator.Enclose(hostTestType).GetInheritedTypes().Single(t => t.BaseType == typeof(Test));
-                    hostTestTypeBase.GetField("_configuration", flags).SetValue(hostTest, context.Configuration);
-                    hostTestTypeBase.GetField("_hostingEnvironment", flags).SetValue(hostTest, context.HostingEnvironment);
+                    Configuration = context.Configuration;
+                    HostingEnvironment = context.HostingEnvironment;
                     ConfigureServicesCallback(services);
                     ServiceProvider = services.BuildServiceProvider();
                 }).Build();

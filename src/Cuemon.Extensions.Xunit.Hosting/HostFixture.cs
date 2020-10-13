@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using Cuemon.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -47,20 +45,33 @@ namespace Cuemon.Extensions.Xunit.Hosting
                         .AddJsonFile("appsettings.json", true, true)
                         .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
                         .AddEnvironmentVariables();
+
+                    ConfigureCallback(config.Build(), context.HostingEnvironment);
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    var flags = new MemberReflection(excludeStatic: true, excludePublic: true).Flags;
-                    var hostTestTypeBase = Decorator.Enclose(hostTestType).GetInheritedTypes().Single(t => t.BaseType == typeof(Test));
-                    hostTestTypeBase.GetField("_configuration", flags).SetValue(hostTest, context.Configuration);
-                    hostTestTypeBase.GetField("_hostingEnvironment", flags).SetValue(hostTest, context.HostingEnvironment);
-
                     Configuration = context.Configuration;
                     HostingEnvironment = context.HostingEnvironment;
                     ConfigureServicesCallback(services);
                     ServiceProvider = services.BuildServiceProvider();
                 }).Build();
         }
+
+        #if NETSTANDARD 
+        /// <summary>
+        /// Gets or sets the delegate that initializes the test class.
+        /// </summary>
+        /// <value>The delegate that initializes the test class.</value>
+        /// <remarks>Mimics the Startup convention.</remarks>
+        public Action<IConfiguration, IHostingEnvironment> ConfigureCallback { get; set; }
+        #elif NETCOREAPP
+        /// <summary>
+        /// Gets or sets the delegate that initializes the test class.
+        /// </summary>
+        /// <value>The delegate that initializes the test class.</value>
+        /// <remarks>Mimics the Startup convention.</remarks>
+        public Action<IConfiguration, IHostEnvironment> ConfigureCallback { get; set; }
+        #endif
 
         /// <summary>
         /// Gets or sets the delegate that adds services to the container.

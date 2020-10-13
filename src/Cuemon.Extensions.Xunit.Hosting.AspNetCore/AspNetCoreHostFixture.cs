@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using Cuemon.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 {
@@ -41,47 +41,44 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             Validator.ThrowIfNull(hostTest, nameof(hostTest));
             Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from AspNetCoreHostTest<T>.", typeof(AspNetCoreHostTest<>));
 
-            var server = new TestServer(new WebHostBuilder()
-                .ConfigureAppConfiguration((context, config) =>
+            Host = new HostBuilder()
+                .ConfigureWebHost(webBuilder =>
                 {
-                    config.AddEnvironmentVariables("ASPNETCORE_");
-                    config.SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", true, true)
-                        .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
-                        .AddEnvironmentVariables();
-                })
-                .ConfigureServices((context, services) =>
-                {
-                    var flags = new MemberReflection(excludeStatic: true, excludePublic: true).Flags;
-                    var hostTestTypeBase = Decorator.Enclose(hostTestType).GetInheritedTypes().Single(t => t.BaseType == typeof(Test));
-                    hostTestTypeBase.GetField("_configuration", flags).SetValue(hostTest, context.Configuration);
-                    hostTestTypeBase.GetField("_hostingEnvironment", flags).SetValue(hostTest, context.HostingEnvironment);
+                    webBuilder
+                        .UseTestServer()
+                        .UseContentRoot(Directory.GetCurrentDirectory())
+                        .UseEnvironment("Development")
+                        .ConfigureAppConfiguration((context, config) =>
+                        {
+                            config.AddEnvironmentVariables("ASPNETCORE_");
+                            config.AddJsonFile("appsettings.json", true, true)
+                                .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
+                                .AddEnvironmentVariables();
 
-                    Configuration = context.Configuration;
-                    HostingEnvironment = context.HostingEnvironment;
-                    ConfigureServicesCallback(services);
-                })
-                .Configure(app =>
-                    {
-                        ConfigureApplicationCallback(app);
-                        Application = app;
-                    }
-                ));
-
-            var host = server.Host;
-
-            host.Start();
-
-            ServiceProvider = host.Services;
-
-            Host = host;
+                            ConfigureCallback(config.Build(), context.HostingEnvironment);
+                        })
+                        .ConfigureLogging((context, logging) =>
+                        {
+                            logging.AddConfiguration(context.Configuration.GetSection("Logging"));
+                            logging.AddConsole();
+                            logging.AddDebug();
+                            logging.AddEventSourceLogger();
+                        })
+                        .ConfigureServices((context, services) =>
+                        {
+                            Configuration = context.Configuration;
+                            HostingEnvironment = context.HostingEnvironment;
+                            ConfigureServicesCallback(services);
+                            ServiceProvider = services.BuildServiceProvider();
+                        })
+                        .Configure(app =>
+                            {
+                                ConfigureApplicationCallback(app);
+                                Application = app;
+                            }
+                        );
+                }).Start();
         }
-
-        /// <summary>
-        /// Gets the <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.
-        /// </summary>
-        /// <value>The <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.</value>
-        public new IWebHost Host { get; private set; }
 
         /// <summary>
         /// Gets or sets the delegate that configures the HTTP request pipeline.

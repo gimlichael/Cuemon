@@ -16,13 +16,6 @@ namespace Cuemon.Extensions.Xunit.Hosting
     /// <remarks>The class needed to be designed in this rather complex way, as this is the only way that xUnit supports a shared context. The need for shared context is theoretical at best, but it does opt-in for Scoped instances.</remarks>
     public abstract class HostTest<T> : Test, IClassFixture<T> where T : class, IHostFixture
     {
-        private readonly IConfiguration _configuration;
-        #if NETSTANDARD
-        private readonly IHostingEnvironment _hostingEnvironment;
-        #elif NETCOREAPP
-        private readonly IHostEnvironment _hostingEnvironment;
-        #endif
-
         /// <summary>
         /// Initializes a new instance of the <see cref="HostTest{T}"/> class.
         /// </summary>
@@ -32,8 +25,6 @@ namespace Cuemon.Extensions.Xunit.Hosting
         {
             Validator.ThrowIfNull(hostFixture, nameof(hostFixture));
             InitializeHostFixture(hostFixture);
-            if (_configuration == null) { _configuration = hostFixture.Configuration; }
-            if (_hostingEnvironment == null) { _hostingEnvironment = hostFixture.HostingEnvironment; }
         }
 
         /// <summary>
@@ -44,11 +35,13 @@ namespace Cuemon.Extensions.Xunit.Hosting
         {
             if (!hostFixture.HasValidState())
             {
+                hostFixture.ConfigureCallback = Configure;
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureHost(this);
             }
             Host = hostFixture.Host;
             ServiceProvider = hostFixture.ServiceProvider;
+            Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
 
         /// <summary>
@@ -67,20 +60,56 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// Gets the <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.
         /// </summary>
         /// <value>The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</value>
-        public IConfiguration Configuration => _configuration;
+        public IConfiguration Configuration
+        {
+            get;
+            private set;
+        }
 
         #if NETSTANDARD
         /// <summary>
         /// Gets the <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.
         /// </summary>
         /// <value>The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</value>
-        public IHostingEnvironment HostingEnvironment => _hostingEnvironment;
+        public IHostingEnvironment HostingEnvironment
+        {
+            get;
+            private set;
+        }
         #elif NETCOREAPP
         /// <summary>
         /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
         /// </summary>
         /// <value>The <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.</value>
-        public IHostEnvironment HostingEnvironment => _hostingEnvironment;
+        public IHostEnvironment HostingEnvironment 
+        {
+            get;
+            private set;
+        }
+        #endif
+
+        #if NETSTANDARD
+        /// <summary>
+        /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
+        /// </summary>
+        /// <param name="configuration">The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</param>
+        /// <param name="environment">The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</param>
+        public virtual void Configure(IConfiguration configuration, IHostingEnvironment environment)
+        {
+            Configuration = configuration;
+            HostingEnvironment = environment;
+        }
+        #elif NETCOREAPP
+        /// <summary>
+        /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
+        /// </summary>
+        /// <param name="configuration">The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</param>
+        /// <param name="environment">The <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.</param>
+        public virtual void Configure(IConfiguration configuration, IHostEnvironment environment)
+        {
+            Configuration = configuration;
+            HostingEnvironment = environment;
+        }
         #endif
 
         /// <summary>
