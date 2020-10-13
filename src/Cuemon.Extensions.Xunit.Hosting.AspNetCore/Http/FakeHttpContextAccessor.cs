@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http.Features;
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http
 {
     /// <summary>
-    /// Provides a unit test implementation of <see cref="IHttpContextAccessor"/>..
+    /// Provides a unit test implementation of <see cref="IHttpContextAccessor"/>.
     /// </summary>
     /// <seealso cref="IHttpContextAccessor" />
     public class FakeHttpContextAccessor : IHttpContextAccessor
