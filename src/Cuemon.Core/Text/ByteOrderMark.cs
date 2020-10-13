@@ -156,7 +156,7 @@ namespace Cuemon.Text
             Validator.ThrowIfNull(encoding, nameof(encoding));
             
             var option = Patterns.Configure(setup);
-            var bytes = Decorator.Enclose(value).ToByteArrayCore(leaveOpen: option.LeaveOpen);
+            var bytes = Decorator.Enclose(value).InvokeToByteArray(leaveOpen: option.LeaveOpen);
             bytes = Remove(bytes, encoding);
             return Patterns.SafeInvoke(() => new MemoryStream(bytes.Length), ms =>
             {

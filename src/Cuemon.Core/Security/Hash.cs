@@ -266,7 +266,7 @@ namespace Cuemon.Security
         {
             return ComputeHash(Patterns.SafeInvoke(() => new MemoryStream(), destination =>
             {
-                Decorator.Enclose(input).CopyStreamCore(destination);
+                Decorator.Enclose(input).CopyStream(destination);
                 return destination;
             }).ToArray());
         }

@@ -16,22 +16,6 @@ namespace Cuemon.IO
     public static class StreamDecoratorExtensions
     {
         /// <summary>
-        /// Reads the bytes from the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> and writes them to the <paramref name="destination"/>.
-        /// </summary>
-        /// <param name="decorator">The <see cref="IDecorator{Stream}"/> to extend.</param>
-        /// <param name="destination">The <see cref="Stream"/> to which the contents of the current stream will be copied.</param>
-        /// <param name="bufferSize">The size of the buffer. This value must be greater than zero. The default size is 81920.</param>
-        /// <param name="changePosition">if <c>true</c>, the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> will temporarily have its position changed to 0; otherwise the position is left untouched.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null.
-        /// </exception>
-        public static void CopyStream(this IDecorator<Stream> decorator, Stream destination, int bufferSize = 81920, bool changePosition = true)
-        {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            decorator.CopyStreamCore(destination, bufferSize, changePosition);
-        }
-
-        /// <summary>
         /// Asynchronously reads the bytes from the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> and writes them to the <paramref name="destination"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{Stream}"/> to extend.</param>
@@ -77,7 +61,7 @@ namespace Cuemon.IO
             Validator.ThrowIfNull(decorator, nameof(decorator));
             Validator.ThrowIfFalse(decorator.Inner.CanRead, nameof(decorator.Inner), "Stream cannot be read from.");
             var options = Patterns.Configure(setup);
-            return decorator.ToByteArrayCore(options.BufferSize, options.LeaveOpen);
+            return decorator.InvokeToByteArray(options.BufferSize, options.LeaveOpen);
         }
 
         /// <summary>
