@@ -12,5 +12,11 @@ namespace Cuemon.AspNetCore.Mvc.Assets
         {
             return Ok("Unit Test");
         }
+
+        [HttpGet("it")]
+        public IActionResult GetIt()
+        {
+            return Ok("Unit Test");
+        }
     }
 }
