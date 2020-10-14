@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         /// <param name="services">The <see cref="IServiceCollection" /> to extend.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
         /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
-        public static IServiceCollection AddHttpContextAccessor(this IServiceCollection services, ServiceLifetime lifetime)
+        public static IServiceCollection AddFakeHttpContextAccessor(this IServiceCollection services, ServiceLifetime lifetime)
         {
             services.TryAdd<IHttpContextAccessor, FakeHttpContextAccessor>(provider =>
             {
