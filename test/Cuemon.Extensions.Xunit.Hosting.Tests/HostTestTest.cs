@@ -65,9 +65,9 @@ namespace Cuemon.Extensions.Xunit.Hosting
         }
 
         [Fact]
-        public void Test_ShouldHaveEnvironmentOfroduction()
+        public void Test_ShouldHaveEnvironmentOfDevelopment()
         {
-            Assert.Equal("Production", HostingEnvironment.EnvironmentName);
+            Assert.Equal("Development", HostingEnvironment.EnvironmentName);
         }
 
         public override void ConfigureServices(IServiceCollection services)
