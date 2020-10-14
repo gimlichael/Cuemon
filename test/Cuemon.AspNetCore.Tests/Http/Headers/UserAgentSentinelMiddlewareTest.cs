@@ -4,7 +4,6 @@ using Cuemon.Extensions.AspNetCore.Builder;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -30,7 +29,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             }, services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
-                services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
+                services.AddHttpContextAccessor(ServiceLifetime.Scoped);
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -63,7 +62,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.ValidateUserAgentHeader = true;
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
-                services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
+                services.AddHttpContextAccessor(ServiceLifetime.Scoped);
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -101,7 +100,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.UseGenericResponse = true;
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
-                services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
+                services.AddHttpContextAccessor(ServiceLifetime.Scoped);
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -159,7 +158,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.ValidateUserAgentHeader = true;
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
-                services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
+                services.AddHttpContextAccessor(ServiceLifetime.Scoped);
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;

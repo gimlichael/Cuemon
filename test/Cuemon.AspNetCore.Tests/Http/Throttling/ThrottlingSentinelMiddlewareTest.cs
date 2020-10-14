@@ -5,7 +5,6 @@ using Cuemon.Extensions.AspNetCore.Http.Throttling;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -34,7 +33,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                     o.Quota = new ThrottleQuota(10, TimeSpan.FromMinutes(5));
                     o.ContextResolver = cr => nameof(ThrottlingSentinelMiddlewareTest);
                 });
-                services.AddSingleton<IHttpContextAccessor, FakeHttpContextAccessor>();
+                services.AddHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddMemoryThrottlingCache();
             }))
             {
@@ -79,7 +78,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                     o.Quota = new ThrottleQuota(10, window);
                     o.ContextResolver = cr => nameof(ThrottlingSentinelMiddlewareTest);
                 });
-                services.AddSingleton<IHttpContextAccessor, FakeHttpContextAccessor>();
+                services.AddHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddMemoryThrottlingCache();
             }))
             {
