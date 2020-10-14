@@ -33,7 +33,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                     o.Quota = new ThrottleQuota(10, TimeSpan.FromMinutes(5));
                     o.ContextResolver = cr => nameof(ThrottlingSentinelMiddlewareTest);
                 });
-                services.AddHttpContextAccessor(ServiceLifetime.Singleton);
+                services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddMemoryThrottlingCache();
             }))
             {
@@ -78,7 +78,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                     o.Quota = new ThrottleQuota(10, window);
                     o.ContextResolver = cr => nameof(ThrottlingSentinelMiddlewareTest);
                 });
-                services.AddHttpContextAccessor(ServiceLifetime.Singleton);
+                services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddMemoryThrottlingCache();
             }))
             {

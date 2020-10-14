@@ -29,7 +29,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             }, services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
-                services.AddHttpContextAccessor(ServiceLifetime.Scoped);
+                services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -62,7 +62,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.ValidateUserAgentHeader = true;
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
-                services.AddHttpContextAccessor(ServiceLifetime.Scoped);
+                services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -100,7 +100,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.UseGenericResponse = true;
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
-                services.AddHttpContextAccessor(ServiceLifetime.Scoped);
+                services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -158,7 +158,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.ValidateUserAgentHeader = true;
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
-                services.AddHttpContextAccessor(ServiceLifetime.Scoped);
+                services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;

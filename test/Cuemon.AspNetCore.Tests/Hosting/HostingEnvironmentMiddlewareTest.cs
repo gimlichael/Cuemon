@@ -38,7 +38,7 @@ namespace Cuemon.AspNetCore.Hosting
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpContextAccessor(ServiceLifetime.Transient);
+            services.AddFakeHttpContextAccessor(ServiceLifetime.Transient);
             services.Configure<HostingEnvironmentOptions>(o => o.HeaderName = "X-Environment");
         }
 

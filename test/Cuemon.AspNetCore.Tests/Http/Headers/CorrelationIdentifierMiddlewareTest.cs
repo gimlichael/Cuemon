@@ -64,7 +64,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <param name="services">The collection of service descriptors.</param>
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpContextAccessor(ServiceLifetime.Transient);
+            services.AddFakeHttpContextAccessor(ServiceLifetime.Transient);
         }
 
         public override void ConfigureApplication(IApplicationBuilder app)
