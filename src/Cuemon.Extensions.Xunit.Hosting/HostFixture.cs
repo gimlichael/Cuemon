@@ -54,7 +54,6 @@ namespace Cuemon.Extensions.Xunit.Hosting
                     Configuration = context.Configuration;
                     HostingEnvironment = context.HostingEnvironment;
                     ConfigureServicesCallback(services);
-                    ServiceProvider = services.BuildServiceProvider();
                 }).Build();
         }
 
@@ -90,7 +89,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// Gets the <see cref="IServiceProvider" /> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IServiceProvider" /> initialized by this instance.</value>
-        public IServiceProvider ServiceProvider { get; protected set; }
+        public IServiceProvider ServiceProvider => Host.Services;
 
         /// <summary>
         /// Gets the <see cref="IConfiguration" /> initialized by this instance.
