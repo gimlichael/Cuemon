@@ -50,7 +50,6 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                         .UseEnvironment("Development")
                         .ConfigureAppConfiguration((context, config) =>
                         {
-                            config.AddEnvironmentVariables("ASPNETCORE_");
                             config.AddJsonFile("appsettings.json", true, true)
                                 .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
                                 .AddEnvironmentVariables();

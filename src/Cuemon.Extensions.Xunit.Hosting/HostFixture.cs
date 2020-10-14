@@ -38,10 +38,11 @@ namespace Cuemon.Extensions.Xunit.Hosting
             Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from HostTest<T>.", typeof(HostTest<>));
 
             Host = new HostBuilder()
-                .ConfigureHostConfiguration(config => config.AddEnvironmentVariables("DOTNET_"))
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseEnvironment("Development")
                 .ConfigureAppConfiguration((context, config) =>
                 {
-                    config.SetBasePath(Directory.GetCurrentDirectory())
+                    config
                         .AddJsonFile("appsettings.json", true, true)
                         .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
                         .AddEnvironmentVariables();
