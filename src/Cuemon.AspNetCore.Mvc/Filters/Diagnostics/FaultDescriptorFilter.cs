@@ -12,7 +12,6 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
     /// <summary>
     /// A filter that, after an action has faulted, provides developer friendly information about an <see cref="Exception"/> along with a correct <see cref="HttpStatusCode"/>.
-    /// Implements the <see cref="IExceptionFilter" />
     /// </summary>
     /// <seealso cref="IExceptionFilter"/>
     /// <seealso cref="ExceptionDescriptor" />
