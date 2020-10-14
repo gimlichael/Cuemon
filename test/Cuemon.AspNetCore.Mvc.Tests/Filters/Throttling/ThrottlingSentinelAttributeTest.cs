@@ -1,0 +1,105 @@
+﻿using System;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Cuemon.AspNetCore.Http.Throttling;
+using Cuemon.AspNetCore.Mvc.Assets;
+using Cuemon.Extensions.AspNetCore.Http.Throttling;
+using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
+{
+    public class ThrottlingSentinelAttributeTest : AspNetCoreHostTest<AspNetCoreHostFixture>
+    {
+        private readonly IServiceProvider _provider;
+
+        public ThrottlingSentinelAttributeTest(AspNetCoreHostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
+        {
+            _provider = hostFixture.ServiceProvider;
+        }
+
+        [Fact]
+        public async Task Bearer_ShouldThrottleWhenQuotaIsExceeded()
+        {
+            var cache = _provider.GetRequiredService<IThrottlingCache>();
+            var client = Host.GetTestClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", nameof(Bearer_ShouldThrottleWhenQuotaIsExceeded));
+
+            var te = await Assert.ThrowsAsync<ThrottlingException>(async () =>
+            {
+                for (var i = 0; i < 15; i++)
+                {
+                    var result = await client.GetAsync("/fake");
+                    Assert.Equal(StatusCodes.Status200OK, (int)result.StatusCode);
+                    Assert.Equal("Unit Test", await result.Content.ReadAsStringAsync());
+                }
+            });
+
+
+            var ce = cache[nameof(Bearer_ShouldThrottleWhenQuotaIsExceeded)];
+            
+            Assert.InRange(ce.Total, te.RateLimit, 15);
+            Assert.Equal(ce.Quota.RateLimit, te.RateLimit);
+            Assert.Equal(ce.Quota.Window, TimeSpan.FromSeconds(5));
+            Assert.Equal(StatusCodes.Status429TooManyRequests, te.StatusCode);
+        }
+
+        [Fact]
+        public async Task Bearer_ShouldThrottleAndThenRehydrateAfterWindowHasPassed()
+        {
+            var cache = _provider.GetRequiredService<IThrottlingCache>();
+            var client = Host.GetTestClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", nameof(Bearer_ShouldThrottleAndThenRehydrateAfterWindowHasPassed));
+
+            var te = await Assert.ThrowsAsync<ThrottlingException>(async () =>
+            {
+                for (var i = 0; i < 15; i++)
+                {
+                    var result = await client.GetAsync("/fake");
+                    Assert.Equal(StatusCodes.Status200OK, (int)result.StatusCode);
+                    Assert.Equal("Unit Test", await result.Content.ReadAsStringAsync());
+                }
+            });
+
+
+            var ce = cache[nameof(Bearer_ShouldThrottleAndThenRehydrateAfterWindowHasPassed)];
+            
+            Assert.InRange(ce.Total, te.RateLimit, 15);
+            Assert.Equal(ce.Quota.RateLimit, te.RateLimit);
+            Assert.Equal(ce.Quota.Window, TimeSpan.FromSeconds(5));
+            Assert.Equal(StatusCodes.Status429TooManyRequests, te.StatusCode);
+
+            await Task.Delay(TimeSpan.FromSeconds(5));
+
+            for (var i = 0; i < 5; i++)
+            {
+                var result = await client.GetAsync("/fake");
+                Assert.Equal(StatusCodes.Status200OK, (int)result.StatusCode);
+                Assert.Equal("Unit Test", await result.Content.ReadAsStringAsync());
+            }
+
+            Assert.Equal(5, ce.Total);
+        }
+
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
+            services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
+            services.AddMemoryThrottlingCache();
+        }
+
+        public override void ConfigureApplication(IApplicationBuilder app)
+        {
+            app.UseRouting();
+            app.UseEndpoints(routes =>
+            {
+                routes.MapControllers();
+            });
+        }
+    }
+}

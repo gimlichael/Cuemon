@@ -1,11 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <RootNamespace>Cuemon.AspNetCore.Mvc</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="xunit.runner.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
