@@ -32,7 +32,6 @@ namespace Cuemon.Data.SqlClient.Assets
                     Configuration = context.Configuration;
                     HostingEnvironment = context.HostingEnvironment;
                     ConfigureServicesCallback(services);
-                    ServiceProvider = services.BuildServiceProvider();
                 }).Build();
         }
     }
