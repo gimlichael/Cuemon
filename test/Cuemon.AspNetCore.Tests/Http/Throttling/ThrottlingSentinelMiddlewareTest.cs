@@ -96,7 +96,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
 
                 TestOutput.WriteLine(te.Delta.ToString());
 
-                await Task.Delay(window);
+                await Task.Delay(te.Delta.Add(TimeSpan.FromSeconds(1)));
 
                 await pipeline(context);
 
