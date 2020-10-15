@@ -109,6 +109,7 @@ jobs:
       command: 'build'
       projects: |
         src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
+        src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
       arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.1'
       workingDirectory: '$(BuildSource)'
 
