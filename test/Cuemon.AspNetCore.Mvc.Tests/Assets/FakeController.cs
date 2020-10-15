@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cuemon.AspNetCore.Mvc.Assets
@@ -42,6 +43,18 @@ namespace Cuemon.AspNetCore.Mvc.Assets
         public IActionResult GetBadRequest()
         {
             throw new ValidationException("Unit Test");
+        }
+
+        [HttpGet("getCacheByEtag")]
+        public IActionResult GetEtag()
+        {
+            return Ok("Unit Test".MakeCacheable(s => Convertible.GetBytes(Generate.HashCode32(s))));
+        }
+
+        [HttpGet("getCacheByLastModified")]
+        public IActionResult GetLastModified()
+        {
+            return Ok("Unit Test".MakeCacheable(s => DateTime.UnixEpoch));
         }
     }
 }
