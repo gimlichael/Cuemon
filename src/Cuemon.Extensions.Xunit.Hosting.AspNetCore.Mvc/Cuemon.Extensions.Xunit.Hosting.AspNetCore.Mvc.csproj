@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <ProjectGuid>210bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc</AssemblyTitle>
+    <Description>The Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace contains types that provides a uniform way of doing unit testing that depends on ASP.NET Core MVC and used in conjunction with Microsoft Dependency Injection. The namespace relates to the Microsoft.AspNetCore.Mvc.Testing namespace.</Description>
+    <PackageTags>asp-net-core-host-test class-fixture asp-net-core-host-fixture microsoft dependency injection host configuration hosting-environment service-provider configure-services test-server</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Extensions.Xunit.Hosting.AspNetCore\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj" />
+  </ItemGroup>
+</Project>

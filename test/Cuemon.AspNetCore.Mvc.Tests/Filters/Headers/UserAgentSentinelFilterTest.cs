@@ -24,7 +24,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest()
         {
-            using (var filter = FilterTestFactory.CreateFilterTest(app =>
+            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -53,7 +53,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_Forbidden()
         {
-            using (var filter = FilterTestFactory.CreateFilterTest(app =>
+            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -90,7 +90,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest_BecauseOfUseGenericResponse()
         {
-            using (var filter = FilterTestFactory.CreateFilterTest(app =>
+            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -128,7 +128,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldAllowRequestUnconditional()
         {
-            using (var filter = FilterTestFactory.CreateFilterTest(app =>
+            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -147,7 +147,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldAllowRequestAfterBeingValidated()
         {
-            using (var filter = FilterTestFactory.CreateFilterTest(app =>
+            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
