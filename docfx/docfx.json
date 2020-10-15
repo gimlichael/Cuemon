@@ -45,7 +45,10 @@
             "Cuemon.Extensions.Text/**.csproj",
             "Cuemon.Extensions.Threading/**.csproj",
             "Cuemon.Extensions.Xml/**.csproj",
-            "Cuemon.Extensions.Xunit/**.csproj"
+            "Cuemon.Extensions.Xunit/**.csproj",
+            "Cuemon.Extensions.Xunit.Hosting/**.csproj",
+            "Cuemon.Extensions.Xunit.Hosting.AspNetCore/**.csproj",
+            "Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc/**.csproj"
           ],
           "src": "../src"
         }
