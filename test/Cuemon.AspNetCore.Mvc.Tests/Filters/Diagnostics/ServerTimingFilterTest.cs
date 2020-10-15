@@ -16,10 +16,49 @@ using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
-    public class TimeMeasuringFilterTest : Test
+    public class ServerTimingFilterTest : Test
     {
-        public TimeMeasuringFilterTest(ITestOutputHelper output) : base(output)
+        public ServerTimingFilterTest(ITestOutputHelper output) : base(output)
         {
+        }
+
+        [Fact]
+        public async Task OnActionExecutionAsync_ShouldTimeMeasureFakeControllerAndFictiveMeasurements()
+        {
+            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            {
+                app.UseRouting();
+                app.Use(async (context, next) => 
+                {
+                    var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
+
+                    await Task.Delay(22);
+                    serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
+
+                    await Task.Delay(1700);
+                    serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
+                    
+                    await next();
+                });
+                app.UseEndpoints(routes => { routes.MapControllers(); });
+            }, services =>
+            {
+                services.AddServerTiming();
+                services.AddControllers(o => { o.Filters.Add<ServerTimingFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
+            }))
+            {
+                var client = filter.Host.GetTestClient();
+                var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecond");
+                var serverTimings = profiler.Result.Headers.GetValues(ServerTiming.HeaderName).ToArray();
+
+                Assert.InRange(profiler.Elapsed, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+                Assert.True(profiler.Result.Headers.Contains("Server-Timing"));
+                Assert.Equal("redis", serverTimings[0].Split(';').First());
+                Assert.Equal("restApi", serverTimings[1].Split(';').First());
+                Assert.Equal("mvc", serverTimings[2].Split(';').First());
+
+                TestOutput.WriteLine(profiler.Elapsed.ToString());
+            }
         }
 
         [Fact]

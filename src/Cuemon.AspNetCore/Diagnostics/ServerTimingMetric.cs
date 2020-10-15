@@ -22,7 +22,7 @@ namespace Cuemon.AspNetCore.Diagnostics
             if (duration.HasValue && duration <= TimeSpan.Zero) { duration = TimeSpan.Zero; }
             
             var metric = name;
-            if (duration.HasValue) { metric = string.Concat(metric, ";", FormattableString.Invariant($"dur={duration.Value.TotalMilliseconds.ToString("N1", CultureInfo.InvariantCulture)}")); }
+            if (duration.HasValue) { metric = string.Concat(metric, ";", FormattableString.Invariant($"dur={duration.Value.TotalMilliseconds.ToString("F1", CultureInfo.InvariantCulture)}")); }
             if (description != null) { metric = string.Concat(metric, ";", $"desc=\"{description}\""); }
 
             Name = name;

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
@@ -88,10 +89,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 TimeMeasure.CompletedCallback?.Invoke(Profiler);
                 if (!Options.SuppressHeaderPredicate(Environment))
                 {
-                    foreach (var metric in serverTiming.Metrics)
-                    {
-                        context.HttpContext.Response.Headers.Add(ServerTiming.HeaderName, metric.ToString());
-                    }
+                    context.HttpContext.Response.Headers.Add(ServerTiming.HeaderName, serverTiming.Metrics.Select(metric => metric.ToString()).ToArray());
                 }
             }
         }
