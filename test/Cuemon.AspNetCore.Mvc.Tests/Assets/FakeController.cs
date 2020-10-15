@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,12 @@ namespace Cuemon.AspNetCore.Mvc.Assets
         {
             await Task.Delay(TimeSpan.FromSeconds(1));
             return Ok("Unit Test");
+        }
+
+        [HttpGet("getResponse400")]
+        public IActionResult GetBadRequest()
+        {
+            throw new ValidationException("Unit Test");
         }
     }
 }
