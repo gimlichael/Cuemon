@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using Cuemon.AspNetCore.Http.Headers;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
@@ -17,26 +18,26 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// </summary>
     /// <seealso cref="ConfigurableActionFilter{TOptions}"/>
     /// <seealso cref="IActionFilter" />
-    public class TimeMeasuringFilter : ConfigurableActionFilter<TimeMeasuringOptions>
+    public class ServerTimingFilter : ConfigurableActionFilter<ServerTimingOptions>
     {
         #if NETSTANDARD
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeMeasuringFilter" /> class.
+        /// Initializes a new instance of the <see cref="ServerTimingFilter" /> class.
         /// </summary>
         /// <param name="setup">The <see cref="TimeMeasureOptions" /> which need to be configured.</param>
         /// <param name="he">The dependency injected <see cref="IHostingEnvironment"/>.</param>
-        public TimeMeasuringFilter(IOptions<TimeMeasuringOptions> setup, IHostingEnvironment he) : base(setup)
+        public ServerTimingFilter(IOptions<ServerTimingOptions> setup, IHostingEnvironment he) : base(setup)
         {
             Profiler = new TimeMeasureProfiler();
             Environment = he;
         }
         #elif NETCOREAPP
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeMeasuringFilter" /> class.
+        /// Initializes a new instance of the <see cref="ServerTimingFilter" /> class.
         /// </summary>
         /// <param name="setup">The <see cref="TimeMeasureOptions" /> which need to be configured.</param>
         /// <param name="he">The dependency injected <see cref="IHostEnvironment"/>.</param>
-        public TimeMeasuringFilter(IOptions<TimeMeasuringOptions> setup, IHostEnvironment he) : base(setup)
+        public ServerTimingFilter(IOptions<ServerTimingOptions> setup, IHostEnvironment he) : base(setup)
         {
             Profiler = new TimeMeasureProfiler();
             Environment = he;
@@ -50,6 +51,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         #endif
 
         private TimeMeasureProfiler Profiler { get; }
+
+        internal string Name { get; set; }
+
+        internal string Description { get; set; }
 
         /// <summary>
         /// Called before the action executes, after model binding is complete.
@@ -76,13 +81,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             Profiler.Timer.Stop();
+            var serverTiming = context.HttpContext.RequestServices.GetRequiredService<IServerTiming>();
+            serverTiming.AddServerTiming(Name ?? "mvc", Profiler.Elapsed, Description ?? $"[{Decorator.Enclose(Profiler.Member.MethodName).ToAsciiEncodedString()}@{Decorator.Enclose(Profiler.Member.Caller.Name).ToAsciiEncodedString()}]({context.HttpContext.Request.GetEncodedUrl().ToLowerInvariant()})");
             if (Options.TimeMeasureCompletedThreshold == TimeSpan.Zero || Profiler.Elapsed > Options.TimeMeasureCompletedThreshold)
             {
                 TimeMeasure.CompletedCallback?.Invoke(Profiler);
                 if (!Options.SuppressHeaderPredicate(Environment))
                 {
-                    if (Options.UseServerTimingHeader) { Decorator.Enclose(context.HttpContext.Response.Headers).AddOrUpdateHeader("Server-Timing", FormattableString.Invariant($"CPU;dur={Profiler.Elapsed.TotalMilliseconds.ToString("N1", CultureInfo.InvariantCulture)}")); }
-                    if (Options.UseCustomHeader) { Decorator.Enclose(context.HttpContext.Response.Headers).AddOrUpdateHeader(Options.HeaderName, Profiler.ToString()); }
+                    foreach (var metric in serverTiming.Metrics)
+                    {
+                        context.HttpContext.Response.Headers.Add(ServerTiming.HeaderName, metric.ToString());
+                    }
                 }
             }
         }

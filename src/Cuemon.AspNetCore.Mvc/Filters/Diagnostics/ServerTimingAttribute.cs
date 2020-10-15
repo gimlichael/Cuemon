@@ -10,37 +10,38 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// Represents an attribute that is used to mark an action method for time measure profiling.
     /// </summary>
     /// <seealso cref="ActionFilterAttribute" />
-    public class TimeMeasureAttribute : ActionFilterAttribute, IFilterFactory
+    public class ServerTimingAttribute : ActionFilterAttribute, IFilterFactory
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeMeasureAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ServerTimingAttribute"/> class.
         /// </summary>
-        public TimeMeasureAttribute() : this(0, TimeUnit.Ticks)
+        public ServerTimingAttribute()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeMeasureAttribute" /> class.
+        /// Gets or sets the server-specified metric name.
         /// </summary>
-        /// <param name="threshold">The <see cref="double" /> value that in combination with <paramref name="thresholdTimeUnit" /> specifies the threshold of the action method.</param>
-        /// <param name="thresholdTimeUnit">One of the enumeration values that specifies the time unit of <paramref name="threshold" />.</param>
-        public TimeMeasureAttribute(double threshold, TimeUnit thresholdTimeUnit)
-        {
-            Threshold = threshold;
-            ThresholdTimeUnit = thresholdTimeUnit;
-        }
+        /// <value>The server-specified metric name.</value>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the server-specified metric description.
+        /// </summary>
+        /// <value>The server-specified metric description.</value>
+        public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the value that in combination with <see cref="ThresholdTimeUnit" /> specifies the threshold of the action method.
         /// </summary>
         /// <value>The threshold value of the action method.</value>
-        public double Threshold { get; set; }
+        public double Threshold { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets one of the enumeration values that specifies the time unit of <see cref="Threshold"/>.
         /// </summary>
         /// <value>The <see cref="TimeUnit"/> that defines the actual <see cref="Threshold"/>.</value>
-        public TimeUnit ThresholdTimeUnit { get; set; }
+        public TimeUnit ThresholdTimeUnit { get; set; } = TimeUnit.Ticks;
 
         /// <summary>
         /// Creates an instance of the executable filter.
@@ -54,10 +55,21 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             #elif NETCOREAPP
             var he = serviceProvider.GetRequiredService<IHostEnvironment>();
             #endif
-            return new TimeMeasuringFilter(Options.Create(new TimeMeasuringOptions()
+            var filter = new ServerTimingFilter(Options.Create(new ServerTimingOptions()
             {
                 TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit)
-            }), he);
+            }), he)
+            {
+                Name = Name,
+                Description = Description
+            };
+            var stOptions = serviceProvider.GetService<IOptions<ServerTimingOptions>>();
+            if (stOptions?.Value?.SuppressHeaderPredicate != null)
+            {
+                filter.Options.SuppressHeaderPredicate = stOptions.Value.SuppressHeaderPredicate;
+            }
+
+            return filter;
         }
 
         /// <summary>

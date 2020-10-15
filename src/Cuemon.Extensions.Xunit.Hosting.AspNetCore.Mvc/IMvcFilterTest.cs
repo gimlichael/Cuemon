@@ -8,8 +8,10 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
     /// <seealso cref="IServiceTest" />
     /// <seealso cref="IPipelineTest" />
     /// <seealso cref="IHostTest" />
+    /// <seealso cref="IConfigurationTest" />
+    /// <seealso cref="IHostingEnvironmentTest" />
     /// <seealso cref="IDisposable" />
-    public interface IMvcFilterTest : IServiceTest, IPipelineTest, IHostTest, IDisposable
+    public interface IMvcFilterTest : IServiceTest, IPipelineTest, IHostTest, IConfigurationTest, IHostingEnvironmentTest, IDisposable
     {
     }
 }

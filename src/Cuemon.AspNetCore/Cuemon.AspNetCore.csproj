@@ -31,8 +31,4 @@
     <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Diagnostics\" />
-  </ItemGroup>
-
 </Project>

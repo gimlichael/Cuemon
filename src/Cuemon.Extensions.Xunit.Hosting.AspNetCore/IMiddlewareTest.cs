@@ -7,8 +7,10 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
     /// </summary>
     /// <seealso cref="IServiceTest" />
     /// <seealso cref="IPipelineTest" />
+    /// <seealso cref="IConfigurationTest" />
+    /// <seealso cref="IHostingEnvironmentTest" />
     /// <seealso cref="IDisposable" />
-    public interface IMiddlewareTest : IServiceTest, IPipelineTest, IDisposable
+    public interface IMiddlewareTest : IServiceTest, IPipelineTest, IConfigurationTest, IHostingEnvironmentTest, IDisposable
     {
     }
 }
