@@ -8,8 +8,6 @@ namespace Cuemon.Data
 {
     /// <summary>
     /// Provides a generic way of reading a forward-only stream of rows from a <typeparamref name="TRead"/> based data source. This is an abstract class.
-    /// Implements the <see cref="Disposable" />
-    /// Implements the <see cref="IDataReader" />
     /// </summary>
     /// <typeparam name="TRead">The type of the value that this <see cref="IDataReader"/> will read.</typeparam>
     /// <seealso cref="Disposable" />
