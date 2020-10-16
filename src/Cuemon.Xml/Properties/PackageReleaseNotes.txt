@@ -2,7 +2,7 @@
 Availability: NET Standard 2.0
  
 # Upgrade Steps
-- The Cuemon.Serialization.Xml namespace was removed with this version
+- The Cuemon.Serialization.Xml assembly and namespace was removed with this version
 - Any XML serialization found in the Cuemon.Serialization.Xml namespace was merged into the Cuemon.Xml.Serialization namespace
 - Any former extension methods of the Cuemon.Xml namespace was merged into the Cuemon.Extensions.Xml namespace
 - The extent of refactoring applied to this project resulted in so many breaking changes that a git diff is advisable
