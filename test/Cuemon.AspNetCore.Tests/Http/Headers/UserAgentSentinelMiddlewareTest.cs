@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Cuemon.Extensions.AspNetCore.Builder;
+using Cuemon.Extensions.AspNetCore.Http.Headers;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;

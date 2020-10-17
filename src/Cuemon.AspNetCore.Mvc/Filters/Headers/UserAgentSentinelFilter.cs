@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
-using Cuemon.AspNetCore.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 

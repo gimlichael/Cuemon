@@ -1,29 +1,15 @@
 ﻿using System;
 using Cuemon.AspNetCore.Builder;
-using Cuemon.AspNetCore.Hosting;
 using Cuemon.AspNetCore.Http.Headers;
-using Cuemon.AspNetCore.Http.Throttling;
 using Microsoft.AspNetCore.Builder;
 
-namespace Cuemon.Extensions.AspNetCore.Builder
+namespace Cuemon.Extensions.AspNetCore.Http.Headers
 {
     /// <summary>
     /// Extension methods for the <see cref="IApplicationBuilder"/> interface.
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
-        /// <summary>
-        /// Adds a hosting environment HTTP header to the <see cref="IApplicationBuilder"/> request execution pipeline.
-        /// </summary>
-        /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The <see cref="HostingEnvironmentOptions"/> middleware which may be configured.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        /// <remarks>Default HTTP header name is <c>X-Hosting-Environment</c>.</remarks>
-        public static IApplicationBuilder UseHostingEnvironment(this IApplicationBuilder builder, Action<HostingEnvironmentOptions> setup = null)
-        {
-            return MiddlewareBuilderFactory.UseConfigurableMiddleware<HostingEnvironmentMiddleware, HostingEnvironmentOptions>(builder, setup);
-        }
-
         /// <summary>
         /// Adds a correlation identifier HTTP header to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
@@ -57,17 +43,6 @@ namespace Cuemon.Extensions.AspNetCore.Builder
         public static IApplicationBuilder UseUserAgentSentinel(this IApplicationBuilder builder, Action<UserAgentSentinelOptions> setup = null)
         {
             return MiddlewareBuilderFactory.UseConfigurableMiddleware<UserAgentSentinelMiddleware, UserAgentSentinelOptions>(builder, setup);
-        }
-
-        /// <summary>
-        /// Adds a HTTP requests rate limiting / throttling guard to the <see cref="IApplicationBuilder"/> request execution pipeline.
-        /// </summary>
-        /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The <see cref="ThrottlingSentinelOptions"/> middleware which may be configured.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseThrottlingSentinel(this IApplicationBuilder builder, Action<ThrottlingSentinelOptions> setup = null)
-        {
-            return MiddlewareBuilderFactory.UseConfigurableMiddleware<ThrottlingSentinelMiddleware, ThrottlingSentinelOptions>(builder, setup);
         }
     }
 }

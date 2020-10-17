@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.AspNetCore.Mvc</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore.Mvc</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore.Mvc namespace contains an abundant range of filters, action results and other features related to the Microsoft.AspNetCore.Mvc namespace.</Description>
-    <PackageTags>cacheable-object-factory cacheable-object-result content-based-object-result content-time-based-object-result see-other-result http-cacheable-filter http-entity-tag-header-filter http-last-modified-header-filter fault-descriptor-filter fault-resolver http-request-evidence time-measuring-filter configurable-action-filter</PackageTags>
+    <Description>The Cuemon.AspNetCore,Mvc namespace contains types that specializes in cache expiration and validation models and an abundant range of ready-to-use filters in the ASP.NET Core MVC pipeline. The namespace is an addition to the Microsoft.AspNetCore.Mvc namespace.</Description>
+    <PackageTags>cacheable-object-factory cacheable-object-result content-based-object-result content-time-based-object-result see-other-result http-cacheable-filter http-entity-tag-header-filter http-last-modified-header-filter fault-descriptor-filter fault-resolver http-request-evidence server-timing-filter user-agent-sentinel-filter throttling-sentinel-filter</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">

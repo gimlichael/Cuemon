@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Cuemon.AspNetCore.Http;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xml;
 using Cuemon.Extensions.Xml.Serialization.Converters;

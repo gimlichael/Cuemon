@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Reflection;
-using Cuemon.AspNetCore.Http;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Microsoft.AspNetCore.Http;

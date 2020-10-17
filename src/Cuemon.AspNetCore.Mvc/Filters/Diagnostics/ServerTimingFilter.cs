@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {

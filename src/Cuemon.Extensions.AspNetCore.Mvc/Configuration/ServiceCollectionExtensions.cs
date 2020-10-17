@@ -1,4 +1,5 @@
 ﻿using Cuemon.AspNetCore.Configuration;
+using Cuemon.AspNetCore.Mvc.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration

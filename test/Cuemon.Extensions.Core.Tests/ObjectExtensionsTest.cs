@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.Xunit;

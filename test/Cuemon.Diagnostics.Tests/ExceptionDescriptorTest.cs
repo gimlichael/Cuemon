@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using Cuemon.Collections.Generic;
 using Cuemon.Diagnostics.Assets;

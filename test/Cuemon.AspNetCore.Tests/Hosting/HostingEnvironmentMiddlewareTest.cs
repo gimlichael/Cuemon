@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Cuemon.Extensions.AspNetCore.Builder;
+using Cuemon.Extensions.AspNetCore.Hosting;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Xunit;

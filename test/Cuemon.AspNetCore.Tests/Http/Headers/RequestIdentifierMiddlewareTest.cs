@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Cuemon.Extensions.AspNetCore.Builder;
+using Cuemon.Extensions.AspNetCore.Http.Headers;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Cuemon.Messaging;
 using Cuemon.Text;

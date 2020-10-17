@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cuemon.AspNetCore.Http;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Newtonsoft.Json;
 using Microsoft.Extensions.Primitives;

@@ -1,7 +1,7 @@
 ﻿using System;
 using Cuemon.AspNetCore.Configuration;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
+namespace Cuemon.AspNetCore.Mvc.Configuration
 {
     /// <summary>
     /// Specifies options that is related to <see cref="DynamicCacheBustingOptions"/> operations.
