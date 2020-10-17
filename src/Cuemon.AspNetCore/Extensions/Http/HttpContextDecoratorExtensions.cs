@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http.Headers;
@@ -56,7 +57,16 @@ namespace Cuemon.AspNetCore.Http
                     var reset = utcNow.Add(delta);
                     Decorator.Enclose(decorator.Inner.Response.Headers).AddOrUpdate(options.RateLimitHeaderName, tr.Quota.RateLimit.ToString(CultureInfo.InvariantCulture));
                     Decorator.Enclose(decorator.Inner.Response.Headers).AddOrUpdate(options.RateLimitRemainingHeaderName, Math.Max(tr.Quota.RateLimit - tr.Total, 0).ToString(CultureInfo.InvariantCulture));
-                    Decorator.Enclose(decorator.Inner.Response.Headers).AddOrUpdate(options.RateLimitResetHeaderName, Decorator.Enclose(reset).ToUnixEpochTime().ToString(CultureInfo.InvariantCulture));
+                    if (options.UseRetryAfterHeader) { options.RateLimitResetScope = options.RetryAfterScope; } // if a response contains both the Retry-After and the RateLimit-Reset header fields, the value of RateLimit-Reset MUST be consistent with the one of Retry-After https://tools.ietf.org/id/draft-polli-ratelimit-headers-00.html#providing-ratelimit-headers
+                    switch (options.RateLimitResetScope)
+                    {
+                        case RetryConditionScope.DeltaSeconds:
+                            Decorator.Enclose(decorator.Inner.Response.Headers).AddOrUpdate(options.RateLimitResetHeaderName, new RetryConditionHeaderValue(delta).ToString());
+                            break;
+                        case RetryConditionScope.HttpDate:
+                            Decorator.Enclose(decorator.Inner.Response.Headers).AddOrUpdate(options.RateLimitResetHeaderName, new RetryConditionHeaderValue(reset).ToString());
+                            break;
+                    }
                     if (tr.Total > tr.Quota.RateLimit && tr.Expires > utcNow)
                     {
                         var message = options.ResponseBroker?.Invoke(delta, reset);

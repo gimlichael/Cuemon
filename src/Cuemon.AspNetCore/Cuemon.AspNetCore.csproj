@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.AspNetCore</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore namespace contains abundant features related to the Microsoft.AspNetCore namespace.</Description>
-    <PackageTags>configurable-middleware middleware user-agent-sentinel throttling hosting-environment cache-busting application-builder-factory</PackageTags>
+    <Description>The Cuemon.AspNetCore namespace contains types focusing on providing means for easier plumber coding in the ASP.NET Core pipeline while serving some concrete implementation of the shell as well. The namespace is an addition to the Microsoft.AspNetCore namespace.</Description>
+    <PackageTags>configurable-middleware middleware http-exception-descriptor throttling-sentinel-middleware user-agent-sentinel-middleware request-identifier-middleware correlation-identifier-middleware hosting-environment-middleware server-timing cache-busting middleware-builder-factory</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">

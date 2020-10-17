@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -26,11 +27,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
             Window = window;
             WindowUnit = windowUnit;
             UseRetryAfterHeader = options.UseRetryAfterHeader;
-            RetryAfterHeader = options.RetryAfterHeader;
+            RetryAfterScope = options.RetryAfterScope;
             TooManyRequestsMessage = options.TooManyRequestsMessage;
             RateLimitHeaderName = options.RateLimitHeaderName;
             RateLimitRemainingHeaderName = options.RateLimitRemainingHeaderName;
             RateLimitResetHeaderName = options.RateLimitResetHeaderName;
+            RateLimitResetScope = options.RateLimitResetScope;
         }
 
         private int RateLimit { get; }
@@ -55,7 +57,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         /// Gets or sets the preferred Retry-After HTTP header value that conforms with RFC 2616.
         /// </summary>
         /// <value>The preferred Retry-After HTTP header value that conforms with RFC 2616.</value>
-        public ThrottlingRetryAfterHeader RetryAfterHeader { get; set; }
+        public RetryConditionScope RetryAfterScope { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the rate limit remaining HTTP header.
@@ -76,6 +78,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         public string RateLimitResetHeaderName  { get; set; }
 
         /// <summary>
+        /// Gets or sets the preferred rate limit reset HTTP header value that conforms with RFC 7231.
+        /// </summary>
+        /// <value>The preferred rate limit reset HTTP header value that conforms with RFC 7231.</value>
+        public RetryConditionScope RateLimitResetScope { get; set; }
+
+        /// <summary>
         /// Creates an instance of the executable filter.
         /// </summary>
         /// <param name="serviceProvider">The request <see cref="IServiceProvider" />.</param>
@@ -88,11 +96,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                 Quota = new ThrottleQuota(RateLimit, Window, WindowUnit),
                 ContextResolver = UniqueContextResolver,
                 UseRetryAfterHeader = UseRetryAfterHeader,
-                RetryAfterHeader = RetryAfterHeader,
+                RetryAfterScope = RetryAfterScope,
                 TooManyRequestsMessage = TooManyRequestsMessage,
                 RateLimitHeaderName = RateLimitHeaderName,
                 RateLimitRemainingHeaderName = RateLimitRemainingHeaderName,
-                RateLimitResetHeaderName = RateLimitResetHeaderName
+                RateLimitResetHeaderName = RateLimitResetHeaderName,
+                RateLimitResetScope = RateLimitResetScope
             }), tc);
         }
 

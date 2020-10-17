@@ -6,7 +6,6 @@ using System.Reflection;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
-using Cuemon.AspNetCore.Mvc.Extensions.Filters.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics

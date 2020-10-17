@@ -84,7 +84,6 @@ namespace Cuemon.AspNetCore.Http.Throttling
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
-                var cache = middleware.ServiceProvider.GetRequiredService<IThrottlingCache>();
                 var pipeline = middleware.Application.Build();
 
                 for (var i = 0; i < 10; i++)
