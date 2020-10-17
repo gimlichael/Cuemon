@@ -5,8 +5,10 @@ Availability: NET Standard 2.0, NET Core 3.0
 - Any former extension methods of the Cuemon.AspNetCore namespace was merged into the Cuemon.Extensions.AspNetCore namespace
  
 # Breaking Changes
-- 
+- MOVED HttpExceptionDescriptor class from the Cuemon.AspNetCore.Http namespace to Cuemon.AspNetCore.Diagnostics namespace
  
-# Improvements
-- 
- 
+# New Features
+- ADDED IServerTiming interface in the Cuemon.AspNetCore.Diagnostics namespace that represents the Server Timing as per W3C Working Draft 28 July 2020 (https://www.w3.org/TR/2020/WD-server-timing-20200728/)
+- ADDED ServerTiming class in the Cuemon.AspNetCore.Diagnostics namespace that provides a default implementation of the IServerTiming interface
+- ADDED ServerTimingMetric class in the Cuemon.AspNetCore.Diagnostics namespace that represents a HTTP Server-Timing header field entry to communicate one metric and description for the given request-response cycle
+- ADDED RetryConditionScope enum in the Cuemon.AspNetCore.Http.Headers namespace that specifies a set of values defining what value to use with a given HTTP header in regards to a retry condition

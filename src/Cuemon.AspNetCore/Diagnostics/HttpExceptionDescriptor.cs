@@ -3,7 +3,7 @@ using Cuemon.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Cuemon.AspNetCore.Http
+namespace Cuemon.AspNetCore.Diagnostics
 {
     /// <summary>
     /// Provides information about an <see cref="Exception" />, in a developer friendly way, optimized for open- and otherwise public application programming interfaces (API).
