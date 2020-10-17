@@ -28,7 +28,7 @@ namespace Cuemon.AspNetCore.Builder
         /// <param name="builder">The <see cref="IApplicationBuilder" /> instance.</param>
         /// <param name="setup">The <see cref="Action{TOptions}"/> which need to be configured.</param>
         /// <returns>The <see cref="IApplicationBuilder" /> instance.</returns>
-        public static IApplicationBuilder UseMiddlewareConfigurable<TMiddleware, TOptions>(IApplicationBuilder builder, Action<TOptions> setup = null)
+        public static IApplicationBuilder UseConfigurableMiddleware<TMiddleware, TOptions>(IApplicationBuilder builder, Action<TOptions> setup = null)
             where TMiddleware : ConfigurableMiddlewareCore<TOptions>
             where TOptions : class, new()
         {
