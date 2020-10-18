@@ -96,7 +96,7 @@ namespace Cuemon.AspNetCore.Http
             var userAgent = decorator.Inner.Request.Headers[HeaderNames.UserAgent].FirstOrDefault();
             if (options.RequireUserAgentHeader)
             {
-                var message = options.ResponseBroker?.Invoke(userAgent);
+                var message = options.ResponseHandler?.Invoke(userAgent);
                 if (message != null)
                 {
                     transformer?.Invoke(message, decorator.Inner.Response);
