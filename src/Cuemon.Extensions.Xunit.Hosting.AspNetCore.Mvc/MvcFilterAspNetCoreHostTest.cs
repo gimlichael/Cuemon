@@ -23,6 +23,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
             Host = hostFixture.Host;
             ServiceProvider = hostFixture.Host.Services;
             Application = hostFixture.Application;
+            Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
 
         protected override void InitializeHostFixture(AspNetCoreHostFixture hostFixture)

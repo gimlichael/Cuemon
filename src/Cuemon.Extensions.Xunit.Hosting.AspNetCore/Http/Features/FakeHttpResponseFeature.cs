@@ -23,6 +23,12 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features
         /// <param name="state">The state to pass into the callback.</param>
         public override void OnStarting(Func<object, Task> callback, object state)
         {
+            if (_hasStarted) { return; }
+            if (ShortCircuitOnStarting)
+            {
+                _hasStarted = true;
+                callback?.Invoke(state);
+            }
             _callback = callback;
             _state = state;
         }
@@ -42,13 +48,18 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features
         public override bool HasStarted => _hasStarted;
 
         /// <summary>
+        /// Gets or sets a value indicating whether <see cref="OnStarting"/> is invoked immediately upon initialization.
+        /// </summary>
+        /// <value><c>true</c> if <see cref="OnStarting"/> is invoked immediately upon initialization; otherwise, <c>false</c>.</value>
+        public bool ShortCircuitOnStarting { get; set; }
+
+        /// <summary>
         /// Executes the function delegate assigned by <see cref="OnStarting"/>.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public Task TriggerOnStarting()
+        public Task TriggerOnStartingAsync()
         {
             _hasStarted = true;
-            StatusCode = 200;
             return HasOnStartingCallback ? _callback(_state) : Task.CompletedTask;
         }
     }
