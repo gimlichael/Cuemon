@@ -6,8 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Builder;
-using Microsoft.AspNetCore.Builder;
+using Cuemon.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -64,16 +63,22 @@ namespace Cuemon.AspNetCore.Authentication
         {
             if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
-                context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
-                string etag = context.Response.Headers[HeaderNames.ETag];
-                if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
-                var opaqueGenerator = Options.OpaqueGenerator;
-                var nonceSecret = Options.NonceSecret;
-                var nonceGenerator = Options.NonceGenerator;
-                var staleNonce = context.Items["staleNonce"] as string ?? "FALSE";
-                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{AuthenticationScheme} realm=\"{Options.Realm}\", qop=\"{DigestAuthenticationUtility.CredentialQualityOfProtectionOptions}\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)}\""));
-                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ConfigureAwait(false);
-                return;
+                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, async (message, response) =>
+                {
+                    context.Response.OnStarting(() =>
+                    {
+                        string etag = context.Response.Headers[HeaderNames.ETag];
+                        if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
+                        var opaqueGenerator = Options.OpaqueGenerator;
+                        var nonceSecret = Options.NonceSecret;
+                        var nonceGenerator = Options.NonceGenerator;
+                        var staleNonce = context.Items["staleNonce"] as string ?? "FALSE";
+                        context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{AuthenticationScheme} realm=\"{Options.Realm}\", qop=\"{DigestAuthenticationUtility.CredentialQualityOfProtectionOptions}\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)}\""));
+                        return Task.CompletedTask;
+                    });
+                    response.StatusCode = (int)message.StatusCode;
+                    await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
+                }).ConfigureAwait(false);
             }
             await Next.Invoke(context).ConfigureAwait(false);
         }
@@ -161,23 +166,6 @@ namespace Cuemon.AspNetCore.Authentication
                 valid |= !string.IsNullOrEmpty(credentials[i]);
             }
             return valid;
-        }
-    }
-
-    /// <summary>
-    /// This is a factory implementation of the <see cref="DigestAccessAuthenticationMiddleware"/> class.
-    /// </summary>
-    public static class DigestAccessAuthenticationBuilderExtension
-    {
-        /// <summary>
-        /// Adds a HTTP Digest Authentication scheme to the <see cref="IApplicationBuilder"/> request execution pipeline.
-        /// </summary>
-        /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The HTTP <see cref="DigestAccessAuthenticationMiddleware"/> middleware which need to be configured.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Action<DigestAccessAuthenticationOptions> setup = null)
-        {
-            return MiddlewareBuilderFactory.UseConfigurableMiddleware<DigestAccessAuthenticationMiddleware, DigestAccessAuthenticationOptions>(builder, setup);
         }
     }
 }

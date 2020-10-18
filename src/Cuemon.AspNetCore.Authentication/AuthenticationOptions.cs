@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Text;
-using Cuemon.Text;
+using System.Net;
+using System.Net.Http;
 
 namespace Cuemon.AspNetCore.Authentication
 {
@@ -14,14 +14,12 @@ namespace Cuemon.AspNetCore.Authentication
         /// </summary>
         protected AuthenticationOptions()
         {
-            HttpNotAuthorizedBody = () =>
+            ResponseHandler = () => new HttpResponseMessage(HttpStatusCode.Unauthorized)
             {
-                return Convertible.GetBytes("401 Unauthorized", o =>
-                {
-                    o.Encoding = Encoding.UTF8;
-                    o.Preamble = PreambleSequence.Remove;
-                });
+                Content = new StringContent(UnauthorizedMessage)
             };
+            RequireSecureConnection = true;
+            UnauthorizedMessage = "The request has not been applied because it lacks valid authentication credentials for the target resource.";
         }
 
         /// <summary>
@@ -31,9 +29,15 @@ namespace Cuemon.AspNetCore.Authentication
         public bool RequireSecureConnection { get; set; }
 
         /// <summary>
-        /// Gets or sets the function delegate for retrieving content for the body of an unauthorized request.
+        /// Gets or sets the function delegate that configures the unauthorized response in the form of a <see cref="HttpResponseMessage"/>.
         /// </summary>
-        /// <value>A <see cref="Func{TResult}"/> for retrieving content for the body of an unauthorized request.</value>
-        public Func<byte[]> HttpNotAuthorizedBody { get; set; }
+        /// <value>The function delegate that configures the unauthorized response in the form of a <see cref="HttpResponseMessage"/>.</value>
+        public Func<HttpResponseMessage> ResponseHandler { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message of an unauthorized request.
+        /// </summary>
+        /// <value>The message of an unauthorized request.</value>
+        public string UnauthorizedMessage { get; set; }
     }
 }

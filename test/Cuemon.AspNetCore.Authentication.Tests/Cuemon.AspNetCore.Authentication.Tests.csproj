@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Cuemon.AspNetCore.Authentication</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cuemon.AspNetCore.Authentication\Cuemon.AspNetCore.Authentication.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Authentication\Cuemon.Extensions.AspNetCore.Authentication.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj" />
+  </ItemGroup>
+
+</Project>

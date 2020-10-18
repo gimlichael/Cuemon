@@ -2,9 +2,8 @@
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Builder;
+using Cuemon.IO;
 using Cuemon.Text;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -43,12 +42,18 @@ namespace Cuemon.AspNetCore.Authentication
         {
             if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
-                context.Response.StatusCode = AuthenticationUtility.HttpNotAuthorizedStatusCode;
-                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{AuthenticationScheme} realm=\"{Options.Realm}\""));
-                await context.WriteHttpNotAuthorizedBody(Options.HttpNotAuthorizedBody).ConfigureAwait(false);
-                return;
+                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, async (message, response) =>
+                {
+                    context.Response.OnStarting(() =>
+                    {
+                        context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{AuthenticationScheme} realm=\"{Options.Realm}\""));
+                        return Task.CompletedTask;
+                    });
+                    response.StatusCode = (int)message.StatusCode;
+                    await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
+                }).ConfigureAwait(false);
             }
-            await Next.Invoke(context).ConfigureAwait(false);
+            await Next(context).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -83,23 +88,6 @@ namespace Cuemon.AspNetCore.Authentication
                 }
             }
             return null;
-        }
-    }
-
-    /// <summary>
-    /// This is a factory implementation of the <see cref="BasicAuthenticationMiddleware"/> class.
-    /// </summary>
-    public static class BasicAuthenticationBuilderExtension
-    {
-        /// <summary>
-        /// Adds a HTTP Basic Authentication scheme to the <see cref="IApplicationBuilder"/> request execution pipeline.
-        /// </summary>
-        /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The HTTP <see cref="BasicAuthenticationOptions"/> middleware which need to be configured.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder builder, Action<BasicAuthenticationOptions> setup = null)
-        {
-            return MiddlewareBuilderFactory.UseConfigurableMiddleware<BasicAuthenticationMiddleware, BasicAuthenticationOptions>(builder, setup);
         }
     }
 }
