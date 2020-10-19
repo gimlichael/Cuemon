@@ -82,6 +82,7 @@
         {
           "files": [
             "Cuemon.Extensions.AspNetCore/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Authentication/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.csproj"

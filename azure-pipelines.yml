@@ -150,6 +150,7 @@ jobs:
         src/**/Cuemon.Data.SqlClient.csproj
         src/**/Cuemon.Diagnostics.csproj
         src/**/Cuemon.Extensions.AspNetCore.csproj
+        src/**/Cuemon.Extensions.AspNetCore.Authentication.csproj
         src/**/Cuemon.Extensions.AspNetCore.Mvc.csproj
         src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.csproj
         src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj
