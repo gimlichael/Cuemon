@@ -80,7 +80,7 @@ namespace Cuemon.AspNetCore.Authentication
                     {
                         options.Encoding = Encoding.ASCII;
                         options.Preamble = PreambleSequence.Remove;
-                    }).Split(AuthenticationUtility.BasicAuthenticationCredentialSeparator);
+                    }).Split(':');
                     if (credentials.Length == 2 &&
                         !string.IsNullOrEmpty(credentials[0]) &&
                         !string.IsNullOrEmpty(credentials[1]))

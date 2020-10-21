@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
@@ -12,31 +11,6 @@ namespace Cuemon.AspNetCore.Authentication
     /// </summary>
     public static class AuthenticationUtility
     {
-        /// <summary>
-        /// The value of the header credential separator of a HTTP Basic access authentication.
-        /// </summary>
-        public const char BasicAuthenticationCredentialSeparator = ':';
-
-        /// <summary>
-        /// The value of the header credential separator of a HTTP Digest access authentication.
-        /// </summary>
-        public const char DigestAuthenticationCredentialSeparator = ',';
-
-        /// <summary>
-        /// The value of the header credential separator of a HTTP JSON Web Token authentication.
-        /// </summary>
-        public const char JwtAuthenticationCredentialSeparator = '.';
-
-        /// <summary>
-        /// The value of the status description associated with <see cref="HttpNotAuthorizedStatusCode"/>.
-        /// </summary>
-        public const string HttpNotAuthorizedStatus = "401 Unauthorized";
-
-        /// <summary>
-        /// Equivalent to HTTP status 401. Unauthorized indicates that the requested resource requires authentication.
-        /// </summary>
-        public const int HttpNotAuthorizedStatusCode = 401;
-
         /// <summary>
         /// Provides a generic way to make authentication requests using the specified <paramref name="context"/>.
         /// </summary>
@@ -96,15 +70,6 @@ namespace Cuemon.AspNetCore.Authentication
         internal static bool IsAuthenticationSchemeValid(string authorizationHeader, string authenticationSchemeName)
         {
             return (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith(authenticationSchemeName, StringComparison.Ordinal));
-        }
-
-        internal static async Task WriteHttpNotAuthorizedBody(this HttpContext context, Func<byte[]> httpNotAuthorizedBody)
-        {
-            var bodyContent = httpNotAuthorizedBody?.Invoke();
-            if (bodyContent != null)
-            {
-                await context.Response.Body.WriteAsync(bodyContent, 0, bodyContent.Length).ConfigureAwait(false);
-            }
         }
     }
 }

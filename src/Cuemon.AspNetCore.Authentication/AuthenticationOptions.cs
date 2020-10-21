@@ -12,12 +12,30 @@ namespace Cuemon.AspNetCore.Authentication
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="AuthenticationOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="ResponseHandler"/></term>
+        ///         <description><c>() => new HttpResponseMessage(HttpStatusCode.Unauthorized) { Content = new StringContent(UnauthorizedMessage) };</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="RequireSecureConnection"/></term>
+        ///         <description><c>true</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="UnauthorizedMessage"/></term>
+        ///         <description>The request has not been applied because it lacks valid authentication credentials for the target resource.</description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         protected AuthenticationOptions()
         {
-            ResponseHandler = () => new HttpResponseMessage(HttpStatusCode.Unauthorized)
-            {
-                Content = new StringContent(UnauthorizedMessage)
-            };
+            ResponseHandler = () => new HttpResponseMessage(HttpStatusCode.Unauthorized) { Content = new StringContent(UnauthorizedMessage) };
             RequireSecureConnection = true;
             UnauthorizedMessage = "The request has not been applied because it lacks valid authentication credentials for the target resource.";
         }
