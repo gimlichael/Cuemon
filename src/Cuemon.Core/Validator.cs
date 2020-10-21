@@ -236,6 +236,48 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="predicate" /> returns <c>true</c>.
+        /// </summary>
+        /// <param name="predicate">The function delegate that determines if an <see cref="ArgumentException"/> is thrown.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="predicate" /> returned <c>true</c>.
+        /// </exception>
+        public static void ThrowIfTrue(Func<bool> predicate, string paramName, string message)
+        {
+            try
+            {
+                ThrowWhen(c => c.IsTrue(predicate).Create(() => new ArgumentException(message, paramName)).TryThrow());
+            }
+            catch (ArgumentException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(predicate, paramName, message));
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="predicate" /> returns <c>false</c>.
+        /// </summary>
+        /// <param name="predicate">The function delegate that determines if an <see cref="ArgumentException"/> is thrown.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="predicate" /> returned <c>false</c>.
+        /// </exception>
+        public static void ThrowIfFalse(Func<bool> predicate, string paramName, string message)
+        {
+            try
+            {
+                ThrowWhen(c => c.IsFalse(predicate).Create(() => new ArgumentException(message, paramName)).TryThrow());
+            }
+            catch (ArgumentException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(predicate, paramName, message));
+            }
+        }
+
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has no elements.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
