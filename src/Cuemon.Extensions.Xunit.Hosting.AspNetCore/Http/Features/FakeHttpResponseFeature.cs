@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Http.Features;
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features
 {
     /// <summary>
-    /// Represents a way to trigger <see cref="IHttpResponseFeature.OnStarting"/>.
+    /// Represents a way to trigger <see cref="HttpResponseFeature.OnStarting"/>.
     /// </summary>
-    /// <seealso cref="IHttpResponseFeature" />
+    /// <seealso cref="HttpResponseFeature" />
     public class FakeHttpResponseFeature : HttpResponseFeature
     {
         private bool _hasStarted;
