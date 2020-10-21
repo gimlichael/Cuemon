@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Globalization;
+using System.Text;
 using Cuemon.Security.Cryptography;
+using Cuemon.Text;
 
 namespace Cuemon.AspNetCore.Authentication
 {
@@ -12,19 +15,88 @@ namespace Cuemon.AspNetCore.Authentication
         /// <summary>
         /// Initializes a new instance of the <see cref="DigestAccessAuthenticationOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="DigestAccessAuthenticationOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="Algorithm"/></term>
+        ///         <description><see cref="UnkeyedCryptoAlgorithm.Sha256"/></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="Authenticator"/></term>
+        ///         <description><c>null</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="NonceGenerator"/></term>
+        ///         <description>A default implementation of a nonce generator.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="OpaqueGenerator"/></term>
+        ///         <description>A default implementation of an opaque generator.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="NonceExpiredParser"/></term>
+        ///         <description>A default implementation of a nonce expiry parser.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="NonceSecret"/></term>
+        ///         <description>A default secret to get you started without overwhelming configuration. Do change when moving outside a development environment.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="DigestAccessSigner"/></term>
+        ///         <description>A default implementation of HTTP Digest Access RESPONSE.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="Realm"/></term>
+        ///         <description>AuthenticationServer</description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public DigestAccessAuthenticationOptions()
         {
-            Algorithm = UnkeyedCryptoAlgorithm.Md5;
-            OpaqueGenerator = DigestAuthenticationUtility.DefaultOpaqueGenerator;
-            NonceExpiredParser = DigestAuthenticationUtility.DefaultNonceExpiredParser;
-            NonceGenerator = DigestAuthenticationUtility.DefaultNonceGenerator;
-            NonceSecret = () => DigestAuthenticationUtility.DefaultPrivateKey;
+            Algorithm = UnkeyedCryptoAlgorithm.Sha256;
+            OpaqueGenerator = () => Generate.RandomString(32, Alphanumeric.Hexadecimal).ToLowerInvariant();
+            NonceExpiredParser = (nonce, timeToLive) =>
+            {
+                Validator.ThrowIfNullOrEmpty(nonce, nameof(nonce));
+                if (ParserFactory.FromBase64().TryParse(nonce, out var rawNonce))
+                {
+                    var nonceProtocol = Convertible.ToString(rawNonce, options =>
+                    {
+                        options.Encoding = Encoding.UTF8;
+                        options.Preamble = PreambleSequence.Remove;
+                    });
+                    var nonceTimestamp = DateTime.ParseExact(nonceProtocol.Substring(0, nonceProtocol.LastIndexOf(':')), "u", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
+                    var difference = (DateTime.UtcNow - nonceTimestamp);
+                    return (difference > timeToLive);
+                }
+                return false;
+            };
+            NonceGenerator = (timestamp, entityTag, privateKey) =>
+            {
+                Validator.ThrowIfNullOrWhitespace(entityTag, nameof(entityTag));
+                Validator.ThrowIfNull(privateKey, nameof(privateKey));
+                var nonceHash = UnkeyedHashFactory.CreateCryptoSha256().ComputeHash(timestamp.Ticks, entityTag, Convert.ToBase64String(privateKey)).ToHexadecimalString();
+                var nonceProtocol = string.Format(CultureInfo.InvariantCulture, "{0}:{1}", timestamp.ToString("u", CultureInfo.InvariantCulture), nonceHash);
+                return Convert.ToBase64String(Convertible.GetBytes(nonceProtocol, options =>
+                {
+                    options.Encoding = Encoding.UTF8;
+                    options.Preamble = PreambleSequence.Remove;
+                }));
+            };
+            NonceSecret = () => Convert.FromBase64String("ZHBGWDRrVGVxbFlhVEpWQ3hoYUc5VUlZM05penNOaUk=");
             DigestAccessSigner = parameters =>
             {
-                var ha1 = DigestAuthenticationUtility.ComputeHash1(parameters.Credentials, parameters.Password, parameters.Algorithm);
-                var ha2 = DigestAuthenticationUtility.ComputeHash2(parameters.Credentials, parameters.HttpMethod, parameters.Algorithm);
-                return DigestAuthenticationUtility.ComputeResponse(parameters.Credentials, ha1, ha2, parameters.Algorithm);
+                var db = new DigestHeaderBuilder(parameters.Algorithm, parameters.Credentials);
+                var ha1 = db.ComputeHash1(parameters.Password);
+                var ha2 = db.ComputeHash2(parameters.Method, parameters.EntityBody);
+                return db.ComputeResponse(ha1, ha2);
             };
+            Realm = "AuthenticationServer";
         }
 
         /// <summary>
@@ -37,12 +109,13 @@ namespace Cuemon.AspNetCore.Authentication
         /// Gets or sets the function delegate that will sign a message retrieved from a HTTP request.
         /// </summary>
         /// <value>The function delegate that will sign a message.</value>
-        public Func<DigestAccessAuthenticationParameters, byte[]> DigestAccessSigner { get; set; }
+        public Func<DigestAccessAuthenticationParameters, string> DigestAccessSigner { get; set; }
 
         /// <summary>
-        /// Gets or sets the algorithm of the HTTP Digest Access Authentication. Default is <see cref="UnkeyedCryptoAlgorithm.Md5"/>.
+        /// Gets or sets the algorithm of the HTTP Digest Access Authentication. Default is <see cref="UnkeyedCryptoAlgorithm.Sha256"/>.
         /// </summary>
         /// <value>The algorithm of the HTTP Digest Access Authentication.</value>
+        /// <remarks>Allowed values are: <see cref="UnkeyedCryptoAlgorithm.Md5"/>, <see cref="UnkeyedCryptoAlgorithm.Sha256"/> and <see cref="UnkeyedCryptoAlgorithm.Sha512"/>.</remarks>
         public UnkeyedCryptoAlgorithm Algorithm { get; set; }
 
         /// <summary>

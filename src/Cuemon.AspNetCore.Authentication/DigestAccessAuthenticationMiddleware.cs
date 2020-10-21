@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.IO;
+using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -16,10 +13,9 @@ namespace Cuemon.AspNetCore.Authentication
     /// <summary>
     /// Provides a HTTP Digest Access Authentication middleware implementation for ASP.NET Core.
     /// </summary>
-    public class DigestAccessAuthenticationMiddleware : ConfigurableMiddleware<DigestAccessAuthenticationOptions>
+    public class DigestAccessAuthenticationMiddleware : ConfigurableMiddleware<INonceTracker, DigestAccessAuthenticationOptions>
     {
-        private static readonly ConcurrentDictionary<string, Template<DateTime, string>> NonceCounter = new ConcurrentDictionary<string, Template<DateTime, string>>();
-        private static Timer _nonceCounterSweeper;
+        private INonceTracker _nonceTracker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DigestAccessAuthenticationMiddleware"/> class.
@@ -28,7 +24,6 @@ namespace Cuemon.AspNetCore.Authentication
         /// <param name="setup">The <see cref="DigestAccessAuthenticationOptions" /> which need to be configured.</param>
         public DigestAccessAuthenticationMiddleware(RequestDelegate next, IOptions<DigestAccessAuthenticationOptions> setup) : base(next, setup)
         {
-            InitializeNonceCounterSweeper();
         }
 
         /// <summary>
@@ -38,29 +33,17 @@ namespace Cuemon.AspNetCore.Authentication
         /// <param name="setup">The middleware <see cref="DigestAccessAuthenticationOptions"/> which need to be configured.</param>
         public DigestAccessAuthenticationMiddleware(RequestDelegate next, Action<DigestAccessAuthenticationOptions> setup) : base(next, setup)
         {
-            InitializeNonceCounterSweeper();
-        }
-
-        private static void InitializeNonceCounterSweeper()
-        {
-            _nonceCounterSweeper = new Timer(s =>
-            {
-                var utcStaleTimestamp = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5));
-                var staledEntries = NonceCounter.Where(pair => pair.Value.Arg1 <= utcStaleTimestamp).ToList();
-                foreach (var staledEntry in staledEntries)
-                {
-                    NonceCounter.TryRemove(staledEntry.Key, out _);
-                }
-            }, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(2));
         }
 
         /// <summary>
         /// Executes the <see cref="DigestAccessAuthenticationMiddleware"/>.
         /// </summary>
         /// <param name="context">The context of the current request.</param>
+        /// <param name="nonceTracker">The dependency injected implementation of an <see cref="INonceTracker"/>.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
-        public override async Task InvokeAsync(HttpContext context)
+        public override async Task InvokeAsync(HttpContext context, INonceTracker nonceTracker)
         {
+            _nonceTracker = nonceTracker;
             if (!AuthenticationUtility.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
                 await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, async (message, response) =>
@@ -72,8 +55,8 @@ namespace Cuemon.AspNetCore.Authentication
                         var opaqueGenerator = Options.OpaqueGenerator;
                         var nonceSecret = Options.NonceSecret;
                         var nonceGenerator = Options.NonceGenerator;
-                        var staleNonce = context.Items["staleNonce"] as string ?? "FALSE";
-                        context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{AuthenticationScheme} realm=\"{Options.Realm}\", qop=\"{DigestAuthenticationUtility.CredentialQualityOfProtectionOptions}\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{DigestAuthenticationUtility.ParseAlgorithm(Options.Algorithm)}\""));
+                        var staleNonce = context.Items["staleNonce"] as string ?? "false";
+                        context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{AuthenticationScheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{ParseAlgorithm(Options.Algorithm)}\""));
                         return Task.CompletedTask;
                     });
                     response.StatusCode = (int)message.StatusCode;
@@ -89,13 +72,13 @@ namespace Cuemon.AspNetCore.Authentication
         /// <value>The name of the authentication scheme.</value>
         public string AuthenticationScheme => "Digest";
 
-        private bool TryAuthenticate(HttpContext context, Dictionary<string, string> credentials, out ClaimsPrincipal result)
+        private bool TryAuthenticate(HttpContext context, ImmutableDictionary<string, string> credentials, out ClaimsPrincipal result)
         {
             if (Options.Authenticator == null) { throw new InvalidOperationException(FormattableString.Invariant($"The {nameof(Options.Authenticator)} delegate cannot be null.")); }
-            credentials.TryGetValue(DigestAuthenticationUtility.CredentialUserName, out var userName);
-            credentials.TryGetValue(DigestAuthenticationUtility.CredentialResponse, out var clientResponse);
-            credentials.TryGetValue(DigestAuthenticationUtility.CredentialNonceCount, out var nonceCount);
-            if (credentials.TryGetValue(DigestAuthenticationUtility.CredentialNonce, out var nonce))
+            credentials.TryGetValue(DigestHeaders.UserName, out var userName);
+            credentials.TryGetValue(DigestHeaders.Response, out var clientResponse);
+            credentials.TryGetValue(DigestHeaders.NonceCount, out var nonceCount);
+            if (credentials.TryGetValue(DigestHeaders.Nonce, out var nonce))
             {
                 result = null;
                 var nonceExpiredParser = Options.NonceExpiredParser;
@@ -103,42 +86,33 @@ namespace Cuemon.AspNetCore.Authentication
                 context.Items["staleNonce"] = staleNonce.ToString().ToUpperInvariant();
                 if (staleNonce) { return false; }
 
-                if (NonceCounter.TryGetValue(nonce, out var previousNonce))
+                if (_nonceTracker != null)
                 {
-                    if (previousNonce.Arg2.Equals(nonceCount, StringComparison.Ordinal)) { return false; }
-                }
-                else
-                {
-                    NonceCounter.TryAdd(nonce, Template.CreateTwo(DateTime.UtcNow, nonceCount));
+                    var nc = Convert.ToInt32(nonceCount, 16);
+                    if (_nonceTracker.TryGetEntry(nonce, out var previousNonce))
+                    {
+                        if (previousNonce.Count == nc) { return false; }
+                    }
+                    else
+                    {
+                        _nonceTracker.TryAddEntry(nonce, nc);
+                    }
                 }
             }
             result = Options.Authenticator(userName, out var password);
-
-            var serverResponse = Options?.DigestAccessSigner(new DigestAccessAuthenticationParameters(credentials.ToImmutableDictionary(), context.Request.Method, password, Options.Algorithm));
-            return serverResponse != null && StringFactory.CreateHexadecimal(serverResponse).Equals(clientResponse, StringComparison.Ordinal) && Condition.IsNotNull(result);
+            var serverResponse = Options?.DigestAccessSigner(new DigestAccessAuthenticationParameters(credentials, context.Request.Method, password, Decorator.Enclose(context.Response.Body).ToEncodedString(o => o.LeaveOpen = true), Options.Algorithm));
+            return serverResponse != null && serverResponse.Equals(clientResponse, StringComparison.Ordinal) && Condition.IsNotNull(result);
         }
 
-        private Dictionary<string, string> AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
+        internal ImmutableDictionary<string, string> AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
         {
-            if (AuthenticationUtility.IsAuthenticationSchemeValid(authorizationHeader, AuthenticationScheme))
-            {
-                var digestCredentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
-                var credentials = digestCredentials.Split(AuthenticationUtility.DigestAuthenticationCredentialSeparator);
-                if (IsDigestCredentialsValid(credentials))
-                {
-                    var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                    for (var i = 0; i < credentials.Length; i++)
-                    {
-                        var credentialPair = DelimitedString.Split(credentials[i], o => o.Qualifier = "=");
-                        result.Add(credentialPair[0].Trim(), QuotedStringParser(credentialPair[1]));
-                    }
-                    return IsDigestCredentialsValid(result) ? result : null;
-                }
-            }
-            return new Dictionary<string, string>();
+            var id = new DigestHeaderBuilder(Options.Algorithm)
+                .AddFromDigestHeader(authorizationHeader)
+                .ToImmutableDictionary();
+            return IsDigestCredentialsValid(id) ? id : null;
         }
 
-        private static bool IsDigestCredentialsValid(Dictionary<string, string> credentials)
+        private static bool IsDigestCredentialsValid(ImmutableDictionary<string, string> credentials)
         {
             var valid = credentials.ContainsKey("username");
             valid |= credentials.ContainsKey("realm");
@@ -148,24 +122,17 @@ namespace Cuemon.AspNetCore.Authentication
             return valid;
         }
 
-        private string QuotedStringParser(string value)
+        private static string ParseAlgorithm(UnkeyedCryptoAlgorithm algorithm)
         {
-            if (value.StartsWith("\"", StringComparison.OrdinalIgnoreCase) &&
-                value.EndsWith("\"", StringComparison.OrdinalIgnoreCase))
+            switch (algorithm)
             {
-                value = value.Trim('"');
+                case UnkeyedCryptoAlgorithm.Sha256:
+                    return "SHA-256";
+                case UnkeyedCryptoAlgorithm.Sha512:
+                    return "SHA-512-256";
+                default:
+                    return "MD5";
             }
-            return value.Trim();
-        }
-
-        private static bool IsDigestCredentialsValid(string[] credentials)
-        {
-            var valid = (credentials.Length >= 5 && credentials.Length <= 10);
-            for (var i = 0; i < credentials.Length; i++)
-            {
-                valid |= !string.IsNullOrEmpty(credentials[i]);
-            }
-            return valid;
         }
     }
 }
