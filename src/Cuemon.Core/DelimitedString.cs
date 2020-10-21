@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -46,7 +45,7 @@ namespace Cuemon
         /// <param name="setup">The <see cref="DelimitedStringOptions"/> which may be configured.</param>
         /// <returns>A <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <see cref="DelimitedStringOptions.Delimiter"/> and optionally surrounded within <see cref="DelimitedStringOptions.Qualifier"/>.</returns>
         /// <remarks>
-        /// This method was inspired by two articles on StackOverflow @ http://stackoverflow.com/questions/2807536/split-string-in-c-sharp and https://stackoverflow.com/questions/3776458/split-a-comma-separated-string-with-both-quoted-and-unquoted-strings.
+        /// This method was inspired by two articles on StackOverflow @ http://stackoverflow.com/questions/2807536/split-string-in-c-sharp, https://stackoverflow.com/questions/3776458/split-a-comma-separated-string-with-both-quoted-and-unquoted-strings and https://stackoverflow.com/questions/6542996/how-to-split-csv-whose-columns-may-contain.
         /// The default implementation conforms with the RFC-4180 standard.
         /// </remarks>
         /// <exception cref="InvalidOperationException">
@@ -62,13 +61,13 @@ namespace Cuemon
             var key = string.Concat(delimiter, "<-dq->", qualifier);
             if (!CompiledSplitExpressions.TryGetValue(key, out var compiledSplit))
             {
-                compiledSplit = new Regex(string.Format(CultureInfo.InvariantCulture, "(?:^|{0})({1}(?:[^{1}]+|{1}{1})*{1}|[^{0}]*)", Regex.Escape(delimiter), Regex.Escape(qualifier)), RegexOptions.IgnoreCase | RegexOptions.Compiled, TimeSpan.FromSeconds(2));
+                compiledSplit = new Regex(string.Format(CultureInfo.InvariantCulture, "{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", delimiter, qualifier), RegexOptions.IgnoreCase | RegexOptions.Compiled, TimeSpan.FromSeconds(2));
                 CompiledSplitExpressions.TryAdd(key, compiledSplit);
             }
 
             try
             {
-                return compiledSplit.Matches(value).Cast<Match>().Where(m => m.Length > 0).Select(m => m.Value.TrimStart(delimiter.ToCharArray())).ToArray();
+                return compiledSplit.Split(value);
             }
             catch (RegexMatchTimeoutException)
             {
