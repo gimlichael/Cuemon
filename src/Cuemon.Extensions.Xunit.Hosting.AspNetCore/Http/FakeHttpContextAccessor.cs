@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http
             fc.Set<IHttpResponseFeature>(new FakeHttpResponseFeature());
             fc.Set<IHttpRequestFeature>(new FakeHttpRequestFeature());
             HttpContext = new DefaultHttpContext(fc);
-            HttpContext.Response.Body = StreamFactory.Create(writer => writer.WriteLine("Hello awesome developers!"));
+            HttpContext.Response.Body = StreamFactory.Create(writer => writer.Write("Hello awesome developers!"));
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             var options = _provider.GetRequiredService<IOptions<BoolOptions>>();
             var pipeline = _pipeline.Build();
 
-            Assert.Equal("", context.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
+            Assert.Equal("Hello awesome developers!", context.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
 
             await pipeline(context);
 
