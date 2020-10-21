@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features;
+﻿using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features;
+using Cuemon.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 
@@ -19,9 +19,9 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http
         {
             var fc = new FeatureCollection();
             fc.Set<IHttpResponseFeature>(new FakeHttpResponseFeature());
-            fc.Set<IHttpRequestFeature>(new HttpRequestFeature());
+            fc.Set<IHttpRequestFeature>(new FakeHttpRequestFeature());
             HttpContext = new DefaultHttpContext(fc);
-            HttpContext.Response.Body = new MemoryStream();
+            HttpContext.Response.Body = StreamFactory.Create(writer => writer.WriteLine("Hello awesome developers!"));
         }
 
         /// <summary>
