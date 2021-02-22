@@ -1,5 +1,7 @@
 ﻿using System;
-using Cuemon.AspNetCore.Authentication;
+using Cuemon.AspNetCore.Authentication.Basic;
+using Cuemon.AspNetCore.Authentication.Digest;
+using Cuemon.AspNetCore.Authentication.Hmac;
 using Cuemon.AspNetCore.Builder;
 using Microsoft.AspNetCore.Builder;
 
@@ -25,11 +27,11 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         /// Adds a HTTP Digest Authentication scheme to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The HTTP <see cref="DigestAccessAuthenticationMiddleware"/> middleware which may be configured.</param>
+        /// <param name="setup">The HTTP <see cref="DigestAuthenticationMiddleware"/> middleware which may be configured.</param>
         /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
-        public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Action<DigestAccessAuthenticationOptions> setup = null)
+        public static IApplicationBuilder UseDigestAccessAuthentication(this IApplicationBuilder builder, Action<DigestAuthenticationOptions> setup = null)
         {
-            return MiddlewareBuilderFactory.UseConfigurableMiddleware<DigestAccessAuthenticationMiddleware, DigestAccessAuthenticationOptions>(builder, setup);
+            return MiddlewareBuilderFactory.UseConfigurableMiddleware<DigestAuthenticationMiddleware, DigestAuthenticationOptions>(builder, setup);
         }
 
         /// <summary>
