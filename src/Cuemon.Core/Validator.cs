@@ -310,14 +310,14 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> contains no elements.
         /// </exception>
-        public static void ThrowIfSequenceNullOrEmpty<T>(IEnumerable<T> value, string paramName, string message = "Value contains no elements.")
+        public static void ThrowIfSequenceNullOrEmpty<T>(IEnumerable<T> value, string paramName, string message = "Value is either null or contains no elements.")
         {
             try
             {
-                ThrowIfNull(value, paramName);
-                ThrowIfSequenceEmpty(value, paramName);
+                ThrowIfNull(value, paramName, message);
+                ThrowIfSequenceEmpty(value, paramName, message);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex) when (ex is ArgumentException)
             {
                 throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
