@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features
 {
@@ -13,6 +14,14 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features
         private bool _hasStarted;
         private Func<object, Task> _callback;
         private object _state;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeHttpResponseFeature"/> class.
+        /// </summary>
+        public FakeHttpResponseFeature()
+        {
+            Headers.Add(HeaderNames.Date, DateTime.UtcNow.ToString("R"));
+        }
 
         /// <summary>
         /// Registers a callback to be invoked just before the response starts. This is the
