@@ -37,9 +37,9 @@ jobs:
       version: 2.2.207
 
   - task: UseDotNet@2
-    displayName: 'Use .Net Core SDK 3.1.401'
+    displayName: 'Use .Net Core SDK 5.0.103'
     inputs:
-      version: 3.1.401
+      version: 5.0.103
 
   - task: DotNetCoreCLI@2
     displayName: 'Install NBGV tool'
@@ -104,6 +104,15 @@ jobs:
         sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
   - task: DotNetCoreCLI@2
+    displayName: 'Build net5.0 compatible Assemblies'
+    inputs:
+      command: 'build'
+      projects: |
+        src/**/*.csproj
+      arguments: '--configuration $(BuildConfiguration) --no-restore --framework net5.0'
+      workingDirectory: '$(BuildSource)'
+
+  - task: DotNetCoreCLI@2
     displayName: 'Build netcoreapp3.1 compatible Assemblies'
     inputs:
       command: 'build'
@@ -140,45 +149,9 @@ jobs:
     inputs:
       command: 'build'
       projects: |
-        src/**/Cuemon.AspNetCore.csproj
-        src/**/Cuemon.AspNetCore.Authentication.csproj
-        src/**/Cuemon.AspNetCore.Mvc.csproj
-        src/**/Cuemon.AspNetCore.Razor.csproj
-        src/**/Cuemon.Core.csproj
-        src/**/Cuemon.Data.csproj
-        src/**/Cuemon.Data.Integrity.csproj
-        src/**/Cuemon.Data.SqlClient.csproj
-        src/**/Cuemon.Diagnostics.csproj
-        src/**/Cuemon.Extensions.AspNetCore.csproj
-        src/**/Cuemon.Extensions.AspNetCore.Authentication.csproj
-        src/**/Cuemon.Extensions.AspNetCore.Mvc.csproj
-        src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.csproj
-        src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj
-        src/**/Cuemon.Extensions.Collections.Generic.csproj
-        src/**/Cuemon.Extensions.Collections.Specialized.csproj
-        src/**/Cuemon.Extensions.Core.csproj
-        src/**/Cuemon.Extensions.Data.csproj
-        src/**/Cuemon.Extensions.Data.Integrity.csproj
-        src/**/Cuemon.Extensions.DependencyInjection.csproj
-        src/**/Cuemon.Extensions.Diagnostics.csproj
-        src/**/Cuemon.Extensions.Hosting.csproj
-        src/**/Cuemon.Extensions.IO.csproj
-        src/**/Cuemon.Extensions.Net.csproj
-        src/**/Cuemon.Extensions.Newtonsoft.Json.csproj
-        src/**/Cuemon.Extensions.Reflection.csproj
-        src/**/Cuemon.Extensions.Runtime.Caching.csproj
-        src/**/Cuemon.Extensions.Text.csproj
-        src/**/Cuemon.Extensions.Threading.csproj
-        src/**/Cuemon.Extensions.Xml.csproj
-        src/**/Cuemon.Extensions.Xunit.csproj
-        src/**/Cuemon.Extensions.Xunit.Hosting.csproj
-        src/**/Cuemon.IO.csproj
-        src/**/Cuemon.Net.csproj
-        src/**/Cuemon.Resilience.csproj
-        src/**/Cuemon.Runtime.Caching.csproj
-        src/**/Cuemon.Security.Cryptography.csproj
-        src/**/Cuemon.Threading.csproj
-        src/**/Cuemon.Xml.csproj
+        src/**/*.csproj
+        !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
+        !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
       arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
       workingDirectory: '$(BuildSource)'
 

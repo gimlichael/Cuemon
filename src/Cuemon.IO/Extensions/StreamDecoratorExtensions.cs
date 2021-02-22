@@ -202,7 +202,7 @@ namespace Cuemon.IO
             });
         }
 
-        #if NETSTANDARD2_1
+        #if NETSTANDARD2_1 || NET5_0
         /// <summary>
         /// Compress the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> using the <c>Brotli</c> algorithm.
         /// </summary>

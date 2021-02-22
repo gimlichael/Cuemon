@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>1d0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
@@ -12,12 +12,16 @@
     <PackageTags>extension-methods extensions local-development non-production host hosting</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.9" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.12" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>a00adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
@@ -11,6 +11,10 @@
     <Description>The Cuemon.AspNetCore namespace contains types focusing on providing means for easier plumber coding in the ASP.NET Core pipeline while serving some concrete implementation of the shell as well. The namespace is an addition to the Microsoft.AspNetCore namespace.</Description>
     <PackageTags>configurable-middleware middleware http-exception-descriptor throttling-sentinel-middleware user-agent-sentinel-middleware request-identifier-middleware correlation-identifier-middleware hosting-environment-middleware server-timing cache-busting middleware-builder-factory</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
