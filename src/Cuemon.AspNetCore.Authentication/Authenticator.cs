@@ -7,9 +7,9 @@ using Microsoft.Net.Http.Headers;
 namespace Cuemon.AspNetCore.Authentication
 {
     /// <summary>
-    /// Provides a set of generic ways to work with HTTP based authentication.
+    /// Provides a set of static methods for working with HTTP based authentication.
     /// </summary>
-    public static class AuthenticationUtility
+    public static class Authenticator
     {
         /// <summary>
         /// Provides a generic way to make authentication requests using the specified <paramref name="context"/>.
