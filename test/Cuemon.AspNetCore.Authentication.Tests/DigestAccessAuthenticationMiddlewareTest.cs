@@ -1,13 +1,16 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cuemon.AspNetCore.Authentication.Assets;
+using Cuemon.AspNetCore.Authentication.Digest;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions;
 using Cuemon.Extensions.AspNetCore.Authentication;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.IO;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -28,11 +31,12 @@ namespace Cuemon.AspNetCore.Authentication
         {
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
+                app.UseExceptionMiddleware();
                 app.UseFakeHttpResponseTrigger(o => o.ShortCircuitOnStarting = true);
                 app.UseDigestAccessAuthentication();
             }, services =>
             {
-                services.Configure<DigestAccessAuthenticationOptions>(o =>
+                services.Configure<DigestAuthenticationOptions>(o =>
                 {
                     o.Authenticator = (string username, out string password) =>
                     {
@@ -54,7 +58,7 @@ namespace Cuemon.AspNetCore.Authentication
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAccessAuthenticationOptions>>();
+                var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 var ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));
@@ -65,14 +69,6 @@ namespace Cuemon.AspNetCore.Authentication
                 var wwwAuthenticate = context.Response.Headers[HeaderNames.WWWAuthenticate];
 
                 TestOutput.WriteLine(wwwAuthenticate);
-
-                var encodedUsernameAndPassword = "Agent:Test".ToByteArray().ToBase64String();
-                context.Request.Headers.Add(HeaderNames.Authorization, $"Digest {encodedUsernameAndPassword}");
-
-                ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));
-
-                Assert.Equal(ue.Message, options.Value.UnauthorizedMessage);
-                Assert.Equal(StatusCodes.Status401Unauthorized, context.Response.StatusCode);
             }
         }
 
@@ -85,7 +81,7 @@ namespace Cuemon.AspNetCore.Authentication
                 app.UseDigestAccessAuthentication();
             }, services =>
             {
-                services.Configure<DigestAccessAuthenticationOptions>(o =>
+                services.Configure<DigestAuthenticationOptions>(o =>
                 {
                     o.Authenticator = (string username, out string password) =>
                    {
@@ -107,7 +103,7 @@ namespace Cuemon.AspNetCore.Authentication
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAccessAuthenticationOptions>>();
+                var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 var ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));
@@ -120,27 +116,27 @@ namespace Cuemon.AspNetCore.Authentication
 
                 TestOutput.WriteLine(wwwAuthenticate);
 
-                var db = new DigestHeaderBuilder(options.Value.Algorithm)
+                var db = new DigestAuthorizationHeaderBuilder(options.Value.Algorithm)
+                    .AddRealm(options.Value.Realm)
                     .AddUserName("Agent")
-                    .AddRealm("unittest")
                     .AddUri("/")
                     .AddNc(1)
                     .AddCnonce()
                     .AddQopAuthentication()
-                    .AddFromWwwAuthenticateHeader(context.Response);
+                    .AddFromWwwAuthenticateHeader(context.Response.Headers);
 
 
                 var ha1 = db.ComputeHash1("Test");
 
                 TestOutput.WriteLine(ha1);
 
-                var ha2 = db.ComputeHash2("GET", context.Response.Body.ToEncodedString());
+                var ha2 = db.ComputeHash2("GET", context.Response.Body.ToEncodedString(o => o.LeaveOpen =  true));
                 var response = db.ComputeResponse(ha1, ha2);
 
-                db.AddResponse(response);
+                db.AddResponse("Test", "GET", context.Response.Body.ToEncodedString());
 
                 context.Response.Body = new MemoryStream();
-                context.Request.Headers.Add(HeaderNames.Authorization, db.ToString());
+                context.Request.Headers.Add(HeaderNames.Authorization, db.Build().ToString());
 
                 await pipeline(context);
 
@@ -157,7 +153,7 @@ namespace Cuemon.AspNetCore.Authentication
                 app.UseDigestAccessAuthentication();
             }, services =>
             {
-                services.Configure<DigestAccessAuthenticationOptions>(o =>
+                services.Configure<DigestAuthenticationOptions>(o =>
                 {
                     o.Authenticator = (string username, out string password) =>
                    {
@@ -173,20 +169,13 @@ namespace Cuemon.AspNetCore.Authentication
                    };
                     o.Realm = "unittest";
                     o.RequireSecureConnection = false;
-                    o.DigestAccessSigner = parameters =>
-                    {
-                        var db = new DigestHeaderBuilder(parameters.Algorithm, parameters.Credentials);
-                        var ha1 = parameters.Password; // password is ha1 stored in some storage
-                        var ha2 = db.ComputeHash2(parameters.Method, parameters.EntityBody);
-                        return db.ComputeResponse(ha1, ha2);
-                    };
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddDigestAccessAuthenticationNonceTracker();
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAccessAuthenticationOptions>>();
+                var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 var ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));
@@ -198,27 +187,27 @@ namespace Cuemon.AspNetCore.Authentication
 
                 TestOutput.WriteLine(wwwAuthenticate);
 
-                var db = new DigestHeaderBuilder(options.Value.Algorithm)
+                var db = new DigestAuthorizationHeaderBuilder(options.Value.Algorithm)
+                    .AddRealm(options.Value.Realm)
                     .AddUserName("Agent")
-                    .AddRealm("unittest")
                     .AddUri("/")
                     .AddNc(1)
                     .AddCnonce()
                     .AddQopAuthentication()
-                    .AddFromWwwAuthenticateHeader(context.Response);
+                    .AddFromWwwAuthenticateHeader(context.Response.Headers);
 
 
-                var ha1 = db.ComputeHash1("Test");
+                var ha1 = db.ComputeHash1("a69d6da3eea4fa832dc1c0534863988e550e523f1f786c238951b7ec7abf4d57");
 
                 TestOutput.WriteLine(ha1);
 
-                var ha2 = db.ComputeHash2("GET", context.Response.Body.ToEncodedString());
+                var ha2 = db.ComputeHash2("GET", context.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
                 var response = db.ComputeResponse(ha1, ha2);
 
-                db.AddResponse(response);
+                db.AddResponse("a69d6da3eea4fa832dc1c0534863988e550e523f1f786c238951b7ec7abf4d57", "GET", context.Response.Body.ToEncodedString());
 
                 context.Response.Body = new MemoryStream();
-                context.Request.Headers.Add(HeaderNames.Authorization, db.ToString());
+                context.Request.Headers.Add(HeaderNames.Authorization, db.Build().ToString());
 
                 await pipeline(context);
 
@@ -235,7 +224,7 @@ namespace Cuemon.AspNetCore.Authentication
                 app.UseDigestAccessAuthentication();
             }, services =>
             {
-                services.Configure<DigestAccessAuthenticationOptions>(o =>
+                services.Configure<DigestAuthenticationOptions>(o =>
                 {
                     o.Authenticator = (string username, out string password) =>
                    {
@@ -257,7 +246,7 @@ namespace Cuemon.AspNetCore.Authentication
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAccessAuthenticationOptions>>();
+                var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
                 var pipeline = middleware.Application.Build();
 
                 var ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));
@@ -269,33 +258,35 @@ namespace Cuemon.AspNetCore.Authentication
                 
                 TestOutput.WriteLine(wwwAuthenticate);
 
-                var db = new DigestHeaderBuilder(options.Value.Algorithm)
+                var db = new DigestAuthorizationHeaderBuilder(options.Value.Algorithm)
+                    .AddRealm(options.Value.Realm)
                     .AddUserName("Agent")
-                    .AddRealm("unittest")
                     .AddUri("/")
                     .AddNc(1)
                     .AddCnonce()
                     .AddQopAuthenticationIntegrity()
-                    .AddFromWwwAuthenticateHeader(context.Response);
+                    .AddFromWwwAuthenticateHeader(context.Response.Headers);
 
                 TestOutput.WriteLine("Body:");
-                var entityBody = context.Response.Body.ToEncodedString(o => o.LeaveOpen = true);
+
+                var entityBody = "test of entityBody in request";
 
                 var ha1 = db.ComputeHash1("Test");
 
                 TestOutput.WriteLine("HA1:");
                 TestOutput.WriteLine(ha1);
 
-                var ha2 = db.ComputeHash2("GET", context.Response.Body.ToEncodedString());
+                var ha2 = db.ComputeHash2("POST", entityBody);
                 var response = db.ComputeResponse(ha1, ha2);
 
                 TestOutput.WriteLine("HA2:");
                 TestOutput.WriteLine(ha2);
 
-                db.AddResponse(response);
+                db.AddResponse("Test", "POST", entityBody);
 
-                context.Response.Body = StreamFactory.Create(writer => writer.Write(entityBody));
-                context.Request.Headers.Add(HeaderNames.Authorization, db.ToString());
+                context.Request.Method = "POST";
+                context.Request.Body = new MemoryStream(entityBody.ToByteArray());
+                context.Request.Headers.Add(HeaderNames.Authorization, db.Build().ToString());
 
                 await pipeline(context);
 
