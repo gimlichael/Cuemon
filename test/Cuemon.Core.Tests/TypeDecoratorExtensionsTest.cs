@@ -261,7 +261,7 @@ namespace Cuemon
             Assert.Equal("Tuple", noGenericsString);
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
-                var seCultureInfo = Decorator.Enclose(typeof(Tuple<Guid, string, int, char, double, object>)).ToFriendlyName(o => o.FormatProvider = CultureInfo.GetCultureInfo("se-SV")); // unix has different culture interpretation
+                var seCultureInfo = Decorator.Enclose(typeof(Tuple<Guid, string, int, char, double, object>)).ToFriendlyName(o => o.FormatProvider = CultureInfo.GetCultureInfo("sv-SE")); // unix has different culture interpretation
                 Assert.Equal("Tuple<Guid;String;Int32;Char;Double;Object>", seCultureInfo);
             }
         }
