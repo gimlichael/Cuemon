@@ -13,9 +13,10 @@ namespace Cuemon.Threading
 {
     public class ParallelFactoryTest : Test
     {
+        private static readonly bool IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         private readonly TimeSpan _maxAllowedTestTime = TimeSpan.FromMinutes(1);
-        private readonly TimeSpan _longRunningTaskWaitTime = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? TimeSpan.FromMilliseconds(1) : TimeSpan.FromMilliseconds(10);
-        private readonly int _extremePartitionSize = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? 512 : 4096;
+        private readonly TimeSpan _longRunningTaskWaitTime = IsLinux ? TimeSpan.FromMilliseconds(1) : TimeSpan.FromMilliseconds(10);
+        private readonly int _extremePartitionSize = IsLinux ? 128 : 4096;
 
         public ParallelFactoryTest(ITestOutputHelper output) : base(output)
         {
@@ -106,7 +107,7 @@ namespace Cuemon.Threading
             }, o =>
             {
                 o.CancellationToken = cts.Token;
-                o.PartitionSize = _extremePartitionSize;
+                o.PartitionSize = MaxThreadCount;
             });
 
             Assert.Equal(count, cb.Count);
@@ -199,7 +200,7 @@ namespace Cuemon.Threading
             }, o =>
             {
                 o.CancellationToken = cts.Token;
-                o.PartitionSize = _extremePartitionSize;
+                o.PartitionSize = MaxThreadCount;
             });
 
             Assert.Equal(count, cb.Count);
@@ -292,7 +293,7 @@ namespace Cuemon.Threading
             }, o =>
             {
                 o.CancellationToken = cts.Token;
-                o.PartitionSize = _extremePartitionSize;
+                o.PartitionSize = MaxThreadCount;
             });
 
             Assert.Equal(count, cb.Count);
@@ -389,7 +390,7 @@ namespace Cuemon.Threading
             }, o =>
             {
                 o.CancellationToken = cts.Token;
-                o.PartitionSize = _extremePartitionSize;
+                o.PartitionSize = MaxThreadCount;
             });
 
             Assert.Equal(count, cb.Count);
@@ -485,7 +486,7 @@ namespace Cuemon.Threading
             }, o =>
             {
                 o.CancellationToken = cts.Token;
-                o.PartitionSize = _extremePartitionSize;
+                o.PartitionSize = MaxThreadCount;
             });
 
             Assert.Equal(count, cb.Count);
@@ -586,11 +587,13 @@ namespace Cuemon.Threading
             }, o =>
             {
                 o.CancellationToken = cts.Token;
-                o.PartitionSize = _extremePartitionSize;
+                o.PartitionSize = MaxThreadCount;
             });
 
             Assert.Equal(count, cb.Count);
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
         }
+
+        private static int MaxThreadCount => IsLinux ? 1024 * 8 :  1024 * 32;
     }
 }
