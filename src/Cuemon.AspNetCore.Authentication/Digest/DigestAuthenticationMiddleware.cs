@@ -116,8 +116,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             return DigestAuthorizationHeader.Create(authorizationHeader);
         }
 
-
-
         private static string ParseAlgorithm(UnkeyedCryptoAlgorithm algorithm)
         {
             switch (algorithm)

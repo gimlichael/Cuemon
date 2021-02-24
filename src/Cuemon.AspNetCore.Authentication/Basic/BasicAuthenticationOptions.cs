@@ -9,8 +9,26 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicAuthenticationOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="BasicAuthenticationOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="Authenticator"/></term>
+        ///         <description><c>null</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="Realm"/></term>
+        ///         <description>AuthenticationServer</description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public BasicAuthenticationOptions()
         {
+            Realm = "AuthenticationServer";
         }
 
         /// <summary>

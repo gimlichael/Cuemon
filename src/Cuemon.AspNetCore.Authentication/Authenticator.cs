@@ -66,10 +66,5 @@ namespace Cuemon.AspNetCore.Authentication
             if (credentials != null && principalParser(context, credentials, out principal)) { return true; }
             return false;
         }
-
-        internal static bool IsAuthenticationSchemeValid(string authorizationHeader, string authenticationSchemeName)
-        {
-            return (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith(authenticationSchemeName, StringComparison.Ordinal));
-        }
     }
 }

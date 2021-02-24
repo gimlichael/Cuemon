@@ -50,7 +50,6 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// Adds the credential scope that defines the remote resource.
         /// </summary>
         /// <param name="credentialScope">The credential scope that defines the remote resource.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <returns>An <see cref="HmacAuthorizationHeaderBuilder"/> that can be used to further build the HTTP HMAC Authentication header.</returns>
         public HmacAuthorizationHeaderBuilder AddCredentialScope(string credentialScope)
         {

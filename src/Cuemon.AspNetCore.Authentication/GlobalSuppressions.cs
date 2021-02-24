@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Critical Code Smell", "S927:parameter names should match base declaration and other partial definitions", Justification = "Clarity.", Scope = "member", Target = "~M:Cuemon.AspNetCore.Authentication.DigestAccessAuthenticationMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext,Cuemon.AspNetCore.Authentication.INonceTracker)~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "By design to support the Digest protocol.", Scope = "member", Target = "~M:Cuemon.AspNetCore.Authentication.Digest.DigestAuthorizationHeader.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)")]

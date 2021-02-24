@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Cuemon.IO;
-using Cuemon.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -46,7 +44,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
                 {
                     context.Response.OnStarting(() =>
                     {
-                        context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{AuthenticationScheme} realm=\"{Options.Realm}\""));
+                        context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{BasicAuthorizationHeader.Scheme} realm=\"{Options.Realm}\""));
                         return Task.CompletedTask;
                     });
                     response.StatusCode = (int)message.StatusCode;
@@ -56,38 +54,16 @@ namespace Cuemon.AspNetCore.Authentication.Basic
             await Next(context).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Gets the name of the authentication scheme.
-        /// </summary>
-        /// <value>The name of the authentication scheme.</value>
-        public string AuthenticationScheme => "Basic";
-
-        private bool TryAuthenticate(HttpContext context, Template<string, string> credentials, out ClaimsPrincipal result)
+        private bool TryAuthenticate(HttpContext context, BasicAuthorizationHeader header, out ClaimsPrincipal result)
         {
             if (Options.Authenticator == null) { throw new InvalidOperationException(FormattableString.Invariant($"The {nameof(Options.Authenticator)} cannot be null.")); }
-            result = Options.Authenticator(credentials.Arg1, credentials.Arg2);
+            result = Options.Authenticator(header.UserName, header.Password);
             return Condition.IsNotNull(result);
         }
 
-        private Template<string, string> AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
+        private BasicAuthorizationHeader AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
         {
-            if (Authenticator.IsAuthenticationSchemeValid(authorizationHeader, AuthenticationScheme))
-            {
-                var base64Credentials = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
-                if (Condition.IsBase64(base64Credentials))
-                {
-                    var credentials = Convertible.ToString(Convert.FromBase64String(base64Credentials), options =>
-                    {
-                        options.Encoding = Encoding.ASCII;
-                        options.Preamble = PreambleSequence.Remove;
-                    }).Split(':');
-                    if (credentials.Length == 2 &&
-                        !string.IsNullOrEmpty(credentials[0]) &&
-                        !string.IsNullOrEmpty(credentials[1]))
-                    { return Template.CreateTwo(credentials[0], credentials[1]); }
-                }
-            }
-            return null;
+            return BasicAuthorizationHeader.Create(authorizationHeader);
         }
     }
 }
