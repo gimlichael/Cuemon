@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon namespace contains fundamental types such as value and reference types, factories and utility classes, interfaces, attributes and feature rich delegates to support functional programming to a whole new level. The namespace is an addition to the System namespace.
 
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [System namespace](https://docs.microsoft.com/en-us/dotnet/api/system?view=netstandard-2.0) 🔗
 

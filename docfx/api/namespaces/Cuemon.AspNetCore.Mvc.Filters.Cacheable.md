@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace contains types that specializes in cache expiration and validation models. The namespace is an addition to the Microsoft.AspNetCore.Mvc.Filters namespace.
 
-Availability: NET Standard 2.0, NET Core 3.0
+Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
 
 Complements: [Microsoft.AspNetCore.Mvc.Filters namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters?view=aspnetcore-2.0) 🔗
 

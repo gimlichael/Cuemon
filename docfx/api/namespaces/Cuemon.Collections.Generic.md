@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Collections.Generic namespace contains types that define generic collections that support paging, partitioning, dynamic comparers and some specialized collections such as a read-only enum dictionary and a generic, conditional collection. The namespace is an addition to the System.Collections.Generic namespace.
 
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [System.Collections.Generic namespace](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic?view=netstandard-2.0) 🔗
 

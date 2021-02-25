@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Xml.Linq namespace contains extension methods that complements the System namespace while being an addition to the System.Xml.Linq namespace.
 
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, .NET 5.0
 
 Github branches 🌱\
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Xml/Linq)\

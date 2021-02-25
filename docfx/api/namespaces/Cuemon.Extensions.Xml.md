@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Xml namespace contains extension methods that complements the Cuemon.Xml namespace while being an addition to the System.Xml namespace.
 
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [Cuemon.Xml namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.html) 🔗
 

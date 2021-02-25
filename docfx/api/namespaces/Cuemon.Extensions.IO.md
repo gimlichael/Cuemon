@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.IO namespace contains extension methods that complements the Cuemon.IO namespace while being an addition to the System.IO namespace.
 
-Availability: NET Standard 2.0, NET Standard 2.1
+Availability: NET Standard 2.0, NET Standard 2.1, .NET 5.0
 
 Complements: [Cuemon.IO namespace](https://docs.cuemon.net/api/dotnet/Cuemon.IO.html) 🔗
 

@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.AspNetCore namespace contains both types and extension methods that complements the Cuemon.AspNetCore namespace while being an addition to the Microsoft.AspNetCore namespace. Provides an in-memory implementation of a throttling cache for ASP.NET Core.
 
-Availability: NET Standard 2.0, NET Core 3.0
+Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
 
 Complements: [Cuemon.AspNetCore namespace](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.html) 🔗
 

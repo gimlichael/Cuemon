@@ -1,12 +1,10 @@
 ﻿---
-uid: Cuemon.AspNetCore.Authentication
+uid: Cuemon.AspNetCore.Authentication.Hmac
 summary: *content
 ---
-The Cuemon.AspNetCore.Authentication namespace contains types that enable support for authentication using the concept of an Authenticator, AuthorizationHeader and (to tie the knots) an AuthorizationHeaderBuilder. Basic-, Digest Access- and HMAC Authentication is provided out-of-the-box. The namespace is an addition to the Microsoft.AspNetCore.Authentication namespace.
+The Cuemon.AspNetCore.Authentication.Hmac namespace contains types that enable support for HMAC Access Authentication Scheme. Inspired by AWS Signature Version 4 [Authenticating Requests: Using the Authorization Header](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-auth-using-authorization-header.html) and [Signing AWS requests with Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/sigv4_signing.html).
 
 Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
-
-Complements: [Microsoft.AspNetCore.Authentication namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication?view=aspnetcore-2.0) 🔗
 
 Github branches 🌱\
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.AspNetCore.Authentication)\

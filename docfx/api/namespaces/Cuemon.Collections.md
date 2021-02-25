@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Collections namespace contains types that define various collections of objects. The namespace is an addition to the System.Collections namespace.
 
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [System.Collections namespace](https://docs.microsoft.com/en-us/dotnet/api/system.collections?view=netstandard-2.0) 🔗
 

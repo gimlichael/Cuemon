@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Text namespace contains extension methods that complements the Cuemon.Text namespace while being an addition to the System namespace.
 
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [Cuemon.Text namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Text.html) 🔗
 

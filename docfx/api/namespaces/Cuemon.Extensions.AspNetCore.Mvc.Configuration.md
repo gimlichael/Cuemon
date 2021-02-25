@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.AspNetCore.Mvc.Configuration namespace contains both types and extension methods that complements the Cuemon.AspNetCore.Configuration namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides a set of different cache busting strategies for ASP.NET Core MVC that can be easily customized.
 
-Availability: NET Standard 2.0, NET Core 3.0
+Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
 
 Complements: [Cuemon.AspNetCore.Configuration namespace](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Configuration.html) 🔗
 
