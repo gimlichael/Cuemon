@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.AspNetCore.Authentication</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore.Authentication</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore.Authentication namespace contains implementations of authentication forms and features related to the Cuemon.AspNetCore namespace.</Description>
-    <PackageTags>basic-authentication digest-access-authentication hmac-authentication</PackageTags>
+    <Description>The Cuemon.AspNetCore.Authentication namespace contains types that enable support for authentication using the concept of an Authenticator, AuthorizationHeader and (to tie the knots) an AuthorizationHeaderBuilder. The namespace is an addition to the Microsoft.AspNetCore.Authentication namespace.</Description>
+    <PackageTags>basic-authentication basic-authentication-middleware digest-access-authentication digest-authentication-middleware hmac-authentication hmac-authentication-middleware authenticator authorization-header authorization-header-builder nonce-tracker</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
