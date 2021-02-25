@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.AspNetCore.Authentication", "src\Cuemon.AspNetCore.Authentication\Cuemon.AspNetCore.Authentication.csproj", "{A10ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.AspNetCore.Razor", "src\Cuemon.AspNetCore.Razor\Cuemon.AspNetCore.Razor.csproj", "{A30ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.AspNetCore.Razor.TagHelpers", "src\Cuemon.AspNetCore.Razor.TagHelpers\Cuemon.AspNetCore.Razor.TagHelpers.csproj", "{A30ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Core.Tests", "test\Cuemon.Core.Tests\Cuemon.Core.Tests.csproj", "{CDE37A87-B35E-4F9B-9C5A-32E9B22A1B69}"
 EndProject

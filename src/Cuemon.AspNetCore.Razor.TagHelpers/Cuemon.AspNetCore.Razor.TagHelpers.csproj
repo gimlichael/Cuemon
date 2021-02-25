@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.AspNetCore.Razor</AssemblyName>
-    <AssemblyTitle>Cuemon.AspNetCore.Razor</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore.Razor namespace contains features related to the Microsoft.AspNetCore.Razor namespace.</Description>
+    <AssemblyName>Cuemon.AspNetCore.Razor.TagHelpers</AssemblyName>
+    <AssemblyTitle>Cuemon.AspNetCore.Razor.TagHelpers</AssemblyTitle>
+    <Description>The Cuemon.AspNetCore.Razor.TagHelpers namespace contains types tailored tag helper implementations. The namespace is an addition to the Microsoft.AspNetCore.Razor.TagHelpers namespace.</Description>
     <PackageTags>cdn-tag-helper cdn-uri-scheme image-cdn-tag-helper link-cdn-tag-helper script-cdn-tag-helper</PackageTags>
   </PropertyGroup>
 
