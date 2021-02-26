@@ -1,0 +1,6 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+ 
+# Upgrade Steps
+- Any former extension methods of the Cuemon.AspNetCore.Razor.TagHelpers namespace was merged into the Cuemon.Extensions.Core namespace
+ 
