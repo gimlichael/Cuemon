@@ -7,9 +7,9 @@ The Cuemon.AspNetCore.Authentication.Digest namespace contains types that enable
 Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
 
 Github branches 🌱\
-[development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.AspNetCore.Authentication)\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.AspNetCore.Authentication)\
-[master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.AspNetCore.Authentication)
+[development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.AspNetCore.Authentication/Digest)\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.AspNetCore.Authentication/Digest)\
+[master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.AspNetCore.Authentication/Digest)
 
 NuGet packages 📦\
 [Cuemon.AspNetCore.Authentication (CI)](https://nuget.cuemon.net/packages/Cuemon.AspNetCore.Authentication)\
