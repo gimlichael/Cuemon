@@ -13,7 +13,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
-        public static IServiceCollection AddDigestAccessAuthenticationNonceTracker(this IServiceCollection services)
+        public static IServiceCollection AddInMemoryDigestAuthenticationNonceTracker(this IServiceCollection services)
         {
             Validator.ThrowIfNull(services, nameof(services));
             services.AddSingleton<INonceTracker, MemoryNonceTracker>();
