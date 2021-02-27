@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
 using Cuemon.AspNetCore.Configuration;
-using Cuemon.AspNetCore.Mvc.Configuration;
 using Cuemon.Security.Cryptography;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
+namespace Cuemon.Extensions.AspNetCore.Configuration
 {
     /// <summary>
     /// Specifies options that is related to <see cref="AssemblyCacheBustingOptions"/> operations.

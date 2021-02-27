@@ -4,7 +4,7 @@ using Cuemon.Extensions.Data.Integrity;
 using Cuemon.Security.Cryptography;
 using Microsoft.Extensions.Options;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
+namespace Cuemon.Extensions.AspNetCore.Configuration
 {
     /// <summary>
     /// Provides cache-busting capabilities from an Assembly. This class cannot be inherited.

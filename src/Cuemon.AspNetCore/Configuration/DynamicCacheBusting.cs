@@ -1,9 +1,8 @@
 ﻿using System;
-using Cuemon.AspNetCore.Configuration;
 using Cuemon.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Cuemon.AspNetCore.Mvc.Configuration
+namespace Cuemon.AspNetCore.Configuration
 {
     /// <summary>
     /// Provides cache-busting capabilities on a duration based interval. This class cannot be inherited.

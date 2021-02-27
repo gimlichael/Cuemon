@@ -1,8 +1,7 @@
 ﻿using Cuemon.AspNetCore.Configuration;
-using Cuemon.AspNetCore.Mvc.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Configuration
+namespace Cuemon.Extensions.AspNetCore.Configuration
 {
     /// <summary>
     /// Extension methods for the <see cref="IServiceCollection"/> interface.

@@ -1,10 +1,9 @@
 ﻿using System;
-using Cuemon.AspNetCore.Configuration;
 
-namespace Cuemon.AspNetCore.Mvc.Configuration
+namespace Cuemon.AspNetCore.Configuration
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="DynamicCacheBustingOptions"/> operations.
+    /// Specifies options that is related to <see cref="DynamicCacheBusting"/> operations.
     /// </summary>
     /// <seealso cref="CacheBustingOptions" />
     public class DynamicCacheBustingOptions : CacheBustingOptions
