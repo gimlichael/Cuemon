@@ -54,7 +54,7 @@ namespace Cuemon.AspNetCore.Authentication
                     o.RequireSecureConnection = false;
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
-                services.AddDigestAccessAuthenticationNonceTracker();
+                services.AddInMemoryDigestAuthenticationNonceTracker();
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -99,7 +99,7 @@ namespace Cuemon.AspNetCore.Authentication
                     o.RequireSecureConnection = false;
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
-                services.AddDigestAccessAuthenticationNonceTracker();
+                services.AddInMemoryDigestAuthenticationNonceTracker();
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -171,7 +171,7 @@ namespace Cuemon.AspNetCore.Authentication
                     o.RequireSecureConnection = false;
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
-                services.AddDigestAccessAuthenticationNonceTracker();
+                services.AddInMemoryDigestAuthenticationNonceTracker();
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -242,7 +242,7 @@ namespace Cuemon.AspNetCore.Authentication
                     o.RequireSecureConnection = false;
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
-                services.AddDigestAccessAuthenticationNonceTracker();
+                services.AddInMemoryDigestAuthenticationNonceTracker();
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
