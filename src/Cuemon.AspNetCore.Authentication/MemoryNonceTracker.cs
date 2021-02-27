@@ -7,21 +7,21 @@ using Cuemon.Threading;
 namespace Cuemon.AspNetCore.Authentication
 {
     /// <summary>
-    /// Provides a default implementation of the <see cref="INonceTracker"/> interface.
+    /// Provides a default in-memory implementation of the <see cref="INonceTracker"/> interface.
     /// </summary>
     /// <seealso cref="Disposable" />
     /// <seealso cref="INonceTracker" />
-    public class NonceTracker : Disposable, INonceTracker
+    public class MemoryNonceTracker : Disposable, INonceTracker
     {
         private readonly ConcurrentDictionary<string, NonceTrackerEntry> _entries = new ConcurrentDictionary<string, NonceTrackerEntry>();
         private readonly Timer _expirationTimer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NonceTracker"/> class.
+        /// Initializes a new instance of the <see cref="MemoryNonceTracker"/> class.
         /// </summary>
-        public NonceTracker()
+        public MemoryNonceTracker()
         {
-            _expirationTimer = TimerFactory.CreateNonCapturingTimer(state => ((NonceTracker)state).OnAutomatedSweepCleanup(), this, TimeSpan.FromMinutes(15), TimeSpan.FromHours(1));
+            _expirationTimer = TimerFactory.CreateNonCapturingTimer(state => ((MemoryNonceTracker)state).OnAutomatedSweepCleanup(), this, TimeSpan.FromMinutes(15), TimeSpan.FromHours(1));
         }
 
         /// <summary>
