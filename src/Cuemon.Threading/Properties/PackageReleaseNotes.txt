@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, NET 5.0
  
 # Upgrade Steps
 - The extent of refactoring applied to this project resulted in so many breaking changes that a git diff is advisable

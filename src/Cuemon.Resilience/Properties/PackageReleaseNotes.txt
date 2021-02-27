@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, NET 5.0
  
 # New Features
 - ADDED LatencyException class in the Cuemon.Resilience namespace that represents the exception that is thrown when a latency related operation was taking to long to complete

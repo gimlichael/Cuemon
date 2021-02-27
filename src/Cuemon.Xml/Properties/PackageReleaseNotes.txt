@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, NET 5.0
  
 # Upgrade Steps
 - The Cuemon.Serialization.Xml assembly and namespace was removed with this version
