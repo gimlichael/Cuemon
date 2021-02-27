@@ -17,7 +17,7 @@
     <Authors>gimlichael</Authors>
     <Company>Geekle</Company>
     <Product>Cuemon for .NET</Product>
-    <PackageIconUrl>https://nblcdn.net/cuemon.net/128x128.png</PackageIconUrl>
+    <PackageIconUrl>https://nblcdn.net/cuemon/128x128.png</PackageIconUrl>
     <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/gimlichael/Cuemon</RepositoryUrl>
