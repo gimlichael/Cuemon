@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, NET 5.0
  
 # New Features
 - ADDED CollectionExtensions class in the Cuemon.Extensions.Collections.Generic namespace that consist of extension methods for the ICollection{T} interface: ToPartitioner{T}, AddRange{T}

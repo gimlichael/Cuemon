@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, NET 5.0
  
 # Breaking Changes
 - REMOVED EventLogEntryType enum from the Cuemon.Diagnostics namespace as it is now (finally) part of .NET Platform Extensions and .NET Core

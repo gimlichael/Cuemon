@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, NET 5.0
  
 # New Features
 - ADDED ExceptionDescriptorExtensions class in the Cuemon.Extensions.Diagnostics namespace that consist of extension methods for the ExceptionDescriptor class: ToInsightsString

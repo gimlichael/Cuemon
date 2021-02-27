@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0, NET Core 3.0
+Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
  
 # Upgrade Steps
 - The Cuemon.AspNetCore.Mvc.Formatters.Xml namespace was removed with this version

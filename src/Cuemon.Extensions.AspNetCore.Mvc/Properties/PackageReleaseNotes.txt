@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0, NET Core 3.0
+Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
  
 # Breaking Changes
 - RENAMED ToCacheableObjectResult{T} --> MakeCacheable{T} on the CacheableObjectResultExtensions class in the Cuemon.Extensions.AspNetCore.Mvc namespace (also included a non-generic variant: MakeCacheable)

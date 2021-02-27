@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, NET 5.0
  
 # New Features
 - ADDED TaskExtensions class in the Cuemon.Extensions.Threading.Tasks namespace that consist of extension methods for the Task class: ContinueWithCapturedContext, ContinueWithCapturedContext{TResult}, ContinueWithSuppressedContext, ContinueWithSuppressedContext{TResult}

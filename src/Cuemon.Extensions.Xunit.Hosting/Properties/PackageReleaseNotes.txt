@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0, NET Core 3.0
+Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
  
 # New Features
 - ADDED HostTest class in the Cuemon.Extensions.Xunit.Hosting namespace that represents a base class from which all implementations of unit testing, that uses Microsoft Dependency Injection, should derive

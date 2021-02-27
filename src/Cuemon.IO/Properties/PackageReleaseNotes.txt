@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0, NET Standard 2.1
+Availability: NET Standard 2.0, NET Standard 2.1, NET 5.0
  
 # Upgrade Steps
 - The Cuemon.IO.Compression namespace was removed with this version

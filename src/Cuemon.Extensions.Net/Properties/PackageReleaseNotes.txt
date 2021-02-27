@@ -1,5 +1,5 @@
 ﻿Version: 6.0.0
-Availability: NET Standard 2.0
+Availability: NET Standard 2.0, NET 5.0
  
 # New Features
 - ADDED HttpManagerFactory class in the Cuemon.Extensions.Net.Http namespace that provides access to factory methods for creating and configuring HttpManager instances
