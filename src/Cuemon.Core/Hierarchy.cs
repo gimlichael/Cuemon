@@ -60,7 +60,7 @@ namespace Cuemon
         /// Gets the node at the specified index.
         /// </summary>
         /// <value>The node at the specified index.</value>
-        public IHierarchy<T> this[int index] => this.NodeAt(index);
+        public IHierarchy<T> this[int index] => Decorator.Enclose(this).NodeAt(index);
 
         #endregion
 
@@ -162,8 +162,8 @@ namespace Cuemon
 
         private static int CalculateIndex(Hierarchy<T> newItem)
         {
-            var rootItem = newItem.Root();
-            var allItems = rootItem.DescendantsAndSelf();
+            var rootItem = Decorator.Enclose(newItem).Root();
+            var allItems = Decorator.Enclose(rootItem).DescendantsAndSelf();
             return allItems.Count();
         }
 
