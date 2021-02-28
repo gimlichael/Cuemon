@@ -4,6 +4,7 @@ trigger:
     - development
   paths:
     exclude:
+    - .github/
     - docfx/
     - azure-pipelines.yml
     - BuildDocfxImage.ps1
