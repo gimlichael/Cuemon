@@ -2,7 +2,8 @@
 
 # Cuemon for .NET
 
-An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof. Ideal for .NET, .NET Standard, .NET Core, Universal Windows Platform and .NET Framework 4.6.1 and newer.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 5, .NET Core 3, .NET Core 2, .NET Standard 2.1, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
@@ -19,9 +20,9 @@ All CI and CD integrations are done on [Microsoft Azure DevOps](https://azure.mi
 
 All code quality analysis are done by [SonarCloud](https://sonarcloud.io/) and [CodeCov.io](https://codecov.io/).
 
-Currently work is done on ironing out the kinks in relations to NuGet package description, release notes conventions, concepts and last minute refactorings to provide the best experience possible with RC-1!
+Currently work is done on ironing out the kinks in relations to NuGet package description, release notes conventions, concepts and last minute refactorings to provide the best experience possible with the RCs!
 
-![License](https://img.shields.io/github/license/gimlichael/cuemon) [![Build Status](https://dev.azure.com/gimlichael/Cuemon/_apis/build/status/gimlichael.Cuemon?branchName=development)](https://dev.azure.com/gimlichael/Cuemon/_build/latest?definitionId=9&branchName=development) [![codecov](https://codecov.io/gh/gimlichael/Cuemon/branch/development/graph/badge.svg)](https://codecov.io/gh/gimlichael/Cuemon) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=coverage)](https://sonarcloud.io/dashboard?id=Cuemon)
+![License](https://img.shields.io/github/license/gimlichael/cuemon) [![Build Status](https://dev.azure.com/gimlichael/Cuemon/_apis/build/status/gimlichael.Cuemon?branchName=development)](https://dev.azure.com/gimlichael/Cuemon/_build/latest?definitionId=9&branchName=development) [![codecov](https://codecov.io/gh/gimlichael/Cuemon/branch/development/graph/badge.svg)](https://codecov.io/gh/gimlichael/Cuemon) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=coverage)](https://sonarcloud.io/dashboard?id=Cuemon) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 
 ## Development Branch
@@ -66,40 +67,80 @@ Builds performed from this repository are pushed to NuGet.org as the actual vers
 
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=ncloc)](https://sonarcloud.io/dashboard?id=Cuemon) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=code_smells)](https://sonarcloud.io/dashboard?id=Cuemon) [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=sqale_index)](https://sonarcloud.io/dashboard?id=Cuemon) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=bugs)](https://sonarcloud.io/dashboard?id=Cuemon) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=Cuemon) [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=Cuemon)
 
+# Contributing to Cuemon for .NET
+
+A big welcome and thank you for considering contributing to Cuemon for .NET open source project!
+
+Please read more about [contributing to Cuemon for .NET](.github/CONTRIBUTING.md).
+
+# Code of Conduct
+
+Project maintainers pledge to foster an open and welcoming environment, and ask contributors to do the same.
+
+For more information see our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 
-### Links to NuGet packages (will be updated once Cuemon for .NET has shipped in 6.0.0)
+## Links to NuGet packages (will be updated once Cuemon for .NET has shipped in 6.0.0)
 
-Useful links for this project (will soon be changed for the forthcoming release):
+NuGet links for this project:
 
-* [Cuemon .NET Standard](http://www.cuemon.net/)
+* [Cuemon.AspNetCore](https://www.nuget.org/packages/Cuemon.AspNetCore/)
+* [Cuemon.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.AspNetCore.Authentication/)
+* [Cuemon.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.AspNetCore.Mvc/)
+* ~~Cuemon.AspNetCore.Mvc.Formatters.Json~~
+* ~~Cuemon.AspNetCore.Mvc.Formatters.Xml~~
+* [Cuemon.AspNetCore.Razor.TagHelpers](https://www.nuget.org/packages/Cuemon.AspNetCore.Razor.TagHelpers/)
+* ~~Cuemon.Collections.Specialized~~
+* [Cuemon.Core](https://www.nuget.org/packages/Cuemon.Core/)
+* [Cuemon.Data](https://www.nuget.org/packages/Cuemon.Data/)
+* [Cuemon.Data.Integrity](https://www.nuget.org/packages/Cuemon.Data.Integrity/)
+* [Cuemon.Data.SqlClient](https://www.nuget.org/packages/Cuemon.Data.SqlClient/)
+* ~~Cuemon.Data.XmlClient~~
+* [Cuemon.Diagnostics](https://www.nuget.org/packages/Cuemon.Diagnostics/)
+* [Cuemon.Extensions.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore/)
+* [Cuemon.Extensions.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication/)
+* [Cuemon.Extensions.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc/)
+* [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/)
+* [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/)
+* [Cuemon.Extensions.Collections.Generic](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Generic/)
+* [Cuemon.Extensions.Collections.Specialized](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Specialized/)
+* [Cuemon.Extensions.Core](https://www.nuget.org/packages/Cuemon.Extensions.Core/)
+* [Cuemon.Extensions.Data](https://www.nuget.org/packages/Cuemon.Extensions.Data/)
+* [Cuemon.Extensions.Data.Integrity](https://www.nuget.org/packages/Cuemon.Extensions.Data.Integrity/)
+* [Cuemon.Extensions.DependencyInjection](https://www.nuget.org/packages/Cuemon.Extensions.DependencyInjection/)
+* [Cuemon.Extensions.Diagnostics](https://www.nuget.org/packages/Cuemon.Extensions.Diagnostics/)
+* [Cuemon.Extensions.Hosting](https://www.nuget.org/packages/Cuemon.Extensions.Hosting/)
+* [Cuemon.Extensions.IO](https://www.nuget.org/packages/Cuemon.Extensions.IO/)
+* [Cuemon.Extensions.Net](https://www.nuget.org/packages/Cuemon.Extensions.Net/)
+* [Cuemon.Extensions.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json/)
+* [Cuemon.Extensions.Reflection](https://www.nuget.org/packages/Cuemon.Extensions.Reflection/)
+* [Cuemon.Extensions.Runtime.Caching](https://www.nuget.org/packages/Cuemon.Extensions.Runtime.Caching/)
+* [Cuemon.Extensions.Text](https://www.nuget.org/packages/Cuemon.Extensions.Text/)
+* [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/)
+* [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/)
+* [Cuemon.Extensions.Xunit](https://www.nuget.org/packages/Cuemon.Extensions.Xunit/)
+* [Cuemon.Extensions.Xunit.Hosting](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.Hosting/)
+* [Cuemon.Extensions.Xunit.Hosting.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.Hosting.AspNetCore/)
+* [Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc/)
+* ~~Cuemon.Integrity~~
+* [Cuemon.IO](https://www.nuget.org/packages/Cuemon.IO/)
+* [Cuemon.Net](https://www.nuget.org/packages/Cuemon.Net/)
+* ~~Cuemon.Net.Mail~~
+* ~~Cuemon.Reflection~~
+* [Cuemon.Resilience](https://www.nuget.org/packages/Cuemon.Resilience/)
+* ~~Cuemon.Runtime~~
+* [Cuemon.Runtime.Caching](https://www.nuget.org/packages/Cuemon.Runtime.Caching/)
+* ~~Cuemon.Security~~
+* [Cuemon.Security.Cryptography](https://www.nuget.org/packages/Cuemon.Security.Cryptography/)
+* ~~Cuemon.Serialization~~
+* ~~Cuemon.Serialization.Json~~
+* ~~Cuemon.Serialization.Xml~~
+* [Cuemon.Threading](https://www.nuget.org/packages/Cuemon.Threading/)
+* ~~Cuemon.Web~~
+* [Cuemon.Xml](https://www.nuget.org/packages/Cuemon.Xml/)
+
+
+These will be updated to the current version ASAP to get you started out easy.
+
 * Cuemon .NET Standard Package on [Nuget](https://www.nuget.org/packages/Cuemon.Core.Package/)
 * Cuemon ASP.NET Core Package on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Package/)
-* Cuemon.AspNetCore on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore/)
-* Cuemon.AspNetCore.Authentication on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Authentication/)
-* Cuemon.AspNetCore.Mvc on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Mvc/)
-* Cuemon.AspNetCore.Mvc.Formatters.Json on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Mvc.Formatters.Json/)
-* Cuemon.AspNetCore.Mvc.Formatters.Xml on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Mvc.Formatters.Xml/)
-* Cuemon.Collections.Specialized on [Nuget](https://www.nuget.org/packages/Cuemon.Collections.Specialized/)
-* Cuemon.Core on [Nuget](https://www.nuget.org/packages/Cuemon.Core/)
-* Cuemon.Data on [Nuget](https://www.nuget.org/packages/Cuemon.Data/)
-* Cuemon.Data.XmlClient on [Nuget](https://www.nuget.org/packages/Cuemon.Data.XmlClient/)
-* Cuemon.Integrity on [Nuget](https://www.nuget.org/packages/Cuemon.Integrity/)
-* Cuemon.IO on [Nuget](https://www.nuget.org/packages/Cuemon.IO/)
-* Cuemon.Net on [Nuget](https://www.nuget.org/packages/Cuemon.Net/)
-* Cuemon.Net.Mail on [Nuget](https://www.nuget.org/packages/Cuemon.Net.Mail/)
-* Cuemon.Reflection on [Nuget](https://www.nuget.org/packages/Cuemon.Reflection/)
-* Cuemon.Runtime on [Nuget](https://www.nuget.org/packages/Cuemon.Runtime/)
-* Cuemon.Runtime.Caching on [Nuget](https://www.nuget.org/packages/Cuemon.Runtime.Caching/)
-* Cuemon.Security on [Nuget](https://www.nuget.org/packages/Cuemon.Security/)
-* Cuemon.Serialization on [Nuget](https://www.nuget.org/packages/Cuemon.Serialization/)
-* Cuemon.Serialization.Json on [Nuget](https://www.nuget.org/packages/Cuemon.Serialization.Json/)
-* Cuemon.Serialization.Xml on [Nuget](https://www.nuget.org/packages/Cuemon.Serialization.Xml/)
-* Cuemon.Threading on [Nuget](https://www.nuget.org/packages/Cuemon.Threading/)
-* Cuemon.Web on [Nuget](https://www.nuget.org/packages/Cuemon.Web/)
-* Cuemon.Xml on [Nuget](https://www.nuget.org/packages/Cuemon.Xml/)
-
-* My profile on [LinkedIn](http://dk.linkedin.com/in/gimlichael)
-* My profile on [Twitter](https://twitter.com/gimlichael)
-* My profile on [StackOverflow](http://stackoverflow.com/users/175073/michael-mortensen)
-* My [blog](http://www.cuemon.net/blog/)
