@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using Cuemon.Collections.Generic;
 
 namespace Cuemon
 {
@@ -27,7 +28,7 @@ namespace Cuemon
         public static IConvertible UseConvertibleFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            var i = decorator.Inner.FindSingleInstance(h => ConvertibleTypes.Select(pair => pair.Value).Contains(h.Instance.Name));
+            var i = decorator.FindSingleInstance(h => ConvertibleTypes.Select(pair => pair.Value).Contains(h.Instance.Name));
             return Decorator.Enclose(i.Value).ChangeType(ConvertibleTypes.Single(pair => pair.Value == i.Name).Key) as IConvertible;
         }
 
@@ -42,7 +43,7 @@ namespace Cuemon
         public static TimeSpan UseTimeSpanFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            var ticks = decorator.Inner.FindSingleInstance(h => h.Instance.Name.Equals("Ticks", StringComparison.OrdinalIgnoreCase));
+            var ticks = decorator.FindSingleInstance(h => h.Instance.Name.Equals("Ticks", StringComparison.OrdinalIgnoreCase));
             return ticks == null ? decorator.Inner.UseGenericConverter<TimeSpan>() : TimeSpan.FromTicks(Convert.ToInt64(ticks.Value));
         }
 
@@ -57,7 +58,7 @@ namespace Cuemon
         public static Uri UseUriFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            var uri = decorator.Inner.FindSingleInstance(h => h.Instance.Name.Equals("OriginalString", StringComparison.OrdinalIgnoreCase));
+            var uri = decorator.FindSingleInstance(h => h.Instance.Name.Equals("OriginalString", StringComparison.OrdinalIgnoreCase));
             return uri == null ? decorator.Inner.UseGenericConverter<Uri>() : Decorator.Enclose(uri.Value.ToString()).ToUri();
         }
 
@@ -158,6 +159,237 @@ namespace Cuemon
                 addMethod.Invoke(dicInstance, new[] { item.Key, item.Value });
             }
             return dicInstance as IDictionary;
+        }
+
+        /// <summary>
+        /// Returns the first node instance that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node is found.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance that this node represents.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <param name="match">The function delegate that defines the conditions of the nodes to search for.</param>
+        /// <returns>An <see cref="IWrapper{T}.Instance"/>  that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node is found.</returns>
+        public static T FindFirstInstance<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
+        {
+            return FindInstance(decorator, match).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Returns the only node that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node instance is found; this method throws an exception if more than one node is found.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance that this node represents.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <param name="match">The function delegate that defines the conditions of the nodes to search for.</param>
+        /// <returns>An <see cref="IWrapper{T}.Instance"/> node that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node instance is found.</returns>
+        public static T FindSingleInstance<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
+        {
+            return FindInstance(decorator, match).SingleOrDefault();
+        }
+
+        /// <summary>
+        /// Retrieves all node instances that match the conditions defined by the function delegate <paramref name="match"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance that this node represents.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <param name="match">The function delegate that defines the conditions of the nodes to search for.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all node instances that match the conditions defined by the specified predicate, if found.</returns>
+        public static IEnumerable<T> FindInstance<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
+        {
+            return Find(decorator, match).Select(h => h.Instance);
+        }
+
+        /// <summary>
+        /// Returns the first node that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node is found.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance that this node represents.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <param name="match">The function delegate that defines the conditions of the nodes to search for.</param>
+        /// <returns>An <see cref="IHierarchy{T}"/> node that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node is found.</returns>
+        public static IHierarchy<T> FindFirst<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
+        {
+            return Find(decorator, match).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Returns the only node that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node is found; this method throws an exception if more than one node is found.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance that this node represents.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <param name="match">The function delegate that defines the conditions of the nodes to search for.</param>
+        /// <returns>An <see cref="IHierarchy{T}"/> node that match the conditions defined by the function delegate <paramref name="match"/>, or a default value if no node is found.</returns>
+        public static IHierarchy<T> FindSingle<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
+        {
+            return Find(decorator, match).SingleOrDefault();
+        }
+
+        /// <summary>
+        /// Retrieves all nodes that match the conditions defined by the function delegate <paramref name="match"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance that this node represents.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <param name="match">The function delegate that defines the conditions of the nodes to search for.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all nodes that match the conditions defined by the specified predicate, if found.</returns>
+        public static IEnumerable<IHierarchy<T>> Find<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(match, nameof(match));
+            return DescendantsAndSelf(decorator).Where(match);
+        }
+
+        /// <summary>
+        /// Replace the instance of the <paramref name="decorator"/> with a <paramref name="replacer"/> delegate.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance that this node represents.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <param name="replacer">The delegate that will replace the wrapped instance of the <paramref name="decorator"/>.</param>
+        public static void Replace<T>(this IDecorator<IHierarchy<T>> decorator, Action<IHierarchy<T>, T> replacer)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(replacer, nameof(replacer));
+            replacer(decorator.Inner, decorator.Inner.Instance);
+        }
+
+        /// <summary>
+        /// Replace all instances of the <paramref name="decorator"/> with a <paramref name="replacer"/> delegate.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance that these nodes represents.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IEnumerable{IHierarchy{T}}}"/> to extend.</param>
+        /// <param name="replacer">The delegate that will replace all wrapped instances of the <paramref name="decorator"/>.</param>
+        public static void ReplaceAll<T>(this IDecorator<IEnumerable<IHierarchy<T>>> decorator, Action<IHierarchy<T>, T> replacer)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(replacer, nameof(replacer));
+            foreach (var node in decorator.Inner)
+            {
+                Replace(Decorator.Enclose(node), replacer);
+            }
+        }
+
+        /// <summary>
+        /// Returns the root node of the specified <paramref name="decorator"/> in the hierarchical structure.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance represented by the specified <paramref name="decorator"/> in the hierarchical structure.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <returns>An <see cref="IHierarchy{T}"/> node that represents the root of the specified <paramref name="decorator"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> is null.
+        /// </exception>
+        public static IHierarchy<T> Root<T>(this IDecorator<IHierarchy<T>> decorator)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            return decorator.Inner.HasParent ? AncestorsAndSelf(decorator).FirstOrDefault() : decorator.Inner;
+        }
+
+        /// <summary>
+        /// Gets all ancestors (parent, grandparent, etc.) and self of the specified <paramref name="decorator"/> in the hierarchical structure.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance represented by the specified <paramref name="decorator"/> in the hierarchical structure.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to ancestors and self of the specified <paramref name="decorator"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> is null.
+        /// </exception>
+        public static IEnumerable<IHierarchy<T>> AncestorsAndSelf<T>(this IDecorator<IHierarchy<T>> decorator)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            IList<IHierarchy<T>> result = new List<IHierarchy<T>>(Hierarchy.WhileSourceTraversalIsNotNull(decorator.Inner, Hierarchy.AncestorsAndSelf));
+            return result.Count > 0 ? result.Reverse() : Arguments.Yield(decorator.Inner);
+        }
+
+        /// <summary>
+        /// Gets all descendants (children, grandchildren, etc.) anf self of the current <paramref name="decorator"/> in the hierarchical structure.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance represented by the specified <paramref name="decorator"/> in the hierarchical structure.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to the descendants and self of the specified <paramref name="decorator"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> is null.
+        /// </exception>
+        public static IEnumerable<IHierarchy<T>> DescendantsAndSelf<T>(this IDecorator<IHierarchy<T>> decorator)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            return Hierarchy.WhileSourceTraversalHasElements(decorator.Inner, Hierarchy.DescendantsAndSelf).Reverse();
+        }
+
+        /// <summary>
+        /// Gets all siblings and self after the current <paramref name="decorator"/> in the hierarchical structure.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance represented by the specified <paramref name="decorator"/> in the hierarchical structure.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to the siblings and self of the specified <paramref name="decorator"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> is null.
+        /// </exception>
+        public static IEnumerable<IHierarchy<T>> SiblingsAndSelf<T>(this IDecorator<IHierarchy<T>> decorator)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            return SiblingsAndSelfAt(decorator, decorator.Inner.Depth);
+        }
+
+        /// <summary>
+        /// Gets all siblings and self after the current <paramref name="decorator"/> in the hierarchical structure.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance represented by the specified <paramref name="decorator"/> in the hierarchical structure.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <param name="depth">The depth in the hierarchical structure from where to locate the siblings and self nodes.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence equal to the siblings and self of the specified <paramref name="decorator"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="depth"/> is less than zero.
+        /// </exception>
+        public static IEnumerable<IHierarchy<T>> SiblingsAndSelfAt<T>(this IDecorator<IHierarchy<T>> decorator, int depth)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfLowerThan(depth, 0, nameof(depth));
+            var root = AncestorsAndSelf(decorator).FirstOrDefault();
+            var descendantsFromRoot = DescendantsAndSelf(Decorator.Enclose(root));
+            foreach (var descendantItem in descendantsFromRoot)
+            {
+                if (descendantItem.Depth == depth) { yield return descendantItem; }
+            }
+        }
+
+        /// <summary>
+        /// Returns the node at the specified index of a hierarchical structure.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance represented by the specified <paramref name="decorator"/> in the hierarchical structure.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <param name="index">The zero-based index at which a node should be retrieved in the hierarchical structure.</param>
+        /// <returns>The node at the specified <paramref name="index"/> in the hierarchical structure.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="index"/> is less than zero - or - <paramref name="index"/> exceeded the count of nodes in the hierarchical structure.
+        /// </exception>
+        public static IHierarchy<T> NodeAt<T>(this IDecorator<IHierarchy<T>> decorator, int index)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfLowerThan(index, 0, nameof(index));
+            if (decorator.Inner.Index == index) { return decorator.Inner; }
+            var allNodes = FlattenAll(decorator);
+            foreach (var element in allNodes)
+            {
+                if (element.Index == index) { return element; }
+            }
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+
+        /// <summary>
+        /// Flattens the entirety of a hierarchical structure representation into an <see cref="IEnumerable{T}"/> sequence of nodes.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance represented by the specified <paramref name="decorator"/> in the hierarchical structure.</typeparam>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{T}}"/> to extend.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence of <see cref="IHierarchy{T}"/> all nodes represented by the hierarchical structure.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> is null.
+        /// </exception>
+        public static IEnumerable<IHierarchy<T>> FlattenAll<T>(this IDecorator<IHierarchy<T>> decorator)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            var root = AncestorsAndSelf(decorator).FirstOrDefault();
+            return DescendantsAndSelf(Decorator.Enclose(root));
         }
 
         private static T UseGenericConverter<T>(this IHierarchy<DataPair> hierarchy)

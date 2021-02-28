@@ -88,7 +88,7 @@ namespace Cuemon.Xml.Serialization.Converters
         {
             var values = new Dictionary<string, string>();
             var hierarchy = Decorator.Enclose(reader).ToHierarchy();
-            var items = hierarchy.Find(h => h.Instance.Name == EnumerableElementName && h.Depth == 1).ToList();
+            var items = Decorator.Enclose(hierarchy).Find(h => h.Instance.Name == EnumerableElementName && h.Depth == 1).ToList();
             foreach (var item in items)
             {
                 if (item.HasChildren)
@@ -125,7 +125,7 @@ namespace Cuemon.Xml.Serialization.Converters
         {
             var values = new List<KeyValuePair<string, string>>();
             var hierarchy = Decorator.Enclose(reader).ToHierarchy();
-            var items = hierarchy.Find(h => h.Instance.Name == EnumerableElementName && h.Depth == 1).ToList();
+            var items = Decorator.Enclose(hierarchy).Find(h => h.Instance.Name == EnumerableElementName && h.Depth == 1).ToList();
             if (items.FirstOrDefault()?.HasChildren ?? false) { throw new NotSupportedException("Deserialization of complex objects is not supported in this version."); }
             values.AddRange(items.Select(h => new KeyValuePair<string, string>(h.Instance.Name, h.Instance.Value.ToString())));
 

@@ -16,7 +16,7 @@ namespace Cuemon.Runtime.Serialization
         /// <param name="setup">The <see cref="ObjectHierarchyOptions"/> which need to be configured.</param>
         public HierarchySerializer(object source, Action<ObjectHierarchyOptions> setup = null)
         {
-            Nodes = Hierarchy.GetObjectHierarchy(source, setup).Root();
+            Nodes = Decorator.Enclose(Hierarchy.GetObjectHierarchy(source, setup)).Root();
         }
 
         /// <summary>
