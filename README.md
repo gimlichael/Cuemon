@@ -22,7 +22,7 @@ All code quality analysis are done by [SonarCloud](https://sonarcloud.io/) and [
 
 Currently work is done on ironing out the kinks in relations to NuGet package description, release notes conventions, concepts and last minute refactorings to provide the best experience possible with the RCs!
 
-![License](https://img.shields.io/github/license/gimlichael/cuemon) [![Build Status](https://dev.azure.com/gimlichael/Cuemon/_apis/build/status/gimlichael.Cuemon?branchName=development)](https://dev.azure.com/gimlichael/Cuemon/_build/latest?definitionId=9&branchName=development) [![codecov](https://codecov.io/gh/gimlichael/Cuemon/branch/development/graph/badge.svg)](https://codecov.io/gh/gimlichael/Cuemon) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=coverage)](https://sonarcloud.io/dashboard?id=Cuemon) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
+![License](https://img.shields.io/github/license/gimlichael/cuemon) [![Build Status](https://dev.azure.com/gimlichael/Cuemon/_apis/build/status/gimlichael.Cuemon?branchName=development)](https://dev.azure.com/gimlichael/Cuemon/_build/latest?definitionId=9&branchName=development) [![codecov](https://codecov.io/gh/gimlichael/Cuemon/branch/development/graph/badge.svg)](https://codecov.io/gh/gimlichael/Cuemon) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Cuemon&metric=coverage)](https://sonarcloud.io/dashboard?id=Cuemon) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](.github/CODE_OF_CONDUCT.md)
 
 
 ## Development Branch
