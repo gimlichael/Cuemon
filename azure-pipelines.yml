@@ -13,7 +13,7 @@ trigger:
     - README.md
 
 variables:
-  - group: Integration Test
+  - group: BuildSecrets
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
     value: true
   - name: DOTNET_CLI_TELEMETRY_OPTOUT
