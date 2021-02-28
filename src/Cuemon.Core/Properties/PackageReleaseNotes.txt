@@ -5,12 +5,33 @@ Availability: NET Standard 2.0, NET 5.0
 - To use the earlier built-in support for transient fault handling, please refer to the Cuemon.Resilience namespace, as it has been merged and refactored out of this assembly
 - To use the earlier built-in support for time-measuring and describing exceptions, please refer to the Cuemon.Diagnostics namespace, as it has been merged and refactored out of this assembly
 - To use the earlier built-in support for a computed checksum operation, please refer to the Cuemon.Data.Integrity namespace, as it has been merged and refactored out of this and the Cuemon.Integrity assembly
-- Any former extension methods of the Cuemon namespace (and related) was either removed completely or merged into there respective Cuemon.Extensions.* namespace equivalent
+- To use the earlier built-in support for I/O operations, please refer to the Cuemon.IO namespace, as it has been merged and refactored out of this assembly
+- Any former extension methods of the Cuemon namespace (and related) was either removed completely or merged into their respective Cuemon.Extensions.* namespace equivalent
+- The extent of refactoring applied to this project resulted in so many breaking changes that a git diff is advisable
+- Parts of the deprecated Cuemon.Runtime assembly was merged and refactored into this assembly keeping its original namespace (Cuemon.Runtime)
+- Parts of the deprecated Cuemon.Security assembly was merged and refactored into this assembly keeping its original namespace (Cuemon.Security)
  
 # Breaking Changes
 - REMOVED StringFormatter class from the Cuemon namespace
 - REMOVED StandardizedDateTimeFormatPattern enum from the Cuemon namespace
-- MOVED AsyncOptions class in the Cuemon.Threading namespace to its own assembly (by the same name and namespace)
+- MOVED AsyncOptions class from the Cuemon.Threading namespace to its own assembly (by the same name and namespace)
+- REMOVED ComparisonUtility class from the Cuemon.Collections.Generic namespace
+- REMOVED DictionaryConverter class from the Cuemon.Collections.Generic namespace
+- REMOVED DictionaryUtility class from the Cuemon.Collections.Generic namespace
+- REMOVED EnumerableConverter class from the Cuemon.Collections.Generic namespace
+- REMOVED EnumerableUtility class from the Cuemon.Collections.Generic namespace
+- REMOVED ISortableTable interface from the Cuemon.Collections.Generic namespace
+- REMOVED ListUtility class in from Cuemon.Collections.Generic namespace
+- REMOVED PartitionCollection class from the Cuemon.Collections.Generic namespace
+- REMOVED MethodBaseConverter class from the Cuemon.Reflection namespace
+- REMOVED ReflectionUtility class from the Cuemon.Reflection namespace
+- REMOVED JsonConverter class from the Cuemon.Runtime.Serialization namespace
+- REMOVED JsonInstance class from the Cuemon.Runtime.Serialization namespace
+- REMOVED JsonInstanceCollection class from the Cuemon.Runtime.Serialization namespace
+- REMOVED JsonTextWriter class from the Cuemon.Runtime.Serialization namespace
+- REMOVED JsonWriter class from the Cuemon.Runtime.Serialization namespace
+- REMOVED EncodingConverter class from the Cuemon.Text namespace
+- REMOVED EncodingUtility class from the Cuemon.Text namespace
 - REMOVED JsonWebToken class from the Cuemon.Security.Web namespace
 - REMOVED JsonWebTokenHashAlgorithm class from the Cuemon.Security.Web namespace
 - REMOVED JsonWebTokenHashAlgorithmConverter class from the Cuemon.Security.Web namespace
@@ -21,33 +42,138 @@ Availability: NET Standard 2.0, NET 5.0
 - REMOVED SecurityToken class from the Cuemon.Security namespace
 - REMOVED SecurityTokenSettings class from the Cuemon.Security namespace (replaced with SignedUriOptions in the Cuemon.Extensions.Net.Security namespace)
 - REMOVED SecurityUtility class from the Cuemon.Security namespace
-- REMOVED AssemblyExtensions class from the Cuemon.Reflection namespace
-- MOVED MemberInfoExtensions class from the Cuemon.Reflection namespace to Cuemon.Extensions.Reflection namespace
-- REMOVED MethodBaseConverterExtensions class from the Cuemon.Reflection namespace
-- MOVED LatencyException class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
-- MOVED TransientOperation class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
-- MOVED TransientFaultEvidence class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
-- MOVED TransientFaultException class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
-- MOVED TransientOperation class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
-- MOVED TransientOperationOptions class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED PreambleSequence enum from the Cuemon namespace to the Cuemon.Text namespace
+- REMOVED ArgumentEmptyException class from the Cuemon namespace
+- RENAMED AssignmentUtility class in the Cuemon namespace to Calculator
+- REMOVED ByteConverter class from the Cuemon namespace
+- REMOVED ByteUtility class from the Cuemon namespace
+- REMOVED CharConverter class from the Cuemon namespace
+- REMOVED ConditionBuilder class from the Cuemon namespace
+- REMOVED Converter class from the Cuemon namespace
+- REMOVED ConvertibleConverter class from the Cuemon namespace
+- REMOVED DateTimeConverter class from the Cuemon namespace
+- REMOVED DelegateUtility class from the Cuemon namespace
+- REMOVED DoubleConverter class from the Cuemon namespace
+- REMOVED EnumUtility class from the Cuemon namespace
+- REMOVED EventUtility class from the Cuemon namespace
+- REMOVED ExceptionUtility class from the Cuemon namespace
+- REMOVED GuidConverter class from the Cuemon namespace
+- REMOVED GuidUtility class from the Cuemon namespace
+- REMOVED HierarchySerializer class from the Cuemon namespace
+- REMOVED HierarchyUtility class from the Cuemon namespace
+- REMOVED LoopUtility class from the Cuemon namespace
+- REMOVED MethodWrappedException class from the Cuemon namespace
+- REMOVED NumberUtility class from the Cuemon namespace
+- REMOVED ObjectConverter class from the Cuemon namespace
+- REMOVED RandomSeverity enum from the Cuemon namespace
+- REMOVED StandardizedDateTimeFormatPattern enum from the Cuemon namespace
+- REMOVED StringConverter class from the Cuemon namespace
+- REMOVED StringFormatter class from the Cuemon namespace
+- REMOVED StringUtility class from the Cuemon namespace
+- REMOVED StructUtility class from the Cuemon namespace
+- REMOVED TesterDoer class from the Cuemon namespace
+- REMOVED TesterFuncUtility class from the Cuemon namespace
+- REMOVED TimeSpanConverter class from the Cuemon namespace
+- REMOVED TupleUtility class from the Cuemon namespace
+- REMOVED TypeCodeConverter class from the Cuemon namespace
+- REMOVED TypeUtility class from the Cuemon namespace
+- REMOVED UriConverter class from the Cuemon namespace
+- REMOVED UriUtility class from the Cuemon namespace
+- REMOVED VersionUtility class from the Cuemon namespace
+- MOVED LatencyException class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientOperation class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientFaultEvidence class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientFaultException class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientOperation class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientOperationOptions class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
 - REMOVED IMessageLocalizer interface from the Cuemon.Globalization namespace
  
 # New Features
 - ADDED ResourceAttribute class in the Cuemon.Globalization namespace that provides a generic way to support localization on attribute decorated methods
--
+- ADDED Arguments class in the Cuemon.Collections.Generic namespace that provides a set of static methods for both typing (no conversion) and converting a variable number of arguments into its equivalent T:object[], IEnumerable{T} and T:T[]
+- ADDED EnumReadOnlyDictionary class in the Cuemon.Collections.Generic namespace that represents a read-only collection of key/value pairs that provides information about the specified TEnum
+- ADDED PartitionerCollection class in the Cuemon.Collections.Generic namespace that represents a generic and read-only collection that is iterated in partitions
+- ADDED PartitionerEnumerable class in the Cuemon.Collections.Generic namespace that exposes the enumerator, which supports iteration in partitions over a collection of a specified type
+- ADDED HierarchySerializer class in the Cuemon.Runtime.Serialization namespace that provides a way to serialize objects to nodes of IHierarchy{T}
+- ADDED Formatter class in the Cuemon.Runtime.Serialization.Formatters namespace that is an abstract class that supports serialization and deserialization of an object, in a given format
+- ADDED CyclicRedundancyCheck64 class in the Cuemon.Security namespace that provides a CRC-64 implementation of the CRC (Cyclic Redundancy Check) checksum algorithm for 64-bit hash values
+- ADDED CyclicRedundancyCheckAlgorithm enum in the Cuemon.Security namespace that provides different models of the CRC algorithm family
+- ADDED CyclicRedundancyCheckOptions class in the Cuemon.Security namespace that specifies options related to CyclicRedundancyCheck
+- ADDED FowlerNollVo1024 class in the Cuemon.Security namespace that provides an implementation of the FVN (Fowler–Noll–Vo) non-cryptographic hashing algorithm for 1024-bit hash values
+- ADDED FowlerNollVo128 class in the Cuemon.Security namespace that provides an implementation of the FVN (Fowler–Noll–Vo) non-cryptographic hashing algorithm for 128-bit hash values
+- ADDED FowlerNollVo256 class in the Cuemon.Security namespace that provides an implementation of the FVN (Fowler–Noll–Vo) non-cryptographic hashing algorithm for 256-bit hash values
+- ADDED FowlerNollVo32 class in the Cuemon.Security namespace that provides an implementation of the FVN (Fowler–Noll–Vo) non-cryptographic hashing algorithm for 32-bit hash values
+- ADDED FowlerNollVo512 class in the Cuemon.Security namespace that provides an implementation of the FVN (Fowler–Noll–Vo) non-cryptographic hashing algorithm for 512-bit hash values
+- ADDED FowlerNollVo64 class in the Cuemon.Security namespace that provides an implementation of the FVN (Fowler–Noll–Vo) non-cryptographic hashing algorithm for 64-bit hash values
+- ADDED FowlerNollVoAlgorithm enum in the Cuemon.Security namespace that defines the algorithms of the Fowler-Noll-Vo hash function
+- ADDED FowlerNollVoHash class in the Cuemon.Security namespace that represents the base class from which all implementations of the Fowler–Noll–Vo non-cryptographic hashing algorithm must derive
+- ADDED FowlerNollVoOptions class in the Cuemon.Security namespace that specifies options related to FowlerNollVoHash
+- ADDED Hash class in the Cuemon.Security namespace that represents the base class from which all implementations of hash algorithms and checksums should derive
+- ADDED HashFactory class in the Cuemon.Security namespace that provides access to factory methods for creating and configuring Hash instances
+- ADDED IHash interface in the Cuemon.Security namespace that defines the bare minimum of both non-cryptographic and cryptographic transformations
+- ADDED NonCryptoAlgorithm enum in the Cuemon.Security namespace that specifies the different implementations of a non-cryptographic hashing algorithm
+- ADDED ByteOrderMark class in the Cuemon.Text namespace that provides a set of static methods for Unicode related operations
+- ADDED EnumStringOptions class in the Cuemon.Text namespace that specifies options related to ParserFactory.FromEnum
+- ADDED GuidStringOptions class in the Cuemon.Text namespace that specifies options related to ParserFactory.FromGuid
+- ADDED IConfigurableParser interface in the Cuemon.Text namespace that defines methods that converts a string to an object of a particular type having a way to configure the input
+- ADDED IEncodingOptions interface in the Cuemon.Text namespace that defines configuration options for Encoding
+- ADDED IParser interface in the Cuemon.Text namespace that defines methods that converts a string to an object of a particular type
+- ADDED ParserFactory class in the Cuemon.Text namespace that provides access to factory methods that are tailored for parsing operations adhering IParser and IConfigurableParser{TOptions}
+- ADDED ProtocolRelativeUriStringOptions class in the Cuemon.Text namespace that specifies options related to ParserFactory.FromProtocolRelativeUri
+- ADDED Stem class in the Cuemon.Text namespace that provides a way to support assigning a stem to a value
+- ADDED UriStringOptions class in the Cuemon.Text namespace that specifies options related to ParserFactory.FromUri
+- ADDED Alphanumeric class in the Cuemon namespace that provides a set of alphanumeric constant and static fields that consists of both letters, numbers and other symbols (such as punctuation marks and mathematical symbols)
+- ADDED BinaryPrefix class in the Cuemon namespace that defines a binary unit prefix for multiples of measurement for data that refers strictly to powers of 2
+- ADDED BitMultipleTable class in the Cuemon namespace that represent a table of both binary and metric prefixes for a BitUnit
+- ADDED BitUnit class in the Cuemon namespace that represents a unit of measurement for bits and is used with measurement of data
+- ADDED ByteMultipleTable class in the Cuemon namespace that represent a table of both binary and metric prefixes for a ByteUnit
+- ADDED ByteMultipleTable class in the Cuemon namespace that represents a unit of measurement for bytes and is used with measurement of data
+- ADDED Convertible class in the Cuemon namespace that provides a set of static methods, suitable for verifying integrity of data, that convert IConvertible implementations to and from a sequence of bytes
+- ADDED ConvertibleConverterDictionary class in the Cuemon namespace that represents a collection of function delegates that converts an IConvertible implementation to its T:byte[] equivalent
+- ADDED ConvertibleOptions class in the Cuemon namespace that specifies options related to Convertible
+- ADDED DecimalPrefix class in the Cuemon namespace that defines a decimal (metric) unit prefix for multiples and submultiples of measurement that refers strictly to powers of 10
+- ADDED Decorator class in the Cuemon namespace that provides a way to dynamically enclose/wrap an object to support the decorator pattern
+- ADDED DelimitedString class in the Cuemon namespace that provides a set of static methods to convert a sequence into a delimited string and break a delimited string into substrings
+- ADDED DelimitedStringOptions class in the Cuemon namespace that specifies options related to DelimitedString.Split
+- ADDED Disposable class in the Cuemon namespace that provides a mechanism for releasing both managed and unmanaged resources with focus on the former
+- ADDED DisposableOptions class in the Cuemon namespace that specifies options related to Disposable
+- ADDED EndianOptions class in the Cuemon namespace that specifies options related to BitConverter
+- ADDED Endianness class in the Cuemon namespace that defines the order in which a sequence of bytes are represented
+- ADDED Eradicate class in the Cuemon namespace that provides a set of static methods for eradicating different types of values or sequences of values
+- ADDED ExceptionCondition class in the Cuemon namespace that provides a fluent and generic way to setup a condition for raising an Exception
+- ADDED ExceptionInsights class in the Cuemon namespace that provides a set of static methods for embedding environment specific insights to an exception
+- ADDED FinalizeDisposable class in the Cuemon namespace that provides a mechanism for releasing both managed and unmanaged resources with focus on the latter
+- ADDED FormattingOptions class in the Cuemon namespace that specifies options related to IFormatProvider
+- ADDED Generate class in the Cuemon namespace that provides a set of static methods for generating different types of values or sequences of values
+- ADDED GuidFormats enum in the Cuemon namespace that specifies allowed GUID formats in parsing related methods
+- ADDED IDecorator interface in the Cuemon namespace that defines a decorator that exposes the inner decorated type
+- ADDED IPrefixMultiple interface in the Cuemon namespace that defines a unit prefix that can can be expressed as a either a multiple or a submultiple of the unit of measurement
+- ADDED IUnit interface in the Cuemon namespace that defines a unit of measurement that is used as a standard for measurement of the same kind of quantity
+- ADDED MultipleTable class in the Cuemon namespace that defines a unit of measurement that provides a way to represent a table of both binary and metric prefixes that precedes a unit of measure to indicate a multiple of the unit
+- ADDED MultipleTableOptions class in the Cuemon namespace that specifies options related to MultipleTable
+- ADDED NamingStyle enum in the Cuemon namespace that specifies ways that a string must be represented in terms of naming style
+- ADDED ObjectFormattingOptions class in the Cuemon namespace that specifies options related to ParserFactory.FromObject
+- ADDED ObjectPortrayalOptions class in the Cuemon namespace that specifies options related to Generate.ObjectPortrayal
+- ADDED Patterns class in the Cuemon namespace that provides a generic way to support different types of design patterns and practices with small utility methods
+- ADDED StringFactory class in the Cuemon namespace that provides access to factory methods for creating and configuring encoded string instances
+- ADDED SystemSnapshot enum in the Cuemon namespace that specifies the system states to capture runtime
+- ADDED UnitFormatOptions class in the Cuemon namespace that specifies options related to BitUnit and ByteUnit
+- ADDED UnitPrefix class in the Cuemon namespace that specifies the two standards for binary multiples and decimal multiples
+- ADDED UnitPrefixFormatter class in the Cuemon namespace that defines the string formatting of objects having an implementation of either IPrefixUnit or IUnit
  
 # Bug Fixes
--
--
+- Several ;-)
  
 # Improvements
--
--
+- CHANGED HashResult class in the Cuemon.Security namespace to implement IEquatable{HashResult} as well as other improvements
+- EXTENDED Condition class in the Cuemon namespace with several new static members: Query, IsEnum, IsProtocolRelativeUrl, IsUri, HasConsecutiveCharacters, IsBase64, IsBinaryDigits, IsPrime, IsEven, IsOdd, IsCountableSequence (Query makes this class extensible - enabling you to write your own conditions)
+- REFACTORED TaskActionFactory class in the Cuemon namespace to have CancellationToken support
+- REFACTORED TaskFuncFactory class in the Cuemon namespace to have CancellationToken support
+- EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIf, ThrowWhenCondition, ThrowIfNumber, ThrowIfNotNumber, ThrowIfNull, ThrowIfSequenceEmpty, ThrowIfEmpty, ThrowIfContainsInterface, ThrowIfNotContainsInterface, ThrowIfNotContainsType, ThrowIfEnumType, ThrowIfNotBinaryDigits, ThrowIfNotBase64String, ThrowIfTrue, ThrowIfFalse, ThrowIfSequenceNullOrEmpty
  
 # Quality Actions
--
--
+- Several ;-)
  
 # Other Changes
--
--
+- Several ;-)
+ 

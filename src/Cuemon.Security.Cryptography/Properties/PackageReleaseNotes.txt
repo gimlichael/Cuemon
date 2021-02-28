@@ -10,8 +10,8 @@ Availability: NET Standard 2.0, NET 5.0
 # Breaking Changes
 - REPLACED AdvancedEncryptionStandardKeySize enum in the Cuemon.Security.Cryptography namespace with AesSize
 - REMOVED AdvancedEncryptionStandardUtility class from the Cuemon.Security.Cryptography namespace
-- REMOVED CyclicRedundancyCheck class from the Cuemon.Security.Cryptography namespace
-- REMOVED CyclicRedundancyCheck32 class from the Cuemon.Security.Cryptography namespace
+- MOVED CyclicRedundancyCheck class to the Cuemon.Security namespace
+- MOVED CyclicRedundancyCheck32 class to the Cuemon.Security namespace
 - REPLACED HashAlgorithmType enum in the Cuemon.Security.Cryptography namespace with UnkeyedCryptoAlgorithm
 - REMOVED HashOptions class from the Cuemon.Security.Cryptography namespace
 - MOVED HashResult class to the Cuemon.Security namespace
