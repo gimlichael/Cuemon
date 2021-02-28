@@ -1,5 +1,16 @@
 trigger:
-- release
+  branches:
+    include:
+    - release
+  paths:
+    exclude:
+    - docfx/
+    - azure-pipelines.yml
+    - BuildDocfxImage.ps1
+    - docker-compose.yml
+    - Dockerfile.docfx
+    - LICENSE.md
+    - README.md
 
 variables:
   - group: Integration Test
