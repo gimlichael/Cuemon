@@ -1,5 +1,5 @@
 trigger:
-- development
+- release
 
 variables:
   - group: Integration Test
