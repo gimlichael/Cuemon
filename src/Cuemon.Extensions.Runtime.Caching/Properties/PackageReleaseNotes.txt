@@ -1,0 +1,5 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# New Features
+- ADDED CacheEnumerableExtensions class in the Cuemon.Extensions.Runtime.Caching namespace that consist of extension methods for the ICacheEnumerable{TKey} interface: GetOrAdd, Memoize

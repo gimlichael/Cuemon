@@ -213,10 +213,16 @@ ModelManifest.xml
 
 # Strong-Name Key
 *.snk
-/src/Cuemon.Core/Cuemon.Core.csproj.DotSettings
 
 # SonarLint
 .sonarlint/
 
 # Resharper
 *.DotSettings
+
+# DocFx
+/docfx/wwwroot
+/docfx/api/**/*.yml
+/docfx/**/*.manifest
+/docfx/.vscode/docfx-assistant
+/.vscode/docfx-assistant

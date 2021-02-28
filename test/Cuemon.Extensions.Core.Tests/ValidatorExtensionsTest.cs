@@ -7,27 +7,9 @@ namespace Cuemon.Extensions
 {
     public class ValidatorExtensionsTest : Test
     {
-        public ValidatorExtensionsTest(ITestOutputHelper output = null) : base(output)
+        public ValidatorExtensionsTest(ITestOutputHelper output) : base(output)
         {
             
-        }
-
-        [Fact]
-        public void IfHasDistinctDifference_ShouldThrowArgumentOutOfRangeException()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-            {
-                Validator.Throw.IfHasDistinctDifference("aaabbbccc", "dddeeefff", "paramName");
-            });
-        }
-
-        [Fact]
-        public void IfHasNotDistinctDifference_ShouldThrowArgumentOutOfRangeException()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-            {
-                Validator.Throw.IfHasNotDistinctDifference("aaabbbccc", "cccbbbbaaaa", "paramName");
-            });
         }
 
         [Fact]
@@ -35,7 +17,7 @@ namespace Cuemon.Extensions
         {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Validator.Throw.IfHasDifference("aaabbbccc", "dddeeefff", "paramName");
+                Validator.ThrowIf.HasDifference("aaabbbccc", "dddeeefff", "paramName");
             });
         }
 
@@ -44,7 +26,7 @@ namespace Cuemon.Extensions
         {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Validator.Throw.IfHasNotDifference("aaabbbccc", "cccbbbbaaaa", "paramName");
+                Validator.ThrowIf.NoDifference("aaabbbccc", "cccbbbbaaaa", "paramName");
             });
         }
     }

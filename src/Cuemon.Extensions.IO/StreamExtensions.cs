@@ -106,7 +106,7 @@ namespace Cuemon.Extensions.IO
         /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:byte[]"/> representation.
         /// </summary>
         /// <param name="input">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="StreamCopyOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncStreamCopyOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="input"/> cannot be null.
@@ -114,7 +114,7 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="ArgumentException">
         /// <paramref name="input"/> cannot be read from.
         /// </exception>
-        public static Task<byte[]> ToByteArrayAsync(this Stream input, Action<StreamCopyOptions> setup = null)
+        public static Task<byte[]> ToByteArrayAsync(this Stream input, Action<AsyncStreamCopyOptions> setup = null)
         {
             Validator.ThrowIfNull(input, nameof(input));
             Validator.ThrowIfFalse(input.CanRead, nameof(input), "Stream cannot be read from.");
@@ -182,7 +182,7 @@ namespace Cuemon.Extensions.IO
         /// Converts the specified <paramref name="value"/> to a <see cref="string"/>.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="StreamReaderOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncStreamEncodingOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="string"/> containing the result of the specified <paramref name="value"/>.</returns>
         /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         /// <exception cref="ArgumentNullException">
@@ -191,7 +191,7 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="InvalidEnumArgumentException">
         /// <paramref name="setup"/> was initialized with an invalid <see cref="StreamEncodingOptions.Preamble"/>.
         /// </exception>
-        public static Task<string> ToEncodedStringAsync(this Stream value, Action<StreamEncodingOptions> setup = null)
+        public static Task<string> ToEncodedStringAsync(this Stream value, Action<AsyncStreamEncodingOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             return Decorator.Enclose(value).ToEncodedStringAsync(setup);
@@ -220,7 +220,7 @@ namespace Cuemon.Extensions.IO
         /// Compresses the <paramref name="value"/> using the BROTLI algorithm.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="StreamCompressionOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncStreamCompressionOptions"/> which may be configured.</param>
         /// <returns>A DEFLATE compressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains a BROTLI compressed <see cref="Stream"/> of the specified <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -229,7 +229,7 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> does not support write operations such as compression.
         /// </exception>
-        public static Task<Stream> CompressBrotliAsync(this Stream value, Action<StreamCompressionOptions> setup = null)
+        public static Task<Stream> CompressBrotliAsync(this Stream value, Action<AsyncStreamCompressionOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             return Decorator.Enclose(value).CompressBrotliAsync(setup);
@@ -258,7 +258,7 @@ namespace Cuemon.Extensions.IO
         /// Compresses the <paramref name="value"/> using the DEFLATE algorithm.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="StreamCompressionOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncStreamCompressionOptions"/> which may be configured.</param>
         /// <returns>A DEFLATE compressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains a DEFLATE compressed <see cref="Stream"/> of the specified <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -267,7 +267,7 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> does not support write operations such as compression.
         /// </exception>
-        public static Task<Stream> CompressDeflateAsync(this Stream value, Action<StreamCompressionOptions> setup = null)
+        public static Task<Stream> CompressDeflateAsync(this Stream value, Action<AsyncStreamCompressionOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             return Decorator.Enclose(value).CompressDeflateAsync(setup);
@@ -295,7 +295,7 @@ namespace Cuemon.Extensions.IO
         /// Compresses the <paramref name="value"/> using the GZIP algorithm.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="StreamCompressionOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncStreamCompressionOptions"/> which may be configured.</param>
         /// <returns>A DEFLATE compressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains a GZIP compressed <see cref="Stream"/> of the specified <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -304,7 +304,7 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> does not support write operations such as compression.
         /// </exception>
-        public static Task<Stream> CompressGZipAsync(this Stream value, Action<StreamCompressionOptions> setup = null)
+        public static Task<Stream> CompressGZipAsync(this Stream value, Action<AsyncStreamCompressionOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             return Decorator.Enclose(value).CompressGZipAsync(setup);
@@ -336,7 +336,7 @@ namespace Cuemon.Extensions.IO
         /// Decompresses the <paramref name="value"/> using the BROTLI data format specification.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="StreamCopyOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncStreamCopyOptions"/> which may be configured.</param>
         /// <returns>A decompressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains a decompressed <see cref="Stream"/> of the specified <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -348,7 +348,7 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="InvalidDataException">
         /// <paramref name="value"/> was compressed using an unsupported compression method.
         /// </exception>
-        public static Task<Stream> DecompressBrotliAsync(this Stream value, Action<StreamCopyOptions> setup = null)
+        public static Task<Stream> DecompressBrotliAsync(this Stream value, Action<AsyncStreamCopyOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             return Decorator.Enclose(value).DecompressBrotliAsync(setup);
@@ -380,7 +380,7 @@ namespace Cuemon.Extensions.IO
         /// Decompresses the <paramref name="value"/> using the DEFLATE data format specification.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="StreamCopyOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncStreamCopyOptions"/> which may be configured.</param>
         /// <returns>A decompressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains a decompressed <see cref="Stream"/> of the specified <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -392,7 +392,7 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="InvalidDataException">
         /// <paramref name="value"/> was compressed using an unsupported compression method.
         /// </exception>
-        public static Task<Stream> DecompressDeflateAsync(this Stream value, Action<StreamCopyOptions> setup = null)
+        public static Task<Stream> DecompressDeflateAsync(this Stream value, Action<AsyncStreamCopyOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             return Decorator.Enclose(value).DecompressDeflateAsync(setup);
@@ -423,7 +423,7 @@ namespace Cuemon.Extensions.IO
         /// Decompresses the <paramref name="value"/> using the GZIP data format specification.
         /// </summary>
         /// <param name="value">The <see cref="Stream"/> to extend.</param>
-        /// <param name="setup">The <see cref="StreamCopyOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncStreamCopyOptions"/> which may be configured.</param>
         /// <returns>A decompressed <see cref="Stream"/> of the <paramref name="value"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains a decompressed <see cref="Stream"/> of the specified <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -435,7 +435,7 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="InvalidDataException">
         /// <paramref name="value"/> was compressed using an unsupported compression method.
         /// </exception>
-        public static Task<Stream> DecompressGZipAsync(this Stream value, Action<StreamCopyOptions> setup = null)
+        public static Task<Stream> DecompressGZipAsync(this Stream value, Action<AsyncStreamCopyOptions> setup = null)
         {
             Validator.ThrowIfNull(value, nameof(value));
             return Decorator.Enclose(value).DecompressGZipAsync(setup);

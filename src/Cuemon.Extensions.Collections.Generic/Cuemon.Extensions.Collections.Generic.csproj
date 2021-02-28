@@ -1,32 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>190bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Collections.Generic</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Collections.Generic</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Collections.Generic assembly provides extensions methods to the System.Collections.Generic namespace.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Description>The Cuemon.Extensions.Collections.Generic namespace contains extension methods that complements the Cuemon.Collections.Generic namespace while being an addition to the System.Collections.Generic namespace.</Description>
+    <PackageTags>extension-methods extensions to-partitioner chunk shuffle random-or-default yield</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

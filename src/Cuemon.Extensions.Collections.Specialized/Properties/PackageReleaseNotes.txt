@@ -1,0 +1,7 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# New Features
+- ADDED DictionaryExtensions class in the Cuemon.Extensions.Collections.Specialized namespace that consist of extension methods for the IDictionary{string, string[]} interface: ToNameValueCollection
+- ADDED NameValueCollectionExtensions class in the Cuemon.Extensions.Collections.Specialized namespace that consist of extension methods for the NameValueCollection class: ContainsKey, ToDictionary
+ 

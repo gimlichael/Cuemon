@@ -8,7 +8,7 @@ namespace Cuemon
 {
     public class GenerateTest : Test
     {
-        public GenerateTest(ITestOutputHelper output = null) : base(output)
+        public GenerateTest(ITestOutputHelper output) : base(output)
         {
         }
 

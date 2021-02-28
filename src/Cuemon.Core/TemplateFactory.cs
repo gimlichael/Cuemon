@@ -58,9 +58,19 @@ namespace Cuemon
         /// Validates and throws an <see cref="InvalidOperationException"/> if this instance has no valid delegate.
         /// </summary>
         /// <param name="delegateIsNull">The value of a condition that can be either <c>true</c> or <c>false</c>.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No delegate was specified on the factory.
+        /// </exception>
         protected void ThrowIfNoValidDelegate(bool delegateIsNull)
         {
             if (!HasDelegate) { throw new InvalidOperationException(delegateIsNull ? "There is no delegate specified on the factory." : FormattableString.Invariant($"There is a delegate specified on the factory, '{Decorator.Enclose(GetType()).ToFriendlyName(o => o.FullName = true)}', but it leads to a null referenced delegate wrapper.")); }
         }
+
+        /// <summary>
+        /// Creates a shallow copy of the current <see cref="TemplateFactory{TTuple}"/> object.
+        /// </summary>
+        /// <returns>A new <see cref="TemplateFactory{TTuple}"/> implementation that is a copy of this instance.</returns>
+        /// <remarks>When thread safety is required this is the method to invoke.</remarks>
+        public abstract TemplateFactory<TTuple> Clone();
     }
 }

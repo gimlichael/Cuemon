@@ -1,14 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cuemon.Diagnostics;
 using Cuemon.Xml.Serialization.Converters;
 
 namespace Cuemon.Xml.Serialization.Formatters
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="XmlFormatter"/> operations.
+    /// Configuration options for <see cref="XmlFormatter"/>.
     /// </summary>
     public class XmlFormatterOptions
     {
+        static XmlFormatterOptions()
+        {
+            DefaultConverters = list =>
+            {
+                Decorator.Enclose(list)
+                    .AddExceptionDescriptorConverter()
+                    .AddEnumerableConverter()
+                    .AddUriConverter()
+                    .AddDateTimeConverter()
+                    .AddTimeSpanConverter()
+                    .AddStringConverter();
+            };
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlFormatterOptions"/> class.
         /// </summary>
@@ -46,19 +61,16 @@ namespace Cuemon.Xml.Serialization.Formatters
             IncludeExceptionDescriptorFailure = true;
             IncludeExceptionDescriptorEvidence = true;
             IncludeExceptionStackTrace = false;
-            XmlSerializerOptions.DefaultConverters = list =>
-            {
-                Decorator.Enclose(list)
-                    .AddExceptionDescriptorConverter()
-                    .AddExceptionConverter(() => IncludeExceptionStackTrace)
-                    .AddEnumerableConverter()
-                    .AddUriConverter()
-                    .AddDateTimeConverter()
-                    .AddTimeSpanConverter()
-                    .AddStringConverter();
-            };
             Settings = new XmlSerializerOptions();
+            Decorator.Enclose(Settings.Converters).AddExceptionConverter(() => IncludeExceptionStackTrace);
+            DefaultConverters?.Invoke(Settings.Converters);
         }
+
+        /// <summary>
+        /// Gets or sets a delegate that  is invoked when <see cref="XmlFormatterOptions"/> is initialized and propagates registered <see cref="XmlConverter"/> implementations.
+        /// </summary>
+        /// <value>The delegate which propagates registered <see cref="XmlConverter"/> implementations when <see cref="XmlFormatterOptions"/> is initialized.</value>
+        public static Action<IList<XmlConverter>> DefaultConverters { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the stack of an <see cref="Exception"/> is included in the converter that handles exceptions.

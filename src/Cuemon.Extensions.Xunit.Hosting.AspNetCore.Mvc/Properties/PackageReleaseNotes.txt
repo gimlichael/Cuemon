@@ -1,0 +1,6 @@
+﻿Version: 6.0.0
+Availability: NET Core 3.1, NET 5.0
+ 
+# New Features
+- ADDED IMvcFilterTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that represents the members needed for ASP.NET Core MVC filter testing
+- ADDED MvcFilterTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that provides a set of static methods for ASP.NET Core MVC filter unit testing

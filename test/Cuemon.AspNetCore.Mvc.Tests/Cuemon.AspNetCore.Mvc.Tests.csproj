@@ -1,29 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-
-    <IsPackable>false</IsPackable>
-
     <RootNamespace>Cuemon.AspNetCore.Mvc</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="1.3.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <ProjectReference Include="..\..\src\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc\Cuemon.Extensions.AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
-    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit\Cuemon.Extensions.Xunit.csproj" />
+    <Content Update="xunit.runner.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

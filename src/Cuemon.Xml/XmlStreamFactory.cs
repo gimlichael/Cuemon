@@ -18,7 +18,7 @@ namespace Cuemon.Xml
         public static Stream CreateStream(Action<XmlWriter> writer, Action<XmlWriterSettings> setup = null)
         {
             var options = Patterns.Configure(setup);
-            return Disposable.SafeInvoke(() => new MemoryStream(), ms =>
+            return Patterns.SafeInvoke(() => new MemoryStream(), ms =>
             {
                 using (var w = XmlWriter.Create(ms, options))
                 {

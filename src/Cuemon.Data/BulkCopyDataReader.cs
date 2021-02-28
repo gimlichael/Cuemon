@@ -10,7 +10,7 @@ using System.Text;
 namespace Cuemon.Data
 {
     /// <summary>
-    /// Provides a way of copying an existing object implementing the <see cref="DbDataReader"/> interface to a filtered forward-only stream of rows that is mapped for bulk upload. This class cannot be inherited.
+    /// Provides a way of copying an existing object implementing the <see cref="DbDataReader"/> class to a filtered forward-only stream of rows that is mapped for bulk upload. This class cannot be inherited.
     /// </summary>
     public sealed class BulkCopyDataReader : DbDataReader
     {
@@ -66,29 +66,20 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="name">The name of the column to find.</param>
         /// <returns>The column with the specified name as an <see cref="object"/>.</returns>
-        public override object this[string name]
-        {
-            get { return Fields[name]; }
-        }
+        public override object this[string name] => Fields[name];
 
         /// <summary>
         /// Gets the column located at the specified index.
         /// </summary>
         /// <param name="i">The zero-based index of the column to get.</param>
         /// <returns>The column located at the specified index as an <see cref="object"/>.</returns>
-        public override object this[int i]
-        {
-            get { return Fields[i]; }
-        }
+        public override object this[int i] => Fields[i];
 
         /// <summary>
         /// Gets the number of rows changed, inserted, or deleted by execution of the SQL statement.
         /// </summary>
         /// <value>The records affected.</value>
-        public override int RecordsAffected
-        {
-            get { return -1; }
-        }
+        public override int RecordsAffected => -1;
 
         private IOrderedDictionary Fields { get; set; }
 
@@ -96,18 +87,13 @@ namespace Cuemon.Data
         /// Gets a value that indicates whether this <see cref="T:System.Data.Common.DbDataReader" /> contains one or more rows.
         /// </summary>
         /// <value><c>true</c> if this instance has rows; otherwise, <c>false</c>.</value>
-        public override bool HasRows {
-            get { return Reader.HasRows; }
-        }
+        public override bool HasRows => Reader.HasRows;
 
         /// <summary>
         /// Gets a value indicating whether the data reader is closed.
         /// </summary>
         /// <value><c>true</c> if this instance is closed; otherwise, <c>false</c>.</value>
-        public override bool IsClosed
-        {
-            get { return IsDisposed; }
-        }
+        public override bool IsClosed => IsDisposed;
 
         private bool IsDisposed { get; set; }
 
@@ -122,10 +108,8 @@ namespace Cuemon.Data
         /// Gets the number of columns in the current row.
         /// </summary>
         /// <value>When not positioned in a valid recordset, 0; otherwise, the number of columns in the current record.</value>
-        public override int FieldCount
-        {
-            get { return Mappings.Count; }
-        }
+        public override int FieldCount => Mappings.Count;
+
         #endregion
 
         #region Methods
@@ -449,10 +433,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <value>The depth of nesting for the current row.</value>
         /// <remarks>The outermost table has a depth of zero.</remarks>
-        public override int Depth
-        {
-            get { return 0; }
-        }
+        public override int Depth => 0;
 
         /// <summary>
         /// Populates an array of objects with the column values of the current record.

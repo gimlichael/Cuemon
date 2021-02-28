@@ -1,0 +1,10 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# New Features
+- ADDED LatencyException class in the Cuemon.Resilience namespace that represents the exception that is thrown when a latency related operation was taking to long to complete
+- ADDED TransientFaultEvidence class in the Cuemon.Resilience namespace that provides evidence about a faulted TransientOperation
+- ADDED TransientFaultException class in the Cuemon.Resilience namespace that represents the exception that is thrown when a transient fault handling was unsuccessful
+- ADDED TransientOperation class in the Cuemon.Resilience namespace that provides a set of static methods that enable developers to make their applications more resilient by adding robust transient fault handling logic ideal for temporary condition such as network connectivity issues or service unavailability
+- ADDED TransientOperationOptions class in the Cuemon.Resilience namespace that specifies options related to TransientOperation
+ 

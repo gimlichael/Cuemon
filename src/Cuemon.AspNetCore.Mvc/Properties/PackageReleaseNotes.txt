@@ -1,0 +1,24 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+ 
+# Upgrade Steps
+- Any former extension methods of the Cuemon.AspNetCore.Mvc namespace was merged either into the Cuemon.Extensions.AspNetCore.Mvc namespace or Cuemon.Extensions.AspNetCore namespace
+ 
+# Breaking Changes
+- MOVED ICacheBusting interface (and related) from the Cuemon.AspNetCore.Mvc.Configuration namespace to Cuemon.AspNetCore.Configuration namespace
+- MOVED AssemblyCacheBusting class (and related) from the Cuemon.AspNetCore.Mvc.Configuration namespace to Cuemon.Extensions.AspNetCore.Configuration namespace
+- MOVED ICacheableObjectResult interface (and related) from the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace to Cuemon.AspNetCore.Mvc namespace
+- RENAMED HttpEntityTagHeader class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace to HttpEntityTagHeaderFilter
+- RENAMED HttpLastModifiedHeader class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace to HttpLastModifiedHeaderFilter
+- RENAMED TimeMeasureAttribute class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to ServerTimingAttribute (including refactoring)
+- RENAMED TimeMeasuringFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to ServerTimingFilter (including refactoring)
+- RENAMED TimeMeasuringOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to ServerTimingOptions (including refactoring)
+ 
+# New Features
+- ADDED TooManyRequestsObjectResult class in the Cuemon.AspNetCore.Mvc namespace that is an ObjectResult that when executed will produce a Too Many Requests (429) response
+- ADDED TooManyRequestsResult class in the Cuemon.AspNetCore.Mvc namespace that is an ActionResult that returns a TooManyRequests (429) response
+- ADDED CacheableObjectFactory class in the Cuemon.AspNetCore.Mvc namespace that provides access to factory methods for creating and configuring objects implementing the ICacheableObjectResult interface
+ 
+# Improvements
+- COMPATIBLE with the changes applied to NET Core 3 in regards to only allowing asynchronous I/O
+ 

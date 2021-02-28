@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         {
             foreach (var filter in Options.Filters)
             {
-                await filter.OnResultExecutionAsync(context, next);
+                await filter.OnResultExecutionAsync(context, next).ConfigureAwait(false);
             }
 
             if (context.Result is ObjectResult result && result.Value is ICacheableObjectResult cacheableObjectResult)

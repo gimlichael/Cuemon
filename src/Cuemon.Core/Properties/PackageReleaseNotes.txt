@@ -1,0 +1,53 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# Upgrade Steps
+- To use the earlier built-in support for transient fault handling, please refer to the Cuemon.Resilience namespace, as it has been merged and refactored out of this assembly
+- To use the earlier built-in support for time-measuring and describing exceptions, please refer to the Cuemon.Diagnostics namespace, as it has been merged and refactored out of this assembly
+- To use the earlier built-in support for a computed checksum operation, please refer to the Cuemon.Data.Integrity namespace, as it has been merged and refactored out of this and the Cuemon.Integrity assembly
+- Any former extension methods of the Cuemon namespace (and related) was either removed completely or merged into there respective Cuemon.Extensions.* namespace equivalent
+ 
+# Breaking Changes
+- REMOVED StringFormatter class from the Cuemon namespace
+- REMOVED StandardizedDateTimeFormatPattern enum from the Cuemon namespace
+- MOVED AsyncOptions class in the Cuemon.Threading namespace to its own assembly (by the same name and namespace)
+- REMOVED JsonWebToken class from the Cuemon.Security.Web namespace
+- REMOVED JsonWebTokenHashAlgorithm class from the Cuemon.Security.Web namespace
+- REMOVED JsonWebTokenHashAlgorithmConverter class from the Cuemon.Security.Web namespace
+- REMOVED JsonWebTokenHeader class from the Cuemon.Security.Web namespace
+- REMOVED JsonWebTokenPayload class from the Cuemon.Security.Web namespace
+- REMOVED Obfuscator class from the Cuemon.Security namespace
+- REMOVED ObfuscatorMapping class from the Cuemon.Security namespace
+- REMOVED SecurityToken class from the Cuemon.Security namespace
+- REMOVED SecurityTokenSettings class from the Cuemon.Security namespace (replaced with SignedUriOptions in the Cuemon.Extensions.Net.Security namespace)
+- REMOVED SecurityUtility class from the Cuemon.Security namespace
+- REMOVED AssemblyExtensions class from the Cuemon.Reflection namespace
+- MOVED MemberInfoExtensions class from the Cuemon.Reflection namespace to Cuemon.Extensions.Reflection namespace
+- REMOVED MethodBaseConverterExtensions class from the Cuemon.Reflection namespace
+- MOVED LatencyException class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientOperation class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientFaultEvidence class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientFaultException class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientOperation class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- MOVED TransientOperationOptions class in the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
+- REMOVED IMessageLocalizer interface from the Cuemon.Globalization namespace
+ 
+# New Features
+- ADDED ResourceAttribute class in the Cuemon.Globalization namespace that provides a generic way to support localization on attribute decorated methods
+-
+ 
+# Bug Fixes
+-
+-
+ 
+# Improvements
+-
+-
+ 
+# Quality Actions
+-
+-
+ 
+# Other Changes
+-
+-

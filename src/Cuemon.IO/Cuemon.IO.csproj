@@ -1,30 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0</TargetFrameworks>
     <ProjectGuid>170bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.IO</AssemblyName>
     <AssemblyTitle>Cuemon.IO</AssemblyTitle>
-    <Description>The Cuemon.IO assembly provides extensions methods and a lightweight resilience framework to support transient fault handling.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Cuemon.IO namespace contains types primarily focusing on configuration options for IO related operations. The namespace is an addition to the System.IO namespace.</Description>
+    <PackageTags>text-reader text-writer compress decompress compression decompression conversion encoding brotli gzip deflate async</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.Threading\Cuemon.Threading.csproj" />
   </ItemGroup>
 
 </Project>

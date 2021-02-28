@@ -1,33 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>a00adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
     <AssemblyName>Cuemon.AspNetCore</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore assembly is a supplement to Microsoft ASP.NET Core.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Cuemon.AspNetCore namespace contains types focusing on providing means for easier plumber coding in the ASP.NET Core pipeline while serving some concrete implementation of the shell as well. The namespace is an addition to the Microsoft.AspNetCore namespace.</Description>
+    <PackageTags>configurable-middleware middleware http-exception-descriptor throttling-sentinel-middleware user-agent-sentinel-middleware request-identifier-middleware correlation-identifier-middleware hosting-environment-middleware server-timing cache-busting middleware-builder-factory</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-  </PropertyGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -43,8 +30,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
-    <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
     <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
+    <ProjectReference Include="..\Cuemon.Data.Integrity\Cuemon.Data.Integrity.csproj" />
+    <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
   </ItemGroup>
 
 </Project>

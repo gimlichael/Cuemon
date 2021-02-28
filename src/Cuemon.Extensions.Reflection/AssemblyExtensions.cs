@@ -10,37 +10,37 @@ namespace Cuemon.Extensions.Reflection
     public static class AssemblyExtensions
     {
         /// <summary>
-        /// Returns a <see cref="Version"/> that represents the version number of the specified <paramref name="assembly"/>.
+        /// Returns a <see cref="VersionResult"/> that represents the version number of the specified <paramref name="assembly"/>.
         /// </summary>
         /// <param name="assembly">The assembly to resolve a <see cref="Version"/> from.</param>
-        /// <returns>A <see cref="Version"/> that represents the version number of the specified <paramref name="assembly"/>.</returns>
-        public static Version GetAssemblyVersion(this Assembly assembly)
+        /// <returns>A <see cref="VersionResult"/> that represents the version number of the specified <paramref name="assembly"/>.</returns>
+        public static VersionResult GetAssemblyVersion(this Assembly assembly)
         {
             return Decorator.Enclose(assembly).GetAssemblyVersion();
         }
 
         /// <summary>
-        /// Returns a <see cref="Version"/> that represents the file version number of the specified <paramref name="assembly"/>.
+        /// Returns a <see cref="VersionResult"/> that represents the file version number of the specified <paramref name="assembly"/>.
         /// </summary>
         /// <param name="assembly">The assembly to resolve a <see cref="Version"/> from.</param>
-        /// <returns>A <see cref="Version"/> that represents the file version number of the specified <paramref name="assembly"/>.</returns>
+        /// <returns>A <see cref="VersionResult"/> that represents the file version number of the specified <paramref name="assembly"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="assembly"/> is null.
         /// </exception>
-        public static Version GetFileVersion(this Assembly assembly)
+        public static VersionResult GetFileVersion(this Assembly assembly)
         {
             return Decorator.Enclose(assembly).GetFileVersion();
         }
 
         /// <summary>
-        /// Returns a <see cref="Version"/> that represents the version of the product this <paramref name="assembly"/> is distributed with.
+        /// Returns a <see cref="VersionResult"/> that represents the version of the product this <paramref name="assembly"/> is distributed with.
         /// </summary>
         /// <param name="assembly">The assembly to resolve a <see cref="Version"/> from.</param>
-        /// <returns>A <see cref="Version"/> that represents the version of the product this <paramref name="assembly"/> is distributed with.</returns>
+        /// <returns>A <see cref="VersionResult"/> that represents the version of the product this <paramref name="assembly"/> is distributed with.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="assembly"/> is null.
         /// </exception>
-        public static Version GetProductVersion(this Assembly assembly)
+        public static VersionResult GetProductVersion(this Assembly assembly)
         {
             return Decorator.Enclose(assembly).GetProductVersion();
         }

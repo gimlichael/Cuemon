@@ -523,7 +523,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync(token => Task.Delay(expected, token), ctsShouldFail.Token);
             });
@@ -545,7 +545,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a, token) => Task.Delay(expected, token), 1, ctsShouldFail.Token);
             });
@@ -569,7 +569,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a1, a2, token) => Task.Delay(expected, token), 1, 2, ctsShouldFail.Token);
             });
@@ -594,7 +594,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a1, a2, a3, token) => Task.Delay(expected, token), 1, 2, 3, ctsShouldFail.Token);
             });
@@ -620,7 +620,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a1, a2, a3, a4, token) => Task.Delay(expected, token), 1, 2, 3, 4, ctsShouldFail.Token);
             });
@@ -647,7 +647,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, ctsShouldFail.Token);
             });
@@ -675,7 +675,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, ctsShouldFail.Token);
             });
@@ -704,7 +704,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, ctsShouldFail.Token);
             });
@@ -734,7 +734,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, ctsShouldFail.Token);
             });
@@ -765,7 +765,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, ctsShouldFail.Token);
             });
@@ -797,7 +797,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ctsShouldFail.Token);
             });
@@ -830,7 +830,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async token =>
                 {
@@ -862,7 +862,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a, token) =>
                 {
@@ -896,7 +896,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a1, a2, token) =>
                 {
@@ -931,7 +931,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a1, a2, a3, token) =>
                 {
@@ -967,7 +967,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, token) =>
                 {
@@ -1004,7 +1004,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, token) =>
                 {
@@ -1042,7 +1042,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, token) =>
                 {
@@ -1081,7 +1081,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, a7, token) =>
                 {
@@ -1121,7 +1121,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, a7, a8, token) =>
                 {
@@ -1162,7 +1162,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, a7, a8, a9, token) =>
                 {
@@ -1204,7 +1204,7 @@ namespace Cuemon.Diagnostics
             var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
             var ctsShouldPass = new CancellationTokenSource();
 
-            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
                 await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, token) =>
                 {

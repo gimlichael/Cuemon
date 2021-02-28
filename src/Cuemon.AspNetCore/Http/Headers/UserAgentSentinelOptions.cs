@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <summary>
         /// Initializes a new instance of the <see cref="UserAgentSentinelOptions"/> class.
         /// </summary>
-                /// <remarks>
+        /// <remarks>
         /// The following table shows the initial property values for an instance of <see cref="UserAgentSentinelOptions"/>.
         /// <list type="table">
         ///     <listheader>
@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="ResponseBroker"/></term>
+        ///         <term><see cref="ResponseHandler"/></term>
         ///         <description>A <see cref="HttpResponseMessage"/> initialized to either a HTTP status code 400 or 403 and a body of either <see cref="BadRequestMessage"/> or <see cref="ForbiddenMessage"/>.</description>
         ///     </item>
         ///     <item>
@@ -53,11 +53,10 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </remarks>
         public UserAgentSentinelOptions()
         {
-            UseGenericResponse = false;
             BadRequestMessage = "The requirements of the HTTP User-Agent header was not met.";
             ForbiddenMessage = "The HTTP User-Agent specified was rejected.";
             AllowedUserAgents = new List<string>();
-            ResponseBroker = userAgent =>
+            ResponseHandler = userAgent =>
             {
                 var userAgentIsNullOrWhiteSpace = string.IsNullOrWhiteSpace(userAgent);
                 var forbidden = !userAgentIsNullOrWhiteSpace &&
@@ -65,14 +64,14 @@ namespace Cuemon.AspNetCore.Http.Headers
                                 AllowedUserAgents.Count > 0 &&
                                 !AllowedUserAgents.Any(allowedUserAgent => userAgent.Equals(allowedUserAgent, StringComparison.OrdinalIgnoreCase));
 
-                if (userAgentIsNullOrWhiteSpace || (forbidden && UseGenericResponse))
+                if (userAgentIsNullOrWhiteSpace || forbidden && UseGenericResponse)
                 {
                     return new HttpResponseMessage(HttpStatusCode.BadRequest)
                     {
                         Content = new StringContent(BadRequestMessage)
                     };
                 }
-                
+
                 if (forbidden)
                 {
                     return new HttpResponseMessage(HttpStatusCode.Forbidden)
@@ -89,12 +88,12 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// Gets or sets the function delegate that configures the response in the form of a <see cref="HttpResponseMessage"/>.
         /// </summary>
         /// <value>The function delegate that configures the response in the form of a <see cref="HttpResponseMessage"/>.</value>
-        public Func<string, HttpResponseMessage> ResponseBroker { get; set; }
+        public Func<string, HttpResponseMessage> ResponseHandler { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the produced <see cref="ResponseBroker"/> should be as neutral as possible.
+        /// Gets or sets a value indicating whether the produced <see cref="ResponseHandler"/> should be as neutral as possible.
         /// </summary>
-        /// <value><c>true</c> if the produced <see cref="ResponseBroker"/> should be as neutral as possible; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if the produced <see cref="ResponseHandler"/> should be as neutral as possible; otherwise, <c>false</c>.</value>
         public bool UseGenericResponse { get; set; }
 
         /// <summary>

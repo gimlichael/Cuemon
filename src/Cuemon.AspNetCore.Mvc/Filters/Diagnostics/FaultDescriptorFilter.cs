@@ -12,7 +12,6 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
     /// <summary>
     /// A filter that, after an action has faulted, provides developer friendly information about an <see cref="Exception"/> along with a correct <see cref="HttpStatusCode"/>.
-    /// Implements the <see cref="IExceptionFilter" />
     /// </summary>
     /// <seealso cref="IExceptionFilter"/>
     /// <seealso cref="ExceptionDescriptor" />
@@ -21,6 +20,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// <seealso cref="CorrelationIdentifierMiddleware"/>
     public class FaultDescriptorFilter : Configurable<FaultDescriptorOptions>, IExceptionFilter
     {
+        /// <summary>
+        /// The key to set or get a copy of a captured request body.
+        /// </summary>
+        public const string HttpContextItemsKeyForCapturedRequestBody = "CuemonAspNetCoreMvcFiltersDiagnostics_HttpContextItemsKeyForCapturedRequestBody";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FaultDescriptorFilter"/> class.
         /// </summary>
@@ -32,7 +36,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <summary>
         /// Called after an action has thrown an <see cref="Exception" />.
         /// </summary>
-        /// <param name="context">The <see cref="Microsoft.AspNetCore.Mvc.Filters.ExceptionContext" />.</param>
+        /// <param name="context">The <see cref="ExceptionContext" />.</param>
         public virtual void OnException(ExceptionContext context)
         {
             if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)

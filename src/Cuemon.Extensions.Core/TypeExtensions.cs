@@ -131,7 +131,8 @@ namespace Cuemon.Extensions
         public static bool IsNullable(this Type type)
         {
             Validator.ThrowIfNull(type, nameof(type));
-            return Decorator.Enclose(type).IsNullable();
+            if (!type.IsValueType) { return false; }
+            return Nullable.GetUnderlyingType(type) != null;
         }
 
         /// <summary>
@@ -204,7 +205,7 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="type"/> contains one or more of the target types specified throughout this member's inheritance chain.
+        /// Determines whether the specified <paramref name="type"/> contains one or more of the target interfaces specified throughout this member's inheritance chain.
         /// </summary>
         /// <param name="type">The <see cref="Type"/> to extend.</param>
         /// <param name="interfaceTypes">The target interface types to be matched against.</param>

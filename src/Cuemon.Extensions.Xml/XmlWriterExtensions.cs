@@ -2,6 +2,7 @@
 using System.Xml;
 using Cuemon.Xml;
 using Cuemon.Xml.Serialization;
+using Cuemon.Xml.Serialization.Formatters;
 
 namespace Cuemon.Extensions.Xml
 {
@@ -16,11 +17,11 @@ namespace Cuemon.Extensions.Xml
         /// <typeparam name="T">The type of the object to serialize.</typeparam>
         /// <param name="writer">The <see cref="XmlWriter"/> to extend.</param>
         /// <param name="value">The object to serialize.</param>
-        /// <param name="setup">The <see cref="XmlSerializerOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which may be configured.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="writer"/> cannot be null.
         /// </exception>
-        public static void WriteObject<T>(this XmlWriter writer, T value, Action<XmlSerializerOptions> setup = null)
+        public static void WriteObject<T>(this XmlWriter writer, T value, Action<XmlFormatterOptions> setup = null)
         {
             WriteObject(writer, value, typeof(T), setup);
         }
@@ -31,11 +32,11 @@ namespace Cuemon.Extensions.Xml
         /// <param name="writer">The <see cref="XmlWriter"/> to extend.</param>
         /// <param name="value">The object to serialize.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
-        /// <param name="setup">The <see cref="XmlSerializerOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which may be configured.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="writer"/> cannot be null.
         /// </exception>
-        public static void WriteObject(this XmlWriter writer, object value, Type objectType, Action<XmlSerializerOptions> setup = null)
+        public static void WriteObject(this XmlWriter writer, object value, Type objectType, Action<XmlFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(writer, nameof(writer));
             Decorator.Enclose(writer).WriteObject(value, objectType, setup);

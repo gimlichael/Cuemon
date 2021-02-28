@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Cuemon.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
@@ -35,12 +36,16 @@ namespace Cuemon.AspNetCore.Http.Throttling
         ///         <description><c>X-RateLimit-Reset</c></description>
         ///     </item>
         ///     <item>
+        ///         <term><see cref="RateLimitResetScope"/></term>
+        ///         <description><see cref="RetryConditionScope.DeltaSeconds"/></description>
+        ///     </item>
+        ///     <item>
         ///         <term><see cref="UseRetryAfterHeader"/></term>
         ///         <description><c>true</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="RetryAfterHeader"/></term>
-        ///         <description><c>ThrottlingRetryAfterHeader.DeltaSeconds</c></description>
+        ///         <term><see cref="RetryAfterScope"/></term>
+        ///         <description><see cref="RetryConditionScope.DeltaSeconds"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="TooManyRequestsMessage"/></term>
@@ -62,23 +67,24 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// </remarks>
         public ThrottlingSentinelOptions()
         {
-            RateLimitHeaderName = "X-RateLimit-Limit";
-            RateLimitRemainingHeaderName = "X-RateLimit-Remaining";
-            RateLimitResetHeaderName = "X-RateLimit-Reset";
+            RateLimitHeaderName = "RateLimit-Limit";
+            RateLimitRemainingHeaderName = "RateLimit-Remaining";
+            RateLimitResetHeaderName = "RateLimit-Reset";
+            RateLimitResetScope = RetryConditionScope.DeltaSeconds;
             UseRetryAfterHeader = true;
-            RetryAfterHeader = ThrottlingRetryAfterHeader.DeltaSeconds;
+            RetryAfterScope = RetryConditionScope.DeltaSeconds;
             TooManyRequestsMessage = "Throttling rate limit quota violation. Quota limit exceeded.";
             ResponseBroker = (delta, reset) =>
             {
                 var message = new HttpResponseMessage((HttpStatusCode) StatusCodes.Status429TooManyRequests);
                 if (UseRetryAfterHeader)
                 {
-                    switch (RetryAfterHeader)
+                    switch (RetryAfterScope)
                     {
-                        case ThrottlingRetryAfterHeader.DeltaSeconds:
+                        case RetryConditionScope.DeltaSeconds:
                             message.Headers.Add(HeaderNames.RetryAfter, new RetryConditionHeaderValue(delta).ToString());
                             break;
-                        case ThrottlingRetryAfterHeader.HttpDate:
+                        case RetryConditionScope.HttpDate:
                             message.Headers.Add(HeaderNames.RetryAfter, new RetryConditionHeaderValue(reset).ToString());
                             break;
                     }
@@ -131,15 +137,21 @@ namespace Cuemon.AspNetCore.Http.Throttling
         public string RateLimitResetHeaderName { get; set; }
 
         /// <summary>
+        /// Gets or sets the preferred rate limit reset HTTP header value that conforms with RFC 7231.
+        /// </summary>
+        /// <value>The preferred rate limit reset HTTP header value that conforms with RFC 7231.</value>
+        public RetryConditionScope RateLimitResetScope { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to include a Retry-After HTTP header specifying how long to wait before making a new request.
         /// </summary>
         /// <value><c>true</c> to include a Retry-After HTTP header specifying how long to wait before making a new request; otherwise, <c>false</c>.</value>
         public bool UseRetryAfterHeader { get; set; }
 
         /// <summary>
-        /// Gets or sets the preferred Retry-After HTTP header value that conforms with RFC 2616.
+        /// Gets or sets the preferred Retry-After HTTP header value that conforms with RFC 7231.
         /// </summary>
-        /// <value>The preferred Retry-After HTTP header value that conforms with RFC 2616.</value>
-        public ThrottlingRetryAfterHeader RetryAfterHeader { get; set; }
+        /// <value>The preferred Retry-After HTTP header value that conforms with RFC 7231.</value>
+        public RetryConditionScope RetryAfterScope { get; set; }
     }
 }

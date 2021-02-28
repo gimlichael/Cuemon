@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Configuration;
-using Cuemon.Data;
 using Cuemon.Data.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +19,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpEntityTagHeaderFilter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="HttpEntityTagHeaderOptions" /> which need to be configured.</param>
-        public HttpEntityTagHeaderFilter(Action<HttpEntityTagHeaderOptions> setup)
+        /// <param name="setup">The <see cref="HttpEntityTagHeaderOptions" /> which may be configured.</param>
+        public HttpEntityTagHeaderFilter(Action<HttpEntityTagHeaderOptions> setup = null)
         {
             Options = Patterns.Configure(setup);
         }
@@ -61,12 +60,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                         originalValue = result.Value;
                         result.Value = cacheableObjectResult.Value;
                     }
-                    await InvokeEntityTagResponseParser(context, next, statusCodeBeforeBodyRead);
+                    await InvokeEntityTagResponseParser(context, next, statusCodeBeforeBodyRead).ConfigureAwait(false);
                     result.Value = originalValue;
                 }
                 else
                 {
-                    await InvokeEntityTagResponseParser(context, next, statusCodeBeforeBodyRead);
+                    await InvokeEntityTagResponseParser(context, next, statusCodeBeforeBodyRead).ConfigureAwait(false);
                 }
             }
         }

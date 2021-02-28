@@ -1,26 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>110bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Data</AssemblyName>
     <AssemblyTitle>Cuemon.Data</AssemblyTitle>
-    <Description>The Cuemon.Data assembly provides access to abstractions related to the System.Data namespace.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Cuemon.Data namespace contains types that provide ways to connect, build and manipulate different data sources. The namespace is an addition to the System.Data namespace.</Description>
+    <PackageTags>database db abstractions dto data-transfer row column bulk-copy dsv csv xml-data-reader dsv-data-reader concurrent-dsv-data-reader in-operator token-builder</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

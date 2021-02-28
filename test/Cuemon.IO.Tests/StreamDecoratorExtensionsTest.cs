@@ -64,6 +64,39 @@ namespace Cuemon.IO
             TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
         }
 
+        [Fact]
+        public async Task CompressBrotliAsync_ShouldThrowTaskCanceledException()
+        {
+            var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
+            var size = 1024 * 1024;
+            var fs = Generate.RandomString(size);
+            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await Decorator.Enclose(os).CompressBrotliAsync(o => o.CancellationToken = ctsShouldFail.Token));
+        }
+
+        [Fact]
+        public void CompressGZip_ShouldCompressAndDecompress()
+        {
+            var size = 1024 * 1024;
+            var fs = Generate.RandomString(size);
+            var os = Decorator.Enclose(fs).ToStream();
+            var cos = Decorator.Enclose(os).CompressGZip();
+            var dos = Decorator.Enclose(cos).DecompressGZip();
+            var osResult = Decorator.Enclose(os).ToEncodedString(o => o.LeaveOpen = true);
+            var cosResult = Decorator.Enclose(cos).ToEncodedString(o => o.LeaveOpen = true);
+            var dosResult = Decorator.Enclose(dos).ToEncodedString(o => o.LeaveOpen = true);
+
+            Assert.Equal(size, os.Length);
+            Assert.NotEqual(os.Length, cos.Length);
+            Assert.True(os.Length > cos.Length);
+            Assert.Equal(os.Length, dos.Length);
+            Assert.Equal(osResult, dosResult);
+            Assert.NotEqual(osResult, cosResult);
+
+            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+        }
         
         [Fact]
         public async Task CompressGZipAsync_ShouldCompressAndDecompress()
@@ -96,7 +129,7 @@ namespace Cuemon.IO
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
             var os = await Decorator.Enclose(fs).ToStreamAsync();
-            await Assert.ThrowsAsync<TaskCanceledException>(async () => await Decorator.Enclose(os).CompressGZipAsync(o => o.CancellationToken = ctsShouldFail.Token));
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await Decorator.Enclose(os).CompressGZipAsync(o => o.CancellationToken = ctsShouldFail.Token));
         }
 
         [Fact]
@@ -124,16 +157,16 @@ namespace Cuemon.IO
         }
 
         [Fact]
-        public void CompressGZip_ShouldCompressAndDecompress()
+        public async Task CompressDeflateAsync_ShouldCompressAndDecompress()
         {
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
-            var os = Decorator.Enclose(fs).ToStream();
-            var cos = Decorator.Enclose(os).CompressGZip();
-            var dos = Decorator.Enclose(cos).DecompressGZip();
-            var osResult = Decorator.Enclose(os).ToEncodedString(o => o.LeaveOpen = true);
-            var cosResult = Decorator.Enclose(cos).ToEncodedString(o => o.LeaveOpen = true);
-            var dosResult = Decorator.Enclose(dos).ToEncodedString(o => o.LeaveOpen = true);
+            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            var cos = await Decorator.Enclose(os).CompressDeflateAsync();
+            var dos = await Decorator.Enclose(cos).DecompressDeflateAsync();
+            var osResult = await Decorator.Enclose(os).ToEncodedStringAsync(o => o.LeaveOpen = true);
+            var cosResult = await Decorator.Enclose(cos).ToEncodedStringAsync(o => o.LeaveOpen = true);
+            var dosResult = await Decorator.Enclose(dos).ToEncodedStringAsync(o => o.LeaveOpen = true);
 
             Assert.Equal(size, os.Length);
             Assert.NotEqual(os.Length, cos.Length);
@@ -145,6 +178,16 @@ namespace Cuemon.IO
             TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
             TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
             TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+        }
+
+        [Fact]
+        public async Task CompressDeflateAsync_ShouldThrowTaskCanceledException()
+        {
+            var ctsShouldFail = new CancellationTokenSource(TimeSpan.FromMilliseconds(5));
+            var size = 1024 * 1024;
+            var fs = Generate.RandomString(size);
+            var os = await Decorator.Enclose(fs).ToStreamAsync();
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await Decorator.Enclose(os).CompressDeflateAsync(o => o.CancellationToken = ctsShouldFail.Token));
         }
 
         [Fact]

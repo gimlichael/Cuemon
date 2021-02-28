@@ -1,0 +1,17 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# Breaking Changes
+- RENAMED Copy --> ToStream on the XmlReaderExtensions class in the Cuemon.Xml namespace (also removed generic type parameters)
+ 
+# New Features
+- ADDED XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace that consist of extension methods for the IList{XmlConverter} interface: FirstOrDefaultReaderConverter, FirstOrDefaultWriterConverter, AddXmlConverter, InsertXmlConverter, AddEnumerableConverter, AddExceptionDescriptorConverter, AddUriConverter, AddDateTimeConverter, AddTimeSpanConverter, AddStringConverter, AddExceptionConverter
+- ADDED ExceptionDescriptorExtensions class in the Cuemon.Extensions.Xml.Serialization.Diagnostics namespace that consist of extension methods for the ExceptionDescriptor class: ToInsightsXmlString
+- ADDED XmlSerializerOptionsExtensions class in the Cuemon.Extensions.Xml.Serialization namespace that consist of extension methods for the XmlSerializerOptions class: ApplyToDefaultSettings
+- ADDED ByteArrayExtensions class in the Cuemon.Extensions.Xml namespace that consist of extension methods for the byte[] struct: ToXmlReader
+- ADDED HierarchyExtensions class in the Cuemon.Extensions.Xml namespace that consist of extension methods for the IHierarchy{T} interface: IsNodeEnumerable, GetXmlRootOrElement, OrderByXmlAttributes
+- ADDED StreamExtensions class in the Cuemon.Extensions.Xml namespace that consist of extension methods for the Stream class: ToXmlReader, CopyXmlStream, TryDetectXmlEncoding
+- ADDED UriExtensions class in the Cuemon.Extensions.Xml namespace that consist of extension methods for the Uri class: ToXmlReader
+- ADDED XmlReaderExtensions class in the Cuemon.Extensions.Xml namespace that consist of extension methods for the XmlReader class: ToHierarchy, MoveToFirstElement
+- ADDED XmlWriterExtensions class in the Cuemon.Extensions.Xml namespace that consist of extension methods for the XmlWriter class: WriteObject, WriteObject{T}, WriteStartElement, WriteEncapsulatingElementWhenNotNull{T}, WriteXmlRootElement{T}
+ 

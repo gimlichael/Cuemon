@@ -1,0 +1,19 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# Upgrade Steps
+- The Cuemon.Net.Mail assembly was removed with this version
+- Any types found in the former Cuemon.Net.Mail namespace was merged into this assembly with and equivalent namespace
+- Any former extension methods of the Cuemon.Net namespace was merged into the Cuemon.Extensions.Net namespace
+ 
+# Breaking Changes
+- REMOVED SetHandlerFactory{T} method on the HttpManagerOptions class (opt-in to allow set directly on HandlerFactory property)
+ 
+# New Features
+- ADDED MailDistributor class in the Cuemon.Net.Mail namespace that provides a way for applications to distribute one or more e-mails in batches by using the Simple Mail Transfer Protocol (SMTP)
+- ADDED FieldValueSeparator enum in the Cuemon.Net namespace that specifies a range of key-value separators
+- ADDED QueryStringCollection class in the Cuemon.Net namespace that provides a collection of string values that is equivalent to a query string of an Uri
+ 
+# Improvements
+- ADDED HttpManager constructor overload that takes a client factory delegate which creates and configures an HttpClient instance
+- CHANGED HttpManagerOptions default value for DisposeHandler from true to false. This is due to the way Microsoft has designed the HttpClient with an implementation of IDisposable that could result in SocketException errors if not instantiated once and re-used throughout the life of an application, This setting reduces the risk of SocketException errors on existing code

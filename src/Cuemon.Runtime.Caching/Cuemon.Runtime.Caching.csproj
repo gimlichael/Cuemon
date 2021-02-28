@@ -1,30 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>160bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Runtime.Caching</AssemblyName>
     <AssemblyTitle>Cuemon.Runtime.Caching</AssemblyTitle>
-    <Description>The Cuemon.Runtime.Caching assembly provides access to abstractions related to the System.Threading namespace.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Cuemon.Runtime.Caching namespace contains types related to interfaces for generic caching in applications while providing a concrete in-memory cache implementation named SlimMemoryCache. The namespace is an addition to the System.Runtime.Caching namespace.</Description>
+    <PackageTags>i-cache-enumerable slim-memory-cache cache-entry cache-invalidation thread-safe</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.Threading\Cuemon.Threading.csproj" />
   </ItemGroup>
 
 </Project>

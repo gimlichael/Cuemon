@@ -1,5 +1,5 @@
 ﻿using System;
-using Cuemon.AspNetCore.Http;
+using Cuemon.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cuemon.AspNetCore.Mvc

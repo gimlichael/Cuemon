@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Cuemon.Extensions.Threading.Tasks
 {
     /// <summary>
-    /// Extension methods for the <see cref="Task"/>.
+    /// Extension methods for the <see cref="Task"/> class.
     /// </summary>
     public static class TaskExtensions
     {

@@ -193,7 +193,17 @@ namespace Cuemon
         /// </exception>
         public TResult InstanceAs<TResult>(IFormatProvider provider)
         {
-            return (TResult)Decorator.Enclose<object>(Instance).ChangeType(InstanceType, o => o.FormatProvider = provider);
+            var presult = Decorator.Enclose<object>(Instance).ChangeType(InstanceType, o => o.FormatProvider = provider);
+            return  Decorator.Enclose(presult).ChangeTypeOrDefault<TResult>();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return Wrapper.ParseInstance(this);
         }
         #endregion
     }

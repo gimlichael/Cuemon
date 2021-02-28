@@ -24,14 +24,13 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static bool TryAddOrUpdateHeader(this IDecorator<IHeaderDictionary> decorator, string key, StringValues value, bool useAsciiEncodingConversion = true)
+        public static void AddOrUpdateHeader(this IDecorator<IHeaderDictionary> decorator, string key, StringValues value, bool useAsciiEncodingConversion = true)
         {
             var headerValue = useAsciiEncodingConversion ? new StringValues(Decorator.Enclose<string>(value).ToAsciiEncodedString()) : value;
             if (headerValue != StringValues.Empty)
             {
-                return decorator.TryAddOrUpdate(key, Decorator.Enclose(headerValue.ToString().Where(c => !char.IsControl(c))).ToStringEquivalent());
+                decorator.AddOrUpdate(key, Decorator.Enclose(headerValue.ToString().Where(c => !char.IsControl(c))).ToStringEquivalent());
             }
-            return false;
         }
 
         /// <summary>
@@ -39,12 +38,12 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
         /// <param name="responseHeaders">The <see cref="HttpResponseHeaders"/> to copy.</param>
-        public static void TryAddOrUpdateHeaders(this IDecorator<IHeaderDictionary> decorator, HttpResponseHeaders responseHeaders)
+        public static void AddOrUpdateHeaders(this IDecorator<IHeaderDictionary> decorator, HttpResponseHeaders responseHeaders)
         {
             if (decorator == null || responseHeaders == null) { return; }
             foreach (var header in responseHeaders)
             {
-                decorator.TryAddOrUpdate(header.Key, header.Value != null ? DelimitedString.Create(header.Value) : "");
+                decorator.AddOrUpdate(header.Key, header.Value != null ? DelimitedString.Create(header.Value) : "");
             }
         }
     }

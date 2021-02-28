@@ -1,26 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>0f0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Diagnostics</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Diagnostics</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Diagnostics assembly provides extension methods for diagnostics related implementations.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Cuemon.Extensions.Diagnostics namespace contains extension methods that complements the Cuemon.Diagnostics namespace while being an addition to the System.Diagnostics namespace.</Description>
+    <PackageTags>extension-methods extensions to-insights-string to-product-version to-file-version</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

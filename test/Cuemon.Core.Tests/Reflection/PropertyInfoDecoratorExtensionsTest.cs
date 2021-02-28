@@ -8,7 +8,7 @@ namespace Cuemon.Reflection
 {
     public class PropertyInfoDecoratorExtensionsTest : Test
     {
-        public PropertyInfoDecoratorExtensionsTest(ITestOutputHelper output = null) : base(output)
+        public PropertyInfoDecoratorExtensionsTest(ITestOutputHelper output) : base(output)
         {
         }
 

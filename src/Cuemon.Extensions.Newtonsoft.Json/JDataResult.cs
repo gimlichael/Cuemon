@@ -50,7 +50,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return FormattableString.Invariant($"{Path} ({Type.Name.ToLowerInvariant()}), Children: {Children.Count}");
+            var path = string.IsNullOrWhiteSpace(Path) ? "" : $"{Path}, ";
+            return FormattableString.Invariant($"{path}Children: {Children.Count}");
         }
     }
 }

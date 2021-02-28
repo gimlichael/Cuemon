@@ -28,14 +28,14 @@ namespace Cuemon.AspNetCore.Http
         /// <paramref name="request"/> cannot be null -or-
         /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static void TryAddOrUpdateEntityTagHeader(this IDecorator<HttpResponse> decorator, HttpRequest request, ChecksumBuilder builder, bool isWeak = false)
+        public static void AddOrUpdateEntityTagHeader(this IDecorator<HttpResponse> decorator, HttpRequest request, ChecksumBuilder builder, bool isWeak = false)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             Validator.ThrowIfNull(request, nameof(request));
             Validator.ThrowIfNull(builder, nameof(builder));
             builder = Decorator.Enclose(builder).CombineWith(request.Headers[HeaderNames.Accept]);
             if (Decorator.Enclose(decorator.Inner.StatusCode).IsSuccessStatusCode() && Decorator.Enclose(request).IsClientSideResourceCached(builder)) { decorator.Inner.StatusCode = StatusCodes.Status304NotModified; }
-            Decorator.Enclose(decorator.Inner.Headers).TryAddOrUpdate(HeaderNames.ETag, new StringValues(Decorator.Enclose(builder).ToEntityTagHeaderValue(isWeak).ToString()));
+            Decorator.Enclose(decorator.Inner.Headers).AddOrUpdate(HeaderNames.ETag, new StringValues(Decorator.Enclose(builder).ToEntityTagHeaderValue(isWeak).ToString()));
         }
 
         /// <summary>
@@ -48,12 +48,12 @@ namespace Cuemon.AspNetCore.Http
         /// <paramref name="decorator"/> cannot be null -or-
         /// <paramref name="request"/> cannot be null.
         /// </exception>
-        public static void TryAddOrUpdateLastModifiedHeader(this IDecorator<HttpResponse> decorator, HttpRequest request, DateTime lastModified)
+        public static void AddOrUpdateLastModifiedHeader(this IDecorator<HttpResponse> decorator, HttpRequest request, DateTime lastModified)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             Validator.ThrowIfNull(request, nameof(request));
             if (Decorator.Enclose(decorator.Inner.StatusCode).IsSuccessStatusCode() && Decorator.Enclose(request).IsClientSideResourceCached(lastModified)) { decorator.Inner.StatusCode = StatusCodes.Status304NotModified; }
-            Decorator.Enclose(decorator.Inner.Headers).TryAddOrUpdate(HeaderNames.LastModified, new StringValues(lastModified.ToUniversalTime().ToString("R", DateTimeFormatInfo.InvariantInfo)));
+            Decorator.Enclose(decorator.Inner.Headers).AddOrUpdate(HeaderNames.LastModified, new StringValues(lastModified.ToUniversalTime().ToString("R", DateTimeFormatInfo.InvariantInfo)));
         }
     }
 }

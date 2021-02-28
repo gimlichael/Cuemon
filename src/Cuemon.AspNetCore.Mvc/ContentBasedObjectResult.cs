@@ -1,5 +1,5 @@
 ﻿using Cuemon.Data.Integrity;
-using Cuemon.Security.Cryptography;
+using Cuemon.Security;
 
 namespace Cuemon.AspNetCore.Mvc
 {
@@ -9,13 +9,13 @@ namespace Cuemon.AspNetCore.Mvc
         {
             Checksum = new HashResult(checksum);
             Validation = checksum == null || checksum.Length == 0 
-                ? EntityDataIntegrityStrength.Unspecified 
+                ? EntityDataIntegrityValidation.Unspecified 
                 : isWeak
-                    ? EntityDataIntegrityStrength.Weak
-                    : EntityDataIntegrityStrength.Strong;
+                    ? EntityDataIntegrityValidation.Weak
+                    : EntityDataIntegrityValidation.Strong;
         }
 
-        public EntityDataIntegrityStrength Validation { get; }
+        public EntityDataIntegrityValidation Validation { get; }
 
         public HashResult Checksum { get; }
     }

@@ -8,7 +8,7 @@ namespace Cuemon
 {
     public class ExceptionTest : Test
     {
-        public ExceptionTest(ITestOutputHelper output = null) : base(output)
+        public ExceptionTest(ITestOutputHelper output) : base(output)
         {
         }
 

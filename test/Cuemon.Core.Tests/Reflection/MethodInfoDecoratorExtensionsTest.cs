@@ -7,7 +7,7 @@ namespace Cuemon.Reflection
 {
     public class MethodInfoDecoratorExtensionsTest : Test
     {
-        public MethodInfoDecoratorExtensionsTest(ITestOutputHelper output = null) : base(output)
+        public MethodInfoDecoratorExtensionsTest(ITestOutputHelper output) : base(output)
         {
         }
 

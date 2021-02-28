@@ -1,33 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>020bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
     <RootNamespace>Cuemon.Extensions</RootNamespace>
     <AssemblyName>Cuemon.Extensions.Core</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Core assembly is a member of the Cuemon .NET Standard family which provides extension methods to the Cuemon.Core assembly.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Description>The Cuemon.Extensions namespace contains extension methods that complements the Cuemon namespace while being an addition to the System namespace.</Description>
+    <PackageTags>extension-methods extensions to-byte-array flatten to-encoded-string configure create-instance action-delegate options-pattern</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

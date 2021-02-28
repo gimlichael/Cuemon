@@ -1,0 +1,9 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0
+ 
+# Breaking Changes
+- 
+ 
+# New Features
+- 
+ 

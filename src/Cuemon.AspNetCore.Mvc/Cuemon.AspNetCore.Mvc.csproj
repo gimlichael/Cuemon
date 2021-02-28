@@ -1,32 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>a20adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.AspNetCore.Mvc</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore.Mvc</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore.Mvc assembly is a fit companion to the Microsoft.AspNetCore.Mvc namespace that provides an abundant range of filters and action results to your codebelt.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Description>The Cuemon.AspNetCore,Mvc namespace contains types that specializes in cache expiration and validation models and an abundant range of ready-to-use filters in the ASP.NET Core MVC pipeline. The namespace is an addition to the Microsoft.AspNetCore.Mvc namespace.</Description>
+    <PackageTags>cacheable-object-factory cacheable-object-result content-based-object-result content-time-based-object-result see-other-result http-cacheable-filter http-entity-tag-header-filter http-last-modified-header-filter fault-descriptor-filter fault-resolver http-request-evidence server-timing-filter user-agent-sentinel-filter throttling-sentinel-filter</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
@@ -35,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.Diagnostics\Cuemon.Extensions.Diagnostics.csproj" />
+    <ProjectReference Include="..\Cuemon.Security.Cryptography\Cuemon.Security.Cryptography.csproj" />
   </ItemGroup>
 
 </Project>

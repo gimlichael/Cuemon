@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
+    <ProjectGuid>220bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Cuemon.Extensions.AspNetCore.Authentication</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions.AspNetCore.Authentication</AssemblyTitle>
+    <Description>The Cuemon.Extensions.AspNetCore.Authentication namespace contains both types and extension methods that complements the Cuemon.AspNetCore namespace while being an addition to the Microsoft.AspNetCore namespace. Provides an in-memory implementation of a throttling cache for ASP.NET Core.</Description>
+    <PackageTags>extension-methods extensions memory-throttling-cache use-hosting-environment-header use-correlation-identifier-header use-request-identifier-header use-user-agent-sentinel use-custom-throttling-sentinel</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.AspNetCore.Authentication\Cuemon.AspNetCore.Authentication.csproj" />
+  </ItemGroup>
+
+</Project>

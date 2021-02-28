@@ -18,12 +18,13 @@ namespace Cuemon.Resilience
 
         private const string ExpectedResult = "OK";
         private const int ExpectedRetryAttempts = 2;
+        private static readonly TimeSpan Jitter = TimeSpan.FromMilliseconds(1000);
         private const int NormalRunIncrement = 1;
         private const int DescriptiveExceptionCauseIncrement = 1;
         private static readonly TimeSpan ExpectedRecoveryWaitTime = TimeSpan.FromSeconds(1);
         private static readonly TimeSpan ExpectedMaximumAllowedLatency = TimeSpan.FromMilliseconds(250);
 
-        public TransientOperationTest(ITestOutputHelper output = null) : base(output)
+        public TransientOperationTest(ITestOutputHelper output) : base(output)
         {
             TransientOperation.FaultCallback = evidence => RetryTrackerCallback(evidence, _transientFaultTracker);
             TransientOperationOptionsCallback = o =>
@@ -78,7 +79,7 @@ namespace Cuemon.Resilience
             var profiler = TimeMeasure.WithFunc(() => TransientOperation.WithFunc(FuncTransientOperation.FailUntilExpectedRetryAttemptsIsReached, id, ExpectedRetryAttempts, _retryTracker, TransientOperationOptionsCallback));
 
             Assert.Equal(ExpectedResult, profiler.Result);
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
         }
 
@@ -96,7 +97,7 @@ namespace Cuemon.Resilience
             });
 
             var tfe = _transientFaultTracker.Single(pair => pair.Key == id).Value;
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
             Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)tfe.TotalRecoveryWaitTime.TotalSeconds);
             Assert.Equal((int)ExpectedRecoveryWaitTime.TotalSeconds, (int)tfe.RecoveryWaitTime.TotalSeconds);
@@ -136,7 +137,7 @@ namespace Cuemon.Resilience
                 TestOutput.WriteLine(aex.ToString());
             });
 
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
         }
 
@@ -160,7 +161,7 @@ namespace Cuemon.Resilience
 
             var profiler = TimeMeasure.WithAction(() => TransientOperation.WithAction(ActionTransientOperation.FailUntilExpectedRetryAttemptsIsReached, id, ExpectedRetryAttempts, _retryTracker, TransientOperationOptionsCallback));
 
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
         }
 
@@ -178,7 +179,7 @@ namespace Cuemon.Resilience
             });
 
             var tfe = _transientFaultTracker.Single(pair => pair.Key == id).Value;
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
             Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)tfe.TotalRecoveryWaitTime.TotalSeconds);
             Assert.Equal((int)ExpectedRecoveryWaitTime.TotalSeconds, (int)tfe.RecoveryWaitTime.TotalSeconds);
@@ -218,7 +219,7 @@ namespace Cuemon.Resilience
                 TestOutput.WriteLine(aex.ToString());
             });
 
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
         }
 
@@ -242,7 +243,7 @@ namespace Cuemon.Resilience
 
             var profiler = await TimeMeasure.WithActionAsync(ct => TransientOperation.WithActionAsync(AsyncActionTransientOperation.FailUntilExpectedRetryAttemptsIsReachedAsync, id, ExpectedRetryAttempts, _retryTracker, ct, TransientOperationOptionsCallback));
 
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
         }
 
@@ -260,7 +261,7 @@ namespace Cuemon.Resilience
             });
 
             var tfe = _transientFaultTracker.Single(pair => pair.Key == id).Value;
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
             Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)tfe.TotalRecoveryWaitTime.TotalSeconds);
             Assert.Equal((int)ExpectedRecoveryWaitTime.TotalSeconds, (int)tfe.RecoveryWaitTime.TotalSeconds);
@@ -278,8 +279,13 @@ namespace Cuemon.Resilience
             var profiler = await TimeMeasure.WithActionAsync(async ct =>
             {
                 var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithActionAsync(AsyncActionTransientOperation.TriggerLatencyExceptionAsync, id, _retryTracker, ct, TransientOperationOptionsCallback));
+                
+                TestOutput.WriteLine(aex.ToString());
+
                 Assert.IsType<LatencyException>(aex.InnerExceptions.First());
-                Assert.Equal(NormalRunIncrement + DescriptiveExceptionCauseIncrement, aex.InnerExceptions.Count);
+
+                var low = NormalRunIncrement + DescriptiveExceptionCauseIncrement;
+                Assert.InRange(aex.InnerExceptions.Count, low, low + 1); // expect 2 - allow 3 in rare cases
                 TestOutput.WriteLine(aex.ToString());
             });
 
@@ -300,7 +306,7 @@ namespace Cuemon.Resilience
                 TestOutput.WriteLine(aex.ToString());
             });
 
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
         }
 
@@ -313,7 +319,7 @@ namespace Cuemon.Resilience
             var profiler = await TimeMeasure.WithFuncAsync(ct => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.FailUntilExpectedRetryAttemptsIsReachedAsync, id, ExpectedRetryAttempts, _retryTracker, ct, TransientOperationOptionsCallback));
 
             Assert.Equal(ExpectedResult, profiler.Result);
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
         }
 
@@ -331,7 +337,7 @@ namespace Cuemon.Resilience
             });
 
             var tfe = _transientFaultTracker.Single(pair => pair.Key == id).Value;
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
             Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)tfe.TotalRecoveryWaitTime.TotalSeconds);
             Assert.Equal((int)ExpectedRecoveryWaitTime.TotalSeconds, (int)tfe.RecoveryWaitTime.TotalSeconds);
@@ -371,7 +377,9 @@ namespace Cuemon.Resilience
                 TestOutput.WriteLine(aex.ToString());
             });
 
-            Assert.Equal((int)TimeSpan.FromSeconds(ExpectedRetryAttempts).TotalSeconds, (int)profiler.Elapsed.TotalSeconds);
+            TestOutput.WriteLine($"Profiler: {profiler.Elapsed.TotalSeconds} seconds.");
+
+            Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
         }
     }

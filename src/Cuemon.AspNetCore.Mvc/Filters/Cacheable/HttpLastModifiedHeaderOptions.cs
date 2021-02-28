@@ -1,6 +1,5 @@
 ﻿using System;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Data;
 using Cuemon.Data.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +28,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         ///         <description><code>
         ///            (timestamp, context) =>
         ///            {
-        ///                context.Response.SetLastModifiedHeaderInformation(context.Request, timestamp.Modified ?? timestamp.Created);
+        ///                Decorator.Enclose(context.Response).TryAddOrUpdateLastModifiedHeader(context.Request, timestamp.Modified ?? timestamp.Created);
         ///            };
         ///         </code></description>
         ///     </item>
@@ -39,7 +38,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         {
             LastModifiedProvider = (timestamp, context) =>
             {
-                Decorator.Enclose(context.Response).TryAddOrUpdateLastModifiedHeader(context.Request, timestamp.Modified ?? timestamp.Created);
+                Decorator.Enclose(context.Response).AddOrUpdateLastModifiedHeader(context.Request, timestamp.Modified ?? timestamp.Created);
             };
         }
 

@@ -1,26 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>120bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Xml</AssemblyTitle>
-    <Description>The Cuemon.Xml assembly provides access to features that extends both the System.Xml- and System.Xml.Serialization namespaces. Included is a lightweight XML serializer framework that offers the same flexibility provided by the JSON equivalent from Newtonsoft.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Cuemon.Xml namespace contains types related to encoding, converting and serialization. The included lightweight XML serializer framework offers same flexibility as the one provided by the JSON equivalent from Newtonsoft. The namespace is an addition to both System.Xml- and System.Xml.Serialization namespaces.</Description>
+    <PackageTags>xml-formatter xml-converter xml-serializer xml-factories</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

@@ -9,7 +9,7 @@ namespace Cuemon.Net
 {
     public class QueryStringCollectionTest : Test
     {
-        public QueryStringCollectionTest(ITestOutputHelper output = null) : base(output)
+        public QueryStringCollectionTest(ITestOutputHelper output) : base(output)
         {
         }
 

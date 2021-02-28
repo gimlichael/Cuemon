@@ -41,13 +41,14 @@ namespace Cuemon.Data.SqlClient
 
         #region Methods
         /// <summary>
-        /// Create and returns the builded query from the specified <see cref="QueryType"/>.
+        /// Create and returns the query from the specified <see cref="QueryType"/>.
         /// </summary>
         /// <param name="queryType">Type of the query to create.</param>
         /// <param name="tableName">The name of the table or view. Overrides the class wide tableName.</param>
-        /// <returns></returns>
+        /// <returns>The result of the builder as a T-SQL query.</returns>
         public override string GetQuery(QueryType queryType, string tableName)
         {
+            tableName = tableName ?? TableName;
             switch (queryType)
             {
                 case QueryType.Exists:

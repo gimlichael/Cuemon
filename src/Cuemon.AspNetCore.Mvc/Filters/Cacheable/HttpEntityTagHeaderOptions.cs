@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using Cuemon.AspNetCore.Http;
-using Cuemon.Data;
 using Cuemon.Data.Integrity;
+using Cuemon.IO;
+using Cuemon.Security;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +32,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         ///         <description><code>
         ///            (integrity, context) =>
         ///            {
-        ///                var builder = new ChecksumBuilder(integrity.Checksum.Value);
-        ///                context.Response.SetEntityTagHeaderInformation(context.Request, builder, integrity.ChecksumStrength == ChecksumStrength.Weak);
+        ///                 var builder = new ChecksumBuilder(integrity.Checksum.GetBytes(), () => HashFactory.CreateFnv128());
+        ///                 Decorator.Enclose(context.Response).TryAddOrUpdateEntityTagHeader(context.Request, builder, integrity.Validation == EntityDataIntegrityValidation.Weak);
         ///            };
         ///         </code></description>
         ///     </item>
@@ -41,12 +42,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         ///         <description><code>
         ///             (body, request, response) =>
         ///             {
-        ///                  var builder = new ChecksumBuilder(body.ComputeHash(o =>
-        ///                  {
-        ///                      o.AlgorithmType = HashAlgorithmType.MD5;
-        ///                      o.LeaveStreamOpen = true;
-        ///                  }).Value);
-        ///                 response.SetEntityTagHeaderInformation(request, builder);
+        ///                 var ms = new MemoryStream();
+        ///                 Decorator.Enclose(body).CopyStream(ms);
+        ///                 var builder = new ChecksumBuilder(ms.ToArray(), () => UnkeyedHashFactory.CreateCryptoMd5());
+        ///                 Decorator.Enclose(response).TryAddOrUpdateEntityTagHeader(request, builder);
         ///             };
         ///         </code></description>
         ///     </item>
@@ -60,13 +59,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         {
             EntityTagProvider = (integrity, context) =>
             {
-                var builder = new ChecksumBuilder(integrity.Checksum.GetBytes());
-                Decorator.Enclose(context.Response).TryAddOrUpdateEntityTagHeader(context.Request, builder, integrity.Validation == EntityDataIntegrityStrength.Weak);
+                var builder = new ChecksumBuilder(integrity.Checksum.GetBytes(), () => HashFactory.CreateFnv128());
+                Decorator.Enclose(context.Response).AddOrUpdateEntityTagHeader(context.Request, builder, integrity.Validation == EntityDataIntegrityValidation.Weak);
             };
             EntityTagResponseParser = (body, request, response) =>
             {
-                var builder = new ChecksumBuilder(HashFactory.CreateCrypto(CryptoAlgorithm.Md5).ComputeHash(body).GetBytes());
-                Decorator.Enclose(response).TryAddOrUpdateEntityTagHeader(request, builder);
+                var ms = new MemoryStream();
+                Decorator.Enclose(body).CopyStream(ms);
+                var builder = new ChecksumBuilder(ms.ToArray(), () => UnkeyedHashFactory.CreateCryptoMd5());
+                Decorator.Enclose(response).AddOrUpdateEntityTagHeader(request, builder);
             };
             UseEntityTagResponseParser = false;
         }

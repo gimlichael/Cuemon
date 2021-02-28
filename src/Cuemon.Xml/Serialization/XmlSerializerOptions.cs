@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml;
 using Cuemon.Xml.Serialization.Converters;
 
@@ -43,15 +42,8 @@ namespace Cuemon.Xml.Serialization
             Writer = new XmlWriterSettings() { IndentChars = Alphanumeric.Tab };
             Reader = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
             Converters = new List<XmlConverter>();
-            DefaultConverters?.Invoke(Converters);
         }
-
-        /// <summary>
-        /// Gets or sets a delegate that  is invoked when <see cref="XmlSerializerOptions"/> is initialized and propagates registered <see cref="XmlConverter"/> implementations.
-        /// </summary>
-        /// <value>The delegate which propagates registered <see cref="XmlConverter"/> implementations when <see cref="XmlSerializerOptions"/> is initialized.</value>
-        public static Action<IList<XmlConverter>> DefaultConverters { get; set; }
-
+        
         /// <summary>
         /// Gets or sets a <see cref="XmlConverter" /> collection that will be used during serialization.
         /// </summary>

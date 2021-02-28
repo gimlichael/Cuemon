@@ -9,7 +9,7 @@ namespace Cuemon
 {
     public class ValidatorTest : Test
     {
-        public ValidatorTest(ITestOutputHelper output = null) : base(output)
+        public ValidatorTest(ITestOutputHelper output) : base(output)
         {
         }
 

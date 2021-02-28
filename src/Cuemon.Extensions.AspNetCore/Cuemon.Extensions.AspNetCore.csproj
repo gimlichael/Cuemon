@@ -1,32 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>a40adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
     <AssemblyName>Cuemon.Extensions.AspNetCore</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.AspNetCore</AssemblyTitle>
-    <Description>The Cuemon.Extensions.AspNetCore assembly provides extension methods and general improvement to the Cuemon.AspNetCore assembly.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Description>The Cuemon.Extensions.AspNetCore namespace contains both types and extension methods that complements the Cuemon.AspNetCore namespace while being an addition to the Microsoft.AspNetCore namespace. Provides an in-memory implementation of a throttling cache for ASP.NET Core.</Description>
+    <PackageTags>extension-methods extensions memory-throttling-cache use-hosting-environment-header use-correlation-identifier-header use-request-identifier-header use-user-agent-sentinel use-custom-throttling-sentinel</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
@@ -36,9 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Data.Integrity\Cuemon.Extensions.Data.Integrity.csproj" />
-    
-    
-    
+    <ProjectReference Include="..\Cuemon.Security.Cryptography\Cuemon.Security.Cryptography.csproj" />
   </ItemGroup>
 
 </Project>

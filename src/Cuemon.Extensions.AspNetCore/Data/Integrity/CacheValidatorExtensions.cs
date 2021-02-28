@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.AspNetCore.Data.Integrity
         public static EntityTagHeaderValue ToEntityTag(this CacheValidator validator)
         {
             Validator.ThrowIfNull(validator, nameof(validator));
-            return validator.ToEntityTagHeaderValue(validator.Strength != EntityDataIntegrityStrength.Strong);
+            return validator.ToEntityTagHeaderValue(validator.Validation != EntityDataIntegrityValidation.Strong);
         }
     }
 }

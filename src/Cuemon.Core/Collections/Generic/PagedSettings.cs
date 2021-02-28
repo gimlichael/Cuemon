@@ -1,21 +1,17 @@
-﻿namespace Cuemon.Collections.Generic
+﻿using System;
+
+namespace Cuemon.Collections.Generic
 {
     /// <summary>
-    /// Specifies a set of features to support on the <see cref="PagedCollection"/> object. This class cannot be inherited.
+    /// Specifies a set of features to support on the <see cref="PagedCollection"/> object.
     /// </summary>
-    public sealed class PagedSettings
+    public class PagedSettings : IEquatable<PagedSettings>
     {
-        private static int DefaultPageSizeValue = 25;
-
         /// <summary>
         /// Gets or sets the default page size of the <see cref="PagedSettings"/> class. Default is 25.
         /// </summary>
         /// <value>The default page size of the <see cref="PagedSettings"/> class.</value>
-        public static int DefaultPageSize
-        {
-            get { return DefaultPageSizeValue; }
-            set { DefaultPageSizeValue = value; }
-        }
+        public static int DefaultPageSize { get; set; } = 25;
 
         #region Constructors
         /// <summary>
@@ -39,6 +35,31 @@
         public override int GetHashCode()
         {
             return Generate.HashCode32(PageSize, PageNumber, (int)SortOrderDirection, Data.GetHashCode()) ^ Generate.HashCode32(string.Concat(SearchCriteria, SortOrderBy));
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>true if the current object is equal to the <paramref name="other">other</paramref> parameter; otherwise, false.</returns>
+        public virtual bool Equals(PagedSettings other)
+        {
+            if (ReferenceEquals(null, other)) { return false; }
+            if (ReferenceEquals(this, other)) { return true; }
+            return PageSize == other.PageSize && PageNumber.Equals(other.PageNumber) && SortOrderDirection.Equals(other.SortOrderDirection) && Data.GetHashCode().Equals(other.Data.GetHashCode()) && SearchCriteria.Equals(other.SearchCriteria) && SortOrderBy.Equals(other.SortOrderBy);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="object" /> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) { return false; }
+            if (ReferenceEquals(this, obj)) { return true; }
+            if (obj.GetType() != this.GetType()) { return false; }
+            return Equals((PagedSettings) obj);
         }
 
         #endregion

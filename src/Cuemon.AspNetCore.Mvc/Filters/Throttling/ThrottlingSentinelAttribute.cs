@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Text;
+using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -11,7 +12,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
     /// Represents an attribute that is used to mark an action method to be protected by a throttling sentinel.
     /// </summary>
     /// <seealso cref="ActionFilterAttribute" />
-    public class ThrottlingSentinelAttribute : ActionFilterAttribute, IFilterFactory
+    public abstract class ThrottlingSentinelAttribute : ActionFilterAttribute, IFilterFactory
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrottlingSentinelAttribute"/> class.
@@ -19,18 +20,19 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         /// <param name="rateLimit">The allowed rate from within a given <paramref name="window"/>.</param>
         /// <param name="window">The duration of the window.</param>
         /// <param name="windowUnit">One of the enumeration values that specifies the time unit of <paramref name="window"/>.</param>
-        public ThrottlingSentinelAttribute(int rateLimit, double window, TimeUnit windowUnit)
+        protected ThrottlingSentinelAttribute(int rateLimit, double window, TimeUnit windowUnit)
         {
             var options= new ThrottlingSentinelOptions();
             RateLimit = rateLimit;
             Window = window;
             WindowUnit = windowUnit;
             UseRetryAfterHeader = options.UseRetryAfterHeader;
-            RetryAfterHeader = options.RetryAfterHeader;
+            RetryAfterScope = options.RetryAfterScope;
             TooManyRequestsMessage = options.TooManyRequestsMessage;
             RateLimitHeaderName = options.RateLimitHeaderName;
             RateLimitRemainingHeaderName = options.RateLimitRemainingHeaderName;
             RateLimitResetHeaderName = options.RateLimitResetHeaderName;
+            RateLimitResetScope = options.RateLimitResetScope;
         }
 
         private int RateLimit { get; }
@@ -55,7 +57,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         /// Gets or sets the preferred Retry-After HTTP header value that conforms with RFC 2616.
         /// </summary>
         /// <value>The preferred Retry-After HTTP header value that conforms with RFC 2616.</value>
-        public ThrottlingRetryAfterHeader RetryAfterHeader { get; set; }
+        public RetryConditionScope RetryAfterScope { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the rate limit remaining HTTP header.
@@ -76,6 +78,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         public string RateLimitResetHeaderName  { get; set; }
 
         /// <summary>
+        /// Gets or sets the preferred rate limit reset HTTP header value that conforms with RFC 7231.
+        /// </summary>
+        /// <value>The preferred rate limit reset HTTP header value that conforms with RFC 7231.</value>
+        public RetryConditionScope RateLimitResetScope { get; set; }
+
+        /// <summary>
         /// Creates an instance of the executable filter.
         /// </summary>
         /// <param name="serviceProvider">The request <see cref="IServiceProvider" />.</param>
@@ -86,15 +94,23 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
             return new ThrottlingSentinelFilter(Options.Create(new ThrottlingSentinelOptions()
             {
                 Quota = new ThrottleQuota(RateLimit, Window, WindowUnit),
-                ContextResolver = context => new StringBuilder().Append(context.Request.Scheme).Append("://").Append(context.Request.Host).Append(context.Request.PathBase).Append(context.Request.Path).ToString().ToLowerInvariant(),
+                ContextResolver = UniqueContextResolver,
                 UseRetryAfterHeader = UseRetryAfterHeader,
-                RetryAfterHeader = RetryAfterHeader,
+                RetryAfterScope = RetryAfterScope,
                 TooManyRequestsMessage = TooManyRequestsMessage,
                 RateLimitHeaderName = RateLimitHeaderName,
                 RateLimitRemainingHeaderName = RateLimitRemainingHeaderName,
-                RateLimitResetHeaderName = RateLimitResetHeaderName
+                RateLimitResetHeaderName = RateLimitResetHeaderName,
+                RateLimitResetScope = RateLimitResetScope
             }), tc);
         }
+
+        /// <summary>
+        /// Resolves a unique context of the throttling middleware (eg. IP-address, Authorization header, etc.).
+        /// </summary>
+        /// <param name="context">The <see cref="HttpContext"/> to extract a unique context from.</param>
+        /// <returns>A string that uniquely identifies the requester in need of throttling.</returns>
+        public abstract string UniqueContextResolver(HttpContext context);
 
         /// <summary>
         /// Gets a value that indicates if the result of <see cref="IFilterFactory.CreateInstance(IServiceProvider)" /> can be reused across requests.

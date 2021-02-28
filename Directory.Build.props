@@ -1,0 +1,74 @@
+<Project>
+  <PropertyGroup>
+    <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TF_BUILD)' != 'true'">
+    <CodeAnalysisRuleSet>..\..\.sonarlint\cuemoncsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
+    <Copyright>Copyright © Geekle 2009-2021. All rights reserved.</Copyright>
+    <Authors>gimlichael</Authors>
+    <Company>Geekle</Company>
+    <Product>Cuemon for .NET</Product>
+    <PackageIconUrl>https://nblcdn.net/cuemon.net/128x128.png</PackageIconUrl>
+    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/gimlichael/Cuemon</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
+    <AdditionalFiles Include="..\..\.sonarlint\cuemon\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(NuGetPackageRoot)' != ''">
+    <SourceRoot Include="$(NuGetPackageRoot)" RepositoryUrl="https://github.com/gimlichael/Cuemon" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)' == 'false'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all"/>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="all" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
+    <TargetFramework>net5.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <RunAnalyzers>false</RunAnalyzers>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.msbuild" Version="3.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit\Cuemon.Extensions.Xunit.csproj" />
+  </ItemGroup>
+</Project>

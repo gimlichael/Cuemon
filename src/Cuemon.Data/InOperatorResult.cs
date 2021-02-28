@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace Cuemon.Data
 {
@@ -30,6 +31,15 @@ namespace Cuemon.Data
         /// </summary>
         /// <value>The parameters for the IN operator.</value>
         public IEnumerable<IDbDataParameter> Parameters { get; }
+
+        /// <summary>
+        /// Converts the parameters for the IN operator to an <see cref="T:IDbDataParameter[]"/>.
+        /// </summary>
+        /// <returns>An array of <see cref="IDbDataParameter"/>.</returns>
+        public IDbDataParameter[] ToParametersArray()
+        {
+            return Parameters.ToArray();
+        }
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.

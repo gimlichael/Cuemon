@@ -1,36 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>a10adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
     <AssemblyName>Cuemon.AspNetCore.Authentication</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore.Authentication</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore.Authentication assembly provides supplemental ways of authentication forms to Microsoft ASP.NET Core.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Description>The Cuemon.AspNetCore.Authentication namespace contains types that enable support for authentication using the concept of an Authenticator, AuthorizationHeader and (to tie the knots) an AuthorizationHeaderBuilder. The namespace is an addition to the Microsoft.AspNetCore.Authentication namespace.</Description>
+    <PackageTags>basic-authentication basic-authentication-middleware digest-access-authentication digest-authentication-middleware hmac-authentication hmac-authentication-middleware authenticator authorization-header authorization-header-builder nonce-tracker</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
+    <ProjectReference Include="..\Cuemon.Net\Cuemon.Net.csproj" />
+    <ProjectReference Include="..\Cuemon.Security.Cryptography\Cuemon.Security.Cryptography.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,11 @@
 ﻿using System;
-using Cuemon.Threading;
 
 namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="IDisposable"/>.
     /// </summary>
-    public class DisposableOptions : AsyncOptions
+    public class DisposableOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DisposableOptions"/> class.

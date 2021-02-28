@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using Cuemon.Security;
 
 namespace Cuemon.Data.Integrity
 {
@@ -14,14 +14,16 @@ namespace Cuemon.Data.Integrity
         /// Creates and returns an instance of <see cref="CacheValidator"/> from the specified <paramref name="file"/>.
         /// </summary>
         /// <param name="file">The <see cref="FileInfo"/> to convert.</param>
+        /// <param name="hashFactory">The function delegate that is invoked to produce the <see cref="HashResult" />. Default is <see cref="HashFactory.CreateFnv128"/>.</param>
         /// <param name="setup">The <see cref="FileChecksumOptions"/> which may be configured.</param>
         /// <returns>A <see cref="CacheValidator"/> that represents the <paramref name="file"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="file"/> cannot be null.
         /// </exception>
-        public static CacheValidator CreateValidator(FileInfo file, Action<FileChecksumOptions> setup = null)
+        public static CacheValidator CreateValidator(FileInfo file, Func<Hash> hashFactory = null, Action<FileChecksumOptions> setup = null)
         {
             Validator.ThrowIfNull(file, nameof(file));
+            if (hashFactory == null) { hashFactory = () => HashFactory.CreateFnv128(); }
             var options = Patterns.Configure(setup);
             return DataIntegrityFactory.CreateIntegrity(file, fio =>
             {
@@ -30,18 +32,10 @@ namespace Cuemon.Data.Integrity
                 {
                     if (checksumBytes.Length > 0)
                     {
-                        return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, Generate.HashCode64(checksumBytes.Cast<IConvertible>()), o =>
-                        {
-                            o.Method = options.Method;
-                            o.Algorithm = options.Algorithm;
-                        });
+                        return new CacheValidator(new EntityInfo(fi.CreationTimeUtc, fi.LastWriteTimeUtc, checksumBytes, EntityDataIntegrityValidation.Strong), hashFactory);
                     }
                     var fileNameHashCode64 = Generate.HashCode64(file.FullName);
-                    return new CacheValidator(fi.CreationTimeUtc, fi.LastWriteTimeUtc, fileNameHashCode64, o =>
-                    {
-                        o.Method = options.Method;
-                        o.Algorithm = options.Algorithm;
-                    });
+                    return new CacheValidator(new EntityInfo(fi.CreationTimeUtc, fi.LastWriteTimeUtc, Convertible.GetBytes(fileNameHashCode64)), hashFactory, options.Method);
                 };
             }) as CacheValidator;
         }
@@ -50,15 +44,22 @@ namespace Cuemon.Data.Integrity
         /// Creates and returns an instance of <see cref="CacheValidator"/> from the specified <paramref name="assembly"/>.
         /// </summary>
         /// <param name="assembly">The <see cref="Assembly"/> to convert.</param>
+        /// <param name="hashFactory">The function delegate that is invoked to produce the <see cref="HashResult" />. Default is <see cref="HashFactory.CreateFnv128"/>.</param>
         /// <param name="setup">The <see cref="FileChecksumOptions"/> which may be configured.</param>
         /// <returns>A <see cref="CacheValidator"/> that represents the <paramref name="assembly"/>.</returns>
-        public static CacheValidator CreateValidator(Assembly assembly, Action<FileChecksumOptions> setup = null)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="assembly"/> cannot be null.
+        /// </exception>
+        public static CacheValidator CreateValidator(Assembly assembly, Func<Hash> hashFactory = null, Action<FileChecksumOptions> setup = null)
         {
+            Validator.ThrowIfNull(assembly, nameof(assembly));
+            if (hashFactory == null) { hashFactory = () => HashFactory.CreateFnv128(); }
+            var options = Patterns.Configure(setup);
             var assemblyHashCode64 = Generate.HashCode64(assembly.FullName);
             var assemblyLocation = assembly.Location;
             return assembly.IsDynamic
-                ? new CacheValidator(DateTime.MinValue, DateTime.MaxValue, assemblyHashCode64, Patterns.ConfigureExchange<FileChecksumOptions, CacheValidatorOptions>(setup))
-                : CreateValidator(new FileInfo(assemblyLocation), setup);
+                ? new CacheValidator(new EntityInfo(DateTime.MinValue, DateTime.MaxValue, Convertible.GetBytes(assemblyHashCode64)), hashFactory, options.Method)
+                : CreateValidator(new FileInfo(assemblyLocation), hashFactory, setup);
         }
     }
 }

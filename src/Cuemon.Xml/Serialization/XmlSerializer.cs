@@ -53,18 +53,9 @@ namespace Cuemon.Xml.Serialization
             });
         }
 
-        /// <summary>
-        /// Serializes the specified <paramref name="value"/> into an XML format.
-        /// </summary>
-        /// <param name="writer">The writer used in the serialization process.</param>
-        /// <param name="value">The object to serialize to XML format.</param>
-        /// <param name="objectType">The type of the object to serialize.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="writer"/> cannot be null.
-        /// </exception>
-        public void Serialize(XmlWriter writer, object value, Type objectType)
+        internal void Serialize(XmlWriter writer, object value, Type objectType)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
+            
             GetWriterConverter(objectType).WriteXml(writer, value);
         }
 

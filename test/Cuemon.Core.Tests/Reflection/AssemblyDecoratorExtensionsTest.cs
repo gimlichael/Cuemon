@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using Cuemon.Assets;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
@@ -9,7 +10,7 @@ namespace Cuemon.Reflection
 {
     public class AssemblyDecoratorExtensionsTest : Test
     {
-        public AssemblyDecoratorExtensionsTest(ITestOutputHelper output = null) : base(output)
+        public AssemblyDecoratorExtensionsTest(ITestOutputHelper output) : base(output)
         {
         }
 
@@ -36,8 +37,8 @@ namespace Cuemon.Reflection
             var disposableTypesCount = Decorator.Enclose(disposableTypes).Inner.Count();
             var configurationTypesCount = Decorator.Enclose(configurationTypes).Inner.Count();
 
-            Assert.Equal(532, allTypesCount);
-            Assert.Equal(7, disposableTypesCount);
+            Assert.InRange(allTypesCount, 455, 475); // range because of tooling on CI adding dynamic types and high range of refactoring
+            Assert.Equal(4, disposableTypesCount);
             Assert.Equal(2, configurationTypesCount);
         }
 
@@ -46,7 +47,9 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetAssemblyVersion();
-            Assert.Equal("6.0.2020.0", v.ToString());
+            Assert.Equal("6.0.0.0", v.ToString());
+            Assert.True(v.HasAlphanumericVersion);
+            Assert.False(v.IsSemanticVersion());
         }
 
         [Fact]
@@ -54,7 +57,9 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetFileVersion();
-            Assert.Equal("6.0.2020.25", v.ToString());
+            Assert.False(v.IsSemanticVersion());
+            Assert.True(v.HasAlphanumericVersion);
+            Assert.Equal("6.0.0", v.ToString());
         }
 
         [Fact]
@@ -62,14 +67,17 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetProductVersion();
-            Assert.Equal("6.0.2020.25", v.ToString());
+            Assert.True(v.IsSemanticVersion());
+            Assert.True(v.HasAlphanumericVersion);
+            Assert.Equal("6.0", v.ToVersion().ToString());
+            Assert.Contains("-preview", v.ToString());
         }
 
         [Fact]
         public void GetManifestResources_ShouldRetrieveCultureInfoSpecificCultures()
         {
-            var a = typeof(Disposable).Assembly;
-            var erbn = Decorator.Enclose(a).GetManifestResources($"{nameof(Cuemon)}.{nameof(Globalization)}.CultureInfo.SpecificCultures.dsv");
+            var a = typeof(ClassBase).Assembly;
+            var erbn = Decorator.Enclose(a).GetManifestResources($"{nameof(Cuemon)}.{nameof(Assets)}.CultureInfo.SpecificCultures.dsv");
             var erbnv = erbn.Single().Value;
             var erbce = Decorator.Enclose(a).GetManifestResources(".d", ManifestResourceMatch.ContainsExtension);
             var erbcev = erbn.Single().Value;

@@ -13,8 +13,8 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Returns a chunked <see cref="IEnumerable{T}"/> sequence with a maximum of the specified <paramref name="size"/>. Default is 128.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-        /// <param name="source">An <see cref="IEnumerable{T}" /> to chunk into smaller slices for a batch run or similar.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source" />.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="size">The amount of elements to process at a time.</param>
         /// <returns>An <see cref="IEnumerable{T}" /> that contains no more than the specified <paramref name="size" /> of elements from the <paramref name="source" /> sequence.</returns>
         /// <exception cref="ArgumentNullException">
@@ -24,20 +24,20 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <paramref name="size"/> is less or equal to 0.
         /// </exception>
         /// <remarks>The original <paramref name="source"/> is reduced equivalent to the number of elements in the returned sequence.</remarks>
-        public static PartitionerEnumerable<TSource> Chunk<TSource>(this IEnumerable<TSource> source, int size = 128)
+        public static PartitionerEnumerable<T> Chunk<T>(this IEnumerable<T> source, int size = 128)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfLowerThanOrEqual(0, size, nameof(size));
-            return new PartitionerEnumerable<TSource>(source, size);
+            return new PartitionerEnumerable<T>(source, size);
         }
 
         /// <summary>
         /// Shuffles the specified <paramref name="source"/> like a deck of cards.
         /// </summary>
-        /// <param name="source">The elements to be shuffled in the randomization process.</param>
-        /// <returns>A sequence of <typeparamref name="TSource"/> with the shuffled <paramref name="source"/>.</returns>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
+        /// <returns>A sequence of <typeparamref name="T"/> with the shuffled <paramref name="source"/>.</returns>
         /// <remarks>Fisher–Yates shuffle: https://en.wikipedia.org/wiki/Fisher–Yates_shuffle</remarks>
-        public static IEnumerable<TSource> Shuffle<TSource>(this IEnumerable<TSource> source)
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
             return source.Shuffle(Generate.RandomNumber);
         }
@@ -45,11 +45,11 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Shuffles the specified <paramref name="source"/> like a deck of cards.
         /// </summary>
-        /// <param name="source">The elements to be shuffled in the randomization process.</param>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="randomizer">The function delegate that will handle the randomization of <paramref name="source"/>.</param>
-        /// <returns>A sequence of <typeparamref name="TSource"/> with the shuffled <paramref name="source"/>.</returns>
+        /// <returns>A sequence of <typeparamref name="T"/> with the shuffled <paramref name="source"/>.</returns>
         /// <remarks>Fisher–Yates shuffle: https://en.wikipedia.org/wiki/Fisher–Yates_shuffle</remarks>
-        public static IEnumerable<TSource> Shuffle<TSource>(this IEnumerable<TSource> source, Func<int, int, int> randomizer)
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Func<int, int, int> randomizer)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(randomizer, nameof(randomizer));
@@ -68,22 +68,22 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Returns ascending sorted elements from a sequence by using the default comparer to compare values.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence of values to order.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains ascending sorted elements from the source sequence.</returns>
-        public static IEnumerable<TSource> OrderBy<TSource>(this IEnumerable<TSource> source)
+        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source)
         {
-            return source.OrderBy(Comparer<TSource>.Default);
+            return source.OrderBy(Comparer<T>.Default);
         }
 
         /// <summary>
         /// Returns ascending sorted elements from a sequence by using a specified <see cref="IComparer{T}"/> to compare values.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence of values to order.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="comparer">An <see cref="IComparer{T}"/> to compare values.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains ascending sorted elements from the source sequence.</returns>
-        public static IEnumerable<TSource> OrderBy<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer)
+        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IComparer<T> comparer)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(comparer, nameof(comparer));
@@ -93,22 +93,22 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Returns descending sorted elements from a sequence by using the default comparer to compare values.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence of values to order.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains descending sorted elements from the source sequence.</returns>
-        public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source)
+        public static IEnumerable<T> OrderByDescending<T>(this IEnumerable<T> source)
         {
-            return source.OrderByDescending(Comparer<TSource>.Default);
+            return source.OrderByDescending(Comparer<T>.Default);
         }
 
         /// <summary>
         /// Returns descending sorted elements from a sequence by using a specified <see cref="IComparer{T}"/> to compare values.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">A sequence of values to order.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="comparer">An <see cref="IComparer{T}"/> to compare values.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains descending sorted elements from the source sequence.</returns>
-        public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer)
+        public static IEnumerable<T> OrderByDescending<T>(this IEnumerable<T> source, IComparer<T> comparer)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(comparer, nameof(comparer));
@@ -118,13 +118,13 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Returns a random element of a sequence of elements, or a default value if no element is found.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The <see cref="IEnumerable{T}"/> to return a random element of.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <returns><c>default</c> if <paramref name="source"/> is empty; otherwise, a random element of <paramref name="source"/>.</returns>
-        public static TSource RandomOrDefault<TSource>(this IEnumerable<TSource> source)
+        public static T RandomOrDefault<T>(this IEnumerable<T> source)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            var collection = source as ICollection<TSource> ?? new List<TSource>(source);
+            var collection = source as ICollection<T> ?? new List<T>(source);
             return collection.Count == 0 ? default : collection.ElementAt(Generate.RandomNumber(collection.Count));
         }
 
@@ -144,7 +144,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the <paramref name="source"/>.</typeparam>
         /// <typeparam name="TValue">The type of values in the <paramref name="source"/>.</typeparam>
-        /// <param name="source">The sequence to create a <see cref="Dictionary{TKey,TValue}"/> from.</param>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <returns>A <see cref="Dictionary{TKey,TValue}"/> that is equivalent to the specified <paramref name="source"/> sequence.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source"/> is null.
@@ -162,7 +162,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </summary>
         /// <typeparam name="TKey">The type of keys in the <paramref name="source"/>.</typeparam>
         /// <typeparam name="TValue">The type of values in the <paramref name="source"/>.</typeparam>
-        /// <param name="source">The sequence to create a <see cref="Dictionary{TKey,TValue}"/> from.</param>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing keys.</param>
         /// <returns>A <see cref="Dictionary{TKey,TValue}"/> that is equivalent to the specified <paramref name="source"/> sequence.</returns>
         /// <exception cref="ArgumentNullException">
@@ -187,23 +187,23 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Extends the specified <paramref name="source"/> to support iterating in partitions.
         /// </summary>
-        /// <typeparam name="TSource">The type of elements in the <paramref name="source"/>.</typeparam>
-        /// <param name="source">The sequence to extend.</param>
+        /// <typeparam name="T">The type of elements in the <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="partitionSize">The size of the partitions.</param>
         /// <returns>An instance of <see cref="PartitionerEnumerable{T}"/>.</returns>
-        public static PartitionerEnumerable<TSource> ToPartitioner<TSource>(this IEnumerable<TSource> source, int partitionSize = 128)
+        public static PartitionerEnumerable<T> ToPartitioner<T>(this IEnumerable<T> source, int partitionSize = 128)
         {
-            return new PartitionerEnumerable<TSource>(source, partitionSize);
+            return new PartitionerEnumerable<T>(source, partitionSize);
         }
 
         /// <summary>
         /// Converts the specified <paramref name="source"/> to a paged data sequence.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source of the sequence to make pageable.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <returns>An instance of <see cref="PagedCollection{T}"/>.</returns>
         /// <remarks>The starting page is set to 1 and the page size is determined by <see cref="PagedSettings.DefaultPageSize"/>.</remarks>
-        public static PagedCollection<TSource> ToPagedCollection<TSource>(this IEnumerable<TSource> source)
+        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source)
         {
             return ToPagedCollection(source, 1);
         }
@@ -211,12 +211,12 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with starting <paramref name="pageNumber"/>.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source of the sequence to make pageable.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="pageNumber">The page number to start with.</param>
         /// <returns>An instance of <see cref="PagedCollection{T}"/>.</returns>
         /// <remarks>The page size is determined by <see cref="PagedSettings.DefaultPageSize"/>.</remarks>
-        public static PagedCollection<TSource> ToPagedCollection<TSource>(this IEnumerable<TSource> source, int pageNumber)
+        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, int pageNumber)
         {
             return ToPagedCollection(source, pageNumber, PagedSettings.DefaultPageSize);
         }
@@ -224,12 +224,12 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with starting <paramref name="pageNumber"/> and <paramref name="pageSize"/>.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source of the sequence to make pageable.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="pageNumber">The page number to start with.</param>
         /// <param name="pageSize">The number of elements a page can contain.</param>
         /// <returns>An instance of <see cref="PagedCollection{T}"/>.</returns>
-        public static PagedCollection<TSource> ToPagedCollection<TSource>(this IEnumerable<TSource> source, int pageNumber, int pageSize)
+        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, int pageNumber, int pageSize)
         {
             return ToPagedCollection(source, new PagedSettings() { PageNumber = pageNumber, PageSize = pageSize });
         }
@@ -237,25 +237,25 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with <paramref name="settings"/>.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source of the sequence to make pageable.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="settings">The settings that specifies the conditions of the converted <paramref name="source"/>.</param>
         /// <returns>An instance of <see cref="PagedCollection{T}"/> initialized with <paramref name="settings"/>.</returns>
-        public static PagedCollection<TSource> ToPagedCollection<TSource>(this IEnumerable<TSource> source, PagedSettings settings)
+        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, PagedSettings settings)
         {
-            return new PagedCollection<TSource>(source, settings);
+            return new PagedCollection<T>(source, settings);
         }
 
         /// <summary>
         /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with starting <paramref name="pageNumber"/> and <paramref name="pageSize"/>.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source of the sequence to make pageable.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="pageNumber">The page number to start with.</param>
         /// <param name="pageSize">The number of elements a page can contain.</param>
         /// <param name="totalElementCount">The total number of elements in the <paramref name="source"/> sequence.</param>
         /// <returns>An instance of <see cref="PagedCollection{T}"/>.</returns>
-        public static PagedCollection<TSource> ToPagedCollection<TSource>(this IEnumerable<TSource> source, int pageNumber, int pageSize, int totalElementCount)
+        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, int pageNumber, int pageSize, int totalElementCount)
         {
             return ToPagedCollection(source, new PagedSettings() { PageNumber = pageNumber, PageSize = pageSize }, totalElementCount);
         }
@@ -263,14 +263,14 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <summary>
         /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with <paramref name="settings"/>.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The source of the sequence to make pageable.</param>
+        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="settings">The settings that specifies the conditions of the converted <paramref name="source"/>.</param>
         /// <param name="totalElementCount">The total number of elements in the <paramref name="source"/> sequence.</param>
         /// <returns>An instance of <see cref="PagedCollection{T}"/> initialized with <paramref name="settings"/>.</returns>
-        public static PagedCollection<TSource> ToPagedCollection<TSource>(this IEnumerable<TSource> source, PagedSettings settings, int totalElementCount)
+        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, PagedSettings settings, int totalElementCount)
         {
-            return new PagedCollection<TSource>(source, settings, totalElementCount);
+            return new PagedCollection<T>(source, settings, totalElementCount);
         }
     }
 }

@@ -1,47 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>0d0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
     <AssemblyName>Cuemon.Extensions.Xunit</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xunit</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Xunit assembly provides extension methods and general improvements to the xunit.abstractions package.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Cuemon.Extensions.Xunit namespace contains types that provides a uniform way of doing unit testing. The namespace relates to the Xunit.Abstractions namespace.</Description>
+    <PackageTags>test test-output test-disposable test-cleanup</PackageTags>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-  </PropertyGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.6" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="xunit.assert" Version="2.4.1" />

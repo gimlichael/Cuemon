@@ -15,10 +15,10 @@ namespace Cuemon
         private static readonly Validator ExtendedValidator = new Validator();
 
         /// <summary>
-        /// Gets the singleton instance of the Validator functionality allowing for extensions methods like: <c>Validator.Throw.IfNotValidJsonDocument()</c>.
+        /// Gets the singleton instance of the Validator functionality allowing for extensions methods like: <c>Validator.ThrowIf.InvalidJsonDocument()</c>.
         /// </summary>
         /// <value>The singleton instance of the Validator functionality.</value>
-        public static Validator Throw { get; } = ExtendedValidator;
+        public static Validator ThrowIf { get; } = ExtendedValidator;
 
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> (or a derived counterpart) from the specified delegate <paramref name="condition"/>.
@@ -236,6 +236,48 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="predicate" /> returns <c>true</c>.
+        /// </summary>
+        /// <param name="predicate">The function delegate that determines if an <see cref="ArgumentException"/> is thrown.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="predicate" /> returned <c>true</c>.
+        /// </exception>
+        public static void ThrowIfTrue(Func<bool> predicate, string paramName, string message)
+        {
+            try
+            {
+                ThrowWhen(c => c.IsTrue(predicate).Create(() => new ArgumentException(message, paramName)).TryThrow());
+            }
+            catch (ArgumentException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(predicate, paramName, message));
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="predicate" /> returns <c>false</c>.
+        /// </summary>
+        /// <param name="predicate">The function delegate that determines if an <see cref="ArgumentException"/> is thrown.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="predicate" /> returned <c>false</c>.
+        /// </exception>
+        public static void ThrowIfFalse(Func<bool> predicate, string paramName, string message)
+        {
+            try
+            {
+                ThrowWhen(c => c.IsFalse(predicate).Create(() => new ArgumentException(message, paramName)).TryThrow());
+            }
+            catch (ArgumentException ex)
+            {
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(predicate, paramName, message));
+            }
+        }
+
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has no elements.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
@@ -268,14 +310,14 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> contains no elements.
         /// </exception>
-        public static void ThrowIfSequenceNullOrEmpty<T>(IEnumerable<T> value, string paramName, string message = "Value contains no elements.")
+        public static void ThrowIfSequenceNullOrEmpty<T>(IEnumerable<T> value, string paramName, string message = "Value is either null or contains no elements.")
         {
             try
             {
-                ThrowIfNull(value, paramName);
-                ThrowIfSequenceEmpty(value, paramName);
+                ThrowIfNull(value, paramName, message);
+                ThrowIfSequenceEmpty(value, paramName, message);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex) when (ex is ArgumentException)
             {
                 throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
+    <ProjectGuid>a30adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Cuemon.AspNetCore.Razor.TagHelpers</AssemblyName>
+    <AssemblyTitle>Cuemon.AspNetCore.Razor.TagHelpers</AssemblyTitle>
+    <Description>The Cuemon.AspNetCore.Razor.TagHelpers namespace contains types tailored tag helper implementations. The namespace is an addition to the Microsoft.AspNetCore.Razor.TagHelpers namespace.</Description>
+    <PackageTags>cdn-tag-helper cdn-uri-scheme image-cdn-tag-helper link-cdn-tag-helper script-cdn-tag-helper</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
+  </ItemGroup>
+
+</Project>

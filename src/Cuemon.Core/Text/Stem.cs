@@ -3,7 +3,7 @@
 namespace Cuemon.Text
 {
     /// <summary>
-    /// Provides a way to support assigning an stem to a value.
+    /// Provides a way to support assigning a stem to a value.
     /// </summary>
     public sealed class Stem
     {

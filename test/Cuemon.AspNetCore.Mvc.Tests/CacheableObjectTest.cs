@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Mvc
             Assert.IsAssignableFrom<IEntityDataIntegrity>(cor);
             if (cor.Value is IEntityDataIntegrity integrity)
             {
-                Assert.True(integrity.Validation == EntityDataIntegrityStrength.Strong);
+                Assert.True(integrity.Validation == EntityDataIntegrityValidation.Strong);
                 Assert.True(integrity.Checksum.GetBytes() == orBytes);
             }
             Assert.Equal(cor.Value, or);
@@ -47,12 +47,12 @@ namespace Cuemon.AspNetCore.Mvc
             var or = Generate.RandomString(2048);
             var orBytes = Convertible.GetBytes(or);
             var cor = CacheableObjectFactory.CreateCacheableObjectResult(or, () => DateTime.MinValue, () => orBytes, () => DateTime.MaxValue, () => false);
-            Assert.IsAssignableFrom<IEntityData>(cor);
-            if (cor.Value is IEntityData entity)
+            Assert.IsAssignableFrom<IEntityInfo>(cor);
+            if (cor.Value is IEntityInfo entity)
             {
                 Assert.True(entity.Created == DateTime.MinValue);
                 Assert.True(entity.Modified == DateTime.MinValue);
-                Assert.True(entity.Validation == EntityDataIntegrityStrength.Strong);
+                Assert.True(entity.Validation == EntityDataIntegrityValidation.Strong);
                 Assert.True(entity.Checksum.GetBytes() == orBytes);
             }
             Assert.Equal(cor.Value, or);

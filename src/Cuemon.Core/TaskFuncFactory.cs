@@ -465,9 +465,16 @@ namespace Cuemon
         /// </summary>
         /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate associated with this instance.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// No delegate was specified on the factory.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// The <paramref name="ct"/> was canceled.
+        /// </exception>
         public Task<TResult> ExecuteMethodAsync(CancellationToken ct)
         {
             ThrowIfNoValidDelegate(Condition.IsNull(Method));
+            ct.ThrowIfCancellationRequested();
             return Method.Invoke(GenericArguments, ct);
         }
 
@@ -476,7 +483,7 @@ namespace Cuemon
         /// </summary>
         /// <returns>A new <see cref="TaskFuncFactory{TTuple,TResult}"/> that is a copy of this instance.</returns>
         /// <remarks>When thread safety is required this is the method to invoke.</remarks>
-        public TaskFuncFactory<TTuple, TResult> Clone()
+        public override TemplateFactory<TTuple> Clone()
         {
             return new TaskFuncFactory<TTuple, TResult>(Method, GenericArguments.Clone() as TTuple);
         }

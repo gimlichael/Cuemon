@@ -1,5 +1,4 @@
 ﻿using System;
-using Cuemon.Data;
 using Cuemon.Data.Integrity;
 
 namespace Cuemon.AspNetCore.Mvc

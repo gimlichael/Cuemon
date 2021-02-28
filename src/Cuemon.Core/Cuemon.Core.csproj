@@ -1,37 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>000bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <RootNamespace>Cuemon</RootNamespace>
     <AssemblyName>Cuemon.Core</AssemblyName>
     <AssemblyTitle>Cuemon</AssemblyTitle>
-    <Description>The Cuemon.Core assembly is the patriarch of the Cuemon family and provides fundamental-, utility- and base-classes that define commonly-used value and reference data types, events and event handlers, interfaces, attribute, and feature rich delegates to greatly support functional programming. A great addition to the well established System namespace to make your daily operations easier to work with.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Cuemon namespace contains fundamental factories, classes and base classes that define invaluable reference and value types that greatly extends the System namespace. Abundant support for delegates and functional programming.</Description>
+    <PackageTags>action-factory bit-unit byte-unit calculator configure configure-revert configure-exchange configurable condition options-pattern data-reader decorator delimited-string disposable finalize-disposable safe-invoke safe-invoke-async func-factory patterns reference-project clean-architecture clean-code task-action-factory task-func-factory template template-factory time-range time-unit validator guard text-encoding parser-factory security aes-cryptor cyclic-redundancy-check fowler-noll-vo-hash hash-factory hash-result hmac-message-digest hmac-secure-hash-algorithm keyed-crypto-hash keyed-crypto-algorithm message-digest non-crypto-algorithm secure-hash-algorithm unkeyed-crypto-hash</PackageTags>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Globalization\CultureInfo.SpecificCultures.dsv" />
-  </ItemGroup>
 
 </Project>

@@ -185,7 +185,7 @@ namespace Cuemon.Xml.Serialization.Converters
                     foreach (var evidence in descriptor.Evidence)
                     {
                         if (evidence.Value == null) { continue; }
-                        Decorator.Enclose(writer).WriteObject(evidence.Value, evidence.Value.GetType(), o => o.RootName = new XmlQualifiedEntity(evidence.Key));
+                        Decorator.Enclose(writer).WriteObject(evidence.Value, evidence.Value.GetType(), o => o.Settings.RootName = new XmlQualifiedEntity(evidence.Key));
                     }
                     writer.WriteEndElement();
                 }
@@ -343,7 +343,7 @@ namespace Cuemon.Xml.Serialization.Converters
             {
                 var value = property.GetValue(exception);
                 if (value == null) { continue; }
-                Decorator.Enclose(writer).WriteObject(value, value.GetType(), settings => settings.RootName = new XmlQualifiedEntity(property.Name));
+                Decorator.Enclose(writer).WriteObject(value, value.GetType(), o => o.Settings.RootName = new XmlQualifiedEntity(property.Name));
             }
 
             WriteInnerExceptions(writer, exception, includeStackTrace);

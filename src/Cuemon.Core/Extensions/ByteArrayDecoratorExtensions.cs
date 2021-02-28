@@ -37,7 +37,7 @@ namespace Cuemon
         public static Stream ToStream(this IDecorator<byte[]> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            return Disposable.SafeInvoke(() => new MemoryStream(decorator.Inner.Length), ms =>
+            return Patterns.SafeInvoke(() => new MemoryStream(decorator.Inner.Length), ms =>
             {
                 ms.Write(decorator.Inner, 0, decorator.Inner.Length);
                 ms.Position = 0;
@@ -57,7 +57,7 @@ namespace Cuemon
         public static Task<Stream> ToStreamAsync(this IDecorator<byte[]> decorator, CancellationToken ct = default)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            return Disposable.SafeInvokeAsync<Stream>(() => new MemoryStream(decorator.Inner.Length), async (ms, cti) =>
+            return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(decorator.Inner.Length), async (ms, cti) =>
             {
                 await ms.WriteAsync(decorator.Inner, 0, decorator.Inner.Length, cti).ConfigureAwait(false);
                 ms.Position = 0;

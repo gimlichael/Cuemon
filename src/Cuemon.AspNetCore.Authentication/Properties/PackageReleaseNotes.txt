@@ -1,0 +1,37 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+ 
+# Upgrade Steps
+- Any former extension methods of the Cuemon.AspNetCore.Authentication namespace was merged into the Cuemon.Extensions.AspNetCore.Authentication namespace
+ 
+# Breaking Changes
+- RENAMED AuthenticationUtility class in the Cuemon.AspNetCore.Authentication namespace to Authenticator and removed all constants 
+- REMOVED DigestAccessAuthenticationParameters class from the Cuemon.AspNetCore.Authentication namespace
+- REMOVED DigestAuthenticationUtility class from the Cuemon.AspNetCore.Authentication namespace
+- REMOVED HmacAuthenticationParameters class from the Cuemon.AspNetCore.Authentication namespace
+- MOVED BasicAuthenticationMiddleware class from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Basic namespace (including refactoring)
+- MOVED BasicAuthenticationOptions class from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Basic namespace
+- MOVED BasicAuthenticator delegate from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Basic namespace
+- MOVED DigestAccessAuthenticationMiddleware class from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Digest namespace (including refactoring)
+- MOVED DigestAccessAuthenticationOptions class from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Digest namespace (including refactoring)
+- MOVED DigestAccessAuthenticator delegate from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Digest namespace
+- RENAMED DigestAccessAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Digest namespace to DigestAuthenticationMiddleware
+- RENAMED DigestAccessAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Digest namespace to DigestAuthenticationOptions
+- RENAMED DigestAccessAuthenticator class in the Cuemon.AspNetCore.Authentication.Digest namespace to DigestAuthenticator
+- MOVED HmacAuthenticationMiddleware class from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Hmac namespace (including refactoring)
+- MOVED HmacAuthenticationOptions class from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Hmac namespace (including refactoring)
+- MOVED HmacAuthenticator delegate from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Hmac namespace
+ 
+# New Features
+- ADDED BasicAuthorizationHeader class in the Cuemon.AspNetCore.Authentication.Basic namespace that provides a representation of a HTTP Basic Authentication header
+- ADDED BasicAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Basic namespace that provides a way to fluently represent a HTTP Basic Authentication header
+- ADDED BasicFields class in the Cuemon.AspNetCore.Authentication.Basic namespace that holds a collection of constants for BasicAuthorizationHeaderBuilder
+- ADDED DigestAuthorizationHeader class in the Cuemon.AspNetCore.Authentication.Basic namespace that provides a representation of a HTTP Digest Access Authentication header
+- ADDED DigestAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Basic namespace that provides a way to fluently represent a HTTP Digest Access Authentication header
+- ADDED DigestFields class in the Cuemon.AspNetCore.Authentication.Basic namespace that holds a collection of constants for DigestAuthorizationHeaderBuilder
+- ADDED AuthorizationHeader class in the Cuemon.AspNetCore.Authentication namespace that represents the base class from which all implementations of authorization header should derive
+- ADDED AuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication namespace that represents the base class from which all implementations of authorization header builders should derive
+- ADDED AuthorizationHeaderOptions class in the Cuemon.AspNetCore.Authentication namespace that specifies options related to AuthorizationHeader
+- ADDED INonceTracker interface in the Cuemon.AspNetCore.Authentication namespace that represents tracking of server-generated nonce values
+- ADDED MemoryNonceTracker class in the Cuemon.AspNetCore.Authentication namespace that provides a default in-memory implementation of the INonceTracker interface
+ 

@@ -1,26 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>150bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Threading</AssemblyName>
     <AssemblyTitle>Cuemon.Threading</AssemblyTitle>
-    <Description>The Cuemon.Threading assembly provides access to abstractions related to the System.Threading namespace.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>The Cuemon.Threading namespace contains types related to working with long-running concurrent loops and regions that utilizes both synchronous and asynchronous delegates. The namespace is an addition to the System.Threading namespace.</Description>
+    <PackageTags>advanced-parallel-factory parallel-factory for-async for-each-async for-each-result-async for-result-async while-async while-result-async async-options timer-factory for-loop-ruleset</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

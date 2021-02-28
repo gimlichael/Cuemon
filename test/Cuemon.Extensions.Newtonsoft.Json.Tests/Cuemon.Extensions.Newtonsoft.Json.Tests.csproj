@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Cuemon.Extensions.Newtonsoft.Json</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting\Cuemon.Extensions.Xunit.Hosting.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
+  </ItemGroup>
+
+</Project>

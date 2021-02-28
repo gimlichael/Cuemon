@@ -263,6 +263,7 @@ namespace Cuemon.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> cannot be null -or-
+        /// <paramref name="location"/> cannot be null -or-
         /// <paramref name="contentType"/> cannot be null -or-
         /// <paramref name="content"/> cannot be null.
         /// </exception>
@@ -283,6 +284,7 @@ namespace Cuemon.Net.Http
         /// <returns>The task object representing the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="method"/> cannot be null -or-
+        /// <paramref name="location"/> cannot be null -or-
         /// <paramref name="contentType"/> cannot be null -or-
         /// <paramref name="content"/> cannot be null.
         /// </exception>
@@ -307,10 +309,12 @@ namespace Cuemon.Net.Http
         /// <param name="setup">The <see cref="HttpRequestOptions"/> which need to be configured.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">
+        /// <paramref name="location"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
         public virtual Task<HttpResponseMessage> HttpAsync(Uri location, Action<HttpRequestOptions> setup)
         {
+            Validator.ThrowIfNull(location, nameof(location));
             Validator.ThrowIfNull(setup, nameof(setup));
             var options = Patterns.Configure(setup);
             options.Request.RequestUri = location;

@@ -1,0 +1,7 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# New Features
+- ADDED EncodingOptionsExtensions class in the Cuemon.Extensions.Text namespace that consist of extension methods for the EncodingOptionsExtensions class: DetectUnicodeEncoding
+- ADDED StringExtensions class in the Cuemon.Extensions.Text namespace that consist of extension methods for the string class: ToEncodedString, ToAsciiEncodedString
+ 

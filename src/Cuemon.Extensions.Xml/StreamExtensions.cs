@@ -51,7 +51,7 @@ namespace Cuemon.Extensions.Xml
             }
 
             var options = Patterns.Configure(setup);
-            return Disposable.SafeInvoke(() => new MemoryStream(), ms =>
+            return Patterns.SafeInvoke(() => new MemoryStream(), ms =>
             {
                 var document = new XmlDocument();
                 document.Load(value);
@@ -94,7 +94,7 @@ namespace Cuemon.Extensions.Xml
             var options = Patterns.Configure(setup);
             var navigable = XPathDocumentFactory.CreateDocument(value, true);
             var navigator = navigable.CreateNavigator();
-            return Disposable.SafeInvoke(() => new MemoryStream(), ms => 
+            return Patterns.SafeInvoke(() => new MemoryStream(), ms => 
             {
                 using (var writer = XmlWriter.Create(ms, options))
                 {

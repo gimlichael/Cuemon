@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using Cuemon.Reflection;
 
 namespace Cuemon.Globalization
 {
@@ -13,40 +10,13 @@ namespace Cuemon.Globalization
     /// </summary>
     public static class World
     {
-        private const int CultureTypesSpecificCultures = 2;
-        private static readonly MethodInfo CultureInfoGetCultures = typeof(CultureInfo).GetMethod("GetCultures", new MemberReflection(excludeInheritancePath: true));
-
         internal static readonly Lazy<IEnumerable<CultureInfo>> SpecificCultures = new Lazy<IEnumerable<CultureInfo>>(() =>
         {
             var cultures = new SortedList<string, CultureInfo>();
             var specificCultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            if (specificCultures != null)
+            foreach (var c in specificCultures)
             {
-                foreach (var c in specificCultures)
-                {
-                    cultures.Add(c.DisplayName, c);
-                }
-                return cultures.Values;
-            }
-
-            using (var lfdSpecificCultures = Decorator.Enclose(typeof(World).Assembly).GetManifestResources("CultureInfo.SpecificCultures.dsv", ManifestResourceMatch.ContainsName).Values.Single())
-            {
-                using (var reader = new StreamReader(lfdSpecificCultures))
-                {
-                    string specificCulture;
-                    while ((specificCulture = reader.ReadLine()) != null)
-                    {
-                        try
-                        {
-                            var c = new CultureInfo(specificCulture);
-                            cultures.Add(c.DisplayName, c);
-                        }
-                        catch (CultureNotFoundException)
-                        {
-                            // ignored on systems not supporting the specificCulture
-                        }
-                    }
-                }
+                cultures.Add(c.DisplayName, c);
             }
             return cultures.Values;
         });
@@ -67,5 +37,16 @@ namespace Cuemon.Globalization
         /// </summary>
         /// <value>The .NET specific regions of the world.</value>
         public static IEnumerable<RegionInfo> Regions { get; } = SpecificRegions.Value;
+
+        /// <summary>
+        /// Resolves a sequence of related <see cref="CultureInfo"/> objects for the specified <paramref name="region"/>.
+        /// </summary>
+        /// <param name="region">The region to resolve a sequence of <see cref="CultureInfo"/> objects from.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence of <see cref="CultureInfo"/> objects.</returns>
+        public static IEnumerable<CultureInfo> GetCultures(RegionInfo region)
+        {
+            Validator.ThrowIfNull(region, nameof(region));
+            return SpecificCultures.Value.Where(c => c.Name.EndsWith(region.TwoLetterISORegionName));
+        }
     }
 }

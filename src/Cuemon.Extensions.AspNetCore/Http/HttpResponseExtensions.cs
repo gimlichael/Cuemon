@@ -24,10 +24,10 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// <paramref name="request"/> cannot be null -or-
         /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static void TryAddOrUpdateEntityTagHeader(this HttpResponse response, HttpRequest request, ChecksumBuilder builder, bool isWeak = false)
+        public static void AddOrUpdateEntityTagHeader(this HttpResponse response, HttpRequest request, ChecksumBuilder builder, bool isWeak = false)
         {
             Validator.ThrowIfNull(response, nameof(response));
-            Decorator.Enclose(response).TryAddOrUpdateEntityTagHeader(request, builder, isWeak);
+            Decorator.Enclose(response).AddOrUpdateEntityTagHeader(request, builder, isWeak);
         }
 
         /// <summary>
@@ -40,10 +40,10 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// <paramref name="response"/> cannot be null -or-
         /// <paramref name="request"/> cannot be null.
         /// </exception>
-        public static void TryAddOrUpdateLastModifiedHeader(this HttpResponse response, HttpRequest request, DateTime lastModified)
+        public static void AddOrUpdateLastModifiedHeader(this HttpResponse response, HttpRequest request, DateTime lastModified)
         {
             Validator.ThrowIfNull(response, nameof(response));
-            Decorator.Enclose(response).TryAddOrUpdateLastModifiedHeader(request, lastModified);
+            Decorator.Enclose(response).AddOrUpdateLastModifiedHeader(request, lastModified);
         }
 
         /// <summary>

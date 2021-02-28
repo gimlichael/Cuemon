@@ -66,10 +66,10 @@ namespace Cuemon.Net.Http
         public Dictionary<string, string> DefaultRequestHeaders { get; }
 
         /// <summary>
-        /// Gets the HTTP handler stack to use for sending requests.
+        /// Gets or sets the HTTP handler stack to use for sending requests.
         /// </summary>
         /// <value>The HTTP handler stack to use for sending requests.</value>
-        public Func<HttpMessageHandler> HandlerFactory { get; private set; }
+        public Func<HttpMessageHandler> HandlerFactory { get; set; }
 
         /// <summary>
         /// Gets or sets the timespan to wait before the request times out. Default is 2 minutes.

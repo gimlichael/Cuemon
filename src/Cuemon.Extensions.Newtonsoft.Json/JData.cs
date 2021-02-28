@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace Cuemon.Extensions.Newtonsoft.Json
 {
     /// <summary>
-    /// Provides a factory based way to parse and extract values from various sources of JSON data.
+    /// Provides a factory based way to parse and extract values from various sources of JSON data. Compliant with RFC 7159 as it uses <see cref="JsonTextReader"/> behind the scene.
     /// </summary>
     public class JData
     {
@@ -24,7 +24,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json
             var options = Patterns.Configure(setup);
             using (var sr = new StreamReader(json, options.Encoding, false, options.BufferSize, options.LeaveOpen))
             {
-                
                 using (var jr = new JsonTextReader(sr))
                 {
                     jr.CloseInput = !options.LeaveOpen;
@@ -58,7 +57,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         public static IEnumerable<JDataResult> ReadAll(JsonReader reader)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
-            Validator.Throw.IfNotValidJsonDocument(ref reader, nameof(reader));
+            Validator.ThrowIf.InvalidJsonDocument(ref reader, nameof(reader));
             return new JData(reader).Result.Value;
         }
 
@@ -69,7 +68,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                 var result = new List<JDataResult>();
                 while (reader.Read())
                 {
-                    if (reader.Value == null) { continue; }
                     var jr = new JDataResult();
                     switch (reader.TokenType)
                     {
@@ -78,16 +76,20 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                             reader.Read();
                             break;
                     }
+
                     if (reader.TokenType == JsonToken.StartArray)
                     {
-                        jr.Children = FillArray(reader, jr);
+                        return FillArrayHierarchy(reader, jr);
                     }
-                    else
+                    
+                    if (reader.TokenType == JsonToken.StartObject)
                     {
-                        jr.Value = reader.Value;
+                        return FillObjectHierarchy(reader, jr);
                     }
+
+                    jr.Value = reader.Value;
                     jr.Path = reader.Path.RemoveBrackets();
-                    jr.Type = reader.ValueType ?? typeof(Array);
+                    jr.Type = reader.ValueType;
                     result.Add(jr);
                 }
                 return result;
@@ -96,33 +98,23 @@ namespace Cuemon.Extensions.Newtonsoft.Json
 
         private Lazy<List<JDataResult>> Result { get; }
 
-        private List<JDataResult> FillArray(JsonReader reader, JDataResult parent)
+
+        private List<JDataResult> FillArrayHierarchy(JsonReader reader, JDataResult parent)
         {
-            var result = new List<JDataResult>();
-            while (reader.Read())
-            {
-                var jr = new JDataResult { Parent = parent };
-                if (reader.TokenType == JsonToken.EndArray) { break; }
-                if (reader.TokenType == JsonToken.StartObject)
-                {
-                    jr.Children = FillObjectArray(reader, jr);
-                }
-                else
-                {
-                    jr.Value = reader.Value;
-                }
-                jr.Path = reader.Path.RemoveBrackets();
-                jr.Type = reader.ValueType ?? typeof(Array);
-                result.Add(jr);
-            }
-            return result;
+            return FillHierarchy(reader, parent, r => r.TokenType == JsonToken.EndArray);
         }
 
-        private List<JDataResult> FillObjectArray(JsonReader reader, JDataResult parent)
+        private List<JDataResult> FillObjectHierarchy(JsonReader reader, JDataResult parent)
+        {
+            return FillHierarchy(reader, parent, r => r.TokenType == JsonToken.EndObject);
+        }
+
+        private List<JDataResult> FillHierarchy(JsonReader reader, JDataResult parent, Func<JsonReader, bool> skipWhenTrue)
         {
             var result = new List<JDataResult>();
             while (reader.Read())
             {
+                if (skipWhenTrue(reader)) { break; }
                 var jr = new JDataResult { Parent = parent };
                 switch (reader.TokenType)
                 {
@@ -131,23 +123,24 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                         reader.Read();
                         break;
                 }
-                if (reader.TokenType == JsonToken.EndObject) { break; }
                 if (reader.TokenType == JsonToken.StartArray)
                 {
-                    jr.Children = FillArray(reader, jr);
+                    jr.Children = FillArrayHierarchy(reader, jr);
+                }
+                else if (reader.TokenType == JsonToken.StartObject)
+                {
+                    jr.Children = FillObjectHierarchy(reader, jr);
                 }
                 else
                 {
                     jr.Value = reader.Value;
                 }
                 jr.Path = reader.Path.RemoveBrackets();
-                jr.Type = reader.ValueType ?? typeof(Array);
+                jr.Type = reader.ValueType;
                 result.Add(jr);
             }
             return result;
         }
-
-
     }
 
     internal static class RegexExtensions

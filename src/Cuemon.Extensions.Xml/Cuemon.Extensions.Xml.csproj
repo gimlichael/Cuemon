@@ -1,35 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>0c0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon</Product>
     <AssemblyName>Cuemon.Extensions.Xml</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Xml</AssemblyTitle>
-    <Description>The Cuemon.Extensions.Xml assembly provides several extension methods for XML scenarios such as escaping, conversions, parsing, sanitizing, serialization and deserialization.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Description>The Cuemon.Extensions.Xml namespace contains extension methods that complements the Cuemon.Xml namespace while being an addition to the System.Xml namespace.</Description>
+    <PackageTags>extension-methods extensions to-xml-reader copy-xml-stream try-detect-xml-encoding chunk to-stream write-object is-xml-string try-parse-xelement</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
     <ProjectReference Include="..\Cuemon.Xml\Cuemon.Xml.csproj" />
   </ItemGroup>
 

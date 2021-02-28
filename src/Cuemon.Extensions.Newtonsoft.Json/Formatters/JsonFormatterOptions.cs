@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
@@ -11,6 +12,17 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     /// </summary>
     public class JsonFormatterOptions
     {
+        static JsonFormatterOptions()
+        {
+            DefaultConverters = list =>
+            {
+                list.AddStringFlagsEnumConverter();
+                list.AddStringEnumConverter();
+                list.AddTimeSpanConverter();
+                list.AddDataPairConverter();
+            };
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonFormatterOptions"/> class.
         /// </summary>
@@ -60,17 +72,20 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-            Settings.Converters.AddStringFlagsEnumConverter();
-            Settings.Converters.AddStringEnumConverter();
             Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
             Settings.Converters.AddExceptionDescriptorConverter(o =>
             {
                 o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
                 o.IncludeFailure = IncludeExceptionDescriptorFailure;
             });
-            Settings.Converters.AddTimeSpanConverter();
-            Settings.Converters.AddDataPairConverter();
+            DefaultConverters?.Invoke(Settings.Converters);
         }
+
+        /// <summary>
+        /// Gets or sets a delegate that  is invoked when <see cref="JsonFormatterOptions"/> is initialized and propagates registered <see cref="JsonConverter"/> implementations.
+        /// </summary>
+        /// <value>The delegate which propagates registered <see cref="JsonConverter"/> implementations when <see cref="JsonFormatterOptions"/> is initialized.</value>
+        public static Action<IList<JsonConverter>> DefaultConverters { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the stack of an <see cref="Exception"/> is included in the converter that handles exceptions.

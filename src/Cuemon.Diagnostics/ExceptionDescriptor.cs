@@ -44,7 +44,12 @@ namespace Cuemon.Diagnostics
                     builder.AppendLine(exception.ToString());
                     var memberSignature = Convertible.ToString(Convert.FromBase64String(insights[IndexOfThrower]));
                     var runtimeParameters = Convertible.ToString(Convert.FromBase64String(insights[IndexOfRuntimeParameters]));
-                    ed.AddEvidence("Thrower", new MemberEvidence(memberSignature, string.IsNullOrWhiteSpace(runtimeParameters) ? null : runtimeParameters.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToDictionary(k => k.Substring(0, k.IndexOf('=')), v => v.Substring(v.IndexOf('=') + 1))), evidence => evidence);
+                    ed.AddEvidence("Thrower", new MemberEvidence(memberSignature, string.IsNullOrWhiteSpace(runtimeParameters) ? null : runtimeParameters.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToDictionary(k => k.Substring(0, k.IndexOf('=')), v =>
+                    {
+                        var t = v.Substring(v.IndexOf('=') + 1);
+                        if (t == "null") { return null; }
+                        return t;
+                    })), evidence => evidence);
                     TryAddEvidence(ed, "Thread", insights[IndexOfThreadInfo]);
                     TryAddEvidence(ed, "Process", insights[IndexOfProcessInfo]);
                     TryAddEvidence(ed, "Environment", insights[IndexOfEnvironmentInfo]);
@@ -175,6 +180,15 @@ namespace Cuemon.Diagnostics
                 if (!string.IsNullOrWhiteSpace(attribute.Message)) { Message = attribute.Message; }
                 if (!string.IsNullOrWhiteSpace(attribute.HelpLink)) { HelpLink = new Uri(attribute.HelpLink); }
             }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return Failure.ToString();
         }
     }
 }

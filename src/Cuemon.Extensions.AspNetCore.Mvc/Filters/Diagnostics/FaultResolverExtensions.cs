@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
-using Cuemon.AspNetCore.Mvc.Extensions.Filters.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics

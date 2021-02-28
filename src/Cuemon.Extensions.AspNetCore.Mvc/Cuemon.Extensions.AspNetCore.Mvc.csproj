@@ -1,32 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyOriginatorKeyFile>..\cuemon.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>a50adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cuemon .NET Standard</Product>
     <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc</AssemblyTitle>
-    <Description>The Cuemon.Extensions.AspNetCore.Mvc assembly provides extension methods and general improvement to the Cuemon.AspNetCore assembly.</Description>
-    <Company>Geekle</Company>
-    <Authors>Michael Mortensen</Authors>
-    <Copyright>Copyright © Geekle 2009-2020. All rights reserved.</Copyright>
-    <FileVersion>6.0.2020.25</FileVersion>
-    <Version>6.0.2020.25</Version>
-    <AssemblyVersion>6.0.2020.0</AssemblyVersion>
-    <Authors>Michael Mortensen</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://nblcdn.net/themes/cuemon.net/img/core/128x128x.png</PackageIconUrl>
-    <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Description>The Cuemon.Extensions.AspNetCore.Mvc namespace contains both types and extension methods that complements the Cuemon.AspNetCore.Mvc namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides a set of different cache busting strategies for ASP.NET Core MVC that can be easily customized.</Description>
+    <PackageTags>extension-methods extensions add-assembly-cache-busting add-cache-busting add-dynamic-cache-busting use-when make-cacheable</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

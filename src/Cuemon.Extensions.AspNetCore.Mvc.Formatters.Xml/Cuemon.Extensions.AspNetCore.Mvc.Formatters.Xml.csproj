@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;netcoreapp3.0;netstandard2.0</TargetFrameworks>
+    <ProjectGuid>a70adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml</AssemblyTitle>
+    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace contains both types and extension methods that complements the Cuemon.Extensions.Xml namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides XML formatters for ASP.NET Core that offers same flexibility as the one provided by the JSON equivalent from Newtonsoft.</Description>
+    <PackageTags>extension-methods extensions xml-converters add-xml-serialization-formatters add-xml-formatter-options</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Xml\Cuemon.Extensions.Xml.csproj" />
+  </ItemGroup>
+
+</Project>

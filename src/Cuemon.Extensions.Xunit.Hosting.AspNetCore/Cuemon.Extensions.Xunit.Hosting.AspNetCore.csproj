@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <ProjectGuid>200bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Cuemon.Extensions.Xunit.Hosting.AspNetCore</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions.Xunit.Hosting.AspNetCore</AssemblyTitle>
+    <Description>The Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace contains types that provides a uniform way of doing unit testing that depends on ASP.NET Core and used in conjunction with Microsoft Dependency Injection. The namespace relates to the Microsoft.AspNetCore.TestHost namespace.</Description>
+    <PackageTags>asp-net-core-host-test class-fixture asp-net-core-host-fixture middleware-test-factory microsoft dependency injection host configuration hosting-environment service-provider configure-services test-server</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.3" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.DependencyInjection\Cuemon.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Xunit.Hosting\Cuemon.Extensions.Xunit.Hosting.csproj" />
+  </ItemGroup>
+</Project>

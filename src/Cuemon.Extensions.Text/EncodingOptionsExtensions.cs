@@ -5,7 +5,7 @@ using Cuemon.Text;
 namespace Cuemon.Extensions.Text
 {
     /// <summary>
-    /// Extension methods for the <see cref="EncodingOptions"/> class.
+    /// Extension methods for the <see cref="IEncodingOptions"/> interface.
     /// </summary>
     public static class EncodingOptionsExtensions
     {

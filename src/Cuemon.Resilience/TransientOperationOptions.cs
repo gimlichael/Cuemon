@@ -3,9 +3,8 @@
 namespace Cuemon.Resilience
 {
     /// <summary>
-    /// Specifies options that is related to handling of <see cref="TransientOperation"/>.
+    /// Configuration options for <see cref="TransientOperation"/>.
     /// </summary>
-    /// <seealso cref="TransientOperation"/>.
     public class TransientOperationOptions
     {
         /// <summary>

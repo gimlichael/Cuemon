@@ -1,0 +1,25 @@
+﻿Version: 6.0.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# Upgrade Steps
+- The Cuemon.Data.XmlClient assembly and namespace was removed with this version
+- Types found in the Cuemon.Data.XmlClient namespace was merged into the Cuemon.Data.Xml namespace
+- To use the earlier built-in support for Microsoft SQL Server, please refer to the Cuemon.Data.SqlClient namespace, as it has been merged and refactored out of this assembly
+- Any former extension methods of the Cuemon.Data namespace was merged into the Cuemon.Extensions.Data namespace
+ 
+# Breaking Changes
+- REFACTORED XmlDataReader class in the Cuemon.Data.Xml namespace to match and inherit from DataReader
+- REFACTORED DataManager class in the Cuemon.Data namespace to have a higher cohesion and lower coupling
+- RENAMED StringDataReader class in the Cuemon.Data namespace to DataReader{T} (including major refactoring of the underlying code)
+- RENAMED DataParameterEqualityComparer class in the Cuemon.Data namespace to DbParameterEqualityComparer
+- REMOVED DataTransferSorter class from the Cuemon.Data namespace
+- REMOVED CsvDataReader class from the Cuemon.Data.CsvClient namespace (including the namespace)
+- MERGED Cuemon.Data.SqlClient namespace to its own assembly
+- REFACTORED InOperator class in the Cuemon.Data namespace to be less complex and make usage of InOperatorResult
+- REMOVED QueryUtility class from the Cuemon.Data namespace
+ 
+# New Features
+- ADDED ConcurrentDsvDataReader class in the Cuemon.Data namespace that provides a concurrent way of reading a forward-only stream of rows from a DSV (Delimiter Separated Values) based data source
+- ADDED DsvDataReader class in the Cuemon.Data namespace that provides a way of reading a forward-only stream of rows from a DSV (Delimiter Separated Values) based data source
+- ADDED InOperatorResult class in the Cuemon.Data namespace that provides the result of an InOperator{T} operation
+- ADDED TokenBuilder class in the Cuemon.Data namespace that represents a mutable string of characters optimized for tokens

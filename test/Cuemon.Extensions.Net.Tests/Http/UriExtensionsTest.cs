@@ -27,9 +27,9 @@ namespace Cuemon.Extensions.Net.Http
             var uri = new Uri("https://www.cuemon.net/");
             var expected = 125;
             var atomicCount = 0;
-            await ParallelFactory.ForAsync(0, expected, i =>
+            await ParallelFactory.ForAsync(0, expected, async (i, ct) =>
             {
-                using (var response = uri.HttpGetAsync().GetAwaiter().GetResult())
+                using (var response = await uri.HttpGetAsync(ct))
                 {
                     Interlocked.Increment(ref atomicCount);
                     Assert.Equal(HttpStatusCode.OK, response.StatusCode);

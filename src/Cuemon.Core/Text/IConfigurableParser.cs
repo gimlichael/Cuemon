@@ -4,7 +4,6 @@ namespace Cuemon.Text
 {
     /// <summary>
     /// Defines methods that converts a <see cref="string"/> to an <see cref="object"/> of a particular type.
-    /// Implements the <see cref="IParser" />
     /// </summary>
     /// <typeparam name="TOptions">The type of the delegate setup.</typeparam>
     /// <seealso cref="IParser" />

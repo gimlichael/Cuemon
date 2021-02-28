@@ -45,7 +45,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             Decorator.Enclose(context.Items).TryAdd(HttpContextItemsKey, correlationId);
             context.Response.OnStarting(() =>
             {
-                Decorator.Enclose(context.Response.Headers).TryAddOrUpdate(Options.HeaderName, correlationId);
+                Decorator.Enclose(context.Response.Headers).AddOrUpdate(Options.HeaderName, correlationId);
                 return Task.CompletedTask;
             });
             return Next(context);
