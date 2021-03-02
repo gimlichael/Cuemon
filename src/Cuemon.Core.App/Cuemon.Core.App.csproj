@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <Description>Provides a default set of Cuemon API additions for building a .NET Core application.</Description>
+    <Description>Provides a default set of API additions for building a .NET Core application.</Description>
   </PropertyGroup>
 
   <ItemGroup>
