@@ -1,0 +1,171 @@
+﻿jobs:
+  - job: 'CI'
+    timeoutInMinutes: 120
+
+    strategy:
+      matrix:
+        Linux_Build_and_Test:
+          imageName: 'ubuntu-20.04'
+        Windows_Build_Test_and_Package:
+          imageName: 'windows-2019'
+
+    pool:
+      vmImage: $(imageName)
+
+    steps:
+
+    - task: UseDotNet@2
+      displayName: 'Use .Net Core SDK 5.0.103'
+      inputs:
+        version: 5.0.103
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Install NBGV tool'
+      inputs:
+        command: custom
+        custom: tool
+        arguments: 'install --global nbgv'
+
+    - script: 'nbgv cloud'
+      displayName: 'Set Version using NBGV'
+
+    - task: DownloadSecureFile@1
+      displayName: 'Download cuemon.snk'
+      inputs:
+        secureFile: 'cuemon.snk'
+
+    - task: CopyFiles@2
+      displayName: 'Copy cuemon.snk to $(System.DefaultWorkingDirectory)'
+      inputs:
+        SourceFolder: '$(Agent.TempDirectory)'
+        Contents: cuemon.snk
+        TargetFolder: '$(System.DefaultWorkingDirectory)'
+
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: restore
+        projects: |
+          **/*.csproj
+
+    - task: DockerCompose@0
+      condition: eq(variables['Agent.OS'], 'Linux')
+      displayName: 'Spin up SQL Server for unit/integration test'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerComposeFile: '**/docker-compose.yml'
+        dockerComposeFileArgs: |
+          SA_PASSWORD=$(awsql-password)
+        dockerComposeCommand: "up -d"
+        action: 'Run a Docker Compose command'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build net5.0 compatible Assemblies'
+      inputs:
+        command: 'build'
+        projects: |
+          src/**/*.csproj
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework net5.0'
+        workingDirectory: '$(BuildSource)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build netcoreapp3.1 compatible Assemblies'
+      inputs:
+        command: 'build'
+        projects: |
+          src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
+          src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
+          src/**/Cuemon.Extensions.Xunit.App.csproj
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.1'
+        workingDirectory: '$(BuildSource)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build netcoreapp3.0 compatible Assemblies'
+      inputs:
+        command: 'build'
+        projects: |
+          src/**/Cuemon.AspNetCore*.csproj
+          src/**/Cuemon.Extensions.AspNetCore*.csproj
+          src/**/Cuemon.Extensions.Hosting.csproj
+          src/**/Cuemon.Extensions.Xunit.Hosting.csproj
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.0'
+        workingDirectory: '$(BuildSource)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build netstandard2.1 compatible Assemblies'
+      inputs:
+        command: 'build'
+        projects: |
+          src/**/Cuemon.Extensions.IO.csproj
+          src/**/Cuemon.IO.csproj
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.1'
+        workingDirectory: '$(BuildSource)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build netstandard2.0 compatible Assemblies'
+      inputs:
+        command: 'build'
+        projects: |
+          src/**/*.csproj
+          !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
+          !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
+          !src/**/Cuemon.Extensions.Xunit.App.csproj
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
+        workingDirectory: '$(BuildSource)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Test Solution - Linux'
+      condition: eq(variables['Agent.OS'], 'Linux')
+      inputs:
+        command: 'test'
+        projects: test/**/*.csproj
+        arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+        publishTestResults: true
+      env:
+        ConnectionStrings__AdventureWorks: $(ConnectionStrings--AdventureWorks)
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Test Solution - Windows'
+      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      inputs:
+        command: 'test'
+        projects: test/**/*.csproj
+        arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
+        publishTestResults: true
+
+    - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
+      condition: eq(variables['Agent.OS'], 'Linux')
+      displayName: 'Create Code Coverage Reports'
+
+    - task: PublishCodeCoverageResults@1
+      condition: eq(variables['Agent.OS'], 'Linux')
+      displayName: 'Publish Code Coverage'
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(Build.SourcesDirectory)/Coverage/Cobertura.xml'
+        reportDirectory: '$(Build.SourcesDirectory)/Coverage'
+
+    - task: DockerCompose@0
+      condition: eq(variables['Agent.OS'], 'Linux')
+      displayName: 'Take down SQL Server'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerComposeFile: '**/docker-compose.yml'
+        dockerComposeCommand: "down"
+        action: 'Run a Docker Compose command'
+
+    - task: DotNetCoreCLI@2
+      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      displayName: dotnet pack
+      inputs:
+        command: pack
+        packagesToPack: src/**/*.csproj
+        nobuild: true
+
+    - task: PublishBuildArtifacts@1
+      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      displayName: 'Store NuGet Packages'
+      inputs:
+        PathtoPublish: $(Build.ArtifactStagingDirectory)
+        ArtifactName: ReleaseCandidate
+        publishLocation: Container
