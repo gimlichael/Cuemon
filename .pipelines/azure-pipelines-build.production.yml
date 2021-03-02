@@ -1,5 +1,6 @@
 ﻿jobs:
-  - job: 'CI'
+  - job: 'Production'
+    displayName: 'Master branch (build)'
     timeoutInMinutes: 120
 
     pool:
