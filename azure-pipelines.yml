@@ -2,6 +2,9 @@ trigger:
   branches:
     include:
     - development
+    - release
+    - master
+
   paths:
     exclude:
     - .github/
@@ -15,232 +18,72 @@ trigger:
     - README.md
 
 variables:
-  - group: BuildSecrets
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
     value: true
   - name: DOTNET_CLI_TELEMETRY_OPTOUT
     value: 1
-  - name: BuildSource
-    value: 'src'
-  - name: BuildPlatform
-    value: 'Any CPU'
-  - name: BuildConfiguration
-    value: 'Release'
 
-jobs:
-- job: CI
-  timeoutInMinutes: 120
 
-  strategy:
-    matrix:
-      Linux_Build_and_Test:
-        imageName: 'ubuntu-20.04'
-      Windows_Build_Test_and_Package:
-        imageName: 'windows-2019'
+stages:
+  - stage: BuildDevelopment
+    displayName: 'Build for development branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'development'))
+    variables:
+      - group: BuildSecrets
+      - name: BuildSource
+        value: 'src'
+      - name: BuildConfiguration
+        value: 'Debug'
+    jobs:
+    - template: .pipelines/azure-pipelines-build.development.yml
 
-  pool:
-    vmImage: $(imageName)
+  - stage: BuildRelease
+    displayName: 'Build for release branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'release'))
+    variables:
+      - group: BuildSecrets
+      - name: BuildSource
+        value: 'src'
+      - name: BuildConfiguration
+        value: 'Release'
+    jobs:
+    - template: .pipelines/azure-pipelines-build.staging.yml
 
-  steps:
+  - stage: BuildMaster
+    displayName: 'Build for master branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'master'))
+    variables:
+      - group: BuildSecrets
+      - name: BuildSource
+        value: 'src'
+      - name: BuildConfiguration
+        value: 'Release'
+    jobs:
+    - template: .pipelines/azure-pipelines-build.production.yml
 
-  - task: UseDotNet@2
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Use .Net Core SDK 2.2.207 (SonarCloud)'
-    inputs:
-      version: 2.2.207
+  - stage: DeployDevelopment
+    displayName: 'Deployment for development branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'development'))
+    dependsOn: BuildDevelopment
+    variables:
+    - group: BuildSecrets
+    jobs:
+    - template: .pipelines/azure-pipelines-release.development.yml
 
-  - task: UseDotNet@2
-    displayName: 'Use .Net Core SDK 5.0.103'
-    inputs:
-      version: 5.0.103
+  - stage: DeployRelease
+    displayName: 'Deployment for release branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'release'))
+    dependsOn: BuildRelease
+    variables:
+    - group: BuildSecrets
+    jobs:
+    - template: .pipelines/azure-pipelines-release.staging.yml
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Install NBGV tool'
-    inputs:
-      command: custom
-      custom: tool
-      arguments: 'install --global nbgv'
-
-  - task: DotNetCoreCLI@2
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Install ReportGenerator tool'
-    inputs:
-      command: custom
-      custom: tool
-      arguments: install --global dotnet-reportgenerator-globaltool
-
-  - script: 'nbgv cloud'
-    displayName: 'Set Version using NBGV'
-
-  - task: DownloadSecureFile@1
-    displayName: 'Download cuemon.snk'
-    inputs:
-      secureFile: 'cuemon.snk'
-
-  - task: CopyFiles@2
-    displayName: 'Copy cuemon.snk to $(System.DefaultWorkingDirectory)'
-    inputs:
-      SourceFolder: '$(Agent.TempDirectory)'
-      Contents: cuemon.snk
-      TargetFolder: '$(System.DefaultWorkingDirectory)'
-
-  - task: DotNetCoreCLI@2
-    displayName: Restore
-    inputs:
-      command: restore
-      projects: |
-        **/*.csproj
-
-  - task: DockerCompose@0
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Spin up SQL Server for unit/integration test'
-    inputs:
-      containerregistrytype: 'Container Registry'
-      dockerComposeFile: '**/docker-compose.yml'
-      dockerComposeFileArgs: |
-        SA_PASSWORD=$(awsql-password)
-      dockerComposeCommand: "up -d"
-      action: 'Run a Docker Compose command'
-
-  - task: SonarCloudPrepare@1
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Prepare Analysis on SonarCloud'
-    inputs:
-      SonarCloud: 'Cuemon-SonarCloud'
-      organization: 'geekle'
-      scannerMode: 'MSBuild'
-      projectKey: 'Cuemon'
-      projectName: 'Cuemon'
-      projectVersion: '$(GitAssemblyInformationalVersion)'
-      extraProperties: |
-        sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*opencover.xml
-        sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Build net5.0 compatible Assemblies'
-    inputs:
-      command: 'build'
-      projects: |
-        src/**/*.csproj
-      arguments: '--configuration $(BuildConfiguration) --no-restore --framework net5.0'
-      workingDirectory: '$(BuildSource)'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Build netcoreapp3.1 compatible Assemblies'
-    inputs:
-      command: 'build'
-      projects: |
-        src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
-        src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
-        src/**/Cuemon.Extensions.Xunit.App.csproj
-      arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.1'
-      workingDirectory: '$(BuildSource)'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Build netcoreapp3.0 compatible Assemblies'
-    inputs:
-      command: 'build'
-      projects: |
-        src/**/Cuemon.AspNetCore*.csproj
-        src/**/Cuemon.Extensions.AspNetCore*.csproj
-        src/**/Cuemon.Extensions.Hosting.csproj
-        src/**/Cuemon.Extensions.Xunit.Hosting.csproj
-      arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.0'
-      workingDirectory: '$(BuildSource)'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Build netstandard2.1 compatible Assemblies'
-    inputs:
-      command: 'build'
-      projects: |
-        src/**/Cuemon.Extensions.IO.csproj
-        src/**/Cuemon.IO.csproj
-      arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.1'
-      workingDirectory: '$(BuildSource)'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Build netstandard2.0 compatible Assemblies'
-    inputs:
-      command: 'build'
-      projects: |
-        src/**/*.csproj
-        !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
-        !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
-        !src/**/Cuemon.Extensions.Xunit.App.csproj
-      arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
-      workingDirectory: '$(BuildSource)'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Test Solution - Linux'
-    condition: eq(variables['Agent.OS'], 'Linux')
-    inputs:
-      command: 'test'
-      projects: test/**/*.csproj
-      arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
-      publishTestResults: true
-    env:
-      ConnectionStrings__AdventureWorks: $(ConnectionStrings--AdventureWorks)
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Test Solution - Windows'
-    condition: eq(variables['Agent.OS'], 'Windows_NT')
-    inputs:
-      command: 'test'
-      projects: test/**/*.csproj
-      arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
-      publishTestResults: true
-
-  - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Create Code Coverage Reports'
-
-  - task: PublishCodeCoverageResults@1
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Publish Code Coverage'
-    inputs:
-      codeCoverageTool: Cobertura
-      summaryFileLocation: '$(Build.SourcesDirectory)/Coverage/Cobertura.xml'
-      reportDirectory: '$(Build.SourcesDirectory)/Coverage'
-
-  - bash: bash <(curl -s https://codecov.io/bash)
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Upload to codecov.io'
-
-  - task: SonarCloudAnalyze@1
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Run Sonar Cloud Code Analysis'
-
-  - task: SonarCloudPublish@1
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Publish Quality Gate Result to Sonar Cloud'
-    inputs:
-      pollingTimeoutSec: '300'
-
-  - task: DockerCompose@0
-    condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Take down SQL Server'
-    inputs:
-      containerregistrytype: 'Container Registry'
-      dockerComposeFile: '**/docker-compose.yml'
-      dockerComposeCommand: "down"
-      action: 'Run a Docker Compose command'
-
-  - task: DotNetCoreCLI@2
-    condition: eq(variables['Agent.OS'], 'Windows_NT')
-    displayName: dotnet pack
-    inputs:
-      command: pack
-      packagesToPack: src/**/*.csproj
-      nobuild: true
-
-  - task: WhiteSource Bolt@20
-    condition: eq(variables['Agent.OS'], 'Windows_NT')
-    displayName: 'WhiteSource Bolt'
-
-  - task: PublishBuildArtifacts@1
-    condition: eq(variables['Agent.OS'], 'Windows_NT')
-    displayName: 'Store NuGet Packages'
-    inputs:
-      PathtoPublish: $(Build.ArtifactStagingDirectory)
-      ArtifactName: Packages
-      publishLocation: Container
+  - stage: DeployMaster
+    displayName: 'Deployment for master branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'master'))
+    dependsOn: BuildMaster
+    variables:
+    - group: BuildSecrets
+    jobs:
+    - template: .pipelines/azure-pipelines-release.production.yml
