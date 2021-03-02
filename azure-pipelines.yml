@@ -131,6 +131,7 @@ jobs:
       projects: |
         src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
         src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
+        src/**/Cuemon.Extensions.Xunit.App.csproj
       arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.1'
       workingDirectory: '$(BuildSource)'
 
@@ -164,6 +165,7 @@ jobs:
         src/**/*.csproj
         !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
         !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
+        !src/**/Cuemon.Extensions.Xunit.App.csproj
       arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
       workingDirectory: '$(BuildSource)'
 
