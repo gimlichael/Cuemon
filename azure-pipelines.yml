@@ -5,6 +5,7 @@ trigger:
   paths:
     exclude:
     - .github/
+    - .pipelines/
     - docfx/
     - azure-pipelines.yml
     - BuildDocfxImage.ps1
