@@ -36,30 +36,6 @@ stages:
     jobs:
     - template: .pipelines/azure-pipelines-build.development.yml
 
-  - stage: BuildRelease
-    displayName: 'Build for release branch'
-    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'release'))
-    variables:
-      - group: BuildSecrets
-      - name: BuildSource
-        value: 'src'
-      - name: BuildConfiguration
-        value: 'Release'
-    jobs:
-    - template: .pipelines/azure-pipelines-build.staging.yml
-
-  - stage: BuildMaster
-    displayName: 'Build for master branch'
-    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'master'))
-    variables:
-      - group: BuildSecrets
-      - name: BuildSource
-        value: 'src'
-      - name: BuildConfiguration
-        value: 'Release'
-    jobs:
-    - template: .pipelines/azure-pipelines-build.production.yml
-
   - stage: DeployDevelopment
     displayName: 'Deployment for development branch'
     condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'development'))
@@ -68,21 +44,3 @@ stages:
     - group: BuildSecrets
     jobs:
     - template: .pipelines/azure-pipelines-release.development.yml
-
-  - stage: DeployRelease
-    displayName: 'Deployment for release branch'
-    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'release'))
-    dependsOn: BuildRelease
-    variables:
-    - group: BuildSecrets
-    jobs:
-    - template: .pipelines/azure-pipelines-release.staging.yml
-
-  - stage: DeployMaster
-    displayName: 'Deployment for master branch'
-    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'master'))
-    dependsOn: BuildMaster
-    variables:
-    - group: BuildSecrets
-    jobs:
-    - template: .pipelines/azure-pipelines-release.production.yml
