@@ -85,6 +85,7 @@ For more information see our [code of conduct](.github/CODE_OF_CONDUCT.md).
 NuGet links to all projects of Cuemon for .NET:
 
 * [Cuemon.AspNetCore](https://www.nuget.org/packages/Cuemon.AspNetCore/)
+* [Cuemon.AspNetCore.App](https://www.nuget.org/packages/Cuemon.AspNetCore.App/) *
 * [Cuemon.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.AspNetCore.Authentication/)
 * [Cuemon.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.AspNetCore.Mvc/)
 * ~~Cuemon.AspNetCore.Mvc.Formatters.Json~~
@@ -93,6 +94,7 @@ NuGet links to all projects of Cuemon for .NET:
 * [Cuemon.AspNetCore.Razor.TagHelpers](https://www.nuget.org/packages/Cuemon.AspNetCore.Razor.TagHelpers/)
 * ~~Cuemon.Collections.Specialized~~
 * [Cuemon.Core](https://www.nuget.org/packages/Cuemon.Core/)
+* [Cuemon.Core.App](https://www.nuget.org/packages/Cuemon.Core.App/) *
 * ~~Cuemon.Core.Package~~
 * [Cuemon.Data](https://www.nuget.org/packages/Cuemon.Data/)
 * [Cuemon.Data.Integrity](https://www.nuget.org/packages/Cuemon.Data.Integrity/)
@@ -121,6 +123,7 @@ NuGet links to all projects of Cuemon for .NET:
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/)
 * [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/)
 * [Cuemon.Extensions.Xunit](https://www.nuget.org/packages/Cuemon.Extensions.Xunit/)
+* [Cuemon.Extensions.Xunit.App](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.App/) *
 * [Cuemon.Extensions.Xunit.Hosting](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.Hosting/)
 * [Cuemon.Extensions.Xunit.Hosting.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.Hosting.AspNetCore/)
 * [Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc/)
@@ -140,3 +143,5 @@ NuGet links to all projects of Cuemon for .NET:
 * [Cuemon.Threading](https://www.nuget.org/packages/Cuemon.Threading/)
 * ~~Cuemon.Web~~
 * [Cuemon.Xml](https://www.nuget.org/packages/Cuemon.Xml/)
+
+*) Provides a convenient set of default API additions for building various types of .NET projects.
