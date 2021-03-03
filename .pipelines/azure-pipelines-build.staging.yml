@@ -27,6 +27,14 @@
         custom: tool
         arguments: 'install --global nbgv'
 
+    - task: DotNetCoreCLI@2
+      condition: eq(variables['Agent.OS'], 'Linux')
+      displayName: 'Install ReportGenerator tool'
+      inputs:
+        command: custom
+        custom: tool
+        arguments: install --global dotnet-reportgenerator-globaltool
+
     - script: 'nbgv cloud'
       displayName: 'Set Version using NBGV'
 
