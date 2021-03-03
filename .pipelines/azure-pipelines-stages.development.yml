@@ -1,0 +1,21 @@
+﻿stages:
+  - stage: BuildDevelopment
+    displayName: 'Build for development branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'development'))
+    variables:
+      - group: BuildSecrets
+      - name: BuildSource
+        value: 'src'
+      - name: BuildConfiguration
+        value: 'Debug'
+    jobs:
+    - template: azure-pipelines-jobs-build.development.yml
+
+  - stage: DeployDevelopment
+    displayName: 'Deployment for development branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'development'))
+    dependsOn: BuildDevelopment
+    variables:
+    - group: BuildSecrets
+    jobs:
+    - template: azure-pipelines-jobs-deployment.development.yml

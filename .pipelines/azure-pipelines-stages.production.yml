@@ -1,0 +1,21 @@
+﻿stages:
+  - stage: BuildMaster
+    displayName: 'Build for master branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'master'))
+    variables:
+      - group: BuildSecrets
+      - name: BuildSource
+        value: 'src'
+      - name: BuildConfiguration
+        value: 'Release'
+    jobs:
+    - template: azure-pipelines-jobs-build.production.yml
+
+  - stage: DeployMaster
+    displayName: 'Deployment for master branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'master'))
+    dependsOn: BuildMaster
+    variables:
+    - group: BuildSecrets
+    jobs:
+    - template: azure-pipelines-jobs-deployment.production.yml
