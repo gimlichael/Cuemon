@@ -23,7 +23,6 @@ variables:
   - name: DOTNET_CLI_TELEMETRY_OPTOUT
     value: 1
 
-
 stages:
   - stage: BuildRelease
     displayName: 'Build for release branch'
