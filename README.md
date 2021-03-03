@@ -9,7 +9,7 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 ## State of the Union
 
-Cuemon for .NET (formerly Cuemon .NET Standard) has been completely refactored and updated to support .NET 5 while for the most part being compatible with .NET Standard 2.0, .NET Core 2.0 and .NET Core 3.0.
+Cuemon for .NET (formerly Cuemon .NET Standard) has been completely refactored and updated to support .NET 5.
 
 Another big change for this upcoming release is the versioning; the developers has spoken and cast their love on semantic versioning.
 The release for now is planned to be 6.0.0.
