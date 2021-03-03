@@ -158,9 +158,9 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
         private static UnkeyedCryptoAlgorithm ParseAlgorithm(string algorithm)
         {
-            return algorithm.StartsWith("SHA-512", StringComparison.OrdinalIgnoreCase) ? UnkeyedCryptoAlgorithm.Sha512
-                : algorithm.StartsWith("SHA-256", StringComparison.OrdinalIgnoreCase) ? UnkeyedCryptoAlgorithm.Sha256
-                : UnkeyedCryptoAlgorithm.Md5;
+            if (algorithm.StartsWith("SHA-512", StringComparison.OrdinalIgnoreCase)) { return UnkeyedCryptoAlgorithm.Sha512; }
+            if (algorithm.StartsWith("SHA-256", StringComparison.OrdinalIgnoreCase)) { return UnkeyedCryptoAlgorithm.Sha256; }
+            return UnkeyedCryptoAlgorithm.Md5;
         }
 
         /// <summary>

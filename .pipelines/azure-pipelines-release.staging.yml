@@ -1,0 +1,23 @@
+﻿jobs:
+  - deployment: 'CD'
+    displayName: 'RC: release to public NuGet Feed'
+    environment: 'Staging'
+    pool:
+      vmImage: 'ubuntu-20.04'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: DownloadBuildArtifacts@0
+              displayName: 'Download the build artifacts'
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'ReleaseCandidate'
+                downloadPath: '$(System.DefaultWorkingDirectory)'
+
+            - task: NuGetCommand@2
+              displayName: 'Publish NuGet Packages to https://nuget.cuemon.net/v3/index.json'
+              inputs:
+                command: custom
+                arguments: 'push $(System.DefaultWorkingDirectory)/**/*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $(nuget-org-apikey) -SkipDuplicate'

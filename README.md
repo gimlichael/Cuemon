@@ -80,18 +80,20 @@ Project maintainers pledge to foster an open and welcoming environment, and ask 
 For more information see our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 
-## Links to NuGet packages (will be updated once Cuemon for .NET has shipped in 6.0.0)
+## Links to NuGet packages
 
-NuGet links for this project:
+NuGet links to all projects of Cuemon for .NET:
 
 * [Cuemon.AspNetCore](https://www.nuget.org/packages/Cuemon.AspNetCore/)
 * [Cuemon.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.AspNetCore.Authentication/)
 * [Cuemon.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.AspNetCore.Mvc/)
 * ~~Cuemon.AspNetCore.Mvc.Formatters.Json~~
 * ~~Cuemon.AspNetCore.Mvc.Formatters.Xml~~
+* ~~Cuemon.AspNetCore.Package~~
 * [Cuemon.AspNetCore.Razor.TagHelpers](https://www.nuget.org/packages/Cuemon.AspNetCore.Razor.TagHelpers/)
 * ~~Cuemon.Collections.Specialized~~
 * [Cuemon.Core](https://www.nuget.org/packages/Cuemon.Core/)
+* ~~Cuemon.Core.Package~~
 * [Cuemon.Data](https://www.nuget.org/packages/Cuemon.Data/)
 * [Cuemon.Data.Integrity](https://www.nuget.org/packages/Cuemon.Data.Integrity/)
 * [Cuemon.Data.SqlClient](https://www.nuget.org/packages/Cuemon.Data.SqlClient/)
@@ -138,9 +140,3 @@ NuGet links for this project:
 * [Cuemon.Threading](https://www.nuget.org/packages/Cuemon.Threading/)
 * ~~Cuemon.Web~~
 * [Cuemon.Xml](https://www.nuget.org/packages/Cuemon.Xml/)
-
-
-These will be updated to the current version ASAP to get you started out easy.
-
-* Cuemon .NET Standard Package on [Nuget](https://www.nuget.org/packages/Cuemon.Core.Package/)
-* Cuemon ASP.NET Core Package on [Nuget](https://www.nuget.org/packages/Cuemon.AspNetCore.Package/)

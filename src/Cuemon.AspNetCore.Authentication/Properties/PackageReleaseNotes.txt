@@ -35,3 +35,6 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - ADDED INonceTracker interface in the Cuemon.AspNetCore.Authentication namespace that represents tracking of server-generated nonce values
 - ADDED MemoryNonceTracker class in the Cuemon.AspNetCore.Authentication namespace that provides a default in-memory implementation of the INonceTracker interface
  
+# Quality Analysis Actions
+- CHANGED DigestAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace away from non-compliant code (https://rules.sonarsource.com/csharp/RSPEC-3358)
+ 
