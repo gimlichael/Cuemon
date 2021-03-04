@@ -30,4 +30,4 @@ stages:
   - ${{ if endsWith(variables['build.sourceBranch'], 'release') }}:
     - template: .pipelines/azure-pipelines-stages.staging.yml
   - ${{ if endsWith(variables['build.sourceBranch'], 'master') }}:
-    - template: .pipelines/azure-pipelines-build.production.yml
+    - template: .pipelines/azure-pipelines-stages.production.yml
