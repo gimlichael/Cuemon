@@ -21,4 +21,3 @@
               inputs:
                 command: custom
                 arguments: 'push $(System.DefaultWorkingDirectory)/**/*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $(nuget-org-apikey) -SkipDuplicate'
-              continueOnError: true
