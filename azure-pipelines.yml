@@ -16,6 +16,7 @@ trigger:
     - Dockerfile.docfx
     - LICENSE.md
     - README.md
+    - version.json
 
 variables:
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
@@ -24,23 +25,9 @@ variables:
     value: 1
 
 stages:
-  - stage: BuildRelease
-    displayName: 'Build for release branch'
-    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'release'))
-    variables:
-      - group: BuildSecrets
-      - name: BuildSource
-        value: 'src'
-      - name: BuildConfiguration
-        value: 'Release'
-    jobs:
-    - template: .pipelines/azure-pipelines-build.staging.yml
-
-  - stage: DeployRelease
-    displayName: 'Deployment for release branch'
-    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'release'))
-    dependsOn: BuildRelease
-    variables:
-    - group: BuildSecrets
-    jobs:
-    - template: .pipelines/azure-pipelines-release.staging.yml
+  - ${{ if endsWith(variables['build.sourceBranch'], 'development') }}:
+    - template: .pipelines/azure-pipelines-stages.development.yml
+  - ${{ if endsWith(variables['build.sourceBranch'], 'release') }}:
+    - template: .pipelines/azure-pipelines-stages.staging.yml
+  - ${{ if endsWith(variables['build.sourceBranch'], 'master') }}:
+    - template: .pipelines/azure-pipelines-build.production.yml
