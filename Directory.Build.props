@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
-    <IsMainAuthor>$([System.Environment]::GetEnvironmentVariable('EMAIL').Equals('michael@geekle.io'))</IsMainAuthor>
+    <IsMainAuthor Condition="'$(EMAIL)' == 'michael@geekle.io'">true</IsMainAuthor>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
