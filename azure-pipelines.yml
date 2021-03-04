@@ -16,6 +16,7 @@ trigger:
     - Dockerfile.docfx
     - LICENSE.md
     - README.md
+    - version.json
 
 variables:
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
