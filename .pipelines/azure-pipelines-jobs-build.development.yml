@@ -148,7 +148,7 @@
       inputs:
         command: 'test'
         projects: test/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+        arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" --settings coverlet.runsettings /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
         publishTestResults: true
       env:
         ConnectionStrings__AdventureWorks: $(ConnectionStrings--AdventureWorks)
@@ -159,7 +159,7 @@
       inputs:
         command: 'test'
         projects: test/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
+        arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" --settings coverlet.runsettings /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
         publishTestResults: true
 
     - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
