@@ -1,6 +1,7 @@
 <Project>
   <PropertyGroup>
     <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
+    <IsMainAuthor>$([System.Environment]::GetEnvironmentVariable('EMAIL').Equals('michael@geekle.io'))</IsMainAuthor>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
@@ -8,7 +9,7 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(EMAIL)' == 'michael@geekle.io' AND '$(TF_BUILD)' != 'true'">
+  <PropertyGroup Condition="'$(IsMainAuthor)' == 'true' AND '$(TF_BUILD)' != 'true'">
     <CodeAnalysisRuleSet>..\..\.sonarlint\cuemoncsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
@@ -28,11 +29,11 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <SignAssembly Condition="'$(TF_BUILD)' == 'true' OR '$(EMAIL)' == 'michael@geekle.io'">true</SignAssembly>
+    <SignAssembly Condition="'$(TF_BUILD)' == 'true' OR '$(IsMainAuthor)' == 'true'">true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(EMAIL)' == 'michael@geekle.io' AND '$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
+  <ItemGroup Condition="'$(IsMainAuthor)' == 'true' AND '$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
     <AdditionalFiles Include="..\..\.sonarlint\cuemon\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
