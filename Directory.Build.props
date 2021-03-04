@@ -8,7 +8,7 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TF_BUILD)' != 'true'">
+  <PropertyGroup Condition="'$(EMAIL)' == 'michael@geekle.io' AND '$(TF_BUILD)' != 'true'">
     <CodeAnalysisRuleSet>..\..\.sonarlint\cuemoncsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
