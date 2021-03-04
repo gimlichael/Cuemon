@@ -4,7 +4,6 @@ trigger:
     - development
     - release
     - master
-
   paths:
     exclude:
     - .github/
@@ -17,6 +16,8 @@ trigger:
     - LICENSE.md
     - README.md
     - version.json
+
+pr: none
 
 variables:
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
