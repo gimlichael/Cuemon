@@ -32,7 +32,7 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
+  <ItemGroup Condition="'$(EMAIL)' == 'michael@geekle.io' AND '$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
     <AdditionalFiles Include="..\..\.sonarlint\cuemon\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
