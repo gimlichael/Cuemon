@@ -9,7 +9,7 @@
       - name: BuildConfiguration
         value: 'Release'
     jobs:
-    - template: azure-pipelines-build.staging.yml
+    - template: azure-pipelines-jobs-build.staging.yml
 
   - stage: DeployRelease
     displayName: 'Deployment for release branch'
@@ -18,4 +18,4 @@
     variables:
     - group: BuildSecrets
     jobs:
-    - template: azure-pipelines-deployment.staging.yml
+    - template: azure-pipelines-jobs-deployment.staging.yml
