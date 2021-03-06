@@ -51,7 +51,7 @@ namespace Cuemon
             {
                 var descriptor = new MethodDescriptor(thrower ?? exception.TargetSite);
                 builder.Append(Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{descriptor.ToString()}"))));
-                builder.Append(".");
+                builder.Append('.');
                 if (runtimeParameters != null && runtimeParameters.Any())
                 {
                     var rp = DelimitedString.Create(MethodDescriptor.MergeParameters(descriptor, runtimeParameters), o =>
@@ -69,7 +69,7 @@ namespace Cuemon
             else
             {
                 builder.Append(empty);
-                builder.Append(".");
+                builder.Append('.');
                 builder.Append(empty);
             }
             EmbedSystemSnapshot(builder, snapshot, empty);
@@ -79,7 +79,7 @@ namespace Cuemon
 
         private static void EmbedSystemSnapshot(StringBuilder builder, SystemSnapshot snapshot, string empty)
         {
-            builder.Append(".");
+            builder.Append('.');
             if (snapshot.HasFlag(SystemSnapshot.CaptureThreadInfo))
             {
                 var ti = string.Join(Alphanumeric.NewLine, new ThreadInfo(Thread.CurrentThread).ToString().Split('^'));
@@ -89,7 +89,7 @@ namespace Cuemon
             {
                 builder.Append(empty);
             }
-            builder.Append(".");
+            builder.Append('.');
             if (snapshot.HasFlag(SystemSnapshot.CaptureProcessInfo))
             {
                 var pi = string.Join(Alphanumeric.NewLine, new ProcessInfo(Process.GetCurrentProcess()).ToString().Split('^'));
@@ -99,7 +99,7 @@ namespace Cuemon
             {
                 builder.Append(empty);
             }
-            builder.Append(".");
+            builder.Append('.');
             if (snapshot.HasFlag(SystemSnapshot.CaptureEnvironmentInfo))
             {
                 var ei = string.Join(Alphanumeric.NewLine, new EnvironmentInfo().ToString().Split('^'));
