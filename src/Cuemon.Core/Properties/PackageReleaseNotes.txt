@@ -175,6 +175,7 @@ Availability: NET Standard 2.0, NET 5.0
 # Quality Analysis Actions
 - JUSTIFIED several ROSLYN analysis findings
 - CHANGED SystemSnapshot enum in the Cuemon namespace to SystemSnapshots (https://rules.sonarsource.com/csharp/RSPEC-2342)
+- CHANGED Validator class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-4136
 - Several ;-)
  
 # Other Changes

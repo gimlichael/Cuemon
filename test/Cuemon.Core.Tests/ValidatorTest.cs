@@ -234,11 +234,29 @@ namespace Cuemon
         }
 
         [Fact]
+        public void ThrowIfFalse_PredicateShouldThrowArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfFalse(() => false, "paramName", "Value is false ;-)");
+            });
+        }
+
+        [Fact]
         public void ThrowIfTrue_ShouldThrowArgumentException()
         {
             Assert.Throws<ArgumentException>(() =>
             {
                 Validator.ThrowIfTrue(true, "paramName");
+            });
+        }
+
+        [Fact]
+        public void ThrowIfTrue_PredicateShouldThrowArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfTrue(() => true, "paramName", "Value is true ;-)");
             });
         }
 
