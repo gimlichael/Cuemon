@@ -162,7 +162,8 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED UnitPrefixFormatter class in the Cuemon namespace that defines the string formatting of objects having an implementation of either IPrefixUnit or IUnit
  
 # Bug Fixes
-- Several ;-)
+- FIXED critical bug in the DateSpan struct located on the Cuemon namespace
+- Several; please do a git diff.
  
 # Improvements
 - CHANGED HashResult class in the Cuemon.Security namespace to implement IEquatable{HashResult} as well as other improvements
