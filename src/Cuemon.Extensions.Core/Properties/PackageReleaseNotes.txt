@@ -17,3 +17,6 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED TypeExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Type class: ToFriendlyName, ToTypeCode, HasEqualityComparerImplementation, HasComparableImplementation, HasComparerImplementation, HasEnumerableImplementation, HasDictionaryImplementation, HasKeyValuePairImplementation, IsNullable, HasAnonymousCharacteristics, IsComplex, IsSimple, GetDefaultValue, HasTypes, HasInterfaces, HasAttributes
 - ADDED ValidatorExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Validator class: HasDifference, NoDifference
  
+# Quality Analysis Actions
+- JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2200 on ValidatorExtensions class in the Cuemon.Extensions namespace
+ 

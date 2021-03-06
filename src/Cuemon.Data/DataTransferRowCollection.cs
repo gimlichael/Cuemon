@@ -34,10 +34,15 @@ namespace Cuemon.Data
                 for (var i = 0; i < fieldCount; i++)
                 {
                     var columnType = reader[i].GetType();
-                    Data.Add(values[i] == null ? Decorator.Enclose(columnType).GetDefaultValue() : DBNull.Value.Equals(values[i]) ? null : values[i]);
+                    Data.Add(values[i] == null ? Decorator.Enclose(columnType).GetDefaultValue() : ChangeDbNullToNullWhenApplicable(values[i]));
                 }
                 rowNumber++;
             }
+        }
+
+        private static object ChangeDbNullToNullWhenApplicable(object value)
+        {
+            return DBNull.Value.Equals(value) ? null : value;
         }
 
         internal DataTransferColumnCollection Columns { get; }

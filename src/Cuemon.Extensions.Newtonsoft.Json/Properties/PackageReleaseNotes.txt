@@ -19,3 +19,6 @@ Availability: NET Standard 2.0, NET 5.0
 - EXTENDED JsonSerializerSettingsExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace with one new extension method for the JsonSerializerSettings class: UseCamelCase
 - ADDED ValidatorExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace that consist of extension methods for the Validator class: InvalidJsonDocument
  
+# Quality Analysis Actions
+- JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2200 on ValidatorExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace
+ 

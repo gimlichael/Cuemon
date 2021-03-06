@@ -179,6 +179,7 @@ Availability: NET Standard 2.0, NET 5.0
 - CHANGED Hierarchy class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-1066
 - CHANGED Hierarchy class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-4456
 - FIXED UnitPrefixFormatter class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-927
+- JUSTIFIED https://rules.sonarsource.com/csharp/RSPEC-3925 on DataPairDictionary class in the Cuemon.Collections namespace
  
 # Other Changes
 - Several ;-)
