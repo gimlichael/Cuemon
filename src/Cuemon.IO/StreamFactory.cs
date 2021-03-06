@@ -118,11 +118,11 @@ namespace Cuemon.IO
             return Patterns.SafeInvoke(() => new MemoryStream(options.BufferSize),  (ms, f) =>
             {
                 var writer = new InternalStreamWriter(ms, options);
-                {
-                    f.GenericArguments.Arg1 = writer;
-                    f.ExecuteMethod();
-                    writer.Flush();
-                }
+                
+                f.GenericArguments.Arg1 = writer;
+                f.ExecuteMethod();
+                writer.Flush();
+                
                 ms.Flush();
                 ms.Position = 0;
                 if (options.Preamble == PreambleSequence.Remove)
