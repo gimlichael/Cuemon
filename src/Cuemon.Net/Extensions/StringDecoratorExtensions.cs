@@ -165,10 +165,15 @@ namespace Cuemon.Net
             {
                 var equalLocation = nameAndValue.IndexOf("=", StringComparison.OrdinalIgnoreCase);
                 if (equalLocation < 0) { continue; } // we have no parameter values, just a value pair like lcid=1030& or lcid=1030&test
-                var value = equalLocation == nameAndValue.Length ? null : urlDecode ? Decorator.Enclose(nameAndValue.Substring(equalLocation + 1)).UrlDecode() : nameAndValue.Substring(equalLocation + 1);
+                var value = equalLocation == nameAndValue.Length ? null : ApplyUrlDecodeWhenRequired(urlDecode, nameAndValue, equalLocation);
                 modifiedFieldValuePairs.Add(nameAndValue.Substring(0, nameAndValue.IndexOf("=", StringComparison.OrdinalIgnoreCase)), value);
             }
             return modifiedFieldValuePairs;
+        }
+
+        private static string ApplyUrlDecodeWhenRequired(bool urlDecode, string nameAndValue, int equalLocation)
+        {
+            return urlDecode ? Decorator.Enclose(nameAndValue.Substring(equalLocation + 1)).UrlDecode() : nameAndValue.Substring(equalLocation + 1);
         }
     }
 }
