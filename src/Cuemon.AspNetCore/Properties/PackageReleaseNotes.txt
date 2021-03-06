@@ -20,4 +20,7 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - ADDED DynamicCacheBusting class in the Cuemon.AspNetCore.Configuration namespace that provides cache-busting capabilities on a duration based interval
 - ADDED DynamicCacheBustingOptions class in the Cuemon.AspNetCore.Configuration namespace that specifies options related to DynamicCacheBusting
 - ADDED ICacheBusting interface in the Cuemon.AspNetCore.Configuration namespace that is an interface to provide cache-busting capabilities
+
+# Quality Analysis Actions
+- FIXED HostingEnvironmentMiddleware class in the Cuemon.AspNetCore.Hosting namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-927
  

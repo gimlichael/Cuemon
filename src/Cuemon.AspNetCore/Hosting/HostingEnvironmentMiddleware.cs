@@ -35,15 +35,15 @@ namespace Cuemon.AspNetCore.Hosting
         /// Executes the <see cref="HostingEnvironmentMiddleware" />.
         /// </summary>
         /// <param name="context">The context of the current request.</param>
-        /// <param name="he">The dependency injected <see cref="IHostEnvironment"/> of <see cref="InvokeAsync"/>.</param>
+        /// <param name="di">The dependency injected <see cref="IHostEnvironment"/> of <see cref="InvokeAsync"/>.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
-        public override Task InvokeAsync(HttpContext context, IHostEnvironment he)
+        public override Task InvokeAsync(HttpContext context, IHostEnvironment di)
         {
             context.Response.OnStarting(() =>
             {
-                if (!Options.SuppressHeaderPredicate(he))
+                if (!Options.SuppressHeaderPredicate(di))
                 {
-                    Decorator.Enclose(context.Response.Headers).TryAdd(Options.HeaderName, he.EnvironmentName);
+                    Decorator.Enclose(context.Response.Headers).TryAdd(Options.HeaderName, di.EnvironmentName);
                 }
                 return Task.CompletedTask;
             });
@@ -78,15 +78,15 @@ namespace Cuemon.AspNetCore.Hosting
         /// Executes the <see cref="HostingEnvironmentMiddleware" />.
         /// </summary>
         /// <param name="context">The context of the current request.</param>
-        /// <param name="he">The dependency injected <see cref="IHostingEnvironment"/> of <see cref="InvokeAsync"/>.</param>
+        /// <param name="di">The dependency injected <see cref="IHostingEnvironment"/> of <see cref="InvokeAsync"/>.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
-        public override Task InvokeAsync(HttpContext context, IHostingEnvironment he)
+        public override Task InvokeAsync(HttpContext context, IHostingEnvironment di)
         {
             context.Response.OnStarting(() =>
             {
-                if (!Options.SuppressHeaderPredicate(he))
+                if (!Options.SuppressHeaderPredicate(di))
                 {
-                    Decorator.Enclose(context.Response.Headers).TryAdd(Options.HeaderName, he.EnvironmentName);
+                    Decorator.Enclose(context.Response.Headers).TryAdd(Options.HeaderName, di.EnvironmentName);
                 }
                 return Task.CompletedTask;
             });
