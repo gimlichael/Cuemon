@@ -267,10 +267,7 @@ namespace Cuemon
                     if (Decorator.Enclose(currentType).HasEnumerableImplementation())
                     {
                         if (property.GetIndexParameters().Length > 0) { continue; }
-                        if (Decorator.Enclose(currentType).HasDictionaryImplementation())
-                        {
-                            if (property.Name == "Keys" || property.Name == "Values") { continue; }
-                        }
+                        if (Decorator.Enclose(currentType).HasDictionaryImplementation() && (property.Name == "Keys" || property.Name == "Values")) { continue; }
                     }
 
                     var propertyValue = options.ValueResolver(current.Instance, property);
