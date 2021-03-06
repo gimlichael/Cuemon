@@ -82,7 +82,7 @@ namespace Cuemon
     {
         private T _instance;
         private Type _instanceType;
-        private MemberInfo _memberReference;
+        private readonly MemberInfo _memberReference;
         private readonly IDictionary<string, object> _data = new Dictionary<string, object>();
 
         #region Constructors
@@ -113,8 +113,8 @@ namespace Cuemon
         /// <value>The object that this wrapper represents.</value>
         public virtual T Instance
         {
-            get { return _instance; }
-            protected set { _instance = value; }
+            get => _instance;
+            protected set => _instance = value;
         }
 
         /// <summary>
@@ -123,37 +123,28 @@ namespace Cuemon
         /// <value>The type of the that this wrapper represents.</value>
         public virtual Type InstanceType
         {
-            get { return _instanceType; }
-            protected set { _instanceType = value; }
+            get => _instanceType;
+            protected set => _instanceType = value;
         }
 
         /// <summary>
         /// Gets the member from where <see cref="Instance"/> was referenced.
         /// </summary>
         /// <value>The member from where <see cref="Instance"/> was referenced.</value>
-        public virtual MemberInfo MemberReference
-        {
-            get { return _memberReference; }
-            set { _memberReference = value; }
-        }
+        public virtual MemberInfo MemberReference { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance has a member reference.
         /// </summary>
         /// <value><c>true</c> if this instance has a member reference; otherwise, <c>false</c>.</value>
-        public virtual bool HasMemberReference
-        {
-            get { return (_memberReference != null); }
-        }
+        public virtual bool HasMemberReference => (_memberReference != null);
 
         /// <summary>
         /// Gets a collection of key/value pairs that provide additional user-defined information about this wrapper object.
         /// </summary>
         /// <value>An object that implements the <see cref="IDictionary{TKey,TValue}"/> interface and contains a collection of user-defined key/value pairs.</value>
-        public virtual IDictionary<string, object> Data
-        {
-            get { return _data; }
-        }
+        public virtual IDictionary<string, object> Data => _data;
+
         #endregion
 
         #region Methods
