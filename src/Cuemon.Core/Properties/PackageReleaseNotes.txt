@@ -177,7 +177,7 @@ Availability: NET Standard 2.0, NET 5.0
 - CHANGED SystemSnapshot enum in the Cuemon namespace to SystemSnapshots (https://rules.sonarsource.com/csharp/RSPEC-2342)
 - CHANGED Validator class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-4136
 - CHANGED Hierarchy class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-1066
-- Several ;-)
+- CHANGED Hierarchy class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-4456
  
 # Other Changes
 - Several ;-)
