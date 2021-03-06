@@ -8,10 +8,13 @@ namespace Cuemon
 	/// <summary>
 	/// Represents a <see cref="DateTime"/> interval between two <see cref="DateTime"/> values.
 	/// </summary>
-	public struct DateSpan : IEquatable<DateSpan>
-	{
-		#region Constructors
-		/// <summary>
+	public readonly struct DateSpan : IEquatable<DateSpan>
+    {
+        private readonly DateTime _lower;
+        private readonly DateTime _upper;
+        private readonly Calendar _calendar;
+
+        /// <summary>
 		/// Initializes a new instance of the <see cref="DateSpan"/> structure with a default <see cref="DateTime"/> value set to <see cref="DateTime.Today"/>.
 		/// </summary>
 		/// <param name="start">A <see cref="DateTime"/> value for the <see cref="DateSpan"/> calculation.</param>
@@ -20,7 +23,7 @@ namespace Cuemon
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DateSpan"/> structure with a default <see cref="Calendar"/> value from the <see cref="CultureInfo.InvariantCulture"/> class.
+		/// Initializes a new instance of the <see cref="DateSpan"/> structure with a default <see cref="_calendar"/> value from the <see cref="CultureInfo.InvariantCulture"/> class.
 		/// </summary>
 		/// <param name="start">A <see cref="DateTime"/> value for the <see cref="DateSpan"/> calculation.</param>
 		/// <param name="end">A <see cref="DateTime"/> value for the <see cref="DateSpan"/> calculation.</param>
@@ -38,44 +41,78 @@ namespace Cuemon
 		{
             Validator.ThrowIfNull(calendar, nameof(calendar));
 
-            Highest = Arguments.ToEnumerableOf(start, end).Max();
-            Lowest = Arguments.ToEnumerableOf(start, end).Min();
-            Calendar = calendar;
+            _lower = Arguments.ToEnumerableOf(start, end).Min();
+            _upper = Arguments.ToEnumerableOf(start, end).Max();
+            _calendar = calendar;
 
-            GetMonths(out var deltaMonths, out var totalMonths);
+            var lower = _lower;
+            var upper = _upper;
 
-			var timespan = (Highest - Lowest);
-			Hours = timespan.Hours;
-			TotalHours = (long)timespan.TotalHours;
-			Milliseconds = timespan.Milliseconds;
-			TotalMilliseconds = (long)timespan.TotalMilliseconds;
-			Minutes = timespan.Minutes;
-			TotalMinutes = (long)timespan.TotalMinutes;
-		    Months = deltaMonths;
-            TotalMonths = totalMonths;
-		    Days = Highest.Day;
-			TotalDays = (int)Math.Floor(timespan.TotalDays);
-			Seconds = timespan.Seconds;
-			TotalSeconds = (long)timespan.TotalSeconds;
-			Ticks = timespan.Ticks;
-			Years = GetYears(Highest, Lowest);
-		}
-		#endregion
+            var months = 0;
+            var days = 0;
 
-		#region Methods
-		/// <summary>
+            var years = upper.Year == lower.Year ? 0 : upper.Year - lower.Year;
+            var hours = upper.Hour == lower.Hour ? 0 : upper.Hour - lower.Hour;
+            var minutes = upper.Minute == lower.Minute ? 0 : upper.Minute - lower.Minute;
+            var seconds = upper.Second == lower.Second ? 0 : upper.Second - lower.Second;
+            var milliseconds = upper.Millisecond == lower.Millisecond ? 0 : upper.Millisecond - lower.Millisecond;
+			
+            int daysPerYears;
+            var y = lower.Year;
+            do
+            {
+                daysPerYears = _calendar.GetDaysInYear(y);
+                y++;
+            } while (y < upper.Year);
+
+            while (!lower.Year.Equals(upper.Year) || !lower.Month.Equals(upper.Month))
+            {
+                var daysPerMonth = _calendar.GetDaysInMonth(lower.Year, lower.Month);
+                days += daysPerMonth;
+                lower = lower.AddMonths(1);
+                months++;
+            }
+
+            while (!lower.Day.Equals(upper.Day))
+            {
+                days++;
+                lower = lower.AddDays(1);
+            }
+
+            var averageDaysPerMonth = months == 0 ? days : Convert.ToDouble(days) / Convert.ToDouble(months);
+			var remainder = new TimeSpan(days, hours, minutes, seconds, milliseconds);
+
+            Years = years;
+            Months = months;
+            Days = days;
+            Hours = remainder.Hours;
+            Minutes = remainder.Minutes;
+            Seconds = remainder.Seconds;
+            Milliseconds = remainder.Milliseconds;
+            Ticks = remainder.Ticks;
+
+            TotalYears = remainder.TotalDays / daysPerYears;
+            TotalMonths = remainder.TotalDays / averageDaysPerMonth;
+            TotalDays = remainder.TotalDays;
+            TotalHours = remainder.TotalHours;
+            TotalMinutes = remainder.TotalMinutes;
+            TotalSeconds = remainder.TotalSeconds;
+            TotalMilliseconds = remainder.TotalMilliseconds;
+        }
+
+        /// <summary>
 		/// Calculates the number of weeks represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>Calculates the number of weeks represented by the current <see cref="DateSpan"/> structure.</value>
 		public int GetWeeks()
 		{
-			var range = Highest.Subtract(Lowest);
+			var range = _upper.Subtract(_lower);
 			var totalDays = 0;
 			if (range.Days <= 7)
 			{
-				totalDays = Lowest.DayOfWeek > Highest.DayOfWeek ? 2 : 1;
+				totalDays = _lower.DayOfWeek > _upper.DayOfWeek ? 2 : 1;
 			}
-			if (totalDays == 0) { totalDays = range.Days - 7 + (int)Lowest.DayOfWeek; }
+			if (totalDays == 0) { totalDays = range.Days - 7 + (int)_lower.DayOfWeek; }
 			int nextWeek = 0, weeks;
 			for (weeks = 1; nextWeek < totalDays; weeks++) { nextWeek += 7; }
 			return weeks;
@@ -90,7 +127,7 @@ namespace Cuemon
 		/// </returns>
 		public override int GetHashCode()
 		{
-			return Highest.GetHashCode() ^ Lowest.GetHashCode() ^ Calendar.GetHashCode();
+			return Generate.HashCode32(_upper, _lower, _calendar.GetType().FullName);
 		}
 
         /// <summary>
@@ -113,8 +150,8 @@ namespace Cuemon
 		/// <returns><c>true</c> if the current object is equal to the other parameter; otherwise, <c>false</c>. </returns>
 		public bool Equals(DateSpan other)
 		{
-			if ((Highest != other.Highest) || (Calendar != other.Calendar)) { return false; }
-			return (Lowest == other.Lowest);
+			if ((_upper != other._upper) || (_calendar != other._calendar)) { return false; }
+			return (_lower == other._lower);
 		}
 
 		/// <summary>
@@ -165,36 +202,11 @@ namespace Cuemon
         /// </summary>
         /// <param name="start">A string that specifies the starting date and time value for the <see cref="DateSpan"/> interval.</param>
         /// <param name="end">A string that specifies the ending date and time value for the <see cref="DateSpan"/> interval.</param>
-        /// <param name="culture">A <see cref="CultureInfo"/> to resolve a <see cref="Calendar"/> object from.</param>
+        /// <param name="culture">A <see cref="CultureInfo"/> to resolve a <see cref="_calendar"/> object from.</param>
         /// <returns>A <see cref="DateSpan"/> that corresponds to <paramref name="start"/> and <paramref name="end"/> of the interval.</returns>
         public static DateSpan Parse(string start, string end, CultureInfo culture)
 		{
 			return new DateSpan(DateTime.Parse(start, culture), DateTime.Parse(end, culture), culture.Calendar);
-		}
-
-        private void GetMonths(out int deltaMonths, out int totalMonths)
-		{
-			totalMonths = 0;
-            deltaMonths = Highest.Month;
-			for (var year = Lowest.Year; year < Highest.Year; year++)
-			{
-				totalMonths += Calendar.GetMonthsInYear(year);
-			}
-            totalMonths += deltaMonths;
-		}
-
-		private int GetYears(DateTime start, DateTime end)
-		{
-			var years = start.Year - end.Year;
-			if (start.DayOfYear < end.DayOfYear)
-			{
-				years--;
-			}
-			else if (start.DayOfYear == end.DayOfYear && start.TimeOfDay < end.TimeOfDay)
-            {
-                years--;
-            }
-            return years;
 		}
 
         /// <summary>
@@ -208,103 +220,95 @@ namespace Cuemon
 		{
 			return string.Format(CultureInfo.InvariantCulture, "{0}:{1:D2}:{2:D2}:{3:D2}:{4:D2}:{5:D2}.{6}", Years, Months, Days, Hours, Minutes, Seconds, Milliseconds);
 		}
-		#endregion
-
-		#region Properties
-		/// <summary>
-		/// Gets the calendar represented by the current <see cref="DateSpan"/> structure. 
-		/// The default value is taken from the <see cref="CultureInfo.InvariantCulture"/> class.
-		/// </summary>
-		/// <value>A <see cref="Calendar"/> that represents the current <see cref="DateSpan"/> structure.</value>
-		private Calendar Calendar { get; set; }
-
-		private DateTime Highest { get; set; }
-
-		private DateTime Lowest { get; set; }
 
 		/// <summary>
 		/// Gets the number of days represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The number of days represented by the current <see cref="DateSpan"/> structure.</value>
-		public int Days { get; private set; }
+		public int Days { get; }
 
 		/// <summary>
 		/// Gets the total number of days represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The total number of days represented by the current <see cref="DateSpan"/> structure.</value>
-		public int TotalDays { get; private set; }
+		public double TotalDays { get; }
 
 		/// <summary>
 		/// Gets the number of hours represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The number of hours represented by the current <see cref="DateSpan"/> structure.</value>
-		public int Hours { get; private set; }
+		public int Hours { get; }
 
 		/// <summary>
 		/// Gets the total number of hours represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The total number of hours represented by the current <see cref="DateSpan"/> structure.</value>
-		public long TotalHours { get; private set; }
+		public double TotalHours { get; }
 
 		/// <summary>
 		/// Gets the number of milliseconds represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The number of milliseconds represented by the current <see cref="DateSpan"/> structure.</value>
-		public int Milliseconds { get; private set; }
+		public int Milliseconds { get; }
 
 		/// <summary>
 		/// Gets the total number of milliseconds represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The total number of milliseconds represented by the current <see cref="DateSpan"/> structure.</value>
-		public long TotalMilliseconds { get; private set; }
+		public double TotalMilliseconds { get; }
 
 		/// <summary>
 		/// Gets the number of minutes represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The number of minutes represented by the current <see cref="DateSpan"/> structure.</value>
-		public int Minutes { get; private set; }
+		public int Minutes { get; }
 
 		/// <summary>
 		/// Gets the total number of minutes represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The total number of minutes represented by the current <see cref="DateSpan"/> structure.</value>
-		public long TotalMinutes { get; private set; }
+		public double TotalMinutes { get; }
 
 		/// <summary>
 		/// Gets the number of months represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The number of months represented by the current <see cref="DateSpan"/> structure.</value>
-		public int Months { get; private set; }
+		public int Months { get; }
 
 		/// <summary>
 		/// Gets the total number of months represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The total number of months represented by the current <see cref="DateSpan"/> structure.</value>
-		public int TotalMonths { get; private set; }
+		public double TotalMonths { get; }
 
 		/// <summary>
 		/// Gets the number of seconds represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The number of seconds represented by the current <see cref="DateSpan"/> structure.</value>
-		public int Seconds { get; private set; }
+		public int Seconds { get; }
 
 		/// <summary>
 		/// Gets the total number of seconds represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The total number of seconds represented by the current <see cref="DateSpan"/> structure.</value>
-		public long TotalSeconds { get; private set; }
+		public double TotalSeconds { get; }
 
 		/// <summary>
 		/// Gets the number of ticks represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The number of ticks represented by the current <see cref="DateSpan"/> structure.</value>
-		public long Ticks { get; private set; }
+		public long Ticks { get; }
 
 		/// <summary>
 		/// Gets the number of years represented by the current <see cref="DateSpan"/> structure.
 		/// </summary>
 		/// <value>The number of years represented by the current <see cref="DateSpan"/> structure.</value>
-		public int Years { get; private set; }
-		#endregion
-	}
+		public int Years { get; }
+
+        /// <summary>
+        /// Gets the total number of years represented by the current <see cref="DateSpan"/> structure.
+        /// </summary>
+        /// <value>The total number of years represented by the current <see cref="DateSpan"/> structure.</value>
+        public double TotalYears { get; }
+    }
 }
