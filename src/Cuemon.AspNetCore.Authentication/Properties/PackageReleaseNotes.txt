@@ -37,4 +37,7 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
  
 # Quality Analysis Actions
 - CHANGED DigestAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace away from non-compliant code (https://rules.sonarsource.com/csharp/RSPEC-3358)
+- FIXED DigestAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Digest namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-927
+- CHANGED DigestAuthorizationHeader class in the Cuemon.AspNetCore.Authentication.Digest namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+- CHANGED HmacAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Hmac namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1834
  

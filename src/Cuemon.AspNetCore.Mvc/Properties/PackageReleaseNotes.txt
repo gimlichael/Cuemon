@@ -22,3 +22,5 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 # Improvements
 - COMPATIBLE with the changes applied to NET Core 3 in regards to only allowing asynchronous I/O
  
+# Quality Analysis Actions
+- CHANGED ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825

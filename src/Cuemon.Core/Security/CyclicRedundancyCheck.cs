@@ -29,7 +29,7 @@ namespace Cuemon.Security
         {
             var table = new ulong[256];
             var index = byte.MinValue;
-            for (;;)
+            while (true)
             {
                 var checksum = PolynomialIndexInitializer(index);
                 for (byte b = 0; b < 8; b++)

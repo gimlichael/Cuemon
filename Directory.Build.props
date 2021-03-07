@@ -1,6 +1,7 @@
 <Project>
   <PropertyGroup>
     <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
+    <IsMainAuthor Condition="'$(EMAIL)' == 'michael@geekle.io'">true</IsMainAuthor>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
@@ -8,7 +9,7 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TF_BUILD)' != 'true'">
+  <PropertyGroup Condition="'$(IsMainAuthor)' == 'true' AND '$(TF_BUILD)' != 'true'">
     <CodeAnalysisRuleSet>..\..\.sonarlint\cuemoncsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
@@ -28,11 +29,11 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <SignAssembly Condition="'$(TF_BUILD)' == 'true' OR '$(EMAIL)' == 'michael@geekle.io'">true</SignAssembly>
+    <SignAssembly Condition="'$(TF_BUILD)' == 'true' OR '$(IsMainAuthor)' == 'true'">true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
+  <ItemGroup Condition="'$(IsMainAuthor)' == 'true' AND '$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
     <AdditionalFiles Include="..\..\.sonarlint\cuemon\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
@@ -49,10 +50,11 @@
     <TargetFramework>net5.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <RunAnalyzers>false</RunAnalyzers>
+    <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>

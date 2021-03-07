@@ -29,3 +29,6 @@ Availability: NET Standard 2.0, NET Standard 2.1, NET 5.0
 - ADDED StreamReaderOptions class in the Cuemon.IO namespace that specifies options related to a StreamReader operation
 - ADDED StreamWriterOptions class in the Cuemon.IO namespace that specifies options related to a StreamWriter operation
  
+# Quality Analysis Actions
+- JUSTIFIED https://rules.sonarsource.com/csharp/RSPEC-2436 on StreamFactory class in the Cuemon.IO namespace
+ 

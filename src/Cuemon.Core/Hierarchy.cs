@@ -267,10 +267,7 @@ namespace Cuemon
                     if (Decorator.Enclose(currentType).HasEnumerableImplementation())
                     {
                         if (property.GetIndexParameters().Length > 0) { continue; }
-                        if (Decorator.Enclose(currentType).HasDictionaryImplementation())
-                        {
-                            if (property.Name == "Keys" || property.Name == "Values") { continue; }
-                        }
+                        if (Decorator.Enclose(currentType).HasDictionaryImplementation() && (property.Name == "Keys" || property.Name == "Values")) { continue; }
                     }
 
                     var propertyValue = options.ValueResolver(current.Instance, property);
@@ -312,8 +309,14 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<TSource> WhileSourceTraversalIsNotNull<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
         {
-            if (source == null) { throw new ArgumentNullException(nameof(source)); }
-            if (traversal == null) { throw new ArgumentNullException(nameof(traversal)); }
+            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(traversal, nameof(traversal));
+
+            return WhileSourceTraversalIsNotNullIterator(source, traversal);
+        }
+
+        private static IEnumerable<TSource> WhileSourceTraversalIsNotNullIterator<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
+        {
             var stack = new Stack<TSource>();
             stack.Push(traversal(source));
             while (stack.Count != 0)

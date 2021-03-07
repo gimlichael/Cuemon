@@ -38,11 +38,11 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// Executes the <see cref="DigestAuthenticationMiddleware"/>.
         /// </summary>
         /// <param name="context">The context of the current request.</param>
-        /// <param name="nonceTracker">The dependency injected implementation of an <see cref="INonceTracker"/>.</param>
+        /// <param name="di">The dependency injected implementation of an <see cref="INonceTracker"/>.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
-        public override async Task InvokeAsync(HttpContext context, INonceTracker nonceTracker)
+        public override async Task InvokeAsync(HttpContext context, INonceTracker di)
         {
-            _nonceTracker = nonceTracker;
+            _nonceTracker = di;
             if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
                 await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, async (message, response) =>

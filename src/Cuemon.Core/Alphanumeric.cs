@@ -61,13 +61,38 @@
         public const string Tab = "\t";
 
         /// <summary>
+        /// Tab character.
+        /// </summary>
+        public const char TabChar = '\t';
+
+        /// <summary>
         /// Linefeed character.
         /// </summary>
         public const string Linefeed = "\n";
 
         /// <summary>
+        /// Linefeed character.
+        /// </summary>
+        public const char LinefeedChar = '\n';
+
+        /// <summary>
         /// Carriage-return character.
         /// </summary>
         public const string CarriageReturn = "\r";
+
+        /// <summary>
+        /// Carriage-return character.
+        /// </summary>
+        public const char CarriageReturnChar = '\r';
+
+        /// <summary>
+        /// Circumflex accent / Caret character.
+        /// </summary>
+        public const string Caret = "^";
+
+        /// <summary>
+        /// Circumflex accent / Caret character.
+        /// </summary>
+        public const char CaretChar = '^';
     }
 }

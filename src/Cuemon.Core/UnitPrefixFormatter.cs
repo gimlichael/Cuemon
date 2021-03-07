@@ -34,17 +34,17 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Converts the value of a specified <paramref name="arg"/> to an equivalent string representation using specified <paramref name="format"/> and culture-specific format <paramref name="provider"/>.
+        /// Converts the value of a specified <paramref name="arg"/> to an equivalent string representation using specified <paramref name="format"/> and culture-specific format <paramref name="formatProvider"/>.
         /// </summary>
         /// <param name="format">A format string containing formatting specifications.</param>
         /// <param name="arg">An object that implements either interface <see cref="IPrefixUnit"/>, <see cref="IUnit"/> or both.</param>
-        /// <param name="provider">An object that supplies format information about <paramref name="arg"/>.</param>
-        /// <returns>The string representation of the value of <paramref name="arg"/>, formatted as specified by <paramref name="format"/> and <paramref name="provider"/>.</returns>
-        public string Format(string format, object arg, IFormatProvider provider)
+        /// <param name="formatProvider">An object that supplies format information about <paramref name="arg"/>.</param>
+        /// <returns>The string representation of the value of <paramref name="arg"/>, formatted as specified by <paramref name="format"/> and <paramref name="formatProvider"/>.</returns>
+        public string Format(string format, object arg, IFormatProvider formatProvider)
         {
             var formats = format.Split(' ');
-            if (arg is IPrefixUnit unit && formats.Intersect(MultipleFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, provider); }
-            if (arg is IUnit baseUnit && formats.Intersect(BaseFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, baseUnit, provider); }
+            if (arg is IPrefixUnit unit && formats.Intersect(MultipleFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, unit, formatProvider); }
+            if (arg is IUnit baseUnit && formats.Intersect(BaseFormats, StringComparer.Ordinal).Any()) { return FormatInterpreter(formats, baseUnit, formatProvider); }
             return null;
         }
 

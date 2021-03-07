@@ -100,7 +100,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
         private static object[] ParseRuntimeParameters(FilterContext context, ControllerActionDescriptor descriptor)
         {
-            if (descriptor == null) { return new object[0]; }
+            if (descriptor == null) { return Array.Empty<object>(); }
             var objects = new List<object>();
             foreach (var pi in descriptor.Parameters)
             {

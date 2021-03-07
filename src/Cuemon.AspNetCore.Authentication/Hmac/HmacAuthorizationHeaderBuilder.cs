@@ -123,15 +123,15 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
             }), o => o.Delimiter = Alphanumeric.Linefeed) + Alphanumeric.Linefeed;
 
             var stringToSign = new StringBuilder(Data[HmacFields.HttpMethod])
-                .Append(Alphanumeric.Linefeed)
+                .Append(Alphanumeric.LinefeedChar)
                 .Append(Data[HmacFields.UriPath])
-                .Append(Alphanumeric.Linefeed)
+                .Append(Alphanumeric.LinefeedChar)
                 .Append(Data[HmacFields.UriQuery])
-                .Append(Alphanumeric.Linefeed)
+                .Append(Alphanumeric.LinefeedChar)
                 .Append(headersToSign)
-                .Append(Alphanumeric.Linefeed)
+                .Append(Alphanumeric.LinefeedChar)
                 .Append(signedHeaders)
-                .Append(Alphanumeric.Linefeed)
+                .Append(Alphanumeric.LinefeedChar)
                 .Append(Data[HmacFields.Payload]).ToString();
 
             return UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(stringToSign).ToHexadecimalString();

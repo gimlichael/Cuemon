@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides a generic way to wrap and initialize a class for countless scenarios.
     /// </summary>
-    public class Initializer
+    public static class Initializer
     {
         /// <summary>
         /// Creates a new instance of the <see cref="InitializerBuilder{T}"/> wrapping the specified <paramref name="instance"/>.

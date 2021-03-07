@@ -29,7 +29,7 @@ namespace Cuemon.Diagnostics
         /// <param name="message">The message that explains the reason for the failure. Default is "An unhandled exception occurred.".</param>
         /// <param name="helpLink">The optional link to a help page associated with this failure.</param>
         /// <returns>An <see cref="ExceptionDescriptor"/> initialized with the provided arguments, and (if embedded) enriched with insights of the <paramref name="exception"/>.</returns>
-        /// <remarks>Any meta data embedded by <see cref="ExceptionInsights.Embed{T}(T,object[],SystemSnapshot)"/> will be extracted and added as evidence to the final result.</remarks>
+        /// <remarks>Any meta data embedded by <see cref="ExceptionInsights.Embed{T}(T,object[],SystemSnapshots)"/> will be extracted and added as evidence to the final result.</remarks>
         public static ExceptionDescriptor Extract(Exception exception, string code = "UnhandledException", string message = "An unhandled exception occurred.", Uri helpLink = null)
         {
             Validator.ThrowIfNull(exception, nameof(exception));

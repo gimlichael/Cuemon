@@ -162,7 +162,8 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED UnitPrefixFormatter class in the Cuemon namespace that defines the string formatting of objects having an implementation of either IPrefixUnit or IUnit
  
 # Bug Fixes
-- Several ;-)
+- FIXED critical bug in the DateSpan struct located on the Cuemon namespace
+- Several; please do a git diff.
  
 # Improvements
 - CHANGED HashResult class in the Cuemon.Security namespace to implement IEquatable{HashResult} as well as other improvements
@@ -171,8 +172,17 @@ Availability: NET Standard 2.0, NET 5.0
 - REFACTORED TaskFuncFactory class in the Cuemon namespace to have CancellationToken support
 - EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIf, ThrowWhenCondition, ThrowIfNumber, ThrowIfNotNumber, ThrowIfNull, ThrowIfSequenceEmpty, ThrowIfEmpty, ThrowIfContainsInterface, ThrowIfNotContainsInterface, ThrowIfNotContainsType, ThrowIfEnumType, ThrowIfNotBinaryDigits, ThrowIfNotBase64String, ThrowIfTrue, ThrowIfFalse, ThrowIfSequenceNullOrEmpty
  
-# Quality Actions
-- Several ;-)
+# Quality Analysis Actions
+- JUSTIFIED several ROSLYN analysis findings
+- CHANGED SystemSnapshot enum in the Cuemon namespace to SystemSnapshots (https://rules.sonarsource.com/csharp/RSPEC-2342)
+- CHANGED Validator class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-4136
+- CHANGED Hierarchy class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-1066
+- CHANGED Hierarchy class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-4456
+- FIXED UnitPrefixFormatter class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-927
+- JUSTIFIED https://rules.sonarsource.com/csharp/RSPEC-3925 on DataPairDictionary class in the Cuemon.Collections namespace
+- CHANGED CyclicRedundancyCheck class in the Cuemon.Security namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-1264
+- CHANGED Arguments class in the Cuemon.Collections.Generic namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
+- CHANGED ProcessInfo class in the Cuemon.Diagnostics namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1834
  
 # Other Changes
 - Several ;-)

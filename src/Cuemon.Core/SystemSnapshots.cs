@@ -6,7 +6,7 @@ namespace Cuemon
     /// Specifies the system states to capture runtime.
     /// </summary>
     [Flags]
-    public enum SystemSnapshot
+    public enum SystemSnapshots
     {
         /// <summary>
         /// Captures nothing.

@@ -21,19 +21,19 @@ namespace Cuemon.Diagnostics
             try
             {
                 builder.Append(FormattableString.Invariant($"Id: {Process.Id}"));
-                builder.Append("^");
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"Name: {Process.ProcessName}"));
-                builder.Append("^");
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"PriorityClass: {Process.PriorityClass}"));
-                builder.Append("^");
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"HandleCount: {Process.HandleCount}"));
-                builder.Append("^");
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"ThreadCount: {Process.Threads.Count}"));
-                builder.Append("^");
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"WorkingSet64: {ByteMultipleTable.FromBytes(Process.WorkingSet64, o => o.Prefix = UnitPrefix.Decimal).ToString()}"));
-                builder.Append("^");
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"TotalWorkingSet64: {ByteMultipleTable.FromBytes(Process.GetProcesses().Select(p => p.WorkingSet64).Sum(), o => o.Prefix = UnitPrefix.Decimal).ToString()}"));
-                builder.Append("^");
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"TotalProcessorTime: {Process.TotalProcessorTime.ToString("G", CultureInfo.InvariantCulture)}"));
             }
             catch (Exception)

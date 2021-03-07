@@ -44,7 +44,7 @@ namespace Cuemon.Diagnostics
         public void Extract_VerifyThatInlineExceptionIncludesSystemSnapshot()
         {
             var ane = new ArgumentNullException("myParam", "myMessage");
-            var enrichedException = ExceptionInsights.Embed(ane, MethodBase.GetCurrentMethod(), Arguments.ToArray(null, "myParam", "myMessage"), SystemSnapshot.CaptureAll);
+            var enrichedException = ExceptionInsights.Embed(ane, MethodBase.GetCurrentMethod(), Arguments.ToArray(null, "myParam", "myMessage"), SystemSnapshots.CaptureAll);
             var ed = ExceptionDescriptor.Extract(enrichedException);
 
             Assert.Equal(enrichedException.ToString(), ed.ToString());

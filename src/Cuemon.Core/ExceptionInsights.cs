@@ -26,11 +26,11 @@ namespace Cuemon
         /// <typeparam name="T">The type of the <paramref name="exception"/>.</typeparam>
         /// <param name="exception">The exception to enrich.</param>
         /// <param name="runtimeParameters">The runtime parameters of the method that threw the <paramref name="exception"/>.</param>
-        /// <param name="snapshot">A bitwise combination of the enumeration values that specify which areas of a system to capture.</param>
+        /// <param name="snapshots">A bitwise combination of the enumeration values that specify which areas of a system to capture.</param>
         /// <returns>The provided <paramref name="exception"/> enriched with an embedded entry of insights.</returns>
-        public static T Embed<T>(T exception, object[] runtimeParameters = null, SystemSnapshot snapshot = SystemSnapshot.None) where T : Exception
+        public static T Embed<T>(T exception, object[] runtimeParameters = null, SystemSnapshots snapshots = SystemSnapshots.None) where T : Exception
         {
-            return Embed(exception, null, runtimeParameters, snapshot);
+            return Embed(exception, null, runtimeParameters, snapshots);
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace Cuemon
         /// <param name="exception">The exception to enrich.</param>
         /// <param name="thrower">The method that threw the <paramref name="exception"/>.</param>
         /// <param name="runtimeParameters">The runtime parameters of the <paramref name="thrower"/>.</param>
-        /// <param name="snapshot">A bitwise combination of the enumeration values that specify which areas of a system to capture.</param>
+        /// <param name="snapshots">A bitwise combination of the enumeration values that specify which areas of a system to capture.</param>
         /// <returns>The provided <paramref name="exception"/> enriched with an embedded entry of insights.</returns>
-        public static T Embed<T>(T exception, MethodBase thrower, object[] runtimeParameters, SystemSnapshot snapshot = SystemSnapshot.None) where T : Exception
+        public static T Embed<T>(T exception, MethodBase thrower, object[] runtimeParameters, SystemSnapshots snapshots = SystemSnapshots.None) where T : Exception
         {
             Validator.ThrowIfNull(exception, nameof(exception));
             var builder = new StringBuilder();
@@ -51,7 +51,7 @@ namespace Cuemon
             {
                 var descriptor = new MethodDescriptor(thrower ?? exception.TargetSite);
                 builder.Append(Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{descriptor.ToString()}"))));
-                builder.Append(".");
+                builder.Append('.');
                 if (runtimeParameters != null && runtimeParameters.Any())
                 {
                     var rp = DelimitedString.Create(MethodDescriptor.MergeParameters(descriptor, runtimeParameters), o =>
@@ -69,40 +69,40 @@ namespace Cuemon
             else
             {
                 builder.Append(empty);
-                builder.Append(".");
+                builder.Append('.');
                 builder.Append(empty);
             }
-            EmbedSystemSnapshot(builder, snapshot, empty);
+            EmbedSystemSnapshot(builder, snapshots, empty);
             if (exception.Data[Key] == null) { exception.Data.Add(Key, builder.ToString()); }
             return exception;
         }
 
-        private static void EmbedSystemSnapshot(StringBuilder builder, SystemSnapshot snapshot, string empty)
+        private static void EmbedSystemSnapshot(StringBuilder builder, SystemSnapshots snapshots, string empty)
         {
-            builder.Append(".");
-            if (snapshot.HasFlag(SystemSnapshot.CaptureThreadInfo))
+            builder.Append('.');
+            if (snapshots.HasFlag(SystemSnapshots.CaptureThreadInfo))
             {
-                var ti = string.Join(Alphanumeric.NewLine, new ThreadInfo(Thread.CurrentThread).ToString().Split('^'));
+                var ti = string.Join(Alphanumeric.NewLine, new ThreadInfo(Thread.CurrentThread).ToString().Split(Alphanumeric.CaretChar));
                 builder.Append(ti.Length > 0 ? Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{ti}"))) : empty);
             }
             else
             {
                 builder.Append(empty);
             }
-            builder.Append(".");
-            if (snapshot.HasFlag(SystemSnapshot.CaptureProcessInfo))
+            builder.Append('.');
+            if (snapshots.HasFlag(SystemSnapshots.CaptureProcessInfo))
             {
-                var pi = string.Join(Alphanumeric.NewLine, new ProcessInfo(Process.GetCurrentProcess()).ToString().Split('^'));
+                var pi = string.Join(Alphanumeric.NewLine, new ProcessInfo(Process.GetCurrentProcess()).ToString().Split(Alphanumeric.CaretChar));
                 builder.Append(pi.Length > 0 ? Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{pi}"))) : empty);
             }
             else
             {
                 builder.Append(empty);
             }
-            builder.Append(".");
-            if (snapshot.HasFlag(SystemSnapshot.CaptureEnvironmentInfo))
+            builder.Append('.');
+            if (snapshots.HasFlag(SystemSnapshots.CaptureEnvironmentInfo))
             {
-                var ei = string.Join(Alphanumeric.NewLine, new EnvironmentInfo().ToString().Split('^'));
+                var ei = string.Join(Alphanumeric.NewLine, new EnvironmentInfo().ToString().Split(Alphanumeric.CaretChar));
                 builder.Append(ei.Length > 0 ? Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{ei}"))) : empty);
             }
             else

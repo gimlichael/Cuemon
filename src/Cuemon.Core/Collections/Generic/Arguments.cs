@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Cuemon.Collections.Generic
 {
@@ -16,7 +17,7 @@ namespace Cuemon.Collections.Generic
         /// <returns>An <see cref="T:T[]"/> that contains the concatenated elements of the two input arrays.</returns>
         public static T[] Concat<T>(T[] args1, T[] args2)
         {
-            if (args1 == null) { return new T[0]; }
+            if (args1 == null) { return Array.Empty<T>(); }
             if (args2 == null) { return args1; }
             if (args1.Length == 0 || args2.Length == 0) { return args1.Length == 0 ? args2 : args1; }
             var result = new T[args1.Length + args2.Length];
