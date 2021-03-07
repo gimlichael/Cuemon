@@ -8,7 +8,7 @@ Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [System.Diagnostics namespace](https://docs.microsoft.com/en-us/dotnet/api/system.Diagnostics?view=netstandard-2.0) 🔗
 
-Related: [Cuemon.Extensions.Diagnostics namespace](https://docs.cuemon.net/api/dotnet/ext/Cuemon.Extensions.Diagnostics.html) 📘
+Related: [Cuemon.Extensions.Diagnostics namespace](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Diagnostics.html) 📘
 
 ## Github branches 🖇️
 
