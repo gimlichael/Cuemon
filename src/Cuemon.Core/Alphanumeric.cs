@@ -84,5 +84,15 @@
         /// Carriage-return character.
         /// </summary>
         public const char CarriageReturnChar = '\r';
+
+        /// <summary>
+        /// Circumflex accent / Caret character.
+        /// </summary>
+        public const string Caret = "^";
+
+        /// <summary>
+        /// Circumflex accent / Caret character.
+        /// </summary>
+        public const char CaretChar = '^';
     }
 }
