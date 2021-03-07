@@ -174,7 +174,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             return sb.ToString();
         }
 
-        private void AppendField(StringBuilder sb, string fn, string fv)
+        private static void AppendField(StringBuilder sb, string fn, string fv)
         {
             if (!string.IsNullOrWhiteSpace(fv)) { sb.Append($" {fn}=\"{fv}\""); }
         }
