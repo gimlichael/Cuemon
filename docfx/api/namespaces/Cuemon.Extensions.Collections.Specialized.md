@@ -8,14 +8,26 @@ Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [Cuemon.Collections.Specialized namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Collections.Specialized.html) 🔗
 
-Github branches 🌱\
-[development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Collections.Specialized)\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Collections.Specialized)\
-[master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Collections.Specialized)
+## Github branches 🖇️
 
-NuGet packages 📦\
+[development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Collections.Specialized) 🧪\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Collections.Specialized) 🎬\
+[master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Collections.Specialized) 🛡️
+
+![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
+
+## NuGet packages
+
+📦 Focus Pack\
 [Cuemon.Extensions.Collections.Specialized (CI)](https://nuget.cuemon.net/packages/Cuemon.Extensions.Collections.Specialized)\
-[Cuemon.Extensions.Collections.Specialized (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Specialized)
+[Cuemon.Extensions.Collections.Specialized (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Specialized)\
+![NuGet Version](https://img.shields.io/nuget/v/Cuemon.Extensions.Collections.Specialized?logo=nuget) ![NuGet Preview Version](https://img.shields.io/nuget/vpre/Cuemon.Extensions.Collections.Specialized?logo=nuget) ![NuGet Downloads](https://img.shields.io/nuget/dt/Cuemon.Extensions.Collections.Specialized?color=blueviolet&logo=nuget)
+\
+\
+🏭 Productivity Pack\
+[Cuemon.Core.App (CI)](https://nuget.cuemon.net/packages/Cuemon.Core.App)\
+[Cuemon.Core.App (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Core.App)\
+![NuGet Version](https://img.shields.io/nuget/v/Cuemon.Core.App?logo=nuget) ![NuGet Preview Version](https://img.shields.io/nuget/vpre/Cuemon.Core.App?logo=nuget) ![NuGet Downloads](https://img.shields.io/nuget/dt/Cuemon.Core.App?color=blueviolet&logo=nuget)
 
 ### Extension Methods
 
