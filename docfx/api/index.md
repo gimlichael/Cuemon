@@ -50,4 +50,4 @@ Here is a non-exhausting list of literature and websites that inspired and kept 
 
 ### Delegates
 
-### Tools of a Craftsman
+### Tools

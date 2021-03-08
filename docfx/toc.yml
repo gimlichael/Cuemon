@@ -4,12 +4,12 @@
 - name: Core API
   href: api/dotnet
   topicHref: api/dotnet/index.md
-- name: Ext. Core API
-  href: api/extensions/dotnet
-  topicHref: api/extensions/dotnet/index.md
 - name: ASP.NET Core API
   href: api/aspnet
   topicHref: api/aspnet/index.md
+- name: Ext. Core API
+  href: api/extensions/dotnet
+  topicHref: api/extensions/dotnet/index.md
 - name: Ext. ASP.NET Core API
   href: api/extensions/aspnet
   topicHref: api/extensions/aspnet/index.md
