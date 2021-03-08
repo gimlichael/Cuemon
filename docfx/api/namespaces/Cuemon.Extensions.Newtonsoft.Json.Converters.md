@@ -8,7 +8,8 @@ Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [Newtonsoft.Json.Converters namespace](https://www.newtonsoft.com/json/help/html/N_Newtonsoft_Json_Converters.htm) 🔗
 
-Github branches: 🌱\
+## Github branches 🖇️
+
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Newtonsoft.Json/Converters) 🧪\
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Newtonsoft.Json/Converters) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Newtonsoft.Json/Converters) 🛡️

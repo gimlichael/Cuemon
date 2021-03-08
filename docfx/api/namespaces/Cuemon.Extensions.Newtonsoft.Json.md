@@ -8,7 +8,8 @@ Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [Newtonsoft.Json namespace](https://www.newtonsoft.com/json/help/html/N_Newtonsoft_Json.htm) 🔗
 
-Github branches: 🌱\
+## Github branches 🖇️
+
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Newtonsoft.Json) 🧪\
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Newtonsoft.Json) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Newtonsoft.Json) 🛡️

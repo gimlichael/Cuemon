@@ -8,7 +8,8 @@ Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [Cuemon.Diagnostics namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.html) 🔗
 
-Github branches: 🌱\
+## Github branches 🖇️
+
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Newtonsoft.Json/Diagnostics) 🧪\
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Newtonsoft.Json/Diagnostics) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Newtonsoft.Json/Diagnostics) 🛡️

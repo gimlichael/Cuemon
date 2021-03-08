@@ -8,7 +8,8 @@ Availability: NET Standard 2.0, .NET 5.0
 
 Complements: [Newtonsoft.Json.Serialization namespace](https://www.newtonsoft.com/json/help/html/N_Newtonsoft_Json_Serialization.htm) 🔗
 
-Github branches: 🌱\
+## Github branches 🖇️
+
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Newtonsoft.Json/Formatters) 🧪\
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Newtonsoft.Json/Formatters) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Newtonsoft.Json/Formatters) 🛡️
