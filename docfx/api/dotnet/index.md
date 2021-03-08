@@ -1,10 +1,12 @@
 ﻿---
 uid: dotnet-md
-title: Core API Reference
+title: Core API
 ---
-## Cuemon Core API Reference
+# Core API
 
-The **Cuemon** assembly family provides both enhancements and extension methods to these namespaces of [Microsoft .NET Standard](https://docs.microsoft.com/en-us/dotnet/api/?view=netstandard-2.0):
+At its core, **Cuemon for .NET** was always thought to be a toolbelt of assemblies designed to be intuitive and follow the same namespace as `System`.
+
+With **Cuemon for .NET** you will get assembly family provides both enhancements and extension methods to these namespaces of [Microsoft .NET](https://docs.microsoft.com/en-us/dotnet/api/?view=net-5.0):
 
 + System
 + System.Collections
@@ -33,13 +35,29 @@ The **Cuemon** assembly family provides both enhancements and extension methods 
 + System.Xml.Serialization
 + System.Xml.XPath
 
+### Cuemon
+
 ### Cuemon.Data
 [NS-2.0-API](/api/cuemon/data/index.html)
+
+### Cuemon.Data.Integrity
+
+### Cuemon.Data.SqlClient
 
 ### Cuemon.Diagnostics
 [NS-2.0-API](/api/cuemon/diagnostics/index.html)
 
+### Cuemon.IO
+
+### Cuemon.Net
+
+### Cuemon.Resilience
+
+### Cuemon.Runtime.Caching
+
+### Cuemon.Security.Cryptography
+
+### Cuemon.Threading
+
 ### Cuemon.Xml
 [NS-2.0-API](/api/core/netstandard2.0/Cuemon.Xml.html)
-
-[![Build status](https://gimlichael.visualstudio.com/CuemonCore/_apis/build/status/CuemonCore%20-%20Development%20-%20CI)](https://gimlichael.visualstudio.com/CuemonCore/_build/latest?definitionId=1)

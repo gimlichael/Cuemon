@@ -1,8 +1,8 @@
 ﻿---
 uid: extensions-dotnet-md
-title: Extensions for Core API Reference
+title: Extensions for Core API
 ---
-## Cuemon Extensions for Core API Reference
+# Extensions for Core API
 
 The **Cuemon** assembly family provides both enhancements and extension methods to these namespaces of [Microsoft .NET Standard](https://docs.microsoft.com/en-us/dotnet/api/?view=netstandard-2.0):
 

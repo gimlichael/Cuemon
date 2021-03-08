@@ -1,8 +1,8 @@
 ﻿---
 uid: aspnet-md
-title: ASP.NET Core API Reference
+title: ASP.NET Core API
 ---
-## Cuemon ASP.NET Core API Reference
+# ASP.NET Core API
 
 The **Cuemon** assembly family provides both enhancements and extension methods to these namespaces of [Microsoft .NET Standard](https://docs.microsoft.com/en-us/dotnet/api/?view=netstandard-2.0):
 

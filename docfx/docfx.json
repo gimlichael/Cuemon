@@ -39,12 +39,40 @@
             "Cuemon.Extensions.Diagnostics/**.csproj",
             "Cuemon.Extensions.IO/**.csproj",
             "Cuemon.Extensions.Net/**.csproj",
-            "Cuemon.Extensions.Newtonsoft.Json/**.csproj",
             "Cuemon.Extensions.Reflection/**.csproj",
             "Cuemon.Extensions.Runtime.Caching/**.csproj",
             "Cuemon.Extensions.Text/**.csproj",
             "Cuemon.Extensions.Threading/**.csproj",
-            "Cuemon.Extensions.Xml/**.csproj",
+            "Cuemon.Extensions.Xml/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/dotnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "netstandard2.1"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.Newtonsoft.Json/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/jsonnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "netstandard2.1"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
             "Cuemon.Extensions.Xunit/**.csproj",
             "Cuemon.Extensions.Xunit.Hosting/**.csproj",
             "Cuemon.Extensions.Xunit.Hosting.AspNetCore/**.csproj",
@@ -53,10 +81,10 @@
           "src": "../src"
         }
       ],
-      "dest": "api/dotnet/ext",
+      "dest": "api/extensions/xunit",
       "filter": "filterConfig.yml",
       "properties": {
-        "TargetFramework": "netstandard2.1"
+        "TargetFramework": "netcoreapp3.1"
       }
     },
     {
@@ -90,7 +118,7 @@
           "src": "../src"
         }
       ],
-      "dest": "api/aspnet/ext",
+      "dest": "api/extensions/aspnet",
       "filter": "filterConfig.yml",
       "properties": {
         "TargetFramework": "netcoreapp3.0"
