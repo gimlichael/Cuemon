@@ -37,10 +37,49 @@ Here is a non-exhausting list of literature and websites that inspired and kept 
 + [Refactoring Guru](https://refactoring.guru/design-patterns)
 + [Options pattern in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options)
 + [Dependency injection in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection)
++ [Clean Code in 5 minutes](https://issuu.com/softhouse/docs/cleancode_5minutes_120523)
++ [The Boy Scout Rule](https://biratkirat.medium.com/step-8-the-boy-scout-rule-robert-c-martin-uncle-bob-9ac839778385)
 
 ## Rules of engagement
 
++ Follow Framework Design Guidelines and Engineering Guidelines from Microsoft
++ Make sure to increment code coverage from unit test regularly
++ Follow recommendations from code quality analyzers; justify when a rule is either false-positive or not relevant
++ Maintain release notes and keep them as part of the code under Properties (PackageReleaseNotes.txt)
++ Adhere to SOLID principles for all new features
++ Do not let code rot; always embrace the boy scout rule
++ Make sure refactoring is done only on unit tested code (if no unit test - write unit test)
++ Extension methods in non-extension assemblies must be hidden by the IDecorator interface
+
 ### Solution Structure
+
+The solution file is placed in the root of the Git repo.
+
+Any supporting file for the solution (such as versioning, documentation, pipeline) is allowed to be placed in the root of the Git repo.\
+However, if and when supporting files start to clutter the solution, group it (eg. `/.pipelines` folder).
+
+Any build properties shared between projects must be placed in `Directory.Build.props`.\
+Any special build handling of projects must be placed in `Directory.Build.targets`.
+
+All projects that is candidate for a NuGet package is placed in `src`.\
+All unit test projects is placed in `test`.
+
+Example of structure:
+
+```
+/Cuemon.sln
+/Directory.Build.props
+/Directory.Build.targets
+/src/Cuemon.Core/Security/HashFactory.cs
+/src/Cuemon.Core/Cuemon.Core.csproj
+/src/Cuemon.Core/Disposable.cs
+/test/Cuemon.Core.Tests/Security/HashFactoryTest.cs
+/test/Cuemon.Core.Tests/Cuemon.Core.Tests.csproj
+/test/Cuemon.Core.Tests/DisposableTest.cs
+```
+
+The general naming pattern for projects is `Cuemon.AspNetCore.<area>.<subarea>`, `Cuemon.<area>.<subarea>`, and `Cuemon.Extensions.<area>.<subarea>`.\
+`Cuemon.Extensions.<area>.<subarea>` covers extension methods and/or new features that extends upon an existing project/package, such as `Cuemon.Extensions.Net`/`Cuemon.Extensions.Xunit`.
 
 ### Principles
 
@@ -48,6 +87,21 @@ Here is a non-exhausting list of literature and websites that inspired and kept 
 
 ### Reusability
 
+### Extensions
+
 ### Delegates
 
 ### Tools
+
++ [GitHub from Microsoft](https://github.com/) is used to host the source code of Cuemon for .NET
++ [Azure DevOps from Microsoft](https://azure.microsoft.com/en-us/services/devops/) is used for CI/CD integration with GitHub
++ Distributed packages are based on [NuGet](https://www.nuget.org/)
+  + Preview packages are pushed to both GitHub (https://nuget.pkg.github.com/gimlichael/index.json) and a private feed (https://nuget.cuemon.net/v3/index.json)
+  + Stable and RCs are pushed to NuGet (https://api.nuget.org/v3/index.json)
++ [DocFx](https://github.com/dotnet/docfx) is used to produce documentation from source code including raw Markdown files
++ [Visual Studio 2019 from Microsoft](https://visualstudio.microsoft.com/vs/) is used as the primary tool for writing CSharp code
++ [ReSharper from JetBrains](https://www.jetbrains.com/resharper/) is an indispensable Visual Studio extension that makes development, refactoring and unit testing a bliss to work with
++ [GhostDoc Pro from SubMain Software](https://submain.com/ghostdoc/) is used to write all the source code documentation
++ [Visual Studio Code from Microsoft](https://code.visualstudio.com/) is used to anything besides writing CSharp code
++ [NuGet Package Explorer](https://github.com/NuGetPackageExplorer/NuGetPackageExplorer) is helpful to iron out kinks of NuGet packages
++ It goes without saying, that without [Microsoft .NET](https://dotnet.microsoft.com/) there would be no [Cuemon for .NET](https://github.com/gimlichael/Cuemon)
