@@ -23,3 +23,11 @@
                 packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.nupkg;$(System.DefaultWorkingDirectory)/**/*.snupkg'
                 nuGetFeedType: external
                 publishFeedCredentials: 'Cuemon-Nuget'
+
+            - task: NuGetCommand@2
+              displayName: 'Publish NuGet Packages to https://nuget.pkg.github.com/gimlichael/index.json'
+              inputs:
+                command: push
+                packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.nupkg;$(System.DefaultWorkingDirectory)/**/*.snupkg'
+                nuGetFeedType: external
+                publishFeedCredentials: 'Cuemon-NugetGit'
