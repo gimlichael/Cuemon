@@ -49,61 +49,61 @@ namespace Cuemon
         /// Gets the binary-multiple prefix kibi (Ki).
         /// </summary>
         /// <value>The binary-multiple prefix kibi (Ki).</value>
-        public IPrefixUnit Kibi => BinaryPrefix.Kibi.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Kibi => Decorator.Enclose(BinaryPrefix.Kibi).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Gets the binary-multiple prefix mebi (Mi).
         /// </summary>
         /// <value>The binary-multiple prefix mebi (Mi).</value>
-        public IPrefixUnit Mebi => BinaryPrefix.Mebi.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Mebi => Decorator.Enclose(BinaryPrefix.Mebi).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Gets the binary-multiple prefix gibi (Gi).
         /// </summary>
         /// <value>The binary-multiple prefix gibi (Gi).</value>
-        public IPrefixUnit Gibi => BinaryPrefix.Gibi.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Gibi => Decorator.Enclose(BinaryPrefix.Gibi).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Gets the binary-multiple prefix tebi (Ti).
         /// </summary>
         /// <value>The binary-multiple prefix tebi (Ti).</value>
-        public IPrefixUnit Tebi => BinaryPrefix.Tebi.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Tebi => Decorator.Enclose(BinaryPrefix.Tebi).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Gets the binary-multiple prefix pebi (Pi).
         /// </summary>
         /// <value>The binary-multiple prefix pebi (Pi).</value>
-        public IPrefixUnit Pebi => BinaryPrefix.Pebi.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Pebi => Decorator.Enclose(BinaryPrefix.Pebi).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Gets the metric-multiple prefix kilo (k).
         /// </summary>
         /// <value>The metric-multiple prefix kilo (k).</value>
-        public IPrefixUnit Kilo => DecimalPrefix.Kilo.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Kilo => Decorator.Enclose(DecimalPrefix.Kilo).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Gets the metric-multiple prefix mega (M).
         /// </summary>
         /// <value>The metric-multiple prefix mega (M).</value>
-        public IPrefixUnit Mega => DecimalPrefix.Mega.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Mega => Decorator.Enclose(DecimalPrefix.Mega).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Gets the metric-multiple prefix giga (G).
         /// </summary>
         /// <value>The metric-multiple prefix giga (G).</value>
-        public IPrefixUnit Giga => DecimalPrefix.Giga.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Giga => Decorator.Enclose(DecimalPrefix.Giga).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Gets the metric-multiple prefix tera (T).
         /// </summary>
         /// <value>The metric-multiple prefix tera (T).</value>
-        public IPrefixUnit Tera => DecimalPrefix.Tera.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Tera => Decorator.Enclose(DecimalPrefix.Tera).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Gets the metric-multiple prefix peta (P).
         /// </summary>
         /// <value>The metric-multiple prefix peta (P).</value>
-        public IPrefixUnit Peta => DecimalPrefix.Peta.ApplyPrefix(Unit, _us);
+        public IPrefixUnit Peta => Decorator.Enclose(DecimalPrefix.Peta).ApplyPrefix(Unit, _us);
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents largest metric-multiple prefix of this instance.

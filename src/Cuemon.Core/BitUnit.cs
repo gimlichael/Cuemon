@@ -36,7 +36,7 @@ namespace Cuemon
         /// <summary>
         /// Initializes a new instance of the <see cref="BitUnit"/> struct.
         /// </summary>
-        /// <param name="value">The value of this unit expressed as bits½.</param>
+        /// <param name="value">The value of this unit expressed as bits.</param>
         /// <param name="prefix">The prefix to associate with this unit.</param>
         /// <param name="setup">The <see cref="UnitFormatOptions"/> which may be configured.</param>
         /// <exception cref="ArgumentOutOfRangeException">

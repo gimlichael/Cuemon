@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Cuemon
 {
     /// <summary>
-    /// Defines a binary unit prefix for multiples of measurement for data that refers strictly to powers of 2.
+    /// Defines a binary unit prefix for multiples of measurement for data that refers strictly to powers of 2. This class cannot be inherited.
     /// Implements the <see cref="IPrefixMultiple" />
     /// </summary>
     /// <seealso cref="IPrefixMultiple" />
-    /// <seealso cref="UnitPrefix"/>
-    public struct BinaryPrefix : IPrefixMultiple
+    public sealed class BinaryPrefix : PrefixMultiple
     {
         private static readonly Lazy<IEnumerable<BinaryPrefix>> LazyPrefixes = new Lazy<IEnumerable<BinaryPrefix>>(() =>
         {
@@ -88,71 +86,8 @@ namespace Cuemon
         /// <param name="name">The name of the binary prefix.</param>
         /// <param name="symbol">The symbol of the the binary prefix.</param>
         /// <param name="exponent">The number that specifies a power.</param>
-        public BinaryPrefix(string name, string symbol, int exponent)
+        public BinaryPrefix(string name, string symbol, double exponent) : base(name, symbol, 2, exponent)
         {
-            Name = name;
-            Symbol = symbol;
-            Multiplier = Math.Pow(2, exponent);
-        }
-
-        /// <summary>
-        /// Gets the name of the binary prefix.
-        /// </summary>
-        /// <value>The name of the binary prefix.</value>
-        public string Name { get; }
-
-        /// <summary>
-        /// Gets the symbol of the binary prefix.
-        /// </summary>
-        /// <value>The symbol of the binary prefix.</value>
-        public string Symbol { get; }
-
-        /// <summary>
-        /// Gets the binary prefix multiplier.
-        /// </summary>
-        /// <value>The binary prefix multiplier.</value>
-        public double Multiplier { get; }
-
-        /// <summary>
-        /// Converts the unit base <paramref name="value"/> to a binary prefix value.
-        /// </summary>
-        /// <param name="value">The value of the base unit.</param>
-        /// <returns>A <see cref="double"/> that represents a binary prefix value.</returns>
-        public double ToPrefixValue(double value)
-        {
-            return value / Multiplier;
-        }
-
-        /// <summary>
-        /// Converts the binary <paramref name="prefixValue"/> back to a unit base value.
-        /// </summary>
-        /// <param name="prefixValue">The value of the binary prefix.</param>
-        /// <returns>A <see cref="double"/> that represents a unit base value.</returns>
-        public double ToBaseValue(double prefixValue)
-        {
-            return prefixValue * Multiplier;
-        }
-
-        internal IPrefixUnit ApplyPrefix(IPrefixUnit unit, Action<UnitFormatOptions> setup = null)
-        {
-            Validator.ThrowIfNull(unit, nameof(unit));
-            try
-            {
-                return (IPrefixUnit)Activator.CreateInstance(unit.GetType(), unit.UnitValue, this, setup);
-            }
-            catch (TargetInvocationException e)
-            {
-                throw e.InnerException ?? e;
-            }
-        }
-
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return FormattableString.Invariant($"{Name} ({Symbol}) 2^{Math.Log(Multiplier, 2)}");
         }
     }
 }
