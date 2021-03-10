@@ -89,6 +89,14 @@ The general naming pattern for projects is `Cuemon.AspNetCore.<area>.<subarea>`,
 
 ### Extensions
 
+Extensions, as in [extension methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods), is prohibited in all projects not following the `Cuemon.Extensions.<area>.<subarea>` convention.
+
+That said, it is allowed to add extension methods that are not pure; eg. they have to be hidden by the [IDecorator{T} interface](https://github.com/gimlichael/Cuemon/blob/development/src/Cuemon.Core/IDecorator.cs).
+
+Reason for this rule is, that developers are divided into two groups; those who embrace extension methods - and those who does not.
+
+So by adhering to this rule, we ensure that both groups is taken care of; the former can consciously include `Cuemon.Extensions.<area>.<subarea>` and benefit from an abundant amount of extension methods, while the former can have peace of mind that no foreign extension methods is cluttering the IntelliSense.
+
 ### Delegates
 
 ### Tools
