@@ -1,7 +1,7 @@
 ﻿jobs:
   - job: 'ReleaseCandidate'
     displayName: 'Release branch (build, test)'
-    timeoutInMinutes: 120
+    timeoutInMinutes: 90
 
     strategy:
       matrix:
