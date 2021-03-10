@@ -21,6 +21,19 @@ namespace Cuemon
         public static Validator ThrowIf { get; } = ExtendedValidator;
 
         /// <summary>
+        /// Provides a convenient way to validate a parameter while returning the specified <paramref name="value"/> unaltered.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to evaluate.</typeparam>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="value"/> is not valid.</param>
+        /// <returns>The specified <paramref name="value"/> unaltered.</returns>
+        public static T CheckParameter<T>(T value, Action validator)
+        {
+            validator();
+            return value;
+        }
+
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> (or a derived counterpart) from the specified delegate <paramref name="condition"/>.
         /// </summary>
         /// <param name="condition">The delegate that evaluates, creates and ultimately throws an <see cref="ArgumentException"/> (or a derived counterpart) from within a given scenario.</param>

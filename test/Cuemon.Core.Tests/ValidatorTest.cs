@@ -13,6 +13,30 @@ namespace Cuemon
         {
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("cuemon")]
+        public void CheckParameter_ShouldThrowArgumentNullExceptionOrReturnString(string value)
+        {
+            if (value == null)
+            {
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    Validator.CheckParameter(value, () =>
+                    {
+                        Validator.ThrowIfNull(value, nameof(value));
+                    });
+                });
+            }
+            else
+            {
+                Assert.Equal("cuemon", Validator.CheckParameter(value, () =>
+                {
+                    Validator.ThrowIfNull(value, nameof(value));
+                }));
+            }
+        }
+
         [Fact]
         public void ThrowIfContainsType_ShouldThrowArgumentOutOfRangeException()
         {
