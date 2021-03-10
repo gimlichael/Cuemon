@@ -3,17 +3,17 @@
 namespace Cuemon
 {
     /// <summary>
-    /// Configuration options for <see cref="MultipleTable"/>.
+    /// Configuration options for <see cref="StorageCapacity"/>.
     /// </summary>
-    /// <seealso cref="BitMultipleTable"/>
-    /// <seealso cref="ByteMultipleTable"/>
-    public sealed class MultipleTableOptions : FormattingOptions<CultureInfo>
+    /// <seealso cref="BitStorageCapacity"/>
+    /// <seealso cref="ByteStorageCapacity"/>
+    public sealed class StorageCapacityOptions : FormattingOptions<CultureInfo>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultipleTableOptions"/> class.
+        /// Initializes a new instance of the <see cref="StorageCapacityOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="MultipleTableOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="StorageCapacityOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -37,7 +37,7 @@ namespace Cuemon
         ///     </item>
         /// </list>
         /// </remarks>
-        public MultipleTableOptions()
+        public StorageCapacityOptions()
         {
             Style = NamingStyle.Symbol;
             NumberFormat = "#,##0.##";

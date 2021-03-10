@@ -124,10 +124,9 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED UriStringOptions class in the Cuemon.Text namespace that specifies options related to ParserFactory.FromUri
 - ADDED Alphanumeric class in the Cuemon namespace that provides a set of alphanumeric constant and static fields that consists of both letters, numbers and other symbols (such as punctuation marks and mathematical symbols)
 - ADDED BinaryPrefix class in the Cuemon namespace that defines a binary unit prefix for multiples of measurement for data that refers strictly to powers of 2
-- ADDED BitMultipleTable class in the Cuemon namespace that represent a table of both binary and metric prefixes for a BitUnit
+- ADDED BitStorageCapacity class in the Cuemon namespace that represent a table of both binary and metric prefixes for a BitUnit
 - ADDED BitUnit class in the Cuemon namespace that represents a unit of measurement for bits and is used with measurement of data
-- ADDED ByteMultipleTable class in the Cuemon namespace that represent a table of both binary and metric prefixes for a ByteUnit
-- ADDED ByteMultipleTable class in the Cuemon namespace that represents a unit of measurement for bytes and is used with measurement of data
+- ADDED ByteStorageCapacity class in the Cuemon namespace that represent a table of both binary and metric prefixes for a ByteUnit
 - ADDED Convertible class in the Cuemon namespace that provides a set of static methods, suitable for verifying integrity of data, that convert IConvertible implementations to and from a sequence of bytes
 - ADDED ConvertibleConverterDictionary class in the Cuemon namespace that represents a collection of function delegates that converts an IConvertible implementation to its T:byte[] equivalent
 - ADDED ConvertibleOptions class in the Cuemon namespace that specifies options related to Convertible
@@ -150,7 +149,6 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED IPrefixMultiple interface in the Cuemon namespace that defines a unit prefix that can can be expressed as a either a multiple or a submultiple of the unit of measurement
 - ADDED IUnit interface in the Cuemon namespace that defines a unit of measurement that is used as a standard for measurement of the same kind of quantity
 - ADDED MultipleTable class in the Cuemon namespace that defines a unit of measurement that provides a way to represent a table of both binary and metric prefixes that precedes a unit of measure to indicate a multiple of the unit
-- ADDED MultipleTableOptions class in the Cuemon namespace that specifies options related to MultipleTable
 - ADDED NamingStyle enum in the Cuemon namespace that specifies ways that a string must be represented in terms of naming style
 - ADDED ObjectFormattingOptions class in the Cuemon namespace that specifies options related to ParserFactory.FromObject
 - ADDED ObjectPortrayalOptions class in the Cuemon namespace that specifies options related to Generate.ObjectPortrayal
@@ -161,6 +159,9 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED UnitPrefix class in the Cuemon namespace that specifies the two standards for binary multiples and decimal multiples
 - ADDED UnitPrefixFormatter class in the Cuemon namespace that defines the string formatting of objects having an implementation of either IPrefixUnit or IUnit
 - ADDED PrefixMultiple class in the Cuemon namespace that represents the base class from which all implementations of unit prefix that can can be expressed as a either a multiple or a submultiple of the unit of measurement should derive
+- ADDED StorageCapacity class in the Cuemon namespace that provides a way to represent a table of both binary and metric prefixes that precedes a unit of measure optimized for storage capacity measurement standards
+- ADDED StorageCapacityOptions class in the Cuemon namespace that specifies options related to StorageCapacity
+- ADDED PrefixUnit class in the Cuemon namespace that represents the base class from which all implementations of a unit of measurement should derive
  
 # Bug Fixes
 - FIXED critical bug in the DateSpan struct located on the Cuemon namespace
@@ -171,9 +172,12 @@ Availability: NET Standard 2.0, NET 5.0
 - EXTENDED Condition class in the Cuemon namespace with several new static members: Query, IsEnum, IsProtocolRelativeUrl, IsUri, HasConsecutiveCharacters, IsBase64, IsBinaryDigits, IsPrime, IsEven, IsOdd, IsCountableSequence (Query makes this class extensible - enabling you to write your own conditions)
 - REFACTORED TaskActionFactory class in the Cuemon namespace to have CancellationToken support
 - REFACTORED TaskFuncFactory class in the Cuemon namespace to have CancellationToken support
-- EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIf, ThrowWhenCondition, ThrowIfNumber, ThrowIfNotNumber, ThrowIfNull, ThrowIfSequenceEmpty, ThrowIfEmpty, ThrowIfContainsInterface, ThrowIfNotContainsInterface, ThrowIfNotContainsType, ThrowIfEnumType, ThrowIfNotBinaryDigits, ThrowIfNotBase64String, ThrowIfTrue, ThrowIfFalse, ThrowIfSequenceNullOrEmpty
-- CHANGED BinaryPrefix from struct to sealed class
-- CHANGED DecimalPrefix from struct to sealed class
+- EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIf, ThrowWhenCondition, ThrowIfNumber, ThrowIfNotNumber, ThrowIfNull, ThrowIfSequenceEmpty, ThrowIfEmpty, ThrowIfContainsInterface, ThrowIfNotContainsInterface, ThrowIfNotContainsType, ThrowIfEnumType, ThrowIfNotBinaryDigits, ThrowIfNotBase64String, ThrowIfTrue, ThrowIfFalse, ThrowIfSequenceNullOrEmpty, CheckParameter{T}
+- CHANGED BinaryPrefix in the Cuemon namespace from struct to sealed class
+- CHANGED DecimalPrefix in the Cuemon namespace from struct to sealed class
+- REFACTORED MultipleTable in the Cuemon namespace to be more generic and moved non-generic functionality to the new StorageCapacity class
+- CHANGED BitUnit in the Cuemon namespace from struct to sealed class
+- CHANGED ByteUnit in the Cuemon namespace from struct to sealed class
  
 # Quality Analysis Actions
 - JUSTIFIED several ROSLYN analysis findings
@@ -188,6 +192,8 @@ Availability: NET Standard 2.0, NET 5.0
 - CHANGED ProcessInfo class in the Cuemon.Diagnostics namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1834
 - CHANGED BinaryPrefix class in the Cuemon namespace to have 0 duplicated blocks of lines of code
 - CHANGED DecimalPrefix class in the Cuemon namespace to have 0 duplicated blocks of lines of code
+- CHANGED BitUnit class in the Cuemon namespace to have 0 duplicated blocks of lines of code
+- CHANGED ByteUnit class in the Cuemon namespace to have 0 duplicated blocks of lines of code
  
 # Other Changes
 - Several ;-)

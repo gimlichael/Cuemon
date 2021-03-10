@@ -35,9 +35,9 @@ namespace Cuemon.IO
             Assert.Equal(osResult, dosResult);
             Assert.NotEqual(osResult, cosResult);
 
-            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
         }
 
         [Fact]
@@ -59,9 +59,9 @@ namespace Cuemon.IO
             Assert.Equal(osResult, dosResult);
             Assert.NotEqual(osResult, cosResult);
 
-            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
         }
 
         [Fact]
@@ -93,9 +93,9 @@ namespace Cuemon.IO
             Assert.Equal(osResult, dosResult);
             Assert.NotEqual(osResult, cosResult);
 
-            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
         }
         
         [Fact]
@@ -117,9 +117,9 @@ namespace Cuemon.IO
             Assert.Equal(osResult, dosResult);
             Assert.NotEqual(osResult, cosResult);
 
-            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
         }
 
         [Fact]
@@ -151,9 +151,9 @@ namespace Cuemon.IO
             Assert.Equal(osResult, dosResult);
             Assert.NotEqual(osResult, cosResult);
 
-            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
         }
 
         [Fact]
@@ -175,9 +175,9 @@ namespace Cuemon.IO
             Assert.Equal(osResult, dosResult);
             Assert.NotEqual(osResult, cosResult);
 
-            TestOutput.WriteLine($"Original ({ByteMultipleTable.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Compressed ({ByteMultipleTable.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
-            TestOutput.WriteLine($"Decompressed ({ByteMultipleTable.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Original ({ByteStorageCapacity.FromBytes(os.Length)}): {osResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Compressed ({ByteStorageCapacity.FromBytes(cos.Length)}): {cosResult.Substring(0, 50)} ...");
+            TestOutput.WriteLine($"Decompressed ({ByteStorageCapacity.FromBytes(dos.Length)}): {dosResult.Substring(0, 50)} ...");
         }
 
         [Fact]

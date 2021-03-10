@@ -10,6 +10,11 @@ namespace Cuemon
     public abstract class PrefixMultiple : IPrefixMultiple
     {
         /// <summary>
+        /// Defines a prefix multiple of none (0).
+        /// </summary>
+        public static readonly IPrefixMultiple None = new ZeroPrefix();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PrefixMultiple"/> struct.
         /// </summary>
         /// <param name="name">The name of the binary unit.</param>

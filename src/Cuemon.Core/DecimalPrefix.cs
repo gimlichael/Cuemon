@@ -5,9 +5,8 @@ namespace Cuemon
 {
     /// <summary>
     /// Defines a decimal (metric) unit prefix for multiples and submultiples of measurement that refers strictly to powers of 10. This class cannot be inherited.
-    /// Implements the <see cref="IPrefixMultiple" />
     /// </summary>
-    /// <seealso cref="IPrefixMultiple" />
+    /// <seealso cref="PrefixMultiple" />
     public sealed class DecimalPrefix : PrefixMultiple
     {
         private static readonly Lazy<IEnumerable<DecimalPrefix>> LazyPrefixes = new Lazy<IEnumerable<DecimalPrefix>>(() =>

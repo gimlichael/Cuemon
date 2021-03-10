@@ -5,9 +5,8 @@ namespace Cuemon
 {
     /// <summary>
     /// Defines a binary unit prefix for multiples of measurement for data that refers strictly to powers of 2. This class cannot be inherited.
-    /// Implements the <see cref="IPrefixMultiple" />
     /// </summary>
-    /// <seealso cref="IPrefixMultiple" />
+    /// <seealso cref="PrefixMultiple" />
     public sealed class BinaryPrefix : PrefixMultiple
     {
         private static readonly Lazy<IEnumerable<BinaryPrefix>> LazyPrefixes = new Lazy<IEnumerable<BinaryPrefix>>(() =>
