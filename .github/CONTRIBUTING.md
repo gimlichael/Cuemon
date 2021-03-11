@@ -27,7 +27,7 @@ clear and has sufficient instructions to be able to reproduce the issue.
 ## Coding Guidelines
 * Please follow Framework Design Guidelines
 * Please follow SOLID principles
-* Let yourself be inspired by [Microsoft Engineering Guidelines](https://github.com/dotnet/aspnetcore/wiki/Engineering-guidelines)
+* Make sure you have familiarized yourself with [Cuemon for .NET - Concept Reference](https://docs.cuemon.net/api/index.html)
 * Consider reading my short take on [Software craftsmanship - a journey with inspirational sources!](https://github.com/gimlichael/Must-Read-Resources)
 
 ## License
