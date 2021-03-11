@@ -5,7 +5,7 @@ email, or any other method with the owners of this repository before making a ch
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
 ## Code of Conduct
-Please review our [code of conduct](.github/CODE_OF_CONDUCT.md).
+Please review our [code of conduct](CODE_OF_CONDUCT.md).
 
 ## Our Development Process
 We use GitHub with a simple GitFlow inspired flow.
