@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Cuemon.Text;
 
 namespace Cuemon.Data
@@ -12,8 +13,6 @@ namespace Cuemon.Data
     /// </summary>
     public sealed class DsvDataReader : DataReader<string[]>
     {
-        private int _rowCount;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DsvDataReader"/> class.
         /// </summary>
@@ -36,11 +35,13 @@ namespace Cuemon.Data
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfNull(delimiter, nameof(delimiter));
             Validator.ThrowIfNull(qualifier, nameof(qualifier));
+
             if (header == null)
             {
                 header = reader.ReadLine();
                 Validator.ThrowIfNullOrWhitespace(header, nameof(header));
             }
+
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
             
             Reader = reader;
@@ -78,35 +79,13 @@ namespace Cuemon.Data
         /// </summary>
         /// <value>The currently processed row count of this instance.</value>
         /// <remarks>This property is incremented when the invoked <see cref="Read"/> method returns <c>true</c>.</remarks>
-        public override int RowCount => _rowCount;
+        public override int RowCount { get; protected set; }
 
         /// <summary>
-        /// Advances this instance to the next line of the DSV data source.
+        /// Gets the value that indicates that no more rows exists.
         /// </summary>
-        /// <returns><c>true</c> if there are more lines; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ObjectDisposedException">
-        /// This instance has been disposed.
-        /// </exception>
-        public bool Read()
-        {
-            if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
-            string line;
-            while ((line = Reader.ReadLine()) != null)
-            {
-                var tb = new TokenBuilder(Delimiter, Qualifier, Header.Length).Append(line);
-                while (!tb.IsValid && !Reader.EndOfStream)
-                {
-                    tb.Append(Reader.ReadLine());
-                }
-                _rowCount++;
-                return ReadNext(DelimitedString.Split(tb.ToString(), o =>
-                {
-                    o.Delimiter = Delimiter.ToString(CultureInfo.InvariantCulture);
-                    o.Qualifier = Qualifier.ToString(CultureInfo.InvariantCulture);
-                })) != NullRead;
-            }
-            return false;
-        }
+        /// <value>The value that indicates that no more rows exists.</value>
+        protected override string[] NullRead => null;
 
         /// <summary>
         /// Advances this instance to the next record.
@@ -135,10 +114,52 @@ namespace Cuemon.Data
         }
 
         /// <summary>
-        /// Gets the value that indicates that no more rows exists.
+        /// Advances this instance to the next line of the DSV data source.
         /// </summary>
-        /// <value>The value that indicates that no more rows exists.</value>
-        protected override string[] NullRead => null;
+        /// <returns><c>true</c> if there are more lines; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ObjectDisposedException">
+        /// This instance has been disposed.
+        /// </exception>
+        public bool Read()
+        {
+            return ReadAllLinesAsync(() => Task.FromResult(Reader.ReadLine())).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Asynchronously advances this instance to the next line of the DSV data source.
+        /// </summary>
+        /// <returns><c>true</c> if there are more lines; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ObjectDisposedException">
+        /// This instance has been disposed.
+        /// </exception>
+        public Task<bool> ReadAsync()
+        {
+            return ReadAllLinesAsync(async () => await Reader.ReadLineAsync().ConfigureAwait(false));
+        }
+
+        private async Task<bool> ReadAllLinesAsync(Func<Task<string>> readLineAsyncCallback)
+        {
+            if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
+
+            var line = await readLineAsyncCallback();
+            if (line != null)
+            {
+                var tb = new TokenBuilder(Delimiter, Qualifier, Header.Length).Append(line);
+                while (!tb.IsValid && !Reader.EndOfStream)
+                {
+                    tb.Append(await readLineAsyncCallback());
+                }
+
+                RowCount++;
+
+                return ReadNext(DelimitedString.Split(tb.ToString(), o =>
+                {
+                    o.Delimiter = Delimiter.ToString(CultureInfo.InvariantCulture);
+                    o.Qualifier = Qualifier.ToString(CultureInfo.InvariantCulture);
+                })) != NullRead;
+            }
+            return false;
+        }
 
         /// <summary>
         /// Called when this object is being disposed by either <see cref="Disposable.Dispose()" /> or <see cref="Disposable.Dispose(bool)" /> having <c>disposing</c> set to <c>true</c> and <see cref="Disposable.Disposed" /> is <c>false</c>.

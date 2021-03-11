@@ -19,11 +19,11 @@ Availability: NET Standard 2.0, NET 5.0
 - REMOVED QueryUtility class from the Cuemon.Data namespace
  
 # New Features
-- ADDED ConcurrentDsvDataReader class in the Cuemon.Data namespace that provides a concurrent way of reading a forward-only stream of rows from a DSV (Delimiter Separated Values) based data source
 - ADDED DsvDataReader class in the Cuemon.Data namespace that provides a way of reading a forward-only stream of rows from a DSV (Delimiter Separated Values) based data source
 - ADDED InOperatorResult class in the Cuemon.Data namespace that provides the result of an InOperator{T} operation
 - ADDED TokenBuilder class in the Cuemon.Data namespace that represents a mutable string of characters optimized for tokens
  
 # Quality Analysis Actions
 - CHANGED DataTransferRowCollection class in the Cuemon.Data namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3358
+- CHANGED DsvDataReader class in the Cuemon.Data namespace to have 0 duplicated blocks of lines of code by removing ConcurrentDsvDataReader class and merge ReadAsync to DsvDataReader
  

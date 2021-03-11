@@ -11,8 +11,6 @@ namespace Cuemon.Data.Xml
     /// </summary>
     public sealed class XmlDataReader : DataReader<bool>
     {
-        private int _rowCount;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlDataReader"/> class.
         /// </summary>
@@ -42,7 +40,7 @@ namespace Cuemon.Data.Xml
         /// </summary>
         /// <value>The currently processed row count of this instance.</value>
         /// <remarks>This property is incremented when the invoked <see cref="Read"/> method returns <c>true</c>.</remarks>
-        public override int RowCount => _rowCount;
+        public override int RowCount { get; protected set; }
 
         /// <summary>
         /// Gets the value that indicates that no more rows exists.
@@ -70,7 +68,7 @@ namespace Cuemon.Data.Xml
         /// <exception cref="ObjectDisposedException">
         /// This instance has been disposed.
         /// </exception>
-        protected override bool ReadNext(bool optional)
+        protected override bool ReadNext(bool columns)
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
             var reader = Reader;
@@ -112,7 +110,7 @@ namespace Cuemon.Data.Xml
             addFields:
             SetFields(fields);
             var hasRows = fields.Count > 0;
-            if (hasRows) { _rowCount++; }
+            if (hasRows) { RowCount++; }
             return hasRows;
         }
 
