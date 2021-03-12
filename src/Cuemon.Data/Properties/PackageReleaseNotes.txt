@@ -26,4 +26,5 @@ Availability: NET Standard 2.0, NET 5.0
 # Quality Analysis Actions
 - CHANGED DataTransferRowCollection class in the Cuemon.Data namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3358
 - CHANGED DsvDataReader class in the Cuemon.Data namespace to have 0 duplicated blocks of lines of code by removing ConcurrentDsvDataReader class and merge ReadAsync to DsvDataReader
+- CHANGED XmlDataReader class in the Cuemon.Data.Xml namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3776
  
