@@ -25,7 +25,7 @@ namespace Cuemon.Data.Xml
             Reader = reader;
         }
 
-        private XmlReader Reader { get; set; }
+        private XmlReader Reader { get; }
 
         /// <summary>
         /// Gets a value indicating the depth of nesting for the current element.
