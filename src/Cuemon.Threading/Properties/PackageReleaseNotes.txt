@@ -5,7 +5,6 @@ Availability: NET Standard 2.0, NET 5.0
 - The extent of refactoring applied to this project resulted in so many breaking changes that a git diff is advisable
  
 # New Features
-- ADDED AsyncOptions class in the Cuemon.Threading namespace that specifies options that is related to asynchronous operations
 - ADDED AsyncTaskFactoryOptions class in the Cuemon.Threading namespace that specifies options that is related to both ParallelFactory and AdvancedParallelFactory
 - ADDED AsyncWorkloadOptions class in the Cuemon.Threading namespace that specifies options that is related to both ParallelFactory and AdvancedParallelFactory
 - ADDED AdvancedParallelFactory static class in the Cuemon.Threading namespace that provides a factory based way to work with advanced scenarios that encapsulate and re-use existing code while adding support for typically long-running parallel loops and regions
