@@ -4,7 +4,7 @@ using System.Runtime.ExceptionServices;
 
 namespace Cuemon.Resilience
 {
-    internal class TransientWorker : Transient
+    internal class TransientWorker : Transient<TransientOperationOptions>
     {
         protected TransientWorker(MethodInfo delegateInfo, object[] runtimeArguments, Action<TransientOperationOptions> setup) : base(delegateInfo, runtimeArguments, setup)
         {

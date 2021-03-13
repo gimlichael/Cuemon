@@ -3,7 +3,7 @@
 namespace Cuemon.Text
 {
     /// <summary>
-    /// Configuration options for <see cref="System.Text.Encoding"/>.
+    /// Defines options that is related to <see cref="System.Text.Encoding"/> operations.
     /// </summary>
     public interface IEncodingOptions
     {

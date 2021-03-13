@@ -21,12 +21,12 @@ namespace Cuemon.IO
         /// <param name="decorator">The <see cref="IDecorator{Stream}"/> to extend.</param>
         /// <param name="destination">The <see cref="Stream"/> to which the contents of the current stream will be copied.</param>
         /// <param name="bufferSize">The size of the buffer. This value must be greater than zero. The default size is 81920.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         /// <param name="changePosition">if <c>true</c>, the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> will temporarily have its position changed to 0; otherwise the position is left untouched.</param>
+        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static async Task CopyStreamAsync(this IDecorator<Stream> decorator, Stream destination, int bufferSize = 81920, CancellationToken ct = default, bool changePosition = true)
+        public static async Task CopyStreamAsync(this IDecorator<Stream> decorator, Stream destination, int bufferSize = 81920, bool changePosition = true, CancellationToken ct = default)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             var source = decorator.Inner;
@@ -460,12 +460,12 @@ namespace Cuemon.IO
                 #if NETSTANDARD2_1
                 await using (var compressed = decompressor(target, options.Level, true))
                 {
-                    await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, ct).ConfigureAwait(false);
+                    await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, ct: ct).ConfigureAwait(false);
                 }
                 #else
                 using (var compressed = decompressor(target, options.Level, true))
                 {
-                    await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, ct).ConfigureAwait(false);
+                    await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, ct: ct).ConfigureAwait(false);
                 }
                 #endif
                 await target.FlushAsync(ct).ConfigureAwait(false);
@@ -496,12 +496,12 @@ namespace Cuemon.IO
                 #if NETSTANDARD2_1
                 await using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
                 {
-                    await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, ct).ConfigureAwait(false);
+                    await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, ct: ct).ConfigureAwait(false);
                 }
                 #else
                 using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
                 {
-                    await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, ct).ConfigureAwait(false);
+                    await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, ct: ct).ConfigureAwait(false);
                 }
                 #endif
                 await target.FlushAsync(ct).ConfigureAwait(false);

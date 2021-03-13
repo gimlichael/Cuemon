@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Text;
 
@@ -34,7 +33,6 @@ namespace Cuemon.Extensions.IO
         /// Converts the specified <paramref name="value"/> to a <see cref="Stream"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Stream"/> containing the result of the specified <paramref name="value"/>.</returns>
         /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
@@ -44,9 +42,9 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="InvalidEnumArgumentException">
         /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
         /// </exception>
-        public static Task<Stream> ToStreamAsync(this string value, CancellationToken ct = default, Action<EncodingOptions> setup = null)
+        public static Task<Stream> ToStreamAsync(this string value, Action<AsyncEncodingOptions> setup = null)
         {
-            return Decorator.Enclose(value).ToStreamAsync(ct, setup);
+            return Decorator.Enclose(value).ToStreamAsync(setup);
         }
 
         /// <summary>

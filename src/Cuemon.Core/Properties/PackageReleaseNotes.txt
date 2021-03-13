@@ -162,6 +162,9 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED StorageCapacity class in the Cuemon namespace that provides a way to represent a table of both binary and metric prefixes that precedes a unit of measure optimized for storage capacity measurement standards
 - ADDED StorageCapacityOptions class in the Cuemon namespace that specifies options related to StorageCapacity
 - ADDED PrefixUnit class in the Cuemon namespace that represents the base class from which all implementations of a unit of measurement should derive
+- ADDED AsyncOptions class in the Cuemon.Threading namespace that specifies options that is related to asynchronous operations
+- ADDED IAsyncOptions interface in the Cuemon.Threading namespace that defines options that is related to asynchronous operations
+- ADDED AsyncEncodingOptions interface in the Cuemon.Text namespace that defines options that is related to Encoding class
  
 # Bug Fixes
 - FIXED critical bug in the DateSpan struct located on the Cuemon namespace
@@ -197,6 +200,7 @@ Availability: NET Standard 2.0, NET 5.0
 - CHANGED StringDecoratorExtensions class in the Cuemon namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1835
 - CHANGED HashResult class in the Cuemon.Security namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
 - CHANGED Template class in the Cuemon namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
+- JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1068 on StringDecoratorExtensions class in the Cuemon namespace
  
 # Other Changes
 - Several ;-)

@@ -1,17 +1,19 @@
 ﻿using System.Threading;
+using Cuemon.Threading;
 
-namespace Cuemon.Threading
+namespace Cuemon.Diagnostics
 {
     /// <summary>
-    /// Specifies options that is related to asynchronous operations.
+    /// Specifies options that is related to <see cref="TimeMeasure" /> operations. This class cannot be inherited.
     /// </summary>
-    public class AsyncOptions : IAsyncOptions
+    /// <seealso cref="TimeMeasureOptions" />
+    public sealed class AsyncTimeMeasureOptions : TimeMeasureOptions, IAsyncOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncOptions"/> class.
+        /// Initializes a new instance of the <see cref="TimeMeasureOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="AsyncOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="TimeMeasureOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -23,7 +25,7 @@ namespace Cuemon.Threading
         ///     </item>
         /// </list>
         /// </remarks>
-        public AsyncOptions()
+        public AsyncTimeMeasureOptions()
         {
             CancellationToken = default;
         }

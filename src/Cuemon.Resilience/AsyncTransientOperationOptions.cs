@@ -1,17 +1,18 @@
 ﻿using System.Threading;
+using Cuemon.Threading;
 
-namespace Cuemon.Threading
+namespace Cuemon.Resilience
 {
     /// <summary>
-    /// Specifies options that is related to asynchronous operations.
+    /// Specifies options that is related to the <see cref="TransientOperation"/> class.
     /// </summary>
-    public class AsyncOptions : IAsyncOptions
+    public sealed class AsyncTransientOperationOptions : TransientOperationOptions, IAsyncOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncOptions"/> class.
+        /// Initializes a new instance of the <see cref="TransientOperationOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="AsyncOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="TransientOperationOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -23,7 +24,7 @@ namespace Cuemon.Threading
         ///     </item>
         /// </list>
         /// </remarks>
-        public AsyncOptions()
+        public AsyncTransientOperationOptions()
         {
             CancellationToken = default;
         }
