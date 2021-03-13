@@ -35,7 +35,7 @@ namespace Cuemon.Net
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             var bytes = decorator.Inner;
-            if (bytes.Length == 0) { return new byte[0]; }
+            if (bytes.Length == 0) { return Array.Empty<byte>(); }
 
             Validator.ThrowIfLowerThan(position, 0, nameof(position));
             Validator.ThrowIfGreaterThanOrEqual(position, bytes.Length, nameof(position));

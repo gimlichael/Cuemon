@@ -14,6 +14,7 @@ namespace Cuemon.Net
     /// <seealso cref="Decorator{T}"/>
     /// <remarks>
     /// Kudos to the mono-project team for this class. I only modified some of the original code to fit into this class. For the original code, have a visit here for the source code: https://github.com/mono/mono/blob/master/mcs/class/System.Web/System.Web/HttpUtility.cs or here for the mono-project website: http://www.mono-project.com/.
+    /// Primary reason for including these methods: https://edi.wang/post/2018/11/25/netcore-webutility-urlencode-httputility-urlencode
     /// </remarks>
     public static class StringDecoratorExtensions
     {

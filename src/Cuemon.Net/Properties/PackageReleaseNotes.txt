@@ -20,4 +20,5 @@ Availability: NET Standard 2.0, NET 5.0
  
 # Quality Analysis Actions
 - CHANGED StringDecoratorExtensions class in the Cuemon.Net namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3358
+- CHANGED ByteArrayDecoratorExtensions class in the Cuemon.Net namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
  

@@ -18,3 +18,7 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED FileChecksumOptions class in the Cuemon.Data.Integrity namespace that specifies configuration options for FileInfo
 - ADDED FileIntegrityOptions class in the Cuemon.Data.Integrity namespace that specifies configuration options for FileInfo
 - ADDED IDataIntegrity interface in the Cuemon.Data.Integrity namespace determines the integrity of data
+ 
+# Quality Analysis Actions
+- CHANGED DataIntegrityFactory class in the Cuemon.Data.Integrity namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
+ 

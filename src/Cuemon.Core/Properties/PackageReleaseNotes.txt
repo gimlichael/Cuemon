@@ -180,7 +180,6 @@ Availability: NET Standard 2.0, NET 5.0
 - CHANGED ByteUnit in the Cuemon namespace from struct to sealed class
  
 # Quality Analysis Actions
-- JUSTIFIED several ROSLYN analysis findings
 - CHANGED SystemSnapshot enum in the Cuemon namespace to SystemSnapshots (https://rules.sonarsource.com/csharp/RSPEC-2342)
 - CHANGED Validator class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-4136
 - CHANGED Hierarchy class in the Cuemon namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-1066
@@ -194,6 +193,10 @@ Availability: NET Standard 2.0, NET 5.0
 - CHANGED DecimalPrefix class in the Cuemon namespace to have 0 duplicated blocks of lines of code
 - CHANGED BitUnit class in the Cuemon namespace to have 0 duplicated blocks of lines of code
 - CHANGED ByteUnit class in the Cuemon namespace to have 0 duplicated blocks of lines of code
+- CHANGED ByteArrayDecoratorExtensions class in the Cuemon namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1835
+- CHANGED StringDecoratorExtensions class in the Cuemon namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1835
+- CHANGED HashResult class in the Cuemon.Security namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
+- CHANGED Template class in the Cuemon namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
  
 # Other Changes
 - Several ;-)
