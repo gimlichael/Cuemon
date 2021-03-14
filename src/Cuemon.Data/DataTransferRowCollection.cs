@@ -57,7 +57,7 @@ namespace Cuemon.Data
         {
             get
             {
-                return _columnNames ??= Columns.Select(column => column.Name);
+                return _columnNames ?? (_columnNames = Columns.Select(column => column.Name));
             }
         }
 
