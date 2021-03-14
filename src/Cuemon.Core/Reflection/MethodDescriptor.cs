@@ -180,10 +180,10 @@ namespace Cuemon.Reflection
         {
             var className = Decorator.Enclose(Caller).ToFriendlyName(o => o.FullName = fullName);
             var signature = new StringBuilder(string.Concat(className, ".", MethodName));
-            if (!IsProperty) { signature.Append("("); }
+            if (!IsProperty) { signature.Append('('); }
             if (Parameters.Any())
             {
-                if (IsProperty) { signature.Append("["); }
+                if (IsProperty) { signature.Append('['); }
                 var parameterCount = Parameters.Count();
                 var i = 1;
                 foreach (var parameter in Parameters)
@@ -192,9 +192,9 @@ namespace Cuemon.Reflection
                     if (i < parameterCount) { signature.Append(", "); }
                     i++;
                 }
-                if (IsProperty) { signature.Append("]"); }
+                if (IsProperty) { signature.Append(']'); }
             }
-            if (!IsProperty) { signature.Append(")"); }
+            if (!IsProperty) { signature.Append(')'); }
             return signature.ToString();
         }
         #endregion

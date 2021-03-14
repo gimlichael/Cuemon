@@ -201,6 +201,7 @@ Availability: NET Standard 2.0, NET 5.0
 - CHANGED HashResult class in the Cuemon.Security namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
 - CHANGED Template class in the Cuemon namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
 - JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1068 on StringDecoratorExtensions class in the Cuemon namespace
+- CHANGED MethodDescriptor class in the Cuemon.Reflection namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1834
  
 # Other Changes
 - Several ;-)

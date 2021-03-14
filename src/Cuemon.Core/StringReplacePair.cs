@@ -9,7 +9,7 @@ namespace Cuemon
     /// <summary>
     /// Defines a oldValue/newValue pair that can be set or retrieved for string replace operations.
     /// </summary>
-    public struct StringReplacePair
+    public readonly struct StringReplacePair
     {
         /// <summary>
         /// Replaces all occurrences of <paramref name="oldValue"/> in <paramref name="value"/>, with <paramref name="newValue"/>.

@@ -47,7 +47,7 @@ namespace Cuemon
                 {
                     pattern.AppendFormat(CultureInfo.InvariantCulture, @"\u{0:x4}", (uint)character);
                 }
-                pattern.Append("|");
+                pattern.Append('|');
                 lookupTable.Add(replacePair.OldValue.ToUpperInvariant(), replacePair.NewValue);
             }
             pattern.Remove(pattern.Length - 1, 1);
