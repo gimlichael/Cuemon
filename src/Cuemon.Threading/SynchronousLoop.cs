@@ -32,7 +32,7 @@ namespace Cuemon.Threading
                 if (queue.Count == 0) { break; }
                 Process(queue);
             }
-            if (Exceptions.Count > 0) { throw new AggregateException(Exceptions); }
+            if (!Exceptions.IsEmpty) { throw new AggregateException(Exceptions); }
         }
 
         protected virtual void OnWhileExecutingBeforeFillWorkQueue()

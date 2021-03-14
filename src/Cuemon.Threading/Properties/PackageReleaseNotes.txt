@@ -26,3 +26,4 @@ Availability: NET Standard 2.0, NET 5.0
 - APPLIED while loop over for loop https://rules.sonarsource.com/csharp/RSPEC-1264
 - JUSTIFIED that types are allowed to have many generic parameters https://rules.sonarsource.com/csharp/RSPEC-2436
 - JUSTIFIED that methods are allowed to have many generic parameters https://rules.sonarsource.com/csharp/RSPEC-107
+ 
