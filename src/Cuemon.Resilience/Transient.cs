@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
 
 namespace Cuemon.Resilience
@@ -58,7 +59,9 @@ namespace Cuemon.Resilience
             ThrowExceptions = true;
             if (IsTransientFault)
             {
-                var evidence = new TransientFaultEvidence(attempts, LastWaitTime, TotalWaitTime, Latency, new MethodDescriptor(DelegateInfo).AppendRuntimeArguments(RuntimeArguments));
+                var runtimeArguments = RuntimeArguments;
+                if (Options is AsyncTransientOperationOptions asyncOptions){ runtimeArguments = Arguments.Concat(RuntimeArguments, Arguments.ToArray(asyncOptions.CancellationToken)); } // we need to match the signature of async methods on TransientOperation
+                var evidence = new TransientFaultEvidence(attempts, LastWaitTime, TotalWaitTime, Latency, new MethodDescriptor(DelegateInfo).AppendRuntimeArguments(runtimeArguments));
                 var transientException = new TransientFaultException("The amount of retry attempts has been reached.", evidence);
                 lock (AggregatedExceptions) { AggregatedExceptions.Insert(0, transientException); }
                 TransientOperation.FaultCallback?.Invoke(evidence);

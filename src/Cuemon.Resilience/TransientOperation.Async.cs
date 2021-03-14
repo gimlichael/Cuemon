@@ -11,7 +11,7 @@ namespace Cuemon.Resilience
         /// </summary>
         /// <typeparam name="TResult">The type of the return value of the function delegate <paramref name="faultSensitiveMethod"/>.</typeparam>
         /// <param name="faultSensitiveMethod">The fault sensitive <see cref="Task{TResult}"/> based function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -41,7 +41,7 @@ namespace Cuemon.Resilience
         /// <typeparam name="TResult">The type of the return value of the function delegate <paramref name="faultSensitiveMethod"/>.</typeparam>
         /// <param name="faultSensitiveMethod">The fault sensitive <see cref="Task{TResult}"/> based function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="arg">The parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -73,7 +73,7 @@ namespace Cuemon.Resilience
         /// <param name="faultSensitiveMethod">The fault sensitive <see cref="Task{TResult}"/> based function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="arg1">The first parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -107,7 +107,7 @@ namespace Cuemon.Resilience
         /// <param name="arg1">The first parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg2">The second parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -143,7 +143,7 @@ namespace Cuemon.Resilience
         /// <param name="arg2">The second parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg3">The third parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -181,7 +181,7 @@ namespace Cuemon.Resilience
         /// <param name="arg3">The third parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg4">The fourth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg5">The fifth parameter of the function delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>The result from the <paramref name="faultSensitiveMethod"/>.</returns>
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="faultSensitiveMethod"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -208,7 +208,7 @@ namespace Cuemon.Resilience
         /// Repetitively executes the specified <paramref name="faultSensitiveMethod"/> until the operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.
         /// </summary>
         /// <param name="faultSensitiveMethod">The fault sensitive <see cref="Task"/> based function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="faultSensitiveMethod"/> cannot be null.
@@ -236,7 +236,7 @@ namespace Cuemon.Resilience
         /// <typeparam name="T">The type of the parameter of the delegate <paramref name="faultSensitiveMethod"/>.</typeparam>
         /// <param name="faultSensitiveMethod">The fault sensitive <see cref="Task"/> based function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="arg">The parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="faultSensitiveMethod"/> cannot be null.
@@ -266,7 +266,7 @@ namespace Cuemon.Resilience
         /// <param name="faultSensitiveMethod">The fault sensitive <see cref="Task"/> based function delegate that is invoked until an operation is successful, the amount of retry attempts has been reached, or a failed operation is not considered related to transient fault condition.</param>
         /// <param name="arg1">The first parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="faultSensitiveMethod"/> cannot be null.
@@ -298,7 +298,7 @@ namespace Cuemon.Resilience
         /// <param name="arg1">The first parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="faultSensitiveMethod"/> cannot be null.
@@ -332,7 +332,7 @@ namespace Cuemon.Resilience
         /// <param name="arg2">The second parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="faultSensitiveMethod"/> cannot be null.
@@ -368,7 +368,7 @@ namespace Cuemon.Resilience
         /// <param name="arg3">The third parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg4">The fourth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
         /// <param name="arg5">The fifth parameter of the delegate <paramref name="faultSensitiveMethod"/>.</param>
-        /// <param name="setup">The <see cref="TransientOperationOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTransientOperationOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="faultSensitiveMethod"/> cannot be null.

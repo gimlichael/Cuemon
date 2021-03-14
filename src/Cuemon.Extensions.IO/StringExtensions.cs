@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.IO
         /// Converts the specified <paramref name="value"/> to a <see cref="Stream"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncEncodingOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Stream"/> containing the result of the specified <paramref name="value"/>.</returns>
         /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         /// <exception cref="ArgumentNullException">
