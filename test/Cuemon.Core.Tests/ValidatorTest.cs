@@ -13,6 +13,30 @@ namespace Cuemon
         {
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("cuemon")]
+        public void CheckParameter_ShouldThrowArgumentNullExceptionOrReturnString(string value)
+        {
+            if (value == null)
+            {
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    Validator.CheckParameter(value, () =>
+                    {
+                        Validator.ThrowIfNull(value, nameof(value));
+                    });
+                });
+            }
+            else
+            {
+                Assert.Equal("cuemon", Validator.CheckParameter(value, () =>
+                {
+                    Validator.ThrowIfNull(value, nameof(value));
+                }));
+            }
+        }
+
         [Fact]
         public void ThrowIfContainsType_ShouldThrowArgumentOutOfRangeException()
         {
@@ -366,6 +390,11 @@ namespace Cuemon
             {
                 Validator.ThrowIfNullOrEmpty(null, "paramName");
             });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                Validator.ThrowIfNullOrEmpty(null, "paramName", "message");
+            });
         }
 
         [Fact]
@@ -375,14 +404,24 @@ namespace Cuemon
             {
                 Validator.ThrowIfNullOrEmpty("", "paramName");
             });
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfNullOrEmpty("", "paramName", "message");
+            });
         }
 
         [Fact]
-        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentNullException_And_ArgumentException()
+        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
                 Validator.ThrowIfNullOrWhitespace(null, "paramName");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                Validator.ThrowIfNullOrWhitespace(null, "paramName", "message");
             });
         }
 
@@ -392,6 +431,21 @@ namespace Cuemon
             Assert.Throws<ArgumentException>(() =>
             {
                 Validator.ThrowIfNullOrWhitespace("", "paramName");
+            });
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfNullOrWhitespace("", "paramName", "message");
+            });
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfNullOrWhitespace(" ", "paramName");
+            });
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfNullOrWhitespace(" ", "paramName", "message");
             });
         }
 

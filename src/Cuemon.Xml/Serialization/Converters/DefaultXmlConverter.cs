@@ -84,7 +84,7 @@ namespace Cuemon.Xml.Serialization.Converters
             return true;
         }
 
-        private object ParseReadXmlDictionary(XmlReader reader, Type valueType)
+        private static object ParseReadXmlDictionary(XmlReader reader, Type valueType)
         {
             var values = new Dictionary<string, string>();
             var hierarchy = Decorator.Enclose(reader).ToHierarchy();
@@ -121,7 +121,7 @@ namespace Cuemon.Xml.Serialization.Converters
             return instance;
         }
 
-        private object ParseReadXmlEnumerable(XmlReader reader, Type valueType)
+        private static object ParseReadXmlEnumerable(XmlReader reader, Type valueType)
         {
             var values = new List<KeyValuePair<string, string>>();
             var hierarchy = Decorator.Enclose(reader).ToHierarchy();
@@ -141,7 +141,7 @@ namespace Cuemon.Xml.Serialization.Converters
             return instance;
         }
 
-        private object ParseReadXmlSimple(XmlReader reader, Type valueType)
+        private static object ParseReadXmlSimple(XmlReader reader, Type valueType)
         {
             string simpleValue = null;
             try
@@ -164,7 +164,7 @@ namespace Cuemon.Xml.Serialization.Converters
             return TypeDescriptor.GetConverter(valueType).ConvertFromInvariantString(simpleValue);
         }
 
-        private object ParseReadXmlDefault(XmlReader reader, Type valueType)
+        private static object ParseReadXmlDefault(XmlReader reader, Type valueType)
         {
             var key = "";
             var values = new Dictionary<string, string>();

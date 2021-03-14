@@ -18,21 +18,21 @@ namespace Cuemon.Threading
             var builder = new StringBuilder();
             try
             {
-                builder.Append(FormattableString.Invariant($"Culture: {Thread.CurrentCulture.ToString()}"));
-                builder.Append("^");
-                builder.Append(FormattableString.Invariant($"UICulture: {Thread.CurrentUICulture.ToString()}"));
-                builder.Append("^");
-                builder.Append(FormattableString.Invariant($"ManagedId: {Thread.ManagedThreadId.ToString()}"));
-                builder.Append("^");
+                builder.Append(FormattableString.Invariant($"Culture: {Thread.CurrentCulture}"));
+                builder.Append(Alphanumeric.CaretChar);
+                builder.Append(FormattableString.Invariant($"UICulture: {Thread.CurrentUICulture}"));
+                builder.Append(Alphanumeric.CaretChar);
+                builder.Append(FormattableString.Invariant($"ManagedId: {Thread.ManagedThreadId}"));
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"Name: {Thread.Name ?? "null"}"));
-                builder.Append("^");
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"State: {Thread.ThreadState}"));
-                builder.Append("^");
+                builder.Append(Alphanumeric.CaretChar);
                 builder.Append(FormattableString.Invariant($"Priority: {Thread.Priority}"));
-                builder.Append("^");
-                builder.Append(FormattableString.Invariant($"IsThreadPoolThread: {Thread.IsThreadPoolThread.ToString()}"));
-                builder.Append("^");
-                builder.Append(FormattableString.Invariant($"IsBackground: {Thread.IsBackground.ToString()}"));
+                builder.Append(Alphanumeric.CaretChar);
+                builder.Append(FormattableString.Invariant($"IsThreadPoolThread: {Thread.IsThreadPoolThread}"));
+                builder.Append(Alphanumeric.CaretChar);
+                builder.Append(FormattableString.Invariant($"IsBackground: {Thread.IsBackground}"));
             }
             catch (Exception)
             {

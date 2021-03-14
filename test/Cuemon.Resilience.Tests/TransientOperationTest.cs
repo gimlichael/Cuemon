@@ -229,7 +229,7 @@ namespace Cuemon.Resilience
             var id = Guid.NewGuid();
             _retryTracker.TryAdd(id, -1);
 
-            var profiler = await TimeMeasure.WithActionAsync(ct => TransientOperation.WithActionAsync(AsyncActionTransientOperation.MethodThatReturnsOkStringAsync, id, _retryTracker, ct, TransientOperationOptionsCallback));
+            var profiler = await TimeMeasure.WithActionAsync(ct => TransientOperation.WithActionAsync(AsyncActionTransientOperation.MethodThatReturnsOkStringAsync, id, _retryTracker, TransientOperationOptionsCallback));
 
             Assert.Equal(0, (int)profiler.Elapsed.TotalSeconds);
             Assert.Equal(0, _retryTracker[id]);
@@ -241,7 +241,7 @@ namespace Cuemon.Resilience
             var id = Guid.NewGuid();
             _retryTracker.TryAdd(id, -1);
 
-            var profiler = await TimeMeasure.WithActionAsync(ct => TransientOperation.WithActionAsync(AsyncActionTransientOperation.FailUntilExpectedRetryAttemptsIsReachedAsync, id, ExpectedRetryAttempts, _retryTracker, ct, TransientOperationOptionsCallback));
+            var profiler = await TimeMeasure.WithActionAsync(ct => TransientOperation.WithActionAsync(AsyncActionTransientOperation.FailUntilExpectedRetryAttemptsIsReachedAsync, id, ExpectedRetryAttempts, _retryTracker, TransientOperationOptionsCallback));
 
             Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
             Assert.Equal(ExpectedRetryAttempts, _retryTracker[id]);
@@ -255,7 +255,7 @@ namespace Cuemon.Resilience
 
             var profiler = await TimeMeasure.WithActionAsync(async ct =>
             {
-                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithActionAsync(AsyncActionTransientOperation.TriggerTransientFaultExceptionAsync, id, _retryTracker, ct, TransientOperationOptionsCallback));
+                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithActionAsync(AsyncActionTransientOperation.TriggerTransientFaultExceptionAsync, id, _retryTracker, TransientOperationOptionsCallback));
                 Assert.IsType<TransientFaultException>(aex.InnerExceptions.First());
                 Assert.Equal(NormalRunIncrement + ExpectedRetryAttempts + DescriptiveExceptionCauseIncrement, aex.InnerExceptions.Count);
             });
@@ -278,7 +278,7 @@ namespace Cuemon.Resilience
 
             var profiler = await TimeMeasure.WithActionAsync(async ct =>
             {
-                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithActionAsync(AsyncActionTransientOperation.TriggerLatencyExceptionAsync, id, _retryTracker, ct, TransientOperationOptionsCallback));
+                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithActionAsync(AsyncActionTransientOperation.TriggerLatencyExceptionAsync, id, _retryTracker, TransientOperationOptionsCallback));
                 
                 TestOutput.WriteLine(aex.ToString());
 
@@ -300,7 +300,7 @@ namespace Cuemon.Resilience
 
             var profiler = await TimeMeasure.WithActionAsync(async ct =>
             {
-                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithActionAsync(AsyncActionTransientOperation.FailWithNonTransientFaultExceptionAsync, id, ExpectedRetryAttempts, _retryTracker, ct, TransientOperationOptionsCallback));
+                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithActionAsync(AsyncActionTransientOperation.FailWithNonTransientFaultExceptionAsync, id, ExpectedRetryAttempts, _retryTracker, TransientOperationOptionsCallback));
                 Assert.IsType<InvalidOperationException>(aex.InnerExceptions.First());
 
                 TestOutput.WriteLine(aex.ToString());
@@ -316,7 +316,7 @@ namespace Cuemon.Resilience
             var id = Guid.NewGuid();
             _retryTracker.TryAdd(id, -1);
             
-            var profiler = await TimeMeasure.WithFuncAsync(ct => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.FailUntilExpectedRetryAttemptsIsReachedAsync, id, ExpectedRetryAttempts, _retryTracker, ct, TransientOperationOptionsCallback));
+            var profiler = await TimeMeasure.WithFuncAsync(ct => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.FailUntilExpectedRetryAttemptsIsReachedAsync, id, ExpectedRetryAttempts, _retryTracker, TransientOperationOptionsCallback));
 
             Assert.Equal(ExpectedResult, profiler.Result);
             Assert.InRange(profiler.Elapsed.TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) - Jitter).TotalSeconds, (TimeSpan.FromSeconds(ExpectedRetryAttempts) + Jitter).TotalSeconds);
@@ -331,7 +331,7 @@ namespace Cuemon.Resilience
 
             var profiler = await TimeMeasure.WithActionAsync(async ct =>
             {
-                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.TriggerTransientFaultExceptionAsync, id, _retryTracker, ct, TransientOperationOptionsCallback));
+                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.TriggerTransientFaultExceptionAsync, id, _retryTracker, TransientOperationOptionsCallback));
                 Assert.IsType<TransientFaultException>(aex.InnerExceptions.First());
                 Assert.Equal(NormalRunIncrement + ExpectedRetryAttempts + DescriptiveExceptionCauseIncrement, aex.InnerExceptions.Count);
             });
@@ -354,7 +354,7 @@ namespace Cuemon.Resilience
 
             var profiler = await TimeMeasure.WithActionAsync(async ct =>
             {
-                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.TriggerLatencyExceptionAsync, id, _retryTracker, ct, TransientOperationOptionsCallback));
+                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.TriggerLatencyExceptionAsync, id, _retryTracker, TransientOperationOptionsCallback));
                 Assert.IsType<LatencyException>(aex.InnerExceptions.First());
                 Assert.Equal(NormalRunIncrement + DescriptiveExceptionCauseIncrement, aex.InnerExceptions.Count);
                 TestOutput.WriteLine(aex.ToString());
@@ -371,7 +371,7 @@ namespace Cuemon.Resilience
 
             var profiler = await TimeMeasure.WithActionAsync(async ct =>
             {
-                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.FailWithNonTransientFaultExceptionAsync, id, ExpectedRetryAttempts, _retryTracker, ct, TransientOperationOptionsCallback));
+                var aex = await Assert.ThrowsAsync<AggregateException>(() => TransientOperation.WithFuncAsync(AsyncFuncTransientOperation.FailWithNonTransientFaultExceptionAsync, id, ExpectedRetryAttempts, _retryTracker, TransientOperationOptionsCallback));
                 Assert.IsType<InvalidOperationException>(aex.InnerExceptions.First());
 
                 TestOutput.WriteLine(aex.ToString());

@@ -5,7 +5,7 @@ email, or any other method with the owners of this repository before making a ch
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
 ## Code of Conduct
-Please review our [code of conduct](.github/CODE_OF_CONDUCT.md).
+Please review our [code of conduct](CODE_OF_CONDUCT.md).
 
 ## Our Development Process
 We use GitHub with a simple GitFlow inspired flow.
@@ -27,7 +27,7 @@ clear and has sufficient instructions to be able to reproduce the issue.
 ## Coding Guidelines
 * Please follow Framework Design Guidelines
 * Please follow SOLID principles
-* Let yourself be inspired by [Microsoft Engineering Guidelines](https://github.com/dotnet/aspnetcore/wiki/Engineering-guidelines)
+* Make sure you have familiarized yourself with [Cuemon for .NET - Concept Reference](https://docs.cuemon.net/api/index.html)
 * Consider reading my short take on [Software craftsmanship - a journey with inspirational sources!](https://github.com/gimlichael/Must-Read-Resources)
 
 ## License

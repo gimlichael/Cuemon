@@ -34,7 +34,7 @@ namespace Cuemon.Data.Integrity
                 }
                 return options.IntegrityConverter(file, checksumBytes);
             }
-            return options.IntegrityConverter(file, new byte[0]);
+            return options.IntegrityConverter(file, Array.Empty<byte>());
         }
     }
 }

@@ -15,7 +15,6 @@ namespace Cuemon.Xml.Serialization.Formatters
             DefaultConverters = list =>
             {
                 Decorator.Enclose(list)
-                    .AddExceptionDescriptorConverter()
                     .AddEnumerableConverter()
                     .AddUriConverter()
                     .AddDateTimeConverter()
@@ -62,7 +61,14 @@ namespace Cuemon.Xml.Serialization.Formatters
             IncludeExceptionDescriptorEvidence = true;
             IncludeExceptionStackTrace = false;
             Settings = new XmlSerializerOptions();
-            Decorator.Enclose(Settings.Converters).AddExceptionConverter(() => IncludeExceptionStackTrace);
+            Decorator.Enclose(Settings.Converters)
+                .AddExceptionConverter(() => IncludeExceptionStackTrace)
+                .AddExceptionDescriptorConverter(o =>
+                {
+                    o.IncludeStackTrace = IncludeExceptionStackTrace;
+                    o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
+                    o.IncludeFailure = IncludeExceptionDescriptorFailure;
+                });
             DefaultConverters?.Invoke(Settings.Converters);
         }
 

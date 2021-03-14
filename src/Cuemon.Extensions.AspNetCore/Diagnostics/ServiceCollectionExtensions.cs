@@ -10,7 +10,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds a <see cref="MemoryThrottlingCache"/> service to the specified <see cref="IServiceCollection"/>.
+        /// Adds a <see cref="ServerTiming"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         }
 
         /// <summary>
-        /// Adds a throttling cache service to the specified <see cref="IServiceCollection"/>.
+        /// Adds an implementation of <see cref="IServerTiming"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>

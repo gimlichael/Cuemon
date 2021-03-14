@@ -15,7 +15,7 @@ namespace Cuemon.Security
         /// <param name="input">The computed checksum represented as a <see cref="T:byte[]"/>.</param>
         public HashResult(byte[] input)
         {
-            _input = input ?? new byte[0];
+            _input = input ?? Array.Empty<byte>();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Cuemon.Security
         /// <value>The copy of the original value that reflects a computed operation.</value>
         public byte[] GetBytes()
         {
-            if (_input.Length == 0) { return new byte[0]; }
+            if (_input.Length == 0) { return Array.Empty<byte>(); }
             var copy = new byte[_input.Length];
             Array.Copy(_input, copy, copy.Length);
             return copy;

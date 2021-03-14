@@ -19,4 +19,5 @@ Availability: NET Standard 2.0, NET 5.0
  
 # Quality Analysis Actions
 - JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2200 on ValidatorExtensions class in the Cuemon.Extensions namespace
+- JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2249 on StringExtensions class in the Cuemon.Extensions namespace
  

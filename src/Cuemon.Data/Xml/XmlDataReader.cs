@@ -11,8 +11,6 @@ namespace Cuemon.Data.Xml
     /// </summary>
     public sealed class XmlDataReader : DataReader<bool>
     {
-        private int _rowCount;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlDataReader"/> class.
         /// </summary>
@@ -27,7 +25,7 @@ namespace Cuemon.Data.Xml
             Reader = reader;
         }
 
-        private XmlReader Reader { get; set; }
+        private XmlReader Reader { get; }
 
         /// <summary>
         /// Gets a value indicating the depth of nesting for the current element.
@@ -42,7 +40,7 @@ namespace Cuemon.Data.Xml
         /// </summary>
         /// <value>The currently processed row count of this instance.</value>
         /// <remarks>This property is incremented when the invoked <see cref="Read"/> method returns <c>true</c>.</remarks>
-        public override int RowCount => _rowCount;
+        public override int RowCount { get; protected set; }
 
         /// <summary>
         /// Gets the value that indicates that no more rows exists.
@@ -70,66 +68,73 @@ namespace Cuemon.Data.Xml
         /// <exception cref="ObjectDisposedException">
         /// This instance has been disposed.
         /// </exception>
-        protected override bool ReadNext(bool optional)
+        protected override bool ReadNext(bool columns)
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
-            var reader = Reader;
+            
             var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
+            var skipIterateForward = false;
             string elementName = null;
-            while (reader.Read())
+            
+            while (Reader.Read())
             {
-                CurrentDepth = reader.Depth;
-                switch (reader.NodeType)
+                CurrentDepth = Reader.Depth;
+
+                if (Reader.NodeType == XmlNodeType.Element)
                 {
-                    case XmlNodeType.Attribute:
-                        Parse(reader, ref fields);
-                        while (reader.MoveToNextAttribute())
-                        {
-                            Parse(reader, ref fields);
-                        }
-                        if (reader.MoveToElement()) { goto addFields; }
-                        break;
-                    case XmlNodeType.Element:
-                        elementName = reader.LocalName;
-                        if (reader.HasAttributes && reader.MoveToFirstAttribute())
-                        {
-                            goto case XmlNodeType.Attribute;
-                        }
-                        break;
-                    case XmlNodeType.CDATA:
-                    case XmlNodeType.Text:
-                        if (elementName != null) { Parse(elementName, reader, ref fields); }
-                        elementName = null;
-                        break;
-                    case XmlNodeType.EndElement:
-                        break;
-                    default:
-                        if (fields.Count > 0) { goto addFields; }
-                        break;
+                    elementName = Reader.LocalName;
+                    if (Reader.HasAttributes && Reader.MoveToFirstAttribute())
+                    {
+                        skipIterateForward = CopyAllAttributesFromCurrentNodeToFields(fields);
+                    }
                 }
+                else if (Reader.NodeType == XmlNodeType.Text || Reader.NodeType == XmlNodeType.CDATA)
+                {
+                    PopulateFields(elementName, fields);
+                }
+                else
+                {
+                    skipIterateForward = fields.Count > 0;
+                }
+
+                if (skipIterateForward) { break; }
             }
             
-            addFields:
+            return ReadNextIncrementRows(fields);
+        }
+
+        private bool CopyAllAttributesFromCurrentNodeToFields(IOrderedDictionary fields)
+        {
+            PopulateFields(fields);
+            while (Reader.MoveToNextAttribute())
+            {
+                PopulateFields(fields);
+            }
+            return Reader.MoveToElement();
+        }
+
+        private bool ReadNextIncrementRows(IOrderedDictionary fields)
+        {
             SetFields(fields);
             var hasRows = fields.Count > 0;
-            if (hasRows) { _rowCount++; }
+            if (hasRows) { RowCount++; }
             return hasRows;
         }
 
-        private void Parse(XmlReader reader, ref OrderedDictionary values)
+        private void PopulateFields(IOrderedDictionary fields)
         {
-            Parse(reader.LocalName, reader, ref values);
+            PopulateFields(Reader.LocalName, fields);
         }
 
-        private void Parse(string localName, XmlReader reader, ref OrderedDictionary values)
+        private void PopulateFields(string localName, IOrderedDictionary fields)
         {
-            if (values.Contains(localName))
+            if (fields.Contains(localName))
             {
-                values[localName] = StringParser(reader.Value, null);
+                fields[localName] = StringParser(Reader.Value, null);
             }
             else
             {
-                values.Add(localName, StringParser(reader.Value, null));
+                fields.Add(localName, StringParser(Reader.Value, null));
             }
         }
 

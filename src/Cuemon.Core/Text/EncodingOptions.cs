@@ -4,7 +4,7 @@ using System.Text;
 namespace Cuemon.Text
 {
     /// <summary>
-    /// Configuration options related to <see cref="Encoding"/>.
+    /// Specifies options that is related to the <see cref="System.Text.Encoding"/> class.
     /// </summary>
     public class EncodingOptions : IEncodingOptions
     {

@@ -1,15 +1,21 @@
-- name: Cuemon Conventions
+- name: Concept Reference
   href: api
   topicHref: api/index.md
 - name: Core API
   href: api/dotnet
   topicHref: api/dotnet/index.md
-- name: Extensions for Core APIs
-  href: api/dotnet/ext
-  topicHref: api/dotnet/ext/index.md
 - name: ASP.NET Core API
   href: api/aspnet
   topicHref: api/aspnet/index.md
-- name: Extensions for ASP.NET Core APIs
-  href: api/aspnet/ext
-  topicHref: api/aspnet/ext/index.md
+- name: Ext. Core API
+  href: api/extensions/dotnet
+  topicHref: api/extensions/dotnet/index.md
+- name: Ext. ASP.NET Core API
+  href: api/extensions/aspnet
+  topicHref: api/extensions/aspnet/index.md
+- name: Ext. xUnit API
+  href: api/extensions/xunit
+  topicHref: api/extensions/xunit/index.md
+- name: Ext. Json.NET API
+  href: api/extensions/jsonnet
+  topicHref: api/extensions/jsonnet/index.md

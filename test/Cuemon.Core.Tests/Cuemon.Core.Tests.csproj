@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <None Remove="Assets\CultureInfo.SpecificCultures.dsv" />
+    <None Remove="Assets\LoremIpsum.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\CultureInfo.SpecificCultures.dsv" />
+    <EmbeddedResource Include="Assets\LoremIpsum.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>
 

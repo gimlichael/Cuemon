@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\DsvDataReaderTest_100000_SalesRecords.csv" />
     <None Remove="Assets\DsvDataReaderTest_Wiki.csv" />
     <None Remove="Assets\Professional.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Assets\DsvDataReaderTest_100000_SalesRecords.csv" />
     <EmbeddedResource Include="Assets\DsvDataReaderTest_Wiki.csv" />
     <EmbeddedResource Include="Assets\Professional.xml" />
   </ItemGroup>

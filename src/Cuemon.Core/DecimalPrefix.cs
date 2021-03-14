@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Cuemon
 {
     /// <summary>
-    /// Defines a decimal (metric) unit prefix for multiples and submultiples of measurement that refers strictly to powers of 10.
-    /// Implements the <see cref="IPrefixMultiple" />
+    /// Defines a decimal (metric) unit prefix for multiples and submultiples of measurement that refers strictly to powers of 10. This class cannot be inherited.
     /// </summary>
-    /// <seealso cref="IPrefixMultiple" />
-    public struct DecimalPrefix : IPrefixMultiple
+    /// <seealso cref="PrefixMultiple" />
+    public sealed class DecimalPrefix : PrefixMultiple
     {
         private static readonly Lazy<IEnumerable<DecimalPrefix>> LazyPrefixes = new Lazy<IEnumerable<DecimalPrefix>>(() =>
         {
@@ -171,71 +169,8 @@ namespace Cuemon
         /// <param name="name">The name of the decimal prefix.</param>
         /// <param name="symbol">The symbol of the the decimal prefix.</param>
         /// <param name="exponent">The number that specifies a power.</param>
-        public DecimalPrefix(string name, string symbol, int exponent)
+        public DecimalPrefix(string name, string symbol, double exponent) : base(name, symbol, 10, exponent)
         {
-            Name = name;
-            Symbol = symbol;
-            Multiplier = Math.Pow(10, exponent);
-        }
-
-        /// <summary>
-        /// Gets the name of the decimal prefix.
-        /// </summary>
-        /// <value>The name of the decimal prefix.</value>
-        public string Name { get; }
-
-        /// <summary>
-        /// Gets the symbol of the decimal prefix.
-        /// </summary>
-        /// <value>The symbol of the decimal prefix.</value>
-        public string Symbol { get; }
-
-        /// <summary>
-        /// Gets the binary decimal multiplier.
-        /// </summary>
-        /// <value>The binary decimal multiplier.</value>
-        public double Multiplier { get; }
-
-        /// <summary>
-        /// Converts the unit base <paramref name="value"/> to a decimal prefix value.
-        /// </summary>
-        /// <param name="value">The value of the base unit.</param>
-        /// <returns>A <see cref="double"/> that represents a decimal prefix value.</returns>
-        public double ToPrefixValue(double value)
-        {
-            return value / Multiplier;
-        }
-
-        /// <summary>
-        /// Converts the decimal <paramref name="prefixValue"/> back to a unit base value.
-        /// </summary>
-        /// <param name="prefixValue">The value of the decimal prefix.</param>
-        /// <returns>A <see cref="double"/> that represents a unit base value.</returns>
-        public double ToBaseValue(double prefixValue)
-        {
-            return prefixValue * Multiplier;
-        }
-
-        internal IPrefixUnit ApplyPrefix(IPrefixUnit unit, Action<UnitFormatOptions> setup = null)
-        {
-            Validator.ThrowIfNull(unit, nameof(unit));
-            try
-            {
-                return (IPrefixUnit)Activator.CreateInstance(unit.GetType(), unit.UnitValue, this, setup);
-            }
-            catch (TargetInvocationException e)
-            {
-                throw e.InnerException ?? e;
-            }
-        }
-
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return FormattableString.Invariant($"{Name} ({Symbol}) 10^{Math.Log(Multiplier, 10)}");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿jobs:
   - job: 'Preview'
     displayName: 'Development branch (build, test, code-coverage, code-analysis, license-check)'
-    timeoutInMinutes: 120
+    timeoutInMinutes: 180
 
     strategy:
       matrix:

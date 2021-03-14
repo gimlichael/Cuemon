@@ -7,11 +7,11 @@ namespace Cuemon.Resilience
 {
     internal sealed class AsyncActionTransientWorker : AsyncTransientWorker
     {
-        internal AsyncActionTransientWorker(MethodInfo delegateInfo, object[] runtimeArguments, Action<TransientOperationOptions> setup) : base(delegateInfo, runtimeArguments, setup)
+        internal AsyncActionTransientWorker(MethodInfo delegateInfo, object[] runtimeArguments, Action<AsyncTransientOperationOptions> setup) : base(delegateInfo, runtimeArguments, setup)
         {
         }
 
-        public async Task ResilientActionAsync(Func<CancellationToken, Task> operation, CancellationToken ct)
+        public async Task ResilientActionAsync(Func<CancellationToken, Task> operation)
         {
             for (var attempts = 0;;)
             {
@@ -19,13 +19,13 @@ namespace Cuemon.Resilience
                 try
                 {
                     ResilientTry();
-                    await operation(ct).ConfigureAwait(false);
+                    await operation(Options.CancellationToken).ConfigureAwait(false);
                     break;
                 }
                 catch (Exception ex)
                 {
                     var sleep = waitTime;
-                    if (await ResilientCatchAsync(attempts, waitTime, ex, () => Task.Delay(sleep, ct)).ConfigureAwait(false))
+                    if (await ResilientCatchAsync(attempts, waitTime, ex, () => Task.Delay(sleep, Options.CancellationToken)).ConfigureAwait(false))
                     {
                         break;
                     }

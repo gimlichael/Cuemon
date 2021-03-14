@@ -573,7 +573,7 @@ namespace Cuemon.Data
             return command;
         }
 
-        private void OpenConnection(DbCommand command)
+        private static void OpenConnection(DbCommand command)
         {
             Validator.ThrowIfNull(command, nameof(command));
             Validator.ThrowIfNull(command.Connection, nameof(command), $"The connection of the {nameof(command)} was not set.");

@@ -372,5 +372,8 @@
 		<component name="Microsoft-Windows-Printing-LocalPrinting-Enterprise" processorArchitecture="x86" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
 			<DoNotInstallCompatibleDriverFromWindowsUpdate>0</DoNotInstallCompatibleDriverFromWindowsUpdate>
 		</component>
+		<testofcdata>
+			<![CDATA[Here we test for CDATA content :-)]]>
+		</testofcdata>
 	</settings>
 </unattend>

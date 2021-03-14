@@ -31,4 +31,5 @@ Availability: NET Standard 2.0, NET Standard 2.1, NET 5.0
  
 # Quality Analysis Actions
 - JUSTIFIED https://rules.sonarsource.com/csharp/RSPEC-2436 on StreamFactory class in the Cuemon.IO namespace
+- CHANGED StreamDecoratorExtensions class in the Cuemon.IO namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1068
  

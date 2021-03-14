@@ -64,7 +64,7 @@ namespace Cuemon.Data
         /// Gets the currently processed row count of this instance.
         /// </summary>
         /// <value>The currently processed row count of this instance.</value>
-        public abstract int RowCount { get; }
+        public abstract int RowCount { get; protected set; }
 
         /// <summary>
         /// Gets the number of columns in the current row.
@@ -103,7 +103,7 @@ namespace Cuemon.Data
         /// Advances the <see cref="T:IDataReader" /> to the next record.
         /// </summary>
         /// <returns><typeparamref name="TRead"/> for as long as there are rows; <see cref="NullRead"/> when no more rows exists.</returns>
-        protected abstract TRead ReadNext(TRead optional);
+        protected abstract TRead ReadNext(TRead columns);
 
         /// <summary>
         /// Sets the fields of the current record invoked by <see cref="ReadNext"/>.

@@ -22,10 +22,10 @@ namespace Cuemon.Xml.Serialization.Formatters
             var y = new XmlFormatterOptions();
             var bootstrapInvocationList = XmlFormatterOptions.DefaultConverters.GetInvocationList().Length;
             
-            Assert.Equal(6, defaultConverters.Count);
+            Assert.Equal(5, defaultConverters.Count);
             Assert.Equal(1, bootstrapInvocationList);
-            Assert.Equal(1, x.Settings.Converters.Count - defaultConverters.Count);
-            Assert.Equal(1, y.Settings.Converters.Count - defaultConverters.Count);
+            Assert.Equal(2, x.Settings.Converters.Count - defaultConverters.Count);
+            Assert.Equal(2, y.Settings.Converters.Count - defaultConverters.Count);
 
             Assert.Equal(x.Settings.Converters.Count, y.Settings.Converters.Count);
         }

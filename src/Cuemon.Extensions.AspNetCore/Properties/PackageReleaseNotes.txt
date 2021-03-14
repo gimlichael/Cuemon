@@ -21,3 +21,6 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - EXTENDED HttpResponseExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace with one new extension method for the HttpResponse class: OnStartingInvokeTransformer
 - ADDED Int32Extensions class in the Cuemon.Extensions.AspNetCore.Http namespace that consist of extension methods for the Int32 struct: IsInformationStatusCode, IsSuccessStatusCode, IsRedirectionStatusCode, IsNotModifiedStatusCode, IsClientErrorStatusCode, IsServerErrorStatusCode
  
+# Quality Analysis Actions
+- CHANGED HttpResponseExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1835
+ 

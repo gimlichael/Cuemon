@@ -66,8 +66,10 @@ namespace Cuemon.Data.Xml
                 Assert.True(xmlReader.EOF);
             }
 
+            TestOutput.WriteLine(sb1.ToString());
+
             Assert.Equal(sb1.ToString(), sb2.ToString());
-            Assert.Equal(344, dataReader.RowCount);
+            Assert.Equal(345, dataReader.RowCount);
             Assert.True(dataReader.Disposed);
             Assert.Throws<ObjectDisposedException>(() => dataReader.Read());
         }

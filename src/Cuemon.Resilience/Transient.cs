@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
 
 namespace Cuemon.Resilience
 {
-    internal abstract class Transient
+    internal abstract class Transient<TOptions> where TOptions : TransientOperationOptions, new()
     {
-        protected Transient(MethodInfo delegateInfo, object[] runtimeArguments, Action<TransientOperationOptions> setup)
+        protected Transient(MethodInfo delegateInfo, object[] runtimeArguments, Action<TOptions> setup)
         {
             DelegateInfo = delegateInfo;
             RuntimeArguments = runtimeArguments;
@@ -18,7 +19,7 @@ namespace Cuemon.Resilience
 
         protected object[] RuntimeArguments { get; }
 
-        protected TransientOperationOptions Options { get; }
+        protected TOptions Options { get; }
 
         protected DateTime TimeStamp { get; set; } = DateTime.UtcNow;
 
@@ -58,7 +59,9 @@ namespace Cuemon.Resilience
             ThrowExceptions = true;
             if (IsTransientFault)
             {
-                var evidence = new TransientFaultEvidence(attempts, LastWaitTime, TotalWaitTime, Latency, new MethodDescriptor(DelegateInfo).AppendRuntimeArguments(RuntimeArguments));
+                var runtimeArguments = RuntimeArguments;
+                if (Options is AsyncTransientOperationOptions asyncOptions){ runtimeArguments = Arguments.Concat(RuntimeArguments, Arguments.ToArray(asyncOptions.CancellationToken)); } // we need to match the signature of async methods on TransientOperation
+                var evidence = new TransientFaultEvidence(attempts, LastWaitTime, TotalWaitTime, Latency, new MethodDescriptor(DelegateInfo).AppendRuntimeArguments(runtimeArguments));
                 var transientException = new TransientFaultException("The amount of retry attempts has been reached.", evidence);
                 lock (AggregatedExceptions) { AggregatedExceptions.Insert(0, transientException); }
                 TransientOperation.FaultCallback?.Invoke(evidence);

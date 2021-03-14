@@ -3,7 +3,7 @@
 namespace Cuemon.Diagnostics
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="TimeMeasureProfiler" /> operations.
+    /// Specifies options that is related to <see cref="TimeMeasure" /> operations.
     /// </summary>
     /// <seealso cref="ProfilerOptions" />
     public class TimeMeasureOptions : ProfilerOptions

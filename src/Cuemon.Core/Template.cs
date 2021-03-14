@@ -1,4 +1,5 @@
-﻿using Cuemon.Collections.Generic;
+﻿using System;
+using Cuemon.Collections.Generic;
 
 namespace Cuemon
 {
@@ -110,7 +111,7 @@ namespace Cuemon
         /// <param name="arg4">The value of the fourth parameter of the tuple.</param>
         /// <param name="arg5">The value of the fifth parameter of the tuple.</param>
         /// <param name="arg6">The value of the sixth parameter of the tuple.</param>
-        /// <returns>A 6-tuple (septuple) whose value is (arg1, arg2, arg3, arg4, arg5, arg6).</returns>
+        /// <returns>A 6-tuple (sextuple) whose value is (arg1, arg2, arg3, arg4, arg5, arg6).</returns>
         public static Template<T1, T2, T3, T4, T5, T6> CreateSix<T1, T2, T3, T4, T5, T6>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             return new Template<T1, T2, T3, T4, T5, T6>(arg1, arg2, arg3, arg4, arg5, arg6);
@@ -626,7 +627,7 @@ namespace Cuemon
         /// <returns>An array of objects that represent the arguments passed to this instance. Returns an empty array if the current instance was constructed with no generic arguments.</returns>
         public virtual object[] ToArray()
         {
-            return new object[0];
+            return Array.Empty<object>();
         }
 
         /// <summary>

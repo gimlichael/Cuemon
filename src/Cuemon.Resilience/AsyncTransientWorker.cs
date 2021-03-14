@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Cuemon.Resilience
 {
-    internal class AsyncTransientWorker : Transient
+    internal class AsyncTransientWorker : Transient<AsyncTransientOperationOptions>
     {
-        protected AsyncTransientWorker(MethodInfo delegateInfo, object[] runtimeArguments, Action<TransientOperationOptions> setup) : base(delegateInfo, runtimeArguments, setup)
+        protected AsyncTransientWorker(MethodInfo delegateInfo, object[] runtimeArguments, Action<AsyncTransientOperationOptions> setup) : base(delegateInfo, runtimeArguments, setup)
         {
         }
 

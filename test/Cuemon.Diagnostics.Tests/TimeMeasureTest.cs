@@ -525,10 +525,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync(token => Task.Delay(expected, token), ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync(token => Task.Delay(expected, token), o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync(token => Task.Delay(expected, token), ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync(token => Task.Delay(expected, token), o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -547,10 +547,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a, token) => Task.Delay(expected, token), 1, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a, token) => Task.Delay(expected, token), 1, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a, token) => Task.Delay(expected, token), 1, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a, token) => Task.Delay(expected, token), 1, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -571,10 +571,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a1, a2, token) => Task.Delay(expected, token), 1, 2, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a1, a2, token) => Task.Delay(expected, token), 1, 2, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a1, a2, token) => Task.Delay(expected, token), 1, 2, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a1, a2, token) => Task.Delay(expected, token), 1, 2, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -596,10 +596,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a1, a2, a3, token) => Task.Delay(expected, token), 1, 2, 3, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a1, a2, a3, token) => Task.Delay(expected, token), 1, 2, 3, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, token) => Task.Delay(expected, token), 1, 2, 3, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, token) => Task.Delay(expected, token), 1, 2, 3, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -622,10 +622,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, token) => Task.Delay(expected, token), 1, 2, 3, 4, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, token) => Task.Delay(expected, token), 1, 2, 3, 4, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, token) => Task.Delay(expected, token), 1, 2, 3, 4, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, token) => Task.Delay(expected, token), 1, 2, 3, 4, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -649,10 +649,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -677,10 +677,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -706,10 +706,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -736,10 +736,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -767,10 +767,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -799,10 +799,10 @@ namespace Cuemon.Diagnostics
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             {
-                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ctsShouldFail.Token);
+                await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
-            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ctsShouldPass.Token);
+            var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
             Assert.True(profiler.Member.HasParameters);
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
@@ -836,14 +836,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, ctsShouldFail.Token);
+                }, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async token =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, ctsShouldPass.Token);
+            }, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -868,14 +868,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, ctsShouldFail.Token);
+                }, 1, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, ctsShouldPass.Token);
+            }, 1, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -902,14 +902,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, 2, ctsShouldFail.Token);
+                }, 1, 2, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a1, a2, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, 2, ctsShouldPass.Token);
+            }, 1, 2, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -937,14 +937,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, 2, 3, ctsShouldFail.Token);
+                }, 1, 2, 3, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a1, a2, a3, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, 2, 3, ctsShouldPass.Token);
+            }, 1, 2, 3, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -973,14 +973,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, 2, 3, 4, ctsShouldFail.Token);
+                }, 1, 2, 3, 4, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, 2, 3, 4, ctsShouldPass.Token);
+            }, 1, 2, 3, 4, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -1010,14 +1010,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, 2, 3, 4, 5, ctsShouldFail.Token);
+                }, 1, 2, 3, 4, 5, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, 2, 3, 4, 5, ctsShouldPass.Token);
+            }, 1, 2, 3, 4, 5, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -1048,14 +1048,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, 2, 3, 4, 5, 6, ctsShouldFail.Token);
+                }, 1, 2, 3, 4, 5, 6, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, 2, 3, 4, 5, 6, ctsShouldPass.Token);
+            }, 1, 2, 3, 4, 5, 6, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -1087,14 +1087,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, 2, 3, 4, 5, 6, 7, ctsShouldFail.Token);
+                }, 1, 2, 3, 4, 5, 6, 7, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, a7, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, 2, 3, 4, 5, 6, 7, ctsShouldPass.Token);
+            }, 1, 2, 3, 4, 5, 6, 7, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -1127,14 +1127,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, 2, 3, 4, 5, 6, 7, 8, ctsShouldFail.Token);
+                }, 1, 2, 3, 4, 5, 6, 7, 8, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, a7, a8, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, 2, 3, 4, 5, 6, 7, 8, ctsShouldPass.Token);
+            }, 1, 2, 3, 4, 5, 6, 7, 8, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -1168,14 +1168,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, 2, 3, 4, 5, 6, 7, 8, 9, ctsShouldFail.Token);
+                }, 1, 2, 3, 4, 5, 6, 7, 8, 9, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, a7, a8, a9, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, 2, 3, 4, 5, 6, 7, 8, 9, ctsShouldPass.Token);
+            }, 1, 2, 3, 4, 5, 6, 7, 8, 9, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
@@ -1210,14 +1210,14 @@ namespace Cuemon.Diagnostics
                 {
                     await Task.Delay(expected, token);
                     return 42;
-                }, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ctsShouldFail.Token);
+                }, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, o => o.CancellationToken = ctsShouldFail.Token);
             });
 
             var profiler = await TimeMeasure.WithFuncAsync(async (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, token) =>
             {
                 await Task.Delay(expected, token);
                 return 42;
-            }, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ctsShouldPass.Token);
+            }, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, o => o.CancellationToken = ctsShouldPass.Token);
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));

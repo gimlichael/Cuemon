@@ -12,17 +12,16 @@ namespace Cuemon.Diagnostics
         /// Profile and time measure the specified <paramref name="action"/> delegate.
         /// </summary>
         /// <param name="action">The delegate to time measure.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync(Func<CancellationToken, Task> action, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync(Func<CancellationToken, Task> action, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -31,17 +30,16 @@ namespace Cuemon.Diagnostics
         /// <typeparam name="T">The type of the parameter of the <paramref name="action" /> delegate.</typeparam>
         /// <param name="action">The delegate to time measure.</param>
         /// <param name="arg">The parameter of the <paramref name="action" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T>(Func<T, CancellationToken, Task> action, T arg, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T>(Func<T, CancellationToken, Task> action, T arg, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -52,17 +50,16 @@ namespace Cuemon.Diagnostics
         /// <param name="action">The delegate to time measure.</param>
         /// <param name="arg1">The first parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg2">The second parameter of the <paramref name="action" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2>(Func<T1, T2, CancellationToken, Task> action, T1 arg1, T2 arg2, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2>(Func<T1, T2, CancellationToken, Task> action, T1 arg1, T2 arg2, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg1, arg2);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -75,17 +72,16 @@ namespace Cuemon.Diagnostics
         /// <param name="arg1">The first parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg2">The second parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg3">The third parameter of the <paramref name="action" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3>(Func<T1, T2, T3, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3>(Func<T1, T2, T3, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg1, arg2, arg3);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -100,17 +96,16 @@ namespace Cuemon.Diagnostics
         /// <param name="arg2">The second parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg3">The third parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg4">The fourth parameter of the <paramref name="action" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4>(Func<T1, T2, T3, T4, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4>(Func<T1, T2, T3, T4, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -127,17 +122,16 @@ namespace Cuemon.Diagnostics
         /// <param name="arg3">The third parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg4">The fourth parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg5">The fifth parameter of the <paramref name="action" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -156,17 +150,16 @@ namespace Cuemon.Diagnostics
         /// <param name="arg4">The fourth parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg5">The fifth parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg6">The sixth parameter of the <paramref name="action" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6>(Func<T1, T2, T3, T4, T5, T6, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6>(Func<T1, T2, T3, T4, T5, T6, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -187,17 +180,16 @@ namespace Cuemon.Diagnostics
         /// <param name="arg5">The fifth parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg6">The sixth parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg7">The seventh parameter of the <paramref name="action" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7>(Func<T1, T2, T3, T4, T5, T6, T7, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7>(Func<T1, T2, T3, T4, T5, T6, T7, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -220,17 +212,16 @@ namespace Cuemon.Diagnostics
         /// <param name="arg6">The sixth parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg7">The seventh parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg8">The eighth parameter of the <paramref name="action" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7, T8>(Func<T1, T2, T3, T4, T5, T6, T7, T8, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7, T8>(Func<T1, T2, T3, T4, T5, T6, T7, T8, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -255,17 +246,16 @@ namespace Cuemon.Diagnostics
         /// <param name="arg7">The seventh parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg8">The eighth parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg9">The ninth parameter of the <paramref name="action" /> delegate .</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -292,17 +282,16 @@ namespace Cuemon.Diagnostics
         /// <param name="arg8">The eighth parameter of the <paramref name="action" /> delegate.</param>
         /// <param name="arg9">The ninth parameter of the <paramref name="action" /> delegate .</param>
         /// <param name="arg10">The tenth parameter of the <paramref name="action" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler"/> with the result of the time measuring.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="action"/> cannot be null.
         /// </exception>
-        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler> WithActionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, CancellationToken, Task> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(action, nameof(action));
             var factory = TaskActionFactory.Create(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-            return WithActionAsyncCore(factory, setup, ct);
+            return WithActionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -310,14 +299,14 @@ namespace Cuemon.Diagnostics
         /// </summary>
         /// <typeparam name="TResult">The type of the return value of the <paramref name="function"/> delegate.</typeparam>
         /// <param name="function">The function delegate to time measure.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<TResult>(Func<CancellationToken, Task<TResult>> function, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<TResult>(Func<CancellationToken, Task<TResult>> function, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -327,14 +316,13 @@ namespace Cuemon.Diagnostics
         /// <typeparam name="TResult">The type of the return value of the <paramref name="function"/> delegate.</typeparam>
         /// <param name="function">The function delegate to time measure.</param>
         /// <param name="arg">The parameter of the <paramref name="function" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T, TResult>(Func<T, CancellationToken, Task<TResult>> function, T arg, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T, TResult>(Func<T, CancellationToken, Task<TResult>> function, T arg, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -346,14 +334,13 @@ namespace Cuemon.Diagnostics
         /// <param name="function">The function delegate to time measure.</param>
         /// <param name="arg1">The first parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg2">The second parameter of the <paramref name="function" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, TResult>(Func<T1, T2, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, TResult>(Func<T1, T2, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg1, arg2);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -367,14 +354,13 @@ namespace Cuemon.Diagnostics
         /// <param name="arg1">The first parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg2">The second parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg3">The third parameter of the <paramref name="function" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, TResult>(Func<T1, T2, T3, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, TResult>(Func<T1, T2, T3, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -390,14 +376,13 @@ namespace Cuemon.Diagnostics
         /// <param name="arg2">The second parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg3">The third parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg4">The fourth parameter of the <paramref name="function" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -415,14 +400,13 @@ namespace Cuemon.Diagnostics
         /// <param name="arg3">The third parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg4">The fourth parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg5">The fifth parameter of the <paramref name="function" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -442,14 +426,13 @@ namespace Cuemon.Diagnostics
         /// <param name="arg4">The fourth parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg5">The fifth parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg6">The sixth parameter of the <paramref name="function" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, TResult>(Func<T1, T2, T3, T4, T5, T6, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, TResult>(Func<T1, T2, T3, T4, T5, T6, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -471,14 +454,13 @@ namespace Cuemon.Diagnostics
         /// <param name="arg5">The fifth parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg6">The sixth parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg7">The seventh parameter of the <paramref name="function" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -502,14 +484,13 @@ namespace Cuemon.Diagnostics
         /// <param name="arg6">The sixth parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg7">The seventh parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg8">The eighth parameter of the <paramref name="function" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -535,14 +516,13 @@ namespace Cuemon.Diagnostics
         /// <param name="arg7">The seventh parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg8">The eighth parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg9">The ninth parameter of the <paramref name="function" /> delegate .</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
         /// <summary>
@@ -570,17 +550,16 @@ namespace Cuemon.Diagnostics
         /// <param name="arg8">The eighth parameter of the <paramref name="function" /> delegate.</param>
         /// <param name="arg9">The ninth parameter of the <paramref name="function" /> delegate .</param>
         /// <param name="arg10">The tenth parameter of the <paramref name="function" /> delegate.</param>
-        /// <param name="ct">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        /// <param name="setup">The <see cref="TimeMeasureOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="AsyncTimeMeasureOptions"/> which may be configured.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="TimeMeasureProfiler{TResult}"/> with the result of the time measuring and the encapsulated <paramref name="function"/> delegate.</returns>
-        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, CancellationToken ct = default, Action<TimeMeasureOptions> setup = null)
+        public static Task<TimeMeasureProfiler<TResult>> WithFuncAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, CancellationToken, Task<TResult>> function, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, Action<AsyncTimeMeasureOptions> setup = null)
         {
             Validator.ThrowIfNull(function, nameof(function));
             var factory = TaskFuncFactory.Create(function, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-            return WithFunctionAsyncCore(factory, setup, ct);
+            return WithFunctionAsyncCore(factory, setup);
         }
 
-        private static async Task<TimeMeasureProfiler> WithActionAsyncCore<TTuple>(TaskActionFactory<TTuple> factory, Action<TimeMeasureOptions> setup, CancellationToken ct) where TTuple : Template
+        private static async Task<TimeMeasureProfiler> WithActionAsyncCore<TTuple>(TaskActionFactory<TTuple> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : Template
         {
             var options = Patterns.Configure(setup);
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
@@ -589,11 +568,11 @@ namespace Cuemon.Diagnostics
                 Member = descriptor,
                 Data = descriptor.MergeParameters(options.RuntimeParameters ?? factory.GenericArguments.ToArray())
             };
-            await PerformTimeMeasuringAsync(profiler, options, async p => await factory.ExecuteMethodAsync(ct).ConfigureAwait(false)).ConfigureAwait(false);
+            await PerformTimeMeasuringAsync(profiler, options, async _ => await factory.ExecuteMethodAsync(options.CancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
             return profiler;
         }
 
-        private static async Task<TimeMeasureProfiler<TResult>> WithFunctionAsyncCore<TTuple, TResult>(TaskFuncFactory<TTuple, TResult> factory, Action<TimeMeasureOptions> setup, CancellationToken ct) where TTuple : Template
+        private static async Task<TimeMeasureProfiler<TResult>> WithFunctionAsyncCore<TTuple, TResult>(TaskFuncFactory<TTuple, TResult> factory, Action<AsyncTimeMeasureOptions> setup) where TTuple : Template
         {
             var options = Patterns.Configure(setup);
             var descriptor = options.MethodDescriptor?.Invoke() ?? new MethodDescriptor(factory.DelegateInfo);
@@ -602,11 +581,11 @@ namespace Cuemon.Diagnostics
                 Member = descriptor,
                 Data = descriptor.MergeParameters(options.RuntimeParameters ?? factory.GenericArguments.ToArray())
             };
-            await PerformTimeMeasuringAsync(profiler, options, async p => p.Result = await factory.ExecuteMethodAsync(ct).ConfigureAwait(false)).ConfigureAwait(false);
+            await PerformTimeMeasuringAsync(profiler, options, async p => p.Result = await factory.ExecuteMethodAsync(options.CancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
             return profiler;
         }
 
-        private static async Task PerformTimeMeasuringAsync<T>(T profiler, TimeMeasureOptions options, Func<T, Task> handler) where T : TimeMeasureProfiler
+        private static async Task PerformTimeMeasuringAsync<T>(T profiler, AsyncTimeMeasureOptions options, Func<T, Task> handler) where T : TimeMeasureProfiler
         {
             try
             {
