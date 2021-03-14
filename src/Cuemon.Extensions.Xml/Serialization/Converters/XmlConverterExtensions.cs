@@ -100,12 +100,12 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// Adds an <see cref="ExceptionDescriptor"/> XML converter to the list.
         /// </summary>
         /// <param name="converters">The <see cref="T:IList{XmlConverter}" /> to extend.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which need to be configured.</param>
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="converters"/> cannot be null.
         /// </exception>
-        public static IList<XmlConverter> AddExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorOptions> setup = null)
+        public static IList<XmlConverter> AddExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorOptions> setup)
         {
             Validator.ThrowIfNull(converters, nameof(converters));
             return Decorator.Enclose(converters).AddExceptionDescriptorConverter(setup).Inner;

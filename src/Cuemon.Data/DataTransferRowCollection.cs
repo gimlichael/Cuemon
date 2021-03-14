@@ -57,7 +57,7 @@ namespace Cuemon.Data
         {
             get
             {
-                return _columnNames ?? (_columnNames = Columns.Select(column => column.Name));
+                return _columnNames ??= Columns.Select(column => column.Name);
             }
         }
 
@@ -68,20 +68,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="index">The zero-based index of the row to return.</param>
         /// <returns>The specified <see cref="DataTransferRow"/>.</returns>
-        public DataTransferRow this[int index]
-        {
-            get { return DataTransferRows[index]; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.
-        /// </summary>
-        /// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
-        /// <returns>true if the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only; otherwise, false.</returns>
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
+        public DataTransferRow this[int index] => DataTransferRows[index];
 
         /// <summary>
         /// Determines whether the <see cref="T:System.Collections.Generic.ICollection`1" /> contains a specific value.
@@ -98,11 +85,7 @@ namespace Cuemon.Data
         /// </summary>
         /// <value>The count.</value>
         /// <returns>The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</returns>
-        public int Count
-        {
-            get { return DataTransferRows.Count; }
-        }
-
+        public int Count => DataTransferRows.Count;
 
 
         /// <summary>

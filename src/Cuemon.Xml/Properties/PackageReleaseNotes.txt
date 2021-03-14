@@ -48,3 +48,7 @@ Availability: NET Standard 2.0, NET 5.0
 - FIXED bug that would trigger a redundant entry of InnerException on AggregateException when serializing exceptions (Cuemon.Xml.Serialization.Converters.XmlConverterDecoratorExtensions.WriteInnerExceptions)
 - FIXED bug that could trigger a NullReferenceException when serializing namespace information on an Exception class (Cuemon.Xml.Serialization.Converters.XmlConverterDecoratorExtensions.WriteException)
 - FIXED assignment of default converters with multicast delegate (Cuemon.Xml.Serialization.Formatters.XmlFormatterOptions.ctor)
+ 
+# Quality Analysis Actions
+- CHANGED DefaultXmlConverter class in the Cuemon.Xml.Serialization.Converters namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+ 

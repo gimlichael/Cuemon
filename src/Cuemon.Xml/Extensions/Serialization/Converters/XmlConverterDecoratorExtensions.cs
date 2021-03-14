@@ -100,6 +100,7 @@ namespace Cuemon.Xml.Serialization.Converters
             Validator.ThrowIfNull(decorator, nameof(decorator));
             decorator.AddXmlConverter<IEnumerable>((w, o, q) =>
             {
+                if (w.WriteState == WriteState.Start && q == null && !(o is IDictionary || o is IList)) { q = new XmlQualifiedEntity("Enumerable"); }
                 Decorator.Enclose(w).WriteXmlRootElement(o, (writer, sequence, qe) =>
                 {
                     var type = sequence.GetType();
@@ -156,17 +157,17 @@ namespace Cuemon.Xml.Serialization.Converters
         /// Adds an <see cref="ExceptionDescriptor"/> XML converter to the enclosed <see cref="T:IList{XmlConverter}"/> of the specified <paramref name="decorator"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="T:IDecorator{IList{XmlConverter}}" /> to extend.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which need to be configured.</param>
         /// <returns>A reference to <paramref name="decorator"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static IDecorator<IList<XmlConverter>> AddExceptionDescriptorConverter(this IDecorator<IList<XmlConverter>> decorator, Action<ExceptionDescriptorOptions> setup = null)
+        public static IDecorator<IList<XmlConverter>> AddExceptionDescriptorConverter(this IDecorator<IList<XmlConverter>> decorator, Action<ExceptionDescriptorOptions> setup)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            var options = Patterns.Configure(setup);
             decorator.AddXmlConverter<ExceptionDescriptor>((writer, descriptor, qe) =>
             {
+                var options = Patterns.Configure(setup);
                 writer.WriteStartElement("ExceptionDescriptor");
                 writer.WriteStartElement("Error");
                 writer.WriteElementString("Code", descriptor.Code);
@@ -175,7 +176,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 if (options.IncludeFailure)
                 {
                     writer.WriteStartElement("Failure");
-                    Decorator.Enclose(writer).WriteObject(descriptor.Failure);
+                    WriteException(writer, descriptor.Failure, options.IncludeStackTrace);
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
@@ -205,7 +206,14 @@ namespace Cuemon.Xml.Serialization.Converters
         public static IDecorator<IList<XmlConverter>> AddUriConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            decorator.AddXmlConverter(reader: (reader, type) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseUriFormatter());
+            decorator.AddXmlConverter((w, d, q) =>
+            {
+                if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(Uri)).ToFriendlyName()); }
+                Decorator.Enclose(w).WriteEncapsulatingElementIfNotNull(d, q, (writer, value) =>
+                {
+                    writer.WriteValue(value.OriginalString);
+                });
+            }, (reader, type) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseUriFormatter());
             return decorator;
         }
 
@@ -222,6 +230,7 @@ namespace Cuemon.Xml.Serialization.Converters
             Validator.ThrowIfNull(decorator, nameof(decorator));
             decorator.AddXmlConverter((w, d, q) =>
             {
+                if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(DateTime)).ToFriendlyName()); }
                 Decorator.Enclose(w).WriteEncapsulatingElementIfNotNull(d, q, (writer, value) =>
                 {
                     writer.WriteValue(value.ToString("u", CultureInfo.InvariantCulture));
@@ -241,7 +250,14 @@ namespace Cuemon.Xml.Serialization.Converters
         public static IDecorator<IList<XmlConverter>> AddTimeSpanConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            decorator.AddXmlConverter(reader: (reader, type) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseTimeSpanFormatter());
+            decorator.AddXmlConverter((w, d, q) =>
+            {
+                if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(TimeSpan)).ToFriendlyName()); }
+                Decorator.Enclose(w).WriteEncapsulatingElementIfNotNull(d, q, (writer, value) =>
+                {
+                    writer.WriteValue(value.ToString());
+                });
+            }, (reader, type) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseTimeSpanFormatter());
             return decorator;
         }
 

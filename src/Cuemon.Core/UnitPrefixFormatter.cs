@@ -48,7 +48,7 @@ namespace Cuemon
             return null;
         }
 
-        private string FormatInterpreter(string[] formats, IPrefixUnit unit, IFormatProvider provider)
+        private static string FormatInterpreter(string[] formats, IPrefixUnit unit, IFormatProvider provider)
         {
             var numberFormat = formats[0].Trim();
             var unitFormat = formats[1].Trim();
@@ -56,7 +56,7 @@ namespace Cuemon
             return string.Format(provider, "{0} {1}", unit.PrefixValue.ToString(numberFormat, provider), useCompoundFormat ? $"{unit.Prefix.Name}{unit.UnitName}" : unitFormat);
         }
 
-        private string FormatInterpreter(string[] formats, IUnit unit, IFormatProvider provider)
+        private static string FormatInterpreter(string[] formats, IUnit unit, IFormatProvider provider)
         {
             var numberFormat = formats[0].Trim();
             var unitFormat = formats[1].Trim();
