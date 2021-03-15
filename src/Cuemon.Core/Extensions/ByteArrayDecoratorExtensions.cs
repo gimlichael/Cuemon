@@ -62,7 +62,7 @@ namespace Cuemon
                 #if NET5_0_OR_GREATER
                 await ms.WriteAsync(decorator.Inner.AsMemory(0, decorator.Inner.Length), cti).ConfigureAwait(false);
                 #else
-                await ms.WriteAsync( decorator.Inner, 0, decorator.Inner.Length, cti).ConfigureAwait(false);
+                await ms.WriteAsync(decorator.Inner, 0, decorator.Inner.Length, cti).ConfigureAwait(false);
                 #endif
                 ms.Position = 0;
                 return ms;
