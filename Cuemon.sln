@@ -145,7 +145,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.App
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Tests", "test\Cuemon.Extensions.AspNetCore.Tests\Cuemon.Extensions.AspNetCore.Tests.csproj", "{1B7303BF-417C-408B-9C95-170612A16372}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.Hosting.Tests", "src\Cuemon.Extensions.Hosting.Tests\Cuemon.Extensions.Hosting.Tests.csproj", "{9A51294D-B94C-4F09-AD97-9241C7CCC914}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.Hosting.Tests", "test\Cuemon.Extensions.Hosting.Tests\Cuemon.Extensions.Hosting.Tests.csproj", "{9A51294D-B94C-4F09-AD97-9241C7CCC914}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
