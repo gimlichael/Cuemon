@@ -15,7 +15,7 @@ namespace Cuemon.Extensions.Hosting
         /// <returns><c>true</c> if <paramref name="environment"/> is <c>LocalDevelopment</c>; otherwise <c>false</c></returns>
         public static bool IsLocalDevelopment(this IHostingEnvironment environment)
         {
-            return environment.IsEnvironment("LocalDevelopment");
+            return environment.IsEnvironment(Environments.LocalDevelopment);
         }
 
         /// <summary>

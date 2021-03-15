@@ -37,7 +37,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
             Validator.ThrowIfNull(hostTest, nameof(hostTest));
             Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from HostTest<T>.", typeof(HostTest<>));
 
-            Host = new HostBuilder()
+            var hb = new HostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseEnvironment("Development")
                 .ConfigureAppConfiguration((context, config) =>
@@ -54,7 +54,11 @@ namespace Cuemon.Extensions.Xunit.Hosting
                     Configuration = context.Configuration;
                     HostingEnvironment = context.HostingEnvironment;
                     ConfigureServicesCallback(services);
-                }).Build();
+                });
+
+            HostBuilderCallback(hb);
+            
+            Host = hb.Build();
         }
 
         #if NETSTANDARD 
@@ -72,6 +76,12 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// <remarks>Mimics the Startup convention.</remarks>
         public Action<IConfiguration, IHostEnvironment> ConfigureCallback { get; set; }
         #endif
+
+        /// <summary>
+        /// Gets or sets the delegate that initializes the host builder.
+        /// </summary>
+        /// <value>The delegate that initializes the host builder.</value>
+        public Action<IHostBuilder> HostBuilderCallback { get; set; }
 
         /// <summary>
         /// Gets or sets the delegate that adds services to the container.

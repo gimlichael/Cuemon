@@ -15,6 +15,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
             _serviceConfigurator = serviceConfigurator;
             if (!hostFixture.HasValidState())
             {
+                hostFixture.HostBuilderCallback = HostBuilderCallback;
                 hostFixture.ConfigureCallback = Configure;
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureApplicationCallback = ConfigureApplication;
