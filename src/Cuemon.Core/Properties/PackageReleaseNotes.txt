@@ -87,6 +87,7 @@ Availability: NET Standard 2.0, NET 5.0
 - MOVED TransientOperation class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
 - MOVED TransientOperationOptions class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
 - REMOVED IMessageLocalizer interface from the Cuemon.Globalization namespace
+- REMOVED DayParts class from the Cuemon namespace and merged members to DayPart struct
  
 # New Features
 - ADDED ResourceAttribute class in the Cuemon.Globalization namespace that provides a generic way to support localization on attribute decorated methods

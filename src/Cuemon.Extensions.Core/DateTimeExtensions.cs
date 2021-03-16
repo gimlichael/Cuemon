@@ -72,53 +72,53 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Night"/>.
+        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayPart.Night"/>.
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> to extend.</param>
-        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Night"/>; otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Night"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayNight(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayParts.Night.Range.Start, DayParts.Night.Range.End);
+            return value.ToUtcKind().IsWithinRange(DayPart.Night.Range.Start, DayPart.Night.Range.End);
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Morning"/>.
+        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayPart.Morning"/>.
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> to extend.</param>
-        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Morning"/>; otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Morning"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayMorning(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayParts.Morning.Range.Start, DayParts.Morning.Range.End);
+            return value.ToUtcKind().IsWithinRange(DayPart.Morning.Range.Start, DayPart.Morning.Range.End);
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Forenoon"/>.
+        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayPart.Forenoon"/>.
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> to extend.</param>
-        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Forenoon"/>; otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Forenoon"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayForenoon(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayParts.Forenoon.Range.Start, DayParts.Forenoon.Range.End);
+            return value.ToUtcKind().IsWithinRange(DayPart.Forenoon.Range.Start, DayPart.Forenoon.Range.End);
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Afternoon"/>.
+        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayPart.Afternoon"/>.
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> to extend.</param>
-        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Afternoon"/>; otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Afternoon"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayAfternoon(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayParts.Afternoon.Range.Start, DayParts.Afternoon.Range.End);
+            return value.ToUtcKind().IsWithinRange(DayPart.Afternoon.Range.Start, DayPart.Afternoon.Range.End);
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayParts.Evening"/>.
+        /// Determines whether the specified <paramref name="value"/> is within <see cref="DayPart.Evening"/>.
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> to extend.</param>
-        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayParts.Evening"/>; otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Evening"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayEvening(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayParts.Evening.Range.Start, DayParts.Evening.Range.End);
+            return value.ToUtcKind().IsWithinRange(DayPart.Evening.Range.Start, DayPart.Evening.Range.End);
         }
 
         /// <summary>
