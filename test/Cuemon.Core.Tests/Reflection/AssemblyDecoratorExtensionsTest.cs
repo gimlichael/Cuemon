@@ -59,7 +59,7 @@ namespace Cuemon.Reflection
             var v = Decorator.Enclose(a).GetFileVersion();
             Assert.False(v.IsSemanticVersion());
             Assert.True(v.HasAlphanumericVersion);
-            Assert.Equal("6.0.0", v.ToString());
+            Assert.StartsWith("6.0.0", v.ToString());
         }
 
         [Fact]
