@@ -2,8 +2,6 @@ trigger:
   branches:
     include:
     - development
-    - release
-    - master
   paths:
     exclude:
     - .github/
