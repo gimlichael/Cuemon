@@ -96,7 +96,7 @@
         command: 'build'
         projects: |
           src/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework net5.0'
+        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework net5.0'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
@@ -107,7 +107,7 @@
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
           src/**/Cuemon.Extensions.Xunit.App.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.1'
+        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework netcoreapp3.1'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
@@ -119,7 +119,7 @@
           src/**/Cuemon.Extensions.AspNetCore*.csproj
           src/**/Cuemon.Extensions.Hosting.csproj
           src/**/Cuemon.Extensions.Xunit.Hosting.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.0'
+        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework netcoreapp3.0'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
@@ -129,7 +129,7 @@
         projects: |
           src/**/Cuemon.Extensions.IO.csproj
           src/**/Cuemon.IO.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.1'
+        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework netstandard2.1'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
@@ -141,7 +141,7 @@
           !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
           !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
           !src/**/Cuemon.Extensions.Xunit.App.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
+        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework netstandard2.0'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
