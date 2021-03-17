@@ -75,6 +75,13 @@
         export MinVerVersionOverride=$(minver)
         echo $MinVerVersionOverride
       displayName: 'Set Version using MinVer'
+      condition: eq(variables['Agent.OS'], 'Linux')
+
+    - script: |
+        $MinVerVersionOverride=minver
+        echo $MinVerVersionOverride
+      displayName: 'Set Version using MinVer'
+      condition: eq(variables['Agent.OS'], 'Windows_NT')
 
     - task: SonarCloudPrepare@1
       condition: eq(variables['Agent.OS'], 'Linux')
