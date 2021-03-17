@@ -17,21 +17,21 @@
 
     - task: UseDotNet@2
       condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Use .Net Core SDK 2.2.207 (SonarCloud)'
+      displayName: 'Use .Net Core SDK 2.1.814 (SonarCloud - LTS)'
       inputs:
-        version: 2.2.207
+        version: 2.1.814
 
     - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 5.0.103'
+      displayName: 'Use .Net Core SDK 5.0.201'
       inputs:
-        version: 5.0.103
+        version: 5.0.201
 
     - task: DotNetCoreCLI@2
-      displayName: 'Install NBGV tool'
+      displayName: 'Install MinVer tool'
       inputs:
         command: custom
         custom: tool
-        arguments: 'install --global nbgv'
+        arguments: 'install --global minver-cli'
 
     - task: DotNetCoreCLI@2
       condition: eq(variables['Agent.OS'], 'Linux')
@@ -40,9 +40,6 @@
         command: custom
         custom: tool
         arguments: install --global dotnet-reportgenerator-globaltool
-
-    - script: 'nbgv cloud'
-      displayName: 'Set Version using NBGV'
 
     - task: DownloadSecureFile@1
       displayName: 'Download cuemon.snk'
@@ -74,6 +71,11 @@
         dockerComposeCommand: "up -d"
         action: 'Run a Docker Compose command'
 
+    - script: |
+        export MinVerVersionOverride=$(minver)
+        echo $MinVerVersionOverride
+      displayName: 'Set Version using MinVer'
+
     - task: SonarCloudPrepare@1
       condition: eq(variables['Agent.OS'], 'Linux')
       displayName: 'Prepare Analysis on SonarCloud'
@@ -83,7 +85,7 @@
         scannerMode: 'MSBuild'
         projectKey: 'Cuemon'
         projectName: 'Cuemon'
-        projectVersion: '$(GitAssemblyInformationalVersion)'
+        projectVersion: '$(MinVerVersionOverride)'
         extraProperties: |
           sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*opencover.xml
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
