@@ -18,6 +18,7 @@
     <Authors>gimlichael</Authors>
     <Company>Geekle</Company>
     <Product>Cuemon for .NET</Product>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl>https://nblcdn.net/cuemon/128x128.png</PackageIconUrl>
     <PackageProjectUrl>https://www.cuemon.net/</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -44,6 +45,7 @@
   <ItemGroup Condition="'$(IsTestProject)' == 'false'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all"/>
     <PackageReference Include="MinVer" Version="2.5.0" PrivateAssets="all" />
+    <None Include="..\..\.nuget\icon.png" Pack="true" Visible="false" PackagePath="icon.png" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
