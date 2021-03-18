@@ -24,6 +24,8 @@ variables:
     value: true
   - name: DOTNET_CLI_TELEMETRY_OPTOUT
     value: 1
+  - name: BUILD_REVISION
+    value: $(Build.BuildNumber)
 
 stages:
   - ${{ if endsWith(variables['build.sourceBranch'], 'development') }}:

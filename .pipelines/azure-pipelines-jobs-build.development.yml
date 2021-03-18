@@ -57,10 +57,7 @@
         export MINVERVERSIONOVERRIDE=$(minver)
         echo $MINVERVERSIONOVERRIDE
         echo "##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]$MINVERVERSIONOVERRIDE"
-        echo "##vso[task.setvariable variable=BUILD_REVISION;]$BUILD_BUILDNUMBER"
-        echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
-        printenv
-      displayName: 'Set MINVERVERSIONOVERRIDE for MinVer, BUILD_REVISION and update BUILD_BUILDNUMBER'
+      displayName: 'Set MINVERVERSIONOVERRIDE (for MinVer)'
       condition: eq(variables['Agent.OS'], 'Linux')
 
 
@@ -68,10 +65,7 @@
         minver > v.txt
         set /p MINVERVERSIONOVERRIDE=<v.txt
         @echo ##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]%MINVERVERSIONOVERRIDE%
-        @echo ##vso[task.setvariable variable=BUILD_REVISION;]%BUILD_BUILDNUMBER%
-        @echo ##vso[build.updatebuildnumber]%MINVERVERSIONOVERRIDE%
-        set
-      displayName: 'Set MINVERVERSIONOVERRIDE for MinVer, BUILD_REVISION and update BUILD_BUILDNUMBER'
+      displayName: 'Set MINVERVERSIONOVERRIDE (for MinVer)'
       condition: eq(variables['Agent.OS'], 'Windows_NT')
 
     - task: DotNetCoreCLI@2
@@ -159,6 +153,17 @@
           !src/**/Cuemon.Extensions.Xunit.App.csproj
         arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
         workingDirectory: '$(BuildSource)'
+
+    - script: |
+        echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
+      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
+      condition: eq(variables['Agent.OS'], 'Linux')
+
+
+    - script: |
+        @echo ##vso[build.updatebuildnumber]%MINVERVERSIONOVERRIDE%
+      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
+      condition: eq(variables['Agent.OS'], 'Windows_NT')
 
     - task: DotNetCoreCLI@2
       displayName: 'Test Solution - Linux'
