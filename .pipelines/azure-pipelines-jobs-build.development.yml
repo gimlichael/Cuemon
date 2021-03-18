@@ -57,18 +57,21 @@
         export MINVERVERSIONOVERRIDE=$(minver)
         echo $MINVERVERSIONOVERRIDE
         echo "##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]$MINVERVERSIONOVERRIDE"
+        echo "##vso[task.setvariable variable=BUILD_REVISION;]$BUILD_BUILDNUMBER"
         echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
-      displayName: 'Set Version using MinVer and Propagate to Build.BuildNumber (BUILD_BUILDNUMBER)'
+        printenv
+      displayName: 'Set MINVERVERSIONOVERRIDE for MinVer, BUILD_REVISION and update BUILD_BUILDNUMBER'
       condition: eq(variables['Agent.OS'], 'Linux')
 
 
     - script: |
         minver > v.txt
         set /p MINVERVERSIONOVERRIDE=<v.txt
-        set
         @echo ##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]%MINVERVERSIONOVERRIDE%
+        @echo ##vso[task.setvariable variable=BUILD_REVISION;]%BUILD_BUILDNUMBER%
         @echo ##vso[build.updatebuildnumber]%MINVERVERSIONOVERRIDE%
-      displayName: 'Set Version using MinVer and Propagate to Build.BuildNumber (BUILD_BUILDNUMBER)'
+        set
+      displayName: 'Set MINVERVERSIONOVERRIDE for MinVer, BUILD_REVISION and update BUILD_BUILDNUMBER'
       condition: eq(variables['Agent.OS'], 'Windows_NT')
 
     - task: DotNetCoreCLI@2
