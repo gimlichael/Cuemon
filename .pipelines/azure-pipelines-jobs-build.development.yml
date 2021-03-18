@@ -71,18 +71,6 @@
       displayName: 'Set Version using MinVer and Propagate to Build.BuildNumber (BUILD_BUILDNUMBER)'
       condition: eq(variables['Agent.OS'], 'Windows_NT')
 
-    # - bash: |
-    #     echo "##vso[build.updatebuildnumber]$MinVerVersionOverride"
-    #     echo $MinVerVersionOverride
-    #   displayName: 'Propagate SemVer to Build.BuildNumber'
-    #   condition: eq(variables['Agent.OS'], 'Linux')
-
-    # - powershell: |
-    #     Write-Host "##vso[build.updatebuildnumber]$env:MinVerVersionOverride"
-    #     $env:MinVerVersionOverride
-    #   displayName: 'Propagate SemVer to Build.BuildNumber'
-    #   condition: eq(variables['Agent.OS'], 'Windows_NT')
-
     - task: DotNetCoreCLI@2
       displayName: Restore
       inputs:
