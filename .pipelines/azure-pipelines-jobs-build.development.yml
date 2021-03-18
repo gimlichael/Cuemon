@@ -64,9 +64,10 @@
 
     - script: |
         minver > v.txt
-        set /p version=<v.txt
-        echo "##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]%version%"
-        echo "##vso[build.updatebuildnumber]%version%"
+        set /p MINVERVERSIONOVERRIDE=<v.txt
+        set
+        @echo ##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]%MINVERVERSIONOVERRIDE%
+        @echo ##vso[build.updatebuildnumber]%MINVERVERSIONOVERRIDE%
       displayName: 'Set Version using MinVer and Propagate to Build.BuildNumber (BUILD_BUILDNUMBER)'
       condition: eq(variables['Agent.OS'], 'Windows_NT')
 
