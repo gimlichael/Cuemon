@@ -78,7 +78,7 @@
       condition: eq(variables['Agent.OS'], 'Linux')
 
     - script: |
-        minver v.txt
+        minver > v.txt
         setx MinVerVersionOverride /f v.txt /a 0,0
       displayName: 'Set Version using MinVer'
       condition: eq(variables['Agent.OS'], 'Windows_NT')
