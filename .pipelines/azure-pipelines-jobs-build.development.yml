@@ -154,17 +154,6 @@
         arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
         workingDirectory: '$(BuildSource)'
 
-    - script: |
-        echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
-      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
-      condition: eq(variables['Agent.OS'], 'Linux')
-
-
-    - script: |
-        @echo ##vso[build.updatebuildnumber]%MINVERVERSIONOVERRIDE%
-      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-
     - task: DotNetCoreCLI@2
       displayName: 'Test Solution - Linux'
       condition: eq(variables['Agent.OS'], 'Linux')
@@ -184,6 +173,17 @@
         projects: test/**/*.csproj
         arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
         publishTestResults: true
+
+    - script: |
+        echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
+      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
+      condition: eq(variables['Agent.OS'], 'Linux')
+
+
+    - script: |
+        @echo ##vso[build.updatebuildnumber]%MINVERVERSIONOVERRIDE%
+      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
+      condition: eq(variables['Agent.OS'], 'Windows_NT')
 
     - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
       condition: eq(variables['Agent.OS'], 'Linux')
