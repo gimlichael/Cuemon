@@ -54,18 +54,20 @@
         TargetFolder: '$(System.DefaultWorkingDirectory)'
 
     - script: |
-        export MinVerVersionOverride=$(minver)
-        echo $MinVerVersionOverride
-        echo "##vso[build.updatebuildnumber]$MinVerVersionOverride"
-      displayName: 'Set Version using MinVer and Propagate to Build.BuildNumber'
+        export MINVERVERSIONOVERRIDE=$(minver)
+        echo $MINVERVERSIONOVERRIDE
+        echo "##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]$MINVERVERSIONOVERRIDE"
+        echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
+      displayName: 'Set Version using MinVer and Propagate to Build.BuildNumber (BUILD_BUILDNUMBER)'
       condition: eq(variables['Agent.OS'], 'Linux')
 
 
     - script: |
         minver > v.txt
-        setx MinVerVersionOverride /f v.txt /a 0,0
-        echo "##vso[build.updatebuildnumber]%MinVerVersionOverride%"
-      displayName: 'Set Version using MinVer and Propagate to Build.BuildNumber'
+        set /p version=<v.txt
+        echo "##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]%version%"
+        echo "##vso[build.updatebuildnumber]%version%"
+      displayName: 'Set Version using MinVer and Propagate to Build.BuildNumber (BUILD_BUILDNUMBER)'
       condition: eq(variables['Agent.OS'], 'Windows_NT')
 
     # - bash: |
