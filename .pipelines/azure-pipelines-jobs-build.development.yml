@@ -53,6 +53,21 @@
         Contents: cuemon.snk
         TargetFolder: '$(System.DefaultWorkingDirectory)'
 
+    - script: |
+        export MinVerVersionOverride=$(minver)
+        echo $MinVerVersionOverride
+      displayName: 'Set Version using MinVer'
+      condition: eq(variables['Agent.OS'], 'Linux')
+
+    - script: |
+        minver > v.txt
+        setx MinVerVersionOverride /f v.txt /a 0,0
+      displayName: 'Set Version using MinVer'
+      condition: eq(variables['Agent.OS'], 'Windows_NT')
+
+    - script: echo "##vso[build.updatebuildnumber]$(MinVerVersionOverride)"
+      displayName: 'Propagate SemVer to Build.BuildNumber'
+
     - task: DotNetCoreCLI@2
       displayName: Restore
       inputs:
@@ -70,18 +85,6 @@
           SA_PASSWORD=$(awsql-password)
         dockerComposeCommand: "up -d"
         action: 'Run a Docker Compose command'
-
-    - script: |
-        export MinVerVersionOverride=$(minver)
-        echo $MinVerVersionOverride
-      displayName: 'Set Version using MinVer'
-      condition: eq(variables['Agent.OS'], 'Linux')
-
-    - script: |
-        minver > v.txt
-        setx MinVerVersionOverride /f v.txt /a 0,0
-      displayName: 'Set Version using MinVer'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
 
     - task: SonarCloudPrepare@1
       condition: eq(variables['Agent.OS'], 'Linux')
@@ -103,7 +106,7 @@
         command: 'build'
         projects: |
           src/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework net5.0'
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework net5.0'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
@@ -114,7 +117,7 @@
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
           src/**/Cuemon.Extensions.Xunit.App.csproj
-        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework netcoreapp3.1'
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.1'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
@@ -126,7 +129,7 @@
           src/**/Cuemon.Extensions.AspNetCore*.csproj
           src/**/Cuemon.Extensions.Hosting.csproj
           src/**/Cuemon.Extensions.Xunit.Hosting.csproj
-        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework netcoreapp3.0'
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.0'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
@@ -136,7 +139,7 @@
         projects: |
           src/**/Cuemon.Extensions.IO.csproj
           src/**/Cuemon.IO.csproj
-        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework netstandard2.1'
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.1'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
@@ -148,7 +151,7 @@
           !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
           !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
           !src/**/Cuemon.Extensions.Xunit.App.csproj
-        arguments: '--configuration $(BuildConfiguration) -p:BUILD_BUILDNUMBER=$(Build.BuildNumber) --no-restore --framework netstandard2.0'
+        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
