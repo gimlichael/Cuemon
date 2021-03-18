@@ -137,37 +137,16 @@ namespace Cuemon.Reflection
                     break;
                 default:
                     var resourceNames = decorator.Inner.GetManifestResourceNames();
-                    var matchExtension = Path.GetExtension(name)?.ToUpperInvariant();
                     switch (match)
                     {
                         case ManifestResourceMatch.ContainsName:
-                            foreach (var resourceName in resourceNames)
-                            {
-                                if (resourceName.IndexOf(name, StringComparison.OrdinalIgnoreCase) != -1)
-                                {
-                                    resources.Add(resourceName, decorator.Inner.GetManifestResourceStream(resourceName));
-                                }
-                            }
+                            AddResourcesWhenContainsName(resources, resourceNames, name, decorator.Inner);
                             break;
                         case ManifestResourceMatch.Extension:
-                            foreach (var resourceName in resourceNames)
-                            {
-                                var extension = Path.GetExtension(resourceName).ToUpperInvariant();
-                                if (extension == matchExtension)
-                                {
-                                    resources.Add(resourceName, decorator.Inner.GetManifestResourceStream(resourceName));
-                                }
-                            }
+                            AddResourcesWhenExtensionPredicate(resources, resourceNames, name, decorator.Inner, (extension, matchExtension) => extension.ToUpperInvariant() == matchExtension);
                             break;
                         case ManifestResourceMatch.ContainsExtension:
-                            foreach (var resourceName in resourceNames)
-                            {
-                                var extension = Path.GetExtension(resourceName);
-                                if (extension.IndexOf(matchExtension, StringComparison.OrdinalIgnoreCase) != -1)
-                                {
-                                    resources.Add(resourceName, decorator.Inner.GetManifestResourceStream(resourceName));
-                                }
-                            }
+                            AddResourcesWhenExtensionPredicate(resources, resourceNames, name, decorator.Inner, (extension, matchExtension) => extension.IndexOf(matchExtension, StringComparison.OrdinalIgnoreCase) != -1);
                             break;
                         default:
                             throw new InvalidEnumArgumentException(nameof(match), (int)match, typeof(ManifestResourceMatch));
@@ -175,6 +154,30 @@ namespace Cuemon.Reflection
                     break;
             }
             return resources;
+        }
+
+        private static void AddResourcesWhenContainsName(Dictionary<string, Stream> resources, string[] resourceNames, string name, Assembly assembly)
+        {
+            foreach (var resourceName in resourceNames)
+            {
+                if (resourceName.IndexOf(name, StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    resources.Add(resourceName, assembly.GetManifestResourceStream(resourceName));
+                }
+            }
+        }
+
+        private static void AddResourcesWhenExtensionPredicate(Dictionary<string, Stream> resources, string[] resourceNames, string name, Assembly assembly, Func<string, string, bool> predicate)
+        {
+            var matchExtension = Path.GetExtension(name)?.ToUpperInvariant();
+            foreach (var resourceName in resourceNames)
+            {
+                var extension = Path.GetExtension(resourceName).ToUpperInvariant();
+                if (predicate(extension, matchExtension))
+                {
+                    resources.Add(resourceName, assembly.GetManifestResourceStream(resourceName));
+                }
+            }
         }
 
         private static DebuggableAttribute.DebuggingModes GetDebuggingFlags(Assembly assembly)
