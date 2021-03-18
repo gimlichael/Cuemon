@@ -47,11 +47,12 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetAssemblyVersion();
+
+            TestOutput.WriteLine(v.ToString());
+
             Assert.Equal("6.0.0.0", v.ToString());
             Assert.True(v.HasAlphanumericVersion);
             Assert.False(v.IsSemanticVersion());
-
-            TestOutput.WriteLine(v.ToString());
         }
 
         [Fact]
@@ -59,11 +60,12 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetFileVersion();
+
+            TestOutput.WriteLine(v.ToString());
+
             Assert.False(v.IsSemanticVersion());
             Assert.True(v.HasAlphanumericVersion);
             Assert.StartsWith("6.0.0", v.ToString());
-
-            TestOutput.WriteLine(v.ToString());
         }
 
         [Fact]
@@ -71,11 +73,12 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetProductVersion();
+
+            TestOutput.WriteLine(v.ToString());
+
             Assert.True(v.IsSemanticVersion());
             Assert.True(v.HasAlphanumericVersion);
             Assert.Equal("6.0", v.ToVersion().ToString());
-
-            TestOutput.WriteLine(v.ToString());
         }
 
         [Fact]
