@@ -147,17 +147,71 @@ namespace Cuemon.Text
                 Validator.ThrowIfNullOrWhitespace(input, nameof(input));
                 var options = Patterns.Configure(setup);
                 if (options.Formats.HasFlag(GuidFormats.Any)) { return Guid.Parse(input); }
-                var hyphens = input.IndexOf('-') != -1;
-                var braces = (input.StartsWith("{", StringComparison.OrdinalIgnoreCase) && input.EndsWith("}", StringComparison.OrdinalIgnoreCase));
-                var parentheses = (input.StartsWith("(", StringComparison.OrdinalIgnoreCase) && input.EndsWith(")", StringComparison.OrdinalIgnoreCase));
-                var xformat = braces && input.Split(',').Length == 11;
-                if (xformat && options.Formats.HasFlag(GuidFormats.X)) { return Guid.ParseExact(input, "X"); }
-                if (parentheses && hyphens && options.Formats.HasFlag(GuidFormats.P)) { return Guid.ParseExact(input, "P"); }
-                if (braces && hyphens && options.Formats.HasFlag(GuidFormats.B)) { return Guid.ParseExact(input, "B"); }
-                if (hyphens && options.Formats.HasFlag(GuidFormats.D)) { return Guid.ParseExact(input, "D"); }
-                if (!hyphens && options.Formats.HasFlag(GuidFormats.N)) { return Guid.ParseExact(input, "N"); }
+
+                Guid result = default;
+                var hasHyphens = input.IndexOf('-') != -1;
+                var hasBraces = (input.StartsWith("{", StringComparison.OrdinalIgnoreCase) && input.EndsWith("}", StringComparison.OrdinalIgnoreCase));
+                var hasParentheses = (input.StartsWith("(", StringComparison.OrdinalIgnoreCase) && input.EndsWith(")", StringComparison.OrdinalIgnoreCase));
+
+                if (TryParseHexadecimalFormat(input, hasBraces, options, ref result)) { return result; }
+                if (TryParseParenthesisFormat(input, hasParentheses, hasHyphens, options, ref result)) { return result; }
+                if (TryParseBraceFormat(input, hasBraces, hasHyphens, options, ref result)) { return result; }
+                if (TryParseDigitFormat(input, hasHyphens, options, ref result)) { return result; }
+                if (TryParseNumberFormat(input, hasHyphens, options, ref result)) { return result; }
+
                 throw new FormatException($"The {nameof(input)} is not in a recognized format.");
             });
+        }
+
+        private static bool TryParseNumberFormat(string input, bool hasHyphens, GuidStringOptions options, ref Guid result)
+        {
+            if (!hasHyphens && options.Formats.HasFlag(GuidFormats.N))
+            {
+                result = Guid.ParseExact(input, "N");
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryParseDigitFormat(string input, bool hasHyphens, GuidStringOptions options, ref Guid result)
+        {
+            if (hasHyphens && options.Formats.HasFlag(GuidFormats.D))
+            {
+                result = Guid.ParseExact(input, "D");
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryParseBraceFormat(string input, bool hasBraces, bool hasHyphens, GuidStringOptions options, ref Guid result)
+        {
+            if (hasBraces && hasHyphens && options.Formats.HasFlag(GuidFormats.B))
+            {
+                result = Guid.ParseExact(input, "B");
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryParseParenthesisFormat(string input, bool hasParentheses, bool hasHyphens, GuidStringOptions options, ref Guid result)
+        {
+            if (hasParentheses && hasHyphens && options.Formats.HasFlag(GuidFormats.P))
+            {
+                result = Guid.ParseExact(input, "P");
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryParseHexadecimalFormat(string input, bool hasBraces, GuidStringOptions options, ref Guid result)
+        {
+            var xformat = hasBraces && input.Split(',').Length == 11;
+            if (xformat && options.Formats.HasFlag(GuidFormats.X))
+            {
+                result = Guid.ParseExact(input, "X");
+                return true;
+            }
+            return false;
         }
 
         /// <summary>

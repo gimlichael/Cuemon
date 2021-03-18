@@ -207,6 +207,7 @@ Availability: NET Standard 2.0, NET 5.0
 - JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822 on Validator class in the Cuemon namespace
 - CHANGED ByteOrderMark class in the Cuemon.Text namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3776
 - CHANGED AssemblyDecoratorExtensions class in the Cuemon.Reflection namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3776
+- CHANGED ParserFactory class in the Cuemon.Text namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3776
  
 # Other Changes
 - Several ;-)

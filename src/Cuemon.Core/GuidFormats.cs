@@ -21,7 +21,7 @@ namespace Cuemon
         /// </summary>
         B = 4,
         /// <summary>
-        /// Specified the brace format (P) which consist of 32 digits separated by hyphens, enclosed in parentheses, eg. (12345678-1234-1234-1234-123456789abc).
+        /// Specified the parenthesis format (P) which consist of 32 digits separated by hyphens, enclosed in parentheses, eg. (12345678-1234-1234-1234-123456789abc).
         /// </summary>
         P = 8,
         /// <summary>
