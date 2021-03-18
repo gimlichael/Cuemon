@@ -1,4 +1,4 @@
-name: $(Year:yyyy)$(DayOfYear)$(Rev:rr)
+name: $(DayOfYear)$(Rev:rr)
 trigger:
   branches:
     include:
