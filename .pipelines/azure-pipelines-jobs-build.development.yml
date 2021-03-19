@@ -95,7 +95,7 @@
         scannerMode: 'MSBuild'
         projectKey: 'Cuemon'
         projectName: 'Cuemon'
-        projectVersion: '$(MinVerVersionOverride)'
+        projectVersion: '$(MINVERVERSIONOVERRIDE)'
         extraProperties: |
           sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*opencover.xml
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
