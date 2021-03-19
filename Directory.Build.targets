@@ -23,8 +23,8 @@
 
   <Target Name="ApplyFileVersion" AfterTargets="MinVer">
     <PropertyGroup>
-      <BUILD_REVISION Condition="'$(BUILD_REVISION)' == ''">0</BUILD_REVISION>
-      <FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(BUILD_REVISION)</FileVersion>
+      <MinVerRevision Condition="'$(BUILD_BUILDNUMBER)' == ''">0</MinVerRevision>
+      <FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(MinVerRevision)</FileVersion>
     </PropertyGroup>
   </Target>
 </Project>
