@@ -18,6 +18,8 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - ADDED TooManyRequestsObjectResult class in the Cuemon.AspNetCore.Mvc namespace that is an ObjectResult that when executed will produce a Too Many Requests (429) response
 - ADDED TooManyRequestsResult class in the Cuemon.AspNetCore.Mvc namespace that is an ActionResult that returns a TooManyRequests (429) response
 - ADDED CacheableObjectFactory class in the Cuemon.AspNetCore.Mvc namespace that provides access to factory methods for creating and configuring objects implementing the ICacheableObjectResult interface
+- ADDED ConfigurableInputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace that provides an alternate way to read an object from a request body with a text format
+- ADDED StreamInputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace that provides a way to read an object from a request body with a text format with the constraint that TFormatter must be assignable from Formatter{Stream}
  
 # Improvements
 - COMPATIBLE with the changes applied to NET Core 3 in regards to only allowing asynchronous I/O
