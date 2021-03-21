@@ -55,7 +55,6 @@ namespace Cuemon.Xml.Serialization
 
         internal void Serialize(XmlWriter writer, object value, Type objectType)
         {
-            
             GetWriterConverter(objectType).WriteXml(writer, value);
         }
 

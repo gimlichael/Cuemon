@@ -58,7 +58,7 @@ namespace Cuemon.Xml.Serialization
         public override MemberInfo MemberReference
         {
             get => base.MemberReference;
-            set => base.MemberReference = value;
+            protected set => base.MemberReference = value;
         }
     }
 }

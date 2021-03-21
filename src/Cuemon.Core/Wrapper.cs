@@ -82,8 +82,7 @@ namespace Cuemon
     {
         private T _instance;
         private Type _instanceType;
-        private readonly MemberInfo _memberReference;
-        private readonly IDictionary<string, object> _data = new Dictionary<string, object>();
+        private MemberInfo _memberReference;
 
         #region Constructors
         /// <summary>
@@ -131,7 +130,11 @@ namespace Cuemon
         /// Gets the member from where <see cref="Instance"/> was referenced.
         /// </summary>
         /// <value>The member from where <see cref="Instance"/> was referenced.</value>
-        public virtual MemberInfo MemberReference { get; set; }
+        public virtual MemberInfo MemberReference
+        {
+            get => _memberReference;
+            protected set => _memberReference = value;
+        }
 
         /// <summary>
         /// Gets a value indicating whether this instance has a member reference.
@@ -143,7 +146,7 @@ namespace Cuemon
         /// Gets a collection of key/value pairs that provide additional user-defined information about this wrapper object.
         /// </summary>
         /// <value>An object that implements the <see cref="IDictionary{TKey,TValue}"/> interface and contains a collection of user-defined key/value pairs.</value>
-        public virtual IDictionary<string, object> Data => _data;
+        public virtual IDictionary<string, object> Data { get; } = new Dictionary<string, object>();
 
         #endregion
 
