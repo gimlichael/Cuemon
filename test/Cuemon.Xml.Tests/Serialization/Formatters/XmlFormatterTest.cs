@@ -6,6 +6,7 @@ using System.Xml;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xunit;
 using Cuemon.IO;
+using Cuemon.Xml.Assets;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -131,6 +132,26 @@ namespace Cuemon.Xml.Serialization.Formatters
 
             Assert.Equal("<?xml version=\"1.0\" encoding=\"utf-8\"?>", x.FirstChild.OuterXml);
             Assert.Contains("<Uri>https://docs.cuemon.net/</Uri>", x.OuterXml);
+
+            result.Dispose();
+        }
+
+        [Fact]
+        public void Serialize_ShouldSerializeUsingDefaultConverter()
+        {
+            var sut = new XmlFormatter(o => o.Settings.Writer.Indent = true);
+            var result = sut.Serialize(new WeatherForecast());
+            var x = new XmlDocument();
+            x.Load(result);
+
+            TestOutput.WriteLine(Decorator.Enclose(result).ToEncodedString());
+
+            Assert.Equal("<?xml version=\"1.0\" encoding=\"utf-8\"?>", x.FirstChild.OuterXml);
+            Assert.Contains("<WeatherForecast>", x.OuterXml);
+            Assert.Contains("<Date>", x.OuterXml);
+            Assert.Contains("<TemperatureC>", x.OuterXml);
+            Assert.Contains("<TemperatureF>", x.OuterXml);
+            Assert.Contains("<Summary>Scorching</Summary>", x.OuterXml);
 
             result.Dispose();
         }
