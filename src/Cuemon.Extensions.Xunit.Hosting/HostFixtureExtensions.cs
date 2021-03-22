@@ -4,7 +4,7 @@
     {
         internal static bool HasValidState(this IHostFixture fixture)
         {
-            return fixture.ConfigureServicesCallback != null && fixture.Host != null && fixture.ServiceProvider != null;
+            return fixture.ConfigureServicesCallback != null && fixture.Host != null && fixture.ServiceProvider != null && fixture.HostBuilderCallback != null;
         }
     }
 }

@@ -87,6 +87,7 @@ Availability: NET Standard 2.0, NET 5.0
 - MOVED TransientOperation class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
 - MOVED TransientOperationOptions class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
 - REMOVED IMessageLocalizer interface from the Cuemon.Globalization namespace
+- REMOVED DayParts class from the Cuemon namespace and merged members to DayPart struct
  
 # New Features
 - ADDED ResourceAttribute class in the Cuemon.Globalization namespace that provides a generic way to support localization on attribute decorated methods
@@ -204,6 +205,9 @@ Availability: NET Standard 2.0, NET 5.0
 - CHANGED MethodDescriptor class in the Cuemon.Reflection namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1834
 - CHANGED UnitPrefixFormatter class in the Cuemon namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
 - JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822 on Validator class in the Cuemon namespace
+- CHANGED ByteOrderMark class in the Cuemon.Text namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3776
+- CHANGED AssemblyDecoratorExtensions class in the Cuemon.Reflection namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3776
+- CHANGED ParserFactory class in the Cuemon.Text namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3776
  
 # Other Changes
 - Several ;-)

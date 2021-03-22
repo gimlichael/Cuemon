@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Cuemon.Extensions.Threading</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Threading\Cuemon.Extensions.Threading.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -6,7 +6,7 @@ namespace Cuemon
     /// <summary>
     /// Represents a period of time between two <see cref="DateTime"/> values.
     /// </summary>
-    public struct TimeRange : IEquatable<TimeRange>
+    public readonly struct TimeRange : IEquatable<TimeRange>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeRange"/> struct.

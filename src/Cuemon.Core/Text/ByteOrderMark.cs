@@ -26,54 +26,60 @@ namespace Cuemon.Text
             Validator.ThrowIfNull(bytes, nameof(bytes));
             if (bytes.Length >= 4)
             {
-
-                if (bytes[0] == 0xEF &&
-                    bytes[1] == 0xBB &&
-                    bytes[2] == 0xBF)
-                {
-                    return Encoding.GetEncoding("UTF-8");
-                }
-
-                if (bytes[0] == 0x00 &&
-                    bytes[1] == 0x00 &&
-                    bytes[2] == 0xFE &&
-                    bytes[3] == 0xFF)
-                {
-                    return Encoding.GetEncoding("UTF-32BE");
-                }
-
-                if (bytes[0] == 0xFF &&
-                    bytes[1] == 0xFE &&
-                    bytes[2] == 0x00 &&
-                    bytes[3] == 0x00)
-                {
-                    return Encoding.GetEncoding("UTF-32");
-                }
-
-                if (bytes[0] == 0xFE &&
-                    bytes[1] == 0xFF)
-                {
-                    return Encoding.GetEncoding("UNICODEFFFE");
-                }
-
-                if (bytes[0] == 0xFF &&
-                    bytes[1] == 0xFE)
-                {
-                    return Encoding.GetEncoding("UTF-16");
-                }
-
-                if (bytes[0] == 0x2B &&
-                    bytes[1] == 0x2F &&
-                    bytes[2] == 0x76 &&
-                    (bytes[3] == 0x38 ||
-                     bytes[3] == 0x39 ||
-                     bytes[3] == 0x2B ||
-                     bytes[3] == 0x2F))
-                {
-                    return Encoding.GetEncoding("UTF-7");
-                }
+                if (BomIsUtf8(bytes)) { return Encoding.GetEncoding("UTF-8"); }
+                if (BomIsUtf32BigEndian(bytes)) { return Encoding.GetEncoding("UTF-32BE"); }
+                if (BomIsUtf32(bytes)) { return Encoding.GetEncoding("UTF-32"); }
+                if (BomIsUtf16BigEndian(bytes)) { return Encoding.GetEncoding("UNICODEFFFE"); }
+                if (BomIsUtf16(bytes)) { return Encoding.GetEncoding("UTF-16"); }
+                if (BomIsUtf7(bytes)) { return Encoding.GetEncoding("UTF-7"); }
             }
             throw new ArgumentException("Unable to locate and decode BOM.", nameof(bytes));
+        }
+
+        private static bool BomIsUtf8(byte[] bytes)
+        {
+            return bytes[0] == 0xEF &&
+                   bytes[1] == 0xBB &&
+                   bytes[2] == 0xBF;
+        }
+
+        private static bool BomIsUtf32BigEndian(byte[] bytes)
+        {
+            return bytes[0] == 0x00 &&
+                   bytes[1] == 0x00 &&
+                   bytes[2] == 0xFE &&
+                   bytes[3] == 0xFF;
+        }
+
+        private static bool BomIsUtf32(byte[] bytes)
+        {
+            return bytes[0] == 0xFF &&
+                   bytes[1] == 0xFE &&
+                   bytes[2] == 0x00 &&
+                   bytes[3] == 0x00;
+        }
+
+        private static bool BomIsUtf16BigEndian(byte[] bytes)
+        {
+            return bytes[0] == 0xFE &&
+                   bytes[1] == 0xFF;
+        }
+
+        private static bool BomIsUtf16(byte[] bytes)
+        {
+            return bytes[0] == 0xFF &&
+                   bytes[1] == 0xFE;
+        }
+
+        private static bool BomIsUtf7(byte[] bytes)
+        {
+            return bytes[0] == 0x2B &&
+                   bytes[1] == 0x2F &&
+                   bytes[2] == 0x76 &&
+                   (bytes[3] == 0x38 ||
+                    bytes[3] == 0x39 ||
+                    bytes[3] == 0x2B ||
+                    bytes[3] == 0x2F);
         }
 
         /// <summary>

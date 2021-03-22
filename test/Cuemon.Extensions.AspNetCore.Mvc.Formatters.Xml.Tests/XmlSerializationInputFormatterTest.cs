@@ -1,0 +1,74 @@
+﻿using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Assets;
+using Cuemon.Extensions.IO;
+using Cuemon.Extensions.Xunit;
+using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
+using Cuemon.Xml.Serialization.Formatters;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
+{
+    public class XmlSerializationInputFormatterTest : Test
+    {
+        public XmlSerializationInputFormatterTest(ITestOutputHelper output) : base(output)
+        {
+        }
+
+        [Fact]
+        public void Ctor_VerifyThatUtf8AndUtf16_WasAdded_ToSupportedEncodings()
+        {
+            var sut = new XmlSerializationInputFormatter(new XmlFormatterOptions());
+
+            Assert.Equal(2, sut.SupportedEncodings.Count);
+            Assert.Collection(sut.SupportedEncodings,
+                e => Assert.Equal(Encoding.UTF8, e),
+                e => Assert.Equal(Encoding.Unicode, e));
+        }
+
+        [Fact]
+        public void Ctor_VerifyThatApplicationXmlAndTextXml_WasAdded_ToSupportedMediaTypes()
+        {
+            var sut = new XmlSerializationInputFormatter(new XmlFormatterOptions());
+
+            Assert.Equal(2, sut.SupportedMediaTypes.Count);
+            Assert.Collection(sut.SupportedMediaTypes,
+                s => Assert.Contains("application/xml", s),
+                s => Assert.Contains("text/xml", s));
+        }
+
+        [Fact]
+        public async Task ReadRequestBodyAsync_ShouldReturnCreated()
+        {
+            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            {
+                app.UseRouting();
+                app.UseEndpoints(routes => { routes.MapControllers(); });
+            }, services =>
+            {
+                services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
+                    .AddApplicationPart(typeof(FakeController).Assembly)
+                    .AddXmlSerializationFormatters();
+            }))
+            {
+                var formatter = new XmlFormatter(o => o.Settings.Writer.Indent = true);
+                var stream = formatter.Serialize(new WeatherForecast());
+                var client = filter.Host.GetTestClient();
+
+                var result = await client.PostAsync("/fake", new StringContent(stream.ToEncodedString(), Encoding.UTF8, "application/xml"));
+
+                Assert.Equal(StatusCodes.Status201Created, (int)result.StatusCode);
+                Assert.Equal(HttpMethod.Post, result.RequestMessage.Method);
+                Assert.Equal(new Uri("http://localhost/fake"), result.RequestMessage.RequestUri);
+            }
+        }
+    }
+}

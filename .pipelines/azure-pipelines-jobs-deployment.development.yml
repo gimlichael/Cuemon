@@ -31,11 +31,3 @@
                 packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.nupkg;$(System.DefaultWorkingDirectory)/**/*.snupkg'
                 nuGetFeedType: external
                 publishFeedCredentials: 'Cuemon-NugetGit'
-
-            - task: NuGetCommand@2
-              displayName: 'Publish NuGet Packages to https://www.myget.org/F/cuemon/api/v3/index.json'
-              inputs:
-                command: push
-                packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.nupkg;$(System.DefaultWorkingDirectory)/**/*.snupkg'
-                nuGetFeedType: external
-                publishFeedCredentials: 'Cuemon-Nuget-MyGet'

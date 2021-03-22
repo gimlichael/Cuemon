@@ -26,7 +26,7 @@ namespace Cuemon
         /// Gets the member from where <see cref="Instance"/> was referenced.
         /// </summary>
         /// <value>The member from where <see cref="Instance"/> was referenced.</value>
-        MemberInfo MemberReference { get; set; }
+        MemberInfo MemberReference { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance has a member reference.

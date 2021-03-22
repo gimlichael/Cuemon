@@ -1,12 +1,12 @@
+name: $(DayOfYear)$(Rev:rr)
 trigger:
   branches:
     include:
     - development
-    - release
-    - master
   paths:
     exclude:
     - .github/
+    - .nuget/
     - .pipelines/
     - docfx/
     - azure-pipelines.yml

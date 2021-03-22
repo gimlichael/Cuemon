@@ -1,4 +1,4 @@
-﻿$version = (nbgv get-version -f json  | ConvertFrom-Json).NuGetPackageVersion
+﻿$version = minver
 docfx metadata docfx/docfx.json
 docker build -t cuemon-docfx:$version  -f Dockerfile.docfx .
 get-childItem -recurse -path docfx/api -include *.yml, .manifest | remove-item

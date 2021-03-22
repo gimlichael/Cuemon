@@ -40,7 +40,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             Validator.ThrowIfNull(hostTest, nameof(hostTest));
             Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from AspNetCoreHostTest<T>.", typeof(AspNetCoreHostTest<>));
 
-            Host = new HostBuilder()
+            var hb = new HostBuilder()
                 .ConfigureWebHost(webBuilder =>
                 {
                     webBuilder
@@ -74,7 +74,11 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                                 Application = app;
                             }
                         );
-                }).Start();
+                });
+
+            HostBuilderCallback(hb);
+
+            Host = hb.Start();
         }
 
         /// <summary>

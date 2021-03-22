@@ -29,6 +29,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         {
             if (!hostFixture.HasValidState())
             {
+                hostFixture.HostBuilderCallback = HostBuilderCallback;
                 hostFixture.ConfigureCallback = Configure;
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureApplicationCallback = ConfigureApplication;
