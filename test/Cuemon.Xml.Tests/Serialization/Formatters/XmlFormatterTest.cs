@@ -99,7 +99,7 @@ namespace Cuemon.Xml.Serialization.Formatters
             TestOutput.WriteLine(Decorator.Enclose(result).ToEncodedString());
 
             Assert.Equal("<?xml version=\"1.0\" encoding=\"utf-8\"?>", x.FirstChild.OuterXml);
-            Assert.Contains("<DateTime>2021-03-14 15:33:00Z</DateTime>", x.OuterXml);
+            Assert.Contains("<DateTime>2021-03-14T14:33:00.0000000Z</DateTime>", x.OuterXml);
 
             result.Dispose();
         }

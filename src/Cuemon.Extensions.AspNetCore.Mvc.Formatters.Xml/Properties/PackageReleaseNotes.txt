@@ -10,4 +10,5 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
  
 # Quality Analysis Actions
 - CHANGED XmlSerializationInputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace to have 0 duplicated blocks of lines of code
+- CHANGED XmlSerializationOutputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace to have 0 duplicated blocks of lines of code
  

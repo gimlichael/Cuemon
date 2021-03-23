@@ -1,11 +1,8 @@
-﻿using System;
-using System.Globalization;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Assets;
-using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Cuemon.Xml.Serialization.Formatters;
@@ -18,16 +15,16 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 {
-    public class XmlSerializationInputFormatterTest : Test
+    public class XmlSerializationOutputFormatterTest : Test
     {
-        public XmlSerializationInputFormatterTest(ITestOutputHelper output) : base(output)
+        public XmlSerializationOutputFormatterTest(ITestOutputHelper output) : base(output)
         {
         }
 
         [Fact]
         public void Ctor_VerifyThatUtf8AndUtf16_WasAdded_ToSupportedEncodings()
         {
-            var sut = new XmlSerializationInputFormatter(new XmlFormatterOptions());
+            var sut = new XmlSerializationOutputFormatter(new XmlFormatterOptions());
 
             Assert.Equal(2, sut.SupportedEncodings.Count);
             Assert.Collection(sut.SupportedEncodings,
@@ -38,7 +35,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         [Fact]
         public void Ctor_VerifyThatApplicationXmlAndTextXml_WasAdded_ToSupportedMediaTypes()
         {
-            var sut = new XmlSerializationInputFormatter(new XmlFormatterOptions());
+            var sut = new XmlSerializationOutputFormatter(new XmlFormatterOptions());
 
             Assert.Equal(2, sut.SupportedMediaTypes.Count);
             Assert.Collection(sut.SupportedMediaTypes,
@@ -47,7 +44,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         }
 
         [Fact]
-        public async Task ReadRequestBodyAsync_ShouldReturnCreated()
+        public async Task WriteResponseBodyAsync_ShouldReturnOk()
         {
             using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
             {
@@ -60,23 +57,21 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                     .AddXmlSerializationFormatters();
             }))
             {
-                var wf = new WeatherForecast();
-                var formatter = new XmlFormatter(o => o.Settings.Writer.Indent = true);
-                var stream = formatter.Serialize(wf);
                 var client = filter.Host.GetTestClient();
 
-                var result = await client.PostAsync("/fake", new StringContent(stream.ToEncodedString(), Encoding.UTF8, "application/xml"));
+                var result = await client.GetAsync("/fake");
                 var model = await result.Content.ReadAsStringAsync();
 
-                Assert.Contains("<WeatherForecast>", model);
-                Assert.Contains($"<Date>{wf.Date.ToString("O", CultureInfo.InvariantCulture)}", model);
-                Assert.Contains($"<TemperatureC>{wf.TemperatureC}", model);
-                Assert.Contains($"<TemperatureF>{wf.TemperatureF}", model);
-                Assert.Contains($"<Summary>{wf.Summary}", model);
+                TestOutput.WriteLine(model);
 
-                Assert.Equal(StatusCodes.Status201Created, (int)result.StatusCode);
-                Assert.Equal(HttpMethod.Post, result.RequestMessage.Method);
-                Assert.Equal(new Uri("http://localhost/fake"), result.RequestMessage.RequestUri);
+                Assert.Contains("<WeatherForecast>", model);
+                Assert.Contains("<Date>", model);
+                Assert.Contains("<TemperatureC>", model);
+                Assert.Contains("<TemperatureF>", model);
+                Assert.Contains("<Summary>", model);
+                
+                Assert.Equal(StatusCodes.Status200OK, (int)result.StatusCode);
+                Assert.Equal(HttpMethod.Get, result.RequestMessage.Method);
             }
         }
     }

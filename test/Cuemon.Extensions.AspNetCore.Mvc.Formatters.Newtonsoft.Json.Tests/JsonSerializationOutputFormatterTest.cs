@@ -1,11 +1,8 @@
-﻿using System;
-using System.Globalization;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Assets;
-using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
@@ -13,22 +10,21 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
 {
-    public class JsonSerializationInputFormatterTest : Test
+    public class JsonSerializationOutputFormatterTest : Test
     {
-        public JsonSerializationInputFormatterTest(ITestOutputHelper output) : base(output)
+        public JsonSerializationOutputFormatterTest(ITestOutputHelper output) : base(output)
         {
         }
 
         [Fact]
         public void Ctor_VerifyThatUtf8AndUtf16_WasAdded_ToSupportedEncodings()
         {
-            var sut = new JsonSerializationInputFormatter(new JsonFormatterOptions());
+            var sut = new JsonSerializationOutputFormatter(new JsonFormatterOptions());
 
             Assert.Equal(2, sut.SupportedEncodings.Count);
             Assert.Collection(sut.SupportedEncodings, 
@@ -39,7 +35,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public void Ctor_VerifyThatApplicationJsonAndTextJson_WasAdded_ToSupportedMediaTypes()
         {
-            var sut = new JsonSerializationInputFormatter(new JsonFormatterOptions());
+            var sut = new JsonSerializationOutputFormatter(new JsonFormatterOptions());
 
             Assert.Equal(2, sut.SupportedMediaTypes.Count);
             Assert.Collection(sut.SupportedMediaTypes, 
@@ -48,7 +44,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         }
 
         [Fact]
-        public async Task ReadRequestBodyAsync_ShouldReturnCreated()
+        public async Task WriteResponseBodyAsync_ShouldReturnOk()
         {
             using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
             {
@@ -58,25 +54,23 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddJsonSerializationFormatters(o => o.Settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK"); // default ISO8601 (ToString("O")
+                    .AddJsonSerializationFormatters();
             }))
             {
-                var wf = new WeatherForecast();
-                var formatter = new JsonFormatter(o => o.Settings.Formatting = Formatting.Indented);
-                var stream = formatter.Serialize(wf);
                 var client = filter.Host.GetTestClient();
 
-                var result = await client.PostAsync("/fake", new StringContent(stream.ToEncodedString(), Encoding.UTF8, "application/json"));
+                var result = await client.GetAsync("/fake");
                 var model = await result.Content.ReadAsStringAsync();
 
-                Assert.Contains($"\"date\": \"{wf.Date.ToString("O", CultureInfo.InvariantCulture)}\"", model);
-                Assert.Contains($"\"temperatureC\": {wf.TemperatureC}", model);
-                Assert.Contains($"\"temperatureF\": {wf.TemperatureF}", model);
-                Assert.Contains($"\"summary\": \"{wf.Summary}", model);
+                TestOutput.WriteLine(model);
 
-                Assert.Equal(StatusCodes.Status201Created, (int)result.StatusCode);
-                Assert.Equal(HttpMethod.Post, result.RequestMessage.Method);
-                Assert.Equal(new Uri("http://localhost/fake"), result.RequestMessage.RequestUri);
+                Assert.Contains("\"date\":", model);
+                Assert.Contains("\"temperatureC\":", model);
+                Assert.Contains("\"temperatureF\":", model);
+                Assert.Contains("\"summary\":", model);
+
+                Assert.Equal(StatusCodes.Status200OK, (int)result.StatusCode);
+                Assert.Equal(HttpMethod.Get, result.RequestMessage.Method);
             }
         }
     }
