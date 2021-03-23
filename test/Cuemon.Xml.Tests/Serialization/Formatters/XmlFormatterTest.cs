@@ -92,7 +92,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         public void Serialize_ShouldSerializeUsingDateTimeConverter()
         {
             var sut = new XmlFormatter();
-            var result = sut.Serialize(DateTime.Parse("2021-03-14T15:33:00"));
+            var result = sut.Serialize(DateTime.Parse("2021-03-14T14:33:00Z"));
             var x = new XmlDocument();
             x.Load(result);
 
