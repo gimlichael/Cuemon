@@ -141,5 +141,42 @@ namespace Cuemon.Collections.Generic
             Validator.ThrowIfNull(key, nameof(key));
             Condition.FlipFlop(decorator.Inner.ContainsKey(key), () => Patterns.TryInvoke(() => { decorator.Inner[key] = value; }), () => TryAdd(decorator, key, value));
         }
+
+        /// <summary>
+        /// Gets the level of nesting of the enclosed <see cref="IDictionary{TKey,TValue}"/> of the <paramref name="decorator"/>.
+        /// This API supports the product infrastructure and is not intended to be used directly from your code.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="readerDepthCallback">The function delegate that provides the depth of the embedded reader.</param>
+        /// <param name="index">The index to associate with a <paramref name="depth"/>.</param>
+        /// <param name="depth">The level of nesting.</param>
+        /// <returns>The index at the specified <paramref name="depth"/>.</returns>
+        public static int GetDepthIndex(this IDecorator<IDictionary<int, Dictionary<int, int>>> decorator, Func<int> readerDepthCallback, int index, int depth)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(readerDepthCallback, nameof(readerDepthCallback));
+            var readerDepth = readerDepthCallback();
+            var depthIndexes = decorator.Inner;
+            if (depthIndexes.TryGetValue(depth, out var row))
+            {
+                if (!row.TryGetValue(readerDepth, out _))
+                {
+                    row.Add(readerDepth, index);
+                }
+            }
+            else
+            {
+                depthIndexes.Add(depth, new Dictionary<int, int>());
+                if (depth == 0)
+                {
+                    depthIndexes[depth].Add(readerDepth, index);
+                }
+                else
+                {
+                    depthIndexes[depth].Add(readerDepth, depthIndexes[depth - 1][readerDepth]);
+                }
+            }
+            return depthIndexes[depth][readerDepth];
+        }
     }
 }

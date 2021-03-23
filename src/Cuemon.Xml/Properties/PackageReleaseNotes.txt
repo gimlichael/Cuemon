@@ -52,4 +52,5 @@ Availability: NET Standard 2.0, NET 5.0
  
 # Quality Analysis Actions
 - CHANGED DefaultXmlConverter class in the Cuemon.Xml.Serialization.Converters namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+- CHANGED XmlReaderDecoratorExtensions class in the Cuemon.Xml namespace to have 0 duplicated blocks of lines of code
  

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using Cuemon.Text;
+using Cuemon.Collections.Generic;
 
 namespace Cuemon.Xml
 {
@@ -64,7 +65,7 @@ namespace Cuemon.Xml
                             continue;
                         }
 
-                        hierarchy[depthIndexes.GetDepthIndex(reader, index, dimension)].Add(new DataPair(reader.Name, null, typeof(string))).Data.Add(XmlReaderKey, reader.Name);
+                        hierarchy[Decorator.Enclose(depthIndexes).GetDepthIndex(() => reader.Depth, index, dimension)].Add(new DataPair(reader.Name, null, typeof(string))).Data.Add(XmlReaderKey, reader.Name);
                         index++;
 
                         if (reader.HasAttributes && reader.MoveToFirstAttribute()) { goto case XmlNodeType.Attribute; }
@@ -82,30 +83,6 @@ namespace Cuemon.Xml
                 }
             }
             return hierarchy;
-        }
-
-        private static int GetDepthIndex(this IDictionary<int, Dictionary<int, int>> depthIndexes, XmlReader reader, int index, int dimension)
-        {
-            if (depthIndexes.TryGetValue(dimension, out var row))
-            {
-                if (!row.TryGetValue(reader.Depth, out _))
-                {
-                    row.Add(reader.Depth, index);
-                }
-            }
-            else
-            {
-                depthIndexes.Add(dimension, new Dictionary<int, int>());
-                if (dimension == 0)
-                {
-                    depthIndexes[dimension].Add(reader.Depth, index);
-                }
-                else
-                {
-                    depthIndexes[dimension].Add(reader.Depth, depthIndexes[dimension - 1][reader.Depth]);
-                }
-            }
-            return depthIndexes[dimension][reader.Depth];
         }
     }
 }

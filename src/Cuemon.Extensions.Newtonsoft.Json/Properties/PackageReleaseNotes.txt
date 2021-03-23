@@ -21,4 +21,5 @@ Availability: NET Standard 2.0, NET 5.0
  
 # Quality Analysis Actions
 - JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2200 on ValidatorExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace
+- CHANGED JsonReaderExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace to have 0 duplicated blocks of lines of code
  
