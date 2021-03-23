@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 {
-    internal class MiddlewareAspNetCoreHostTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IMiddlewareTest
+    internal sealed class MiddlewareAspNetCoreHostTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IMiddlewareTest
     {
         private readonly Action<IApplicationBuilder> _pipelineConfigurator;
         private readonly Action<IServiceCollection> _serviceConfigurator;

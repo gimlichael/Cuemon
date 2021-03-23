@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         {
             pipelineSetup ??= app => app.UseFakeHttpResponseTrigger();
             serviceSetup ??= services => services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
-            return new MvcFilterAspNetCoreHostTest(pipelineSetup, serviceSetup, new AspNetCoreHostFixture());
+            return new MvcFilterAspNetCoreHostTest(pipelineSetup, serviceSetup);
         }
     }
 }
