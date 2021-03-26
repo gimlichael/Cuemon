@@ -15,7 +15,6 @@ trigger:
     - Dockerfile.docfx
     - LICENSE.md
     - README.md
-    - version.json
 
 pr: none
 

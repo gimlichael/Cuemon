@@ -22,6 +22,7 @@ With that prelude, lets look at the concepts behind the work.
 + Do not let code rot; always embrace the boy scout rule
 + Make sure refactoring is done only on unit tested code (if no unit test - write unit test)
 + Extension methods in non-extension assemblies must be hidden by the IDecorator interface
++ Do not duplicate code
 
 ### Solution Structure
 
@@ -135,3 +136,4 @@ Here is a non-exhausting list of literature and websites that inspires and keep 
 + [Dependency injection in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection)
 + [Clean Code in 5 minutes](https://issuu.com/softhouse/docs/cleancode_5minutes_120523)
 + [The Boy Scout Rule](https://biratkirat.medium.com/step-8-the-boy-scout-rule-robert-c-martin-uncle-bob-9ac839778385)
++ [Manifesto for Software Craftsmanship](https://manifesto.softwarecraftsmanship.org/)
