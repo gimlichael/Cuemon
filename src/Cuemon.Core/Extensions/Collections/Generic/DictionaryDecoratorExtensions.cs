@@ -72,7 +72,7 @@ namespace Cuemon.Collections.Generic
         }
 
         /// <summary>
-        /// Converts the enclosed <see cref="IDictionary{TKey,TValue}"/> of the <paramref name="decorator"/> to its <see cref="KeyValuePair{TKey,TValue}"/> equivalent sequence.
+        /// Returns the enclosed <see cref="IDictionary{TKey,TValue}"/> of the <paramref name="decorator"/> typed as <see cref="KeyValuePair{TKey,TValue}"/> sequence.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
         /// <returns>A <see cref="KeyValuePair{TKey,TValue}"/> equivalent sequence of the enclosed <see cref="IDictionary{TKey,TValue}"/> of the <paramref name="decorator"/>.</returns>
@@ -82,10 +82,7 @@ namespace Cuemon.Collections.Generic
         public static IEnumerable<KeyValuePair<TKey, TValue>> ToEnumerable<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            foreach (var keyValuePair in decorator.Inner)
-            {
-                yield return keyValuePair;
-            }
+            return decorator.Inner;
         }
 
         /// <summary>

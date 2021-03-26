@@ -67,7 +67,7 @@ namespace Cuemon.Extensions.Collections.Generic
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="dictionary"/> to its <see cref="KeyValuePair{TKey,TValue}"/> equivalent sequence.
+        /// Returns the specified <paramref name="dictionary"/> typed as <see cref="KeyValuePair{TKey,TValue}"/> sequence.
         /// </summary>
         /// <typeparam name="TKey">The <see cref="Type"/> of the key in the resulting <see cref="KeyValuePair{TKey,TValue}"/>.</typeparam>
         /// <typeparam name="TValue">The <see cref="Type"/> of the value in the resulting <see cref="KeyValuePair{TKey,TValue}"/>.</typeparam>
@@ -101,6 +101,7 @@ namespace Cuemon.Extensions.Collections.Generic
             return Decorator.Enclose(dictionary).TryAdd(key, value, condition);
         }
 
+        #if NETSTANDARD2_0
         /// <summary>
         /// Attempts to add the specified <paramref name="key"/> and <paramref name="value"/> to the <paramref name="dictionary"/>.
         /// </summary>
@@ -117,6 +118,7 @@ namespace Cuemon.Extensions.Collections.Generic
             Validator.ThrowIfNull(dictionary, nameof(dictionary));
             return Decorator.Enclose(dictionary).TryAdd(key, value);
         }
+        #endif
 
         /// <summary>
         /// Attempts to add or update an existing element with the provided <paramref name="key"/> to the <paramref name="dictionary"/> with the specified <paramref name="value"/>.
