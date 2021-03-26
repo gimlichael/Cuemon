@@ -1,18 +1,18 @@
 ﻿---
-uid: Cuemon.Extensions.Newtonsoft.Json
+uid: Cuemon.Extensions.Newtonsoft.Json.Serialization
 summary: *content
 ---
-The Cuemon.Extensions.Newtonsoft.Json namespace contains both types and extension methods that complements the Newtonsoft.Json namespace by adding new ways of working with JSON; both in terms of serialization and parsing.
+The Cuemon.Extensions.Newtonsoft.Json.Serialization namespace contains extension methods that help in the serialization process.
 
 Availability: NET Standard 2.0, .NET 5.0
 
-Complements: [Newtonsoft.Json namespace](https://www.newtonsoft.com/json/help/html/N_Newtonsoft_Json.htm) 🔗
+Complements: [Newtonsoft.Json.Serialization namespace](https://www.newtonsoft.com/json/help/html/N_Newtonsoft_Json_Serialization.htm) 🔗
 
 ## Github branches 🖇️
 
-[development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Newtonsoft.Json) 🧪\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Newtonsoft.Json) 🎬\
-[master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Newtonsoft.Json) 🛡️
+[development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Newtonsoft.Json/Serialization) 🧪\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Newtonsoft.Json/Serialization) 🎬\
+[master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Newtonsoft.Json/Serialization) 🛡️
 
 ![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
 
@@ -33,8 +33,4 @@ Complements: [Newtonsoft.Json namespace](https://www.newtonsoft.com/json/help/ht
 
 |Type|Ext|Methods|
 |--:|:-:|---|
-|JDataResult|⬇️|`Flatten`, `ExtractArrayValues`, `ExtractObjectValues`|
-|JsonReader|⬇️|`ToHierarchy`|
-|JsonSerializerSettings|⬇️|`ApplyToDefaultSettings`|
-|JsonWriter|⬇️|`WriteObject`, `WritePropertyName`|
-|Validator|⬇️|`InvalidJsonDocument`|
+|IContractResolver|⬇️|`ResolveNamingStrategyOrDefault`|
