@@ -1,6 +1,6 @@
-﻿using System;
-using Humanizer;
+﻿using Cuemon.Extensions.Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Cuemon.Extensions.Newtonsoft.Json
 {
@@ -14,10 +14,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// </summary>
         /// <param name="writer">The <see cref="JsonWriter"/> used to write the JSON structure.</param>
         /// <param name="value">The <see cref="object"/> to serialize.</param>
-        /// <param name="settings">The settings to associate with the specified <paramref name="writer"/>. Default is <see cref="JsonConvert.DefaultSettings"/>.</param>
-        public static void WriteObject(this JsonWriter writer, object value, JsonSerializerSettings settings = null)
+        /// <param name="serializer">The calling <see cref="JsonSerializer"/>.</param>
+        public static void WriteObject(this JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var serializer = settings == null ? JsonSerializer.CreateDefault() : JsonSerializer.Create(settings);
             serializer.Serialize(writer, value);
         }
 
@@ -26,21 +25,14 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// </summary>
         /// <param name="writer">The <see cref="JsonWriter"/> used to write the JSON structure.</param>
         /// <param name="name">The name of the property.</param>
-        /// <param name="useCamelCaseFactory">The function delegate that will resolve whether the <paramref name="name"/> will be converted to a camelCase representation (<c>true</c>) or a PascalCase representation.</param>
+        /// <param name="serializer">The calling <see cref="JsonSerializer"/>.</param>
         /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
-        public static void WritePropertyName(this JsonWriter writer, string name, Func<bool> useCamelCaseFactory, bool escape = false)
+        /// <remarks>In order to support an assigned <see cref="NamingStrategy"/> to <paramref name="serializer"/>, make sure <see cref="JsonSerializer.ContractResolver"/> is assignable from <see cref="DefaultContractResolver"/>.</remarks>
+        public static void WritePropertyName(this JsonWriter writer, string name, JsonSerializer serializer, bool escape = false)
         {
-            // the good JamesNK has a weird way of implementing the escape parameter .. he does not use the parameter, but just calls another method internally
-            // which is why i have to call two different methods :-/
-            var useCamelCase = useCamelCaseFactory?.Invoke() ?? false;
-            if (escape)
-            {
-                writer.WritePropertyName(useCamelCase ? name.Camelize() : name.Pascalize(), true); 
-            }
-            else
-            {
-                writer.WritePropertyName(useCamelCase ? name.Camelize() : name.Pascalize());
-            }
+            var ns = serializer?.ContractResolver.ResolveNamingStrategyOrDefault();
+            if (ns != null) { name = ns.GetPropertyName(name, false); }
+            writer.WritePropertyName(name, escape);
         }
     }
 }

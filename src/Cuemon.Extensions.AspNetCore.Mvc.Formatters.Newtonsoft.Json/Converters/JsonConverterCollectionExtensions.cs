@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Newtonsoft.Json;
+using Cuemon.Extensions.Newtonsoft.Json.Converters;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 
@@ -22,52 +22,23 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static ICollection<JsonConverter> AddHttpExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorOptions> setup = null)
         {
-            var options = Patterns.Configure(setup);
-            converters.Add(DynamicJsonConverter.Create<HttpExceptionDescriptor>((writer, descriptor) =>
+            converters.AddExceptionDescriptorConverterOf<HttpExceptionDescriptor>(setup, (writer, descriptor, serializer) =>
             {
-                writer.WriteStartObject();
-                writer.WritePropertyName("error", JsonConvert.DefaultSettings.UseCamelCase);
-                writer.WriteStartObject();
-                writer.WritePropertyName("status", JsonConvert.DefaultSettings.UseCamelCase);
+                writer.WritePropertyName("Status", serializer);
                 writer.WriteValue(descriptor.StatusCode);
-                writer.WritePropertyName("code", JsonConvert.DefaultSettings.UseCamelCase);
-                writer.WriteValue(descriptor.Code);
-                writer.WritePropertyName("message", JsonConvert.DefaultSettings.UseCamelCase);
-                writer.WriteValue(descriptor.Message);
-                if (descriptor.HelpLink != null)
-                {
-                    writer.WritePropertyName("helpLink", JsonConvert.DefaultSettings.UseCamelCase);
-                    writer.WriteValue(descriptor.HelpLink.OriginalString);
-                }
-                if (options.IncludeFailure)
-                {
-                    writer.WritePropertyName("failure", JsonConvert.DefaultSettings.UseCamelCase);
-                    writer.WriteObject(descriptor.Failure);
-                }
-                writer.WriteEndObject();
-                if (options.IncludeEvidence && descriptor.Evidence.Any())
-                {
-                    writer.WritePropertyName("evidence", JsonConvert.DefaultSettings.UseCamelCase);
-                    writer.WriteStartObject();
-                    foreach (var evidence in descriptor.Evidence)
-                    {
-                        writer.WritePropertyName(evidence.Key, JsonConvert.DefaultSettings.UseCamelCase);
-                        writer.WriteObject(evidence.Value);
-                    }
-                    writer.WriteEndObject();
-                }
+            }, (writer, descriptor, serializer) =>
+            {
                 if (!string.IsNullOrWhiteSpace(descriptor.CorrelationId))
                 {
-                    writer.WritePropertyName("correlationId", JsonConvert.DefaultSettings.UseCamelCase);
+                    writer.WritePropertyName("CorrelationId", serializer);
                     writer.WriteValue(descriptor.CorrelationId);
                 }
                 if (!string.IsNullOrWhiteSpace(descriptor.RequestId))
                 {
-                    writer.WritePropertyName("requestId", JsonConvert.DefaultSettings.UseCamelCase);
+                    writer.WritePropertyName("RequestId", serializer);
                     writer.WriteValue(descriptor.RequestId);
                 }
-                writer.WriteEndObject();
-            }));
+            });
             return converters;
         }
 
@@ -78,7 +49,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static ICollection<JsonConverter> AddStringValuesConverter(this ICollection<JsonConverter> converters)
         {
-            converters.Add(DynamicJsonConverter.Create<StringValues>((writer, values) =>
+            converters.Add(DynamicJsonConverter.Create<StringValues>((writer, values, serializer) =>
             {
                 if (values.Count <= 1)
                 {

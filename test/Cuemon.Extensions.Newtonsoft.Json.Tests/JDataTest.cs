@@ -4,6 +4,7 @@ using System.Threading;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
+using Newtonsoft.Json.Serialization;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -62,10 +63,13 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         }
 
         [Fact]
-        public void ReadAll_ShouldHaveOuterAndNestedExceptionsBothHierarchyAndFlattened()
+        public void ReadAll_ShouldHaveOuterAndNestedExceptionsBothHierarchyAndFlattened_WithPascalCase()
         {
             var e = new OutOfMemoryException("First", new AggregateException(new AccessViolationException("I1"), new AbandonedMutexException("I2"), new ArithmeticException("I3")));
-            var f = new JsonFormatter();
+            var f = new JsonFormatter(o =>
+            {
+                o.Settings.ContractResolver = new DefaultContractResolver();
+            });
             var r = f.Serialize(e);
             var x0 = JData.ReadAll(r, o => o.LeaveOpen = true);
             var x1 = x0.Last(r => r.Children.Any()).Children;
@@ -73,6 +77,10 @@ namespace Cuemon.Extensions.Newtonsoft.Json
             var x3 = x2.Last(r => r.Children.Any()).Children;
             var x4 = x3.Last(r => r.Children.Any()).Children;
             var xFlat = x0.Flatten().ToList();
+
+            TestOutput.WriteLine(DelimitedString.Create(xFlat, o => o.Delimiter = Environment.NewLine));
+            TestOutput.WriteLine("");
+            TestOutput.WriteLine(r.ToEncodedString());
 
             Assert.Equal(3, x0.Count());
             Assert.Equal(3, x1.Count);
@@ -104,10 +112,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json
             Assert.Equal(Convert.ChangeType(-1, xFlat[11].Type), xFlat[11].Value); // should be int32 - but Newtonsoft resolves it as int64
             Assert.Equal("System.ArithmeticException", xFlat[13].Value);
             Assert.Equal("I3", xFlat[14].Value);
-
-            TestOutput.WriteLine(DelimitedString.Create(xFlat, o => o.Delimiter = Environment.NewLine));
-            TestOutput.WriteLine("");
-            TestOutput.WriteLine(r.ToEncodedString());
         }
     }
 }

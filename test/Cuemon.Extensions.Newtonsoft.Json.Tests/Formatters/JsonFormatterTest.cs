@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
+using Newtonsoft.Json.Serialization;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,7 +17,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         }
 
         [Fact]
-        public void Serialize_ShouldSerializeUsingExceptionConverter()
+        public void Serialize_ShouldSerializeUsingExceptionConverter_WithPascalCase()
         {
             try
             {
@@ -27,6 +28,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 e.Data.Add("Cuemon", "XmlFormatterTest");
                 var f = new JsonFormatter(o =>
                 {
+                    o.Settings.ContractResolver = new DefaultContractResolver();
                     o.IncludeExceptionStackTrace = true;
                 });
                 var r = f.Serialize(e);
