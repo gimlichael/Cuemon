@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+using Cuemon.Configuration;
 using Cuemon.Runtime.Serialization.Formatters;
 using Cuemon.Xml.Serialization.Converters;
 
@@ -11,7 +12,7 @@ namespace Cuemon.Xml.Serialization.Formatters
     /// </summary>
     /// <seealso cref="Formatter{TFormat}" />.
     /// <seealso cref="DefaultXmlConverter"/>.
-    public class XmlFormatter : Formatter<Stream>
+    public class XmlFormatter : Formatter<Stream>, IConfigurable<XmlFormatterOptions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlFormatter"/> class.
@@ -43,7 +44,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// Gets the configured options of this <see cref="XmlFormatter"/>.
         /// </summary>
         /// <value>The configured options of this <see cref="XmlFormatter"/>.</value>
-        protected XmlFormatterOptions Options { get; }
+        public XmlFormatterOptions Options { get; }
 
         /// <summary>
         /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.

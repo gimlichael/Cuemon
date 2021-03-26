@@ -13,11 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.4" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.12" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.13" />
   </ItemGroup>
 
   <ItemGroup>
