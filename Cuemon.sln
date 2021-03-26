@@ -149,9 +149,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Hosting.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Threading.Tests", "test\Cuemon.Extensions.Threading.Tests\Cuemon.Extensions.Threading.Tests.csproj", "{777E0306-C250-4C82-BFA4-5C7522AAB9D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Tests", "test\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Tests\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Tests.csproj", "{176F78D7-C6EE-4515-A54F-3D902CDD95E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Tests", "test\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Tests\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Tests.csproj", "{176F78D7-C6EE-4515-A54F-3D902CDD95E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Tests", "test\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Tests\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Tests.csproj", "{63C49907-BD5B-400A-B135-22D8BE639298}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Tests", "test\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Tests\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Tests.csproj", "{63C49907-BD5B-400A-B135-22D8BE639298}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.Collections.Generic.Tests", "test\Cuemon.Extensions.Collections.Generic.Tests\Cuemon.Extensions.Collections.Generic.Tests.csproj", "{D4F63068-CCB8-4C9C-AA81-FAF031DCA5D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -451,6 +453,10 @@ Global
 		{63C49907-BD5B-400A-B135-22D8BE639298}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63C49907-BD5B-400A-B135-22D8BE639298}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63C49907-BD5B-400A-B135-22D8BE639298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4F63068-CCB8-4C9C-AA81-FAF031DCA5D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4F63068-CCB8-4C9C-AA81-FAF031DCA5D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4F63068-CCB8-4C9C-AA81-FAF031DCA5D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4F63068-CCB8-4C9C-AA81-FAF031DCA5D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -529,6 +535,7 @@ Global
 		{777E0306-C250-4C82-BFA4-5C7522AAB9D4} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{176F78D7-C6EE-4515-A54F-3D902CDD95E3} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{63C49907-BD5B-400A-B135-22D8BE639298} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
+		{D4F63068-CCB8-4C9C-AA81-FAF031DCA5D9} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A848386-B682-4F6D-8254-B5F6247C3054}
