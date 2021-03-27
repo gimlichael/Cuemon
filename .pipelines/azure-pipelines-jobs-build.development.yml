@@ -11,7 +11,7 @@
           imageName: 'windows-2019'
 
     pool:
-      vmImage: $(imageName)
+      name: $(imageName)
 
     steps:
 
