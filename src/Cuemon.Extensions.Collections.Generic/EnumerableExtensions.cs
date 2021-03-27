@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.Collections.Generic
         public static PartitionerEnumerable<T> Chunk<T>(this IEnumerable<T> source, int size = 128)
         {
             Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfLowerThanOrEqual(0, size, nameof(size));
+            Validator.ThrowIfLowerThanOrEqual(size, 0, nameof(size));
             return new PartitionerEnumerable<T>(source, size);
         }
 
@@ -71,9 +71,9 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
         /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains ascending sorted elements from the source sequence.</returns>
-        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source)
+        public static IEnumerable<T> OrderAscending<T>(this IEnumerable<T> source)
         {
-            return source.OrderBy(Comparer<T>.Default);
+            return source.OrderAscending(Comparer<T>.Default);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="comparer">An <see cref="IComparer{T}"/> to compare values.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains ascending sorted elements from the source sequence.</returns>
-        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IComparer<T> comparer)
+        public static IEnumerable<T> OrderAscending<T>(this IEnumerable<T> source, IComparer<T> comparer)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(comparer, nameof(comparer));
@@ -96,9 +96,9 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
         /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains descending sorted elements from the source sequence.</returns>
-        public static IEnumerable<T> OrderByDescending<T>(this IEnumerable<T> source)
+        public static IEnumerable<T> OrderDescending<T>(this IEnumerable<T> source)
         {
-            return source.OrderByDescending(Comparer<T>.Default);
+            return source.OrderDescending(Comparer<T>.Default);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
         /// <param name="comparer">An <see cref="IComparer{T}"/> to compare values.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains descending sorted elements from the source sequence.</returns>
-        public static IEnumerable<T> OrderByDescending<T>(this IEnumerable<T> source, IComparer<T> comparer)
+        public static IEnumerable<T> OrderDescending<T>(this IEnumerable<T> source, IComparer<T> comparer)
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(comparer, nameof(comparer));
@@ -197,80 +197,29 @@ namespace Cuemon.Extensions.Collections.Generic
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="source"/> to a paged data sequence.
+        /// Converts the specified <paramref name="source"/> to a generic and read-only pagination sequence.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
         /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
-        /// <returns>An instance of <see cref="PagedCollection{T}"/>.</returns>
-        /// <remarks>The starting page is set to 1 and the page size is determined by <see cref="PagedSettings.DefaultPageSize"/>.</remarks>
-        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source)
+        /// <param name="totalElementCounter">The total element counter.</param>
+        /// <param name="setup">The <see cref="PaginationOptions"/> which may be configured.</param>
+        /// <returns>An instance of <see cref="PaginationEnumerable{T}"/>.</returns>
+        public static PaginationEnumerable<T> ToPagination<T>(this IEnumerable<T> source, Func<int> totalElementCounter, Action<PaginationOptions> setup = null)
         {
-            return ToPagedCollection(source, 1);
+            return new PaginationEnumerable<T>(source, totalElementCounter, setup);
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with starting <paramref name="pageNumber"/>.
+        /// Converts the specified <paramref name="source"/> to an eagerly materialized generic and read-only pagination list.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
         /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
-        /// <param name="pageNumber">The page number to start with.</param>
-        /// <returns>An instance of <see cref="PagedCollection{T}"/>.</returns>
-        /// <remarks>The page size is determined by <see cref="PagedSettings.DefaultPageSize"/>.</remarks>
-        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, int pageNumber)
+        /// <param name="totalElementCounter">The total element counter.</param>
+        /// <param name="setup">The <see cref="PaginationOptions"/> which may be configured.</param>
+        /// <returns>An instance of <see cref="PaginationList{T}"/>.</returns>
+        public static PaginationList<T> ToPaginationList<T>(this IEnumerable<T> source, Func<int> totalElementCounter, Action<PaginationOptions> setup = null)
         {
-            return ToPagedCollection(source, pageNumber, PagedSettings.DefaultPageSize);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with starting <paramref name="pageNumber"/> and <paramref name="pageSize"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
-        /// <param name="pageNumber">The page number to start with.</param>
-        /// <param name="pageSize">The number of elements a page can contain.</param>
-        /// <returns>An instance of <see cref="PagedCollection{T}"/>.</returns>
-        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, int pageNumber, int pageSize)
-        {
-            return ToPagedCollection(source, new PagedSettings() { PageNumber = pageNumber, PageSize = pageSize });
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with <paramref name="settings"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
-        /// <param name="settings">The settings that specifies the conditions of the converted <paramref name="source"/>.</param>
-        /// <returns>An instance of <see cref="PagedCollection{T}"/> initialized with <paramref name="settings"/>.</returns>
-        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, PagedSettings settings)
-        {
-            return new PagedCollection<T>(source, settings);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with starting <paramref name="pageNumber"/> and <paramref name="pageSize"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
-        /// <param name="pageNumber">The page number to start with.</param>
-        /// <param name="pageSize">The number of elements a page can contain.</param>
-        /// <param name="totalElementCount">The total number of elements in the <paramref name="source"/> sequence.</param>
-        /// <returns>An instance of <see cref="PagedCollection{T}"/>.</returns>
-        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, int pageNumber, int pageSize, int totalElementCount)
-        {
-            return ToPagedCollection(source, new PagedSettings() { PageNumber = pageNumber, PageSize = pageSize }, totalElementCount);
-        }
-
-        /// <summary>
-        /// Converts the specified <paramref name="source"/> to a paged data sequence initialized with <paramref name="settings"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">An <see cref="IEnumerable{T}" /> to extend.</param>
-        /// <param name="settings">The settings that specifies the conditions of the converted <paramref name="source"/>.</param>
-        /// <param name="totalElementCount">The total number of elements in the <paramref name="source"/> sequence.</param>
-        /// <returns>An instance of <see cref="PagedCollection{T}"/> initialized with <paramref name="settings"/>.</returns>
-        public static PagedCollection<T> ToPagedCollection<T>(this IEnumerable<T> source, PagedSettings settings, int totalElementCount)
-        {
-            return new PagedCollection<T>(source, settings, totalElementCount);
+            return new PaginationList<T>(source, totalElementCounter, setup);
         }
     }
 }

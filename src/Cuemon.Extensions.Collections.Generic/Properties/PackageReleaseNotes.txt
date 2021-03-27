@@ -4,6 +4,9 @@ Availability: NET Standard 2.0, NET 5.0
 # New Features
 - ADDED CollectionExtensions class in the Cuemon.Extensions.Collections.Generic namespace that consist of extension methods for the ICollection{T} interface: ToPartitioner{T}, AddRange{T}
 - ADDED DictionaryExtensions class in the Cuemon.Extensions.Collections.Generic namespace that consist of extension methods for the IDictionary{TKey, TValue} interface: GetValueOrDefault{TKey, TValue}, TryGetValueOrFallback{TKey, TValue}, ToEnumerable{TKey, TValue}, TryAdd{TKey, TValue}, TryAddOrUpdate{TKey, TValue}
-- ADDED EnumerableExtensions class in the Cuemon.Extensions.Collections.Generic namespace that consist of extension methods for the IEnumerable{T} interface: Chunk{T}, Shuffle{T}, OrderBy{T}, OrderByDescending{T}, RandomOrDefault{T}, Yield{T}, ToDictionary{TKey, TValue}, ToPartitioner{T}, ToPagedCollection{T}
+- ADDED EnumerableExtensions class in the Cuemon.Extensions.Collections.Generic namespace that consist of extension methods for the IEnumerable{T} interface: Chunk{T}, Shuffle{T}, OrderAscending{T}, OrderDescending{T}, RandomOrDefault{T}, Yield{T}, ToDictionary{TKey, TValue}, ToPartitioner{T}, ToPagination{T}, ToPaginationList{T}
 - ADDED ListExtensions class in the Cuemon.Extensions.Collections.Generic namespace that consist of extension methods for the IList{T} interface: Remove{T}, HasIndex{T}, Next{T}, Previous{T}
+ 
+# Bug Fixes
+- FIXED bug that would disallow use of extension method Chunk on EnumerableExtensions class in the Cuemon.Extensions.Collections.Generic namespace
  
