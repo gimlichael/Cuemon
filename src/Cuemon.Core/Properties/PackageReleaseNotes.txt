@@ -171,10 +171,10 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED PaginationEnumerable class in the Cuemon.Collections.Generic namespace that represents a generic and read-only pagination sequence
 - ADDED PaginationList class in the Cuemon.Collections.Generic namespace that represents an eagerly materialized generic and read-only pagination list
 - ADDED PaginationOptions class in the Cuemon.Collections.Generic namespace that specifies options related to PaginationEnumerable and PaginationList
+- ADDED VersionResult class in the Cuemon.Reflection namespace that represents different representations of a version scheme in a consistent way
  
 # Bug Fixes
 - FIXED critical bug in the DateSpan struct located on the Cuemon namespace
-- Several; please do a git diff.
  
 # Improvements
 - CHANGED HashResult class in the Cuemon.Security namespace to implement IEquatable{HashResult} as well as other improvements

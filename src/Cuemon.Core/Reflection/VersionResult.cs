@@ -9,6 +9,7 @@ namespace Cuemon.Reflection
     public class VersionResult
     {
         private readonly Version _version;
+        private readonly string _alphanumericVersion;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionResult"/> class.
@@ -16,16 +17,26 @@ namespace Cuemon.Reflection
         /// <param name="alphanumericVersion">The <see cref="string"/> that represents a potential alphanumeric version.</param>
         public VersionResult(string alphanumericVersion)
         {
-            AlphanumericVersion = alphanumericVersion;
+            if (Version.TryParse(alphanumericVersion, out var version))
+            {
+                _version = version;
+            }
+            else
+            {
+                _alphanumericVersion = alphanumericVersion;
+            }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionResult"/> class.
         /// </summary>
         /// <param name="version">The <see cref="Version"/> that represents a numerical version {major.minor.build.revision}.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="version"/> cannot be null.
+        /// </exception>
         public VersionResult(Version version)
         {
-            AlphanumericVersion = version?.ToString();
+            Validator.ThrowIfNull(version, nameof(version));
             _version = version;
         }
 
@@ -33,13 +44,30 @@ namespace Cuemon.Reflection
         /// Gets the alphanumeric version assigned to this instance.
         /// </summary>
         /// <value>The alphanumeric version assigned to this instance.</value>
-        public string AlphanumericVersion { get; }
+        public string AlphanumericVersion => _alphanumericVersion;
 
         /// <summary>
         /// Gets a value indicating whether this instance has alphanumeric version assigned.
         /// </summary>
         /// <value><c>true</c> if this instance has alphanumeric version assigned; otherwise, <c>false</c>.</value>
-        public bool HasAlphanumericVersion => !string.IsNullOrEmpty(AlphanumericVersion);
+        public bool HasAlphanumericVersion => !string.IsNullOrEmpty(_alphanumericVersion);
+
+        /// <summary>
+        /// Determines whether this instance represents a semantic version.
+        /// </summary>
+        /// <param name="alphanumericVersion">The <see cref="string"/> that represents a potential alphanumeric version.</param>
+        /// <returns><c>true</c> if this instance represents a semantic version; otherwise, <c>false</c>.</returns>
+        public static bool IsSemanticVersion(string alphanumericVersion)
+        {
+            if (string.IsNullOrWhiteSpace(alphanumericVersion)) { return false; }
+            var isSemantic = true;
+            var versions = alphanumericVersion.Split('.');
+            foreach (var version in versions)
+            {
+                isSemantic &= int.TryParse(version, out _);
+            }
+            return !isSemantic;
+        }
 
         /// <summary>
         /// Determines whether this instance represents a semantic version.
@@ -47,40 +75,25 @@ namespace Cuemon.Reflection
         /// <returns><c>true</c> if this instance represents a semantic version; otherwise, <c>false</c>.</returns>
         public bool IsSemanticVersion()
         {
-            if (HasAlphanumericVersion)
-            {
-                var isSemantic = true;
-                var versions = AlphanumericVersion.Split('.');
-                foreach (var version in versions)
-                {
-                    isSemantic &= int.TryParse(version, out _);
-                }
-                return !isSemantic;
-            }
-            return false;
+            return IsSemanticVersion(_alphanumericVersion);
         }
 
         /// <summary>
         /// Converts this instance to an equivalent <see cref="Version"/> object.
         /// </summary>
         /// <returns>An equivalent <see cref="Version"/> object of this instance.</returns>
-        /// <exception cref="InvalidOperationException">
-        /// Only a non-semantic version can be converted to a <see cref="Version"/> object.
-        /// </exception>
         public Version ToVersion()
         {
-            if (HasAlphanumericVersion && _version != null) { return _version; }
-            if (HasAlphanumericVersion)
+            if (_version != null) { return _version; }
+            var versionComponents = new List<int>();
+            var versions = _alphanumericVersion.Split('.');
+            foreach (var version in versions)
             {
-                var versionComponents = new List<int>();
-                var versions = AlphanumericVersion.Split('.');
-                foreach (var version in versions)
-                {
-                    if (int.TryParse(version, out var v)) { versionComponents.Add(v); }
-                }
-                return new Version(DelimitedString.Create(versionComponents, o => o.Delimiter = "."));
+                if (int.TryParse(version, out var v)) { versionComponents.Add(v); }
+                if (versionComponents.Count == 4) { break; }
             }
-            throw new InvalidOperationException("Only a non-semantic version can be converted to a Version object.");
+            if (versionComponents.Count < 2) { throw new InvalidOperationException($"{nameof(AlphanumericVersion)} has fewer than two compatible components to qualify for a Version object."); }
+            return new Version(DelimitedString.Create(versionComponents, o => o.Delimiter = "."));
         }
 
         /// <summary>
@@ -89,7 +102,7 @@ namespace Cuemon.Reflection
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return AlphanumericVersion;
+            return _version?.ToString() ?? _alphanumericVersion;
         }
     }
 }
