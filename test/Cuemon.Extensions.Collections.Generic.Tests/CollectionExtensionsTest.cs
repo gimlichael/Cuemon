@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
@@ -19,7 +16,7 @@ namespace Cuemon.Extensions.Collections.Generic
         [Fact]
         public void ToPartitioner_ShouldIterateOneHundredTwentyEightItems_WhileHavingPartitions()
         {
-            var sut1 = Enumerable.Range(0, 1024).ToPartitioner();
+            var sut1 = Enumerable.Range(0, 1024).ToList().ToPartitioner();
             var sut2 = new List<int> { sut1.IteratedCount };
 
             while (sut1.HasPartitions)
@@ -48,7 +45,7 @@ namespace Cuemon.Extensions.Collections.Generic
         [Fact]
         public void ToPartitioner_ShouldIterateTwoHundredFiftySixItems_WhileHavingPartitions()
         {
-            var sut1 = Enumerable.Range(0, 1024).ToPartitioner(256);
+            var sut1 = Enumerable.Range(0, 1024).ToList().ToPartitioner(256);
             var sut2 = new List<int> { sut1.IteratedCount };
 
             while (sut1.HasPartitions)
