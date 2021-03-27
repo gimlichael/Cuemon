@@ -127,6 +127,28 @@ namespace Cuemon.Extensions.Collections.Generic
         #endif
 
         [Fact]
+        public void TryAddWithCondition_ShouldNotSucceed()
+        {
+            
+            var sut1 = Enumerable.Range(1, 10).ToDictionary(i => i, Generate.RandomString);
+            var sut2 = sut1.TryAdd(1, "Cuemon", d => !d.ContainsKey(1));
+
+            Assert.False(sut2);
+            Assert.True(sut1.Count == 10);
+        }
+
+        [Fact]
+        public void TryAddWithCondition_ShouldSucceed()
+        {
+            
+            var sut1 = Enumerable.Range(1, 10).ToDictionary(i => i, Generate.RandomString);
+            var sut2 = sut1.TryAdd(11, "Cuemon", d => !d.ContainsKey(11));
+
+            Assert.True(sut2);
+            Assert.True(sut1.Count == 11);
+        }
+
+        [Fact]
         public void AddOrUpdate_ShouldAddNewItem()
         {
             
