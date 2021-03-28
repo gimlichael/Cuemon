@@ -17,7 +17,7 @@ namespace Cuemon.Reflection
         /// <param name="alphanumericVersion">The <see cref="string"/> that represents a potential alphanumeric version.</param>
         public VersionResult(string alphanumericVersion)
         {
-            if (Version.TryParse(alphanumericVersion, out var version))
+            if (Version.TryParse(alphanumericVersion, out var version) && version.ToString().Equals(alphanumericVersion))
             {
                 _version = version;
             }
@@ -85,11 +85,11 @@ namespace Cuemon.Reflection
         public Version ToVersion()
         {
             if (_version != null) { return _version; }
-            var versionComponents = new List<string>();
+            var versionComponents = new List<int>();
             var versions = _alphanumericVersion.Split('.');
             foreach (var version in versions)
             {
-                if (int.TryParse(version, out _)) { versionComponents.Add(version); } // we merely want to make sure we have a valid integer; but it might have leading zeros - hence we add the component directly
+                if (int.TryParse(version, out var v)) { versionComponents.Add(v); }
                 if (versionComponents.Count == 4) { break; }
             }
             if (versionComponents.Count < 2) { throw new InvalidOperationException($"{nameof(AlphanumericVersion)} has fewer than two compatible components to qualify for a Version object."); }

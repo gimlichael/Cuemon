@@ -12,6 +12,17 @@ namespace Cuemon.Reflection
         }
 
         [Fact]
+        public void Ctor_AlphanumericVersion_ShouldSelectAlphanumericVersionStringPath_AlthoughNoAlphaCharactersArePresent()
+        {
+            var sut1 = new VersionResult("6.0.0.08702");
+
+            Assert.True(sut1.HasAlphanumericVersion);
+            Assert.False(sut1.IsSemanticVersion());
+            Assert.Equal(sut1.ToVersion(), Version.Parse("6.0.0.08702"));
+            Assert.Equal("6.0.0.08702", sut1.ToString());
+        }
+
+        [Fact]
         public void Ctor_AlphanumericVersion_ShouldSelectVersionPath()
         {
             var sut1 = new VersionResult("6.0.0.0");
