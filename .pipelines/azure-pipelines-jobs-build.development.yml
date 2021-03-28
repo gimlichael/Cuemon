@@ -74,6 +74,7 @@
         command: restore
         projects: |
           **/*.csproj
+        arguments: '--verbosity quiet'
 
     - task: DockerCompose@0
       condition: eq(variables['Agent.OS'], 'Linux')
