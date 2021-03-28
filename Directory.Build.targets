@@ -23,7 +23,7 @@
 
   <Target Name="ApplyFileVersion" AfterTargets="MinVer">
     <PropertyGroup>
-      <BUILD_BUILDNUMBER Condition="'$(BUILD_BUILDNUMBER)' == ''">0</BUILD_BUILDNUMBER>
+      <BUILD_BUILDNUMBER Condition="'$(BUILD_BUILDNUMBER)' == ''">00000</BUILD_BUILDNUMBER>
       <FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(BUILD_BUILDNUMBER)</FileVersion>
     </PropertyGroup>
   </Target>
