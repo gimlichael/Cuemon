@@ -53,8 +53,8 @@ namespace Cuemon.Data.Integrity
         public static CacheValidator CreateValidator(Assembly assembly, Func<Hash> hashFactory = null, Action<FileChecksumOptions> setup = null)
         {
             Validator.ThrowIfNull(assembly, nameof(assembly));
-            if (hashFactory == null) { hashFactory = () => HashFactory.CreateFnv128(); }
             var options = Patterns.Configure(setup);
+            if (hashFactory == null) { hashFactory = () =>  Condition.TernaryIf(options.BytesToRead < 256, () => HashFactory.CreateFnv64(), HashFactory.CreateCrc64); }
             var assemblyHashCode64 = Generate.HashCode64(assembly.FullName);
             var assemblyLocation = assembly.Location;
             return assembly.IsDynamic
