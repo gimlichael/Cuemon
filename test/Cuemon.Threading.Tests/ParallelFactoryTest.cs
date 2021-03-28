@@ -16,7 +16,6 @@ namespace Cuemon.Threading
         private static readonly bool IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         private readonly TimeSpan _maxAllowedTestTime = TimeSpan.FromMinutes(1);
         private readonly TimeSpan _longRunningTaskWaitTime = IsLinux ? TimeSpan.FromMilliseconds(1) : TimeSpan.FromMilliseconds(10);
-        private readonly int _extremePartitionSize = IsLinux ? 128 : 4096;
 
         public ParallelFactoryTest(ITestOutputHelper output) : base(output)
         {
@@ -594,6 +593,6 @@ namespace Cuemon.Threading
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
         }
 
-        private static int MaxThreadCount => IsLinux ? 1024 * 8 :  1024 * 32;
+        private static int MaxThreadCount => IsLinux ? 512 : 4096;
     }
 }
