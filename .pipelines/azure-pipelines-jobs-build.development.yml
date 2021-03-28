@@ -98,6 +98,7 @@
         projectName: 'Cuemon'
         projectVersion: '$(MINVERVERSIONOVERRIDE)'
         extraProperties: |
+          sonar.exclusions=**/obj/**,**/bin/**
           sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*opencover.xml
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
