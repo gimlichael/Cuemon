@@ -71,7 +71,8 @@
     - task: DotNetCoreCLI@2
       displayName: Restore
       inputs:
-        command: restore
+        command: custom
+        custom: restore
         projects: |
           **/*.csproj
         arguments: '--verbosity quiet'
@@ -105,7 +106,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build net5.0 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/*.csproj
         arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework net5.0'
@@ -114,7 +115,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build netcoreapp3.1 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
@@ -125,7 +126,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build netcoreapp3.0 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/Cuemon.AspNetCore*.csproj
           src/**/Cuemon.Extensions.AspNetCore*.csproj
@@ -137,7 +138,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build netstandard2.1 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/Cuemon.Extensions.IO.csproj
           src/**/Cuemon.IO.csproj
@@ -147,7 +148,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build netstandard2.0 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/*.csproj
           !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
@@ -160,7 +161,7 @@
       displayName: 'Test Solution - Linux'
       condition: eq(variables['Agent.OS'], 'Linux')
       inputs:
-        command: 'test'
+        command: test
         projects: test/**/*.csproj
         arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
         publishTestResults: true
@@ -171,7 +172,7 @@
       displayName: 'Test Solution - Windows'
       condition: eq(variables['Agent.OS'], 'Windows_NT')
       inputs:
-        command: 'test'
+        command: test
         projects: test/**/*.csproj
         arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
         publishTestResults: true
