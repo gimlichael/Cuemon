@@ -31,7 +31,7 @@
       inputs:
         command: custom
         custom: tool
-        arguments: 'install --global minver-cli'
+        arguments: 'update --global minver-cli'
 
     - task: DotNetCoreCLI@2
       condition: eq(variables['Agent.OS'], 'Linux')
@@ -39,7 +39,7 @@
       inputs:
         command: custom
         custom: tool
-        arguments: install --global dotnet-reportgenerator-globaltool
+        arguments: update --global dotnet-reportgenerator-globaltool
 
     - task: DownloadSecureFile@1
       displayName: 'Download cuemon.snk'
