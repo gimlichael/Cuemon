@@ -70,7 +70,6 @@ namespace Cuemon.AspNetCore.Http.Headers
         public override void ConfigureApplication(IApplicationBuilder app)
         {
             app.UseCorrelationIdentifier();
-            app.UseFakeHttpResponseTrigger();
         }
     }
 }

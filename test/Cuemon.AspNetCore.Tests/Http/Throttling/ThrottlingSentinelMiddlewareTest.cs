@@ -4,6 +4,7 @@ using Cuemon.Extensions.AspNetCore.Http.Throttling;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -24,7 +25,6 @@ namespace Cuemon.AspNetCore.Http.Throttling
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
                 app.UseThrottlingSentinel();
-                app.UseFakeHttpResponseTrigger();
             }, services =>
             {
                 services.Configure<ThrottlingSentinelOptions>(o =>
@@ -69,7 +69,11 @@ namespace Cuemon.AspNetCore.Http.Throttling
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
                 app.UseThrottlingSentinel();
-                app.UseFakeHttpResponseTrigger();
+                app.Run(context =>
+                {
+                    context.Response.StatusCode = 200;
+                    return Task.CompletedTask;
+                });
             }, services =>
             {
                 services.Configure<ThrottlingSentinelOptions>(o =>

@@ -32,7 +32,6 @@ namespace Cuemon.AspNetCore.Authentication
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
                 app.UseExceptionMiddleware();
-                app.UseFakeHttpResponseTrigger(o => o.ShortCircuitOnStarting = true);
                 app.UseDigestAccessAuthentication();
             }, services =>
             {
@@ -77,8 +76,12 @@ namespace Cuemon.AspNetCore.Authentication
         {
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
-                app.UseFakeHttpResponseTrigger(o => o.ShortCircuitOnStarting = true);
                 app.UseDigestAccessAuthentication();
+                app.Run(context =>
+                {
+                    context.Response.StatusCode = 200;
+                    return Task.CompletedTask;
+                });
             }, services =>
             {
                 services.Configure<DigestAuthenticationOptions>(o =>
@@ -149,8 +152,12 @@ namespace Cuemon.AspNetCore.Authentication
         {
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
-                app.UseFakeHttpResponseTrigger(o => o.ShortCircuitOnStarting = true);
                 app.UseDigestAccessAuthentication();
+                app.Run(context =>
+                {
+                    context.Response.StatusCode = 200;
+                    return Task.CompletedTask;
+                });
             }, services =>
             {
                 services.Configure<DigestAuthenticationOptions>(o =>
@@ -220,8 +227,12 @@ namespace Cuemon.AspNetCore.Authentication
         {
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
-                app.UseFakeHttpResponseTrigger(o => o.ShortCircuitOnStarting = true);
                 app.UseDigestAccessAuthentication();
+                app.Run(context =>
+                {
+                    context.Response.StatusCode = 200;
+                    return Task.CompletedTask;
+                });
             }, services =>
             {
                 services.Configure<DigestAuthenticationOptions>(o =>

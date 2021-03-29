@@ -79,7 +79,6 @@ namespace Cuemon.AspNetCore.Http.Headers
         public override void ConfigureApplication(IApplicationBuilder app)
         {
             app.UseRequestIdentifier(o => o.RequestProvider = () => DynamicRequest.Create(Generate.RandomString(32, Alphanumeric.PunctuationMarks, Alphanumeric.Numbers)));
-            app.UseFakeHttpResponseTrigger();
         }
     }
 }
