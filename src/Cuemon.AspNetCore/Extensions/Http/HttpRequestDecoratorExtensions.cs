@@ -35,11 +35,13 @@ namespace Cuemon.AspNetCore.Http
         /// <param name="builder">A <see cref="ChecksumBuilder"/> that represents the integrity of the client.</param>
         /// <returns><c>true</c> if a cached version of the enclosed <see cref="HttpRequest"/> of the <paramref name="decorator"/> is found client-side; otherwise, <c>false</c>.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null.
+        /// <paramref name="decorator"/> cannot be null -or
+        /// <paramref name="builder"/> cannot be null.
         /// </exception>
         public static bool IsClientSideResourceCached(this IDecorator<HttpRequest> decorator, ChecksumBuilder builder)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(builder, nameof(builder));
             var headers = new RequestHeaders(decorator.Inner.Headers);
             if (headers.IfNoneMatch != null)
             {
