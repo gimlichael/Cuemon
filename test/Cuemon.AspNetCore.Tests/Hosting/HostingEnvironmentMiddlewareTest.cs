@@ -45,7 +45,6 @@ namespace Cuemon.AspNetCore.Hosting
         public override void ConfigureApplication(IApplicationBuilder app)
         {
             app.UseHostingEnvironment();
-            app.UseFakeHttpResponseTrigger();
         }
     }
 }
