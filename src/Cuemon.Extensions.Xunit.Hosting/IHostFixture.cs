@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// Gets or sets the delegate that provides a way to override the <see cref="IHostBuilder"/> defaults set up by <see cref="ConfigureHost"/>.
         /// </summary>
         /// <value>The delegate that provides a way to override the <see cref="IHostBuilder"/>.</value>
-        Action<IHostBuilder> HostBuilderCallback { get; set; }
+        Action<IHostBuilder> ConfigureHostCallback { get; set; }
 
         /// <summary>
         /// Creates and configures the <see cref="IHost"/> of this <see cref="IHostFixture"/>.

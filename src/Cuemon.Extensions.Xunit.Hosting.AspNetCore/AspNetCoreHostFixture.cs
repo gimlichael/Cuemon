@@ -76,7 +76,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                         );
                 });
 
-            HostBuilderCallback(hb);
+            ConfigureHostCallback(hb);
 
             Host = hb.Start();
         }

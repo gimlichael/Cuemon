@@ -28,14 +28,6 @@ namespace Cuemon.Extensions.Xunit.Hosting
         }
 
         /// <summary>
-        /// Provides a way to override the <see cref="IHostBuilder"/> defaults set up by <typeparamref name="T"/>.
-        /// </summary>
-        /// <param name="hb">The <see cref="IHostBuilder"/> that initializes an instance of <see cref="IHost"/>.</param>
-        protected virtual void HostBuilderCallback(IHostBuilder hb)
-        {
-        }
-
-        /// <summary>
         /// Initializes the specified host fixture.
         /// </summary>
         /// <param name="hostFixture">The host fixture to initialize.</param>
@@ -43,8 +35,8 @@ namespace Cuemon.Extensions.Xunit.Hosting
         {
             if (!hostFixture.HasValidState())
             {
-                hostFixture.HostBuilderCallback = HostBuilderCallback;
                 hostFixture.ConfigureCallback = Configure;
+                hostFixture.ConfigureHostCallback = ConfigureHost;
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureHost(this);
             }
@@ -120,6 +112,14 @@ namespace Cuemon.Extensions.Xunit.Hosting
             HostingEnvironment = environment;
         }
         #endif
+
+        /// <summary>
+        /// Provides a way to override the <see cref="IHostBuilder"/> defaults set up by <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="hb">The <see cref="IHostBuilder"/> that initializes an instance of <see cref="IHost"/>.</param>
+        protected virtual void ConfigureHost(IHostBuilder hb)
+        {
+        }
 
         /// <summary>
         /// Adds services to the container.
