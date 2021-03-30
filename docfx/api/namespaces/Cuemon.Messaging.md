@@ -14,8 +14,6 @@ Complements: [System.Messaging namespace](https://docs.microsoft.com/en-us/dotne
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Core/Messaging) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Core/Messaging) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

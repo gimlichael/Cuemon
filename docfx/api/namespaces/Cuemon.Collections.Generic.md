@@ -16,8 +16,6 @@ Related: [Cuemon.Extensions.Collections.Generic namespace](https://docs.cuemon.n
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Core/Collections/Generic) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Core/Collections/Generic) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

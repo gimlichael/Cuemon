@@ -12,8 +12,6 @@ Availability: NET Standard 2.0, .NET 5.0
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Net/Http) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Net/Http) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

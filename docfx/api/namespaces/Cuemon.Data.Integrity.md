@@ -14,8 +14,6 @@ Related: [Cuemon.Extensions.Data.Integrity namespace](https://docs.cuemon.net/ap
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Data.Integrity) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Data.Integrity) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

@@ -16,8 +16,6 @@ Related: [Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics namespace](https:
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.AspNetCore.Mvc) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.AspNetCore.Mvc) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

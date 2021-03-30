@@ -14,8 +14,6 @@ Complements: [Microsoft.AspNetCore.Mvc.Rendering namespace](https://docs.microso
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Mvc/Rendering) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Mvc/Rendering) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

@@ -14,8 +14,6 @@ Complements: [Newtonsoft.Json namespace](https://www.newtonsoft.com/json/help/ht
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Newtonsoft.Json) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Newtonsoft.Json) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

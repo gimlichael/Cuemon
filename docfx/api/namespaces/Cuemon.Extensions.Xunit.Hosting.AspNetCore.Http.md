@@ -14,8 +14,6 @@ Complements: [Microsoft.AspNetCore.Http namespace](https://docs.microsoft.com/en
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Xunit.Hosting.AspNetCore) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Xunit.Hosting.AspNetCore) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

@@ -16,8 +16,6 @@ Related: [Cuemon.Extensions.Runtime.Caching namespace](https://docs.cuemon.net/a
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Runtime.Caching) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Runtime.Caching) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

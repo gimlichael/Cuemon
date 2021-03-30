@@ -11,10 +11,8 @@ Complements: [Cuemon.Diagnostics namespace](https://docs.cuemon.net/api/dotnet/C
 ## Github branches 🖇️
 
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Diagnostics) 🧪\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Diagnostics) 🎬\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Diagnostics) �\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Diagnostics) 🛡️
-
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
 
 ## NuGet packages
 
@@ -34,4 +32,4 @@ Complements: [Cuemon.Diagnostics namespace](https://docs.cuemon.net/api/dotnet/C
 |Type|Ext|Methods|
 |--:|:-:|---|
 |ExceptionDescriptor|⬇️|`ToInsightsString`|
-|FileVersionInfo|⬇️|`ToProductVersion`, `ToFileVersion`|
+|FileVersionInfo|⬇️|`ToProductVersion`, `ToFileVersion`|`|

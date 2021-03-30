@@ -16,8 +16,6 @@ Related: [Cuemon.Extensions.Xml.Linq namespace](https://docs.cuemon.net/api/dotn
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Xml/Extensions/Linq) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Xml/Extensions/Linq) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

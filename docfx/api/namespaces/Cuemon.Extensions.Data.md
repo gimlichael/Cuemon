@@ -14,8 +14,6 @@ Complements: [Cuemon.Data namespace](https://docs.cuemon.net/api/dotnet/Cuemon.D
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Data) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Data) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

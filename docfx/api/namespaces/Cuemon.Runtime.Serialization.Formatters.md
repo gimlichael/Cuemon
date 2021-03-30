@@ -14,8 +14,6 @@ Complements: [System.Runtime.Serialization.Formatters namespace](https://docs.mi
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Core/Runtime/Serialization/Formatters) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Core/Runtime/Serialization/Formatters) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

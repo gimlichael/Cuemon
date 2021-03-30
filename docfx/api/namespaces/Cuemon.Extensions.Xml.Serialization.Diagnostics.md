@@ -14,8 +14,6 @@ Complements: [Cuemon.Diagnostics namespace](https://docs.cuemon.net/api/dotnet/C
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Xml/Serialization/Diagnostics) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Xml/Serialization/Diagnostics) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

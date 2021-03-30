@@ -14,8 +14,6 @@ Complements: [Cuemon.Xml.Serialization namespace](https://docs.cuemon.net/api/do
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Xml/Serialization) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Xml/Serialization) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\
