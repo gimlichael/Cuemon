@@ -19,15 +19,14 @@ namespace Cuemon.Extensions.AspNetCore.Configuration
         [MemberData(nameof(GetAlgorithmOptions))]
         public void Ctor_ShouldUseDifferentAlgorithms(AssemblyCacheBustingOptions options)
         {
-            var sut = new AssemblyCacheBusting(new OptionsWrapper<AssemblyCacheBustingOptions>(options));
+            var sut1 = new AssemblyCacheBusting(new OptionsWrapper<AssemblyCacheBustingOptions>(options));
+            var sut3 = Generate.HashCode64(typeof(AssemblyCacheBustingTest).Assembly.Location);
+            var sut4 = Generate.HashCode64(typeof(AssemblyCacheBustingTest).Assembly.FullName);
+            var sut5 = UnkeyedHashFactory.CreateCrypto(options.Algorithm).ComputeHash(Convertible.GetBytes(sut3).Concat(Convertible.GetBytes(sut4)).ToArray()).ToHexadecimalString();
 
-            TestOutput.WriteLine(sut.Version);
+            TestOutput.WriteLine(sut1.Version);
 
-            Condition.IsTrue(options.Algorithm == UnkeyedCryptoAlgorithm.Md5, () => Assert.Equal("bcb895f28f0b3d781dce1b1154896e1c", sut.Version));
-            Condition.IsTrue(options.Algorithm == UnkeyedCryptoAlgorithm.Sha1, () => Assert.Equal("b491a390bd9438e7c5568be2852173111310b85d", sut.Version));
-            Condition.IsTrue(options.Algorithm == UnkeyedCryptoAlgorithm.Sha256, () => Assert.Equal("4b123be85e851a9e552a99b2c3afd7babe3be2b23d298e9431c3304003393229", sut.Version));
-            Condition.IsTrue(options.Algorithm == UnkeyedCryptoAlgorithm.Sha384, () => Assert.Equal("6059a2579c2e76992779b1f5fa3ff703c632aad698140b720bc667b0253b26ff26673d144d72b544eaa0f0414e7df76b", sut.Version));
-            Condition.IsTrue(options.Algorithm == UnkeyedCryptoAlgorithm.Sha512, () => Assert.Equal("bb6e85208f404f2352b8b0dbf9b7c56a9f6be4ab0dab620b42dae3b07097394779a9f2f3d5c72064197fe7ed0eb302f56ada6415901a3ca08220a4a195cfe6f1", sut.Version));
+            Assert.Equal(sut5, sut1.Version);
         }
 
         [Theory]

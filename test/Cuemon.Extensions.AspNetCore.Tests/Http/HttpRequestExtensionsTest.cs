@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cuemon.Data.Integrity;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Cuemon.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Net.Http.Headers;
 using Xunit;
@@ -40,8 +42,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         }
 
         [Theory]
-        [InlineData("fcad9155c895f17a")]
-        [InlineData("xxxxxxxxxxxxxxxx")]
+        [MemberData(nameof(GetComputedChecksums))]
         public async Task IsClientSideResourceCached_ShouldCompareIfNoneMatchToChecksumBuilder(string checksum)
         {
             var sut = CacheValidatorFactory.CreateValidator(typeof(HttpRequestExtensionsTest).Assembly);
@@ -72,6 +73,25 @@ namespace Cuemon.Extensions.AspNetCore.Http
                 Assert.True(isClientSideResourceCached);
                 Assert.Equal(304, statusCdoe);
             });
+        }
+
+        private static IEnumerable<object[]> GetComputedChecksums()
+        {
+            var sut1 = Generate.HashCode64(typeof(HttpRequestExtensionsTest).Assembly.Location);
+            var sut2 = HashFactory.CreateFnv64().ComputeHash(Convertible.GetBytes(sut1)).ToHexadecimalString();
+            var parameters = new List<object[]>()
+            {
+                new object[]
+                {
+                    sut2
+                },
+                new object[]
+                {
+                    "xxxxxxxxxxxxxxxx"
+                }
+            };
+
+            return parameters;
         }
 
         [Theory]
