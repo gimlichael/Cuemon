@@ -178,7 +178,7 @@ Availability: NET Standard 2.0, NET 5.0
  
 # Improvements
 - CHANGED HashResult class in the Cuemon.Security namespace to implement IEquatable{HashResult} as well as other improvements
-- EXTENDED Condition class in the Cuemon namespace with several new static members: Query, IsEnum, IsProtocolRelativeUrl, IsUri, HasConsecutiveCharacters, IsBase64, IsBinaryDigits, IsPrime, IsEven, IsOdd, IsCountableSequence (Query makes this class extensible - enabling you to write your own conditions)
+- EXTENDED Condition class in the Cuemon namespace with several new static members: Query, IsEnum, IsProtocolRelativeUrl, IsUri, HasConsecutiveCharacters, IsBase64, IsBinaryDigits, IsPrime, IsEven, IsOdd, IsCountableSequence, IsTrue, IsFalse (Query makes this class extensible - enabling you to write your own conditions)
 - REFACTORED TaskActionFactory class in the Cuemon namespace to have CancellationToken support
 - REFACTORED TaskFuncFactory class in the Cuemon namespace to have CancellationToken support
 - EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIf, ThrowWhenCondition, ThrowIfNumber, ThrowIfNotNumber, ThrowIfNull, ThrowIfSequenceEmpty, ThrowIfEmpty, ThrowIfContainsInterface, ThrowIfNotContainsInterface, ThrowIfNotContainsType, ThrowIfEnumType, ThrowIfNotBinaryDigits, ThrowIfNotBase64String, ThrowIfTrue, ThrowIfFalse, ThrowIfSequenceNullOrEmpty, CheckParameter{T}, CheckParameter{T,TValue}

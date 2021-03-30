@@ -6,7 +6,7 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED HttpMethodExtensions class in the Cuemon.Extensions.Net.Http namespace that consist of extension methods for the HttpMethod class: ToHttpMethod
 - ADDED SlimHttpClientFactory class in the Cuemon.Extensions.Net.Http namespace that provides a simple and lightweight implementation of the IHttpClientFactory interface
 - ADDED SlimHttpClientFactoryOptions class in the Cuemon.Extensions.Net.Http namespace that specifies options related to SlimHttpClientFactory
-- ADDED StringExtensions class in the Cuemon.Extensions.Net.Http namespace that consist of extension methods for the Uri class: HttpDeleteAsync, HttpGetAsync, HttpHeadAsync, HttpOptionsAsync, HttpPostAsync, HttpPutAsync, HttpPatchAsync, HttpTraceAsync, HttpAsync
+- ADDED UriExtensions class in the Cuemon.Extensions.Net.Http namespace that consist of extension methods for the Uri class: HttpDeleteAsync, HttpGetAsync, HttpHeadAsync, HttpOptionsAsync, HttpPostAsync, HttpPutAsync, HttpPatchAsync, HttpTraceAsync, HttpAsync
 - ADDED SignedUriOptions class in the Cuemon.Extensions.Net.Security namespace that specifies options related to ToSignedUri extensions
 - ADDED StringExtensions class in the Cuemon.Extensions.Net.Security namespace that consist of extension methods for the String class: ToSignedUri, ValidateSignedUri
 - ADDED UriExtensions class in the Cuemon.Extensions.Net.Security namespace that consist of extension methods for the Uri class: ToSignedUri, ValidateSignedUri

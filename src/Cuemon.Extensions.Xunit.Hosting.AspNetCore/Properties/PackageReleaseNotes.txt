@@ -3,12 +3,11 @@ Availability: NET Core 3.1, NET 5.0
  
 # New Features
 - ADDED FakeHttpResponseFeature class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features namespace that represents a way to trigger IHttpResponseFeature.OnStarting
-- ADDED FakeHttpResponseMiddleware class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features namespace that provides a fake HTTP response middleware implementation for ASP.NET Core testing
 - ADDED FakeHttpContextAccessor class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http namespace that provides a unit test implementation of IHttpContextAccessor
-- ADDED ApplicationBuilderExtensions class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that consist of extension methods for the IApplicationBuilder interface: UseFakeHttpResponseTrigger
 - ADDED AspNetCoreHostFixture class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that provides a default implementation of the IAspNetCoreHostFixture interface
 - ADDED AspNetCoreHostTest{T} class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that represents a base class from which all implementations of unit testing, that uses Microsoft Dependency Injection and depends on ASP.NET Core, should derive
 - ADDED IAspNetCoreHostFixture interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that provides a way to use Microsoft Dependency Injection in unit tests tailored for ASP.NET Core
 - ADDED IMiddlewareTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that represents the members needed for ASP.NET Core middleware testing
 - ADDED IPipelineTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that represents the members needed for ASP.NET Core pipeline testing
 - ADDED MiddlewareTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that provides a set of static methods for ASP.NET Core middleware unit testing
+- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that consist of extension methods for the IServiceCollection interface: AddFakeHttpContextAccessor
