@@ -1,52 +1,33 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 {
-    internal class MvcFilterAspNetCoreHostTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IMvcFilterTest
+    internal sealed class MvcFilterAspNetCoreHostTest : IMvcFilterTest
     {
-        private readonly Action<IApplicationBuilder> _pipelineConfigurator;
-        private readonly Action<IServiceCollection> _serviceConfigurator;
+        private readonly IMiddlewareTest _middlewareTest;
 
-        internal MvcFilterAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture)
+        internal MvcFilterAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator)
         {
-            _pipelineConfigurator = pipelineConfigurator;
-            _serviceConfigurator = serviceConfigurator;
-            if (!hostFixture.HasValidState())
-            {
-                hostFixture.HostBuilderCallback = HostBuilderCallback;
-                hostFixture.ConfigureCallback = Configure;
-                hostFixture.ConfigureServicesCallback = ConfigureServices;
-                hostFixture.ConfigureApplicationCallback = ConfigureApplication;
-                hostFixture.ConfigureHost(this);
-            }
-            Host = hostFixture.Host;
-            ServiceProvider = hostFixture.Host.Services;
-            Application = hostFixture.Application;
-            Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
+            _middlewareTest = MiddlewareTestFactory.CreateMiddlewareTest(pipelineConfigurator, serviceConfigurator);
         }
 
-        protected override void InitializeHostFixture(AspNetCoreHostFixture hostFixture)
+        public IServiceProvider ServiceProvider => _middlewareTest.ServiceProvider;
+
+        public IApplicationBuilder Application => _middlewareTest.Application;
+
+        public IConfiguration Configuration => _middlewareTest.Configuration;
+
+        public IHostEnvironment HostingEnvironment => _middlewareTest.HostingEnvironment;
+
+        public void Dispose()
         {
+            _middlewareTest.Dispose();
         }
 
-        public override void ConfigureApplication(IApplicationBuilder app)
-        {
-            _pipelineConfigurator(app);
-        }
-
-        public override void ConfigureServices(IServiceCollection services)
-        {
-            _serviceConfigurator(services);
-        }
-
-        /// <summary>
-        /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.
-        /// </summary>
-        protected override void OnDisposeManagedResources()
-        {
-            Host?.Dispose();
-        }
+        public IHost Host => ((AspNetCoreHostTest<AspNetCoreHostFixture>)_middlewareTest).Host;
     }
 }

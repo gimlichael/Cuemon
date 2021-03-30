@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Cuemon.Configuration;
 using Cuemon.IO;
 using Cuemon.Runtime.Serialization.Formatters;
 using Newtonsoft.Json;
@@ -11,7 +12,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     /// </summary>
     /// <seealso cref="Formatter{TFormat}" />.
     /// <seealso cref="JsonConverter"/>.
-    public class JsonFormatter : Formatter<Stream>
+    public class JsonFormatter : Formatter<Stream>, IConfigurable<JsonFormatterOptions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
@@ -43,7 +44,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// Gets the configured options of this <see cref="JsonFormatter"/>.
         /// </summary>
         /// <value>The configured options of this <see cref="JsonFormatter"/>.</value>
-        protected JsonFormatterOptions Options { get; }
+        public JsonFormatterOptions Options { get; }
 
         /// <summary>
         /// Serializes the specified <paramref name="source"/> to an object of <see cref="string"/>.
@@ -56,9 +57,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(objectType, nameof(objectType));
 
-            var serializer = Options.SynchronizeWithJsonConvert ? JsonSerializer.CreateDefault() : JsonSerializer.Create(Options.Settings); // there is a bug in the JsonConvert.SerializeObject, why we had to make our own implementation
             return StreamFactory.Create(writer =>
             {
+                var serializer = Options.SynchronizeWithJsonConvert ? JsonSerializer.CreateDefault() : JsonSerializer.Create(Options.Settings);
                 using (var jsonWriter = new JsonTextWriter(writer))
                 {
                     jsonWriter.CloseOutput = false;

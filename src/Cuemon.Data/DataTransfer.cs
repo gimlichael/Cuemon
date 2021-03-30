@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using Cuemon.Collections.Generic;
 
 namespace Cuemon.Data
 {
@@ -26,18 +24,6 @@ namespace Cuemon.Data
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
             return new DataTransferRowCollection(reader);
-        }
-
-        /// <summary>
-        /// Retrieves a paged, table-like data transfer object collection from the specified <paramref name="selector"/>.
-        /// </summary>
-        /// <param name="settings">The <see cref="PagedSettings"/> that will be applied to the <see cref="PagedCollection{DataTransferRow}"/> result of this method.</param>
-        /// <param name="selector">The function delegate that will determine the <see cref="PagedCollection{DataTransferRow}"/> result of this method.</param>
-        /// <param name="counter">The function delegate that will determine the total number of rows in a data-source from the specified <paramref name="settings"/>.</param>
-        /// <returns>A <see cref="PagedCollection{DataTransferRow}"/> that is the result of the specified <paramref name="selector"/> with associated <paramref name="settings"/>.</returns>
-        public static PagedCollection<DataTransferRow> GetPagedRows(PagedSettings settings, Func<PagedSettings, IEnumerable<DataTransferRow>> selector, Func<PagedSettings, int> counter)
-        {
-            return new PagedCollection<DataTransferRow>(selector, settings, counter);
         }
 
         /// <summary>

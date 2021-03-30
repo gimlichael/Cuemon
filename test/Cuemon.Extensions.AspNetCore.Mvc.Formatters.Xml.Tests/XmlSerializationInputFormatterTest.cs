@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,11 +60,19 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                     .AddXmlSerializationFormatters();
             }))
             {
+                var wf = new WeatherForecast();
                 var formatter = new XmlFormatter(o => o.Settings.Writer.Indent = true);
-                var stream = formatter.Serialize(new WeatherForecast());
+                var stream = formatter.Serialize(wf);
                 var client = filter.Host.GetTestClient();
 
                 var result = await client.PostAsync("/fake", new StringContent(stream.ToEncodedString(), Encoding.UTF8, "application/xml"));
+                var model = await result.Content.ReadAsStringAsync();
+
+                Assert.Contains("<WeatherForecast>", model);
+                Assert.Contains($"<Date>{wf.Date.ToString("O", CultureInfo.InvariantCulture)}", model);
+                Assert.Contains($"<TemperatureC>{wf.TemperatureC}", model);
+                Assert.Contains($"<TemperatureF>{wf.TemperatureF}", model);
+                Assert.Contains($"<Summary>{wf.Summary}", model);
 
                 Assert.Equal(StatusCodes.Status201Created, (int)result.StatusCode);
                 Assert.Equal(HttpMethod.Post, result.RequestMessage.Method);

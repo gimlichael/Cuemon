@@ -35,6 +35,6 @@ Complements: [Newtonsoft.Json namespace](https://www.newtonsoft.com/json/help/ht
 |--:|:-:|---|
 |JDataResult|⬇️|`Flatten`, `ExtractArrayValues`, `ExtractObjectValues`|
 |JsonReader|⬇️|`ToHierarchy`|
-|JsonSerializerSettings|⬇️|`ApplyToDefaultSettings`, `UseCamelCase`|
+|JsonSerializerSettings|⬇️|`ApplyToDefaultSettings`|
 |JsonWriter|⬇️|`WriteObject`, `WritePropertyName`|
 |Validator|⬇️|`InvalidJsonDocument`|

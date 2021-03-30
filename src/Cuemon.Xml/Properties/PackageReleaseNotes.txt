@@ -42,6 +42,7 @@ Availability: NET Standard 2.0, NET 5.0
 # Improvements
 - EXTENDED XmlSerializer class in the Cuemon.Xml.Serialization namespace with a new overloaded method: Serialize
 - RENAMED XmlSerializerSettings class in the Cuemon.Xml.Serialization namespace to XmlSerializerOptions
+- CHANGED XmlConverterDecoratorExtensions class in the Cuemon.Xml.Serialization.Converters namespace to always express a DateTime value as an ISO8601 string with roundtrip to UTC
  
 # Bug Fixes
 - FIXED bug that in some cases could throw a SerializationException when serializable type consisted of only a default contructor (Cuemon.Xml.Serialization.Converters.DefaultXmlConverter.ParseReadXmlDefault)
@@ -51,4 +52,5 @@ Availability: NET Standard 2.0, NET 5.0
  
 # Quality Analysis Actions
 - CHANGED DefaultXmlConverter class in the Cuemon.Xml.Serialization.Converters namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+- CHANGED XmlReaderDecoratorExtensions class in the Cuemon.Xml namespace to have 0 duplicated blocks of lines of code
  

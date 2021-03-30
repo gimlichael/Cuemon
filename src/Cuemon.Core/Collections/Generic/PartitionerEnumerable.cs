@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,11 +23,13 @@ namespace Cuemon.Collections.Generic
         /// </summary>
         /// <param name="source">The sequence to iterate in partitions.</param>
         /// <param name="partitionSize">The size of the partitions.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="partitionSize" /> is lower than 0.
+        /// </exception>
         public PartitionerEnumerable(IEnumerable<T> source, int partitionSize = 128)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfLowerThan(partitionSize, 1, nameof(partitionSize));
-            _source = source;
+            Validator.ThrowIfLowerThan(partitionSize, 0, nameof(partitionSize));
+            _source = source ?? Enumerable.Empty<T>();
             _partitionSize = partitionSize;
         }
 

@@ -92,14 +92,14 @@ namespace Cuemon.Xml.Serialization.Formatters
         public void Serialize_ShouldSerializeUsingDateTimeConverter()
         {
             var sut = new XmlFormatter();
-            var result = sut.Serialize(DateTime.Parse("2021-03-14T15:33:00"));
+            var result = sut.Serialize(DateTime.Parse("2021-03-14T14:33:00Z"));
             var x = new XmlDocument();
             x.Load(result);
 
             TestOutput.WriteLine(Decorator.Enclose(result).ToEncodedString());
 
             Assert.Equal("<?xml version=\"1.0\" encoding=\"utf-8\"?>", x.FirstChild.OuterXml);
-            Assert.Contains("<DateTime>2021-03-14 15:33:00Z</DateTime>", x.OuterXml);
+            Assert.Contains("<DateTime>2021-03-14T14:33:00.0000000Z</DateTime>", x.OuterXml);
 
             result.Dispose();
         }

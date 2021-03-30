@@ -1,21 +1,24 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 {
-    internal class MiddlewareAspNetCoreHostTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IMiddlewareTest
+    internal sealed class MiddlewareAspNetCoreHostTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IMiddlewareTest
     {
         private readonly Action<IApplicationBuilder> _pipelineConfigurator;
         private readonly Action<IServiceCollection> _serviceConfigurator;
+        private readonly Action<IHostBuilder> _hostConfigurator;
 
-        internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture)
+        internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture)
         {
             _pipelineConfigurator = pipelineConfigurator;
             _serviceConfigurator = serviceConfigurator;
+            _hostConfigurator = hostConfigurator;
             if (!hostFixture.HasValidState())
             {
-                hostFixture.HostBuilderCallback = HostBuilderCallback;
+                hostFixture.ConfigureHostCallback = ConfigureHost;
                 hostFixture.ConfigureCallback = Configure;
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureApplicationCallback = ConfigureApplication;
@@ -33,12 +36,17 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 
         public override void ConfigureApplication(IApplicationBuilder app)
         {
-            _pipelineConfigurator(app);
+            _pipelineConfigurator?.Invoke(app);
+        }
+
+        protected override void ConfigureHost(IHostBuilder hb)
+        {
+            _hostConfigurator?.Invoke(hb);
         }
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            _serviceConfigurator(services);
+            _serviceConfigurator?.Invoke(services);
         }
 
         /// <summary>

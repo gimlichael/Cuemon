@@ -1,20 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Authentication.Hmac;
 using Cuemon.Collections.Generic;
-using Cuemon.Extensions;
 using Cuemon.Extensions.AspNetCore.Authentication;
-using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json.Serialization;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -31,8 +26,12 @@ namespace Cuemon.AspNetCore.Authentication
         {
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
-                app.UseFakeHttpResponseTrigger(o => o.ShortCircuitOnStarting = true);
                 app.UseHmacAuthentication();
+                app.Run(context =>
+                {
+                    context.Response.StatusCode = 200;
+                    return Task.CompletedTask;
+                });
             }, services =>
             {
                 services.Configure<HmacAuthenticationOptions>(o =>

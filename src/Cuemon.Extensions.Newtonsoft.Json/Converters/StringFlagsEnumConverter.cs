@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using Humanizer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -16,18 +15,17 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         /// <summary>
         /// Initializes a new instance of the <see cref="StringFlagsEnumConverter"/> class.
         /// </summary>
-        public StringFlagsEnumConverter(NamingStrategy strategy) : base(strategy)
+        public StringFlagsEnumConverter()
         {
-            Validator.ThrowIfNull(strategy, nameof(strategy));
-            HasCamelCaseNamingStrategy = strategy is CamelCaseNamingStrategy;
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance was constructed with <see cref="CamelCaseNamingStrategy"/>.
+        /// Initializes a new instance of the <see cref="StringFlagsEnumConverter" /> class.
         /// </summary>
-        /// <value><c>true</c> if this instance was constructed with <see cref="CamelCaseNamingStrategy"/>; otherwise, <c>false</c>.</value>
-        /// <remarks>Personally i think this was wrong move from the author of Newtonsoft.Json given that any strategy can now have a camel case implementation without third party libraries knowing about it.</remarks>
-        protected bool HasCamelCaseNamingStrategy { get;}
+        /// <param name="namingStrategy">The naming strategy used to resolve how enum text is written.</param>
+        public StringFlagsEnumConverter(NamingStrategy namingStrategy) : base(namingStrategy)
+        {
+        }
 
         /// <summary>
         /// Writes the JSON representation of the object.
@@ -43,6 +41,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 return;
             }
 
+            var ns = NamingStrategy ?? new CamelCaseNamingStrategy();
             var e = (Enum)value;
             var enumName = e.ToString("G");
             var flags = enumName.Split(',');
@@ -52,7 +51,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteStartArray();
                 foreach (var flag in flags)
                 {
-                    writer.WriteValue(Condition.TernaryIf(HasCamelCaseNamingStrategy, () => flag.Trim().Camelize(), () => flag.Trim()));
+                    writer.WriteValue(ns.GetPropertyName(flag.Trim(), false));
                 }
                 writer.WriteEndArray();
             }
@@ -64,7 +63,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 }
                 else
                 {
-                    writer.WriteValue(Condition.TernaryIf(HasCamelCaseNamingStrategy, () => enumName.Camelize(), () => enumName));
+                    writer.WriteValue(ns.GetPropertyName(enumName, false));
                 }
             }
         }

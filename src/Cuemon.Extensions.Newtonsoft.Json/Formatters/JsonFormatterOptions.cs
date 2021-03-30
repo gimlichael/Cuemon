@@ -16,10 +16,10 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         {
             DefaultConverters = list =>
             {
-                list.AddStringFlagsEnumConverter();
-                list.AddStringEnumConverter();
                 list.AddTimeSpanConverter();
                 list.AddDataPairConverter();
+                list.AddStringFlagsEnumConverter();
+                list.AddStringEnumConverter();
             };
         }
 
@@ -73,7 +73,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
-            Settings.Converters.AddExceptionDescriptorConverter(o =>
+            Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
             {
                 o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
                 o.IncludeFailure = IncludeExceptionDescriptorFailure;

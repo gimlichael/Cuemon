@@ -23,8 +23,8 @@ namespace Cuemon.Data.Integrity
         public static CacheValidator CreateValidator(FileInfo file, Func<Hash> hashFactory = null, Action<FileChecksumOptions> setup = null)
         {
             Validator.ThrowIfNull(file, nameof(file));
-            if (hashFactory == null) { hashFactory = () => HashFactory.CreateFnv128(); }
             var options = Patterns.Configure(setup);
+            if (hashFactory == null) { hashFactory = DefaultFactoryProvider(options.BytesToRead); }
             return DataIntegrityFactory.CreateIntegrity(file, fio =>
             {
                 fio.BytesToRead = options.BytesToRead;
@@ -53,13 +53,18 @@ namespace Cuemon.Data.Integrity
         public static CacheValidator CreateValidator(Assembly assembly, Func<Hash> hashFactory = null, Action<FileChecksumOptions> setup = null)
         {
             Validator.ThrowIfNull(assembly, nameof(assembly));
-            if (hashFactory == null) { hashFactory = () => HashFactory.CreateFnv128(); }
             var options = Patterns.Configure(setup);
+            if (hashFactory == null) { hashFactory = DefaultFactoryProvider(options.BytesToRead); }
             var assemblyHashCode64 = Generate.HashCode64(assembly.FullName);
             var assemblyLocation = assembly.Location;
             return assembly.IsDynamic
                 ? new CacheValidator(new EntityInfo(DateTime.MinValue, DateTime.MaxValue, Convertible.GetBytes(assemblyHashCode64)), hashFactory, options.Method)
                 : CreateValidator(new FileInfo(assemblyLocation), hashFactory, setup);
+        }
+
+        private static Func<Hash> DefaultFactoryProvider(int bytesToRead)
+        {
+            return () =>  Condition.TernaryIf(bytesToRead < 256, () => HashFactory.CreateFnv64(), HashFactory.CreateCrc64);
         }
     }
 }

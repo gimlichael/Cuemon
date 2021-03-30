@@ -101,7 +101,7 @@ namespace Cuemon.Xml.Serialization.Converters
             decorator.AddXmlConverter<IEnumerable>((w, o, q) =>
             {
                 if (w.WriteState == WriteState.Start && q == null && !(o is IDictionary || o is IList)) { q = new XmlQualifiedEntity("Enumerable"); }
-                Decorator.Enclose(w).WriteXmlRootElement(o, (writer, sequence, qe) =>
+                Decorator.Enclose(w).WriteXmlRootElement(o, (writer, sequence, _) =>
                 {
                     var type = sequence.GetType();
                     var hasKeyValuePairType = type.GetGenericArguments().Any(gt => Decorator.Enclose(gt).HasKeyValuePairImplementation());
@@ -165,7 +165,7 @@ namespace Cuemon.Xml.Serialization.Converters
         public static IDecorator<IList<XmlConverter>> AddExceptionDescriptorConverter(this IDecorator<IList<XmlConverter>> decorator, Action<ExceptionDescriptorOptions> setup)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            decorator.AddXmlConverter<ExceptionDescriptor>((writer, descriptor, qe) =>
+            decorator.AddXmlConverter<ExceptionDescriptor>((writer, descriptor, _) =>
             {
                 var options = Patterns.Configure(setup);
                 writer.WriteStartElement("ExceptionDescriptor");
@@ -213,7 +213,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 {
                     writer.WriteValue(value.OriginalString);
                 });
-            }, (reader, type) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseUriFormatter());
+            }, (reader, _) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseUriFormatter());
             return decorator;
         }
 
@@ -233,9 +233,9 @@ namespace Cuemon.Xml.Serialization.Converters
                 if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(DateTime)).ToFriendlyName()); }
                 Decorator.Enclose(w).WriteEncapsulatingElementIfNotNull(d, q, (writer, value) =>
                 {
-                    writer.WriteValue(value.ToString("u", CultureInfo.InvariantCulture));
+                    writer.WriteValue(value.ToUniversalTime().ToString("O", CultureInfo.InvariantCulture));
                 });
-            }, (reader, type) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseDateTimeFormatter());
+            }, (reader, _) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseDateTimeFormatter());
             return decorator;
         }
 
@@ -257,7 +257,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 {
                     writer.WriteValue(value.ToString());
                 });
-            }, (reader, type) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseTimeSpanFormatter());
+            }, (reader, _) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseTimeSpanFormatter());
             return decorator;
         }
 
@@ -303,7 +303,7 @@ namespace Cuemon.Xml.Serialization.Converters
         public static IDecorator<IList<XmlConverter>> AddExceptionConverter(this IDecorator<IList<XmlConverter>> decorator, Func<bool> includeStackTraceFactory)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            decorator.AddXmlConverter<Exception>((writer, exception, qe) =>
+            decorator.AddXmlConverter<Exception>((writer, exception, _) =>
             {
                 WriteException(writer, exception, includeStackTraceFactory?.Invoke() ?? false);
             });

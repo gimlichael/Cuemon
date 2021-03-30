@@ -88,6 +88,8 @@ Availability: NET Standard 2.0, NET 5.0
 - MOVED TransientOperationOptions class from the Cuemon namespace to its own assembly and namespace (Cuemon.Resilience)
 - REMOVED IMessageLocalizer interface from the Cuemon.Globalization namespace
 - REMOVED DayParts class from the Cuemon namespace and merged members to DayPart struct
+- REMOVED PagedCollection class from the Cuemon.Collections.Generic namespace
+- REMOVED PagedSettings class from the Cuemon.Collections.Generic namespace
  
 # New Features
 - ADDED ResourceAttribute class in the Cuemon.Globalization namespace that provides a generic way to support localization on attribute decorated methods
@@ -166,17 +168,20 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED AsyncOptions class in the Cuemon.Threading namespace that specifies options that is related to asynchronous operations
 - ADDED IAsyncOptions interface in the Cuemon.Threading namespace that defines options that is related to asynchronous operations
 - ADDED AsyncEncodingOptions interface in the Cuemon.Text namespace that defines options that is related to Encoding class
+- ADDED PaginationEnumerable class in the Cuemon.Collections.Generic namespace that represents a generic and read-only pagination sequence
+- ADDED PaginationList class in the Cuemon.Collections.Generic namespace that represents an eagerly materialized generic and read-only pagination list
+- ADDED PaginationOptions class in the Cuemon.Collections.Generic namespace that specifies options related to PaginationEnumerable and PaginationList
+- ADDED VersionResult class in the Cuemon.Reflection namespace that represents different representations of a version scheme in a consistent way
  
 # Bug Fixes
 - FIXED critical bug in the DateSpan struct located on the Cuemon namespace
-- Several; please do a git diff.
  
 # Improvements
 - CHANGED HashResult class in the Cuemon.Security namespace to implement IEquatable{HashResult} as well as other improvements
-- EXTENDED Condition class in the Cuemon namespace with several new static members: Query, IsEnum, IsProtocolRelativeUrl, IsUri, HasConsecutiveCharacters, IsBase64, IsBinaryDigits, IsPrime, IsEven, IsOdd, IsCountableSequence (Query makes this class extensible - enabling you to write your own conditions)
+- EXTENDED Condition class in the Cuemon namespace with several new static members: Query, IsEnum, IsProtocolRelativeUrl, IsUri, HasConsecutiveCharacters, IsBase64, IsBinaryDigits, IsPrime, IsEven, IsOdd, IsCountableSequence, IsTrue, IsFalse (Query makes this class extensible - enabling you to write your own conditions)
 - REFACTORED TaskActionFactory class in the Cuemon namespace to have CancellationToken support
 - REFACTORED TaskFuncFactory class in the Cuemon namespace to have CancellationToken support
-- EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIf, ThrowWhenCondition, ThrowIfNumber, ThrowIfNotNumber, ThrowIfNull, ThrowIfSequenceEmpty, ThrowIfEmpty, ThrowIfContainsInterface, ThrowIfNotContainsInterface, ThrowIfNotContainsType, ThrowIfEnumType, ThrowIfNotBinaryDigits, ThrowIfNotBase64String, ThrowIfTrue, ThrowIfFalse, ThrowIfSequenceNullOrEmpty, CheckParameter{T}
+- EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIf, ThrowWhenCondition, ThrowIfNumber, ThrowIfNotNumber, ThrowIfNull, ThrowIfSequenceEmpty, ThrowIfEmpty, ThrowIfContainsInterface, ThrowIfNotContainsInterface, ThrowIfNotContainsType, ThrowIfEnumType, ThrowIfNotBinaryDigits, ThrowIfNotBase64String, ThrowIfTrue, ThrowIfFalse, ThrowIfSequenceNullOrEmpty, CheckParameter{T}, CheckParameter{T,TValue}
 - CHANGED BinaryPrefix in the Cuemon namespace from struct to sealed class
 - CHANGED DecimalPrefix in the Cuemon namespace from struct to sealed class
 - REFACTORED MultipleTable in the Cuemon namespace to be more generic and moved non-generic functionality to the new StorageCapacity class

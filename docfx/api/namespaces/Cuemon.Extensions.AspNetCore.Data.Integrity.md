@@ -33,5 +33,5 @@ Complements: [Cuemon.Data.Integrity namespace](https://docs.cuemon.net/api/dotne
 
 |Type|Ext|Methods|
 |--:|:-:|---|
-|CacheValidator|⬇️|`ToEntityTag`|
+|CacheValidator|⬇️|`ToEntityTagHeaderValue`|
 |ChecksumBuilder|⬇️|`ToEntityTagHeaderValue`|

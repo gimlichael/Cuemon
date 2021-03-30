@@ -12,7 +12,7 @@ namespace Cuemon.Extensions.Hosting
         {
         }
 
-        protected override void HostBuilderCallback(IHostBuilder hb)
+        protected override void ConfigureHost(IHostBuilder hb)
         {
             hb.UseEnvironment(Environments.LocalDevelopment);
         }

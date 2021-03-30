@@ -11,7 +11,7 @@
           imageName: 'windows-2019'
 
     pool:
-      vmImage: $(imageName)
+      name: $(imageName)
 
     steps:
 
@@ -31,7 +31,7 @@
       inputs:
         command: custom
         custom: tool
-        arguments: 'install --global minver-cli'
+        arguments: 'update --global minver-cli'
 
     - task: DotNetCoreCLI@2
       condition: eq(variables['Agent.OS'], 'Linux')
@@ -39,7 +39,7 @@
       inputs:
         command: custom
         custom: tool
-        arguments: install --global dotnet-reportgenerator-globaltool
+        arguments: update --global dotnet-reportgenerator-globaltool
 
     - task: DownloadSecureFile@1
       displayName: 'Download cuemon.snk'
@@ -71,9 +71,11 @@
     - task: DotNetCoreCLI@2
       displayName: Restore
       inputs:
-        command: restore
+        command: custom
+        custom: restore
         projects: |
           **/*.csproj
+        arguments: '--verbosity quiet'
 
     - task: DockerCompose@0
       condition: eq(variables['Agent.OS'], 'Linux')
@@ -97,70 +99,71 @@
         projectName: 'Cuemon'
         projectVersion: '$(MINVERVERSIONOVERRIDE)'
         extraProperties: |
+          sonar.exclusions=**/obj/**,**/bin/**
           sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*opencover.xml
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
     - task: DotNetCoreCLI@2
       displayName: 'Build net5.0 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework net5.0'
+        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework net5.0'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
       displayName: 'Build netcoreapp3.1 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
           src/**/Cuemon.Extensions.Xunit.App.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.1'
+        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netcoreapp3.1'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
       displayName: 'Build netcoreapp3.0 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/Cuemon.AspNetCore*.csproj
           src/**/Cuemon.Extensions.AspNetCore*.csproj
           src/**/Cuemon.Extensions.Hosting.csproj
           src/**/Cuemon.Extensions.Xunit.Hosting.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netcoreapp3.0'
+        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netcoreapp3.0'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
       displayName: 'Build netstandard2.1 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/Cuemon.Extensions.IO.csproj
           src/**/Cuemon.IO.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.1'
+        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netstandard2.1'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
       displayName: 'Build netstandard2.0 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/*.csproj
           !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
           !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
           !src/**/Cuemon.Extensions.Xunit.App.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework netstandard2.0'
+        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netstandard2.0'
         workingDirectory: '$(BuildSource)'
 
     - task: DotNetCoreCLI@2
       displayName: 'Test Solution - Linux'
       condition: eq(variables['Agent.OS'], 'Linux')
       inputs:
-        command: 'test'
+        command: test
         projects: test/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
         publishTestResults: true
       env:
         ConnectionStrings__AdventureWorks: $(ConnectionStrings--AdventureWorks)
@@ -169,9 +172,9 @@
       displayName: 'Test Solution - Windows'
       condition: eq(variables['Agent.OS'], 'Windows_NT')
       inputs:
-        command: 'test'
+        command: test
         projects: test/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
+        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
         publishTestResults: true
 
     - script: |

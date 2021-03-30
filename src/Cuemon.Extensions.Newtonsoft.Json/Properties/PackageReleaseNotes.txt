@@ -16,9 +16,17 @@ Availability: NET Standard 2.0, NET 5.0
 - EXTENDED JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json namespace with several new options and a uniform way of adding default converters
 - ADDED JData class in the Cuemon.Extensions.Newtonsoft.Json namespace that provides a factory based way to parse and extract values from various sources of JSON data. Compliant with RFC 7159 as it uses JsonTextReader behind the scene
 - ADDED JDataResultExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace that consist of extension methods for the JDataResult class: ExtractArrayValues, ExtractObjectValues
-- EXTENDED JsonSerializerSettingsExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace with one new extension method for the JsonSerializerSettings class: UseCamelCase
 - ADDED ValidatorExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace that consist of extension methods for the Validator class: InvalidJsonDocument
+- ADDED ContractResolverExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Serialization namespace that consist of extension methods for the IContractResolver interface: ResolveNamingStrategyOrDefault
+ 
+# Improvements
+- CHANGED JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to fully support whatever desired naming strategy wanted while simplifying the code greatly
+- CHANGED StringFlagsEnumConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to fully support whatever desired naming strategy wanted while simplifying the code greatly
+- CHANGED DynamicJsonConverter class in the Cuemon.Extensions.Newtonsoft.Json namespace to fully support whatever desired naming strategy wanted while being significantly more versatile in usage
+- CHANGED JsonWriterExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace to fully support whatever desired naming strategy wanted while simplifying the code greatly
  
 # Quality Analysis Actions
 - JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2200 on ValidatorExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace
+- CHANGED JsonReaderExtensions class in the Cuemon.Extensions.Newtonsoft.Json namespace to have 0 duplicated blocks of lines of code
+- CHANGED JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to have 0 duplicated blocks of lines of code
  

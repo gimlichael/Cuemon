@@ -6,13 +6,13 @@ using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Authentication;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Xunit;
 using Xunit.Abstractions;
-using Cuemon.Extensions;
 
 namespace Cuemon.AspNetCore.Authentication
 {
@@ -27,7 +27,6 @@ namespace Cuemon.AspNetCore.Authentication
         {
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
-                app.UseFakeHttpResponseTrigger(o => o.ShortCircuitOnStarting = true);
                 app.UseBasicAuthentication();
             }, services =>
             {
@@ -73,7 +72,6 @@ namespace Cuemon.AspNetCore.Authentication
         {
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
-                app.UseFakeHttpResponseTrigger(o => o.ShortCircuitOnStarting = true);
                 app.UseBasicAuthentication();
             }, services =>
             {
@@ -120,8 +118,12 @@ namespace Cuemon.AspNetCore.Authentication
         {
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
-                app.UseFakeHttpResponseTrigger(o => o.ShortCircuitOnStarting = true);
                 app.UseBasicAuthentication();
+                app.Run(context =>
+                {
+                    context.Response.StatusCode = 200;
+                    return Task.CompletedTask;
+                });
             }, services =>
             {
                 services.Configure<BasicAuthenticationOptions>(o =>

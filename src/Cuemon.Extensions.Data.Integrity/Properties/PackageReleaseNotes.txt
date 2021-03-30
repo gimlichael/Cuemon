@@ -1,6 +1,9 @@
 ﻿Version: 6.0.0
 Availability: NET Standard 2.0, NET 5.0
  
+# Breaking Changes
+- RENAMED ToEntityTag --> ToEntityTagHeaderValue on the CacheValidatorExtensions class in the Cuemon.Extensions.AspNetCore.Data.Integrity namespace
+ 
 # New Features
 - ADDED AssemblyExtensions class in the Cuemon.Extensions.Data.Integrity namespace that consist of extension methods for the Assembly class: GetCacheValidator
 - ADDED ChecksumBuilderExtensions class in the Cuemon.Extensions.Data.Integrity namespace that consist of extension methods for the ChecksumBuilder class: CombineWith{T}

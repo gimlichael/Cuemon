@@ -772,5 +772,27 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
             if (IsTrue(condition)) { firstExpression(arg1, arg2, arg3, arg4, arg5); }
             if (IsFalse(condition)) { secondExpression(arg1, arg2, arg3, arg4, arg5); }
         }
+
+        /// <summary>
+        /// Invokes the delegate <paramref name="expression"/> when value of <paramref name="condition"/> is <c>true</c>.
+        /// </summary>
+        /// <param name="condition">When <c>true</c>, the <paramref name="expression"/> delegate is invoked.</param>
+        /// <param name="expression">The delegate that is invoked when <paramref name="condition"/> is <c>true</c>.</param>
+        public static void IsTrue(bool condition, Action expression)
+        {
+            Validator.ThrowIfNull(expression, nameof(expression));
+            if (IsTrue(condition)) { expression(); }
+        }
+
+        /// <summary>
+        /// Invokes the delegate <paramref name="expression"/> when value of <paramref name="condition"/> is <c>false</c>.
+        /// </summary>
+        /// <param name="condition">When <c>false</c>, the <paramref name="expression"/> delegate is invoked.</param>
+        /// <param name="expression">The delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
+        public static void IsFalse(bool condition, Action expression)
+        {
+            Validator.ThrowIfNull(expression, nameof(expression));
+            if (IsFalse(condition)) { expression(); }
+        }
     }
 }

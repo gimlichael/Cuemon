@@ -11,7 +11,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// </summary>
     public class HttpRequestEvidence
     {
-        internal HttpRequestEvidence(HttpRequest request, Func<Stream, string> bodyConverter = null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpRequestEvidence"/> class.
+        /// </summary>
+        /// <param name="request">The <see cref="HttpRequest"/> to provide evidence for.</param>
+        /// <param name="bodyConverter">The function delegate that determines the string result of a HTTP request body.</param>
+        public HttpRequestEvidence(HttpRequest request, Func<Stream, string> bodyConverter = null)
         {
             var hasMultipartContentType = request.GetMultipartBoundary().Length > 0;
             if (bodyConverter == null) { bodyConverter = body => hasMultipartContentType ? null : Decorator.Enclose(body).ToEncodedString(); }

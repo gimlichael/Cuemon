@@ -9,7 +9,7 @@
     <AssemblyName>Cuemon.Extensions.Newtonsoft.Json</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.Newtonsoft.Json</AssemblyTitle>
     <Description>The Cuemon.Extensions.Newtonsoft.Json namespace contains both types and extension methods that complements the Newtonsoft.Json namespace by adding new ways of working with JSON; both in terms of serialization and parsing.</Description>
-    <PackageTags>extension-methods extensions jdata jdata-result json-converter json-formatter dynamic-contract-resolver dynamic-json-converter</PackageTags>
+    <PackageTags>extension-methods extensions jdata jdata-result json-converter json-formatter dynamic-contract-resolver dynamic-json-converter write-object write-property-name</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,8 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Humanizer.Core" Version="2.8.26" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

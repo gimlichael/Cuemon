@@ -33,5 +33,4 @@ Complements: [Microsoft.AspNetCore.TestHost namespace](https://docs.microsoft.co
 
 |Type|Ext|Methods|
 |--:|:-:|---|
-|IApplicationBuilder|⬇️|`UseFakeHttpResponseTrigger`|
 |IServiceCollection|⬇️|`AddFakeHttpContextAccessor`|

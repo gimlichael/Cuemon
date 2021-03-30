@@ -56,7 +56,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
                     ConfigureServicesCallback(services);
                 });
 
-            HostBuilderCallback(hb);
+            ConfigureHostCallback(hb);
             
             Host = hb.Build();
         }
@@ -81,7 +81,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// Gets or sets the delegate that initializes the host builder.
         /// </summary>
         /// <value>The delegate that initializes the host builder.</value>
-        public Action<IHostBuilder> HostBuilderCallback { get; set; }
+        public Action<IHostBuilder> ConfigureHostCallback { get; set; }
 
         /// <summary>
         /// Gets or sets the delegate that adds services to the container.

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,14 +58,21 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddJsonSerializationFormatters();
+                    .AddJsonSerializationFormatters(o => o.Settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK"); // default ISO8601 (ToString("O")
             }))
             {
+                var wf = new WeatherForecast();
                 var formatter = new JsonFormatter(o => o.Settings.Formatting = Formatting.Indented);
-                var stream = formatter.Serialize(new WeatherForecast());
+                var stream = formatter.Serialize(wf);
                 var client = filter.Host.GetTestClient();
 
                 var result = await client.PostAsync("/fake", new StringContent(stream.ToEncodedString(), Encoding.UTF8, "application/json"));
+                var model = await result.Content.ReadAsStringAsync();
+
+                Assert.Contains($"\"date\": \"{wf.Date.ToString("O", CultureInfo.InvariantCulture)}\"", model);
+                Assert.Contains($"\"temperatureC\": {wf.TemperatureC}", model);
+                Assert.Contains($"\"temperatureF\": {wf.TemperatureF}", model);
+                Assert.Contains($"\"summary\": \"{wf.Summary}", model);
 
                 Assert.Equal(StatusCodes.Status201Created, (int)result.StatusCode);
                 Assert.Equal(HttpMethod.Post, result.RequestMessage.Method);

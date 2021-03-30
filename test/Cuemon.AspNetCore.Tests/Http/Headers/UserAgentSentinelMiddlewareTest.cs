@@ -4,6 +4,7 @@ using Cuemon.Extensions.AspNetCore.Http.Headers;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -25,7 +26,6 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
                 app.UseUserAgentSentinel();
-                app.UseFakeHttpResponseTrigger();
             }, services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
@@ -53,7 +53,6 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
                 app.UseUserAgentSentinel();
-                app.UseFakeHttpResponseTrigger();
             }, services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o =>
@@ -90,7 +89,6 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
                 app.UseUserAgentSentinel();
-                app.UseFakeHttpResponseTrigger();
             }, services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o =>
@@ -129,7 +127,11 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
                 app.UseUserAgentSentinel();
-                app.UseFakeHttpResponseTrigger();
+                app.Run(context =>
+                {
+                    context.Response.StatusCode = 200;
+                    return Task.CompletedTask;
+                });
             }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -149,7 +151,11 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
             {
                 app.UseUserAgentSentinel();
-                app.UseFakeHttpResponseTrigger();
+                app.Run(context =>
+                {
+                    context.Response.StatusCode = 200;
+                    return Task.CompletedTask;
+                });
             }, services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o =>

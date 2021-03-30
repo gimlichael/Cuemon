@@ -19,9 +19,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         /// <returns>An instance of an <see cref="IMvcFilterTest"/> implementation.</returns>
         public static IMvcFilterTest CreateMvcFilterTest(Action<IApplicationBuilder> pipelineSetup = null, Action<IServiceCollection> serviceSetup = null)
         {
-            pipelineSetup ??= app => app.UseFakeHttpResponseTrigger();
             serviceSetup ??= services => services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
-            return new MvcFilterAspNetCoreHostTest(pipelineSetup, serviceSetup, new AspNetCoreHostFixture());
+            return new MvcFilterAspNetCoreHostTest(pipelineSetup, serviceSetup);
         }
     }
 }
