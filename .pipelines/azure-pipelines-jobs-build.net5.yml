@@ -117,7 +117,7 @@
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
     displayName: 'WhiteSource Bolt'
 
-  - task: PublishPipelineArtifact@2
+  - task: PublishPipelineArtifact@1
     inputs:
       targetPath: '$(BuildSource)'
       artifactName: 'net5.0'

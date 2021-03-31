@@ -21,7 +21,7 @@
       arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netcoreapp3.0'
       workingDirectory: '$(BuildSource)'
 
-  - task: PublishPipelineArtifact@2
+  - task: PublishPipelineArtifact@1
     inputs:
       targetPath: '$(BuildSource)'
       artifactName: 'netcoreapp3.0'

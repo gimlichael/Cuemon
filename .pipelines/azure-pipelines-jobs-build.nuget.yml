@@ -11,7 +11,7 @@
       packagesToPack: src/**/*.csproj
       nobuild: true
 
-  - task: PublishPipelineArtifact@2
+  - task: PublishPipelineArtifact@1
     condition: succeeded()
     displayName: 'Store NuGet Packages'
     inputs:
