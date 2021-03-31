@@ -9,5 +9,5 @@
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
     inputs:
       pathtoPublish: $(Build.ArtifactStagingDirectory)/$(DotnetBuildName).zip
-      artifactName: '$(DotnetBuildName)'
+      artifactName: 'src'
       publishLocation: 'Container'
