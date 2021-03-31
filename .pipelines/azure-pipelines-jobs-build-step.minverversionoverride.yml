@@ -1,0 +1,14 @@
+﻿steps:
+  - script: |
+      export MINVERVERSIONOVERRIDE=$(minver)
+      echo $MINVERVERSIONOVERRIDE
+      echo "##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]$MINVERVERSIONOVERRIDE"
+    displayName: 'Set MINVERVERSIONOVERRIDE (for MinVer)'
+    condition: eq(variables['Agent.OS'], 'Linux')
+
+  - script: |
+      minver > v.txt
+      set /p MINVERVERSIONOVERRIDE=<v.txt
+      @echo ##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]%MINVERVERSIONOVERRIDE%
+    displayName: 'Set MINVERVERSIONOVERRIDE (for MinVer)'
+    condition: eq(variables['Agent.OS'], 'Windows_NT')

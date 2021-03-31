@@ -1,0 +1,5 @@
+﻿steps:
+  - task: UseDotNet@2
+    displayName: 'Use .Net Core SDK 5.0.201'
+    inputs:
+      version: 5.0.201
