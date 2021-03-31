@@ -1,5 +1,5 @@
 ﻿steps:
-  - task: DownloadBuildArtifacts@2
+  - task: DownloadBuildArtifacts@1
     inputs:
       downloadPath: '$(System.DefaultWorkingDirectory)'
 
