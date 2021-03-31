@@ -64,6 +64,11 @@
       - name: ArtifactPackageName
         value: 'Preview'
     steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
     - template: azure-pipelines-jobs-build-step.nuget.yml
       parameters:
         artifactPackages:

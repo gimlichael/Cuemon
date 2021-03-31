@@ -4,12 +4,6 @@
     default: {}
 
 steps:
-  - template: azure-pipelines-jobs-build-step.dotnet.yml
-  - template: azure-pipelines-jobs-build-step.minvertool.yml
-  - template: azure-pipelines-jobs-build-step.snk.yml
-  - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
-  - template: azure-pipelines-jobs-build-step.restore.yml
-
   - task: DownloadBuildArtifacts@0
     inputs:
       buildType: 'current'
@@ -19,14 +13,12 @@ steps:
 
   - ${{ each ap in parameters.ArtifactPackages }}:
     - task: ExtractFiles@1
-      displayName: 'Extracting {{ap}}.zip ..'
+      displayName: 'Extracting ${{ap}}.zip ..'
       inputs:
         archiveFilePatterns: '**/${{ap}}.zip'
         destinationFolder: '$(System.DefaultWorkingDirectory)'
         cleanDestinationFolder: false 
-        overwriteExistingFiles: false
-
-  - template: azure-pipelines-jobs-build-step.restore.yml
+        overwriteExistingFiles: true
 
   - task: DotNetCoreCLI@2
     condition: succeeded()
