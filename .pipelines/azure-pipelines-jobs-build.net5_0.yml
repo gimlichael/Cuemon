@@ -113,8 +113,4 @@
       dockerComposeCommand: "down"
       action: 'Run a Docker Compose command'
 
-  - task: WhiteSource Bolt@20
-    condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
-    displayName: 'WhiteSource Bolt'
-
   - template: azure-pipelines-jobs-build-step.artifact.yml
