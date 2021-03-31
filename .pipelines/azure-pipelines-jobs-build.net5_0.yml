@@ -1,8 +1,4 @@
-﻿variables:
-  - name: DotnetBuildName
-    value: 'net5.0'
-
-steps:
+﻿steps:
   - task: UseDotNet@2
     condition: eq(variables['Agent.OS'], 'Linux')
     displayName: 'Use .Net Core SDK 2.1.814 (SonarCloud - LTS)'

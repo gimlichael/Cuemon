@@ -1,8 +1,4 @@
-﻿variables:
-  - name: DotnetBuildName
-    value: 'netcoreapp3.0'
-
-steps:
+﻿steps:
   - template: azure-pipelines-jobs-build-step.dotnet.yml
 
   - template: azure-pipelines-jobs-build-step.minvertool.yml
