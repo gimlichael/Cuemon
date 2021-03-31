@@ -118,6 +118,7 @@
     displayName: 'WhiteSource Bolt'
 
   - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
     inputs:
       targetPath: '$(BuildSource)'
       artifactName: 'net5.0'

@@ -22,6 +22,7 @@
       workingDirectory: '$(BuildSource)'
 
   - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
     inputs:
       targetPath: '$(BuildSource)'
       artifactName: 'netstandard2.0'
