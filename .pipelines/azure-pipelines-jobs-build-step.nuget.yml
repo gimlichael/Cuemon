@@ -26,6 +26,7 @@ steps:
     inputs:
       command: pack
       packagesToPack: src/**/*.csproj
+      nobuild: true
 
   - task: PublishBuildArtifacts@1
     condition: succeeded()
