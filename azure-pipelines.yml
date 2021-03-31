@@ -31,3 +31,5 @@ stages:
     - template: .pipelines/azure-pipelines-stages.staging.yml
   - ${{ if endsWith(variables['build.sourceBranch'], 'master') }}:
     - template: .pipelines/azure-pipelines-stages.production.yml
+  - ${{ if endsWith(variables['build.sourceBranch'], 'azure-parallel-split') }}:
+    - template: .pipelines/azure-pipelines-stages.azure-parallel-split.yml
