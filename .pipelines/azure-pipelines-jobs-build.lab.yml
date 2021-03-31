@@ -2,14 +2,8 @@
   - job: BuildDotNet3_1
     displayName: 'Development branch (netcoreapp3.1, build)'
     timeoutInMinutes: 30
-    strategy:
-      matrix:
-        Linux_Build:
-          imageName: 'ubuntu-20.04'
-        Windows_Build_and_Package:
-          imageName: 'windows-2019'
     pool:
-      vmImage: $(imageName)
+      vmImage: 'windows-2019'
     variables:
       - name: DotnetBuildName
         value: 'netcoreapp3.1'
@@ -25,14 +19,8 @@
   - job: BuildDotNet3_0
     displayName: 'Development branch (netcoreapp3.0, build)'
     timeoutInMinutes: 30
-    strategy:
-      matrix:
-        Linux_Build:
-          imageName: 'ubuntu-20.04'
-        Windows_Build_and_Package:
-          imageName: 'windows-2019'
     pool:
-      vmImage: $(imageName)
+      vmImage: 'windows-2019'
     variables:
       - name: DotnetBuildName
         value: 'netcoreapp3.0'
@@ -48,14 +36,8 @@
   - job: BuildDotNet2_1
     displayName: 'Development branch (netstandard2.1, build)'
     timeoutInMinutes: 30
-    strategy:
-      matrix:
-        Linux_Build:
-          imageName: 'ubuntu-20.04'
-        Windows_Build_and_Package:
-          imageName: 'windows-2019'
     pool:
-      vmImage: $(imageName)
+      vmImage: 'windows-2019'
     variables:
       - name: DotnetBuildName
         value: 'netstandard2.1'
