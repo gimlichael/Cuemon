@@ -83,3 +83,8 @@
         value: 'Preview'
     steps:
     - template: azure-pipelines-jobs-build-step.nuget.yml
+      parameters:
+        artifactPackages:
+          - "netcoreapp3.1"
+          - "netcoreapp3.0"
+          - "netstandard2.1"

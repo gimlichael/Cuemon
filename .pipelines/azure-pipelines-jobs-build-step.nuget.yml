@@ -1,4 +1,9 @@
-﻿steps:
+﻿parameters:
+  - name: artifactPackages
+    type: object
+    default: {}
+
+steps:
   - task: DownloadBuildArtifacts@0
     inputs:
       buildType: 'current'
@@ -6,12 +11,13 @@
       artifactName: 'src'
       downloadPath: '$(System.DefaultWorkingDirectory)'
 
-  - task: ExtractFiles@1
-    inputs:
-      archiveFilePatterns: '**/*.zip'
-      destinationFolder: '$(System.DefaultWorkingDirectory)'
-      cleanDestinationFolder: false 
-      overwriteExistingFiles: false
+  - ${{ each ap in parameters.ArtifactPackages }}:
+    - task: ExtractFiles@1
+      inputs:
+        archiveFilePatterns: '**/${{ap}}.zip'
+        destinationFolder: '$(System.DefaultWorkingDirectory)'
+        cleanDestinationFolder: false 
+        overwriteExistingFiles: true
 
   - task: DotNetCoreCLI@2
     condition: succeeded()
