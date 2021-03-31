@@ -19,3 +19,8 @@
         src/**/Cuemon.Extensions.Xunit.App.csproj
       arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netcoreapp3.1'
       workingDirectory: '$(BuildSource)'
+
+  - task: PublishPipelineArtifact@2
+    inputs:
+      targetPath: '$(BuildSource)'
+      artifactName: 'netcoreapp3.1'

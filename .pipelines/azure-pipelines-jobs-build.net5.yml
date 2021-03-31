@@ -112,3 +112,12 @@
       dockerComposeFile: '**/docker-compose.yml'
       dockerComposeCommand: "down"
       action: 'Run a Docker Compose command'
+
+  - task: WhiteSource Bolt@20
+    condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
+    displayName: 'WhiteSource Bolt'
+
+  - task: PublishPipelineArtifact@2
+    inputs:
+      targetPath: '$(BuildSource)'
+      artifactName: 'net5.0'

@@ -18,3 +18,8 @@
         src/**/Cuemon.IO.csproj
       arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netstandard2.1'
       workingDirectory: '$(BuildSource)'
+
+  - task: PublishPipelineArtifact@2
+    inputs:
+      targetPath: '$(BuildSource)'
+      artifactName: 'netstandard2.1'

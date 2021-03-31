@@ -1,0 +1,19 @@
+﻿steps:
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      downloadPath: '$(System.DefaultWorkingDirectory)'
+
+  - task: DotNetCoreCLI@2
+    condition: succeeded()
+    displayName: dotnet pack
+    inputs:
+      command: pack
+      packagesToPack: src/**/*.csproj
+      nobuild: true
+
+  - task: PublishPipelineArtifact@2
+    condition: succeeded()
+    displayName: 'Store NuGet Packages'
+    inputs:
+      targetPath: $(Build.ArtifactStagingDirectory)
+      artifactName: 'Preview'
