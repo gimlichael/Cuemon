@@ -1,4 +1,8 @@
-﻿steps:
+﻿variables:
+  - name: DotnetBuildName
+    value: 'netstandard2.1'
+
+steps:
   - template: azure-pipelines-jobs-build-step.dotnet.yml
 
   - template: azure-pipelines-jobs-build-step.minvertool.yml
@@ -19,8 +23,4 @@
       arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netstandard2.1'
       workingDirectory: '$(BuildSource)'
 
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
-    inputs:
-      targetPath: '$(BuildSource)'
-      artifactName: 'netstandard2.1'
+  - template: azure-pipelines-jobs-build-step.artifact.yml

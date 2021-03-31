@@ -1,0 +1,11 @@
+﻿steps:
+  - task: ArchiveFiles@2
+    condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
+    rootFolderOrFile: '$(BuildSource)'
+    archiveFile: $(Build.ArtifactStagingDirectory)/$(DotnetBuildName).zip
+
+  - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
+    inputs:
+      targetPath: $(Build.ArtifactStagingDirectory)/$(DotnetBuildName).zip
+      artifactName: '$(DotnetBuildName)'

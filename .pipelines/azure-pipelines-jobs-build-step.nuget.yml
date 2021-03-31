@@ -3,6 +3,10 @@
     inputs:
       downloadPath: '$(System.DefaultWorkingDirectory)'
 
+  - task: ExtractFiles@1
+    inputs:
+      archiveFilePatterns: '**/*.zip' 
+
   - task: DotNetCoreCLI@2
     condition: succeeded()
     displayName: dotnet pack
@@ -13,7 +17,7 @@
 
   - task: PublishPipelineArtifact@1
     condition: succeeded()
-    displayName: 'Store NuGet Packages'
+    displayName: 'Store NuGet Packages - $(ArtifactPackageName)'
     inputs:
       targetPath: $(Build.ArtifactStagingDirectory)
-      artifactName: 'Preview'
+      artifactName: $(ArtifactPackageName)

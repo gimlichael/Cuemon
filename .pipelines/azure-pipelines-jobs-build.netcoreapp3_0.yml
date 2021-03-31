@@ -1,4 +1,8 @@
-﻿steps:
+﻿variables:
+  - name: DotnetBuildName
+    value: 'netcoreapp3.0'
+
+steps:
   - template: azure-pipelines-jobs-build-step.dotnet.yml
 
   - template: azure-pipelines-jobs-build-step.minvertool.yml
@@ -21,8 +25,4 @@
       arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netcoreapp3.0'
       workingDirectory: '$(BuildSource)'
 
-  - task: PublishPipelineArtifact@1
-    inputs:
-      condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
-      targetPath: '$(BuildSource)'
-      artifactName: 'netcoreapp3.0'
+  - template: azure-pipelines-jobs-build-step.artifact.yml

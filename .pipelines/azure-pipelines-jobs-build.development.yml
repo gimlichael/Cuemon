@@ -1,5 +1,5 @@
 ﻿jobs:
-  - job: DevelopmentBuildDotNet5
+  - job: DevelopmentBuildDotNet5_0
     displayName: 'Development branch (net5, build, test, code-coverage, code-analysis)'
     timeoutInMinutes: 180
     strategy:
@@ -11,11 +11,11 @@
     pool:
       vmImage: $(imageName)
     steps:
-    - template: azure-pipelines-jobs-build.net5.yml
+    - template: azure-pipelines-jobs-build.net5_0.yml
 
   - job: DevelopmentBuildDotNet3_1
     displayName: 'Development branch (netcoreapp3.1, build)'
-    timeoutInMinutes: 180
+    timeoutInMinutes: 30
     strategy:
       matrix:
         Linux_Build:
@@ -29,7 +29,7 @@
 
   - job: DevelopmentBuildDotNet3_0
     displayName: 'Development branch (netcoreapp3.0, build)'
-    timeoutInMinutes: 180
+    timeoutInMinutes: 30
     strategy:
       matrix:
         Linux_Build:
@@ -43,7 +43,7 @@
 
   - job: DevelopmentBuildDotNet2_1
     displayName: 'Development branch (netstandard2.1, build)'
-    timeoutInMinutes: 180
+    timeoutInMinutes: 30
     strategy:
       matrix:
         Linux_Build:
@@ -72,7 +72,7 @@
   - job: DevelopmentPublishBuildArtifacts
     condition: succeeded()
     dependsOn:
-    - DevelopmentBuildDotNet5
+    - DevelopmentBuildDotNet5_0
     - DevelopmentBuildDotNet3_1
     - DevelopmentBuildDotNet3_0
     - DevelopmentBuildDotNet2_1
@@ -81,5 +81,8 @@
     timeoutInMinutes: 15
     pool:
       vmImage: $(imageName)
+    variables:
+      - name: ArtifactPackageName
+        value: 'Preview'
     steps:
-    - template: azure-pipelines-jobs-build.nuget.yml
+    - template: azure-pipelines-jobs-build-step.nuget.yml
