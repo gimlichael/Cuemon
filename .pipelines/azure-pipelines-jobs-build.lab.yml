@@ -71,11 +71,9 @@
   - job: PublishBuildArtifacts
     condition: succeeded()
     dependsOn:
-    - BuildDotNet5_0
     - BuildDotNet3_1
     - BuildDotNet3_0
     - BuildDotNet2_1
-    - BuildDotNet2_0
     displayName: 'Store NuGet Packages for Preview'
     timeoutInMinutes: 15
     pool:
