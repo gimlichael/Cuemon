@@ -23,5 +23,6 @@
 
   - task: PublishPipelineArtifact@1
     inputs:
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
       targetPath: '$(BuildSource)'
       artifactName: 'netcoreapp3.0'

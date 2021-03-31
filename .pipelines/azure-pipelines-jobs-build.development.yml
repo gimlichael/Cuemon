@@ -9,7 +9,7 @@
         Windows_Build_Test_and_Package:
           imageName: 'windows-2019'
     pool:
-      name: $(imageName)
+      vmImage: $(imageName)
     steps:
     - template: azure-pipelines-jobs-build.net5.yml
 
@@ -23,7 +23,7 @@
         Windows_Build_and_Package:
           imageName: 'windows-2019'
     pool:
-      name: $(imageName)
+      vmImage: $(imageName)
     steps:
     - template: azure-pipelines-jobs-build.netcoreapp3_1.yml
 
@@ -37,7 +37,7 @@
         Windows_Build_and_Package:
           imageName: 'windows-2019'
     pool:
-      name: $(imageName)
+      vmImage: $(imageName)
     steps:
     - template: azure-pipelines-jobs-build.netcoreapp3_0.yml
 
@@ -51,7 +51,7 @@
         Windows_Build_and_Package:
           imageName: 'windows-2019'
     pool:
-      name: $(imageName)
+      vmImage: $(imageName)
     steps:
     - template: azure-pipelines-jobs-build.netstandard2_1.yml
 
@@ -65,7 +65,7 @@
         Windows_Build_and_Package:
           imageName: 'windows-2019'
     pool:
-      name: $(imageName)
+      vmImage: $(imageName)
     steps:
     - template: azure-pipelines-jobs-build.netstandard2_0.yml
 
@@ -80,6 +80,6 @@
     displayName: 'Store NuGet Packages for Preview'
     timeoutInMinutes: 15
     pool:
-      name: 'windows-2019'
+      vmImage: $(imageName)
     steps:
     - template: azure-pipelines-jobs-build.nuget.yml
