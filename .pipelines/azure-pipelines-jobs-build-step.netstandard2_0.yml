@@ -1,14 +1,4 @@
 ﻿steps:
-  - template: azure-pipelines-jobs-build-step.dotnet.yml
-
-  - template: azure-pipelines-jobs-build-step.minvertool.yml
-
-  - template: azure-pipelines-jobs-build-step.snk.yml
-
-  - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
-
-  - template: azure-pipelines-jobs-build-step.restore.yml
-
   - task: DotNetCoreCLI@2
     displayName: 'Build netstandard2.0 compatible Assemblies'
     inputs:
@@ -20,5 +10,3 @@
         !src/**/Cuemon.Extensions.Xunit.App.csproj
       arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netstandard2.0'
       workingDirectory: '$(BuildSource)'
-
-  - template: azure-pipelines-jobs-build-step.artifact.yml

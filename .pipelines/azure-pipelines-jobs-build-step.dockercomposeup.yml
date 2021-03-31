@@ -1,0 +1,11 @@
+﻿steps:
+  - task: DockerCompose@0
+    condition: eq(variables['Agent.OS'], 'Linux')
+    displayName: 'Spin up SQL Server for unit/integration test'
+    inputs:
+      containerregistrytype: 'Container Registry'
+      dockerComposeFile: '**/docker-compose.yml'
+      dockerComposeFileArgs: |
+        SA_PASSWORD=$(awsql-password)
+      dockerComposeCommand: "up -d"
+      action: 'Run a Docker Compose command'

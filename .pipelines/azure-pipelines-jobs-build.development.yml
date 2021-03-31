@@ -1,5 +1,5 @@
 ﻿jobs:
-  - job: DevelopmentBuildDotNet5_0
+  - job: BuildDotNet5_0
     displayName: 'Development branch (net5, build, test, code-coverage, code-analysis)'
     timeoutInMinutes: 180
     strategy:
@@ -14,9 +14,22 @@
       - name: DotnetBuildName
         value: 'net5.0'
     steps:
-    - template: azure-pipelines-jobs-build.net5_0.yml
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.reportgenerator.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposeup.yml
+    - template: azure-pipelines-jobs-build-step.sonarcloudprepare.yml
+    - template: azure-pipelines-jobs-build-step.net5_0.yml
+    - template: azure-pipelines-jobs-build-step.unittest.yml
+    - template: azure-pipelines-jobs-build-step.codecov.yml
+    - template: azure-pipelines-jobs-build-step.sonarcloudfinalize.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposedown.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-  - job: DevelopmentBuildDotNet3_1
+  - job: BuildDotNet3_1
     displayName: 'Development branch (netcoreapp3.1, build)'
     timeoutInMinutes: 30
     strategy:
@@ -31,9 +44,15 @@
       - name: DotnetBuildName
         value: 'netcoreapp3.1'
     steps:
-    - template: azure-pipelines-jobs-build.netcoreapp3_1.yml
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netcoreapp3_1.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-  - job: DevelopmentBuildDotNet3_0
+  - job: BuildDotNet3_0
     displayName: 'Development branch (netcoreapp3.0, build)'
     timeoutInMinutes: 30
     strategy:
@@ -48,9 +67,15 @@
       - name: DotnetBuildName
         value: 'netcoreapp3.0'
     steps:
-    - template: azure-pipelines-jobs-build.netcoreapp3_0.yml
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netcoreapp3_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-  - job: DevelopmentBuildDotNet2_1
+  - job: BuildDotNet2_1
     displayName: 'Development branch (netstandard2.1, build)'
     timeoutInMinutes: 30
     strategy:
@@ -65,9 +90,15 @@
       - name: DotnetBuildName
         value: 'netstandard2.1'
     steps:
-    - template: azure-pipelines-jobs-build.netstandard2_1.yml
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netstandard2_1.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-  - job: DevelopmentBuildDotNet2_0
+  - job: BuildDotNet2_0
     displayName: 'Development branch (netstandard2.0, build)'
     timeoutInMinutes: 30
     strategy:
@@ -82,20 +113,26 @@
       - name: DotnetBuildName
         value: 'netstandard2.0'
     steps:
-    - template: azure-pipelines-jobs-build.netstandard2_0.yml
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netstandard2_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-  - job: DevelopmentPublishBuildArtifacts
+  - job: PublishBuildArtifacts
     condition: succeeded()
     dependsOn:
-    - DevelopmentBuildDotNet5_0
-    - DevelopmentBuildDotNet3_1
-    - DevelopmentBuildDotNet3_0
-    - DevelopmentBuildDotNet2_1
-    - DevelopmentBuildDotNet2_0
+    - BuildDotNet5_0
+    - BuildDotNet3_1
+    - BuildDotNet3_0
+    - BuildDotNet2_1
+    - BuildDotNet2_0
     displayName: 'Store NuGet Packages for Preview'
     timeoutInMinutes: 15
     pool:
-      vmImage: $(imageName)
+      vmImage: 'windows-2019'
     variables:
       - name: ArtifactPackageName
         value: 'Preview'
