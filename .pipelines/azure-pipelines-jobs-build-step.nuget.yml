@@ -1,5 +1,5 @@
 ﻿steps:
-  - task: DownloadPipelineArtifact@2
+  - task: DownloadBuildArtifacts@2
     inputs:
       downloadPath: '$(System.DefaultWorkingDirectory)'
 
@@ -15,9 +15,10 @@
       packagesToPack: src/**/*.csproj
       nobuild: true
 
-  - task: PublishPipelineArtifact@1
+  - task: PublishBuildArtifacts@1
     condition: succeeded()
     displayName: 'Store NuGet Packages - $(ArtifactPackageName)'
     inputs:
-      targetPath: $(Build.ArtifactStagingDirectory)
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
       artifactName: $(ArtifactPackageName)
+      publishLocation: 'Container'

@@ -5,8 +5,9 @@
       rootFolderOrFile: '$(BuildSource)'
       archiveFile: $(Build.ArtifactStagingDirectory)/$(DotnetBuildName).zip
 
-  - task: PublishPipelineArtifact@1
+  - task: PublishBuildArtifacts@1
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
     inputs:
-      targetPath: $(Build.ArtifactStagingDirectory)/$(DotnetBuildName).zip
+      pathtoPublish: $(Build.ArtifactStagingDirectory)/$(DotnetBuildName).zip
       artifactName: '$(DotnetBuildName)'
+      publishLocation: 'Container'
