@@ -9,7 +9,7 @@
       - name: BuildConfiguration
         value: 'Debug'
     jobs:
-    - template: azure-pipelines-jobs-build.azure-parallel-split.yml
+    - template: azure-pipelines-jobs-build.lab.yml
 
   - stage: UpdateBuildNumber
     displayName: 'Updating BUILD_BUILDNUMBER for development branch'

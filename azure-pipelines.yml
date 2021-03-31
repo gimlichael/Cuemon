@@ -16,8 +16,6 @@ trigger:
     - LICENSE.md
     - README.md
 
-pr: none
-
 variables:
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
     value: true
@@ -32,4 +30,4 @@ stages:
   - ${{ if endsWith(variables['build.sourceBranch'], 'master') }}:
     - template: .pipelines/azure-pipelines-stages.production.yml
   - ${{ if endsWith(variables['build.sourceBranch'], 'azure-parallel-split') }}:
-    - template: .pipelines/azure-pipelines-stages.azure-parallel-split.yml
+    - template: .pipelines/azure-pipelines-stages.lab.yml
