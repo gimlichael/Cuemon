@@ -54,7 +54,6 @@
       displayName: 'Set MINVERVERSIONOVERRIDE (for MinVer)'
       condition: eq(variables['Agent.OS'], 'Linux')
 
-
     - script: |
         minver > v.txt
         set /p MINVERVERSIONOVERRIDE=<v.txt
@@ -83,7 +82,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build net5.0 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/*.csproj
         arguments: '--configuration $(BuildConfiguration) --no-restore --framework net5.0'
@@ -92,7 +91,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build netcoreapp3.1 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
           src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
@@ -103,7 +102,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build netcoreapp3.0 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/Cuemon.AspNetCore*.csproj
           src/**/Cuemon.Extensions.AspNetCore*.csproj
@@ -115,7 +114,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build netstandard2.1 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/Cuemon.Extensions.IO.csproj
           src/**/Cuemon.IO.csproj
@@ -125,7 +124,7 @@
     - task: DotNetCoreCLI@2
       displayName: 'Build netstandard2.0 compatible Assemblies'
       inputs:
-        command: 'build'
+        command: build
         projects: |
           src/**/*.csproj
           !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
@@ -136,7 +135,7 @@
 
     - task: DotNetCoreCLI@2
       displayName: 'Test Solution - Linux'
-      condition: eq(variables['Agent.OS'], 'Linux')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
       inputs:
         command: 'test'
         projects: test/**/*.csproj
@@ -147,30 +146,19 @@
 
     - task: DotNetCoreCLI@2
       displayName: 'Test Solution - Windows'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
       inputs:
         command: 'test'
         projects: test/**/*.csproj
         arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
         publishTestResults: true
 
-    - script: |
-        echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
-      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
-      condition: eq(variables['Agent.OS'], 'Linux')
-
-
-    - script: |
-        @echo ##vso[build.updatebuildnumber]%MINVERVERSIONOVERRIDE%
-      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-
     - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-      condition: eq(variables['Agent.OS'], 'Linux')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
       displayName: 'Create Code Coverage Reports'
 
     - task: PublishCodeCoverageResults@1
-      condition: eq(variables['Agent.OS'], 'Linux')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
       displayName: 'Publish Code Coverage'
       inputs:
         codeCoverageTool: Cobertura
@@ -187,7 +175,7 @@
         action: 'Run a Docker Compose command'
 
     - task: DotNetCoreCLI@2
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
       displayName: dotnet pack
       inputs:
         command: pack
@@ -195,7 +183,7 @@
         nobuild: true
 
     - task: PublishBuildArtifacts@1
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
       displayName: 'Store NuGet Packages'
       inputs:
         PathtoPublish: $(Build.ArtifactStagingDirectory)

@@ -11,10 +11,17 @@
     jobs:
     - template: azure-pipelines-jobs-build.production.yml
 
+  - stage: UpdateBuildNumber
+    displayName: 'Updating BUILD_BUILDNUMBER for master branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'master'))
+    dependsOn: BuildRelease
+    jobs:
+    - template: azure-pipelines-jobs-finalization.yml
+
   - stage: DeployMaster
     displayName: 'Deployment for master branch'
     condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'master'))
-    dependsOn: BuildMaster
+    dependsOn: UpdateBuildNumber
     variables:
     - group: BuildSecrets
     jobs:

@@ -60,7 +60,6 @@
       displayName: 'Set MINVERVERSIONOVERRIDE (for MinVer)'
       condition: eq(variables['Agent.OS'], 'Linux')
 
-
     - script: |
         minver > v.txt
         set /p MINVERVERSIONOVERRIDE=<v.txt
@@ -159,7 +158,7 @@
 
     - task: DotNetCoreCLI@2
       displayName: 'Test Solution - Linux'
-      condition: eq(variables['Agent.OS'], 'Linux')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
       inputs:
         command: test
         projects: test/**/*.csproj
@@ -170,30 +169,19 @@
 
     - task: DotNetCoreCLI@2
       displayName: 'Test Solution - Windows'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
       inputs:
         command: test
         projects: test/**/*.csproj
         arguments: '--configuration $(BuildConfiguration) --verbosity quiet --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
         publishTestResults: true
 
-    - script: |
-        echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
-      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
-      condition: eq(variables['Agent.OS'], 'Linux')
-
-
-    - script: |
-        @echo ##vso[build.updatebuildnumber]%MINVERVERSIONOVERRIDE%
-      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-
     - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-      condition: eq(variables['Agent.OS'], 'Linux')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
       displayName: 'Create Code Coverage Reports'
 
     - task: PublishCodeCoverageResults@1
-      condition: eq(variables['Agent.OS'], 'Linux')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
       displayName: 'Publish Code Coverage'
       inputs:
         codeCoverageTool: Cobertura
@@ -201,15 +189,15 @@
         reportDirectory: '$(Build.SourcesDirectory)/Coverage'
 
     - bash: bash <(curl -s https://codecov.io/bash)
-      condition: eq(variables['Agent.OS'], 'Linux')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
       displayName: 'Upload to codecov.io'
 
     - task: SonarCloudAnalyze@1
-      condition: eq(variables['Agent.OS'], 'Linux')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
       displayName: 'Run Sonar Cloud Code Analysis'
 
     - task: SonarCloudPublish@1
-      condition: eq(variables['Agent.OS'], 'Linux')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
       displayName: 'Publish Quality Gate Result to Sonar Cloud'
       inputs:
         pollingTimeoutSec: '300'
@@ -224,7 +212,7 @@
         action: 'Run a Docker Compose command'
 
     - task: DotNetCoreCLI@2
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
       displayName: dotnet pack
       inputs:
         command: pack
@@ -232,11 +220,11 @@
         nobuild: true
 
     - task: WhiteSource Bolt@20
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
       displayName: 'WhiteSource Bolt'
 
     - task: PublishBuildArtifacts@1
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
+      condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
       displayName: 'Store NuGet Packages'
       inputs:
         PathtoPublish: $(Build.ArtifactStagingDirectory)
