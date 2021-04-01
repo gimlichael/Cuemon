@@ -14,7 +14,7 @@
   - stage: UpdateBuildNumber
     displayName: 'Updating BUILD_BUILDNUMBER for master branch'
     condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'master'))
-    dependsOn: BuildRelease
+    dependsOn: BuildMaster
     jobs:
     - template: azure-pipelines-jobs-finalization.yml
 
