@@ -1,7 +1,7 @@
 ﻿jobs:
   - job: BuildDotNet5_0
     displayName: 'Development branch (net5, build, test, code-coverage, code-analysis)'
-    timeoutInMinutes: 180
+    timeoutInMinutes: 120
     strategy:
       matrix:
         Linux_Build_and_Test:
@@ -130,11 +130,20 @@
     - BuildDotNet2_1
     - BuildDotNet2_0
     displayName: 'Store NuGet Packages for Preview'
-    timeoutInMinutes: 15
+    timeoutInMinutes: 30
     pool:
       vmImage: 'windows-2019'
     variables:
       - name: ArtifactPackageName
         value: 'Preview'
     steps:
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
     - template: azure-pipelines-jobs-build-step.nuget.yml
+      parameters:
+        artifactPackages:
+          - "net5.0"
+          - "netcoreapp3.1"
+          - "netcoreapp3.0"
+          - "netstandard2.1"
+          - "netstandard2.0"

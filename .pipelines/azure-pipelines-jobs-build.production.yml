@@ -93,11 +93,20 @@
     - BuildDotNet2_1
     - BuildDotNet2_0
     displayName: 'Store NuGet Packages for Production'
-    timeoutInMinutes: 15
+    timeoutInMinutes: 30
     pool:
       vmImage: 'windows-2019'
     variables:
       - name: ArtifactPackageName
         value: 'Production'
     steps:
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
     - template: azure-pipelines-jobs-build-step.nuget.yml
+      parameters:
+        artifactPackages:
+          - "net5.0"
+          - "netcoreapp3.1"
+          - "netcoreapp3.0"
+          - "netstandard2.1"
+          - "netstandard2.0"
