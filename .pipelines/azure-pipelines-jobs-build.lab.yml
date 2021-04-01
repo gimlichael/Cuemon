@@ -1,4 +1,21 @@
 ﻿jobs:
+  - job: BuildDotNet5_0
+    displayName: 'Development branch (net5, build, test, code-coverage, code-analysis)'
+    timeoutInMinutes: 90
+    pool:
+      vmImage: 'windows-2019'
+    variables:
+      - name: DotnetBuildName
+        value: 'net5.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.net5_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
+
   - job: BuildDotNet3_1
     displayName: 'Development branch (netcoreapp3.1, build)'
     timeoutInMinutes: 30
@@ -50,12 +67,37 @@
     - template: azure-pipelines-jobs-build-step.netstandard2_1.yml
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
+  - job: BuildDotNet2_0
+    displayName: 'Development branch (netstandard2.0, build)'
+    timeoutInMinutes: 30
+    strategy:
+      matrix:
+        Linux_Build:
+          imageName: 'ubuntu-20.04'
+        Windows_Build_and_Package:
+          imageName: 'windows-2019'
+    pool:
+      vmImage: $(imageName)
+    variables:
+      - name: DotnetBuildName
+        value: 'netstandard2.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netstandard2_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
+
   - job: PublishBuildArtifacts
     condition: succeeded()
     dependsOn:
+    - BuildDotNet5_0
     - BuildDotNet3_1
     - BuildDotNet3_0
     - BuildDotNet2_1
+    - BuildDotNet2_0
     displayName: 'Store NuGet Packages for Preview'
     timeoutInMinutes: 15
     pool:
