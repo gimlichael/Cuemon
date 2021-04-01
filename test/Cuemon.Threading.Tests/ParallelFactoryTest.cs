@@ -95,13 +95,13 @@ namespace Cuemon.Threading
         public void For_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = short.MaxValue;
+            var count = 16384;
             var expected = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
             ParallelFactory.For(0, count, i =>
             {
-                Thread.Sleep(1);
+                Thread.Sleep(5);
                 cb.Add(i);
             }, o =>
             {
@@ -188,12 +188,12 @@ namespace Cuemon.Threading
         public void ForResult_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = short.MaxValue;
+            var count = 16384;
             var cb = new ConcurrentBag<int>();
 
             var result = ParallelFactory.ForResult(0, count, i =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(5);
                 cb.Add(i);
                 return i;
             }, o =>
@@ -281,13 +281,13 @@ namespace Cuemon.Threading
         public void ForEach_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = short.MaxValue;
+            var count = 16384;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
             ParallelFactory.ForEach(ic, i =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(5);
                 cb.Add(i);
             }, o =>
             {
@@ -377,13 +377,13 @@ namespace Cuemon.Threading
         public void ForEachResult_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = short.MaxValue;
+            var count = 16384;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
             var result = ParallelFactory.ForEachResult(ic, i =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(5);
                 cb.Add(i);
                 return i;
             }, o =>
@@ -473,14 +473,14 @@ namespace Cuemon.Threading
         public void While_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = short.MaxValue;
+            var count = 16384;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
             var cb = new ConcurrentBag<int>();
 
             AdvancedParallelFactory.While(ic, () => ic.TryPeek(out _), intProvider => intProvider.Dequeue(), i =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(5);
                 cb.Add(i);
             }, o =>
             {
@@ -573,14 +573,14 @@ namespace Cuemon.Threading
         public void WhileResult_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = short.MaxValue;
+            var count = 16384;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
             var cb = new ConcurrentBag<int>();
 
             var result = AdvancedParallelFactory.WhileResult(ic, () => ic.TryPeek(out _), intProvider => intProvider.Dequeue(), i =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(5);
                 cb.Add(i);
                 return i;
             }, o =>
@@ -593,6 +593,6 @@ namespace Cuemon.Threading
             Assert.True(result.SequenceEqual(cb.OrderBy(i => i)), "result.SequenceEqual(cb.OrderBy(i => i))");
         }
 
-        private static int MaxThreadCount => IsLinux ? 512 : 4096;
+        private static int MaxThreadCount => IsLinux ? 1024 : 4096;
     }
 }

@@ -1,0 +1,5 @@
+﻿steps:
+  - script: |
+      echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
+    displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
+    condition: eq(variables['Agent.OS'], 'Linux')

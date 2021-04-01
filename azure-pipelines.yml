@@ -16,8 +16,6 @@ trigger:
     - LICENSE.md
     - README.md
 
-pr: none
-
 variables:
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
     value: true

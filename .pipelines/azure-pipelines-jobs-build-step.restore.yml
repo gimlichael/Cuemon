@@ -1,0 +1,9 @@
+﻿steps:
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      command: custom
+      custom: restore
+      projects: |
+        **/*.csproj
+      arguments: '--verbosity quiet'

@@ -1,0 +1,12 @@
+﻿steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Build netstandard2.0 compatible Assemblies'
+    inputs:
+      command: build
+      projects: |
+        src/**/*.csproj
+        !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
+        !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
+        !src/**/Cuemon.Extensions.Xunit.App.csproj
+      arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netstandard2.0'
+      workingDirectory: '$(BuildSource)'

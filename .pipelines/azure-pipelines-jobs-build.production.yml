@@ -1,70 +1,112 @@
 ﻿jobs:
-  - job: 'Production'
-    displayName: 'Master branch (build)'
+  - job: BuildDotNet5_0
+    displayName: 'Release branch (build)'
     timeoutInMinutes: 60
-
     pool:
       vmImage: 'windows-2019'
-
+    variables:
+      - name: DotnetBuildName
+        value: 'net5.0'
     steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.net5_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 5.0.201'
-      inputs:
-        version: 5.0.201
+  - job: BuildDotNet3_1
+    displayName: 'Release branch (netcoreapp3.1, build)'
+    timeoutInMinutes: 30
+    pool:
+      vmImage: 'windows-2019'
+    variables:
+      - name: DotnetBuildName
+        value: 'netcoreapp3.1'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netcoreapp3_1.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Install MinVer tool'
-      inputs:
-        command: custom
-        custom: tool
-        arguments: 'install --global minver-cli'
+  - job: BuildDotNet3_0
+    displayName: 'Release branch (netcoreapp3.0, build)'
+    timeoutInMinutes: 30
+    pool:
+      vmImage: 'windows-2019'
+    variables:
+      - name: DotnetBuildName
+        value: 'netcoreapp3.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netcoreapp3_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - task: DownloadSecureFile@1
-      displayName: 'Download cuemon.snk'
-      inputs:
-        secureFile: 'cuemon.snk'
+  - job: BuildDotNet2_1
+    displayName: 'Release branch (netstandard2.1, build)'
+    timeoutInMinutes: 30
+    pool:
+      vmImage: 'windows-2019'
+    variables:
+      - name: DotnetBuildName
+        value: 'netstandard2.1'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netstandard2_1.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - task: CopyFiles@2
-      displayName: 'Copy cuemon.snk to $(System.DefaultWorkingDirectory)'
-      inputs:
-        SourceFolder: '$(Agent.TempDirectory)'
-        Contents: cuemon.snk
-        TargetFolder: '$(System.DefaultWorkingDirectory)'
+  - job: BuildDotNet2_0
+    displayName: 'Release branch (netstandard2.0, build)'
+    timeoutInMinutes: 30
+    pool:
+      vmImage: 'windows-2019'
+    variables:
+      - name: DotnetBuildName
+        value: 'netstandard2.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netstandard2_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - script: |
-        minver > v.txt
-        set /p MINVERVERSIONOVERRIDE=<v.txt
-        @echo ##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]%MINVERVERSIONOVERRIDE%
-      displayName: 'Set MINVERVERSIONOVERRIDE (for MinVer)'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-
-    - task: DotNetCoreCLI@2
-      displayName: Restore
-      inputs:
-        command: restore
-        projects: |
-          **/*.csproj
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Build Assemblies'
-      inputs:
-        command: build
-        projects: |
-          src/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --no-restore --framework net5.0'
-        workingDirectory: '$(BuildSource)'
-
-    - task: DotNetCoreCLI@2
-      displayName: dotnet pack
-      inputs:
-        command: pack
-        packagesToPack: src/**/*.csproj
-        nobuild: true
-
-    - task: PublishBuildArtifacts@1
-      displayName: 'Store NuGet Packages'
-      inputs:
-        PathtoPublish: $(Build.ArtifactStagingDirectory)
-        ArtifactName: Production
-        publishLocation: Container
+  - job: PublishBuildArtifacts
+    condition: succeeded()
+    dependsOn:
+    - BuildDotNet5_0
+    - BuildDotNet3_1
+    - BuildDotNet3_0
+    - BuildDotNet2_1
+    - BuildDotNet2_0
+    displayName: 'Store NuGet Packages for Production'
+    timeoutInMinutes: 30
+    pool:
+      vmImage: 'windows-2019'
+    variables:
+      - name: ArtifactPackageName
+        value: 'Production'
+    steps:
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.nuget.yml
+      parameters:
+        artifactPackages:
+          - "net5.0"
+          - "netcoreapp3.1"
+          - "netcoreapp3.0"
+          - "netstandard2.1"
+          - "netstandard2.0"
