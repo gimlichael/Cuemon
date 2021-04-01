@@ -26,7 +26,7 @@ steps:
         dotnet restore
         dotnet pack --no-build
     displayName: 'Generate NuGet Packages'
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    workingDirectory: '$(System.DefaultWorkingDirectory)\src\s'
 
   # - task: DotNetCoreCLI@2
   #   condition: succeeded()
