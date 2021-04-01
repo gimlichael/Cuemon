@@ -19,7 +19,7 @@ steps:
 
   - pwsh: |
         dotnet restore
-        dotnet pack --no-build --output $(Build.ArtifactStagingDirectory)
+        dotnet pack --configuration $(BuildConfiguration) --no-build --output $(Build.ArtifactStagingDirectory)
     displayName: 'Generate NuGet Packages'
     workingDirectory: '$(System.DefaultWorkingDirectory)\src\s'
 

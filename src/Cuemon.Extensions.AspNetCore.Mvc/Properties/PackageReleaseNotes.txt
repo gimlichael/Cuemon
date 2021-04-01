@@ -3,6 +3,7 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
  
 # Breaking Changes
 - RENAMED ToCacheableObjectResult{T} --> MakeCacheable{T} on the CacheableObjectResultExtensions class in the Cuemon.Extensions.AspNetCore.Mvc namespace (also included a non-generic variant: MakeCacheable)
+- REMOVED ApplicationBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc namespace
  
 # New Features
 - ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Configuration namespace that consist of extension methods for the IServiceCollection interface: AddAssemblyCacheBusting, AddDynamicCacheBusting, AddCacheBusting{T}

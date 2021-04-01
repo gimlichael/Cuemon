@@ -10,3 +10,10 @@
         value: 'Release'
     jobs:
     - template: azure-pipelines-jobs-build.pullrequest.yml
+
+  - stage: UpdateBuildNumber
+    displayName: 'Updating BUILD_BUILDNUMBER for development branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'development'))
+    dependsOn: BuildDevelopment
+    jobs:
+    - template: azure-pipelines-jobs-finalization.yml
