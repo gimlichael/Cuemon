@@ -12,13 +12,15 @@ steps:
       downloadPath: '$(System.DefaultWorkingDirectory)'
 
   - ${{ each ap in parameters.ArtifactPackages }}:
-    - task: ExtractFiles@1
-      displayName: 'Extracting ${{ap}}.zip ..'
-      inputs:
-        archiveFilePatterns: '**/${{ap}}.zip'
-        destinationFolder: '$(System.DefaultWorkingDirectory)'
-        cleanDestinationFolder: false 
-        overwriteExistingFiles: true
+    - pwsh: |
+          Expand-Archive '$(System.DefaultWorkingDirectory)\src\${{ap}}.zip' '$(System.DefaultWorkingDirectory)\src' -Force
+    # - task: ExtractFiles@1
+    #   displayName: 'Extracting ${{ap}}.zip ..'
+    #   inputs:
+    #     archiveFilePatterns: '**/${{ap}}.zip'
+    #     destinationFolder: '$(System.DefaultWorkingDirectory)'
+    #     cleanDestinationFolder: false 
+    #     overwriteExistingFiles: true
 
   - pwsh: |
         dotnet restore
