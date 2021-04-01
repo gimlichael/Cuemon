@@ -2,7 +2,7 @@
   - task: ArchiveFiles@2
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
     inputs:
-      rootFolderOrFile: '$(BuildSource)'
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
       includeRootFolder: true
       archiveFile: $(Build.ArtifactStagingDirectory)/$(DotnetBuildName).zip
 
