@@ -16,18 +16,17 @@ steps:
       displayName: 'Extracting ${{ap}}.zip ..'
       inputs:
         archiveFilePatterns: '**/${{ap}}.zip'
-        destinationFolder: '$(System.DefaultWorkingDirectory)'
+        destinationFolder: '$(System.DefaultWorkingDirectory)\src'
         cleanDestinationFolder: false 
         overwriteExistingFiles: true
 
   - task: DotNetCoreCLI@2
-    displayName: 'Restore NuGet Dependencies'
+    condition: succeeded()
+    displayName: 'Restore Dependencies'
     inputs:
-      command: custom
-      custom: restore
+      command: restore
       projects: |
         src/**/*.csproj
-      arguments: '--verbosity quiet'
 
   - task: DotNetCoreCLI@2
     condition: succeeded()
