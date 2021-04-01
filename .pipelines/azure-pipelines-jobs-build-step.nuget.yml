@@ -20,21 +20,27 @@ steps:
         cleanDestinationFolder: false 
         overwriteExistingFiles: true
 
-  - task: DotNetCoreCLI@2
-    condition: succeeded()
-    displayName: 'Restore Dependencies'
-    inputs:
-      command: restore
-      projects: |
-        src/**/*.csproj
-
-  - task: DotNetCoreCLI@2
-    condition: succeeded()
+  - pwsh: |
+        dotnet restore
+        dotnet pack --no-build
     displayName: 'Generate NuGet Packages'
-    inputs:
-      command: pack
-      packagesToPack: src/**/*.csproj
-      nobuild: true
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+  # - task: DotNetCoreCLI@2
+  #   condition: succeeded()
+  #   displayName: 'Restore Dependencies'
+  #   inputs:
+  #     command: restore
+  #     projects: |
+  #       src/**/*.csproj
+
+  # - task: DotNetCoreCLI@2
+  #   condition: succeeded()
+  #   displayName: 'Generate NuGet Packages'
+  #   inputs:
+  #     command: pack
+  #     packagesToPack: src/**/*.csproj
+  #     nobuild: true
 
   - task: PublishBuildArtifacts@1
     condition: succeeded()
