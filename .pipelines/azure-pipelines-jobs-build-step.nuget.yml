@@ -16,7 +16,7 @@ steps:
       displayName: 'Extracting ${{ap}}.zip ..'
       inputs:
         archiveFilePatterns: '**/${{ap}}.zip'
-        destinationFolder: '$(System.DefaultWorkingDirectory)\src'
+        destinationFolder: '$(System.DefaultWorkingDirectory)'
         cleanDestinationFolder: false 
         overwriteExistingFiles: true
 
