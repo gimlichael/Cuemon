@@ -15,35 +15,12 @@ steps:
     - pwsh: |
           Expand-Archive '$(System.DefaultWorkingDirectory)\src\${{ap}}.zip' '$(System.DefaultWorkingDirectory)\src' -Force
       displayName: 'Extracting ${{ap}}.zip ..'
-    # - task: ExtractFiles@1
-    #   displayName: 'Extracting ${{ap}}.zip ..'
-    #   inputs:
-    #     archiveFilePatterns: '**/${{ap}}.zip'
-    #     destinationFolder: '$(System.DefaultWorkingDirectory)'
-    #     cleanDestinationFolder: false 
-    #     overwriteExistingFiles: true
 
   - pwsh: |
         dotnet restore
-        dotnet pack --no-build
+        dotnet pack --no-build --output $(Build.ArtifactStagingDirectory)
     displayName: 'Generate NuGet Packages'
     workingDirectory: '$(System.DefaultWorkingDirectory)\src\s'
-
-  # - task: DotNetCoreCLI@2
-  #   condition: succeeded()
-  #   displayName: 'Restore Dependencies'
-  #   inputs:
-  #     command: restore
-  #     projects: |
-  #       src/**/*.csproj
-
-  # - task: DotNetCoreCLI@2
-  #   condition: succeeded()
-  #   displayName: 'Generate NuGet Packages'
-  #   inputs:
-  #     command: pack
-  #     packagesToPack: src/**/*.csproj
-  #     nobuild: true
 
   - task: PublishBuildArtifacts@1
     condition: succeeded()
