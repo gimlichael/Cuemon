@@ -1,6 +1,6 @@
 ﻿jobs:
   - job: BuildDotNet5_0
-    displayName: 'Release branch (build, test)'
+    displayName: 'Release branch (net5, build, test)'
     timeoutInMinutes: 90
     strategy:
       matrix:
