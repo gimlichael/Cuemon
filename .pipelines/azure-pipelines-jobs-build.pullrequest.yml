@@ -6,7 +6,7 @@
       matrix:
         Linux_Build_and_Test:
           imageName: 'ubuntu-20.04'
-        Windows_Build_Test_and_Package:
+        Windows_Build_and_Test:
           imageName: 'windows-2019'
     pool:
       vmImage: $(imageName)
@@ -32,7 +32,7 @@
       matrix:
         Linux_Build:
           imageName: 'ubuntu-20.04'
-        Windows_Build_and_Package:
+        Windows_Build:
           imageName: 'windows-2019'
     pool:
       vmImage: $(imageName)
@@ -54,7 +54,7 @@
       matrix:
         Linux_Build:
           imageName: 'ubuntu-20.04'
-        Windows_Build_and_Package:
+        Windows_Build:
           imageName: 'windows-2019'
     pool:
       vmImage: $(imageName)
@@ -76,7 +76,7 @@
       matrix:
         Linux_Build:
           imageName: 'ubuntu-20.04'
-        Windows_Build_and_Package:
+        Windows_Build:
           imageName: 'windows-2019'
     pool:
       vmImage: $(imageName)
@@ -98,7 +98,7 @@
       matrix:
         Linux_Build:
           imageName: 'ubuntu-20.04'
-        Windows_Build_and_Package:
+        Windows_Build:
           imageName: 'windows-2019'
     pool:
       vmImage: $(imageName)
