@@ -21,6 +21,15 @@ steps:
         overwriteExistingFiles: true
 
   - task: DotNetCoreCLI@2
+    displayName: 'Restore NuGet Dependencies'
+    inputs:
+      command: custom
+      custom: restore
+      projects: |
+        src/**/*.csproj
+      arguments: '--verbosity quiet'
+
+  - task: DotNetCoreCLI@2
     condition: succeeded()
     displayName: 'Generate NuGet Packages'
     inputs:

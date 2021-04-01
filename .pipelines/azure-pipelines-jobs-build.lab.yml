@@ -105,6 +105,8 @@
     - template: azure-pipelines-jobs-build-step.nuget.yml
       parameters:
         artifactPackages:
+          - "net5.0"
           - "netcoreapp3.1"
           - "netcoreapp3.0"
           - "netstandard2.1"
+          - "netstandard2.0"
