@@ -3,7 +3,6 @@
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
     inputs:
       rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-      includeRootFolder: true
       archiveFile: $(Build.ArtifactStagingDirectory)/$(DotnetBuildName).zip
 
   - task: PublishBuildArtifacts@1
