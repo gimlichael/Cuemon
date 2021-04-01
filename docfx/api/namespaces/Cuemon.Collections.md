@@ -14,8 +14,6 @@ Complements: [System.Collections namespace](https://docs.microsoft.com/en-us/dot
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Core/Collections) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Core/Collections) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

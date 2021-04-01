@@ -1,0 +1,11 @@
+﻿jobs:
+  - job: 'Finalizer'
+    displayName: 'Update BUILD_NUMBER (finalizer)'
+    timeoutInMinutes: 15
+    pool:
+      vmImage: 'ubuntu-20.04'
+    steps:
+      - template: azure-pipelines-jobs-build-step.dotnet.yml
+      - template: azure-pipelines-jobs-build-step.minvertool.yml
+      - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+      - template: azure-pipelines-jobs-build-step.buildnumber.yml

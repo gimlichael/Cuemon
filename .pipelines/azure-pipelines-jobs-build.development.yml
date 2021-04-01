@@ -1,244 +1,149 @@
 ﻿jobs:
-  - job: 'Preview'
-    displayName: 'Development branch (build, test, code-coverage, code-analysis, license-check)'
-    timeoutInMinutes: 180
-
+  - job: BuildDotNet5_0
+    displayName: 'Development branch (net5, build, test, code-coverage, code-analysis)'
+    timeoutInMinutes: 120
     strategy:
       matrix:
         Linux_Build_and_Test:
           imageName: 'ubuntu-20.04'
         Windows_Build_Test_and_Package:
           imageName: 'windows-2019'
-
     pool:
-      name: $(imageName)
-
+      vmImage: $(imageName)
+    variables:
+      - name: DotnetBuildName
+        value: 'net5.0'
     steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.reportgenerator.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposeup.yml
+    - template: azure-pipelines-jobs-build-step.sonarcloudprepare.yml
+    - template: azure-pipelines-jobs-build-step.net5_0.yml
+    - template: azure-pipelines-jobs-build-step.unittest.yml
+    - template: azure-pipelines-jobs-build-step.codecov.yml
+    - template: azure-pipelines-jobs-build-step.sonarcloudfinalize.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposedown.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - task: UseDotNet@2
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Use .Net Core SDK 2.1.814 (SonarCloud - LTS)'
-      inputs:
-        version: 2.1.814
+  - job: BuildDotNet3_1
+    displayName: 'Development branch (netcoreapp3.1, build)'
+    timeoutInMinutes: 30
+    strategy:
+      matrix:
+        Linux_Build:
+          imageName: 'ubuntu-20.04'
+        Windows_Build_and_Package:
+          imageName: 'windows-2019'
+    pool:
+      vmImage: $(imageName)
+    variables:
+      - name: DotnetBuildName
+        value: 'netcoreapp3.1'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netcoreapp3_1.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 5.0.201'
-      inputs:
-        version: 5.0.201
+  - job: BuildDotNet3_0
+    displayName: 'Development branch (netcoreapp3.0, build)'
+    timeoutInMinutes: 30
+    strategy:
+      matrix:
+        Linux_Build:
+          imageName: 'ubuntu-20.04'
+        Windows_Build_and_Package:
+          imageName: 'windows-2019'
+    pool:
+      vmImage: $(imageName)
+    variables:
+      - name: DotnetBuildName
+        value: 'netcoreapp3.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netcoreapp3_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Install MinVer tool'
-      inputs:
-        command: custom
-        custom: tool
-        arguments: 'update --global minver-cli'
+  - job: BuildDotNet2_1
+    displayName: 'Development branch (netstandard2.1, build)'
+    timeoutInMinutes: 30
+    strategy:
+      matrix:
+        Linux_Build:
+          imageName: 'ubuntu-20.04'
+        Windows_Build_and_Package:
+          imageName: 'windows-2019'
+    pool:
+      vmImage: $(imageName)
+    variables:
+      - name: DotnetBuildName
+        value: 'netstandard2.1'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netstandard2_1.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - task: DotNetCoreCLI@2
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Install ReportGenerator tool'
-      inputs:
-        command: custom
-        custom: tool
-        arguments: update --global dotnet-reportgenerator-globaltool
+  - job: BuildDotNet2_0
+    displayName: 'Development branch (netstandard2.0, build)'
+    timeoutInMinutes: 30
+    strategy:
+      matrix:
+        Linux_Build:
+          imageName: 'ubuntu-20.04'
+        Windows_Build_and_Package:
+          imageName: 'windows-2019'
+    pool:
+      vmImage: $(imageName)
+    variables:
+      - name: DotnetBuildName
+        value: 'netstandard2.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.netstandard2_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
 
-    - task: DownloadSecureFile@1
-      displayName: 'Download cuemon.snk'
-      inputs:
-        secureFile: 'cuemon.snk'
-
-    - task: CopyFiles@2
-      displayName: 'Copy cuemon.snk to $(System.DefaultWorkingDirectory)'
-      inputs:
-        SourceFolder: '$(Agent.TempDirectory)'
-        Contents: cuemon.snk
-        TargetFolder: '$(System.DefaultWorkingDirectory)'
-
-    - script: |
-        export MINVERVERSIONOVERRIDE=$(minver)
-        echo $MINVERVERSIONOVERRIDE
-        echo "##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]$MINVERVERSIONOVERRIDE"
-      displayName: 'Set MINVERVERSIONOVERRIDE (for MinVer)'
-      condition: eq(variables['Agent.OS'], 'Linux')
-
-
-    - script: |
-        minver > v.txt
-        set /p MINVERVERSIONOVERRIDE=<v.txt
-        @echo ##vso[task.setvariable variable=MINVERVERSIONOVERRIDE;]%MINVERVERSIONOVERRIDE%
-      displayName: 'Set MINVERVERSIONOVERRIDE (for MinVer)'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-
-    - task: DotNetCoreCLI@2
-      displayName: Restore
-      inputs:
-        command: custom
-        custom: restore
-        projects: |
-          **/*.csproj
-        arguments: '--verbosity quiet'
-
-    - task: DockerCompose@0
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Spin up SQL Server for unit/integration test'
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: |
-          SA_PASSWORD=$(awsql-password)
-        dockerComposeCommand: "up -d"
-        action: 'Run a Docker Compose command'
-
-    - task: SonarCloudPrepare@1
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Prepare Analysis on SonarCloud'
-      inputs:
-        SonarCloud: 'Cuemon-SonarCloud'
-        organization: 'geekle'
-        scannerMode: 'MSBuild'
-        projectKey: 'Cuemon'
-        projectName: 'Cuemon'
-        projectVersion: '$(MINVERVERSIONOVERRIDE)'
-        extraProperties: |
-          sonar.exclusions=**/obj/**,**/bin/**
-          sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*opencover.xml
-          sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Build net5.0 compatible Assemblies'
-      inputs:
-        command: build
-        projects: |
-          src/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework net5.0'
-        workingDirectory: '$(BuildSource)'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Build netcoreapp3.1 compatible Assemblies'
-      inputs:
-        command: build
-        projects: |
-          src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
-          src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
-          src/**/Cuemon.Extensions.Xunit.App.csproj
-        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netcoreapp3.1'
-        workingDirectory: '$(BuildSource)'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Build netcoreapp3.0 compatible Assemblies'
-      inputs:
-        command: build
-        projects: |
-          src/**/Cuemon.AspNetCore*.csproj
-          src/**/Cuemon.Extensions.AspNetCore*.csproj
-          src/**/Cuemon.Extensions.Hosting.csproj
-          src/**/Cuemon.Extensions.Xunit.Hosting.csproj
-        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netcoreapp3.0'
-        workingDirectory: '$(BuildSource)'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Build netstandard2.1 compatible Assemblies'
-      inputs:
-        command: build
-        projects: |
-          src/**/Cuemon.Extensions.IO.csproj
-          src/**/Cuemon.IO.csproj
-        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netstandard2.1'
-        workingDirectory: '$(BuildSource)'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Build netstandard2.0 compatible Assemblies'
-      inputs:
-        command: build
-        projects: |
-          src/**/*.csproj
-          !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
-          !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
-          !src/**/Cuemon.Extensions.Xunit.App.csproj
-        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netstandard2.0'
-        workingDirectory: '$(BuildSource)'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Test Solution - Linux'
-      condition: eq(variables['Agent.OS'], 'Linux')
-      inputs:
-        command: test
-        projects: test/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
-        publishTestResults: true
-      env:
-        ConnectionStrings__AdventureWorks: $(ConnectionStrings--AdventureWorks)
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Test Solution - Windows'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-      inputs:
-        command: test
-        projects: test/**/*.csproj
-        arguments: '--configuration $(BuildConfiguration) --verbosity quiet --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --filter FullyQualifiedName!~SqlClient'
-        publishTestResults: true
-
-    - script: |
-        echo "##vso[build.updatebuildnumber]$MINVERVERSIONOVERRIDE"
-      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
-      condition: eq(variables['Agent.OS'], 'Linux')
-
-
-    - script: |
-        @echo ##vso[build.updatebuildnumber]%MINVERVERSIONOVERRIDE%
-      displayName: 'Update BUILD_BUILDNUMBER (for CI flow)'
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-
-    - script: reportgenerator "-reports:**/*.opencover.xml" "-targetdir:$(Build.SourcesDirectory)/Coverage" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Create Code Coverage Reports'
-
-    - task: PublishCodeCoverageResults@1
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Publish Code Coverage'
-      inputs:
-        codeCoverageTool: Cobertura
-        summaryFileLocation: '$(Build.SourcesDirectory)/Coverage/Cobertura.xml'
-        reportDirectory: '$(Build.SourcesDirectory)/Coverage'
-
-    - bash: bash <(curl -s https://codecov.io/bash)
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Upload to codecov.io'
-
-    - task: SonarCloudAnalyze@1
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Run Sonar Cloud Code Analysis'
-
-    - task: SonarCloudPublish@1
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Publish Quality Gate Result to Sonar Cloud'
-      inputs:
-        pollingTimeoutSec: '300'
-
-    - task: DockerCompose@0
-      condition: eq(variables['Agent.OS'], 'Linux')
-      displayName: 'Take down SQL Server'
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeCommand: "down"
-        action: 'Run a Docker Compose command'
-
-    - task: DotNetCoreCLI@2
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-      displayName: dotnet pack
-      inputs:
-        command: pack
-        packagesToPack: src/**/*.csproj
-        nobuild: true
-
-    - task: WhiteSource Bolt@20
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-      displayName: 'WhiteSource Bolt'
-
-    - task: PublishBuildArtifacts@1
-      condition: eq(variables['Agent.OS'], 'Windows_NT')
-      displayName: 'Store NuGet Packages'
-      inputs:
-        PathtoPublish: $(Build.ArtifactStagingDirectory)
-        ArtifactName: Preview
-        publishLocation: Container
+  - job: PublishBuildArtifacts
+    condition: succeeded()
+    dependsOn:
+    - BuildDotNet5_0
+    - BuildDotNet3_1
+    - BuildDotNet3_0
+    - BuildDotNet2_1
+    - BuildDotNet2_0
+    displayName: 'Store NuGet Packages for Preview'
+    timeoutInMinutes: 30
+    pool:
+      vmImage: 'windows-2019'
+    variables:
+      - name: ArtifactPackageName
+        value: 'Preview'
+    steps:
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.nuget.yml
+      parameters:
+        artifactPackages:
+          - "net5.0"
+          - "netcoreapp3.1"
+          - "netcoreapp3.0"
+          - "netstandard2.1"
+          - "netstandard2.0"

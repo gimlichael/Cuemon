@@ -14,8 +14,6 @@ Complements: [System.Net namespace](https://docs.microsoft.com/en-us/dotnet/api/
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Net) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Net) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

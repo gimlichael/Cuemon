@@ -14,8 +14,6 @@ Complements: [Cuemon.Extensions.Newtonsoft.Json namespace](https://docs.cuemon.n
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

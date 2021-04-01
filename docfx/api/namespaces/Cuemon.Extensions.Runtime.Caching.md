@@ -14,8 +14,6 @@ Complements: [Cuemon.Runtime.Caching namespace](https://docs.cuemon.net/api/dotn
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Runtime.Caching) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Runtime.Caching) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

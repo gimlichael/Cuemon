@@ -11,10 +11,8 @@ Complements: [Cuemon.Reflection namespace](https://docs.cuemon.net/api/dotnet/Cu
 ## Github branches 🖇️
 
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Reflection) 🧪\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Reflection) 🎬\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Reflection) �\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Reflection) 🛡️
-
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
 
 ## NuGet packages
 
@@ -36,4 +34,4 @@ Complements: [Cuemon.Reflection namespace](https://docs.cuemon.net/api/dotnet/Cu
 |Assembly|⬇️|`GetAssemblyVersion`, `GetFileVersion`, `GetProductVersion`, `IsDebugBuild`|
 |MemberInfo|⬇️|`HasAttributes`|
 |PropertyInfo|⬇️|`IsAutoProperty`|
-|Type|⬇️|`GetEmbeddedResources`, `ToMethodBase`, `GetRuntimePropertiesExceptOf{T}`, `ToFullNameIncludingAssemblyName`|
+|Type|⬇️|`GetEmbeddedResources`, `ToMethodBase`, `GetRuntimePropertiesExceptOf{T}`, `ToFullNameIncludingAssemblyName`|e`|

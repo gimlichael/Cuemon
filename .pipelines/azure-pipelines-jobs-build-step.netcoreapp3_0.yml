@@ -1,0 +1,12 @@
+﻿steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Build netcoreapp3.0 compatible Assemblies'
+    inputs:
+      command: build
+      projects: |
+        src/**/Cuemon.AspNetCore*.csproj
+        src/**/Cuemon.Extensions.AspNetCore*.csproj
+        src/**/Cuemon.Extensions.Hosting.csproj
+        src/**/Cuemon.Extensions.Xunit.Hosting.csproj
+      arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netcoreapp3.0'
+      workingDirectory: '$(BuildSource)'

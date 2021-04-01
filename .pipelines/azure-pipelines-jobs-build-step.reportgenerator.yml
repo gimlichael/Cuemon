@@ -1,0 +1,8 @@
+﻿steps:
+  - task: DotNetCoreCLI@2
+    condition: eq(variables['Agent.OS'], 'Linux')
+    displayName: 'Install ReportGenerator tool'
+    inputs:
+      command: custom
+      custom: tool
+      arguments: update --global dotnet-reportgenerator-globaltool

@@ -16,8 +16,6 @@ Related: [Cuemon.Extensions.Threading.Tasks namespace](https://docs.cuemon.net/a
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Threading) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Threading) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

@@ -14,8 +14,6 @@ Complements: [xUnit: Shared Context between Tests](https://xunit.net/docs/shared
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Xunit.Hosting) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Xunit.Hosting) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

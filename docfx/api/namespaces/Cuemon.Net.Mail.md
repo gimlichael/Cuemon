@@ -14,8 +14,6 @@ Complements: [System.Net.Mail namespace](https://docs.microsoft.com/en-us/dotnet
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Net/Mail) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Net/Mail) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

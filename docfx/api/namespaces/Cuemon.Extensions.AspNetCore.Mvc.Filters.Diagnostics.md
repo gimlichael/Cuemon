@@ -14,8 +14,6 @@ Complements: [Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace](https://docs.
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Mvc/Filters/Diagnostics) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Mvc/Filters/Diagnostics) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

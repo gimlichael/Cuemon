@@ -11,10 +11,8 @@ Complements: [Cuemon.AspNetCore.Diagnostics namespace](https://docs.cuemon.net/a
 ## Github branches 🖇️
 
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore) 🧪\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore) 🎬\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore) �\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore) 🛡️
-
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
 
 ## NuGet packages
 
@@ -34,3 +32,4 @@ Complements: [Cuemon.AspNetCore.Diagnostics namespace](https://docs.cuemon.net/a
 |Type|Ext|Methods|
 |--:|:-:|---|
 |IServiceCollection|⬇️|`AddServerTiming`, `AddServerTiming{T}`|
+|

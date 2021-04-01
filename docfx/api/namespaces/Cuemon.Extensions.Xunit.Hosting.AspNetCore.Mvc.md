@@ -14,8 +14,6 @@ Complements: [Microsoft.AspNetCore.Mvc.Testing namespace](https://docs.microsoft
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

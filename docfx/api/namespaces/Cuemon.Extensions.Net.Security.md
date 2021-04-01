@@ -9,10 +9,8 @@ Availability: NET Standard 2.0, .NET 5.0
 ## Github branches 🖇️
 
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Net/Security) 🧪\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Net/Security) 🎬\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Net/Security) �\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Net/Security) 🛡️
-
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
 
 ## NuGet packages
 
@@ -32,4 +30,4 @@ Availability: NET Standard 2.0, .NET 5.0
 |Type|Ext|Methods|
 |--:|:-:|---|
 |String|⬇️|`ToSignedUri`, `ValidateSignedUri`|
-|Uri|⬇️|`ToSignedUri`, `ValidateSignedUri`|
+|Uri|⬇️|`ToSignedUri`, `ValidateSignedUri`||

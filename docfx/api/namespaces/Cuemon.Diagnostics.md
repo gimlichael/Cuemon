@@ -16,8 +16,6 @@ Related: [Cuemon.Extensions.Diagnostics namespace](https://docs.cuemon.net/api/e
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Diagnostics) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Diagnostics) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

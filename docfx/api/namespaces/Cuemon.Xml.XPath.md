@@ -14,8 +14,6 @@ Complements: [System.Xml.XPath namespace](https://docs.microsoft.com/en-us/dotne
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Xml/XPath) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Xml/XPath) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

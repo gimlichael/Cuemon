@@ -14,8 +14,6 @@ Complements: [Microsoft.Extensions.DependencyInjection namespace](https://docs.m
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.DependencyInjection) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.DependencyInjection) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

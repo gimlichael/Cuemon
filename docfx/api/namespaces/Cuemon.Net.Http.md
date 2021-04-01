@@ -14,8 +14,6 @@ Complements: [System.Net.Http namespace](https://docs.microsoft.com/en-us/dotnet
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Net/Http) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Net/Http) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

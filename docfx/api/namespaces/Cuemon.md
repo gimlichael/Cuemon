@@ -16,8 +16,6 @@ Related: [Cuemon.Extensions namespace](https://docs.cuemon.net/api/dotnet/ext/Cu
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Core) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Core) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

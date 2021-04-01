@@ -309,6 +309,17 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         }
 
         /// <summary>
+        /// Invokes the delegate <paramref name="expression"/> when value of <paramref name="condition"/> is <c>true</c>.
+        /// </summary>
+        /// <param name="condition">When <c>true</c>, the <paramref name="expression"/> delegate is invoked.</param>
+        /// <param name="expression">The delegate that is invoked when <paramref name="condition"/> is <c>true</c>.</param>
+        public static void IsTrue(bool condition, Action expression)
+        {
+            Validator.ThrowIfNull(expression, nameof(expression));
+            if (IsTrue(condition)) { expression(); }
+        }
+
+        /// <summary>
         /// Determines whether the specified <paramref name="value"/> is <c>false</c>.
         /// </summary>
         /// <param name="value">The value to verify is <c>false</c>.</param>
@@ -316,6 +327,17 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         public static bool IsFalse(bool value)
         {
             return !value;
+        }
+
+        /// <summary>
+        /// Invokes the delegate <paramref name="expression"/> when value of <paramref name="condition"/> is <c>false</c>.
+        /// </summary>
+        /// <param name="condition">When <c>false</c>, the <paramref name="expression"/> delegate is invoked.</param>
+        /// <param name="expression">The delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
+        public static void IsFalse(bool condition, Action expression)
+        {
+            Validator.ThrowIfNull(expression, nameof(expression));
+            if (IsFalse(condition)) { expression(); }
         }
 
         /// <summary>
@@ -771,28 +793,6 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
             if (IsTrue(condition)) { firstExpression(arg1, arg2, arg3, arg4, arg5); }
             if (IsFalse(condition)) { secondExpression(arg1, arg2, arg3, arg4, arg5); }
-        }
-
-        /// <summary>
-        /// Invokes the delegate <paramref name="expression"/> when value of <paramref name="condition"/> is <c>true</c>.
-        /// </summary>
-        /// <param name="condition">When <c>true</c>, the <paramref name="expression"/> delegate is invoked.</param>
-        /// <param name="expression">The delegate that is invoked when <paramref name="condition"/> is <c>true</c>.</param>
-        public static void IsTrue(bool condition, Action expression)
-        {
-            Validator.ThrowIfNull(expression, nameof(expression));
-            if (IsTrue(condition)) { expression(); }
-        }
-
-        /// <summary>
-        /// Invokes the delegate <paramref name="expression"/> when value of <paramref name="condition"/> is <c>false</c>.
-        /// </summary>
-        /// <param name="condition">When <c>false</c>, the <paramref name="expression"/> delegate is invoked.</param>
-        /// <param name="expression">The delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
-        public static void IsFalse(bool condition, Action expression)
-        {
-            Validator.ThrowIfNull(expression, nameof(expression));
-            if (IsFalse(condition)) { expression(); }
         }
     }
 }

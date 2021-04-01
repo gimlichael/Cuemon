@@ -14,8 +14,6 @@ Complements: [Cuemon.AspNetCore.Builder namespace](https://docs.cuemon.net/api/a
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore/Builder) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore/Builder) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

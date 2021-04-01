@@ -15,8 +15,6 @@ Complements: [System.Runtime namespace](https://docs.microsoft.com/en-us/dotnet/
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Core/Runtime) 🛡️
 
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

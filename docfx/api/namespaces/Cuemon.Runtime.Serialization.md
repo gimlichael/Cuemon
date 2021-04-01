@@ -14,8 +14,6 @@ Complements: [System.Runtime.Serialization namespace](https://docs.microsoft.com
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Core/Runtime/Serialization) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Core/Runtime/Serialization) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

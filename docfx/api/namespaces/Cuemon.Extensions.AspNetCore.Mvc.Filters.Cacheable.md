@@ -14,8 +14,6 @@ Complements: [Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace](https://docs.cu
 [release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Mvc/Filters/Cacheable) 🎬\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Mvc/Filters/Cacheable) 🛡️
 
-![Github Checks](https://img.shields.io/github/checks-status/gimlichael/Cuemon/development?logo=github)
-
 ## NuGet packages
 
 📦 Focus Pack\

@@ -11,10 +11,17 @@
     jobs:
     - template: azure-pipelines-jobs-build.development.yml
 
+  - stage: UpdateBuildNumber
+    displayName: 'Updating BUILD_BUILDNUMBER for development branch'
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'development'))
+    dependsOn: BuildDevelopment
+    jobs:
+    - template: azure-pipelines-jobs-finalization.yml
+
   - stage: DeployDevelopment
     displayName: 'Deployment for development branch'
     condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'development'))
-    dependsOn: BuildDevelopment
+    dependsOn: UpdateBuildNumber
     variables:
     - group: BuildSecrets
     jobs:
