@@ -87,9 +87,11 @@ namespace Cuemon.Reflection
             if (_version != null) { return _version; }
             var versionComponents = new List<int>();
             var versions = _alphanumericVersion.Split('.');
+            var valid = true;
             foreach (var version in versions)
             {
-                if (int.TryParse(version, out var v)) { versionComponents.Add(v); }
+                valid &= int.TryParse(version, out var v);
+                if (valid) { versionComponents.Add(v); }
                 if (versionComponents.Count == 4) { break; }
             }
             if (versionComponents.Count < 2) { throw new InvalidOperationException($"{nameof(AlphanumericVersion)} has fewer than two compatible components to qualify for a Version object."); }
