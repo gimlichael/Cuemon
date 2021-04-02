@@ -14,19 +14,19 @@ namespace Cuemon.Extensions.Xunit
         /// Initializes a new instance of the <see cref="Test" /> class.
         /// </summary>
         /// <param name="output">An implementation of the <see cref="ITestOutputHelper" /> interface.</param>
-        /// <param name="invokerType">The <see cref="Type"/> that ends up invoking this instance.</param>
+        /// <param name="callerType">The <see cref="Type"/> of caller that ends up invoking this instance.</param>
         /// <remarks><paramref name="output" /> is initialized automatically in an xUnit project.</remarks>
-        protected Test(ITestOutputHelper output = null, Type invokerType = null)
+        protected Test(ITestOutputHelper output = null, Type callerType = null)
         {
             TestOutput = output;
-            InvokerType = invokerType ?? GetType();
+            CallerType = callerType ?? GetType();
         }
 
         /// <summary>
-        /// Gets the invoking type of this instance. Default is <see cref="object.GetType"/>.
+        /// Gets the type of caller for this instance. Default is <see cref="object.GetType"/>.
         /// </summary>
-        /// <value>The invoking type of this instance.</value>
-        public Type InvokerType { get; }
+        /// <value>The type of caller for this instance.</value>
+        public Type CallerType { get; }
 
         /// <summary>
         /// Gets the console substitute to write out unit test information.

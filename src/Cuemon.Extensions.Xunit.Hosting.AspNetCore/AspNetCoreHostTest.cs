@@ -18,8 +18,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         /// </summary>
         /// <param name="hostFixture">An implementation of the <see cref="IAspNetCoreHostFixture"/> interface.</param>
         /// <param name="output">An implementation of the <see cref="ITestOutputHelper"/> interface.</param>
-        /// <param name="invokerType">The <see cref="Type"/> that ends up invoking this instance.</param>
-        protected AspNetCoreHostTest(T hostFixture, ITestOutputHelper output = null, Type invokerType = null) : base(hostFixture, output, invokerType)
+        /// <param name="callerType">The <see cref="Type"/> of caller that ends up invoking this instance.</param>
+        protected AspNetCoreHostTest(T hostFixture, ITestOutputHelper output = null, Type callerType = null) : base(hostFixture, output, callerType)
         {
         }
 
