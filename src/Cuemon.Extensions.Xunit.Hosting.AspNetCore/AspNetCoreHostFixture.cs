@@ -76,7 +76,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                                 ConfigureApplicationCallback(app);
                                 Application = app;
                             }
-                        );
+                        )
+                        .UseSetting(HostDefaults.ApplicationKey, hostTest.CallerType.Assembly.GetName().Name);
                 });
 
             ConfigureHostCallback(hb);
