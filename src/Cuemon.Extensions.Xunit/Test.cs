@@ -1,4 +1,5 @@
-﻿using Xunit.Abstractions;
+﻿using System;
+using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit
 {
@@ -10,15 +11,22 @@ namespace Cuemon.Extensions.Xunit
     public abstract class Test : Disposable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Test"/> class.
+        /// Initializes a new instance of the <see cref="Test" /> class.
         /// </summary>
-        /// <param name="output">An implementation of the <see cref="ITestOutputHelper"/> interface.</param>
-        /// <remarks><paramref name="output"/> is initialized automatically in an xUnit project.</remarks>
-        protected Test(ITestOutputHelper output = null)
+        /// <param name="output">An implementation of the <see cref="ITestOutputHelper" /> interface.</param>
+        /// <param name="invokerType">The <see cref="Type"/> that ends up invoking this instance.</param>
+        /// <remarks><paramref name="output" /> is initialized automatically in an xUnit project.</remarks>
+        protected Test(ITestOutputHelper output = null, Type invokerType = null)
         {
             TestOutput = output;
+            InvokerType = invokerType ?? GetType();
         }
 
+        /// <summary>
+        /// Gets the invoking type of this instance. Default is <see cref="object.GetType"/>.
+        /// </summary>
+        /// <value>The invoking type of this instance.</value>
+        public Type InvokerType { get; }
 
         /// <summary>
         /// Gets the console substitute to write out unit test information.

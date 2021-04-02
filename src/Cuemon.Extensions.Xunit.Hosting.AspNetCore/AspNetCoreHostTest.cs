@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Xunit.Abstractions;
 
@@ -17,7 +18,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         /// </summary>
         /// <param name="hostFixture">An implementation of the <see cref="IAspNetCoreHostFixture"/> interface.</param>
         /// <param name="output">An implementation of the <see cref="ITestOutputHelper"/> interface.</param>
-        protected AspNetCoreHostTest(T hostFixture, ITestOutputHelper output = null) : base(hostFixture, output)
+        /// <param name="invokerType">The <see cref="Type"/> that ends up invoking this instance.</param>
+        protected AspNetCoreHostTest(T hostFixture, ITestOutputHelper output = null, Type invokerType = null) : base(hostFixture, output, invokerType)
         {
         }
 
