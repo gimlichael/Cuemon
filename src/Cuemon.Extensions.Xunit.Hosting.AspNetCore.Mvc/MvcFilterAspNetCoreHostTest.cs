@@ -29,5 +29,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         }
 
         public IHost Host => ((AspNetCoreHostTest<AspNetCoreHostFixture>)_middlewareTest).Host;
+
+        public Type CallerType => _middlewareTest.CallerType;
     }
 }

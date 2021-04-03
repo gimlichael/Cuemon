@@ -1,5 +1,7 @@
 ﻿using System;
+using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -11,7 +13,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         private readonly Action<IServiceCollection> _serviceConfigurator;
         private readonly Action<IHostBuilder> _hostConfigurator;
 
-        internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator.Target?.GetType() ?? serviceConfigurator.Target?.GetType() ?? hostConfigurator.Target?.GetType())
+        internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
             _pipelineConfigurator = pipelineConfigurator;
             _serviceConfigurator = serviceConfigurator;
@@ -47,6 +49,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         public override void ConfigureServices(IServiceCollection services)
         {
             _serviceConfigurator?.Invoke(services);
+            services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
         }
 
         /// <summary>

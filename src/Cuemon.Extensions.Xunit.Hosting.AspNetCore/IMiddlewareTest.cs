@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
+﻿namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 {
     /// <summary>
     /// Represents the members needed for ASP.NET Core middleware testing.
@@ -9,8 +7,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
     /// <seealso cref="IPipelineTest" />
     /// <seealso cref="IConfigurationTest" />
     /// <seealso cref="IHostingEnvironmentTest" />
-    /// <seealso cref="IDisposable" />
-    public interface IMiddlewareTest : IServiceTest, IPipelineTest, IConfigurationTest, IHostingEnvironmentTest, IDisposable
+    /// <seealso cref="ITest" />
+    public interface IMiddlewareTest : IServiceTest, IPipelineTest, IConfigurationTest, IHostingEnvironmentTest, ITest
     {
     }
 }
