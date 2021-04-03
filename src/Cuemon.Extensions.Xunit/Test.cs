@@ -8,7 +8,7 @@ namespace Cuemon.Extensions.Xunit
     /// </summary>
     /// <seealso cref="Disposable"/>
     /// <seealso cref="ITestOutputHelper"/>
-    public abstract class Test : Disposable
+    public abstract class Test : Disposable, ITest
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Test" /> class.
