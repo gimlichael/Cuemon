@@ -13,6 +13,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// </summary>
         /// <param name="validator">The function delegate that evaluates an <see cref="Exception"/>.</param>
         /// <param name="descriptor">The function delegate that provides details about an <see cref="Exception"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="validator"/> cannot be null -or-
+        /// <paramref name="descriptor"/> cannot be null.
+        /// </exception>
         public FaultResolver(Func<Exception, bool> validator, Func<Exception, HttpExceptionDescriptor> descriptor)
         {
             Cuemon.Validator.ThrowIfNull(validator, nameof(validator));
@@ -21,8 +25,16 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             Descriptor = descriptor;
         }
 
-        internal Func<Exception, HttpExceptionDescriptor> Descriptor { get; private set; }
+        /// <summary>
+        /// Gets the function delegate that provides details about an <see cref="Exception"/>.
+        /// </summary>
+        /// <value>The function delegate that provides details about an <see cref="Exception"/>.</value>
+        public Func<Exception, HttpExceptionDescriptor> Descriptor { get; }
 
-        internal Func<Exception, bool> Validator { get; set; }
+        /// <summary>
+        /// Gets the function delegate that evaluates an <see cref="Exception"/>.
+        /// </summary>
+        /// <value>The function delegate that evaluates an <see cref="Exception"/>.</value>
+        public Func<Exception, bool> Validator { get; }
     }
 }
