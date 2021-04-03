@@ -1,0 +1,123 @@
+﻿@page "regions/{regionName}/{regionDisplayName}/cultures/{cultureName}"
+@using Cuemon.Extensions
+@using Cuemon.Extensions.Globalization
+@model Cuemon.Extensions.AspNetCore.Mvc.Pages.Regions.CultureModel
+@{ ViewData["Title"] = $"{Model.Culture.DisplayName} | {Model.Region.DisplayName} | Regions | S13N.info";}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h1>@Model.Culture.DisplayName / @Model.Culture.NativeName</h1>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Date Formats</h3>
+            </div>
+            <div class="panel-body">
+                <div>
+                    Short date: <b>@Model.Culture.DateTimeFormat.ShortDatePattern</b>
+                </div>
+                <div>
+                    Example: <b>@Model.Timestamp.ToString(Model.Culture.DateTimeFormat.ShortDatePattern, Model.Culture)</b>
+                </div>
+                <div>
+                    Long date: <b>@Model.Culture.DateTimeFormat.LongDatePattern</b>
+                </div>
+                <div>
+                    Example: <b>@Model.Timestamp.ToString(Model.Culture.DateTimeFormat.LongDatePattern, Model.Culture)</b>
+                </div>
+                <div>
+                    First day of week: <b>@Model.Culture.DateTimeFormat.GetDayName(Model.Culture.DateTimeFormat.FirstDayOfWeek)</b>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Time Formats</h3>
+            </div>
+            <div class="panel-body">
+                <div>
+                    Short time: <b>@Model.Culture.DateTimeFormat.ShortTimePattern</b>
+                </div>
+                <div>
+                    Example: <b>@Model.Timestamp.ToString(Model.Culture.DateTimeFormat.ShortTimePattern, Model.Culture)</b>
+                </div>
+                <div>
+                    Long time: <b>@Model.Culture.DateTimeFormat.LongTimePattern</b>
+                </div>
+                <div>
+                    Example: <b>@Model.Timestamp.ToString(Model.Culture.DateTimeFormat.LongTimePattern, Model.Culture)</b>
+                </div>
+                @if (!Model.Culture.DateTimeFormat.AMDesignator.IsNullOrEmpty())
+                {
+                    <div>
+                        AM Symbol: <b>@Model.Culture.DateTimeFormat.AMDesignator</b>
+                    </div>
+                    <div>
+                        PM Symbol: <b>@Model.Culture.DateTimeFormat.PMDesignator</b>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Currency</h3>
+            </div>
+            <div class="panel-body">
+                <div>
+                    Currency symbol: <b>@Model.Culture.NumberFormat.CurrencySymbol</b>
+                </div>
+                <div>
+                    Decimal symbol: <b>@Model.Culture.NumberFormat.CurrencyDecimalSeparator</b>
+                </div>
+                <div>
+                    Digit grouping symbol: <b>@Model.Culture.NumberFormat.CurrencyGroupSeparator</b>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Numbers</h3>
+            </div>
+            <div class="panel-body">
+                <div>
+                    Decimal symbol: <b>@Model.Culture.NumberFormat.NumberDecimalSeparator</b>
+                </div>
+                <div>
+                    Digit grouping symbol: <b>@Model.Culture.NumberFormat.NumberGroupSeparator</b>
+                </div>
+                <div>
+                    Negative sign symbol: <b>@Model.Culture.NumberFormat.NegativeSign</b>
+                </div>
+                <div>
+                    Positive sign symbol: <b>@Model.Culture.NumberFormat.PositiveSign</b>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 text-center">
+        @{
+            var related = Model.Region.GetCultures().Where(c => c.Name != Model.Culture.Name).ToList();
+            if (related.Any())
+            {
+                foreach (var c in related)
+                {
+                    <a href="@Url.Action("Index", "Region")/@Model.Region.Name.ToLowerInvariant()/@Model.Region.DisplayName.ToLowerInvariant()/cultures/@c.Name.ToLowerInvariant()" class="btn btn-default">@c.DisplayName</a>
+                }
+            }
+        }
+    </div>
+    <div class="col-md-3"></div>
+</div>

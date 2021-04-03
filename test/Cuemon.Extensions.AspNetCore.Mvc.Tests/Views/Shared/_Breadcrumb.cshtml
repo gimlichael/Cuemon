@@ -1,0 +1,17 @@
+﻿@using Cuemon.Extensions
+@using Cuemon.Extensions.AspNetCore.Mvc
+@using Microsoft.AspNetCore.Mvc.Rendering
+<ol class="breadcrumb">
+    <li>
+        @Html.ActionLink("Home", "Index", "Home")
+    </li>
+    @{
+        foreach (var link in ViewData.GetBreadcrumbs(this))
+        {
+            <li>
+                @Html.ActionLink(link.Label, link.ActionName, link.ControllerName)
+            </li>
+        }
+    }
+    <li class="active">@Html.ViewData["Title"].ToString().SubstringBefore("|").Trim()</li>
+</ol>
