@@ -6,16 +6,16 @@ using Cuemon.AspNetCore.Http;
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
     /// <summary>
-    /// Extension methods for the <see cref="FaultResolver"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="HttpFaultResolver"/> class tailored to adhere the decorator pattern.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
-    public static class FaultResolverDecoratorExtensions
+    public static class HttpFaultResolverDecoratorExtensions
     {
         /// <summary>
         /// Adds a new <see cref="HttpExceptionDescriptor"/> to the enclosed <see cref="T:IList{FaultResolver}"/> of the <paramref name="decorator"/> from the parameters provided.
         /// </summary>
-        /// <typeparam name="T">The type of the <see cref="HttpStatusCodeException"/> to associate with a <see cref="FaultResolver"/>.</typeparam>
+        /// <typeparam name="T">The type of the <see cref="HttpStatusCodeException"/> to associate with a <see cref="HttpFaultResolver"/>.</typeparam>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
         /// <param name="code">The error code that uniquely identifies the type of failure.</param>
         /// <param name="message">The message that explains the reason for the failure.</param>
@@ -42,15 +42,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///     </item>
         /// </list>
         /// </remarks>
-        public static IDecorator<IList<FaultResolver>> Add<T>(this IDecorator<IList<FaultResolver>> decorator, string code = null, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : HttpStatusCodeException
+        public static IDecorator<IList<HttpFaultResolver>> AddHttpFaultResolver<T>(this IDecorator<IList<HttpFaultResolver>> decorator, string code = null, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : HttpStatusCodeException
         {
-            return Add<T>(decorator, ex => new HttpExceptionDescriptor(ex, ex.StatusCode, code, message, helpLink), exceptionValidator);
+            return AddHttpFaultResolver<T>(decorator, ex => new HttpExceptionDescriptor(ex, ex.StatusCode, code, message, helpLink), exceptionValidator);
         }
 
         /// <summary>
         /// Adds a new <see cref="HttpExceptionDescriptor"/> to the enclosed <see cref="T:IList{FaultResolver}"/> of the <paramref name="decorator"/> from the parameters provided.
         /// </summary>
-        /// <typeparam name="T">The type of the <see cref="Exception"/> to associate with a <see cref="FaultResolver"/>.</typeparam>
+        /// <typeparam name="T">The type of the <see cref="Exception"/> to associate with a <see cref="HttpFaultResolver"/>.</typeparam>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
         /// <param name="statusCode">The status code of the HTTP request.</param>
         /// <param name="code">The error code that uniquely identifies the type of failure.</param>
@@ -78,15 +78,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///     </item>
         /// </list>
         /// </remarks>
-        public static IDecorator<IList<FaultResolver>> Add<T>(this IDecorator<IList<FaultResolver>> decorator, int statusCode, string code = null, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : Exception
+        public static IDecorator<IList<HttpFaultResolver>> AddHttpFaultResolver<T>(this IDecorator<IList<HttpFaultResolver>> decorator, int statusCode, string code = null, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : Exception
         {
-            return Add<T>(decorator, ex => new HttpExceptionDescriptor(ex, statusCode, code, message, helpLink), exceptionValidator);
+            return AddHttpFaultResolver<T>(decorator, ex => new HttpExceptionDescriptor(ex, statusCode, code, message, helpLink), exceptionValidator);
         }
 
         /// <summary>
         /// Adds the specified function delegate <paramref name="exceptionDescriptorResolver"/> and function delegate <paramref name="exceptionValidator"/> to the enclosed <see cref="T:IList{FaultResolver}"/> of the <paramref name="decorator"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the <see cref="Exception"/> to associate with a <see cref="FaultResolver"/>.</typeparam>
+        /// <typeparam name="T">The type of the <see cref="Exception"/> to associate with a <see cref="HttpFaultResolver"/>.</typeparam>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
         /// <param name="exceptionDescriptorResolver">The function delegate that associates an <see cref="Exception"/> of type <typeparamref name="T"/> with an <see cref="HttpExceptionDescriptor"/>.</param>
         /// <param name="exceptionValidator">The function delegate that evaluates an <see cref="Exception"/>.</param>
@@ -94,11 +94,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static IDecorator<IList<FaultResolver>> Add<T>(this IDecorator<IList<FaultResolver>> decorator, Func<T, HttpExceptionDescriptor> exceptionDescriptorResolver, Func<Exception, bool> exceptionValidator) where T : Exception
+        public static IDecorator<IList<HttpFaultResolver>> AddHttpFaultResolver<T>(this IDecorator<IList<HttpFaultResolver>> decorator, Func<T, HttpExceptionDescriptor> exceptionDescriptorResolver, Func<Exception, bool> exceptionValidator) where T : Exception
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             if (exceptionValidator == null) { exceptionValidator = ex => ex is T; }
-            decorator.Inner.Add(new FaultResolver(exceptionValidator, ex => exceptionDescriptorResolver((T)ex)));
+            decorator.Inner.Add(new HttpFaultResolver(exceptionValidator, ex => exceptionDescriptorResolver((T)ex)));
             return decorator;
         }
     }

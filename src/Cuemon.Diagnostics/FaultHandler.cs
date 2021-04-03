@@ -1,12 +1,11 @@
 ﻿using System;
-using Cuemon.AspNetCore.Diagnostics;
 
-namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
+namespace Cuemon.Diagnostics
 {
     /// <summary>
-    /// Provides a way to evaluate an exception and provide details about it for in a developer friendly way.
+    /// Provides a generic way to implement a fault resolver that evaluate an exception and provide details about it in a developer friendly way.
     /// </summary>
-    public class FaultResolver
+    public abstract class FaultHandler<TDescriptor> where TDescriptor : ExceptionDescriptor
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FaultResolver"/> class.
@@ -17,24 +16,24 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <paramref name="validator"/> cannot be null -or-
         /// <paramref name="descriptor"/> cannot be null.
         /// </exception>
-        public FaultResolver(Func<Exception, bool> validator, Func<Exception, HttpExceptionDescriptor> descriptor)
+        protected FaultHandler(Func<Exception, bool> validator, Func<Exception, TDescriptor> descriptor)
         {
-            Cuemon.Validator.ThrowIfNull(validator, nameof(validator));
-            Cuemon.Validator.ThrowIfNull(descriptor, nameof(descriptor));
-            Validator = validator;
-            Descriptor = descriptor;
+            Validator.ThrowIfNull(validator, nameof(validator));
+            Validator.ThrowIfNull(descriptor, nameof(descriptor));
+            ValidatorCallback = validator;
+            DescriptorCallback = descriptor;
         }
 
         /// <summary>
         /// Gets the function delegate that provides details about an <see cref="Exception"/>.
         /// </summary>
         /// <value>The function delegate that provides details about an <see cref="Exception"/>.</value>
-        public Func<Exception, HttpExceptionDescriptor> Descriptor { get; }
+        public Func<Exception, TDescriptor> DescriptorCallback { get; }
 
         /// <summary>
         /// Gets the function delegate that evaluates an <see cref="Exception"/>.
         /// </summary>
         /// <value>The function delegate that evaluates an <see cref="Exception"/>.</value>
-        public Func<Exception, bool> Validator { get; }
+        public Func<Exception, bool> ValidatorCallback { get; }
     }
 }

@@ -13,6 +13,8 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - RENAMED TimeMeasureAttribute class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to ServerTimingAttribute (including refactoring)
 - RENAMED TimeMeasuringFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to ServerTimingFilter (including refactoring)
 - RENAMED TimeMeasuringOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to ServerTimingOptions (including refactoring)
+- RENAMED Add{T} --> AddHttpFaultResolver{T} on the (Http)FaultResolverDecoratorExtensions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace
+- RENAMED FaultResolver class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to HttpFaultResolver
  
 # New Features
 - ADDED TooManyRequestsObjectResult class in the Cuemon.AspNetCore.Mvc namespace that is an ObjectResult that when executed will produce a Too Many Requests (429) response

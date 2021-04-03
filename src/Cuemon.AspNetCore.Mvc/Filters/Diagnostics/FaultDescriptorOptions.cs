@@ -7,6 +7,7 @@ using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
@@ -59,11 +60,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         public FaultDescriptorOptions()
         {
             Decorator.Enclose(FaultResolvers)
-                .Add<ThrottlingException>()
-                .Add<UserAgentException>()
-                .Add<ValidationException>(StatusCodes.Status400BadRequest)
-                .Add<FormatException>(StatusCodes.Status400BadRequest)
-                .Add<ArgumentException>(StatusCodes.Status400BadRequest, exceptionValidator: ex => Decorator.Enclose(ex.GetType()).HasTypes(typeof(ArgumentException)));
+                .AddHttpFaultResolver<ThrottlingException>()
+                .AddHttpFaultResolver<UserAgentException>()
+                .AddHttpFaultResolver<ValidationException>(StatusCodes.Status400BadRequest)
+                .AddHttpFaultResolver<FormatException>(StatusCodes.Status400BadRequest)
+                .AddHttpFaultResolver<ArgumentException>(StatusCodes.Status400BadRequest, exceptionValidator: ex => Decorator.Enclose(ex.GetType()).HasTypes(typeof(ArgumentException)));
             ExceptionCallback = null;
             RequestBodyParser = null;
             ExceptionDescriptorResolver = e =>
@@ -72,7 +73,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 {
                     foreach (var descriptor in FaultResolvers)
                     {
-                        if (descriptor.Validator.Invoke(e)) { return descriptor.Descriptor.Invoke(e); }
+                        if (descriptor.ValidatorCallback.Invoke(e)) { return descriptor.DescriptorCallback.Invoke(e); }
                     }
                 }
                 return new HttpExceptionDescriptor(e, StatusCodes.Status500InternalServerError, message: FormattableString.Invariant($"An unhandled exception was raised by {Assembly.GetEntryAssembly()?.GetName().Name}."), helpLink: RootHelpLink);
@@ -100,17 +101,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         public bool UseBaseException { get; set; }
 
         /// <summary>
-        /// Gets a collection of <see cref="FaultResolver"/> that can ease the usage of <see cref="ExceptionDescriptorResolver"/>.
+        /// Gets a collection of <see cref="HttpFaultResolver"/> that can ease the usage of <see cref="ExceptionDescriptorResolver"/>.
         /// </summary>
-        /// <value>The collection of <see cref="FaultResolver"/>.</value>
-        public IList<FaultResolver> FaultResolvers { get; } = new List<FaultResolver>();
+        /// <value>The collection of <see cref="HttpFaultResolver"/>.</value>
+        public IList<HttpFaultResolver> FaultResolvers { get; } = new List<HttpFaultResolver>();
 
         /// <summary>
         /// Gets or sets the delegate that provides a way to handle and customize an <see cref="HttpExceptionDescriptor"/>.
         /// In the default implementation, this is invoked just before the <see cref="ExceptionDescriptorResult"/> is assigned to <see cref="Microsoft.AspNetCore.Mvc.Filters.ExceptionContext.Result"/>.
         /// </summary>
         /// <value>The delegate that provides a way to handle and customize an <see cref="HttpExceptionDescriptor"/>.</value>
-        public Action<Microsoft.AspNetCore.Mvc.Filters.ExceptionContext, HttpExceptionDescriptor> ExceptionDescriptorHandler { get; set; }
+        public Action<ExceptionContext, HttpExceptionDescriptor> ExceptionDescriptorHandler { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate that will resolve a <see cref="HttpExceptionDescriptor"/> from the specified <see cref="Exception"/>.
@@ -125,9 +126,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         public Action<Exception, HttpExceptionDescriptor> ExceptionCallback { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to mark ASP.NET Core MVC <see cref="Microsoft.AspNetCore.Mvc.Filters.ExceptionContext.ExceptionHandled"/> to <c>true</c>.
+        /// Gets or sets a value indicating whether to mark ASP.NET Core MVC <see cref="ExceptionContext.ExceptionHandled"/> to <c>true</c>.
         /// </summary>
-        /// <value><c>true</c> if <see cref="Microsoft.AspNetCore.Mvc.Filters.ExceptionContext.ExceptionHandled"/> should be set; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if <see cref="ExceptionContext.ExceptionHandled"/> should be set; otherwise, <c>false</c>.</value>
         public bool MarkExceptionHandled  { get; set; }
 
         /// <summary>
