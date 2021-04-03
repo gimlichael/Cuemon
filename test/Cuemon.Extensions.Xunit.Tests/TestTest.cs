@@ -33,6 +33,12 @@ namespace Cuemon.Extensions.Xunit
             Assert.Throws<ObjectDisposedException>(DisposeSensitiveMethod);
         }
 
+        [Fact]
+        public void Test_ShouldHaveCallerTypeOfTestTest()
+        {
+            Assert.True(GetType() == typeof(TestTest), "GetType() == typeof(TestTest)");
+        }
+
         public string DisposeSensitiveMethod()
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
