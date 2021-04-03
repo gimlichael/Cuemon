@@ -11,7 +11,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         private readonly Action<IServiceCollection> _serviceConfigurator;
         private readonly Action<IHostBuilder> _hostConfigurator;
 
-        internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator.Target?.GetType() ?? serviceConfigurator.Target.GetType())
+        internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator.Target?.GetType() ?? serviceConfigurator.Target?.GetType() ?? hostConfigurator.Target?.GetType())
         {
             _pipelineConfigurator = pipelineConfigurator;
             _serviceConfigurator = serviceConfigurator;
