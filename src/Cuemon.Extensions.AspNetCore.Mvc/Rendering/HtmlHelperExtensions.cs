@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -30,13 +29,12 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         }
         
         /// <summary>
-        /// Creates a value of <typeparamref name="T"/> when the specified <paramref name="template"/> name and <paramref name="target"/> name is matched in <see cref="ActionContext.RouteData"/>.
+        /// Creates a value of <typeparamref name="T"/> when the specified <paramref name="target"/> name is matched in <see cref="ActionContext.RouteData"/>.
         /// </summary>
         /// <typeparam name="T">The type of the value for the matched action method.</typeparam>
         /// <param name="helper">The <see cref="IHtmlHelper"/> to extend.</param>
-        /// <param name="template">The route name to match.</param>
         /// <param name="target">The page name to match.</param>
-        /// <param name="body">The function delegate that, when both <paramref name="template"/> and <paramref name="target"/> is matched in <see cref="ActionContext.RouteData"/>, returns <typeparamref name="T"/>.</param>
+        /// <param name="body">The function delegate that, when <paramref name="target"/> is matched in <see cref="ActionContext.RouteData"/>, returns <typeparamref name="T"/>.</param>
         /// <returns>Either the value of the function delegate <paramref name="body"/> or <b>default(T)</b>.</returns>
         public static T UseWhenPage<T>(this IHtmlHelper helper, string target, Func<T> body)
         {
@@ -47,18 +45,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
             }, "page", null);
             return result;
         }
-
-        /// <summary>
-        /// Invokes the delegate <paramref name="body"/> when the specified <paramref name="template"/> name and <paramref name="target"/> name is matched in <see cref="ActionContext.RouteData"/>.
-        /// </summary>
-        /// <param name="helper">The <see cref="IHtmlHelper"/> to extend.</param>
-        /// <param name="template">The action name to match.</param>
-        /// <param name="target">The controller name to match.</param>
-        /// <param name="body">The delegate that, when both <paramref name="template"/> and <paramref name="target"/> is matched in <see cref="ActionContext.RouteData"/>, is invoked.</param>
-        //public static void UseWhen(this IHtmlHelper helper, string action, string controller, Action body)
-        //{
-        //    UseWhenCore(helper, action, controller, body);
-        //}
 
         private static void UseWhenCore(IHtmlHelper helper, string template, string target, Action whenMatchDelegate, string routeTarget, string routeTemplate)
         {

@@ -4,7 +4,11 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 # Breaking Changes
 - RENAMED ToCacheableObjectResult{T} --> MakeCacheable{T} on the CacheableObjectResultExtensions class in the Cuemon.Extensions.AspNetCore.Mvc namespace (also included a non-generic variant: MakeCacheable)
 - RENAMED Add{T} --> AddHttpFaultResolver{T} on the (Http)FaultResolverExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics namespace
+- RENAMED UseWhen{T} --> UseWhenView{T} on the HtmlHelperExtensions class in the Cuemon.Extensions.AspNetCore.Mvc namespace
 - REMOVED ApplicationBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc namespace
+ 
+# New Features
+- EXTENDED HtmlHelperExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Rendering namespace with one new extension method for the IHtmlHelper interface: UseWhenPage{T}
  
 # Quality Analysis Actions
 - CHANGED HtmlHelperExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Rendering namespace to have 0 duplicated blocks of lines of code
