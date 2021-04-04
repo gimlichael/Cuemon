@@ -59,7 +59,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                         return Task.CompletedTask;
                     });
                     response.StatusCode = (int)message.StatusCode;
-                    await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
+                    await Decorator.Enclose(response.Body).WriteAllAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
                 }).ConfigureAwait(false);
             }
             await Next.Invoke(context).ConfigureAwait(false);

@@ -14,7 +14,7 @@ namespace Cuemon.Extensions.IO
     public static class StreamExtensions
     {
         /// <summary>
-        /// Combines a variable number of streams into one stream.
+        /// Combines two streams, <paramref name="first"/> and <paramref name="second"/>, into one stream.
         /// </summary>
         /// <param name="first">The <see cref="Stream"/> to extend.</param>
         /// <param name="second">The <see cref="Stream"/> to concat with <paramref name="first"/>.</param>
@@ -140,10 +140,10 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="InvalidOperationException">
         /// The stream is currently in use by a previous write operation.
         /// </exception>
-        public static Task WriteAsync(this Stream stream, byte[] buffer)
+        public static Task WriteAllAsync(this Stream stream, byte[] buffer)
         {
             Validator.ThrowIfNull(stream, nameof(stream));
-            return Decorator.Enclose(stream).WriteAsync(buffer);
+            return Decorator.Enclose(stream).WriteAllAsync(buffer);
         }
 
         /// <summary>
@@ -156,8 +156,6 @@ namespace Cuemon.Extensions.IO
         {
             return ByteOrderMark.TryDetectEncoding(value, out result);
         }
-
-
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a <see cref="string"/>.
@@ -197,7 +195,7 @@ namespace Cuemon.Extensions.IO
             return Decorator.Enclose(value).ToEncodedStringAsync(setup);
         }
 
-        #if NETSTANDARD2_1
+        #if NETSTANDARD2_1 || NET5_0_OR_GREATER
         /// <summary>
         /// Compresses the <paramref name="value"/> using the BROTLI algorithm.
         /// </summary>
@@ -310,7 +308,7 @@ namespace Cuemon.Extensions.IO
             return Decorator.Enclose(value).CompressGZipAsync(setup);
         }
 
-        #if NETSTANDARD2_1
+        #if NETSTANDARD2_1 || NET5_0_OR_GREATER
         /// <summary>
         /// Decompresses the <paramref name="value"/> using the BROTLI data format specification.
         /// </summary>
