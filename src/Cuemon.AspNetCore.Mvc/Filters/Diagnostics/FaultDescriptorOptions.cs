@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Reflection;
 using Cuemon.AspNetCore.Diagnostics;
+using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Microsoft.AspNetCore.Http;
@@ -33,7 +34,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///     </item>
         ///     <item>
         ///         <term><see cref="ExceptionDescriptorResolver"/></term>
-        ///         <description>The default implementation iterates over <see cref="FaultResolvers"/> until a match is found from an <see cref="Exception"/>; then the associated <see cref="HttpExceptionDescriptor"/> is returned. If no match is found, a <see cref="HttpExceptionDescriptor"/> initialized to status 500 InternalServerError is returned</description>
+        ///         <description>The default implementation iterates over <see cref="HttpFaultResolvers"/> until a match is found from an <see cref="Exception"/>; then the associated <see cref="HttpExceptionDescriptor"/> is returned. If no match is found, a <see cref="HttpExceptionDescriptor"/> initialized to status 500 InternalServerError is returned</description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ExceptionCallback"/></term>
@@ -59,7 +60,16 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// </remarks>
         public FaultDescriptorOptions()
         {
-            Decorator.Enclose(FaultResolvers)
+            Decorator.Enclose(HttpFaultResolvers)
+                .AddHttpFaultResolver<BadRequestException>()
+                .AddHttpFaultResolver<ConflictException>()
+                .AddHttpFaultResolver<ForbiddenException>()
+                .AddHttpFaultResolver<NotFoundException>()
+                .AddHttpFaultResolver<PayloadTooLargeException>()
+                .AddHttpFaultResolver<PreconditionFailedException>()
+                .AddHttpFaultResolver<PreconditionRequiredException>()
+                .AddHttpFaultResolver<TooManyRequestsException>()
+                .AddHttpFaultResolver<UnauthorizedException>()
                 .AddHttpFaultResolver<ThrottlingException>()
                 .AddHttpFaultResolver<UserAgentException>()
                 .AddHttpFaultResolver<ValidationException>(StatusCodes.Status400BadRequest)
@@ -71,9 +81,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 if (e != null)
                 {
-                    foreach (var descriptor in FaultResolvers)
+                    foreach (var resolver in HttpFaultResolvers)
                     {
-                        if (descriptor.ValidatorCallback.Invoke(e)) { return descriptor.DescriptorCallback.Invoke(e); }
+                        if (resolver.TryResolveFault(e, out var descriptor)) { return descriptor; }
                     }
                 }
                 return new HttpExceptionDescriptor(e, StatusCodes.Status500InternalServerError, message: FormattableString.Invariant($"An unhandled exception was raised by {Assembly.GetEntryAssembly()?.GetName().Name}."), helpLink: RootHelpLink);
@@ -104,7 +114,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// Gets a collection of <see cref="HttpFaultResolver"/> that can ease the usage of <see cref="ExceptionDescriptorResolver"/>.
         /// </summary>
         /// <value>The collection of <see cref="HttpFaultResolver"/>.</value>
-        public IList<HttpFaultResolver> FaultResolvers { get; } = new List<HttpFaultResolver>();
+        public IList<HttpFaultResolver> HttpFaultResolvers { get; } = new List<HttpFaultResolver>();
 
         /// <summary>
         /// Gets or sets the delegate that provides a way to handle and customize an <see cref="HttpExceptionDescriptor"/>.
