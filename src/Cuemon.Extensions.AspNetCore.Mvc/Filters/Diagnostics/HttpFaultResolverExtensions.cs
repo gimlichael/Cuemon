@@ -16,11 +16,10 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of the <see cref="HttpStatusCodeException"/> to associate with a <see cref="HttpFaultResolver"/>.</typeparam>
         /// <param name="descriptors">The collection to extend.</param>
-        /// <param name="code">The error code that uniquely identifies the type of failure.</param>
         /// <param name="message">The message that explains the reason for the failure.</param>
         /// <param name="helpLink">The optional link to a help page associated with this failure.</param>
         /// <param name="exceptionValidator">The function delegate that evaluates an <see cref="Exception"/>.</param>
-        /// <returns>The <see cref="T:IList{FaultResolver}"/> instance.</returns>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="descriptors"/> is null.
         /// </exception>
@@ -41,10 +40,10 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
         ///     </item>
         /// </list>
         /// </remarks>
-        public static IList<HttpFaultResolver> AddHttpFaultResolver<T>(this IList<HttpFaultResolver> descriptors, string code = null, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : HttpStatusCodeException
+        public static IList<HttpFaultResolver> AddHttpFaultResolver<T>(this IList<HttpFaultResolver> descriptors, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : HttpStatusCodeException
         {
             Validator.ThrowIfNull(descriptors, nameof(descriptors));
-            return Decorator.Enclose(descriptors).AddHttpFaultResolver<T>(code, message, helpLink, exceptionValidator).Inner;
+            return Decorator.Enclose(descriptors).AddHttpFaultResolver<T>(message, helpLink, exceptionValidator).Inner;
         }
 
         /// <summary>
@@ -57,7 +56,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
         /// <param name="message">The message that explains the reason for the failure.</param>
         /// <param name="helpLink">The optional link to a help page associated with this failure.</param>
         /// <param name="exceptionValidator">The function delegate that evaluates an <see cref="Exception"/>.</param>
-        /// <returns>The <see cref="T:IList{FaultResolver}"/> instance.</returns>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="descriptors"/> is null.
         /// </exception>
@@ -91,7 +90,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
         /// <param name="descriptors">The collection to extend.</param>
         /// <param name="exceptionDescriptorResolver">The function delegate that associates an <see cref="Exception"/> of type <typeparamref name="T"/> with an <see cref="HttpExceptionDescriptor"/>.</param>
         /// <param name="exceptionValidator">The function delegate that evaluates an <see cref="Exception"/>.</param>
-        /// <returns>The <see cref="T:IList{FaultResolver}"/> instance.</returns>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="descriptors"/> is null.
         /// </exception>

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Cuemon.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 
-namespace Cuemon.AspNetCore.Authentication
+namespace Cuemon.AspNetCore.Http
 {
     /// <summary>
-    /// The exception that is thrown when the requirements of an HTTP WWW-Authenticated header is not meet.
+    /// The exception that is thrown when the requirements of an HTTP WWW-Authenticate header is not meet.
     /// </summary>
     /// <seealso cref="HttpStatusCodeException" />
     [Serializable]
@@ -14,9 +14,8 @@ namespace Cuemon.AspNetCore.Authentication
         /// <summary>
         /// Initializes a new instance of the <see cref="UnauthorizedException"/> class.
         /// </summary>
-        /// <param name="statusCode">The HTTP status code to associate with this exception.</param>
         /// <param name="message">The message that describes the HTTP status code.</param>
-        public UnauthorizedException(int statusCode, string message) : base(statusCode, message)
+        public UnauthorizedException(string message = "The request requires user authentication.") : base(StatusCodes.Status401Unauthorized, message)
         {
         }
 

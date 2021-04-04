@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Cuemon.AspNetCore.Http;
 using Microsoft.AspNetCore.Http;
 
 namespace Cuemon.AspNetCore.Authentication
@@ -13,7 +14,7 @@ namespace Cuemon.AspNetCore.Authentication
             if (message != null)
             {
                 transformer?.Invoke(message, decorator.Inner.Response);
-                throw new UnauthorizedException((int)message.StatusCode, await message.Content.ReadAsStringAsync().ConfigureAwait(false));
+                throw new UnauthorizedException(await message.Content.ReadAsStringAsync().ConfigureAwait(false));
             }
         }
     }

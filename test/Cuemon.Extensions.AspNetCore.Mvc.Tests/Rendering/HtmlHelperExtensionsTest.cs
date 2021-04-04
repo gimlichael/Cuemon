@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
-using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Configuration;
-using Cuemon.Extensions.AspNetCore.Mvc.Models;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;

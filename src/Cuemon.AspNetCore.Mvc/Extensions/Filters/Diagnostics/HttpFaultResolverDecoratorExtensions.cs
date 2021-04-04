@@ -17,7 +17,6 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of the <see cref="HttpStatusCodeException"/> to associate with a <see cref="HttpFaultResolver"/>.</typeparam>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
-        /// <param name="code">The error code that uniquely identifies the type of failure.</param>
         /// <param name="message">The message that explains the reason for the failure.</param>
         /// <param name="helpLink">The optional link to a help page associated with this failure.</param>
         /// <param name="exceptionValidator">The function delegate that evaluates an <see cref="Exception"/>.</param>
@@ -33,18 +32,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><paramref name="code"/></term>
-        ///         <description><c>code ?? ReasonPhrases.GetReasonPhrase(statusCode)</c></description>
-        ///     </item>
-        ///     <item>
         ///         <term><paramref name="message"/></term>
         ///         <description><c>message ?? failure.Message</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
-        public static IDecorator<IList<HttpFaultResolver>> AddHttpFaultResolver<T>(this IDecorator<IList<HttpFaultResolver>> decorator, string code = null, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : HttpStatusCodeException
+        public static IDecorator<IList<HttpFaultResolver>> AddHttpFaultResolver<T>(this IDecorator<IList<HttpFaultResolver>> decorator, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : HttpStatusCodeException
         {
-            return AddHttpFaultResolver<T>(decorator, ex => new HttpExceptionDescriptor(ex, ex.StatusCode, code, message, helpLink), exceptionValidator);
+            return AddHttpFaultResolver<T>(decorator, ex => new HttpExceptionDescriptor(ex, ex.StatusCode, ex.ReasonPhrase, message, helpLink), exceptionValidator);
         }
 
         /// <summary>

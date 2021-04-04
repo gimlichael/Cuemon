@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Authentication.Hmac;
+using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Authentication;
 using Cuemon.Extensions.Xunit;

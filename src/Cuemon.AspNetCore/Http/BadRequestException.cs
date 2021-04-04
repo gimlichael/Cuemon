@@ -1,0 +1,31 @@
+﻿using System;
+using System.Runtime.Serialization;
+using Microsoft.AspNetCore.Http;
+
+namespace Cuemon.AspNetCore.Http
+{
+    /// <summary>
+    /// The exception that is thrown when the server could not understand the request due to invalid syntax.
+    /// </summary>
+    /// <seealso cref="HttpStatusCodeException" />
+    [Serializable]
+    public class BadRequestException : HttpStatusCodeException
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BadRequestException"/> class.
+        /// </summary>
+        /// <param name="message">The message that describes the HTTP status code.</param>
+        public BadRequestException(string message = "The request could not be understood by the server due to malformed syntax.") : base(StatusCodes.Status400BadRequest, message)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BadRequestException"/> class.
+        /// </summary>
+        /// <param name="info">The object that holds the serialized object data.</param>
+        /// <param name="context">The contextual information about the source or destination.</param>
+        protected BadRequestException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
+}

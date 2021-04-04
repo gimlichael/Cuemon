@@ -27,7 +27,9 @@ namespace Cuemon.Resilience
             {
                 bf.Serialize(ms, ex);
                 ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as LatencyException;
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Assert.Equal(ex.Message, desEx.Message);
                 Assert.Equal(ex.ToString(), desEx.ToString());
             }
@@ -45,7 +47,9 @@ namespace Cuemon.Resilience
             {
                 bf.Serialize(ms, ex);
                 ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as TransientFaultException;
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 TestOutput.WriteLine(ex.Evidence.GetHashCode().ToString());
                 TestOutput.WriteLine(desEx.Evidence.GetHashCode().ToString());
                 Assert.Equal(ex.Evidence, desEx.Evidence);

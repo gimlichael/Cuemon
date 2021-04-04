@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Authentication.Assets;
 using Cuemon.AspNetCore.Authentication.Digest;
+using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions;
 using Cuemon.Extensions.AspNetCore.Authentication;

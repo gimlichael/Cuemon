@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                         if (message != null)
                         {
                             transformer?.Invoke(message, decorator.Inner.Response);
-                            throw new ThrottlingException((int)message.StatusCode, await message.Content.ReadAsStringAsync().ConfigureAwait(false), tr.Quota.RateLimit, delta, reset);
+                            throw new ThrottlingException(await message.Content.ReadAsStringAsync().ConfigureAwait(false), tr.Quota.RateLimit, delta, reset);
                         }
                     }
                 }
