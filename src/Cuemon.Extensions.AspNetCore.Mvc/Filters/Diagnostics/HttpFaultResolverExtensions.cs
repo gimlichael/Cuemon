@@ -31,10 +31,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><paramref name="code"/></term>
-        ///         <description><c>code ?? ReasonPhrases.GetReasonPhrase(statusCode)</c></description>
-        ///     </item>
-        ///     <item>
         ///         <term><paramref name="message"/></term>
         ///         <description><c>message ?? failure.Message</c></description>
         ///     </item>

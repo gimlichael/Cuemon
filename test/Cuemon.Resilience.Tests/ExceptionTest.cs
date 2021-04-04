@@ -25,7 +25,9 @@ namespace Cuemon.Resilience
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
             {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 bf.Serialize(ms, ex);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as LatencyException;
@@ -45,7 +47,9 @@ namespace Cuemon.Resilience
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
             {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 bf.Serialize(ms, ex);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as TransientFaultException;
