@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using Cuemon.Reflection;
 
 namespace Cuemon.Extensions.Reflection
@@ -34,28 +33,6 @@ namespace Cuemon.Extensions.Reflection
         {
             Validator.ThrowIfNull(source, nameof(source));
             return Decorator.Enclose(source.Assembly).GetManifestResources(name, match);
-        }
-
-        /// <summary>
-        /// Conduct a dynamic search for <paramref name="memberName"/> using the specified <paramref name="caller"/> information.
-        /// </summary>
-        /// <param name="caller">The <see cref="Type"/> to extend.</param>
-        /// <param name="types">An array of <see cref="Type"/> objects representing the number, order, and type of the parameters for the method to get.</param>
-        /// <param name="flags">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <param name="memberName">The name of the member of <paramref name="caller"/>.</param>
-        /// <returns>An object representing the method that matches the specified requirements, if found; otherwise, <c>null</c>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="caller"/> cannot be null -or-
-        /// <paramref name="memberName"/> cannot be null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="memberName"/> cannot be empty or consist only of white-space characters.
-        /// </exception>
-        public static MethodBase ToMethodBase(this Type caller, Type[] types = null, BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, StringComparison comparison = StringComparison.Ordinal, [CallerMemberName] string memberName = "")
-        {
-            Validator.ThrowIfNull(caller, nameof(caller));
-            return Decorator.Enclose(caller).MatchMember(types, flags, comparison, memberName);
         }
 
         /// <summary>

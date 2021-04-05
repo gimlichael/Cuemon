@@ -415,32 +415,6 @@ namespace Cuemon
             throw new AmbiguousMatchException(FormattableString.Invariant($"Ambiguous matching in method resolution. Found {methods.Count} matching the member name of {memberName}. Consider specifying the signature of the member."));
         }
 
-        /// <summary>
-        /// Conduct a dynamic search for <paramref name="memberName"/> using the specified caller information on the underlying <see cref="Type"/> of the <paramref name="decorator"/>.
-        /// </summary>
-        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
-        /// <param name="types">An <see cref="T:Type[]"/> representing the number, order, and type of the parameters for the method to get.</param>
-        /// <param name="flags">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
-        /// <param name="memberName">The name of the member on the underlying <see cref="Type"/> of the <paramref name="decorator"/>.</param>
-        /// <returns>A <see cref="MethodBase"/> object representing the method that matches the specified requirements, if found on the underlying <see cref="Type"/> of the <paramref name="decorator"/>; otherwise, <c>null</c>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null -or-
-        /// <paramref name="memberName"/> cannot be null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="memberName"/> cannot be empty or consist only of white-space characters.
-        /// </exception>
-        public static MethodBase MatchMember(this IDecorator<Type> decorator, Type[] types = null, BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, StringComparison comparison = StringComparison.Ordinal, [CallerMemberName] string memberName = "")
-        {
-            return MatchMember(decorator, memberName, o =>
-            {
-                o.Flags = flags;
-                o.Types = types;
-                o.Comparison = comparison;
-            });
-        }
-
         private static MethodInfo Parse(IReadOnlyList<MethodInfo> methods, Type[] types)
         {
             if (methods.Count == 0) { return null; }

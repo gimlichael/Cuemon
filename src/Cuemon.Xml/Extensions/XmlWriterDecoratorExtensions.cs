@@ -138,7 +138,7 @@ namespace Cuemon.Xml
                 var innerException = ex;
                 if (innerException is OutOfMemoryException) { throw; }
                 if (innerException is TargetInvocationException) { innerException = innerException.InnerException; }
-                throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the XML document.", innerException), Decorator.Enclose(typeof(XmlWriterDecoratorExtensions)).MatchMember(flags: new MemberReflection(excludeInheritancePath: true)), Arguments.ToArray(writer, value));
+                throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the XML document.", innerException), MethodBase.GetCurrentMethod(), Arguments.ToArray(writer, value));
             }
             writer.WriteEndElement();
             writer.Flush();

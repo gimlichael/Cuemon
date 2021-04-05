@@ -32,6 +32,6 @@ Complements: [Cuemon.IO namespace](https://docs.cuemon.net/api/dotnet/Cuemon.IO.
 |Type|Ext|Methods|
 |--:|:-:|---|
 |byte[]|⬇️|`ToStream`, `ToStreamAsync`|
-|Stream|⬇️|`Concat`, `ToCharArray`, `ToByteArray`, `ToByteArrayAsync`, `WriteAsync`, `TryDetectUnicodeEncoding`, `ToEncodedString`, `ToEncodedStringAsync`, `CompressBrotli`, `CompressBrotliAsync`, `CompressDeflate`, `CompressDeflateAsync`, `CompressGZip`, `CompressGZipAsync`, `DecompressBrotli`, `DecompressBrotliAsync`, `DecompressDeflate`, `DecompressDeflateAsync`, `DecompressGZip`, `DecompressGZipAsync`|
+|Stream|⬇️|`Concat`, `ToCharArray`, `ToByteArray`, `ToByteArrayAsync`, `WriteAllAsync`, `TryDetectUnicodeEncoding`, `ToEncodedString`, `ToEncodedStringAsync`, `CompressBrotli`, `CompressBrotliAsync`, `CompressDeflate`, `CompressDeflateAsync`, `CompressGZip`, `CompressGZipAsync`, `DecompressBrotli`, `DecompressBrotliAsync`, `DecompressDeflate`, `DecompressDeflateAsync`, `DecompressGZip`, `DecompressGZipAsync`|
 |String|⬇️|`ToStream`, `ToStreamAsync`, `ToTextReader`|
 |TextReader|⬇️|`CopyToAsync`, `ReadAllLines`, `ReadAllLinesAsync`|
