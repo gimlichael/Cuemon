@@ -133,7 +133,8 @@ namespace Cuemon.Reflection
             switch (match)
             {
                 case ManifestResourceMatch.Name:
-                    resources.Add(name, decorator.Inner.GetManifestResourceStream(name));
+                    var rn = decorator.Inner.GetManifestResourceStream(name);
+                    if (rn != null) { resources.Add(name, rn); }
                     break;
                 default:
                     var resourceNames = decorator.Inner.GetManifestResourceNames();
@@ -143,7 +144,7 @@ namespace Cuemon.Reflection
                             AddResourcesWhenContainsName(resources, resourceNames, name, decorator.Inner);
                             break;
                         case ManifestResourceMatch.Extension:
-                            AddResourcesWhenExtensionPredicate(resources, resourceNames, name, decorator.Inner, (extension, matchExtension) => extension.ToUpperInvariant() == matchExtension);
+                            AddResourcesWhenExtensionPredicate(resources, resourceNames, name, decorator.Inner, (extension, matchExtension) => extension.ToUpperInvariant() == Path.GetExtension(name)?.ToUpperInvariant());
                             break;
                         case ManifestResourceMatch.ContainsExtension:
                             AddResourcesWhenExtensionPredicate(resources, resourceNames, name, decorator.Inner, (extension, matchExtension) => extension.IndexOf(matchExtension, StringComparison.OrdinalIgnoreCase) != -1);
@@ -169,11 +170,10 @@ namespace Cuemon.Reflection
 
         private static void AddResourcesWhenExtensionPredicate(Dictionary<string, Stream> resources, string[] resourceNames, string name, Assembly assembly, Func<string, string, bool> predicate)
         {
-            var matchExtension = Path.GetExtension(name)?.ToUpperInvariant();
             foreach (var resourceName in resourceNames)
             {
                 var extension = Path.GetExtension(resourceName).ToUpperInvariant();
-                if (predicate(extension, matchExtension))
+                if (predicate(extension, name))
                 {
                     resources.Add(resourceName, assembly.GetManifestResourceStream(resourceName));
                 }

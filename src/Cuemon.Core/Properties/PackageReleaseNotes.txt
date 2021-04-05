@@ -175,6 +175,7 @@ Availability: NET Standard 2.0, NET 5.0
  
 # Bug Fixes
 - FIXED critical bug in the DateSpan struct located on the Cuemon namespace
+- FIXED minor bug in the AssemblyDecoratorExtensions class located in the Cuemon.Reflection namespace
  
 # Improvements
 - CHANGED HashResult class in the Cuemon.Security namespace to implement IEquatable{HashResult} as well as other improvements
