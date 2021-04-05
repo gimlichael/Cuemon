@@ -5,9 +5,9 @@ using Cuemon.Data;
 namespace Cuemon.Extensions.Data
 {
     /// <summary>
-    /// This is an extensions implementation of the most common methods on the <see cref="DataTransfer"/> class.
+    /// Extension methods for the <see cref="IDataReader"/> interface.
     /// </summary>
-    public static class DataTransferExtensions
+    public static class DataReaderExtensions
     {
         /// <summary>
         /// Converts the specified <paramref name="reader"/> implementation to a table-like data transfer object.
