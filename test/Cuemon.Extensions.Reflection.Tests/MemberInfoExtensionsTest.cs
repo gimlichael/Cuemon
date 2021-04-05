@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Xml.Serialization;
 using Cuemon.Extensions.Reflection.Assets;
 using Cuemon.Extensions.Xunit;
@@ -29,7 +30,7 @@ namespace Cuemon.Extensions.Reflection
             Assert.True(sut2.GetProperty("Value", MemberReflection.Everything).HasAttributes(typeof(XmlElementAttribute)), "sut2.GetProperty('Value', MemberReflection.Everything).HasAttributes(typeof(XmlElementAttribute))");
             Assert.False(sut2.GetProperty("Value", MemberReflection.Everything).HasAttributes(typeof(ObsoleteAttribute)), "sut2.GetProperty('Value', MemberReflection.Everything).HasAttributes(typeof(ObsoleteAttribute))");
 
-            Assert.True(sut2.GetMethod("Test", MemberReflection.Everything).HasAttributes(typeof(TheoryAttribute)), "sut2.GetMethod('Test', MemberReflection.Everything).HasAttributes(typeof(TheoryAttribute))");
+            Assert.True(sut2.GetMethod("Test", MemberReflection.Everything).HasAttributes(typeof(DescriptionAttribute)), "sut2.GetMethod('Test', MemberReflection.Everything).HasAttributes(typeof(TheoryAttribute))");
             Assert.False(sut2.GetMethod("Test", MemberReflection.Everything).HasAttributes(typeof(ObsoleteAttribute)), "sut2.GetMethod('Test', MemberReflection.Everything).HasAttributes(typeof(ObsoleteAttribute))");
         }
     }

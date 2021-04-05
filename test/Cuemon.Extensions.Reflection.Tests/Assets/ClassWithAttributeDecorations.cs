@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Xunit;
 
@@ -15,7 +17,7 @@ namespace Cuemon.Extensions.Reflection.Assets
 
         public int ValueAlternative { get; } = int.MaxValue;
 
-        [Theory]
+        [Description]
         public void Test()
         {
 
