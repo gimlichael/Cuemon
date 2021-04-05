@@ -50,8 +50,8 @@ namespace Cuemon.Extensions.IO
         /// Asynchronously reads all lines of characters from the <paramref name="reader"/> and returns the data as a sequence of strings.
         /// </summary>
         /// <param name="reader">The <see cref="TextReader"/> to extend.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="T:IEnumerable{string}"/> that contains all lines of characters from the <paramref name="reader"/> that contains elements from the input sequence.</returns>
-        public static async Task<IEnumerable<string>> ReadAllLinesAsync(this TextReader reader)
+        /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="T:IReadOnlyList{string}"/> that contains all lines of characters from the <paramref name="reader"/> that contains elements from the input sequence.</returns>
+        public static async Task<IReadOnlyList<string>> ReadAllLinesAsync(this TextReader reader)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             var lines = new List<string>();
@@ -59,7 +59,7 @@ namespace Cuemon.Extensions.IO
             while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
             {
                 lines.Add(line);
-            }
+            } 
             return lines;
         }
     }
