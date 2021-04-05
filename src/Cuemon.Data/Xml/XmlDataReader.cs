@@ -55,7 +55,7 @@ namespace Cuemon.Data.Xml
         /// <exception cref="ObjectDisposedException">
         /// This instance has been disposed.
         /// </exception>
-        public bool Read()
+        public override bool Read()
         {
             if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
             return ReadNext(default);

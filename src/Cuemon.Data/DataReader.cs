@@ -87,12 +87,6 @@ namespace Cuemon.Data
             return builder.ToString();
         }
 
-        bool IDataReader.Read()
-        {
-            var value = ReadNext(default);
-            return !value.Equals(NullRead);
-        }
-
         /// <summary>
         /// Gets the value that indicates that no more rows exists.
         /// </summary>
@@ -316,6 +310,12 @@ namespace Cuemon.Data
         {
             return GetValue(i) == null || GetValue(i) == DBNull.Value;
         }
+
+        /// <summary>
+        /// Advances the <see cref="T:System.Data.IDataReader" /> to the next record.
+        /// </summary>
+        /// <returns><see langword="true" /> if there are more rows; otherwise, <see langword="false" />.</returns>
+        public abstract bool Read();
 
         /// <summary>
         /// Gets a value indicating the depth of nesting for the current row.
