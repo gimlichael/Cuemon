@@ -37,8 +37,9 @@ namespace Cuemon.Reflection
         public static bool IsAutoProperty(this IDecorator<PropertyInfo> decorator)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            if (decorator.Inner.GetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null ||
-                decorator.Inner.SetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
+            var hasGetMethodWithAttribute = decorator.Inner.GetMethod != null && decorator.Inner.GetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null;
+            var hasSetMethodWithAttribute = decorator.Inner.SetMethod != null && decorator.Inner.SetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null;
+            if (hasGetMethodWithAttribute || hasSetMethodWithAttribute)
             {
                 return decorator.Inner.DeclaringType != null && decorator.Inner.DeclaringType.GetFields(new MemberReflection(excludeInheritancePath: true)).Any(f => f.Name.Contains(FormattableString.Invariant($"<{decorator.Inner.Name}>")));
             }
