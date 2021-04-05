@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Cuemon.Extensions.Reflection.Assets
 {
-    [CLSCompliant(true)]
+    [CLSCompliant(false)]
     public class ClassWithAttributeDecorations
     {
         [ContextStatic]
