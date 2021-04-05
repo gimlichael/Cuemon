@@ -161,6 +161,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.Hos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.IO.Tests", "test\Cuemon.Extensions.IO.Tests\Cuemon.Extensions.IO.Tests.csproj", "{D80027A4-509D-4F08-9AC5-49133EAD57B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.Reflection.Tests", "test\Cuemon.Extensions.Reflection.Tests\Cuemon.Extensions.Reflection.Tests.csproj", "{6FA157C8-D254-4333-8C91-C9694D8AD599}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -475,6 +477,10 @@ Global
 		{D80027A4-509D-4F08-9AC5-49133EAD57B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D80027A4-509D-4F08-9AC5-49133EAD57B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D80027A4-509D-4F08-9AC5-49133EAD57B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FA157C8-D254-4333-8C91-C9694D8AD599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA157C8-D254-4333-8C91-C9694D8AD599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA157C8-D254-4333-8C91-C9694D8AD599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA157C8-D254-4333-8C91-C9694D8AD599}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -557,6 +563,7 @@ Global
 		{C6867EE8-73F9-435D-90CF-8546CF693903} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{BF02BDC4-AD9D-4B39-B2C5-3E8EC7DE851A} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{D80027A4-509D-4F08-9AC5-49133EAD57B2} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
+		{6FA157C8-D254-4333-8C91-C9694D8AD599} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A848386-B682-4F6D-8254-B5F6247C3054}
