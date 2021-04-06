@@ -30,7 +30,6 @@ namespace Cuemon.Extensions
             var sut2 = new DateTime(2021, 4, 6, 21, 44, 37, DateTimeKind.Utc);
             var sut3 = sut1.ToUtcKind();
 
-            Assert.NotEqual(sut1.ToUniversalTime(), sut2);
             Assert.Equal(sut2, sut3);
         }
 
@@ -41,7 +40,6 @@ namespace Cuemon.Extensions
             var sut2 = new DateTime(2021, 4, 6, 21, 44, 37, DateTimeKind.Utc);
             var sut3 = sut2.ToLocalKind();
 
-            Assert.NotEqual(sut1.ToUniversalTime(), sut2);
             Assert.Equal(sut1, sut3);
         }
 
@@ -53,7 +51,6 @@ namespace Cuemon.Extensions
             var sut3 = sut1.ToDefaultKind();
             var sut4 = sut2.ToDefaultKind();
 
-            Assert.NotEqual(sut1.ToUniversalTime(), sut2);
             Assert.Equal(sut3, sut4);
         }
 
