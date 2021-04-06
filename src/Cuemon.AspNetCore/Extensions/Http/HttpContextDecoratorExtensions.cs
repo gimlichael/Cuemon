@@ -52,7 +52,7 @@ namespace Cuemon.AspNetCore.Http
                         tr.IncrementTotal();
                     }
 
-                    var window = new TimeRange(utcNow, tr.Expires);
+                    var window = new DateTimeRange(utcNow, tr.Expires);
                     var delta = window.Duration;
                     var reset = utcNow.Add(delta);
                     Decorator.Enclose(decorator.Inner.Response.Headers).AddOrUpdate(options.RateLimitHeaderName, tr.Quota.RateLimit.ToString(CultureInfo.InvariantCulture));

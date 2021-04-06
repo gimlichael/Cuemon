@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Configuration
             get
             {
                 var utcNow = DateTime.UtcNow;
-                var range = new TimeRange(UtcChanged, utcNow);
+                var range = new DateTimeRange(UtcChanged, utcNow);
                 if (string.IsNullOrEmpty(_version) || range.Duration >= Options.TimeToLive)
                 {
                     _version = Decorator.Enclose(Generate.RandomString(Decorator.Enclose(Options.PreferredLength).Max(6), Options.PreferredCharacters)).ToCasing(Options.PreferredCasing);
