@@ -4,33 +4,37 @@ using System.Globalization;
 namespace Cuemon
 {
     /// <summary>
-    /// Represents a period of time between two <see cref="DateTime"/> values.
+    /// Represents a period of time between two <see cref="TimeSpan"/> values.
     /// </summary>
     public readonly struct TimeRange : IEquatable<TimeRange>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeRange"/> struct.
         /// </summary>
-        /// <param name="start">The start date of a time range.</param>
-        /// <param name="end">The end date of a time range.</param>
-        public TimeRange(DateTime start, DateTime end)
+        /// <param name="start">The start of a time range.</param>
+        /// <param name="end">The end of a time range.</param>
+        public TimeRange(TimeSpan start, TimeSpan end) : this(start, end, () => end.Subtract(start))
+        {
+        }
+
+        internal TimeRange(TimeSpan start, TimeSpan end, Func<TimeSpan> duration)
         {
             Start = start;
             End = end;
-            Duration = end.Subtract(start);
+            Duration = duration?.Invoke() ?? end.Subtract(start);
         }
 
         /// <summary>
         /// Gets the point of time where this time range begin.
         /// </summary>
-        /// <value>A <see cref="DateTime"/> representing the point of time where this time range begin.</value>
-        public DateTime Start { get; }
+        /// <value>A <see cref="TimeSpan"/> representing the point of time where this time range begin.</value>
+        public TimeSpan Start { get; }
 
         /// <summary>
         /// Gets the point of time where this time range end.
         /// </summary>
-        /// <value>A <see cref="DateTime"/> representing the point of time where this time range end.</value>
-        public DateTime End { get; }
+        /// <value>A <see cref="TimeSpan"/> representing the point of time where this time range end.</value>
+        public TimeSpan End { get; }
 
         /// <summary>
         /// Gets the duration between <see cref="Start"/> and <see cref="End"/>.
@@ -100,7 +104,7 @@ namespace Cuemon
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return ToString("s", CultureInfo.InvariantCulture);
+            return ToString("c", CultureInfo.InvariantCulture);
         }
 
         /// <summary>

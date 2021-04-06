@@ -7,6 +7,8 @@ namespace Cuemon.Extensions
     /// </summary>
     public static class DateTimeExtensions
     {
+        private static readonly DateTime Midnight = DateTime.UtcNow.Date;
+
         /// <summary>
         /// Converts the specified <paramref name="value"/> to an equivalent UNIX Epoch time representation.
         /// </summary>
@@ -64,9 +66,9 @@ namespace Cuemon.Extensions
         /// Determines whether the specified <paramref name="value"/> is within <paramref name="range"/>.
         /// </summary>
         /// <param name="value">The <see cref="DateTime"/> to extend.</param>
-        /// <param name="range">The <see cref="TimeRange"/> of <paramref name="value"/>.</param>
+        /// <param name="range">The <see cref="DateTimeRange"/> of <paramref name="value"/>.</param>
         /// <returns><c>true</c> if <paramref name="value"/> is within the specified <paramref name="range"/>; otherwise <c>false</c>.</returns>
-        public static bool IsWithinRange(this DateTime value, TimeRange range)
+        public static bool IsWithinRange(this DateTime value, DateTimeRange range)
         {
             return value.IsWithinRange(range.Start, range.End);
         }
@@ -78,7 +80,8 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Night"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayNight(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayPart.Night.Range.Start, DayPart.Night.Range.End);
+            var utcKind = value.ToUtcKind();
+            return utcKind >= Midnight.Add(DayPart.Night.Range.Start) || utcKind <= Midnight.Add(DayPart.Night.Range.End);
         }
 
         /// <summary>
@@ -88,7 +91,7 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Morning"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayMorning(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayPart.Morning.Range.Start, DayPart.Morning.Range.End);
+            return value.ToUtcKind().IsWithinRange(Midnight.Add(DayPart.Morning.Range.Start), Midnight.Add(DayPart.Morning.Range.End));
         }
 
         /// <summary>
@@ -98,7 +101,7 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Forenoon"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayForenoon(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayPart.Forenoon.Range.Start, DayPart.Forenoon.Range.End);
+            return value.ToUtcKind().IsWithinRange(Midnight.Add(DayPart.Forenoon.Range.Start), Midnight.Add(DayPart.Forenoon.Range.End));
         }
 
         /// <summary>
@@ -108,7 +111,7 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Afternoon"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayAfternoon(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayPart.Afternoon.Range.Start, DayPart.Afternoon.Range.End);
+            return value.ToUtcKind().IsWithinRange(Midnight.Add(DayPart.Afternoon.Range.Start), Midnight.Add(DayPart.Afternoon.Range.End));
         }
 
         /// <summary>
@@ -118,7 +121,7 @@ namespace Cuemon.Extensions
         /// <returns><c>true</c> if <paramref name="value"/> is within <see cref="DayPart.Evening"/>; otherwise <c>false</c>.</returns>
         public static bool IsTimeOfDayEvening(this DateTime value)
         {
-            return value.ToUtcKind().IsWithinRange(DayPart.Evening.Range.Start, DayPart.Evening.Range.End);
+            return value.ToUtcKind().IsWithinRange(Midnight.Add(DayPart.Evening.Range.Start), Midnight.Add(DayPart.Evening.Range.End));
         }
 
         /// <summary>

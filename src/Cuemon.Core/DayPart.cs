@@ -10,37 +10,35 @@ namespace Cuemon
     /// </summary>
     public class DayPart
     {
-        private static readonly DateTime Midnight = DateTime.UtcNow.Date;
-
         /// <summary>
         /// Gets the day part of a 24-hour period that approximates to Night.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Night.</value>
-        public static DayPart Night => new DayPart("Night", new TimeRange(Midnight.AddHours(-3), Midnight.AddHours(3)));
+        public static DayPart Night => new DayPart("Night", new TimeRange(TimeSpan.FromHours(21), TimeSpan.FromHours(3), () => TimeSpan.FromHours(6)));
 
         /// <summary>
         /// Gets the day part of a 24-hour period that approximates to Morning.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Morning.</value>
-        public static DayPart Morning => new DayPart("Morning", new TimeRange(Night.Range.End, Midnight.AddHours(9)));
+        public static DayPart Morning => new DayPart("Morning", new TimeRange(Night.Range.End, Night.Range.End.Add(TimeSpan.FromHours(6))));
 
         /// <summary>
         /// Gets the day part of a 24-hour period that approximates to Forenoon.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Forenoon.</value>
-        public static DayPart Forenoon => new DayPart("Forenoon", new TimeRange(Morning.Range.End, Midnight.AddHours(12)));
+        public static DayPart Forenoon => new DayPart("Forenoon", new TimeRange(Morning.Range.End, Morning.Range.End.Add(TimeSpan.FromHours(3))));
 
         /// <summary>
         /// Gets the day part of a 24-hour period that approximates to Afternoon.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Afternoon.</value>
-        public static DayPart Afternoon => new DayPart("Afternoon", new TimeRange(Forenoon.Range.End, Midnight.AddHours(18)));
+        public static DayPart Afternoon => new DayPart("Afternoon", new TimeRange(Forenoon.Range.End, Forenoon.Range.End.Add(TimeSpan.FromHours(6))));
 
         /// <summary>
         /// Gets the day part of a 24-hour period that approximates to Evening.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Evening.</value>
-        public static DayPart Evening => new DayPart("Evening", new TimeRange(Afternoon.Range.End, Midnight.AddHours(21)));
+        public static DayPart Evening => new DayPart("Evening", new TimeRange(Afternoon.Range.End, Afternoon.Range.End.Add(TimeSpan.FromHours(3))));
 
         /// <summary>
         /// Gets the day parts of a 24-hour range of period.
