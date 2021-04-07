@@ -90,7 +90,7 @@ Availability: NET Standard 2.0, NET 5.0
 - REMOVED DayParts class from the Cuemon namespace and merged members to DayPart struct
 - REMOVED PagedCollection class from the Cuemon.Collections.Generic namespace
 - REMOVED PagedSettings class from the Cuemon.Collections.Generic namespace
-- RENAMED TimeRange struct in the Cuemon namespace to DateTimeRange
+- CHANGED TimeRange struct in the Cuemon namespace to class and renamed to DateTimeRange
  
 # New Features
 - ADDED ResourceAttribute class in the Cuemon.Globalization namespace that provides a generic way to support localization on attribute decorated methods
@@ -173,7 +173,8 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED PaginationList class in the Cuemon.Collections.Generic namespace that represents an eagerly materialized generic and read-only pagination list
 - ADDED PaginationOptions class in the Cuemon.Collections.Generic namespace that specifies options related to PaginationEnumerable and PaginationList
 - ADDED VersionResult class in the Cuemon.Reflection namespace that represents different representations of a version scheme in a consistent way
-- ADDED TimeRange struct in the Cuemon namespace that represents a period of time between two TimeSpan values
+- ADDED TimeRange class in the Cuemon namespace that represents a period of time between two TimeSpan values
+- ADDED Range{T} class in the Cuemon namespace that represents a period of time between two types
  
 # Bug Fixes
 - FIXED critical bug in the DateSpan struct located on the Cuemon namespace
