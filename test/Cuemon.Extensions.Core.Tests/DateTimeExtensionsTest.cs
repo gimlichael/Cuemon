@@ -162,5 +162,55 @@ namespace Cuemon.Extensions
             Assert.True(sut3.IsTimeOfDayEvening());
             Assert.False(sut4.IsTimeOfDayEvening());
         }
+
+        [Fact]
+        public void Floor_ShouldRoundToNegativeInfinity()
+        {
+            var sut1 = new DateTime(2021, 4, 8, 21, 44, 37);
+            var sut2 = sut1.Floor(TimeSpan.FromSeconds(10));
+            var sut3 = sut1.Floor(TimeSpan.FromMinutes(15));
+            var sut4 = sut1.Floor(TimeSpan.FromHours(1));
+            var sut5 = sut1.Floor(TimeSpan.FromDays(1));
+            var sut6 = sut1.Floor(10, TimeUnit.Seconds);
+            var sut7 = sut1.Floor(15, TimeUnit.Minutes);
+            var sut8 = sut1.Floor(1, TimeUnit.Hours);
+            var sut9 = sut1.Floor(1, TimeUnit.Days);
+
+            
+            Assert.Equal("2021-04-08T21:44:30", sut2.ToString("s"));
+            Assert.Equal("2021-04-08T21:30:00", sut3.ToString("s"));
+            Assert.Equal("2021-04-08T21:00:00", sut4.ToString("s"));
+            Assert.Equal("2021-04-08T00:00:00", sut5.ToString("s"));
+
+            Assert.Equal(sut2, sut6);
+            Assert.Equal(sut3, sut7);
+            Assert.Equal(sut4, sut8);
+            Assert.Equal(sut5, sut9);
+        }
+
+        [Fact]
+        public void Ceiling_ShouldRoundTPositiveInfinity()
+        {
+            var sut1 = new DateTime(2021, 4, 8, 21, 44, 37);
+            var sut2 = sut1.Ceiling(TimeSpan.FromSeconds(10));
+            var sut3 = sut1.Ceiling(TimeSpan.FromMinutes(15));
+            var sut4 = sut1.Ceiling(TimeSpan.FromHours(1));
+            var sut5 = sut1.Ceiling(TimeSpan.FromDays(1));
+            var sut6 = sut1.Ceiling(10, TimeUnit.Seconds);
+            var sut7 = sut1.Ceiling(15, TimeUnit.Minutes);
+            var sut8 = sut1.Ceiling(1, TimeUnit.Hours);
+            var sut9 = sut1.Ceiling(1, TimeUnit.Days);
+
+            
+            Assert.Equal("2021-04-08T21:44:40", sut2.ToString("s"));
+            Assert.Equal("2021-04-08T21:45:00", sut3.ToString("s"));
+            Assert.Equal("2021-04-08T22:00:00", sut4.ToString("s"));
+            Assert.Equal("2021-04-09T00:00:00", sut5.ToString("s"));
+
+            Assert.Equal(sut2, sut6);
+            Assert.Equal(sut3, sut7);
+            Assert.Equal(sut4, sut8);
+            Assert.Equal(sut5, sut9);
+        }
     }
 }
