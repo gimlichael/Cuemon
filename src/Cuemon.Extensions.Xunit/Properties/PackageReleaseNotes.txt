@@ -4,3 +4,4 @@ Availability: NET Standard 2.0, NET 5.0
 # New Features
 - ADDED Test class in the Cuemon.Extensions.Xunit namespace that represents the base class from which all implementations of unit testing should derive
 - ADDED ITest interface in the Cuemon.Extensions.Xunit namespace that represents the members needed for vanilla testing
+- ADDED TestOutputHelperExtensions class in the Cuemon.Extensions.Xunit namespace that consist of extension methods for the ITestOutputHelper interface: WriteLines
