@@ -20,7 +20,7 @@ namespace Cuemon.Extensions
             var sut1 = new InvalidOperationException("First", new AmbiguousMatchException("Second", new OutOfMemoryException("Third", new AggregateException(Arguments.Yield(new AccessViolationException())))));
             var sut2 = sut1.Flatten();
 
-            TestOutput.WriteLines(sut2.ToArray());
+            TestOutput.WriteLines(sut2);
 
             Assert.Collection(sut2, 
                 e => Assert.IsType<AmbiguousMatchException>(e),

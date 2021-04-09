@@ -168,7 +168,7 @@ namespace Cuemon.Extensions
         {
             var sut1 = Enumerable.Range(2, 20);
 
-            TestOutput.WriteLines(sut1.Cast<object>().ToArray());
+            TestOutput.WriteLines(sut1);
 
             Assert.Collection(sut1, 
                 i => Assert.False(i.IsOdd()),
