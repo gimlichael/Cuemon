@@ -176,6 +176,8 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED TimeRange class in the Cuemon namespace that represents a period of time between two TimeSpan values
 - ADDED Range{T} class in the Cuemon namespace that represents a period of time between two types
 - ADDED TimerFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating and configuring Timer instances
+- ADDED IWatcher interface in the Cuemon.Runtime namespace which specifies that an supports a way to monitor a resource
+- ADDED WatcherOptions class in the Cuemon.Runtime namespace that specifies options that is related to IWatcher
  
 # Bug Fixes
 - FIXED critical bug in the DateSpan struct located on the Cuemon namespace
