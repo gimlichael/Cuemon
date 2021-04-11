@@ -178,6 +178,8 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED TimerFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating and configuring Timer instances
 - ADDED IWatcher interface in the Cuemon.Runtime namespace which specifies that an supports a way to monitor a resource
 - ADDED WatcherOptions class in the Cuemon.Runtime namespace that specifies options that is related to IWatcher
+- ADDED FileDependency class in the Cuemon.Runtime namespace that provides a way to monitor any changes occurred to one or more files while notifying subscribing objects
+- ADDED FileWatcher class in the Cuemon.Runtime namespace that provides a watcher implementation designed to monitor and signal changes applied to a file by raising the Changed event
  
 # Bug Fixes
 - FIXED critical bug in the DateSpan struct located on the Cuemon namespace

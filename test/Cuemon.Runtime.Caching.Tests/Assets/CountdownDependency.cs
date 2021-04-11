@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using Cuemon.Threading;
 
 namespace Cuemon.Runtime.Caching.Assets
@@ -29,9 +30,10 @@ namespace Cuemon.Runtime.Caching.Assets
 
         public override bool HasChanged => _timer == TimeSpan.Zero;
 
-        public override void Start()
+        public override Task StartAsync()
         {
             _handler = TimerFactory.CreateNonCapturingTimer(state => ((CountdownDependency)state).OnCountdown(), this, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+            return Task.CompletedTask;
         }
 
         public void Dispose()
