@@ -51,13 +51,5 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             _serviceConfigurator?.Invoke(services);
             services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
         }
-
-        /// <summary>
-        /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.
-        /// </summary>
-        protected override void OnDisposeManagedResources()
-        {
-            Host?.Dispose();
-        }
     }
 }
