@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Threading.Tasks;
 using Cuemon.Runtime;
 
 namespace Cuemon.Data
@@ -10,9 +11,8 @@ namespace Cuemon.Data
 	/// </summary>
 	public sealed class DataDependency : Dependency
 	{
-		private readonly object _locker = new object();
+        private readonly IDependency _defaultDependency;
 
-		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DataDependency"/> class.
 		/// </summary>
@@ -57,7 +57,14 @@ namespace Cuemon.Data
 		/// <param name="period">The time interval between periodic signaling for changes to the specified <paramref name="command"/> by the associated <see cref="DataWatcher"/>. Specify negative one (-1) milliseconds to disable periodic signaling.</param>
 		/// <param name="parameters">An optional sequence of <see cref="DbParameter"/> to use with the associated <paramref name="command"/>.</param>
 		/// <param name="dueTimeOnChanged">The amount of time to postpone a <see cref="Watcher.Changed"/> event. Specify zero (0) to disable postponing.</param>
-		public DataDependency(DataManager manager, IDataCommand command, TimeSpan dueTime, TimeSpan period, TimeSpan dueTimeOnChanged, params DbParameter[] parameters)
+		public DataDependency(DataManager manager, IDataCommand command, TimeSpan dueTime, TimeSpan period, TimeSpan dueTimeOnChanged, params DbParameter[] parameters) : base(watcherChanged =>
+        {
+            var watchers = new List<DataWatcher>();
+
+			// code to be written
+
+            return watchers;
+        }, false)
 		{
 		    Manager = manager;
 		    Command = command;
@@ -65,10 +72,8 @@ namespace Cuemon.Data
 		    Period = period;
 		    DueTimeOnChanged = dueTimeOnChanged;
 		    Parameters = parameters;
-		}
-		#endregion
+        }
 
-		#region Properties
         private DataManager Manager { get; set; }
 
         private IDataCommand Command { get; set; }
@@ -81,72 +86,13 @@ namespace Cuemon.Data
 
         private DbParameter[] Parameters { get; set; }
 
-		private DateTime UtcCreated { get; set; }
-
-		private IEnumerable<DataWatcher> Watchers
-		{
-		    get; set;
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the <see cref="Dependency"/> object has changed.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if the <see cref="Dependency"/> object has changed; otherwise, <c>false</c>.
-		/// </value>
-		public override bool HasChanged
-		{
-			get { return (UtcLastModified > UtcCreated); }
-		}
-		#endregion
-
-		#region Methods
         /// <summary>
         /// Starts and performs the necessary dependency tasks of this instance.
         /// </summary>
-		public override void Start()
-		{
-			var watchers = new List<DataWatcher>();
-			DataWatcher watcher;
-			DataWatcher tempWatcher = null;
-			try
-			{
-				tempWatcher = new DataWatcher(Manager, Command, DueTime, Period, DueTimeOnChanged, Parameters);
-				tempWatcher.Changed += WatcherChanged;
-				watcher = tempWatcher;
-				tempWatcher = null;
-			}
-			finally 
-			{
-				if (tempWatcher != null) { tempWatcher.Dispose(); }
-			}
-			watchers.Add(watcher);
-			Watchers = watchers.ToArray();
-			UtcCreated = DateTime.UtcNow;
-			SetUtcLastModified(UtcCreated);
-		}
-
-		private void WatcherChanged(object sender, WatcherEventArgs args)
-		{
-			SetUtcLastModified(DateTime.UtcNow);
-			if (!HasChanged) { return; }
-			if (Watchers != null)
-			{
-				lock (_locker)
-				{
-					if (Watchers != null)
-					{
-                        foreach (var watcher in Watchers)
-                        {
-                            watcher.Changed -= WatcherChanged;
-                            watcher.Dispose();
-                        }
-					}
-                    Watchers = null;
-				}
-			}
-			OnDependencyChangedRaised(new DependencyEventArgs(UtcLastModified));
-		}
-		#endregion
-	}
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public override Task StartAsync()
+        {
+            return _defaultDependency.StartAsync();
+        }
+    }
 }

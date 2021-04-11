@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Threading.Tasks;
 using Cuemon.Runtime;
 
 namespace Cuemon.Data
@@ -47,7 +48,7 @@ namespace Cuemon.Data
 		/// <param name="dueTimeOnChanged">The amount of time to postpone a <see cref="Watcher.Changed"/> event. Specify zero (0) to disable postponing.</param>
 		/// <param name="parameters">An optional array of <see cref="DbParameter"/> to use with the associated <paramref name="command"/>.</param>
 		/// <remarks>Monitors the provided <paramref name="command"/> for changes in an interval specified by <paramref name="period"/> using a MD5 hash check on the query result.</remarks>
-		public DataWatcher(DataManager manager, IDataCommand command, TimeSpan dueTime, TimeSpan period, TimeSpan dueTimeOnChanged, params DbParameter[] parameters) : base(dueTime, period, dueTimeOnChanged)
+		public DataWatcher(DataManager manager, IDataCommand command, TimeSpan dueTime, TimeSpan period, TimeSpan dueTimeOnChanged, params DbParameter[] parameters) : base(null) // wip
 		{
             Validator.ThrowIfNull(command, nameof(command));
             Manager = manager;
@@ -110,6 +111,11 @@ namespace Cuemon.Data
 				Signature = currentSignature;
 			}
 		}
-		#endregion
-	}
+
+        protected override Task HandleSignalingAsync()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+    }
 }
