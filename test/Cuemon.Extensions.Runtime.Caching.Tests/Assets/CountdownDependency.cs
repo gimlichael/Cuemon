@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Cuemon.Extensions.Runtime.Caching.Assets
         private TimeSpan _timer;
         private Stopwatch _sw = Stopwatch.StartNew();
 
-        public CountdownDependency(TimeSpan timer)
+        public CountdownDependency(TimeSpan timer) : base(_ => new List<IWatcher>(), true)
         {
             _timer = timer;
         }
