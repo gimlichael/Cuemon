@@ -8,7 +8,6 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED AsyncTaskFactoryOptions class in the Cuemon.Threading namespace that specifies options that is related to both ParallelFactory and AdvancedParallelFactory
 - ADDED AsyncWorkloadOptions class in the Cuemon.Threading namespace that specifies options that is related to both ParallelFactory and AdvancedParallelFactory
 - ADDED AdvancedParallelFactory static class in the Cuemon.Threading namespace that provides a factory based way to work with advanced scenarios that encapsulate and re-use existing code while adding support for typically long-running parallel loops and regions
-- ADDED TimerFactory class in the Cuemon.Threading namespace that provides access to factory methods for creating and configuring Timer instances
 - ADDED ForLoopRuleset class in the Cuemon.Threading namespace that specifies the rules of a for-loop control flow statement
  
 # Breaking Changes
