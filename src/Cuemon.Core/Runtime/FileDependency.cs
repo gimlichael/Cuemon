@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cuemon.Collections.Generic;
 
 namespace Cuemon.Runtime
@@ -32,7 +33,7 @@ namespace Cuemon.Runtime
         public FileDependency(IEnumerable<Lazy<FileWatcher>> lazyFileWatchers, bool breakTieOnChanged = false) : base(watcherChanged =>
         {
             var watchers = new List<FileWatcher>();
-            foreach (var lazyFileWatcher in lazyFileWatchers)
+            foreach (var lazyFileWatcher in lazyFileWatchers ?? Enumerable.Empty<Lazy<FileWatcher>>())
             {
                 var fileWatcher = lazyFileWatcher.Value;
                 fileWatcher.Changed += watcherChanged;

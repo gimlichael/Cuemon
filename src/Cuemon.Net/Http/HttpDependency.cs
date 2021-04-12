@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cuemon.Collections.Generic;
 using Cuemon.Runtime;
 
@@ -33,7 +34,7 @@ namespace Cuemon.Net.Http
         public HttpDependency(IEnumerable<Lazy<HttpWatcher>> lazyFileWatchers, bool breakTieOnChanged = false) : base(watcherChanged =>
         {
             var watchers = new List<HttpWatcher>();
-            foreach (var lazyFileWatcher in lazyFileWatchers)
+            foreach (var lazyFileWatcher in lazyFileWatchers ?? Enumerable.Empty<Lazy<HttpWatcher>>())
             {
                 var fileWatcher = lazyFileWatcher.Value;
                 fileWatcher.Changed += watcherChanged;
