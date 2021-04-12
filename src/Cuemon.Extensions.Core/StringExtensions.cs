@@ -28,26 +28,6 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:char[]"/> representation.
-        /// </summary>
-        /// <param name="input">The <see cref="string"/> to extend.</param>
-        /// <param name="setup">The <see cref="EncodingOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="T:char[]"/> that is equivalent to <paramref name="input"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="input"/> cannot be null.
-        /// </exception>
-        /// <exception cref="InvalidEnumArgumentException">
-        /// <paramref name="setup"/> was initialized with an invalid <see cref="EncodingOptions.Preamble"/>.
-        /// </exception>
-        /// <seealso cref="EncodingOptions"/>
-        public static char[] ToCharArray(this string input, Action<EncodingOptions> setup = null)
-        {
-            Validator.ThrowIfNull(input, nameof(input));
-            var options = Patterns.Configure(setup);
-            return options.Encoding.GetChars(Convertible.GetBytes(input, setup));
-        }
-
-        /// <summary>
         /// Converts the specified <paramref name="input"/> to its equivalent <see cref="T:byte[]"/> representation.
         /// </summary>
         /// <param name="input">The <see cref="string"/> to be converted into a <see cref="T:byte[]"/>.</param>
@@ -135,38 +115,6 @@ namespace Cuemon.Extensions
         {
             Validator.ThrowIfNull(value, nameof(value));
             return Convert.FromBase64String(value);
-        }
-
-        /// <summary>
-        /// Concatenates all the elements of a string array, using the specified separator between each element.
-        /// </summary>
-        /// <param name="source">The <see cref="string"/> sequence to extend.</param>
-        /// <param name="separator">The string to use as a separator. The separator is included in the returned string only if value has more than one element.</param>
-        /// <returns>A string that consists of the elements in <paramref name="source"/> delimited by the <paramref name="separator"/> string. If value is an empty array, the method returns <see cref="string.Empty"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> is null.
-        /// </exception>
-        public static string Join(this string[] source, string separator)
-        {
-            Validator.ThrowIfNull(source, nameof(source));
-            return string.Join(separator, source);
-        }
-
-        /// <summary>
-        /// Concatenates all the elements of a string array, using the specified separator between each element.
-        /// </summary>
-        /// <param name="source">The <see cref="string"/> sequence to extend.</param>
-        /// <param name="separator">The string to use as a separator. The separator is included in the returned string only if value has more than one element.</param>
-        /// <param name="startIndex">The first element in <paramref name="source"/> to use.</param>
-        /// <param name="count">The number of elements of <paramref name="source"/> to use.</param>
-        /// <returns>A string that consists of the elements in <paramref name="source" /> delimited by the <paramref name="separator" /> string. If value is an empty array, the method returns <see cref="string.Empty" />.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="source" /> is null.
-        /// </exception>
-        public static string Join(this string[] source, string separator, int startIndex, int count)
-        {
-            Validator.ThrowIfNull(source, nameof(source));
-            return string.Join(separator, source, startIndex, count);
         }
 
         /// <summary>
@@ -311,16 +259,6 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Determines whether the specified <paramref name="value"/> is a sequence of countable characters (hence, characters being either incremented or decremented with the same cardinality through out the sequence).
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <returns><c>true</c> if the specified <paramref name="value"/> is a sequence of countable characters (hence, characters being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
-        public static bool IsCountableSequence(this string value)
-        {
-            return Condition.IsCountableSequence(value);
-        }
-
-        /// <summary>
         /// Returns a <see cref="T:string[]"/> that contain the substrings of <paramref name="value"/> delimited by a <see cref="DelimitedStringOptions.Delimiter"/> that may be quoted by <see cref="DelimitedStringOptions.Qualifier"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> to extend.</param>
@@ -440,18 +378,6 @@ namespace Cuemon.Extensions
         public static string ReplaceAll(this string value, string oldValue, string newValue, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             return StringReplacePair.ReplaceAll(value, oldValue, newValue, comparison);
-        }
-
-        /// <summary>
-        /// Replaces all occurrences of the <see cref="StringReplacePair.OldValue"/> with <see cref="StringReplacePair.NewValue"/> of the <paramref name="replacePairs"/> sequence in <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/> to extend.</param>
-        /// <param name="replacePairs">A sequence of <see cref="StringReplacePair"/> values.</param>
-        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison. Default is <see cref="StringComparison.OrdinalIgnoreCase"/>.</param>
-        /// <returns>A <see cref="string"/> equivalent to <paramref name="value"/> but with all instances of <see cref="StringReplacePair.OldValue"/> replaced with <see cref="StringReplacePair.NewValue"/>.</returns>
-        public static string ReplaceAll(this string value, IEnumerable<StringReplacePair> replacePairs, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
-        {
-            return StringReplacePair.ReplaceAll(value, replacePairs, comparison);
         }
 
         /// <summary>
@@ -867,7 +793,7 @@ namespace Cuemon.Extensions
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> is null.
         /// </exception>
-        /// <exception cref="TypeArgumentException">
+        /// <exception cref="ArgumentException">
         /// <typeparamref name="TEnum"/> does not represents an enumeration.
         /// </exception>
         /// <exception cref="ArgumentException">
@@ -876,6 +802,7 @@ namespace Cuemon.Extensions
         /// <seealso cref="ParserFactory.FromEnum"/>
         public static TEnum ToEnum<TEnum>(this string value, bool ignoreCase = true) where TEnum : struct, IConvertible
         {
+            if (value != null) { Validator.ThrowIfNotEnumType<TEnum>(nameof(TEnum)); }
             return ParserFactory.FromEnum().Parse<TEnum>(value, o => o.IgnoreCase = ignoreCase);
         }
 

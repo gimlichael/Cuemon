@@ -6,19 +6,18 @@ namespace Cuemon.AspNetCore.Http.Throttling
     /// <summary>
     /// The exception that is thrown when a given request threshold has been reached and then throttled.
     /// </summary>
-    /// <seealso cref="HttpStatusCodeException" />
+    /// <seealso cref="TooManyRequestsException" />
     [Serializable]
-    public class ThrottlingException : HttpStatusCodeException
+    public class ThrottlingException : TooManyRequestsException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrottlingException"/> class.
         /// </summary>
-        /// <param name="statusCode">The HTTP status code to associate with this exception.</param>
         /// <param name="message">The message that describes the HTTP status code.</param>
         /// <param name="rateLimit">The allowed rate of requests for a given window.</param>
         /// <param name="delta">The remaining duration of a window.</param>
         /// <param name="reset">The date and time when a window is being reset.</param>
-        public ThrottlingException(int statusCode, string message, int rateLimit, TimeSpan delta, DateTime reset) : base(statusCode, message)
+        public ThrottlingException(string message, int rateLimit, TimeSpan delta, DateTime reset) : base(message)
         {
             RateLimit = rateLimit;
             Delta = delta;

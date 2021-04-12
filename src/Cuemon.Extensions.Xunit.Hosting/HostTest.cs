@@ -21,7 +21,8 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// </summary>
         /// <param name="hostFixture">An implementation of the <see cref="IHostFixture"/> interface.</param>
         /// <param name="output">An implementation of the <see cref="ITestOutputHelper"/> interface.</param>
-        protected HostTest(T hostFixture, ITestOutputHelper output = null) : base(output)
+        /// <param name="callerType">The <see cref="Type"/> of caller that ends up invoking this instance.</param>
+        protected HostTest(T hostFixture, ITestOutputHelper output = null, Type callerType = null) : base(output, callerType)
         {
             Validator.ThrowIfNull(hostFixture, nameof(hostFixture));
             InitializeHostFixture(hostFixture);

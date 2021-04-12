@@ -22,9 +22,13 @@ namespace Cuemon.AspNetCore.Http.Headers
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
             {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 bf.Serialize(ms, ex);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as UserAgentException;
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Assert.Equal(ex.StatusCode, desEx.StatusCode);
                 Assert.Equal(ex.Message, desEx.Message);
                 Assert.Equal(ex.ToString(), desEx.ToString());

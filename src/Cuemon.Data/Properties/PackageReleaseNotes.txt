@@ -19,11 +19,15 @@ Availability: NET Standard 2.0, NET 5.0
 - REMOVED QueryUtility class from the Cuemon.Data namespace
 - REMOVED legacy-leftover, IsReadOnly property, from DataTransferRowCollection in the Cuemon.Data namespace
 - REMOVED GetPagedRows from the DataTransfer class in the Cuemon.Data namespace
+- REMOVED DataWatcher class from the Cuemon.Data namespace
+- REMOVED DataDependency class from the Cuemon.Data namespace
  
 # New Features
 - ADDED DsvDataReader class in the Cuemon.Data namespace that provides a way of reading a forward-only stream of rows from a DSV (Delimiter Separated Values) based data source
 - ADDED InOperatorResult class in the Cuemon.Data namespace that provides the result of an InOperator{T} operation
 - ADDED TokenBuilder class in the Cuemon.Data namespace that represents a mutable string of characters optimized for tokens
+- ADDED DatabaseDependency class in the Cuemon.Data namespace that provides a way to monitor any changes occurred to one or more relational data sources while notifying subscribing objects
+- ADDED DatabaseWatcher class in the Cuemon.Data namespace that provides a watcher implementation designed to monitor and signal changes applied to a relational database by raising the Changed event
  
 # Quality Analysis Actions
 - CHANGED DataTransferRowCollection class in the Cuemon.Data namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3358

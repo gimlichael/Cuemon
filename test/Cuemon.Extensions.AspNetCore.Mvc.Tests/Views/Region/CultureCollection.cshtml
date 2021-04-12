@@ -1,0 +1,22 @@
+﻿@using Cuemon.Extensions.Globalization
+@model Cuemon.Extensions.AspNetCore.Mvc.Models.RegionModel
+@{ViewData["Title"] = $"{Model.Region.DisplayName} | Regions | S13N.info";}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h1>@Model.Region.DisplayName / @Model.Region.NativeName</h1>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 text-center">
+        @{
+            foreach (var c in Model.Region.GetCultures())
+            {
+                <a href="@Url.Action("Index", "Region")/@Model.Region.Name.ToLowerInvariant()/@Model.Region.DisplayName.ToLowerInvariant()/cultures/@c.Name.ToLowerInvariant()" class="btn btn-default">@c.DisplayName</a>
+            }
+        }
+    </div>
+    <div class="col-md-3"></div>
+</div>

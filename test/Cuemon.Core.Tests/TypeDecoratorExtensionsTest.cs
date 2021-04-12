@@ -293,7 +293,7 @@ namespace Cuemon
         [Theory, MemberData(nameof(Randomizer))]
         public void MatchMember_ShouldUseDynamicWayToResolveThisMethod(Guid id, string randomString, int randomNumber)
         {
-            var mb = Decorator.Enclose(this.GetType()).MatchMember(flags: new MemberReflection(excludeInheritancePath: true));
+            var mb = MethodBase.GetCurrentMethod(); //Decorator.Enclose(this.GetType()).MatchMember(flags: new MemberReflection(excludeInheritancePath: true));
             var args = mb.GetParameters();
 
             Assert.NotNull(mb);

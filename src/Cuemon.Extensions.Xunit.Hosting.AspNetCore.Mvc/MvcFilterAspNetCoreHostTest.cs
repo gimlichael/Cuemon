@@ -10,9 +10,9 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
     {
         private readonly IMiddlewareTest _middlewareTest;
 
-        internal MvcFilterAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator)
+        internal MvcFilterAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
         {
-            _middlewareTest = MiddlewareTestFactory.CreateMiddlewareTest(pipelineConfigurator, serviceConfigurator);
+            _middlewareTest = MiddlewareTestFactory.CreateMiddlewareTest(pipelineConfigurator, serviceConfigurator, hostConfigurator);
         }
 
         public IServiceProvider ServiceProvider => _middlewareTest.ServiceProvider;
@@ -29,5 +29,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         }
 
         public IHost Host => ((AspNetCoreHostTest<AspNetCoreHostFixture>)_middlewareTest).Host;
+
+        public Type CallerType => _middlewareTest.CallerType;
     }
 }

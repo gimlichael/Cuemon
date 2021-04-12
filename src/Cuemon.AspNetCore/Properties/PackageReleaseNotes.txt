@@ -20,7 +20,20 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - ADDED DynamicCacheBusting class in the Cuemon.AspNetCore.Configuration namespace that provides cache-busting capabilities on a duration based interval
 - ADDED DynamicCacheBustingOptions class in the Cuemon.AspNetCore.Configuration namespace that specifies options related to DynamicCacheBusting
 - ADDED ICacheBusting interface in the Cuemon.AspNetCore.Configuration namespace that is an interface to provide cache-busting capabilities
-
+- ADDED BadRequestException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the server could not understand the request due to invalid syntax
+- ADDED ConflictException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when a request conflicts with the current state of the server
+- ADDED ForbiddenException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the client does not have access rights to the content; that is, it is unauthorized, so the server is refusing to give the requested resource. Unlike 401, the client's identity is known to the server
+- ADDED GoneException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the requested content has been permanently deleted from server, with no forwarding address
+- ADDED NotFoundException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the server can not find the requested resource
+- ADDED PayloadTooLargeException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the request entity is larger than limits defined by server
+- ADDED PreconditionFailedException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the client has indicated preconditions in its headers which the server does not meet
+- ADDED PreconditionRequiredException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the origin server requires the request to be conditional
+- ADDED TooManyRequestsException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the user has sent too many requests in a given amount of time ("rate limiting")
+- ADDED UnauthorizedException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the requirements of an HTTP WWW-Authenticate header is not meet
+ 
+# Improvements
+- EXTENDED HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace with a new property; ReasonPhrase and added new constructor as well as better ToString representation of the object
+ 
 # Quality Analysis Actions
 - FIXED HostingEnvironmentMiddleware class in the Cuemon.AspNetCore.Hosting namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-927
  

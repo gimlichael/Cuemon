@@ -10,8 +10,6 @@ namespace Cuemon.Security
 {
     /// <summary>
     /// Represents the base class from which all implementations of hash algorithms and checksums should derive.
-    /// Implements the <see cref="Configurable{TOptions}" />
-    /// Implements the <see cref="IHash" />
     /// </summary>
     /// <typeparam name="TOptions">The type of the configured options.</typeparam>
     /// <seealso cref="ConvertibleOptions"/>
@@ -47,7 +45,6 @@ namespace Cuemon.Security
 
     /// <summary>
     /// Represents the base class that defines the public facing structure to expose.
-    /// Implements the <see cref="IHash" />
     /// </summary>
     /// <seealso cref="IHash" />
     public abstract class Hash : IHash

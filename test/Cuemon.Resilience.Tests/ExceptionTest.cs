@@ -25,9 +25,13 @@ namespace Cuemon.Resilience
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
             {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 bf.Serialize(ms, ex);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as LatencyException;
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Assert.Equal(ex.Message, desEx.Message);
                 Assert.Equal(ex.ToString(), desEx.ToString());
             }
@@ -43,9 +47,13 @@ namespace Cuemon.Resilience
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
             {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 bf.Serialize(ms, ex);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as TransientFaultException;
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 TestOutput.WriteLine(ex.Evidence.GetHashCode().ToString());
                 TestOutput.WriteLine(desEx.Evidence.GetHashCode().ToString());
                 Assert.Equal(ex.Evidence, desEx.Evidence);

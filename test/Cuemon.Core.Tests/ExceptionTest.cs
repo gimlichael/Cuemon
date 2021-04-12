@@ -22,9 +22,13 @@ namespace Cuemon
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
             {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 bf.Serialize(ms, ex);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as TypeArgumentException;
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Assert.Equal(ex.ParamName, desEx.ParamName);
                 Assert.Equal(ex.Message, desEx.Message);
                 Assert.Equal(ex.ToString(), desEx.ToString());
@@ -41,9 +45,13 @@ namespace Cuemon
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
             {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 bf.Serialize(ms, ex);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as TypeArgumentOutOfRangeException;
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Assert.Equal(ex.ParamName, desEx.ParamName);
                 Assert.Equal(ex.Message, desEx.Message);
                 Assert.Equal(ex.ActualValue, desEx.ActualValue);

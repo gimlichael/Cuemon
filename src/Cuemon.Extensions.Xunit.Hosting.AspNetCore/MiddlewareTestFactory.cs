@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +21,6 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         /// <returns>An instance of an <see cref="IMiddlewareTest" /> implementation.</returns>
         public static IMiddlewareTest CreateMiddlewareTest(Action<IApplicationBuilder> pipelineSetup = null, Action<IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
         {
-            serviceSetup ??= services => services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
             return new MiddlewareAspNetCoreHostTest(pipelineSetup, serviceSetup, hostSetup, new AspNetCoreHostFixture());
         }
 

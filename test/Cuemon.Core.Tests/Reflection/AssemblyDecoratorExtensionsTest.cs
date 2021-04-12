@@ -37,8 +37,10 @@ namespace Cuemon.Reflection
             var disposableTypesCount = Decorator.Enclose(disposableTypes).Inner.Count();
             var configurationTypesCount = Decorator.Enclose(configurationTypes).Inner.Count();
 
-            Assert.InRange(allTypesCount, 455, 475); // range because of tooling on CI adding dynamic types and high range of refactoring
-            Assert.Equal(4, disposableTypesCount);
+            TestOutput.WriteLines(disposableTypes);
+
+            Assert.InRange(allTypesCount, 465, 485); // range because of tooling on CI adding dynamic types and high range of refactoring
+            Assert.Equal(5, disposableTypesCount);
             Assert.Equal(2, configurationTypesCount);
         }
 
@@ -64,7 +66,6 @@ namespace Cuemon.Reflection
             TestOutput.WriteLine(v.ToString());
 
             Assert.False(v.IsSemanticVersion());
-            Assert.True(v.HasAlphanumericVersion);
             Assert.StartsWith("6.0.0", v.ToString());
         }
 

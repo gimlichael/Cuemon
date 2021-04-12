@@ -202,7 +202,7 @@ namespace Cuemon.IO
             });
         }
 
-        #if NETSTANDARD2_1 || NET5_0
+        #if NETSTANDARD2_1 || NET5_0_OR_GREATER
         /// <summary>
         /// Compress the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> using the <c>Brotli</c> algorithm.
         /// </summary>
@@ -457,7 +457,7 @@ namespace Cuemon.IO
         {
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
-                #if NETSTANDARD2_1
+                #if NETSTANDARD2_1 || NET5_0_OR_GREATER
                 await using (var compressed = decompressor(target, options.Level, true))
                 {
                     await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, ct: ct).ConfigureAwait(false);
@@ -493,7 +493,7 @@ namespace Cuemon.IO
         {
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
-                #if NETSTANDARD2_1
+                #if NETSTANDARD2_1 || NET5_0_OR_GREATER
                 await using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
                 {
                     await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, ct: ct).ConfigureAwait(false);
@@ -529,7 +529,7 @@ namespace Cuemon.IO
         /// <exception cref="InvalidOperationException">
         /// The enclosed <see cref="Stream"/> of <paramref name="decorator"/> is currently in use by a previous write operation.
         /// </exception>
-        public static Task WriteAsync(this IDecorator<Stream> decorator, byte[] buffer)
+        public static Task WriteAllAsync(this IDecorator<Stream> decorator, byte[] buffer)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
             return decorator.Inner.WriteAsync(buffer, 0, buffer.Length);

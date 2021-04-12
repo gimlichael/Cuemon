@@ -8,11 +8,16 @@ Availability: NET Standard 2.0, NET 5.0
  
 # Breaking Changes
 - REMOVED SetHandlerFactory{T} method on the HttpManagerOptions class (opt-in to allow set directly on HandlerFactory property)
+- REMOVED NetDependency class from the Cuemon.Net namespace
+- REMOVED NetWatcher class from the Cuemon.Net namespace
  
 # New Features
 - ADDED MailDistributor class in the Cuemon.Net.Mail namespace that provides a way for applications to distribute one or more e-mails in batches by using the Simple Mail Transfer Protocol (SMTP)
 - ADDED FieldValueSeparator enum in the Cuemon.Net namespace that specifies a range of key-value separators
 - ADDED QueryStringCollection class in the Cuemon.Net namespace that provides a collection of string values that is equivalent to a query string of an Uri
+- ADDED HttpDependency class in the Cuemon.Net.Http namespace that provides a way to monitor any changes occurred to one or more URI resources while notifying subscribing objects
+- ADDED HttpWatcher class in the Cuemon.Net.Http namespace that provides a watcher implementation designed to monitor and signal changes applied to an URI resource by raising the Changed event
+- ADDED HttpWatcherOptions class in the Cuemon.Net.Http namespace that that specifies options related to HttpWatcher
  
 # Improvements
 - ADDED HttpManager constructor overload that takes a client factory delegate which creates and configures an HttpClient instance

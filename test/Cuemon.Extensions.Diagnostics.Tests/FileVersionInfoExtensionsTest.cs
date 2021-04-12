@@ -35,9 +35,7 @@ namespace Cuemon.Extensions.Diagnostics
             TestOutput.WriteLine(sut1.ToString());
             TestOutput.WriteLine(sut2.ToString());
 
-            Assert.True(sut2.HasAlphanumericVersion);
             Assert.False(sut2.IsSemanticVersion());
-            Assert.Equal(sut2.AlphanumericVersion, sut1.FileVersion);
             Assert.Equal(sut2.ToString(), sut1.FileVersion);
         }
     }

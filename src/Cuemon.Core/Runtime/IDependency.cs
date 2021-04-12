@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Cuemon.Runtime
 {
     /// <summary>
-    /// Defines a method to control dependency related operations.
+    /// Specifies that this object supports a method to control dependency related operations.
     /// </summary>
     public interface IDependency
     {
@@ -17,7 +18,7 @@ namespace Cuemon.Runtime
         /// </summary>
         /// <value>The time when the dependency was last changed.</value>
         /// <remarks>This property is measured in Coordinated Universal Time (UTC) (also known as Greenwich Mean Time).</remarks>
-        DateTime UtcLastModified { get; }
+        DateTime? UtcLastModified { get; }
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="IDependency"/> object has changed.
@@ -27,10 +28,15 @@ namespace Cuemon.Runtime
         /// </value>
         bool HasChanged { get; }
 
-
         /// <summary>
         /// Starts and performs the necessary dependency tasks of this instance.
         /// </summary>
         void Start();
+
+        /// <summary>
+        /// Starts and performs the necessary dependency tasks of this instance.
+        /// </summary>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        Task StartAsync();
     }
 }

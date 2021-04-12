@@ -120,7 +120,7 @@ namespace Cuemon.Data
         /// <exception cref="ObjectDisposedException">
         /// This instance has been disposed.
         /// </exception>
-        public bool Read()
+        public override bool Read()
         {
             return ReadAllLinesAsync(() => Task.FromResult(Reader.ReadLine())).GetAwaiter().GetResult();
         }

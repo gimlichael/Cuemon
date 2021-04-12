@@ -16,16 +16,20 @@ namespace Cuemon.AspNetCore.Http.Throttling
         [Fact]
         public void ThrottlingException_ShouldBeSerializable()
         {
-            var ex = new ThrottlingException(429, "Throttling rate limit quota violation. Quota limit exceeded.", 100, TimeSpan.FromHours(1), DateTime.Today.AddDays(1));
+            var ex = new ThrottlingException("Throttling rate limit quota violation. Quota limit exceeded.", 100, TimeSpan.FromHours(1), DateTime.Today.AddDays(1));
 
             TestOutput.WriteLine(ex.ToString());
 
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
             {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 bf.Serialize(ms, ex);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 var desEx = bf.Deserialize(ms) as ThrottlingException;
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Assert.Equal(ex.StatusCode, desEx.StatusCode);
                 Assert.Equal(ex.Message, desEx.Message);
                 Assert.Equal(ex.Delta, desEx.Delta);

@@ -32,9 +32,13 @@ namespace Cuemon.Net
                 var bf = new BinaryFormatter();
                 using (var ms = new MemoryStream())
                 {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                     bf.Serialize(ms, query);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                     ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                     bf.Deserialize(ms);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 }
             });
 

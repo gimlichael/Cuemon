@@ -9,6 +9,8 @@ Availability: NET Standard 2.0, NET 5.0
 # New Features
 - ADDED ExceptionDescriptorOptions class into Cuemon.Diagnostics namespace that specifies configuration options for serializer implementations
 - ADDED AsyncTimeMeasureOptions class into Cuemon.Diagnostics namespace that specifies configuration options for TimeMeasure class
+- ADDED FaultHandler class into Cuemon.Diagnostics namespace that provides a generic way to implement a fault resolver that evaluate an exception and provide details about it in a developer friendly way
+- ADDED FaultResolver class into Cuemon.Diagnostics namespace that a way to evaluate an exception and provide details about it in a developer friendly way
  
 # Improvements
 - EXTENDED ExceptionDescriptor class in the Cuemon.Diagnostics namespace with a new static method: Extract

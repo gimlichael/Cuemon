@@ -44,7 +44,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                     return Task.CompletedTask;
                 });
                 response.StatusCode = (int)message.StatusCode;
-                await Decorator.Enclose(response.Body).WriteAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
+                await Decorator.Enclose(response.Body).WriteAllAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
             }).ConfigureAwait(false);
             await Next(context).ConfigureAwait(false);
         }

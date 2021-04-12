@@ -21,6 +21,7 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - MOVED HmacAuthenticationMiddleware class from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Hmac namespace (including refactoring)
 - MOVED HmacAuthenticationOptions class from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Hmac namespace (including refactoring)
 - MOVED HmacAuthenticator delegate from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore.Authentication.Hmac namespace
+- MOVED UnauthorizedException class from the Cuemon.AspNetCore.Authentication namespace to Cuemon.AspNetCore assembly in the Cuemon.AspNetCore.Http namespace
  
 # New Features
 - ADDED BasicAuthorizationHeader class in the Cuemon.AspNetCore.Authentication.Basic namespace that provides a representation of a HTTP Basic Authentication header

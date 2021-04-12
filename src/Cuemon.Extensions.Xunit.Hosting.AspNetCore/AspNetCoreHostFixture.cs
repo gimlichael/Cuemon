@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -53,6 +54,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                                 .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
                                 .AddEnvironmentVariables();
 
+                            StaticWebAssetsLoader.UseStaticWebAssets(context.HostingEnvironment, context.Configuration);
+
                             ConfigureCallback(config.Build(), context.HostingEnvironment);
                         })
                         .ConfigureLogging((context, logging) =>
@@ -73,7 +76,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                                 ConfigureApplicationCallback(app);
                                 Application = app;
                             }
-                        );
+                        )
+                        .UseSetting(HostDefaults.ApplicationKey, hostTest.CallerType.Assembly.GetName().Name);
                 });
 
             ConfigureHostCallback(hb);

@@ -1,5 +1,7 @@
 ﻿using System;
+using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -11,7 +13,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         private readonly Action<IServiceCollection> _serviceConfigurator;
         private readonly Action<IHostBuilder> _hostConfigurator;
 
-        internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture)
+        internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
             _pipelineConfigurator = pipelineConfigurator;
             _serviceConfigurator = serviceConfigurator;
@@ -47,14 +49,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         public override void ConfigureServices(IServiceCollection services)
         {
             _serviceConfigurator?.Invoke(services);
-        }
-
-        /// <summary>
-        /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.
-        /// </summary>
-        protected override void OnDisposeManagedResources()
-        {
-            Host?.Dispose();
+            services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
         }
     }
 }

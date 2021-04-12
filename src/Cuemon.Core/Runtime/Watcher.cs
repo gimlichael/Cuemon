@@ -1,64 +1,39 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
+using Cuemon.Threading;
 
 namespace Cuemon.Runtime
 {
     /// <summary>
-    /// An abstract class for establishing a watcher, that can monitor and signal changes of a resource by raising the <see cref="Changed"/> event.
+    /// Represents the base class from which all implementations of resource monitoring should derive.
     /// </summary>
-    public abstract class Watcher : Disposable
+    public abstract class Watcher : Disposable, IWatcher
     {
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Watcher"/> class, where the signaling is initiated immediately and hereby followed by a periodic signaling every 2 minutes.
-        /// </summary>
-        protected Watcher() : this(TimeSpan.FromMinutes(2))
-        {
-        }
+        private readonly object _locker = new object();
+        private Timer _watcherTimer;
+        private Timer _watcherPostponingTimer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Watcher"/> class, where the signaling is initiated immediately.
+        /// Initializes a new instance of the <see cref="Watcher" /> class.
         /// </summary>
-        /// <param name="period">The time interval between periodic signaling. Specify negative one (-1) milliseconds to disable periodic signaling.</param>
-        protected Watcher(TimeSpan period) : this(TimeSpan.Zero, period)
+        /// <param name="setup">The <see cref="WatcherOptions" /> which needs to be configured.</param>
+        protected Watcher(Action<WatcherOptions> setup)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Watcher"/> class.
-        /// </summary>
-        /// <param name="dueTime">A <see cref="TimeSpan"/> representing the amount of time to delay before the <see cref="Watcher"/> starts signaling. Specify negative one (-1) milliseconds to prevent the signaling from starting. Specify zero (0) to start the signaling immediately.</param>
-        /// <param name="period">The time interval between periodic signaling. Specify negative one (-1) milliseconds to disable periodic signaling.</param>
-        protected Watcher(TimeSpan dueTime, TimeSpan period) : this(dueTime, period, TimeSpan.Zero)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Watcher"/> class.
-        /// </summary>
-        /// <param name="dueTime">A <see cref="TimeSpan"/> representing the amount of time to delay before the <see cref="Watcher"/> starts signaling. Specify negative one (-1) milliseconds to prevent the signaling from starting. Specify zero (0) to start the signaling immediately.</param>
-        /// <param name="period">The time interval between periodic signaling. Specify negative one (-1) milliseconds to disable periodic signaling.</param>
-        /// <param name="dueTimeOnChanged">The amount of time to postpone a <see cref="Changed"/> event. Specify zero (0) to disable postponing.</param>
-        protected Watcher(TimeSpan dueTime, TimeSpan period, TimeSpan dueTimeOnChanged)
-        {
-            DueTime = dueTime;
-            Period = period;
-            DueTimeOnChanged = dueTimeOnChanged;
+            var options = Patterns.Configure(setup);
+            DueTime = options.DueTime;
+            Period = options.Period;
+            DueTimeOnChanged = options.DueTimeOnChanged;
             UtcLastModified = DateTime.UtcNow;
-            Timer = new Timer(TimerInvoking, null, dueTime, period);
         }
-        #endregion
 
-        #region Events
         /// <summary>
         /// Occurs when a resource has changed.
         /// </summary>
         public event EventHandler<WatcherEventArgs> Changed;
-        #endregion
 
-        #region Properties
         /// <summary>
-        /// Gets time when the resource being monitored was last changed.
+        /// Gets the time when the resource being monitored was last changed.
         /// </summary>
         /// <value>The time when the resource being monitored was last changed.</value>
         /// <remarks>This property is measured in Coordinated Universal Time (UTC) (also known as Greenwich Mean Time).</remarks>
@@ -86,7 +61,21 @@ namespace Cuemon.Runtime
         /// <summary>
         /// Gets the amount of time to postpone a <see cref="Changed"/> event.
         /// </summary>
-        protected TimeSpan DueTimeOnChanged { get; private set; }
+        protected TimeSpan DueTimeOnChanged { get; }
+
+        /// <summary>
+        /// Starts the timer that will monitor this <see cref="Watcher"/> implementation.
+        /// </summary>
+        public void StartMonitoring()
+        {
+            lock (_locker)
+            {
+                if (_watcherTimer == null)
+                {
+                    _watcherTimer = TimerFactory.CreateNonCapturingTimer(TimerInvoking, null, DueTime, Period);
+                }
+            }
+        }
 
         /// <summary>
         /// Changes the signaling timer of the <see cref="Watcher"/>.
@@ -109,23 +98,16 @@ namespace Cuemon.Runtime
         {
             DueTime = dueTime;
             Period = period;
-            Timer.Change(dueTime, period);
+            _watcherTimer.Change(dueTime, period);
         }
-
-        private Timer Timer { get; set; }
-
-        private Timer TimerPostponing { get; set; }
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.
         /// </summary>
         protected override void OnDisposeManagedResources()
         {
-            Timer?.Dispose();
-            TimerPostponing?.Dispose();
+            _watcherTimer?.Dispose();
+            _watcherPostponingTimer?.Dispose();
         }
 
         /// <summary>
@@ -133,8 +115,8 @@ namespace Cuemon.Runtime
         /// </summary>
         protected override void OnDisposeUnmanagedResources()
         {
-            Timer = null;
-            TimerPostponing = null;
+            _watcherTimer = null;
+            _watcherPostponingTimer = null;
         }
 
         /// <summary>
@@ -156,7 +138,16 @@ namespace Cuemon.Runtime
         /// <summary>
         /// Handles the signaling of this <see cref="Watcher"/>.
         /// </summary>
-        protected abstract void HandleSignaling();
+        protected virtual void HandleSignaling()
+        {
+            HandleSignalingAsync().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Handles the signaling of this <see cref="Watcher"/>.
+        /// </summary>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        protected abstract Task HandleSignalingAsync();
 
         private void PostponedHandleSignaling(object parameter)
         {
@@ -178,10 +169,16 @@ namespace Cuemon.Runtime
         /// <param name="e">The <see cref="WatcherEventArgs"/> instance containing the event data.</param>
         protected virtual void OnChangedRaised(WatcherEventArgs e)
         {
-            if (TimerPostponing != null) { return; } // we already have a postponed signaling
+            if (_watcherPostponingTimer != null) { return; } // we already have a postponed signaling
             if (DueTimeOnChanged != TimeSpan.Zero)
             {
-                TimerPostponing = new Timer(PostponedHandleSignaling, e, DueTimeOnChanged, TimeSpan.FromMilliseconds(-1));
+                lock (_locker)
+                {
+                    if (_watcherPostponingTimer == null)
+                    {
+                        _watcherPostponingTimer = TimerFactory.CreateNonCapturingTimer(PostponedHandleSignaling, e, DueTimeOnChanged, Timeout.InfiniteTimeSpan);
+                    }
+                }
                 return;
             }
             OnChangedRaisedCore(e);
@@ -192,6 +189,5 @@ namespace Cuemon.Runtime
             var handler = Changed;
             handler?.Invoke(this, e);
         }
-        #endregion
     }
 }

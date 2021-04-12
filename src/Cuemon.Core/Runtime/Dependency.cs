@@ -1,38 +1,48 @@
 ﻿using System;
-using Cuemon.Reflection;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cuemon.Runtime
 {
     /// <summary>
-    /// An abstract class for establishing various methods of a dependency relationship to an object. 
-    /// The implementing class of the <see cref="Dependency"/> class must monitor the dependency relationships so that when any of them changes, action will automatically be taken.
+    /// Represents the base class from which all implementations of dependency relationship to an object should derive.
     /// </summary>
+    /// <remarks>The implementing class of the <see cref="Dependency"/> class must monitor the dependency relationships so that when any of them changes, action will automatically be taken.</remarks>
     public abstract class Dependency : IDependency
     {
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Dependency"/> class.
-        /// </summary>
-        protected Dependency()
-        {
-            UtcLastModified = DateTime.UtcNow;
-        }
-        #endregion
+        private IEnumerable<IWatcher> _watchers;
+        private readonly Func<EventHandler<WatcherEventArgs>, IEnumerable<IWatcher>> _watchersHandler;
+        private readonly object _locker = new object();
 
-        #region Events
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dependency" /> class.
+        /// </summary>
+        /// <param name="watchersHandler">The function delegate that associates watchers to this dependency.</param>
+        /// <param name="breakTieOnChanged">if set to <c>true</c> all <see cref="IWatcher"/> instances is disassociated with this dependency after first notification of changed.</param>
+        protected Dependency(Func<EventHandler<WatcherEventArgs>, IEnumerable<IWatcher>> watchersHandler, bool breakTieOnChanged)
+        {
+            Validator.ThrowIfNull(watchersHandler, nameof(watchersHandler));
+            BreakTieOnChanged = breakTieOnChanged;
+            _watchersHandler = watchersHandler;
+        }
+
         /// <summary>
         /// Occurs when a <see cref="Dependency"/> has changed.
         /// </summary>
         public event EventHandler<DependencyEventArgs> DependencyChanged;
-        #endregion
 
-        #region Properties
+        /// <summary>
+        /// Gets a value indicating whether all <see cref="IWatcher"/> instances is disassociated with this dependency after first notification of changed.
+        /// </summary>
+        /// <value><c>true</c> if all <see cref="IWatcher"/> instances is disassociated with this dependency after first notification of changed; otherwise, <c>false</c>.</value>
+        public bool BreakTieOnChanged { get; }
+
         /// <summary>
         /// Gets time when the dependency was last changed.
         /// </summary>
         /// <value>The time when the dependency was last changed.</value>
         /// <remarks>This property is measured in Coordinated Universal Time (UTC) (also known as Greenwich Mean Time).</remarks>
-        public DateTime UtcLastModified { get; private set; }
+        public DateTime? UtcLastModified { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="Dependency"/> object has changed.
@@ -40,99 +50,7 @@ namespace Cuemon.Runtime
         /// <value>
         /// 	<c>true</c> if the <see cref="Dependency"/> object has changed; otherwise, <c>false</c>.
         /// </value>
-        public abstract bool HasChanged { get; }
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Creates an instance of <typeparamref name="TResult" /> that implements the <see cref="IDependency"/> interface using a constructor of five parameters.
-        /// </summary>
-        /// <typeparam name="TResult">The type to create that implements the <see cref="IDependency"/> interface.</typeparam>
-        /// <returns>A reference to the newly created object.</returns>
-        public static TResult Create<TResult>() where TResult : IDependency
-        {
-            return ActivatorFactory.CreateInstance<TResult>();
-        }
-
-        /// <summary>
-        /// Creates an instance of <typeparamref name="TResult" /> that implements the <see cref="IDependency"/> interface using a constructor of five parameters.
-        /// </summary>
-        /// <typeparam name="T">The type of the parameter of the constructor.</typeparam>
-        /// <typeparam name="TResult">The type to create that implements the <see cref="IDependency"/> interface.</typeparam>
-        /// <param name="arg">The parameter of the constructor.</param>
-        /// <returns>A reference to the newly created object.</returns>
-        public static TResult Create<T, TResult>(T arg) where TResult : IDependency
-        {
-            return ActivatorFactory.CreateInstance<T, TResult>(arg);
-        }
-
-        /// <summary>
-        /// Creates an instance of <typeparamref name="TResult" /> that implements the <see cref="IDependency"/> interface using a constructor of five parameters.
-        /// </summary>
-        /// <typeparam name="T1">The type of the first parameter of the constructor.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the constructor.</typeparam>
-        /// <typeparam name="TResult">The type to create that implements the <see cref="IDependency"/> interface.</typeparam>
-        /// <param name="arg1">The first parameter of the constructor.</param>
-        /// <param name="arg2">The second parameter of the constructor.</param>
-        /// <returns>A reference to the newly created object.</returns>
-        public static TResult Create<T1, T2, TResult>(T1 arg1, T2 arg2) where TResult : IDependency
-        {
-            return ActivatorFactory.CreateInstance<T1, T2, TResult>(arg1, arg2);
-        }
-
-        /// <summary>
-        /// Creates an instance of <typeparamref name="TResult" /> that implements the <see cref="IDependency"/> interface using a constructor of five parameters.
-        /// </summary>
-        /// <typeparam name="T1">The type of the first parameter of the constructor.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the constructor.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the constructor.</typeparam>
-        /// <typeparam name="TResult">The type to create that implements the <see cref="IDependency"/> interface.</typeparam>
-        /// <param name="arg1">The first parameter of the constructor.</param>
-        /// <param name="arg2">The second parameter of the constructor.</param>
-        /// <param name="arg3">The third parameter of the constructor.</param>
-        /// <returns>A reference to the newly created object.</returns>
-        public static TResult Create<T1, T2, T3, TResult>(T1 arg1, T2 arg2, T3 arg3) where TResult : IDependency
-        {
-            return ActivatorFactory.CreateInstance<T1, T2, T3, TResult>(arg1, arg2, arg3);
-        }
-
-        /// <summary>
-        /// Creates an instance of <typeparamref name="TResult" /> that implements the <see cref="IDependency"/> interface using a constructor of five parameters.
-        /// </summary>
-        /// <typeparam name="T1">The type of the first parameter of the constructor.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the constructor.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the constructor.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter of the constructor.</typeparam>
-        /// <typeparam name="TResult">The type to create that implements the <see cref="IDependency"/> interface.</typeparam>
-        /// <param name="arg1">The first parameter of the constructor.</param>
-        /// <param name="arg2">The second parameter of the constructor.</param>
-        /// <param name="arg3">The third parameter of the constructor.</param>
-        /// <param name="arg4">The fourth parameter of the constructor.</param>
-        /// <returns>A reference to the newly created object.</returns>
-        public static TResult Create<T1, T2, T3, T4, TResult>(T1 arg1, T2 arg2, T3 arg3, T4 arg4) where TResult : IDependency
-        {
-            return ActivatorFactory.CreateInstance<T1, T2, T3, T4, TResult>(arg1, arg2, arg3, arg4);
-        }
-
-        /// <summary>
-        /// Creates an instance of <typeparamref name="TResult" /> that implements the <see cref="IDependency"/> interface using a constructor of five parameters.
-        /// </summary>
-        /// <typeparam name="T1">The type of the first parameter of the constructor.</typeparam>
-        /// <typeparam name="T2">The type of the second parameter of the constructor.</typeparam>
-        /// <typeparam name="T3">The type of the third parameter of the constructor.</typeparam>
-        /// <typeparam name="T4">The type of the fourth parameter of the constructor.</typeparam>
-        /// <typeparam name="T5">The type of the fifth parameter of the constructor.</typeparam>
-        /// <typeparam name="TResult">The type to create that implements the <see cref="IDependency"/> interface.</typeparam>
-        /// <param name="arg1">The first parameter of the constructor.</param>
-        /// <param name="arg2">The second parameter of the constructor.</param>
-        /// <param name="arg3">The third parameter of the constructor.</param>
-        /// <param name="arg4">The fourth parameter of the constructor.</param>
-        /// <param name="arg5">The fifth parameter of the constructor.</param>
-        /// <returns>A reference to the newly created object.</returns>
-        public static TResult Create<T1, T2, T3, T4, T5, TResult>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) where TResult : IDependency
-        {
-            return ActivatorFactory.CreateInstance<T1, T2, T3, T4, T5, TResult>(arg1, arg2, arg3, arg4, arg5);
-        }
+        public virtual bool HasChanged => UtcLastModified.HasValue;
 
         /// <summary>
         /// Marks the time when a dependency last changed.
@@ -157,7 +75,46 @@ namespace Cuemon.Runtime
         /// <summary>
         /// Starts and performs the necessary dependency tasks of this instance.
         /// </summary>
-        public abstract void Start();
-        #endregion
+        public virtual void Start()
+        {
+            StartAsync().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Starts and performs the necessary dependency tasks of this instance.
+        /// </summary>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public virtual Task StartAsync()
+        {
+            _watchers = _watchersHandler(OnWatcherChanged);
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Called when this object receives a signal from one or more of the associated <see cref="IWatcher"/>.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="args">The <see cref="WatcherEventArgs"/> instance containing the event data.</param>
+        protected virtual void OnWatcherChanged(object sender, WatcherEventArgs args)
+        {
+            var utcLastModified = DateTime.UtcNow;
+            SetUtcLastModified(utcLastModified);
+            if (BreakTieOnChanged && _watchers != null)
+            {
+                lock (_locker)
+                {
+                    if (_watchers != null)
+                    {
+                        foreach (var watcher in _watchers)
+                        {
+                            watcher.Changed -= OnWatcherChanged;
+                            watcher.Dispose();
+                        }
+                    }
+                    _watchers = null;
+                }
+            }
+            OnDependencyChangedRaised(new DependencyEventArgs(utcLastModified));
+        }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cuemon.Extensions;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
@@ -23,8 +19,8 @@ namespace Cuemon
 
             Assert.Equal("Night", sut.Name);
             Assert.Equal(sut.Range.Duration, TimeSpan.FromHours(6));
-            Assert.Equal(sut.Range.Start, DateTime.UtcNow.Date.AddHours(-3));
-            Assert.Equal(sut.Range.End, DateTime.UtcNow.Date.AddHours(3));
+            Assert.Equal(sut.Range.Start, TimeSpan.FromHours(21));
+            Assert.Equal(sut.Range.End, TimeSpan.FromHours(3));
         }
 
         [Fact]
@@ -34,8 +30,8 @@ namespace Cuemon
 
             Assert.Equal("Morning", sut.Name);
             Assert.Equal(sut.Range.Duration, TimeSpan.FromHours(6));
-            Assert.Equal(sut.Range.Start, DateTime.UtcNow.Date.AddHours(3));
-            Assert.Equal(sut.Range.End, DateTime.UtcNow.Date.AddHours(9));
+            Assert.Equal(sut.Range.Start, TimeSpan.FromHours(3));
+            Assert.Equal(sut.Range.End, TimeSpan.FromHours(9));
         }
 
         [Fact]
@@ -45,8 +41,8 @@ namespace Cuemon
 
             Assert.Equal("Forenoon", sut.Name);
             Assert.Equal(sut.Range.Duration, TimeSpan.FromHours(3));
-            Assert.Equal(sut.Range.Start, DateTime.UtcNow.Date.AddHours(9));
-            Assert.Equal(sut.Range.End, DateTime.UtcNow.Date.AddHours(12));
+            Assert.Equal(sut.Range.Start, TimeSpan.FromHours(9));
+            Assert.Equal(sut.Range.End, TimeSpan.FromHours(12));
         }
 
         [Fact]
@@ -56,8 +52,8 @@ namespace Cuemon
 
             Assert.Equal("Afternoon", sut.Name);
             Assert.Equal(sut.Range.Duration, TimeSpan.FromHours(6));
-            Assert.Equal(sut.Range.Start, DateTime.UtcNow.Date.AddHours(12));
-            Assert.Equal(sut.Range.End, DateTime.UtcNow.Date.AddHours(18));
+            Assert.Equal(sut.Range.Start, TimeSpan.FromHours(12));
+            Assert.Equal(sut.Range.End, TimeSpan.FromHours(18));
         }
 
         [Fact]
@@ -67,25 +63,27 @@ namespace Cuemon
 
             Assert.Equal("Evening", sut.Name);
             Assert.Equal(sut.Range.Duration, TimeSpan.FromHours(3));
-            Assert.Equal(sut.Range.Start, DateTime.UtcNow.Date.AddHours(18));
-            Assert.Equal(sut.Range.End, DateTime.UtcNow.Date.AddHours(21));
+            Assert.Equal(sut.Range.Start, TimeSpan.FromHours(18));
+            Assert.Equal(sut.Range.End, TimeSpan.FromHours(21));
         }
 
         [Fact]
         public void Ctor_ShouldBeInRangeOfFourToSixInTheMorning()
         {
-            var sut = new DayPart("Dawn", new TimeRange(DateTime.UtcNow.Date.AddHours(4), DateTime.UtcNow.Date.AddHours(6)));
+            var sut = new DayPart("Dawn", new TimeRange(TimeSpan.FromHours(4), TimeSpan.FromHours(6)));
+
+            var s = new TimeRange(TimeSpan.FromHours(4), TimeSpan.FromHours(6));
 
             Assert.Equal("Dawn", sut.Name);
             Assert.Equal(sut.Range.Duration, TimeSpan.FromHours(2));
-            Assert.Equal(sut.Range.Start, DateTime.UtcNow.Date.AddHours(4));
-            Assert.Equal(sut.Range.End, DateTime.UtcNow.Date.AddHours(6));
+            Assert.Equal(sut.Range.Start, TimeSpan.FromHours(4));
+            Assert.Equal(sut.Range.End, TimeSpan.FromHours(6));
         }
 
         [Fact]
         public void Ctor_ShouldThrowArgumentOutOfRangeException_WhenExceedingTwentyFourHoursDuration()
         {
-            var sut = Assert.Throws<ArgumentOutOfRangeException>(() => new DayPart("Custom", new TimeRange(DateTime.UtcNow.Date, DateTime.UtcNow.Date.AddHours(24).AddMilliseconds(1))));
+            var sut = Assert.Throws<ArgumentOutOfRangeException>(() => new DayPart("Custom", new TimeRange(TimeSpan.Zero, TimeSpan.FromMilliseconds(86400001))));
 
             TestOutput.WriteLine(sut.ToString());
         }

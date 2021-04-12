@@ -31,7 +31,6 @@ namespace Cuemon.Text
                 if (BomIsUtf32(bytes)) { return Encoding.GetEncoding("UTF-32"); }
                 if (BomIsUtf16BigEndian(bytes)) { return Encoding.GetEncoding("UNICODEFFFE"); }
                 if (BomIsUtf16(bytes)) { return Encoding.GetEncoding("UTF-16"); }
-                if (BomIsUtf7(bytes)) { return Encoding.GetEncoding("UTF-7"); }
             }
             throw new ArgumentException("Unable to locate and decode BOM.", nameof(bytes));
         }
@@ -69,17 +68,6 @@ namespace Cuemon.Text
         {
             return bytes[0] == 0xFF &&
                    bytes[1] == 0xFE;
-        }
-
-        private static bool BomIsUtf7(byte[] bytes)
-        {
-            return bytes[0] == 0x2B &&
-                   bytes[1] == 0x2F &&
-                   bytes[2] == 0x76 &&
-                   (bytes[3] == 0x38 ||
-                    bytes[3] == 0x39 ||
-                    bytes[3] == 0x2B ||
-                    bytes[3] == 0x2F);
         }
 
         /// <summary>
