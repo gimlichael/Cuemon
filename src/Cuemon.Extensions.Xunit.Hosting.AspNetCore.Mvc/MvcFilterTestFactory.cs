@@ -25,6 +25,18 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         }
 
         /// <summary>
+        /// Creates and returns an <see cref="IMvcFilterTest"/> implementation.
+        /// </summary>
+        /// <param name="pipelineSetup">The <see cref="IApplicationBuilder"/> which may be configured.</param>
+        /// <param name="serviceSetup">The <see cref="IServiceCollection"/> which may be configured.</param>
+        /// <param name="hostSetup">The <see cref="IHostBuilder"/> which may be configured.</param>
+        /// <returns>An instance of an <see cref="IMvcFilterTest"/> implementation.</returns>
+        public static IMvcFilterTest CreateMvcFilterTest(Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
+        {
+            return new MvcFilterAspNetCoreHostTest(pipelineSetup, serviceSetup, hostSetup);
+        }
+
+        /// <summary>
         /// Runs a filter/middleware test.
         /// </summary>
         /// <param name="pipelineSetup">The <see cref="IApplicationBuilder" /> which may be configured.</param>
@@ -32,6 +44,23 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         /// <param name="hostSetup">The <see cref="IHostBuilder" /> which may be configured.</param>
         /// <returns>A task that represents the execution of the middleware.</returns>
         public static async Task RunMvcFilterTest(Action<IApplicationBuilder> pipelineSetup = null, Action<IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
+        {
+            using (var middleware = CreateMvcFilterTest(pipelineSetup, serviceSetup, hostSetup))
+            {
+                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                var pipeline = middleware.Application.Build();
+                await pipeline(context).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Runs a filter/middleware test.
+        /// </summary>
+        /// <param name="pipelineSetup">The <see cref="IApplicationBuilder" /> which may be configured.</param>
+        /// <param name="serviceSetup">The <see cref="IServiceCollection" /> which may be configured.</param>
+        /// <param name="hostSetup">The <see cref="IHostBuilder" /> which may be configured.</param>
+        /// <returns>A task that represents the execution of the middleware.</returns>
+        public static async Task RunMvcFilterTest(Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
         {
             using (var middleware = CreateMvcFilterTest(pipelineSetup, serviceSetup, hostSetup))
             {

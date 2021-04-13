@@ -15,6 +15,11 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
             _middlewareTest = MiddlewareTestFactory.CreateMiddlewareTest(pipelineConfigurator, serviceConfigurator, hostConfigurator);
         }
 
+        internal MvcFilterAspNetCoreHostTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
+        {
+            _middlewareTest = MiddlewareTestFactory.CreateMiddlewareTest(pipelineConfigurator, serviceConfigurator, hostConfigurator);
+        }
+
         public IServiceProvider ServiceProvider => _middlewareTest.ServiceProvider;
 
         public IApplicationBuilder Application => _middlewareTest.Application;
