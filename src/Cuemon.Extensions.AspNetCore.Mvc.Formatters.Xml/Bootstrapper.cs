@@ -19,8 +19,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                         _initialized = true;
                         XmlFormatterOptions.DefaultConverters += list =>
                         {
-                            list.AddHttpExceptionDescriptorConverter()
-                                .AddStringValuesConverter()
+                            list.AddStringValuesConverter()
                                 .AddHeaderDictionaryConverter()
                                 .AddFormCollectionConverter()
                                 .AddQueryCollectionConverter()
