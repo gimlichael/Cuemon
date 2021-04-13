@@ -14,8 +14,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         private readonly Action<IServiceCollection> _serviceConfigurator;
         private readonly Action<HostBuilderContext, IApplicationBuilder> _pipelineConfiguratorWithContext;
         private readonly Action<HostBuilderContext, IServiceCollection> _serviceConfiguratorWithContext;
-        private readonly HostBuilderContext _hostBuilderContext;
         private readonly Action<IHostBuilder> _hostConfigurator;
+        private HostBuilderContext _hostBuilderContext;
 
         internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
@@ -38,7 +38,6 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 
         internal MiddlewareAspNetCoreHostTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
-            _hostBuilderContext = new HostBuilderContext(new Dictionary<object, object>());
             _pipelineConfiguratorWithContext = pipelineConfigurator;
             _serviceConfiguratorWithContext = serviceConfigurator;
             _hostConfigurator = hostConfigurator;
@@ -73,6 +72,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 
         protected override void ConfigureHost(IHostBuilder hb)
         {
+            _hostBuilderContext = new HostBuilderContext(hb.Properties);
             _hostConfigurator?.Invoke(hb);
         }
 
