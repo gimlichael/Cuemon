@@ -14,8 +14,18 @@ namespace Cuemon.AspNetCore.Http
         /// <summary>
         /// Initializes a new instance of the <see cref="NotFoundException"/> class.
         /// </summary>
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        public NotFoundException(Exception innerException) : this(default, innerException)
+        {
+            
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotFoundException"/> class.
+        /// </summary>
         /// <param name="message">The message that describes the HTTP status code.</param>
-        public NotFoundException(string message = "The server has not found anything matching the request URI.") : base(StatusCodes.Status404NotFound, message)
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        public NotFoundException(string message = null, Exception innerException = null) : base(StatusCodes.Status404NotFound, message ?? "The server has not found anything matching the request URI.", innerException)
         {
         }
 

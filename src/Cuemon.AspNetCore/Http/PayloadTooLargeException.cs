@@ -14,8 +14,18 @@ namespace Cuemon.AspNetCore.Http
         /// <summary>
         /// Initializes a new instance of the <see cref="PayloadTooLargeException"/> class.
         /// </summary>
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        public PayloadTooLargeException(Exception innerException) : this(default, innerException)
+        {
+            
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PayloadTooLargeException"/> class.
+        /// </summary>
         /// <param name="message">The message that describes the HTTP status code.</param>
-        public PayloadTooLargeException(string message = "The server is refusing to process a request because the request entity is larger than the server is willing or able to process.") : base(StatusCodes.Status413PayloadTooLarge, message)
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        public PayloadTooLargeException(string message = null, Exception innerException = null) : base(StatusCodes.Status413PayloadTooLarge, message ?? "The server is refusing to process a request because the request entity is larger than the server is willing or able to process.", innerException)
         {
         }
 
