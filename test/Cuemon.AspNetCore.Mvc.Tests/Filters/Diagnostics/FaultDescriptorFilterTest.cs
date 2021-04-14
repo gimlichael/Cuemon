@@ -519,5 +519,38 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 Assert.Equal(HttpStatusDescription.Get(500), result.ReasonPhrase);
             }
         }
+
+        [Fact]
+        public async Task OnException_ShouldCaptureUnsupportedMediaType()
+        {
+            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            {
+                app.UseRouting();
+                app.UseEndpoints(routes => { routes.MapControllers(); });
+            }, (context, services) =>
+            {
+                services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
+                    .AddNewtonsoftJson()
+                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddJsonSerializationFormatters();
+            }))
+            {
+                var client = filter.Host.GetTestClient();
+                var result = await client.GetAsync("/statuscodes/415");
+                var body = await result.Content.ReadAsStringAsync();
+
+                TestOutput.WriteLine(body);
+
+                Assert.Equal(@"{
+  ""error"": {
+    ""status"": 415,
+    ""code"": ""UnsupportedMediaType"",
+    ""message"": ""The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.""
+  }
+}", body);
+                Assert.Equal(StatusCodes.Status415UnsupportedMediaType, (int) result.StatusCode);
+                Assert.Equal(HttpStatusDescription.Get(415), result.ReasonPhrase);
+            }
+        }
     }
 }

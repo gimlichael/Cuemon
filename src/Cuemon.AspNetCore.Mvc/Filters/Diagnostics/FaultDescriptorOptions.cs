@@ -73,6 +73,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 .AddHttpFaultResolver<PreconditionRequiredException>()
                 .AddHttpFaultResolver<TooManyRequestsException>()
                 .AddHttpFaultResolver<UnauthorizedException>()
+                .AddHttpFaultResolver<UnsupportedMediaTypeException>()
                 .AddHttpFaultResolver<ThrottlingException>()
                 .AddHttpFaultResolver<UserAgentException>()
                 .AddHttpFaultResolver<ValidationException>(StatusCodes.Status400BadRequest)

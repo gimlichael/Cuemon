@@ -69,6 +69,12 @@ namespace Cuemon.AspNetCore.Mvc.Assets
             throw new PayloadTooLargeException(new ArgumentOutOfRangeException());
         }
 
+        [HttpGet("415")]
+        public IActionResult Get_415()
+        {
+            throw new UnsupportedMediaTypeException(new ArgumentOutOfRangeException());
+        }
+
         [HttpGet("428")]
         public IActionResult Get_428()
         {
