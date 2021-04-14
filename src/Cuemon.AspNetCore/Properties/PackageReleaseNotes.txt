@@ -30,6 +30,8 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - ADDED PreconditionRequiredException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the origin server requires the request to be conditional
 - ADDED TooManyRequestsException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the user has sent too many requests in a given amount of time ("rate limiting")
 - ADDED UnauthorizedException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the requirements of an HTTP WWW-Authenticate header is not meet
+- ADDED MethodNotAllowedException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the request method is known by the server but has been disabled and cannot be used
+- ADDED NotAcceptableException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the web server, after performing server-driven content negotiation, does not find any content that conforms to the criteria given by the user agent
  
 # Improvements
 - EXTENDED HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace with a new property; ReasonPhrase and added new constructor as well as better ToString representation of the object

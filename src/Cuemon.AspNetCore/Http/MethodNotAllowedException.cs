@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 namespace Cuemon.AspNetCore.Http
 {
     /// <summary>
-    /// The exception that is thrown when the request method is known by the server but has been disabled and cannot be used..
+    /// The exception that is thrown when the request method is known by the server but has been disabled and cannot be used.
     /// </summary>
     /// <seealso cref="HttpStatusCodeException" />
     [Serializable]
