@@ -14,10 +14,16 @@ namespace Cuemon.AspNetCore.Http
         /// <summary>
         /// Initializes a new instance of the <see cref="ForbiddenException"/> class.
         /// </summary>
+        public ForbiddenException() : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ForbiddenException"/> class.
+        /// </summary>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         public ForbiddenException(Exception innerException) : this(default, innerException)
         {
-            
         }
 
         /// <summary>
@@ -25,7 +31,7 @@ namespace Cuemon.AspNetCore.Http
         /// </summary>
         /// <param name="message">The message that describes the HTTP status code.</param>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
-        public ForbiddenException(string message = null, Exception innerException = null) : base(StatusCodes.Status403Forbidden, message ?? "The server understood the request, but is refusing to fulfill it.", innerException)
+        public ForbiddenException(string message, Exception innerException = null) : base(StatusCodes.Status403Forbidden, message ?? "The server understood the request, but is refusing to fulfill it.", innerException)
         {
         }
 

@@ -14,10 +14,16 @@ namespace Cuemon.AspNetCore.Http
         /// <summary>
         /// Initializes a new instance of the <see cref="PreconditionFailedException"/> class.
         /// </summary>
+        public PreconditionFailedException() : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PreconditionFailedException"/> class.
+        /// </summary>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         public PreconditionFailedException(Exception innerException) : this(default, innerException)
         {
-            
         }
 
         /// <summary>
@@ -25,7 +31,7 @@ namespace Cuemon.AspNetCore.Http
         /// </summary>
         /// <param name="message">The message that describes the HTTP status code.</param>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
-        public PreconditionFailedException(string message = null, Exception innerException = null) : base(StatusCodes.Status412PreconditionFailed, message ?? "The precondition given in one or more of the request-header fields evaluated to false when it was tested on the server.", innerException)
+        public PreconditionFailedException(string message, Exception innerException = null) : base(StatusCodes.Status412PreconditionFailed, message ?? "The precondition given in one or more of the request-header fields evaluated to false when it was tested on the server.", innerException)
         {
         }
 

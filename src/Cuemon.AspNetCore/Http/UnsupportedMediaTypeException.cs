@@ -14,10 +14,16 @@ namespace Cuemon.AspNetCore.Http
         /// <summary>
         /// Initializes a new instance of the <see cref="UnsupportedMediaTypeException"/> class.
         /// </summary>
+        public UnsupportedMediaTypeException() : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnsupportedMediaTypeException"/> class.
+        /// </summary>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         public UnsupportedMediaTypeException(Exception innerException) : this(default, innerException)
         {
-            
         }
 
         /// <summary>
@@ -25,7 +31,7 @@ namespace Cuemon.AspNetCore.Http
         /// </summary>
         /// <param name="message">The message that describes the HTTP status code.</param>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
-        public UnsupportedMediaTypeException(string message = null, Exception innerException = null) : base(StatusCodes.Status415UnsupportedMediaType, message ?? "The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.", innerException)
+        public UnsupportedMediaTypeException(string message, Exception innerException = null) : base(StatusCodes.Status415UnsupportedMediaType, message ?? "The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.", innerException)
         {
         }
 

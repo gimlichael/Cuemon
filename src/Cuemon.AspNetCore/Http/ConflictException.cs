@@ -14,6 +14,13 @@ namespace Cuemon.AspNetCore.Http
         /// <summary>
         /// Initializes a new instance of the <see cref="ConflictException"/> class.
         /// </summary>
+        public ConflictException() : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConflictException"/> class.
+        /// </summary>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         public ConflictException(Exception innerException) : this(default, innerException)
         {
@@ -24,7 +31,7 @@ namespace Cuemon.AspNetCore.Http
         /// </summary>
         /// <param name="message">The message that describes the HTTP status code.</param>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
-        public ConflictException(string message = null, Exception innerException = null) : base(StatusCodes.Status409Conflict, message ?? "The request could not be completed due to a conflict with the current state of the resource.", innerException)
+        public ConflictException(string message, Exception innerException = null) : base(StatusCodes.Status409Conflict, message ?? "The request could not be completed due to a conflict with the current state of the resource.", innerException)
         {
         }
 

@@ -14,10 +14,16 @@ namespace Cuemon.AspNetCore.Http
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodNotAllowedException"/> class.
         /// </summary>
+        public MethodNotAllowedException() : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodNotAllowedException"/> class.
+        /// </summary>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         public MethodNotAllowedException(Exception innerException) : this(default, innerException)
         {
-            
         }
 
         /// <summary>
@@ -25,7 +31,7 @@ namespace Cuemon.AspNetCore.Http
         /// </summary>
         /// <param name="message">The message that describes the HTTP status code.</param>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
-        public MethodNotAllowedException(string message = null, Exception innerException = null) : base(StatusCodes.Status405MethodNotAllowed, message ?? "The method specified in the request is not allowed for the resource identified by the request URI.", innerException)
+        public MethodNotAllowedException(string message, Exception innerException = null) : base(StatusCodes.Status405MethodNotAllowed, message ?? "The method specified in the request is not allowed for the resource identified by the request URI.", innerException)
         {
         }
 

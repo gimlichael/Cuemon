@@ -14,10 +14,16 @@ namespace Cuemon.AspNetCore.Http
         /// <summary>
         /// Initializes a new instance of the <see cref="PreconditionRequiredException"/> class.
         /// </summary>
+        public PreconditionRequiredException() : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PreconditionRequiredException"/> class.
+        /// </summary>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         public PreconditionRequiredException(Exception innerException) : this(default, innerException)
         {
-            
         }
 
         /// <summary>
@@ -25,7 +31,7 @@ namespace Cuemon.AspNetCore.Http
         /// </summary>
         /// <param name="message">The message that describes the HTTP status code.</param>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
-        public PreconditionRequiredException(string message = null, Exception innerException = null) : base(StatusCodes.Status428PreconditionRequired, message ?? "No conditional request-header fields was supplied to the server.", innerException)
+        public PreconditionRequiredException(string message, Exception innerException = null) : base(StatusCodes.Status428PreconditionRequired, message ?? "No conditional request-header fields was supplied to the server.", innerException)
         {
         }
 
