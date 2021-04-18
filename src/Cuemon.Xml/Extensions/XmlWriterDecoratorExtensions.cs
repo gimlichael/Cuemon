@@ -121,14 +121,14 @@ namespace Cuemon.Xml
                 if (treeWriterInternal == null)
                 {
                     nodes = new Hierarchy<object>().Add(value);
-                    rootElement = Decorator.Enclose(nodes).GetXmlRootOrElement(rootEntity);
+                    rootElement = Decorator.Enclose(nodes).GetXmlQualifiedEntity(rootEntity);
                     writer.WriteStartElement(rootElement.Prefix, rootElement.LocalName, rootElement.Namespace);
                     treeWriterPublic?.Invoke(writer, value);
                 }
                 else
                 {
                     nodes = new HierarchySerializer(value).Nodes;
-                    rootElement = Decorator.Enclose(nodes).GetXmlRootOrElement(rootEntity);
+                    rootElement = Decorator.Enclose(nodes).GetXmlQualifiedEntity(rootEntity);
                     writer.WriteStartElement(rootElement.Prefix, rootElement.LocalName, rootElement.Namespace);
                     treeWriterInternal(writer, nodes);
                 }

@@ -14,6 +14,7 @@ namespace Cuemon.Xml.Serialization
         /// <param name="attribute">The XML related attribute to extract qualified name information about.</param>
         public XmlQualifiedEntity(XmlElementAttribute attribute) : this(ValidateArguments(attribute).ElementName, ValidateArguments(attribute).Namespace)
         {
+            HasXmlElementDecoration = true;
         }
 
         /// <summary>
@@ -22,6 +23,7 @@ namespace Cuemon.Xml.Serialization
         /// <param name="attribute">The XML related attribute to extract qualified name information about.</param>
         public XmlQualifiedEntity(XmlAttributeAttribute attribute) : this(ValidateArguments(attribute).AttributeName, ValidateArguments(attribute).Namespace)
         {
+            HasXmlAttributeDecoration = true;
         }
 
         /// <summary>
@@ -30,6 +32,7 @@ namespace Cuemon.Xml.Serialization
         /// <param name="attribute">The XML related attribute to extract qualified name information about.</param>
         public XmlQualifiedEntity(XmlRootAttribute attribute) : this(ValidateArguments(attribute).ElementName, ValidateArguments(attribute).Namespace)
         {
+            HasXmlRootDecoration = true;
         }
 
         /// <summary>
@@ -38,6 +41,7 @@ namespace Cuemon.Xml.Serialization
         /// <param name="attribute">The XML related attribute to extract qualified name information about.</param>
         public XmlQualifiedEntity(XmlAnyElementAttribute attribute) : this(ValidateArguments(attribute).Name, ValidateArguments(attribute).Namespace)
         {
+            HasXmlAnyElementDecoration = true;
         }
 
         /// <summary>
@@ -71,6 +75,30 @@ namespace Cuemon.Xml.Serialization
         }
 
         /// <summary>
+        /// Gets a value indicating whether this instance was constructed with an <see cref="XmlAttributeAttribute"/> decoration.
+        /// </summary>
+        /// <value><c>true</c> if this instance was constructed with an <see cref="XmlAttributeAttribute"/> decoration; otherwise, <c>false</c>.</value>
+        public bool HasXmlAttributeDecoration { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance was constructed with an <see cref="XmlElementAttribute"/> decoration.
+        /// </summary>
+        /// <value><c>true</c> if this instance was constructed with an <see cref="XmlElementAttribute"/> decoration; otherwise, <c>false</c>.</value>
+        public bool HasXmlElementDecoration { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance was constructed with an <see cref="XmlAnyAttributeAttribute"/> decoration.
+        /// </summary>
+        /// <value><c>true</c> if this instance was constructed with an <see cref="XmlAnyAttributeAttribute"/> decoration; otherwise, <c>false</c>.</value>
+        public bool HasXmlAnyElementDecoration { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance was constructed with an <see cref="XmlRootAttribute"/> decoration.
+        /// </summary>
+        /// <value><c>true</c> if this instance was constructed with an <see cref="XmlRootAttribute"/> decoration; otherwise, <c>false</c>.</value>
+        public bool HasXmlRootDecoration { get; }
+
+        /// <summary>
         /// Gets the local name of the entity.
         /// </summary>
         /// <value>The local name of the entity.</value>
@@ -90,8 +118,7 @@ namespace Cuemon.Xml.Serialization
 
         private static T ValidateArguments<T>(T attribute) where T : Attribute
         {
-            Validator.ThrowIfNull(attribute, nameof(attribute));
-            return attribute;
+            return Validator.CheckParameter(attribute, () => Validator.ThrowIfNull(attribute, nameof(attribute)));
         }
     }
 }

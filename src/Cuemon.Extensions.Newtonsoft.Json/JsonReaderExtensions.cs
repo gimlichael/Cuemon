@@ -40,7 +40,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
                         while (reader.Read()) { goto case JsonToken.StartArray; }
                         break;
                     case JsonToken.PropertyName:
-                        hierarchy[Decorator.Enclose(depthIndexes).GetDepthIndex(() => reader.Depth, index, dimension)].Add(new DataPair(reader.Value.ToString(), null, typeof(string))).Data.Add(PropertyNameKey, reader.Value.ToString());
+                        hierarchy[Decorator.Enclose(depthIndexes).GetDepthIndex(reader.Depth, index, dimension)].Add(new DataPair(reader.Value.ToString(), null, typeof(string))).Data.Add(PropertyNameKey, reader.Value.ToString());
                         index++;
                         break;
                     case JsonToken.EndArray:
