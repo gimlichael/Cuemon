@@ -223,6 +223,19 @@ namespace Cuemon
         private const string IndexKey = "index";
 
         /// <summary>
+        /// Retrieves all nodes that match the conditions defined by the function delegate <paramref name="match"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance that this node represents.</typeparam>
+        /// <param name="hierarchy">The <see cref="IHierarchy{T}"/> implementation to perform the operation upon.</param>
+        /// <param name="match">The function delegate that defines the conditions of the nodes to search for.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all nodes that match the conditions defined by the specified predicate, if found.</returns>
+        public static IEnumerable<IHierarchy<T>> Find<T>(IHierarchy<T> hierarchy, Func<IHierarchy<T>, bool> match)
+        {
+            Validator.ThrowIfNull(match, nameof(match));
+            return DescendantsAndSelf(hierarchy).Where(match);
+        }
+
+        /// <summary>
         /// Gets the tree structure of the specified <paramref name="source"/> wrapped in an <see cref="IHierarchy{T}"/> node representing a hierarchical structure.
         /// </summary>
         /// <param name="source">The source whose properties will be traversed while building the hierarchical structure.</param>

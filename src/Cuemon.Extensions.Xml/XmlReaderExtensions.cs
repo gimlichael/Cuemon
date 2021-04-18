@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using System.Xml.XPath;
 using Cuemon.Xml;
-using Cuemon.Xml.Serialization;
 
 namespace Cuemon.Extensions.Xml
 {
@@ -44,59 +42,7 @@ namespace Cuemon.Extensions.Xml
         {
             Validator.ThrowIfNull(reader, nameof(reader));
             Validator.ThrowIfTrue(reader.ReadState != ReadState.Initial, nameof(reader), "The Read method of the XmlReader object has already been called.");
-            var outerReaders = new List<XmlReader>();
-            var readerSettings = reader.Settings;
-            if (MoveToFirstElement(reader))
-            {
-                var rootElement = new XmlQualifiedEntity(reader.Prefix, reader.LocalName, reader.NamespaceURI);
-                var innerReaders = new List<XmlReader>();
-                Stream result;
-                while (reader.Read())
-                {
-                    if (reader.Depth > 1) { continue; }
-                    switch (reader.NodeType)
-                    {
-                        case XmlNodeType.Element:
-                            var document = new XPathDocument(reader.ReadSubtree());
-                            var navigator = document.CreateNavigator();
-                            innerReaders.Add(navigator.ReadSubtree());
-                            break;
-                    }
-
-                    if (innerReaders.Count != size) { continue; }
-
-                    result = XmlStreamFactory.CreateStream(writer => ChunkCore(writer, innerReaders, rootElement), setup);
-                    outerReaders.Add(XmlReader.Create(result, readerSettings));
-                    innerReaders.Clear();
-                }
-
-                if (innerReaders.Count > 0)
-                {
-                    result = XmlStreamFactory.CreateStream(writer => ChunkCore(writer, innerReaders, rootElement), setup);
-                    outerReaders.Add(XmlReader.Create(result, readerSettings));
-                    innerReaders.Clear();
-                }
-            }
-            return outerReaders;
-        }
-
-        private static void ChunkCore(XmlWriter writer, IEnumerable<XmlReader> readers, XmlQualifiedEntity rootElement)
-        {
-            Validator.ThrowIfNull(writer, nameof(writer));
-            Validator.ThrowIfNull(readers, nameof(readers));
-            writer.WriteStartElement(rootElement.Prefix, rootElement.LocalName, rootElement.Namespace);
-            foreach (var reader in readers)
-            {
-                try
-                {
-                    writer.WriteNode(reader, true);
-                }
-                finally
-                {
-                    reader.Dispose();
-                }
-            }
-            writer.WriteEndDocument();
+            return Decorator.Enclose(reader).Chunk(size, setup);
         }
 
         /// <summary>
@@ -200,16 +146,7 @@ namespace Cuemon.Extensions.Xml
         public static bool MoveToFirstElement(this XmlReader reader)
         {
             Validator.ThrowIfNull(reader, nameof(reader));
-            if (reader.ReadState != ReadState.Initial) { throw new ArgumentException("The Read method of the XmlReader object has already been called.", nameof(reader)); }
-            while (reader.Read())
-            {
-                switch (reader.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        return true;
-                }
-            }
-            return false;
+            return Decorator.Enclose(reader).MoveToFirstElement();
         }
     }
 }

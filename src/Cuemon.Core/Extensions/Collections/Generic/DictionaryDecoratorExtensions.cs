@@ -144,17 +144,16 @@ namespace Cuemon.Collections.Generic
         /// This API supports the product infrastructure and is not intended to be used directly from your code.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
-        /// <param name="readerDepthCallback">The function delegate that provides the depth of the embedded reader.</param>
-        /// <param name="index">The index to associate with a <paramref name="depth"/>.</param>
-        /// <param name="depth">The level of nesting.</param>
-        /// <returns>The index at the specified <paramref name="depth"/>.</returns>
-        public static int GetDepthIndex(this IDecorator<IDictionary<int, Dictionary<int, int>>> decorator, Func<int> readerDepthCallback, int index, int depth)
+        /// <param name="readerDepth">The value that provides the depth of the embedded reader.</param>
+        /// <param name="index">The index to associate with a <paramref name="nesting"/>.</param>
+        /// <param name="nesting">The level of nesting.</param>
+        /// <returns>The index at the specified <paramref name="nesting"/>.</returns>
+        public static int GetDepthIndex(this IDecorator<IDictionary<int, Dictionary<int, int>>> decorator, int readerDepth, int index, int nesting)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(readerDepthCallback, nameof(readerDepthCallback));
-            var readerDepth = readerDepthCallback();
+
             var depthIndexes = decorator.Inner;
-            if (depthIndexes.TryGetValue(depth, out var row))
+            if (depthIndexes.TryGetValue(nesting, out var row))
             {
                 if (!row.TryGetValue(readerDepth, out _))
                 {
@@ -163,17 +162,17 @@ namespace Cuemon.Collections.Generic
             }
             else
             {
-                depthIndexes.Add(depth, new Dictionary<int, int>());
-                if (depth == 0)
+                depthIndexes.Add(nesting, new Dictionary<int, int>());
+                if (nesting == 0)
                 {
-                    depthIndexes[depth].Add(readerDepth, index);
+                    depthIndexes[nesting].Add(readerDepth, index);
                 }
                 else
                 {
-                    depthIndexes[depth].Add(readerDepth, depthIndexes[depth - 1][readerDepth]);
+                    depthIndexes[nesting].Add(readerDepth, depthIndexes[nesting - 1][readerDepth]);
                 }
             }
-            return depthIndexes[depth][readerDepth];
+            return depthIndexes[nesting][readerDepth];
         }
     }
 }
