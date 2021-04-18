@@ -53,6 +53,12 @@ namespace Cuemon.Reflection
         public bool HasAlphanumericVersion => !string.IsNullOrEmpty(_alphanumericVersion);
 
         /// <summary>
+        /// Gets the value of the version passed to this object.
+        /// </summary>
+        /// <value>The value of the version passed to this object.</value>
+        public string Value => _version?.ToString() ?? _alphanumericVersion;
+
+        /// <summary>
         /// Determines whether this instance represents a semantic version.
         /// </summary>
         /// <param name="alphanumericVersion">The <see cref="string"/> that represents a potential alphanumeric version.</param>
@@ -104,7 +110,7 @@ namespace Cuemon.Reflection
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return _version?.ToString() ?? _alphanumericVersion;
+            return Value;
         }
     }
 }
