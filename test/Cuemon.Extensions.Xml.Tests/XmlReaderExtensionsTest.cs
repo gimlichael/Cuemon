@@ -69,7 +69,7 @@ namespace Cuemon.Extensions.Xml
 			<Value>6.0.0</Value>
 		</Version>
 	</Cuemon>
-</HierarchyExample>", sut1.ToEncodedString());
+</HierarchyExample>", sut1.ToEncodedString(), ignoreLineEndingDifferences: true);
             Assert.Equal(3, sut3.Count());
             Assert.Equal(@"<HierarchyExample>
   <Animals>
@@ -83,7 +83,7 @@ namespace Cuemon.Extensions.Xml
       <Pig Output=""Oink"" />
     </Item>
   </Animals>
-</HierarchyExample>", sut3.First().ReadOuterXml());
+</HierarchyExample>", sut3.First().ReadOuterXml(), ignoreLineEndingDifferences: true);
             Assert.Equal(@"<HierarchyExample>
   <Owner Age=""42"">
     <Name>Gimlichael</Name>
@@ -92,7 +92,7 @@ namespace Cuemon.Extensions.Xml
       <PostalCode>3250</PostalCode>
     </Address>
   </Owner>
-</HierarchyExample>", sut3.Skip(1).First().ReadOuterXml());
+</HierarchyExample>", sut3.Skip(1).First().ReadOuterXml(), ignoreLineEndingDifferences: true);
             Assert.Equal(@"<HierarchyExample>
   <Cuemon Name=""Cuemon for .NET"" Tags=""* 42 Infinity"">
     <Version>
@@ -100,7 +100,7 @@ namespace Cuemon.Extensions.Xml
       <Value>6.0.0</Value>
     </Version>
   </Cuemon>
-</HierarchyExample>", sut3.Last().ReadOuterXml());
+</HierarchyExample>", sut3.Last().ReadOuterXml(), ignoreLineEndingDifferences: true);
         }
 
         [Fact]
