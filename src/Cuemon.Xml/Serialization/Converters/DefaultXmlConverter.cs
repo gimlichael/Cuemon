@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Cuemon.Collections.Generic;
 using Cuemon.Reflection;
+using Cuemon.Xml.Linq;
 
 namespace Cuemon.Xml.Serialization.Converters
 {
@@ -259,25 +260,16 @@ namespace Cuemon.Xml.Serialization.Converters
         {
             if (Decorator.Enclose(node).IsNodeEnumerable()) { return; }
 
-            var converter = Decorator.Enclose(Converters).FirstOrDefaultWriterConverter(node.InstanceType);
-            if (converter != null)
-            {
-                converter.WriteXml(writer, node.Instance);
-                return;
-            }
+            var hasTextAttribute = Decorator.Enclose(node).TryGetXmlTextAttribute(out _);
+            var qualifiedEntity = Decorator.Enclose(node).GetXmlQualifiedEntity();
+            var hasElementAttribute = qualifiedEntity.HasXmlElementDecoration;
 
-            var hasAttributeAttribute = node.HasMemberReference && Decorator.Enclose(node.MemberReference).HasAttribute(typeof(XmlAttributeAttribute));
-            var hasElementAttribute = node.HasMemberReference && Decorator.Enclose(node.MemberReference).HasAttribute(typeof(XmlElementAttribute));
-            var hasTextAttribute = node.HasMemberReference && Decorator.Enclose(node.MemberReference).HasAttribute(typeof(XmlTextAttribute));
-
-            var isType = node.Instance is Type;
-            var nodeType = isType ? (Type)node.Instance : node.InstanceType;
-            var attributeOrElementName = node.HasMemberReference ? Decorator.Enclose(node.MemberReference.Name).SanitizeXmlElementName() : Decorator.Enclose(Decorator.Enclose(nodeType).ToFriendlyName()).SanitizeXmlElementName();
-
-            if (!hasAttributeAttribute && !hasElementAttribute && !hasTextAttribute)
+            if (!qualifiedEntity.HasXmlAttributeDecoration && !qualifiedEntity.HasXmlElementDecoration && !hasTextAttribute)
             {
                 hasElementAttribute = true; // default serialization value for legacy Cuemon
-                if ((!Decorator.Enclose(nodeType).IsComplex() || isType) && !node.HasChildren && (isType))
+                var isType = node.Instance is Type;
+                var nodeType = isType ? (Type)node.Instance : node.InstanceType;
+                if ((!Decorator.Enclose(nodeType).IsComplex() || isType) && !node.HasChildren && isType)
                 {
                     if (!node.HasParent)
                     {
@@ -286,37 +278,38 @@ namespace Cuemon.Xml.Serialization.Converters
                     hasTextAttribute = true;
                 }
             }
-            else
-            {
-                string elementName = null;
-                if (hasAttributeAttribute) { elementName = node.MemberReference.GetCustomAttribute<XmlAttributeAttribute>().AttributeName; }
-                if (hasElementAttribute) { elementName = node.MemberReference.GetCustomAttribute<XmlElementAttribute>().ElementName; }
-
-                if (!string.IsNullOrEmpty(elementName))
-                {
-                    attributeOrElementName = elementName;
-                }
-            }
 
             var value = Wrapper.ParseInstance(node);
-            if (hasAttributeAttribute)
+            if (qualifiedEntity.HasXmlAttributeDecoration)
             {
-                writer.WriteAttributeString(attributeOrElementName, value);
+                writer.WriteAttributeString(qualifiedEntity.Prefix, qualifiedEntity.LocalName, qualifiedEntity.Namespace, value);
             }
             else if (hasElementAttribute)
             {
-                if (node.HasMemberReference)
+                WriteXmlElement(writer, node, qualifiedEntity, value);
+            }
+            else if (hasTextAttribute) // catch all (eg. non-decorated properties or XmlTextAttribute)
+            {
+                writer.WriteString(value);
+            }
+        }
+
+        private static void WriteXmlElement(XmlWriter writer, IHierarchy<object> node, XmlQualifiedEntity qualifiedEntity, string value)
+        {
+            if (node.HasMemberReference)
+            {
+                writer.WriteElementString(qualifiedEntity.Prefix, qualifiedEntity.LocalName, qualifiedEntity.Namespace, value);
+            }
+            else
+            {
+                if (Decorator.Enclose(value).IsXmlString())
                 {
-                    writer.WriteElementString(attributeOrElementName, value);
+                    writer.WriteCData(value);
                 }
                 else
                 {
-                    writer.WriteValue(value);
+                    writer.WriteString(value);
                 }
-            }
-            else if (hasTextAttribute)
-            {
-                writer.WriteString(value);
             }
         }
 
@@ -326,24 +319,43 @@ namespace Cuemon.Xml.Serialization.Converters
             {
                 if (Decorator.Enclose(childNode).HasXmlIgnoreAttribute()) { continue; }
                 if (!childNode.InstanceType.GetTypeInfo().IsValueType && childNode.Instance == null) { continue; }
-                if (Decorator.Enclose(childNode.InstanceType).HasEnumerableImplementation() && childNode.InstanceType != typeof(string) && !Decorator.Enclose(childNode.InstanceType).HasDictionaryImplementation())
+                if (SkipIfNullOrEmptyEnumerable(childNode)) { continue; }
+                var qualifiedEntity = Decorator.Enclose(childNode).GetXmlQualifiedEntity();
+                if (qualifiedEntity.HasXmlAttributeDecoration && node.HasMemberReference)
                 {
-                    var i = childNode.Instance as IEnumerable;
-                    if (i == null || !i.Cast<object>().Any()) { continue; }
-                }
-                var qualifiedEntity = Decorator.Enclose(childNode).GetXmlRootOrElement();
-                if (childNode.HasChildren && Decorator.Enclose(childNode.InstanceType).IsComplex()) { Decorator.Enclose(writer).WriteStartElement(qualifiedEntity); }
-                var converter = Decorator.Enclose(Converters).FirstOrDefaultWriterConverter(childNode.InstanceType);
-                if (converter != null)
-                {
-                    converter.WriteXml(writer, childNode.Instance, qualifiedEntity);
+                    writer.WriteAttributeString(qualifiedEntity.Prefix, qualifiedEntity.LocalName, qualifiedEntity.Namespace, Wrapper.ParseInstance(childNode));
                 }
                 else
                 {
-                    WriteXmlNodes(writer, childNode);    
+                    WriteXmlChildrenEncapsulated(writer, childNode, qualifiedEntity);
                 }
-                if (childNode.HasChildren && Decorator.Enclose(childNode.InstanceType).IsComplex()) { writer.WriteEndElement(); }
             }
+        }
+
+        private static bool SkipIfNullOrEmptyEnumerable(IHierarchy<object> childNode)
+        {
+            if (Decorator.Enclose(childNode.InstanceType).HasEnumerableImplementation() && childNode.InstanceType != typeof(string) && !Decorator.Enclose(childNode.InstanceType).HasDictionaryImplementation())
+            {
+                var i = childNode.Instance as IEnumerable;
+                if (i == null || !i.Cast<object>().Any()) { return true; }
+            }
+            return false;
+        }
+
+        private void WriteXmlChildrenEncapsulated(XmlWriter writer, IHierarchy<object> childNode, XmlQualifiedEntity qualifiedEntity)
+        {
+            var encapsulate = childNode.HasChildren && Decorator.Enclose(childNode.InstanceType).IsComplex();
+            if (encapsulate) { Decorator.Enclose(writer).WriteStartElement(qualifiedEntity); }
+            var converter = Decorator.Enclose(Converters).FirstOrDefaultWriterConverter(childNode.InstanceType);
+            if (converter != null && !qualifiedEntity.HasXmlAttributeDecoration)
+            {
+                converter.WriteXml(writer, childNode.Instance, qualifiedEntity);
+            }
+            else
+            {
+                WriteXmlNodes(writer, childNode);
+            }
+            if (encapsulate) { writer.WriteEndElement(); }
         }
     }
 }

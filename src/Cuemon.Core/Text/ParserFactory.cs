@@ -319,7 +319,7 @@ namespace Cuemon.Text
                 if (byte.TryParse(input, NumberStyles.None, options.FormatProvider, out var byteinput)) { return byteinput; }
                 if (int.TryParse(input, NumberStyles.None, options.FormatProvider, out var intinput)) { return intinput; }
                 if (long.TryParse(input, NumberStyles.None, options.FormatProvider, out var longinput)) { return longinput; }
-                if (double.TryParse(input, NumberStyles.Number, options.FormatProvider, out var doubleinput)) { return doubleinput; }
+                if (double.TryParse(input, NumberStyles.Number &~ NumberStyles.AllowThousands, options.FormatProvider, out var doubleinput)) { return doubleinput; }
                 if (float.TryParse(input, NumberStyles.Float, options.FormatProvider, out var floatinput)) { return floatinput; }
                 if (input.Length > 6 && DateTime.TryParse(input, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out var dateTimeinput)) { return dateTimeinput; }
                 if (input.Length > 31 && input.Length < 69 && Guid.TryParse(input, out var guidinput)) { return guidinput; }

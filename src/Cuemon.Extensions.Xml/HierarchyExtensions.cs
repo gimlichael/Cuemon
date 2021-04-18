@@ -45,18 +45,18 @@ namespace Cuemon.Extensions.Xml
         }
 
         /// <summary>
-        /// Resolves an <see cref="XmlQualifiedEntity"/> from the specified <paramref name="qualifiedRootEntity"/> or from the <see cref="T:IHierarchy{object}"/>.
+        /// Resolves an <see cref="XmlQualifiedEntity"/> from either the specified <paramref name="qualifiedEntity"/> or from the <see cref="T:IHierarchy{object}"/>.
         /// </summary>
         /// <param name="hierarchy">The <see cref="T:IHierarchy{object}"/> to extend.</param>
-        /// <param name="qualifiedRootEntity">The optional <see cref="XmlQualifiedEntity"/> that is part of the equation.</param>
-        /// <returns>An <see cref="XmlQualifiedEntity"/> that is either from <paramref name="qualifiedRootEntity"/>, <see cref="XmlRootAttribute"/> or <see cref="XmlElementAttribute"/>.</returns>
+        /// <param name="qualifiedEntity">The optional <see cref="XmlQualifiedEntity"/> that is part of the equation.</param>
+        /// <returns>An <see cref="XmlQualifiedEntity"/> that is either from <paramref name="qualifiedEntity"/>, embedded within <paramref name="hierarchy"/>, <see cref="XmlRootAttribute"/>, <see cref="XmlElementAttribute"/>, <see cref="XmlAttributeAttribute"/> or resolved from either member name or member type (in that order).</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="hierarchy"/> cannot be null.
         /// </exception>
-        public static XmlQualifiedEntity GetXmlRootOrElement(this IHierarchy<object> hierarchy, XmlQualifiedEntity qualifiedRootEntity = null)
+        public static XmlQualifiedEntity GetXmlQualifiedEntity(this IHierarchy<object> hierarchy, XmlQualifiedEntity qualifiedEntity = null)
         {
             Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
-            return Decorator.Enclose(hierarchy).GetXmlRootOrElement(qualifiedRootEntity);
+            return Decorator.Enclose(hierarchy).GetXmlQualifiedEntity(qualifiedEntity);
         }
 
         /// <summary>  

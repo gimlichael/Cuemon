@@ -1,6 +1,6 @@
 ﻿jobs:
   - job: BuildDotNet5_0
-    displayName: 'Release branch (build)'
+    displayName: 'Master branch (net5.0, build)'
     timeoutInMinutes: 60
     pool:
       vmImage: 'windows-2019'
@@ -17,7 +17,7 @@
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
   - job: BuildDotNet3_1
-    displayName: 'Release branch (netcoreapp3.1, build)'
+    displayName: 'Master branch (netcoreapp3.1, build)'
     timeoutInMinutes: 30
     pool:
       vmImage: 'windows-2019'
@@ -34,7 +34,7 @@
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
   - job: BuildDotNet3_0
-    displayName: 'Release branch (netcoreapp3.0, build)'
+    displayName: 'Master branch (netcoreapp3.0, build)'
     timeoutInMinutes: 30
     pool:
       vmImage: 'windows-2019'
@@ -51,7 +51,7 @@
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
   - job: BuildDotNet2_1
-    displayName: 'Release branch (netstandard2.1, build)'
+    displayName: 'Master branch (netstandard2.1, build)'
     timeoutInMinutes: 30
     pool:
       vmImage: 'windows-2019'
@@ -68,7 +68,7 @@
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
   - job: BuildDotNet2_0
-    displayName: 'Release branch (netstandard2.0, build)'
+    displayName: 'Master branch (netstandard2.0, build)'
     timeoutInMinutes: 30
     pool:
       vmImage: 'windows-2019'

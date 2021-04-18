@@ -10,16 +10,16 @@ using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Http
 {
-    public class UnauthorizedExceptionTest : Test
+    public class UnsupportedMediaTypeTest : Test
     {
-        public UnauthorizedExceptionTest(ITestOutputHelper output) : base(output)
+        public UnsupportedMediaTypeTest(ITestOutputHelper output) : base(output)
         {
         }
 
         [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf401()
+        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf404()
         {
-            var sut = new UnauthorizedException();
+            var sut = new UnsupportedMediaTypeException();
 
             TestOutput.WriteLine(sut.ToString());
 
@@ -31,7 +31,7 @@ namespace Cuemon.AspNetCore.Http
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                var desEx = bf.Deserialize(ms) as UnauthorizedException;
+                var desEx = bf.Deserialize(ms) as UnsupportedMediaTypeException;
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Assert.Equal(sut.StatusCode, desEx.StatusCode);
                 Assert.Equal(sut.ReasonPhrase, desEx.ReasonPhrase);
@@ -39,63 +39,63 @@ namespace Cuemon.AspNetCore.Http
                 Assert.Equal(sut.ToString(), desEx.ToString());
             }
 
-            Assert.Equal(StatusCodes.Status401Unauthorized, sut.StatusCode);
+            Assert.Equal(StatusCodes.Status415UnsupportedMediaType, sut.StatusCode);
         }
 
         [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf401_Json()
+        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf415_Json()
         {
-            var sut1 = new UnauthorizedException();
+            var sut1 = new UnsupportedMediaTypeException();
             var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
             TestOutput.WriteLine(sut4);
 
-            var original = sut2.Deserialize<UnauthorizedException>(sut3);
+            var original = sut2.Deserialize<UnsupportedMediaTypeException>(sut3);
 
             sut3.Dispose();
 
             Assert.Equal(sut1.StatusCode, original.StatusCode);
             Assert.Equal(sut1.ReasonPhrase, original.ReasonPhrase);
             Assert.Equal(sut1.Message, original.Message);
-            Assert.Equal(StatusCodes.Status401Unauthorized, sut1.StatusCode);
+            Assert.Equal(StatusCodes.Status415UnsupportedMediaType, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
             Assert.Equal(@"{
-  ""type"": ""Cuemon.AspNetCore.Http.UnauthorizedException"",
-  ""message"": ""The request requires user authentication."",
-  ""statusCode"": 401,
-  ""reasonPhrase"": ""Unauthorized""
+  ""type"": ""Cuemon.AspNetCore.Http.UnsupportedMediaTypeException"",
+  ""message"": ""The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method."",
+  ""statusCode"": 415,
+  ""reasonPhrase"": ""Unsupported Media Type""
 }", sut4);
         }
 
         [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf401_Xml()
+        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf415_Xml()
         {
-            var sut1 = new UnauthorizedException();
+            var sut1 = new UnsupportedMediaTypeException();
             var sut2 = new XmlFormatter(o => o.Settings.Writer.Indent = true);
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
             TestOutput.WriteLine(sut4);
 
-            var original = sut2.Deserialize<UnauthorizedException>(sut3);
+            var original = sut2.Deserialize<UnsupportedMediaTypeException>(sut3);
 
             sut3.Dispose();
 
             Assert.Equal(sut1.StatusCode, original.StatusCode);
             Assert.Equal(sut1.ReasonPhrase, original.ReasonPhrase);
             Assert.Equal(sut1.Message, original.Message);
-            Assert.Equal(StatusCodes.Status401Unauthorized, sut1.StatusCode);
+            Assert.Equal(StatusCodes.Status415UnsupportedMediaType, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
             Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<UnauthorizedException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The request requires user authentication.</Message>
-	<StatusCode>401</StatusCode>
-	<ReasonPhrase>Unauthorized</ReasonPhrase>
-</UnauthorizedException>", sut4);
+<UnsupportedMediaTypeException namespace=""Cuemon.AspNetCore.Http"">
+	<Message>The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.</Message>
+	<StatusCode>415</StatusCode>
+	<ReasonPhrase>Unsupported Media Type</ReasonPhrase>
+</UnsupportedMediaTypeException>", sut4);
         }
     }
 }

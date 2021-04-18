@@ -49,50 +49,94 @@ namespace Cuemon.Xml
         }
 
         /// <summary>
-        /// Resolves an <see cref="XmlQualifiedEntity"/> from the specified <paramref name="qualifiedRootEntity"/> or from the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.
+        /// Resolves an <see cref="XmlQualifiedEntity"/> from either the specified <paramref name="qualifiedEntity"/> or from the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{object}}"/> to extend.</param>
-        /// <param name="qualifiedRootEntity">The optional <see cref="XmlQualifiedEntity"/> that is part of the equation.</param>
-        /// <returns>An <see cref="XmlQualifiedEntity"/> that is either from <paramref name="qualifiedRootEntity"/>, <see cref="XmlRootAttribute"/> or <see cref="XmlElementAttribute"/>.</returns>
+        /// <param name="qualifiedEntity">The optional <see cref="XmlQualifiedEntity"/> that is part of the equation.</param>
+        /// <returns>An <see cref="XmlQualifiedEntity"/> that is either from <paramref name="qualifiedEntity"/>, embedded within <paramref name="decorator"/>, <see cref="XmlRootAttribute"/>, <see cref="XmlElementAttribute"/>, <see cref="XmlAttributeAttribute"/> or resolved from either member name or member type (in that order).</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static XmlQualifiedEntity GetXmlRootOrElement(this IDecorator<IHierarchy<object>> decorator, XmlQualifiedEntity qualifiedRootEntity = null)
+        public static XmlQualifiedEntity GetXmlQualifiedEntity(this IDecorator<IHierarchy<object>> decorator, XmlQualifiedEntity qualifiedEntity = null)
         {
             Validator.ThrowIfNull(decorator, nameof(decorator));
-            if (qualifiedRootEntity != null && !string.IsNullOrWhiteSpace(qualifiedRootEntity.LocalName)) { return qualifiedRootEntity; }
-            var hasRootAttribute = Decorator.Enclose(decorator.Inner.InstanceType).HasAttribute(typeof(XmlRootAttribute));
-            var hasElementAttribute = decorator.Inner.HasMemberReference && Decorator.Enclose(decorator.Inner.MemberReference).HasAttribute(typeof(XmlElementAttribute));
-            var rootOrElementName = decorator.Inner.HasMemberReference 
+
+            if (qualifiedEntity != null && !string.IsNullOrWhiteSpace(qualifiedEntity.LocalName)) { return qualifiedEntity; }
+            
+            if (decorator.Inner.Instance is XmlQualifiedEntity qre && !string.IsNullOrWhiteSpace(qre.LocalName)) { return qre; }
+
+            var defaultLocalName = decorator.Inner.HasMemberReference 
                 ? Decorator.Enclose(decorator.Inner.MemberReference.Name).SanitizeXmlElementName() 
                 : Decorator.Enclose(Decorator.Enclose(decorator.Inner.InstanceType).ToFriendlyName(o => o.ExcludeGenericArguments = true)).SanitizeXmlElementName();
-            string ns = null;
 
-            if (hasRootAttribute || hasElementAttribute)
+
+            if (decorator.TryGetXmlRootAttribute(out var rootAttribute))
             {
-                string elementName = null;
-                if (hasRootAttribute)
-                {
-                    var rootAttribute = decorator.Inner.InstanceType.GetTypeInfo().GetCustomAttribute<XmlRootAttribute>(true);
-                    elementName = rootAttribute.ElementName;
-                    ns = rootAttribute.Namespace;
-                }
-
-                if (hasElementAttribute)
-                {
-                    var elementAttribute = decorator.Inner.MemberReference.GetCustomAttribute<XmlElementAttribute>();
-                    elementName = elementAttribute.ElementName;
-                    ns = elementAttribute.Namespace;
-                }
-
-                if (!string.IsNullOrEmpty(elementName))
-                {
-                    rootOrElementName = elementName;
-                }
+                if (string.IsNullOrWhiteSpace(rootAttribute.ElementName)) { rootAttribute.ElementName = defaultLocalName; }
+                return new XmlQualifiedEntity(rootAttribute);
             }
 
-            var instance = decorator.Inner.Instance as XmlQualifiedEntity;
-            return instance ?? new XmlQualifiedEntity(Decorator.Enclose(rootOrElementName).SanitizeXmlElementName(), ns);
+            if (decorator.TryGetXmlElementAttribute(out var elementAttribute))
+            {
+                if (string.IsNullOrWhiteSpace(elementAttribute.ElementName)) { elementAttribute.ElementName = defaultLocalName; }
+                return new XmlQualifiedEntity(elementAttribute);
+            }
+
+            if (decorator.TryGetXmlAttributeAttribute(out var attributeAttribute))
+            {
+                if (string.IsNullOrWhiteSpace(attributeAttribute.AttributeName)) { attributeAttribute.AttributeName = defaultLocalName; }
+                return new XmlQualifiedEntity(attributeAttribute);
+            }
+
+            return new XmlQualifiedEntity(Decorator.Enclose(defaultLocalName).SanitizeXmlElementName());
+        }
+
+        /// <summary>
+        /// Attempts to get an <see cref="XmlTextAttribute"/> from the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{object}}"/> to extend.</param>
+        /// <param name="xmlAttribute">When this method returns, contains the <see cref="XmlTextAttribute"/> associated with the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.</param>
+        /// <returns><c>true</c> if underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/> contains an <see cref="XmlTextAttribute"/>, <c>false</c> otherwise.</returns>
+        public static bool TryGetXmlTextAttribute(this IDecorator<IHierarchy<object>> decorator, out XmlTextAttribute xmlAttribute)
+        {
+            xmlAttribute = decorator.Inner.HasMemberReference ? decorator.Inner.MemberReference.GetCustomAttribute<XmlTextAttribute>(true) : null;
+            return xmlAttribute != null;
+        }
+
+        /// <summary>
+        /// Attempts to get an <see cref="XmlAttributeAttribute"/> from the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{object}}"/> to extend.</param>
+        /// <param name="xmlAttribute">When this method returns, contains the <see cref="XmlAttributeAttribute"/> associated with the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.</param>
+        /// <returns><c>true</c> if underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/> contains an <see cref="XmlAttributeAttribute"/>, <c>false</c> otherwise.</returns>
+        public static bool TryGetXmlAttributeAttribute(this IDecorator<IHierarchy<object>> decorator, out XmlAttributeAttribute xmlAttribute)
+        {
+            xmlAttribute = decorator.Inner.HasMemberReference ? decorator.Inner.MemberReference.GetCustomAttribute<XmlAttributeAttribute>(true) : null;
+            return xmlAttribute != null;
+        }
+
+        /// <summary>
+        /// Attempts to get an <see cref="XmlRootAttribute"/> from the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{object}}"/> to extend.</param>
+        /// <param name="xmlAttribute">When this method returns, contains the <see cref="XmlRootAttribute"/> associated with the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.</param>
+        /// <returns><c>true</c> if underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/> contains an <see cref="XmlRootAttribute"/>, <c>false</c> otherwise.</returns>
+        public static bool TryGetXmlRootAttribute(this IDecorator<IHierarchy<object>> decorator, out XmlRootAttribute xmlAttribute)
+        {
+            xmlAttribute = decorator.Inner.HasMemberReference ? decorator.Inner.MemberReference.GetCustomAttribute<XmlRootAttribute>(true) : null;
+            return xmlAttribute != null;
+        }
+
+        /// <summary>
+        /// Attempts to get an <see cref="XmlElementAttribute"/> from the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{object}}"/> to extend.</param>
+        /// <param name="xmlAttribute">When this method returns, contains the <see cref="XmlElementAttribute"/> associated with the underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/>.</param>
+        /// <returns><c>true</c> if underlying <see cref="T:IHierarchy{object}"/> of the <paramref name="decorator"/> contains an <see cref="XmlElementAttribute"/>, <c>false</c> otherwise.</returns>
+        public static bool TryGetXmlElementAttribute(this IDecorator<IHierarchy<object>> decorator, out XmlElementAttribute xmlAttribute)
+        {
+            xmlAttribute = decorator.Inner.HasMemberReference ? decorator.Inner.MemberReference.GetCustomAttribute<XmlElementAttribute>(true) : null;
+            return xmlAttribute != null;
         }
 
         /// <summary>  

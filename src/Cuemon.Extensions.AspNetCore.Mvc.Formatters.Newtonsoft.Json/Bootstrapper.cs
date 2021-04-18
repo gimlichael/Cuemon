@@ -19,8 +19,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
                         _initialized = true;
                         JsonFormatterOptions.DefaultConverters += list =>
                         {
-                            list.AddHttpExceptionDescriptorConverter()
-                                .AddStringValuesConverter();
+                            list.AddStringValuesConverter();
                         };
                     }
                 }

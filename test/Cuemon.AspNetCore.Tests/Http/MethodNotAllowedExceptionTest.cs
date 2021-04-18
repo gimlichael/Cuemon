@@ -10,16 +10,16 @@ using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Http
 {
-    public class UnauthorizedExceptionTest : Test
+    public class MethodNotAllowedExceptionTest : Test
     {
-        public UnauthorizedExceptionTest(ITestOutputHelper output) : base(output)
+        public MethodNotAllowedExceptionTest(ITestOutputHelper output) : base(output)
         {
         }
 
         [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf401()
+        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf405()
         {
-            var sut = new UnauthorizedException();
+            var sut = new MethodNotAllowedException();
 
             TestOutput.WriteLine(sut.ToString());
 
@@ -31,7 +31,7 @@ namespace Cuemon.AspNetCore.Http
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 ms.Position = 0;
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                var desEx = bf.Deserialize(ms) as UnauthorizedException;
+                var desEx = bf.Deserialize(ms) as MethodNotAllowedException;
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Assert.Equal(sut.StatusCode, desEx.StatusCode);
                 Assert.Equal(sut.ReasonPhrase, desEx.ReasonPhrase);
@@ -39,63 +39,63 @@ namespace Cuemon.AspNetCore.Http
                 Assert.Equal(sut.ToString(), desEx.ToString());
             }
 
-            Assert.Equal(StatusCodes.Status401Unauthorized, sut.StatusCode);
+            Assert.Equal(StatusCodes.Status405MethodNotAllowed, sut.StatusCode);
         }
 
         [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf401_Json()
+        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf405_Json()
         {
-            var sut1 = new UnauthorizedException();
+            var sut1 = new MethodNotAllowedException();
             var sut2 = new JsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
             TestOutput.WriteLine(sut4);
 
-            var original = sut2.Deserialize<UnauthorizedException>(sut3);
+            var original = sut2.Deserialize<MethodNotAllowedException>(sut3);
 
             sut3.Dispose();
 
             Assert.Equal(sut1.StatusCode, original.StatusCode);
             Assert.Equal(sut1.ReasonPhrase, original.ReasonPhrase);
             Assert.Equal(sut1.Message, original.Message);
-            Assert.Equal(StatusCodes.Status401Unauthorized, sut1.StatusCode);
+            Assert.Equal(StatusCodes.Status405MethodNotAllowed, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
             Assert.Equal(@"{
-  ""type"": ""Cuemon.AspNetCore.Http.UnauthorizedException"",
-  ""message"": ""The request requires user authentication."",
-  ""statusCode"": 401,
-  ""reasonPhrase"": ""Unauthorized""
+  ""type"": ""Cuemon.AspNetCore.Http.MethodNotAllowedException"",
+  ""message"": ""The method specified in the request is not allowed for the resource identified by the request URI."",
+  ""statusCode"": 405,
+  ""reasonPhrase"": ""Method Not Allowed""
 }", sut4);
         }
 
         [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf401_Xml()
+        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf405_Xml()
         {
-            var sut1 = new UnauthorizedException();
+            var sut1 = new MethodNotAllowedException();
             var sut2 = new XmlFormatter(o => o.Settings.Writer.Indent = true);
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
             TestOutput.WriteLine(sut4);
 
-            var original = sut2.Deserialize<UnauthorizedException>(sut3);
+            var original = sut2.Deserialize<MethodNotAllowedException>(sut3);
 
             sut3.Dispose();
 
             Assert.Equal(sut1.StatusCode, original.StatusCode);
             Assert.Equal(sut1.ReasonPhrase, original.ReasonPhrase);
             Assert.Equal(sut1.Message, original.Message);
-            Assert.Equal(StatusCodes.Status401Unauthorized, sut1.StatusCode);
+            Assert.Equal(StatusCodes.Status405MethodNotAllowed, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
             Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<UnauthorizedException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The request requires user authentication.</Message>
-	<StatusCode>401</StatusCode>
-	<ReasonPhrase>Unauthorized</ReasonPhrase>
-</UnauthorizedException>", sut4);
+<MethodNotAllowedException namespace=""Cuemon.AspNetCore.Http"">
+	<Message>The method specified in the request is not allowed for the resource identified by the request URI.</Message>
+	<StatusCode>405</StatusCode>
+	<ReasonPhrase>Method Not Allowed</ReasonPhrase>
+</MethodNotAllowedException>", sut4);
         }
     }
 }

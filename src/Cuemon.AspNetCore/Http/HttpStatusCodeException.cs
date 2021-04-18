@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,8 @@ namespace Cuemon.AspNetCore.Http
         /// </summary>
         /// <param name="statusCode">The HTTP status code to associate with this exception.</param>
         /// <param name="message">The message that describes the HTTP status code.</param>
-        protected HttpStatusCodeException(int statusCode, string message) : this(statusCode, Patterns.InvokeOrDefault(() => ReasonPhrases.GetReasonPhrase(statusCode), string.Empty), message)
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        protected HttpStatusCodeException(int statusCode, string message, Exception innerException = null) : this(statusCode, Patterns.InvokeOrDefault(() => ReasonPhrases.GetReasonPhrase(statusCode), string.Empty), message, innerException)
         {
         }
 
@@ -28,9 +28,10 @@ namespace Cuemon.AspNetCore.Http
         /// Initializes a new instance of the <see cref="HttpStatusCodeException" /> class.
         /// </summary>
         /// <param name="statusCode">The HTTP status code to associate with this exception.</param>
-        /// <param name="reasonPhrase">The HTTP reason phrase to associate with <paramref name="statusCode"/> and this exception.</param>
+        /// <param name="reasonPhrase">The HTTP reason phrase to associate with <paramref name="statusCode" /> and this exception.</param>
         /// <param name="message">The message that describes the HTTP status code.</param>
-        protected HttpStatusCodeException(int statusCode, string reasonPhrase, string message) : base(message)
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        protected HttpStatusCodeException(int statusCode, string reasonPhrase, string message, Exception innerException = null) : base(message, innerException)
         {
             Validator.ThrowIfLowerThan(statusCode, StatusCodes.Status100Continue, nameof(statusCode), FormattableString.Invariant($"{nameof(statusCode)} cannot be less than {StatusCodes.Status100Continue}."));
             Validator.ThrowIfGreaterThan(statusCode, StatusCodes.Status511NetworkAuthenticationRequired, nameof(statusCode), FormattableString.Invariant($"{nameof(statusCode)} cannot be greater than {StatusCodes.Status511NetworkAuthenticationRequired}."));

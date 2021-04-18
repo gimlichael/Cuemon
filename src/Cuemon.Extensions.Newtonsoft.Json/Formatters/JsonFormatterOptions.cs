@@ -71,6 +71,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
+                {
+                    IgnoreSerializableInterface = true
+                }
             };
             Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
             Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>

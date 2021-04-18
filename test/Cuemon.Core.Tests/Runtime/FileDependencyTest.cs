@@ -34,7 +34,7 @@ namespace Cuemon.Runtime
         {
             var ce = new CountdownEvent(2);
             var sut1 = $"{Directory.GetCurrentDirectory()}\\UnitTest2.txt";
-            var sut2 = new Lazy<FileWatcher>(() => new FileWatcher(sut1, false, o => o.Period = TimeSpan.FromMilliseconds(500)));
+            var sut2 = new Lazy<FileWatcher>(() => new FileWatcher(sut1, false, o => o.Period = TimeSpan.FromMilliseconds(800)));
             var sut3 = new FileDependency(sut2);
             var sut4 = DateTime.UtcNow;
             var sut5 = new List<DateTime>();
@@ -77,7 +77,7 @@ namespace Cuemon.Runtime
         {
             var are = new AutoResetEvent(false);
             var sut1 = $"{Directory.GetCurrentDirectory()}\\UnitTest3.txt";
-            var sut2 = new Lazy<FileWatcher>(() => new FileWatcher(sut1, false, o => o.Period = TimeSpan.FromMilliseconds(500)));
+            var sut2 = new Lazy<FileWatcher>(() => new FileWatcher(sut1, false, o => o.Period = TimeSpan.FromMilliseconds(800)));
             var sut3 = new FileDependency(sut2, true);
             var sut4 = DateTime.UtcNow;
             var sut5 = new List<DateTime>();

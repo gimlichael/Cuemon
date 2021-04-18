@@ -79,7 +79,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(objectType, nameof(objectType));
-            var serializer = JsonSerializer.Create(Options.Settings);
+            var serializer = Options.SynchronizeWithJsonConvert ? JsonSerializer.CreateDefault() : JsonSerializer.Create(Options.Settings);
             var sr = new StreamReader(value, true);
             using (var reader = new JsonTextReader(sr))
             {
