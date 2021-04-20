@@ -1,5 +1,4 @@
 ﻿using Cuemon.AspNetCore.Diagnostics;
-using Cuemon.AspNetCore.Http.Throttling;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cuemon.Extensions.AspNetCore.Diagnostics

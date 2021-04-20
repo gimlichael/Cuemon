@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
