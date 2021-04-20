@@ -4,42 +4,72 @@ title: Extensions for ASP.NET Core API
 ---
 # Extensions for ASP.NET Core API
 
-The **Cuemon** assembly family provides both enhancements and extension methods to these namespaces of [Microsoft .NET Standard](https://docs.microsoft.com/en-us/dotnet/api/?view=netstandard-2.0):
+Extensions for ASP.NET Core API, that is part of Cuemon for .NET, is a toolbelt of assemblies designed to be intuitive and follow the same namespace declarations as we have been accustomed by [Microsoft.Extensions](https://docs.microsoft.com/en-us/dotnet/api/?view=dotnet-plat-ext-5.0) which is included in the .NET platform by Microsoft.
 
-+ System
-+ System.Collections
-+ System.Collections.Concurrent
-+ System.Collections.Generic
-+ System.Collections.ObjectModel
-+ System.Collections.Specialized
-+ System.ComponentModel
-+ System.Configuration
-+ System.Data
-+ System.Data.Common
-+ System.Diagnostics
-+ System.Globalization
-+ System.Linq
-+ System.IO
-+ System.Net.Httpp
-+ System.Net.Http.Headers
-+ System.Net.Mail
-+ System.Reflection
-+ System.Runtime.CompilerServices
-+ System.Security.Cryptography
-+ System.Text
-+ System.Threading
-+ System.Threading.Tasks
-+ System.Xml
-+ System.Xml.Serialization
-+ System.Xml.XPath
++ Microsoft.AspNetCore
+  + [Cuemon.Extensions.AspNetCore](#cuemonextensionsaspnetcore)
+  + Cuemon.Extensions.AspNetCore.Configuration
+  + Cuemon.Extensions.AspNetCore.Data.Integrity
+  + Cuemon.Extensions.AspNetCore.Diagnostics
+  + Cuemon.Extensions.AspNetCore.Hosting
+  + Cuemon.Extensions.AspNetCore.Http
+  + Cuemon.Extensions.AspNetCore.Http.Headers
+  + Cuemon.Extensions.AspNetCore.Http.Throttling
++ Microsoft.AspNetCore.Authentication
+  + [Cuemon.Extensions.AspNetCore.Authentication](#cuemonextensionsaspnetcoreauthentication)
++ Microsoft.AspNetCore.Mvc
+  + [Cuemon.Extensions.AspNetCore.Mvc](#cuemonextensionsaspnetcoremvc)
+  + Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
+  + Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
+  + Cuemon.Extensions.AspNetCore.Mvc.Rendering
++ Microsoft.AspNetCore.Mvc.Formatters
+  + [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](#cuemonextensionsaspnetcoremvcformattersxml)
+  + Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
 
-### Cuemon.Data
-[NS-2.0-API](/api/cuemon/data/index.html)
+## Cuemon.Extensions.AspNetCore
 
-### Cuemon.Diagnostics
-[NS-2.0-API](/api/cuemon/diagnostics/index.html)
+The Cuemon.Extensions.AspNetCore namespace contains both types and extension methods that complements the Cuemon.AspNetCore namespace while being an addition to the Microsoft.AspNetCore namespace. Provides an in-memory implementation of a throttling cache for ASP.NET Core.
 
-### Cuemon.Xml
-[NS-2.0-API](/api/core/netstandard2.0/Cuemon.Xml.html)
+Availability: **NET Standard 2.0, NET Core 3.0, .NET 5.0**
 
-[![Build status](https://gimlichael.visualstudio.com/CuemonCore/_apis/build/status/CuemonCore%20-%20Development%20-%20CI)](https://gimlichael.visualstudio.com/CuemonCore/_build/latest?definitionId=1)
+Assembly: Cuemon.Extensions.AspNetCore
+
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+
+Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore)
+
+## Cuemon.Extensions.AspNetCore.Authentication
+
+The Cuemon.Extensions.AspNetCore.Authentication namespace contains extension methods that complements the Cuemon.AspNetCore.Authentication namespace.
+
+Availability: **NET Standard 2.0, NET Core 3.0, .NET 5.0**
+
+Assembly: Cuemon.Extensions.AspNetCore.Authentication
+
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+
+Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore.Authentication) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Authentication) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Authentication)
+
+## Cuemon.Extensions.AspNetCore.Mvc
+
+The Cuemon.Extensions.AspNetCore.Mvc namespace contains both types and extension methods that complements the Cuemon.AspNetCore.Mvc namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides a set of different cache busting strategies for ASP.NET Core MVC that can be easily customized.
+
+Availability: **NET Standard 2.0, NET Core 3.0, .NET 5.0**
+
+Assembly: Cuemon.Extensions.AspNetCore.Mvc
+
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+
+Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore.Mvc) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Mvc) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Mvc)
+
+## Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
+
+The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace contains both types and extension methods that complements the Cuemon.Extensions.Xml namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides XML formatters for ASP.NET Core that offers same flexibility as the one provided by the JSON equivalent from Newtonsoft.
+
+Availability: **NET Standard 2.0, NET Core 3.0, .NET 5.0**
+
+Assembly: Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
+
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+
+Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml)

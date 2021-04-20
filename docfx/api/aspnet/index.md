@@ -4,42 +4,86 @@ title: ASP.NET Core API
 ---
 # ASP.NET Core API
 
-The **Cuemon** assembly family provides both enhancements and extension methods to these namespaces of [Microsoft .NET Standard](https://docs.microsoft.com/en-us/dotnet/api/?view=netstandard-2.0):
+ASP.NET Core API, that is part of Cuemon for .NET, is a toolbelt of assemblies designed to be intuitive and follow the same namespace declarations as we have been accustomed by [Microsoft.AspNetCore](https://docs.microsoft.com/en-us/dotnet/api/?view=aspnetcore-5.0) which is included in the .NET platform by Microsoft.
 
-+ System
-+ System.Collections
-+ System.Collections.Concurrent
-+ System.Collections.Generic
-+ System.Collections.ObjectModel
-+ System.Collections.Specialized
-+ System.ComponentModel
-+ System.Configuration
-+ System.Data
-+ System.Data.Common
-+ System.Diagnostics
-+ System.Globalization
-+ System.Linq
-+ System.IO
-+ System.Net.Httpp
-+ System.Net.Http.Headers
-+ System.Net.Mail
-+ System.Reflection
-+ System.Runtime.CompilerServices
-+ System.Security.Cryptography
-+ System.Text
-+ System.Threading
-+ System.Threading.Tasks
-+ System.Xml
-+ System.Xml.Serialization
-+ System.Xml.XPath
++ Microsoft.AspNetCore
+  + [Cuemon.AspNetCore](#cuemonaspnetcore)
+  + Cuemon.AspNetCore.Configuration
++ Microsoft.AspNetCore.Authentication
+  + [Cuemon.AspNetCore.Authentication](#cuemonaspnetcoreauthentication)
+  + Cuemon.AspNetCore.Authentication.Basic
+  + Cuemon.AspNetCore.Authentication.Digest
+  + Cuemon.AspNetCore.Authentication.Hmac
++ Microsoft.AspNetCore.Builder
+  + Cuemon.AspNetCore.Builder
++ Microsoft.AspNetCore.Diagnostics
+  + Cuemon.AspNetCore.Diagnostics
++ Microsoft.AspNetCore.Hosting
+  + Cuemon.AspNetCore.Hosting
++ Microsoft.AspNetCore.Http
+  + Cuemon.AspNetCore.Http
+  + Cuemon.AspNetCore.Http.Throttling
++ Microsoft.AspNetCore.Http.Headers
+  + Cuemon.AspNetCore.Http.Headers
++ Microsoft.AspNetCore.Mvc
+  + [Cuemon.AspNetCore.Mvc](#cuemonaspnetcoremvc)
++ Microsoft.AspNetCore.Mvc.Filters
+  + Cuemon.AspNetCore.Mvc.Filters
+  + Cuemon.AspNetCore.Mvc.Filters.Cacheable
+  + Cuemon.AspNetCore.Mvc.Filters.Diagnostics
+  + Cuemon.AspNetCore.Mvc.Filters.Headers
+  + Cuemon.AspNetCore.Mvc.Filters.Throttling
++ Microsoft.AspNetCore.Mvc.Filters.ModelBinding
+  + Cuemon.AspNetCore.Mvc.Filters.ModelBinding
++ Microsoft.AspNetCore.Mvc.Formatters
+  + Cuemon.AspNetCore.Mvc.Formatters
++ Microsoft.AspNetCore.Razor.TagHelpers
+  + [Cuemon.AspNetCore.Razor.TagHelpers](#cuemonaspnetcorerazortaghelpers)
 
-### Cuemon.Data
-[NS-2.0-API](/api/cuemon/data/index.html)
+## Cuemon.AspNetCore
 
-### Cuemon.Diagnostics
-[NS-2.0-API](/api/cuemon/diagnostics/index.html)
+The Cuemon.AspNetCore namespace contains types focusing on providing means for easier plumber coding in the ASP.NET Core pipeline while serving some concrete implementation of the shell as well. The namespace is an addition to the Microsoft.AspNetCore namespace.
 
-### Cuemon.Xml
-[NS-2.0-API](/api/core/netstandard2.0/Cuemon.Xml.html)
+Availability: **NET Standard 2.0, NET Core 3.0, .NET 5.0**
 
-[![Build status](https://gimlichael.visualstudio.com/CuemonCore/_apis/build/status/CuemonCore%20-%20Development%20-%20CI)](https://gimlichael.visualstudio.com/CuemonCore/_build/latest?definitionId=1)
+Assembly: Cuemon.AspNetCore
+
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.AspNetCore) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+
+Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.AspNetCore) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.AspNetCore) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.AspNetCore)
+
+## Cuemon.AspNetCore.Authentication
+
+The Cuemon.AspNetCore.Authentication namespace contains types that enable support for authentication using the concept of an Authenticator, AuthorizationHeader and (to tie the knots) an AuthorizationHeaderBuilder. Basic-, Digest Access- and HMAC Authentication is provided out-of-the-box. The namespace is an addition to the Microsoft.AspNetCore.Authentication namespace.
+
+Availability: **NET Standard 2.0, NET Core 3.0, .NET 5.0**
+
+Assembly: Cuemon.AspNetCore.Authentication
+
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.AspNetCore.Authentication) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+
+Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.AspNetCore.Authentication) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.AspNetCore.Authentication) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.AspNetCore.Authentication)
+
+## Cuemon.AspNetCore.Mvc
+
+The Cuemon.AspNetCore,Mvc namespace contains types that specializes in cache expiration and validation models and an abundant range of ready-to-use filters in the ASP.NET Core MVC pipeline. The namespace is an addition to the Microsoft.AspNetCore.Mvc namespace.
+
+Availability: **NET Standard 2.0, NET Core 3.0, .NET 5.0**
+
+Assembly: Cuemon.AspNetCore.Mvc
+
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.AspNetCore.Mvc) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+
+Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.AspNetCore.Mvc) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.AspNetCore.Mvc) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.AspNetCore.Mvc)
+
+## Cuemon.AspNetCore.Razor.TagHelpers
+
+The Cuemon.AspNetCore.Razor.TagHelpers namespace contains types tailored tag helper implementations. The namespace is an addition to the Microsoft.AspNetCore.Razor.TagHelpers namespace.
+
+Availability: **NET Standard 2.0, NET Core 3.0, .NET 5.0**
+
+Assembly: Cuemon.AspNetCore.Razor.TagHelpers
+
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.AspNetCore.Razor.TagHelpers) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+
+Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.AspNetCore.Razor.TagHelpers) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.AspNetCore.Razor.TagHelpers) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.AspNetCore.Razor.TagHelpers)
