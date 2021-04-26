@@ -76,7 +76,7 @@ Non-mappable namespace declarations:
 
 The Cuemon namespace contains fundamental types such as value and reference types, factories and utility classes, interfaces, attributes and feature rich delegates to support functional programming to a whole new level. The namespace is an addition to the System namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Core
 
@@ -88,7 +88,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Data namespace contains types that provide ways to connect, build and manipulate different data sources. The namespace is an addition to the System.Data namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Data
 
@@ -100,7 +100,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Data.Integrity namespace contains types that provide ways for developers to determine and maintain integrity of data that is normally associated with an entity/resource.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Data.Integrity
 
@@ -112,7 +112,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Data.SqlClient namespace contains types that provide ways for developers to work with Microsoft SQL Server integrations. The namespace is an addition to the System.Data.SqlClient namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Data.SqlClient
 
@@ -124,7 +124,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Diagnostics namespace contains types that provide ways for developers to describe exceptions including evidence to why an operation faulted. Also includes a flexible, generic and lambda friendly way to perform both synchronous and asynchronous time measuring operations. The namespace is an addition to the System.Diagnostics namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Diagnostics
 
@@ -136,7 +136,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.IO namespace contains types primarily focusing on configuration options for IO related operations. The namespace is an addition to the System.IO namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET Standard 2.1, .NET 5.0**
 
 Assembly: Cuemon.IO
 
@@ -150,7 +150,7 @@ The Cuemon.Net namespace contains types that provides a simple programming inter
 
 The Cuemon.IO namespace contains types primarily focusing on configuration options for IO related operations. The namespace is an addition to the System.IO namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Net
 
@@ -162,7 +162,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Resilience namespace contains types related to applying transient fault handling to existing code using intuitively named methods taking both Action{..} and Func{..} delegates to provide a lightweight resilience framework.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Resilience
 
@@ -174,7 +174,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Runtime.Caching namespace contains types related to interfaces for generic caching in applications while providing a concrete in-memory cache implementation named SlimMemoryCache. The namespace is an addition to the System.Runtime.Caching namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Runtime.Caching
 
@@ -186,7 +186,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Security.Cryptography namespace contains types related to cryptographic hashing (both keyed and non-keyed) and a ready-to-use implementation of the Advanced Encryption Standard (AES) symmetric algorithm. The namespace is an addition to the System.Security.Cryptography namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Security.Cryptography
 
@@ -198,7 +198,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Threading namespace contains types related to working with long-running concurrent loops and regions that utilizes both synchronous and asynchronous delegates. The namespace is an addition to the System.Threading namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Threading
 
@@ -210,7 +210,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Xml namespace contains types related to encoding, converting and serialization. The included lightweight XML serializer framework offers same flexibility as the one provided by the JSON equivalent from Newtonsoft. The namespace is an addition to the System.Xml namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Xml
 

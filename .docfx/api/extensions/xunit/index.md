@@ -19,7 +19,7 @@ Using [xUnit.net](https://xunit.net/) as the preferred unit test platform of Cue
 
 The Cuemon.Extensions.Xunit namespace contains types that provides a uniform way of doing unit testing. The namespace relates to the Xunit.Abstractions namespace.
 
-Availability: **NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Extensions.Xunit
 
@@ -31,7 +31,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Xunit.Hosting namespace contains types that provides a uniform way of doing unit testing that is used in conjunction with Microsoft Dependency Injection. The namespace relates to the Xunit.Abstractions namespace.
 
-Availability: **NET Standard 2.0, NET Core 3.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET Core 3.0, .NET 5.0**
 
 Assembly: Cuemon.Extensions.Xunit.Hosting
 
@@ -43,7 +43,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace contains types that provides a uniform way of doing unit testing that depends on ASP.NET Core and used in conjunction with Microsoft Dependency Injection. The namespace relates to the Microsoft.AspNetCore.TestHost namespace.
 
-Availability: **NET Core 3.1, .NET 5.0**
+Availability: **.NET Core 3.1, .NET 5.0**
 
 Assembly: Cuemon.Extensions.Xunit.Hosting.AspNetCore
 
@@ -55,7 +55,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace contains types that provides a uniform way of doing unit testing that depends on ASP.NET Core MVC and used in conjunction with Microsoft Dependency Injection. The namespace relates to the Microsoft.AspNetCore.Mvc.Testing namespace.
 
-Availability: **NET Core 3.1, .NET 5.0**
+Availability: **.NET Core 3.1, .NET 5.0**
 
 Assembly: Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 
