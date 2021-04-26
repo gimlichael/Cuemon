@@ -148,8 +148,6 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Net namespace contains types that provides a simple programming interface for HTTP and SMTP protocols. The namespace is an addition to the System.Net namespace.
 
-The Cuemon.IO namespace contains types primarily focusing on configuration options for IO related operations. The namespace is an addition to the System.IO namespace.
-
 Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Net
