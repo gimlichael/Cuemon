@@ -109,7 +109,7 @@ The Cuemon.Extensions.DependencyInjection namespace contains extension methods t
 
 Availability: **.NET Standard 2.0, .NET 5.0**
 
-Assembly: Cuemon.Extensions.AspNetCore.Mvc
+Assembly: Cuemon.Extensions.DependencyInjection
 
 NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.DependencyInjection) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
 

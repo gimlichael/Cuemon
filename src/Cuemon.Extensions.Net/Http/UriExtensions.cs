@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Cuemon.Net.Http;
 using HttpRequestOptions = Cuemon.Net.Http.HttpRequestOptions;
 
 namespace Cuemon.Extensions.Net.Http
