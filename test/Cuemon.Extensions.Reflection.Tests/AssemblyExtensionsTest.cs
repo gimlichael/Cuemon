@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Reflection
             TestOutput.WriteLine(sut2.ToString());
 
             Assert.False(sut2.IsSemanticVersion());
-            Assert.StartsWith("6.0.0", sut2.ToString());
+            Assert.StartsWith("6.0.1", sut2.ToString());
         }
 
         [Fact]
