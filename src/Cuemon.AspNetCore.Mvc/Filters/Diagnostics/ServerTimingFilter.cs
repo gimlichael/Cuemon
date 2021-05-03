@@ -86,10 +86,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             if (Options.TimeMeasureCompletedThreshold == TimeSpan.Zero || Profiler.Elapsed > Options.TimeMeasureCompletedThreshold)
             {
                 TimeMeasure.CompletedCallback?.Invoke(Profiler);
-                if (!Options.SuppressHeaderPredicate(Environment))
-                {
-                    context.HttpContext.Response.Headers.Add(ServerTiming.HeaderName, serverTiming.Metrics.Select(metric => metric.ToString()).ToArray());
-                }
+            }
+            if (!Options.SuppressHeaderPredicate(Environment))
+            {
+                context.HttpContext.Response.Headers.Add(ServerTiming.HeaderName, serverTiming.Metrics.Select(metric => metric.ToString()).ToArray());
             }
         }
 

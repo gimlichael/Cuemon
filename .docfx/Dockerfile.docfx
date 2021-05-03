@@ -27,7 +27,7 @@ SHELL ["/opt/microsoft/powershell/7/pwsh", "-Command"]
 
 WORKDIR /build
 
-ADD ["docfx", "docfx"]
+ADD [".", "docfx"]
 #ADD ["src", "src"] INCLUDE THIS WHEN DOCFX IS MATURED - SEE NOTE BELOW
 
 RUN cd docfx; `

@@ -20,17 +20,17 @@ namespace Cuemon
 
             var span = DateSpan.Parse(start, end);
 
-            Assert.Equal("10:122:3712:19:06:49.256", span.ToString());
+            Assert.Equal("10:121:3711:19:06:49.256", span.ToString());
             Assert.Equal(10, span.Years);
-            Assert.Equal(122, span.Months);
-            Assert.Equal(3712, span.Days);
+            Assert.Equal(121, span.Months);
+            Assert.Equal(3711, span.Days);
             Assert.Equal(19, span.Hours);
             Assert.Equal(6, span.Minutes);
             Assert.Equal(49, span.Seconds);
             Assert.Equal(256, span.Milliseconds);
 
             Assert.Equal(10.16930521486555, span.TotalYears);
-            Assert.Equal(121.9933085177702, span.TotalMonths);
+            Assert.Equal(121.02596734425681, span.TotalMonths);
             Assert.Equal(3711.7964034259257, span.TotalDays);
             Assert.Equal(89083.11368222222, span.TotalHours);
             Assert.Equal(5344986.820933334, span.TotalMinutes);
@@ -165,6 +165,20 @@ namespace Cuemon
             Assert.Equal(-2085201570, span.GetHashCode());
 
             TestOutput.WriteLine(span.ToString());
+        }
+
+        [Fact]
+        public void DateSpan_ShouldHandleOverlapInMonthAndDays()
+        {
+            var sut0 = new DateTime(2020, 5, 12);
+            var sut1 = Generate.RangeOf(5, i => new DateTime(2021, 5, i + 10));
+
+            Assert.Collection(sut1, 
+                dt => Assert.Equal("0:11:363:00:00:00.0", new DateSpan(sut0, dt).ToString()), 
+                dt => Assert.Equal("0:11:364:00:00:00.0", new DateSpan(sut0, dt).ToString()),
+                dt => Assert.Equal("1:12:365:00:00:00.0", new DateSpan(sut0, dt).ToString()),
+                dt => Assert.Equal("1:12:366:00:00:00.0", new DateSpan(sut0, dt).ToString()),
+                dt => Assert.Equal("1:12:367:00:00:00.0", new DateSpan(sut0, dt).ToString()));
         }
 
         [Fact]
