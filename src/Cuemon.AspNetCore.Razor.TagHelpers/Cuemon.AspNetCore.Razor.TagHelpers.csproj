@@ -12,8 +12,12 @@
     <PackageTags>cdn-tag-helper cdn-uri-scheme image-cdn-tag-helper link-cdn-tag-helper script-cdn-tag-helper</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
+    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
+  </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>

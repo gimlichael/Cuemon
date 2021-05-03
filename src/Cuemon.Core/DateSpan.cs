@@ -51,11 +51,9 @@ namespace Cuemon
             var months = 0;
             var days = 0;
 
-            var years = upper.Year == lower.Year ? 0 : upper.Year - lower.Year;
-            var hours = upper.Hour == lower.Hour ? 0 : upper.Hour - lower.Hour;
-            var minutes = upper.Minute == lower.Minute ? 0 : upper.Minute - lower.Minute;
-            var seconds = upper.Second == lower.Second ? 0 : upper.Second - lower.Second;
-            var milliseconds = upper.Millisecond == lower.Millisecond ? 0 : upper.Millisecond - lower.Millisecond;
+            var years = GetYears(upper, lower);
+            var hours = 0;
+            var milliseconds = 0;
 
             int daysPerYears;
             var y = lower.Year;
@@ -68,9 +66,39 @@ namespace Cuemon
             while (!lower.Year.Equals(upper.Year) || !lower.Month.Equals(upper.Month))
             {
                 var daysPerMonth = _calendar.GetDaysInMonth(lower.Year, lower.Month);
-                days += daysPerMonth;
-                lower = lower.AddMonths(1);
-                months++;
+                var peekNextLower = lower.AddMonths(1);
+                if (peekNextLower > upper)
+                {
+                    while (!lower.Month.Equals(upper.Month) || !lower.Day.Equals(upper.Day))
+                    {
+                        days++;
+                        lower = lower.AddDays(1);
+                    }
+
+                    if (lower > upper)
+                    {
+                        lower = lower.AddDays(-1);
+                        days--;
+
+                        while (!lower.Hour.Equals(upper.Hour))
+                        {
+                            hours++;
+                            lower = lower.AddHours(1);
+                        }
+
+                        while (!lower.Minute.Equals(upper.Minute) || !lower.Second.Equals(upper.Second) || !lower.Millisecond.Equals(upper.Millisecond))
+                        {
+                            milliseconds++;
+                            lower = lower.AddMilliseconds(1);
+                        }
+                    }
+                }
+                else
+                {
+                    days += daysPerMonth;
+                    lower = lower.AddMonths(1);
+                    months++;
+                }
             }
 
             while (!lower.Day.Equals(upper.Day))
@@ -80,7 +108,7 @@ namespace Cuemon
             }
 
             var averageDaysPerMonth = months == 0 ? days : Convert.ToDouble(days) / Convert.ToDouble(months);
-            var remainder = new TimeSpan(days, hours, minutes, seconds, milliseconds);
+            var remainder = new TimeSpan(days, hours, 0, 0, milliseconds);
 
             Years = years;
             Months = months;
@@ -98,6 +126,13 @@ namespace Cuemon
             TotalMinutes = remainder.TotalMinutes;
             TotalSeconds = remainder.TotalSeconds;
             TotalMilliseconds = remainder.TotalMilliseconds;
+        }
+
+        private static int GetYears(DateTime upper, DateTime lower)
+        {
+            if (upper.Year == lower.Year) { return 0; }
+            if (upper.Month <= lower.Month && upper.Day < lower.Day) { return 0; }
+            return upper.Year - lower.Year;
         }
 
         /// <summary>

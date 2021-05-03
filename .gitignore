@@ -221,8 +221,8 @@ ModelManifest.xml
 *.DotSettings
 
 # DocFx
-/docfx/wwwroot
-/docfx/api/**/*.yml
-/docfx/**/*.manifest
-/docfx/.vscode/docfx-assistant
+/.docfx/wwwroot
+/.docfx/api/**/*.yml
+/.docfx/**/*.manifest
+/.docfx/.vscode/docfx-assistant
 /.vscode/docfx-assistant
