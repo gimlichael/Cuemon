@@ -55,13 +55,15 @@ namespace Cuemon
             var hours = 0;
             var milliseconds = 0;
 
-            int daysPerYears;
+            int daysPerYears = 0;
             var y = lower.Year;
             do
             {
-                daysPerYears = _calendar.GetDaysInYear(y);
+                daysPerYears += _calendar.GetDaysInYear(y);
                 y++;
             } while (y < upper.Year);
+
+            var daysPerYearsAverage = years == 0 ? daysPerYears : Convert.ToDouble(daysPerYears) / Convert.ToDouble(years);
 
             while (!lower.Year.Equals(upper.Year) || !lower.Month.Equals(upper.Month))
             {
@@ -119,7 +121,7 @@ namespace Cuemon
             Milliseconds = remainder.Milliseconds;
             Ticks = remainder.Ticks;
 
-            TotalYears = remainder.TotalDays / daysPerYears;
+            TotalYears = remainder.TotalDays / daysPerYearsAverage;
             TotalMonths = remainder.TotalDays / averageDaysPerMonth;
             TotalDays = remainder.TotalDays;
             TotalHours = remainder.TotalHours;
@@ -131,8 +133,17 @@ namespace Cuemon
         private static int GetYears(DateTime upper, DateTime lower)
         {
             if (upper.Year == lower.Year) { return 0; }
-            if (upper.Month <= lower.Month && upper.Day < lower.Day) { return 0; }
-            return upper.Year - lower.Year;
+
+            var adjustYearMinusOne = (upper.Month <= lower.Month && upper.Day <= lower.Day);
+            if (adjustYearMinusOne)
+            {
+                if (upper.Month == lower.Month && upper.Day == lower.Day)
+                {
+                    adjustYearMinusOne = upper.TimeOfDay < lower.TimeOfDay;
+                }
+            }
+            var presult = upper.Year - lower.Year;
+            return adjustYearMinusOne ? presult - 1 : presult;
         }
 
         /// <summary>

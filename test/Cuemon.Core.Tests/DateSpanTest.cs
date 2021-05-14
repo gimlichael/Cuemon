@@ -29,7 +29,7 @@ namespace Cuemon
             Assert.Equal(49, span.Seconds);
             Assert.Equal(256, span.Milliseconds);
 
-            Assert.Equal(10.16930521486555, span.TotalYears);
+            Assert.Equal(10.163736044430246, span.TotalYears);
             Assert.Equal(121.02596734425681, span.TotalMonths);
             Assert.Equal(3711.7964034259257, span.TotalDays);
             Assert.Equal(89083.11368222222, span.TotalHours);
@@ -165,6 +165,16 @@ namespace Cuemon
             Assert.Equal(-2085201570, span.GetHashCode());
 
             TestOutput.WriteLine(span.ToString());
+        }
+
+        [Fact]
+        public void DateSpan_ShouldHandleAuthorsBirthday()
+        {
+            var sut1 = new DateTime(1978, 5, 12).Date;
+            var sut2 = new DateTime(2021, 5, 14).Date;
+            var sut3 = new DateSpan(sut1, sut2);
+
+            TestOutput.WriteLine(sut3.ToString());
         }
 
         [Fact]
