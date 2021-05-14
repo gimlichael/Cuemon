@@ -27,7 +27,6 @@
     <ProjectReference Include="..\Cuemon.Extensions.Hosting\Cuemon.Extensions.Hosting.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Net\Cuemon.Extensions.Net.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Runtime.Caching\Cuemon.Extensions.Runtime.Caching.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Text\Cuemon.Extensions.Text.csproj" />

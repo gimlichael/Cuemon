@@ -17,7 +17,6 @@
     <ProjectReference Include="..\Cuemon.AspNetCore.Razor.TagHelpers\Cuemon.AspNetCore.Razor.TagHelpers.csproj" />
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.AspNetCore.Authentication\Cuemon.Extensions.AspNetCore.Authentication.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.AspNetCore.Mvc\Cuemon.Extensions.AspNetCore.Mvc.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
