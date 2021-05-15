@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace Cuemon.AspNetCore.Razor.TagHelpers
+﻿namespace Cuemon.AspNetCore.Razor.TagHelpers
 {
     /// <summary>
-    /// Defines protocol URI schemes for CDN related operations.
+    /// Defines protocol URI schemes for static resource related operations.
     /// </summary>
-    [Obsolete("This enum is deprecated and will be removed soon. Please use ProtocolUriScheme instead.")]
-    public enum CdnUriScheme
+    public enum ProtocolUriScheme
     {
         /// <summary>
         /// Specifies that the URI scheme is not defined.

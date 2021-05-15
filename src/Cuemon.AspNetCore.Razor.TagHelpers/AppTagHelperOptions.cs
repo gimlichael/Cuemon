@@ -1,15 +1,15 @@
 ﻿namespace Cuemon.AspNetCore.Razor.TagHelpers
 {
     /// <summary>
-    /// Configuration options for <see cref="ImageCdnTagHelper"/>, <see cref="LinkCdnTagHelper"/> and <see cref="ScriptCdnTagHelper"/>.
+    /// Configuration options for <see cref="AppImageTagHelper"/>, <see cref="AppLinkTagHelper"/> and <see cref="AppScriptTagHelper"/>.
     /// </summary>
-    public class CdnTagHelperOptions : TagHelperOptions
+    public class AppTagHelperOptions : TagHelperOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CdnTagHelperOptions"/> class.
+        /// Initializes a new instance of the <see cref="AppTagHelperOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="CdnTagHelperOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="AppTagHelperOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -25,7 +25,7 @@
         ///     </item>
         /// </list>
         /// </remarks>
-        public CdnTagHelperOptions()
+        public AppTagHelperOptions()
         {
         }
     }
