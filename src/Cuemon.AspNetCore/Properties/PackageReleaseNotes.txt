@@ -1,4 +1,10 @@
-﻿Version: 6.0.0
+﻿Version: 6.0.1
+Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+ 
+# New Features
+- ADDED ServerTimingMiddleware class in the Cuemon.AspNetCore.Diagnostics namespace that provides a Server-Timing middleware implementation for ASP.NET Core
+ 
+Version: 6.0.0
 Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
  
 # Upgrade Steps

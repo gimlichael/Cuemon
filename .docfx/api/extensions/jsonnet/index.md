@@ -26,7 +26,7 @@ Availability: **.NET Standard 2.0, .NET 5.0**
 
 Assembly: Cuemon.Extensions.Newtonsoft.Json
 
-NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json)
 
 Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Newtonsoft.Json) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Newtonsoft.Json) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Newtonsoft.Json)
 
@@ -38,6 +38,6 @@ Availability: **.NET Standard 2.0, NET Core 3.0, .NET 5.0**
 
 Assembly: Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
 
-NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json)
 
 Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json)
