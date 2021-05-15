@@ -7,7 +7,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
     /// </summary>
     /// <seealso cref="IMiddlewareTest" />
     /// <seealso cref="IHostTest" />
-    public interface IMvcFilterTest : IMiddlewareTest, IHostTest
+    [Obsolete("This interface is deprecated and will be removed soon. Please use IWebApplicationTest instead.")]
+    public interface IMvcFilterTest : IWebApplicationTest
     {
     }
 }
