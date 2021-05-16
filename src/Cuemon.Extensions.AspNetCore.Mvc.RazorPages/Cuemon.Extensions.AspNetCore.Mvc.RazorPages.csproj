@@ -8,7 +8,7 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc.RazorPages</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc.RazorPages</AssemblyTitle>
-    <Description>The Cuemon.Extensions.AspNetCore.Mvc.RazorPages namespace contains extension methods tailored to accompany the types found in Cuemon.AspNetCore.Razor.TagHelpers.</Description>
+    <Description>The Cuemon.Extensions.AspNetCore.Mvc.RazorPages namespace contains extension methods tailored to accompany the types found in Cuemon.AspNetCore.Razor.TagHelpers while being an addition to the Microsoft.AspNetCore.Mvc.RazorPages namespace.</Description>
     <PackageTags>app cdn get-app-url get-cdn-url</PackageTags>
   </PropertyGroup>
 
