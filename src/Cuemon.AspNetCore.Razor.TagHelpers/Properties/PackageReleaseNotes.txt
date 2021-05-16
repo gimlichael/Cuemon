@@ -15,6 +15,9 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - ADDED ProtocolUriScheme class in the Cuemon.AspNetCore.Razor.TagHelpers namespace that defines protocol URI schemes for static resource related operations
 - ADDED ScriptTagHelper class in the Cuemon.AspNetCore.Razor.TagHelpers namespace that provides a base-class for targeting <script> elements that supports ICacheBusting versioning
 - ADDED TagHelperOptions class in the Cuemon.AspNetCore.Razor.TagHelpers namespace that specifies options related to CacheBustingTagHelper{TOptions}
+- ADDED CdnImageTagHelper class in the Cuemon.AspNetCore.Razor.TagHelpers namespace that provides an implementation targeting <img> elements that supports ICacheBusting versioning of a static image placed on a location with a CDN role
+- ADDED CdnLinkTagHelper class in the Cuemon.AspNetCore.Razor.TagHelpers namespace that provides an implementation targeting <link> elements that supports ICacheBusting versioning of a static resource placed on a location with a CDN role
+- ADDED CdnScriptTagHelper class in the Cuemon.AspNetCore.Razor.TagHelpers namespace that provides an implementation targeting <script> elements that supports ICacheBusting versioning of a static script placed on a location with a CDN role
  
 Version: 6.0.0
 Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
