@@ -2,7 +2,7 @@
 uid: Cuemon.AspNetCore.Razor.TagHelpers
 summary: *content
 ---
-The Cuemon.AspNetCore.Razor.TagHelpers namespace contains types tailored tag helper implementations. The namespace is an addition to the Microsoft.AspNetCore.Razor.TagHelpers namespace.
+The Cuemon.AspNetCore.Razor.TagHelpers namespace contains types that are tailored for tag helper implementations. The namespace is an addition to the Microsoft.AspNetCore.Razor.TagHelpers namespace.
 
 Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
 

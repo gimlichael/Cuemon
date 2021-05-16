@@ -1,9 +1,9 @@
 ﻿namespace Cuemon.AspNetCore.Razor.TagHelpers
 {
     /// <summary>
-    /// Configuration options for <see cref="CdnTagHelper"/>.
+    /// Configuration options for <see cref="ImageCdnTagHelper"/>, <see cref="LinkCdnTagHelper"/> and <see cref="ScriptCdnTagHelper"/>.
     /// </summary>
-    public class CdnTagHelperOptions
+    public class CdnTagHelperOptions : TagHelperOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CdnTagHelperOptions"/> class.
@@ -16,30 +16,17 @@
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="Scheme"/></term>
-        ///         <description><see cref="CdnUriScheme.Relative"/></description>
+        ///         <term><see cref="TagHelperOptions.Scheme"/></term>
+        ///         <description><see cref="ProtocolUriScheme.Relative"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="BaseUrl"/></term>
+        ///         <term><see cref="TagHelperOptions.BaseUrl"/></term>
         ///         <description><c>null</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public CdnTagHelperOptions()
         {
-            Scheme = CdnUriScheme.Relative;
         }
-
-        /// <summary>
-        /// Gets or sets the <see cref="CdnUriScheme"/> of these options.
-        /// </summary>
-        /// <value>The <see cref="CdnUriScheme"/> of these options.</value>
-        public CdnUriScheme Scheme { get; set; }
-
-        /// <summary>
-        /// Gets or sets the base URL of these options.
-        /// </summary>
-        /// <value>The base URL of these options.</value>
-        public string BaseUrl { get; set; }
     }
 }

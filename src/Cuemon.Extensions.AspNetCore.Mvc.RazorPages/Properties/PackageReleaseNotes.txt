@@ -1,0 +1,6 @@
+﻿Version: 6.1.0
+Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+ 
+# New Features
+- ADDED PageBaseExtensions class in the Cuemon.AspNetCore.Razor.TagHelpers namespace that consist of extension methods for the PageBase class: GetAppUrl, GetCdnUrl
+ 

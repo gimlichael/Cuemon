@@ -10,6 +10,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
     /// <summary>
     /// Provides a set of static methods for ASP.NET Core MVC filter unit testing.
     /// </summary>
+    [Obsolete("This class is deprecated and will be removed soon. Please use WebApplicationTestFactory instead.")]
     public static class MvcFilterTestFactory
     {
         /// <summary>
@@ -21,7 +22,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         /// <returns>An instance of an <see cref="IMvcFilterTest"/> implementation.</returns>
         public static IMvcFilterTest CreateMvcFilterTest(Action<IApplicationBuilder> pipelineSetup = null, Action<IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
         {
-            return new MvcFilterAspNetCoreHostTest(pipelineSetup, serviceSetup, hostSetup);
+            return new WebApplicationTest(pipelineSetup, serviceSetup, hostSetup);
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         /// <returns>An instance of an <see cref="IMvcFilterTest"/> implementation.</returns>
         public static IMvcFilterTest CreateMvcFilterTest(Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
         {
-            return new MvcFilterAspNetCoreHostTest(pipelineSetup, serviceSetup, hostSetup);
+            return new WebApplicationTest(pipelineSetup, serviceSetup, hostSetup);
         }
 
         /// <summary>

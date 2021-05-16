@@ -66,7 +66,7 @@ namespace Cuemon.Reflection
             TestOutput.WriteLine(v.ToString());
 
             Assert.False(v.IsSemanticVersion());
-            Assert.StartsWith("6.0.1", v.ToString());
+            Assert.StartsWith("6.1.0", v.ToString());
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace Cuemon.Reflection
 
             Assert.True(v.IsSemanticVersion());
             Assert.True(v.HasAlphanumericVersion);
-            Assert.Equal("6.0", v.ToVersion().ToString());
+            Assert.Equal("6.1", v.ToVersion().ToString());
         }
 
         [Fact]
