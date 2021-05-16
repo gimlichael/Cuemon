@@ -68,7 +68,7 @@ namespace Cuemon.Runtime
             Assert.True(sut2.IsValueCreated);
             Assert.True(sut3.HasChanged);
             Assert.NotNull(sut3.UtcLastModified);
-            Assert.InRange(sut3.UtcLastModified.Value, sut4, sut4.AddSeconds(5));
+            Assert.InRange(sut3.UtcLastModified.Value, sut4, sut4.AddSeconds(15));
             Assert.Equal(2, sut5.Count);
         }
 

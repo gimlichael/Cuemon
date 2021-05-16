@@ -1,4 +1,11 @@
-﻿Version: 6.0.0
+﻿Version: 6.1.0
+Availability: NET Core 3.1, NET 5.0
+ 
+# New Features
+- ADDED IWebApplicationTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that the members needed for ASP.NET Core MVC, Razor and related testing
+- ADDED WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that provides a set of static methods for ASP.NET Core MVC, Razor and related unit testing
+ 
+Version: 6.0.0
 Availability: NET Core 3.1, NET 5.0
  
 # New Features

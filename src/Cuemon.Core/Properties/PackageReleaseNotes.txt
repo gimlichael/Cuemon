@@ -1,4 +1,16 @@
-﻿Version: 6.0.0
+﻿Version: 6.1.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# Bug Fixes
+- FIXED TotalYears calculation on the DateSpan struct located in the Cuemon namespace
+ 
+Version: 6.0.1
+Availability: NET Standard 2.0, NET 5.0
+ 
+# Bug Fixes
+- FIXED critical bug in the DateSpan struct located on the Cuemon namespace
+ 
+Version: 6.0.0
 Availability: NET Standard 2.0, NET 5.0
  
 # Upgrade Steps
@@ -182,7 +194,6 @@ Availability: NET Standard 2.0, NET 5.0
 - ADDED FileWatcher class in the Cuemon.Runtime namespace that provides a watcher implementation designed to monitor and signal changes applied to a file by raising the Changed event
  
 # Bug Fixes
-- FIXED critical bug in the DateSpan struct located on the Cuemon namespace
 - FIXED minor bug in the AssemblyDecoratorExtensions class located in the Cuemon.Reflection namespace
 - FIXED minor bug in the PropertyInfoDecoratorExtensions class located in the Cuemon.Reflection namespace
  

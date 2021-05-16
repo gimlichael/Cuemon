@@ -1,0 +1,9 @@
+﻿Version: 6.0.0
+Availability: NET Core 3.1, NET 5.0
+ 
+# References
+- Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
+- Cuemon.Extensions.Xunit.Hosting.AspNetCore
+- Cuemon.Extensions.Xunit.Hosting
+- Cuemon.Extensions.Xunit
+ 

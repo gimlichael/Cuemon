@@ -25,6 +25,8 @@ Extensions for ASP.NET Core API, that is part of Cuemon for .NET, is a toolbelt 
 + Microsoft.AspNetCore.Mvc.Formatters
   + [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](#cuemonextensionsaspnetcoremvcformattersxml)
   + Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
++ Microsoft.AspNetCore.Mvc.RazorPages
+  + [Cuemon.Extensions.AspNetCore.Mvc.RazorPages](#cuemonextensionsaspnetcoremvcrazorpages)
 
 ## Cuemon.Extensions.AspNetCore
 
@@ -73,3 +75,15 @@ Assembly: Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
 
 Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml)
+
+## Cuemon.Extensions.AspNetCore.Mvc.RazorPages
+
+The Cuemon.Extensions.AspNetCore.Mvc.RazorPages namespace contains extension methods tailored to accompany the types found in Cuemon.AspNetCore.Razor.TagHelpers.
+
+Availability: **.NET Standard 2.0, .NET Core 3.0, .NET 5.0**
+
+Assembly: Cuemon.Extensions.AspNetCore.Mvc.RazorPages
+
+NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.RazorPages) | [Productivity](https://www.nuget.org/packages/Cuemon.AspNetCore.App)
+
+Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore.Mvc.RazorPages) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Mvc.RazorPages) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Mvc.RazorPages)

@@ -8,8 +8,8 @@
   <PropertyGroup>
     <AssemblyName>Cuemon.AspNetCore.Razor.TagHelpers</AssemblyName>
     <AssemblyTitle>Cuemon.AspNetCore.Razor.TagHelpers</AssemblyTitle>
-    <Description>The Cuemon.AspNetCore.Razor.TagHelpers namespace contains types tailored tag helper implementations. The namespace is an addition to the Microsoft.AspNetCore.Razor.TagHelpers namespace.</Description>
-    <PackageTags>cdn-tag-helper cdn-uri-scheme image-cdn-tag-helper link-cdn-tag-helper script-cdn-tag-helper</PackageTags>
+    <Description>The Cuemon.AspNetCore.Razor.TagHelpers namespace contains types that are tailored for tag helper implementations. The namespace is an addition to the Microsoft.AspNetCore.Razor.TagHelpers namespace.</Description>
+    <PackageTags>app cdn img link script app-img cdn-img app-link cdn-link app-script cdn-script</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">

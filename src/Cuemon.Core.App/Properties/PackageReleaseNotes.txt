@@ -1,0 +1,65 @@
+﻿Version: 6.1.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# References
+ - Cuemon.Core
+ - Cuemon.Data.Integrity
+ - Cuemon.Data.SqlClient
+ - Cuemon.Data
+ - Cuemon.Diagnostics
+ - Cuemon.Extensions.Collections.Generic
+ - Cuemon.Extensions.Collections.Specialized
+ - Cuemon.Extensions.Core
+ - Cuemon.Extensions.Data.Integrity
+ - Cuemon.Extensions.Data
+ - Cuemon.Extensions.DependencyInjection
+ - Cuemon.Extensions.Diagnostics
+ - Cuemon.Extensions.Hosting
+ - Cuemon.Extensions.IO
+ - Cuemon.Extensions.Net
+ - Cuemon.Extensions.Reflection
+ - Cuemon.Extensions.Runtime.Caching
+ - Cuemon.Extensions.Text
+ - Cuemon.Extensions.Threading
+ - Cuemon.Extensions.Xml
+ - Cuemon.IO
+ - Cuemon.Net
+ - Cuemon.Resilience
+ - Cuemon.Runtime.Caching
+ - Cuemon.Security.Cryptography
+ - Cuemon.Threading
+ - Cuemon.Xml
+ 
+Version: 6.0.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# References
+ - Cuemon.Core
+ - Cuemon.Data.Integrity
+ - Cuemon.Data.SqlClient
+ - Cuemon.Data
+ - Cuemon.Diagnostics
+ - Cuemon.Extensions.Collections.Generic
+ - Cuemon.Extensions.Collections.Specialized
+ - Cuemon.Extensions.Core
+ - Cuemon.Extensions.Data.Integrity
+ - Cuemon.Extensions.Data
+ - Cuemon.Extensions.DependencyInjection
+ - Cuemon.Extensions.Diagnostics
+ - Cuemon.Extensions.Hosting
+ - Cuemon.Extensions.IO
+ - Cuemon.Extensions.Net
+ - Cuemon.Extensions.Newtonsoft.Json
+ - Cuemon.Extensions.Reflection
+ - Cuemon.Extensions.Runtime.Caching
+ - Cuemon.Extensions.Text
+ - Cuemon.Extensions.Threading
+ - Cuemon.Extensions.Xml
+ - Cuemon.IO
+ - Cuemon.Net
+ - Cuemon.Resilience
+ - Cuemon.Runtime.Caching
+ - Cuemon.Security.Cryptography
+ - Cuemon.Threading
+ - Cuemon.Xml
+ 

@@ -8,11 +8,9 @@ trigger:
     - .github/
     - .nuget/
     - .pipelines/
-    - docfx/
+    - .docfx/
     - azure-pipelines.yml
-    - BuildDocfxImage.ps1
     - docker-compose.yml
-    - Dockerfile.docfx
     - LICENSE.md
     - README.md
 

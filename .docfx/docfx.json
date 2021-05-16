@@ -114,7 +114,8 @@
             "Cuemon.Extensions.AspNetCore/**.csproj",
             "Cuemon.Extensions.AspNetCore.Authentication/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc/**.csproj",
-            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.csproj"
+            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Mvc.RazorPages/**.csproj"
           ],
           "src": "../src"
         }

@@ -9,11 +9,10 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
 {
     /// <summary>
     /// Provides a base-class for CDN-related <see cref="TagHelper"/> implementation in Razor for ASP.NET Core.
-    /// Implements the <see cref="TagHelper" />
-    /// Implements the <see cref="IConfigurable{CdnTagHelperOptions}" />
     /// </summary>
     /// <seealso cref="TagHelper" />
     /// <seealso cref="IConfigurable{CdnTagHelperOptions}" />
+    [Obsolete("This class is deprecated and will be removed soon. Please use CacheBustingTagHelper instead.")]
     public abstract class CdnTagHelper : TagHelper, IConfigurable<CdnTagHelperOptions>
     {
         /// <summary>
@@ -55,13 +54,13 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
             var baseUrlWithForwardingSlash = new Stem(Options.BaseUrl).AttachSuffix("/");
             switch (Options.Scheme)
             {
-                case CdnUriScheme.None:
+                case ProtocolUriScheme.None:
                     return baseUrlIsNullOrEmpty ? "" : FormattableString.Invariant($"{baseUrlWithForwardingSlash}");
-                case CdnUriScheme.Http:
+                case ProtocolUriScheme.Http:
                     return baseUrlIsNullOrEmpty ? "" : FormattableString.Invariant($"{nameof(UriScheme.Http).ToLowerInvariant()}://{baseUrlWithForwardingSlash}");
-                case CdnUriScheme.Https:
+                case ProtocolUriScheme.Https:
                     return baseUrlIsNullOrEmpty ? "" : FormattableString.Invariant($"{nameof(UriScheme.Https).ToLowerInvariant()}://{baseUrlWithForwardingSlash}");
-                case CdnUriScheme.Relative:
+                case ProtocolUriScheme.Relative:
                     return baseUrlIsNullOrEmpty ? "" : FormattableString.Invariant($"//{baseUrlWithForwardingSlash}");
                 default:
                     return "";
