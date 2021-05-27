@@ -31,4 +31,4 @@ Complements: [Cuemon.AspNetCore.Builder namespace](https://docs.cuemon.net/api/a
 
 |Type|Ext|Methods|
 |--:|:-:|---|
-|IApplicationBuilder|⬇️|`UseHostingEnvironment`, `UseCorrelationIdentifier`, `UseRequestIdentifier`, `UseUserAgentSentinel`, `UseThrottlingSentinel`|
+|IApplicationBuilder|⬇️|`UseHostingEnvironment`, `UseCorrelationIdentifier`, `UseRequestIdentifier`, `UseUserAgentSentinel`, `UseThrottlingSentinel`, `UseCacheControl`|

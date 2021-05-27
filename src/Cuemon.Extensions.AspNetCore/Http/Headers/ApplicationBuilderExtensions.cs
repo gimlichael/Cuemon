@@ -15,7 +15,7 @@ namespace Cuemon.Extensions.AspNetCore.Http.Headers
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="setup">The <see cref="CorrelationIdentifierOptions"/> middleware which may be configured.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <returns>An <see cref="IApplicationBuilder"/> that can be used to further configure the request pipeline.</returns>
         /// <remarks>Default HTTP header name is <c>X-Correlation-ID</c>.</remarks>
         public static IApplicationBuilder UseCorrelationIdentifier(this IApplicationBuilder builder, Action<CorrelationIdentifierOptions> setup = null)
         {
@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.AspNetCore.Http.Headers
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="setup">The <see cref="RequestIdentifierOptions"/> middleware which may be configured.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <returns>An <see cref="IApplicationBuilder"/> that can be used to further configure the request pipeline.</returns>
         /// <remarks>Default HTTP header name is <c>X-Request-ID</c>.</remarks>
         public static IApplicationBuilder UseRequestIdentifier(this IApplicationBuilder builder, Action<RequestIdentifierOptions> setup = null)
         {
@@ -39,10 +39,22 @@ namespace Cuemon.Extensions.AspNetCore.Http.Headers
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="setup">The <see cref="UserAgentSentinelOptions"/> middleware which may be configured.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <returns>An <see cref="IApplicationBuilder"/> that can be used to further configure the request pipeline.</returns>
         public static IApplicationBuilder UseUserAgentSentinel(this IApplicationBuilder builder, Action<UserAgentSentinelOptions> setup = null)
         {
             return MiddlewareBuilderFactory.UseConfigurableMiddleware<UserAgentSentinelMiddleware, UserAgentSentinelOptions>(builder, setup);
+        }
+
+        /// <summary>
+        /// Adds an HTTP Cache-Control and HTTP Expires header to the <see cref="IApplicationBuilder"/> request execution pipeline.
+        /// </summary>
+        /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
+        /// <param name="setup">The <see cref="CacheableOptions"/> middleware which may be configured.</param>
+        /// <returns>An <see cref="IApplicationBuilder"/> that can be used to further configure the request pipeline.</returns>
+        /// <returns>An <see cref="IApplicationBuilder"/> that can be used to further configure the request pipeline.</returns>
+        public static IApplicationBuilder UseCacheControl(this IApplicationBuilder builder, Action<CacheableOptions> setup = null)
+        {
+            return MiddlewareBuilderFactory.UseConfigurableMiddleware<CacheableMiddleware, CacheableOptions>(builder, setup);
         }
     }
 }
