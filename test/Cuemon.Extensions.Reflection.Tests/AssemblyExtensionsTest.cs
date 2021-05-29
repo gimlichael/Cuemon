@@ -1,4 +1,5 @@
-﻿using Cuemon.Extensions.Xunit;
+﻿using System.Reflection;
+using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -29,11 +30,12 @@ namespace Cuemon.Extensions.Reflection
         {
             var sut1 = typeof(Disposable).Assembly;
             var sut2 = sut1.GetFileVersion();
+            var sut3 = sut1.GetCustomAttribute<AssemblyFileVersionAttribute>();
 
             TestOutput.WriteLine(sut2.ToString());
 
             Assert.False(sut2.IsSemanticVersion());
-            Assert.StartsWith("6.1.1", sut2.ToString());
+            Assert.StartsWith(sut3.Version, sut2.ToString());
         }
 
         [Fact]
@@ -41,12 +43,13 @@ namespace Cuemon.Extensions.Reflection
         {
             var sut1 = typeof(Disposable).Assembly;
             var sut2 = sut1.GetProductVersion();
+            var sut3 = sut1.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
 
             TestOutput.WriteLine(sut2.ToString());
 
             Assert.True(sut2.IsSemanticVersion());
             Assert.True(sut2.HasAlphanumericVersion);
-            Assert.Equal("6.1", sut2.ToVersion().ToString());
+            Assert.Equal(sut3.InformationalVersion, sut2.Value);
         }
 
         [Fact]
