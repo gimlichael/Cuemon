@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using Cuemon.Assets;
 using Cuemon.Extensions.Xunit;
 using Xunit;
@@ -62,11 +63,12 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetFileVersion();
+            var fva = a.GetCustomAttribute<AssemblyFileVersionAttribute>();
 
             TestOutput.WriteLine(v.ToString());
 
             Assert.False(v.IsSemanticVersion());
-            Assert.StartsWith("6.1.0", v.ToString());
+            Assert.StartsWith(fva.Version, v.ToString());
         }
 
         [Fact]
@@ -74,12 +76,13 @@ namespace Cuemon.Reflection
         {
             var a = typeof(Disposable).Assembly;
             var v = Decorator.Enclose(a).GetProductVersion();
+            var iva = a.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
 
             TestOutput.WriteLine(v.ToString());
 
             Assert.True(v.IsSemanticVersion());
             Assert.True(v.HasAlphanumericVersion);
-            Assert.Equal("6.1", v.ToVersion().ToString());
+            Assert.Equal(iva.InformationalVersion, v.Value);
         }
 
         [Fact]

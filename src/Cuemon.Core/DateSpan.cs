@@ -51,7 +51,7 @@ namespace Cuemon
             var months = 0;
             var days = 0;
 
-            var years = GetYears(upper, lower);
+            var years = GetYears(upper, lower, out var adjustYearsMinusOne);
             var hours = 0;
             var milliseconds = 0;
 
@@ -112,7 +112,7 @@ namespace Cuemon
             var averageDaysPerMonth = months == 0 ? days : Convert.ToDouble(days) / Convert.ToDouble(months);
             var remainder = new TimeSpan(days, hours, 0, 0, milliseconds);
 
-            Years = years;
+            Years = adjustYearsMinusOne ? --years : years;
             Months = months;
             Days = days;
             Hours = remainder.Hours;
@@ -130,20 +130,23 @@ namespace Cuemon
             TotalMilliseconds = remainder.TotalMilliseconds;
         }
 
-        private static int GetYears(DateTime upper, DateTime lower)
+        private static int GetYears(DateTime upper, DateTime lower, out bool adjustYearsMinusOne)
         {
+            adjustYearsMinusOne = false;
+
             if (upper.Year == lower.Year) { return 0; }
 
-            var adjustYearMinusOne = (upper.Month <= lower.Month && upper.Day <= lower.Day);
-            if (adjustYearMinusOne)
+            var years = 0;
+
+            while (lower.Year < upper.Year)
             {
-                if (upper.Month == lower.Month && upper.Day == lower.Day)
-                {
-                    adjustYearMinusOne = upper.TimeOfDay < lower.TimeOfDay;
-                }
+                lower = lower.AddYears(1);
+                years++;
             }
-            var presult = upper.Year - lower.Year;
-            return adjustYearMinusOne ? presult - 1 : presult;
+
+            adjustYearsMinusOne = lower > upper;
+
+            return years;
         }
 
         /// <summary>
