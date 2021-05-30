@@ -168,16 +168,6 @@ namespace Cuemon
         }
 
         [Fact]
-        public void DateSpan_ShouldHandleAuthorsBirthday()
-        {
-            var sut1 = new DateTime(1978, 5, 12).Date;
-            var sut2 = new DateTime(2021, 5, 14).Date;
-            var sut3 = new DateSpan(sut1, sut2);
-
-            TestOutput.WriteLine(sut3.ToString());
-        }
-
-        [Fact]
         public void DateSpan_ShouldHandleOverlapInMonthAndDays()
         {
             var sut0 = new DateTime(2020, 5, 12);

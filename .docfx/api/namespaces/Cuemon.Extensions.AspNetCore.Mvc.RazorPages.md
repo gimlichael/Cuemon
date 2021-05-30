@@ -2,11 +2,11 @@
 uid: Cuemon.Extensions.AspNetCore.Mvc.RazorPages
 summary: *content
 ---
-The Cuemon.Extensions.AspNetCore.Mvc.RazorPages namespace contains extension methods tailored to accompany the types found in Cuemon.AspNetCore.Razor.TagHelpers.
+The Cuemon.Extensions.AspNetCore.Mvc.RazorPages namespace contains extension methods tailored to accompany the types found in Cuemon.AspNetCore.Razor.TagHelpers while being an addition to the Microsoft.AspNetCore.Mvc.RazorPages namespace.
 
 Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
 
-Complements: [Cuemon.AspNetCore.Razor.TagHelpers](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Razor.TagHelpers.html) 🔗
+Complements: [Microsoft.AspNetCore.Mvc.RazorPages](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.razorpages?view=aspnetcore-2.0) 🔗
 
 ## Github branches 🖇️
 

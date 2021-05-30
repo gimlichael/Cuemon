@@ -1,4 +1,10 @@
-﻿Version: 6.1.0
+﻿Version: 6.2.0
+Availability: NET Standard 2.0, NET 5.0
+ 
+# Improvements
+- EXTENDED Condition class in the Cuemon namespace with one new static members: FlipFlopAsync
+ 
+Version: 6.1.0
 Availability: NET Standard 2.0, NET 5.0
  
 # Bug Fixes

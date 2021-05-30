@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Cuemon.Text;
 
 namespace Cuemon
@@ -693,6 +694,20 @@ RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
             Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
             if (IsTrue(condition)) { firstExpression(); }
             if (IsFalse(condition)) { secondExpression(); }
+        }
+
+        /// <summary>
+        /// Invokes one of two expressions depending on the value of <paramref name="condition"/>.
+        /// </summary>
+        /// <param name="condition">When <c>true</c>, the <paramref name="firstExpression"/> is invoked; when <c>false</c>, the <paramref name="secondExpression"/> is invoked.</param>
+        /// <param name="firstExpression">The function delegate that is invoked when <paramref name="condition"/> is <c>true</c>.</param>
+        /// <param name="secondExpression">The function delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
+        public static Task FlipFlopAsync(bool condition, Func<Task> firstExpression, Func<Task> secondExpression)
+        {
+            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
+            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            return condition ? firstExpression() : secondExpression();
         }
 
         /// <summary>
