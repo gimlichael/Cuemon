@@ -3,7 +3,7 @@
 namespace Cuemon.Extensions.Xunit.Hosting
 {
     /// <summary>
-    /// Represents the members needed for ASP.NET Core host testing.
+    /// Represents the members needed for DI host testing.
     /// </summary>
     public interface IHostTest
     {

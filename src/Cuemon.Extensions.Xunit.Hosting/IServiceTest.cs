@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 namespace Cuemon.Extensions.Xunit.Hosting
 {
     /// <summary>
-    /// Represents the members needed for ASP.NET Core services testing.
+    /// Represents the members needed for DI services testing.
     /// </summary>
     public interface IServiceTest
     {
