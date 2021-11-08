@@ -1,4 +1,21 @@
 ﻿jobs:
+  - job: BuildDotNet6_0
+    displayName: 'Master branch (net5.0, build)'
+    timeoutInMinutes: 60
+    pool:
+      vmImage: 'windows-2019'
+    variables:
+      - name: DotnetBuildName
+        value: 'net6.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.net6_0.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
+
   - job: BuildDotNet5_0
     displayName: 'Master branch (net5.0, build)'
     timeoutInMinutes: 60

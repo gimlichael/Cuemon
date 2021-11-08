@@ -1,4 +1,34 @@
 ﻿jobs:
+  - job: BuildDotNet6_0
+    displayName: 'Development branch (net6, build, test, code-coverage, code-analysis)'
+    timeoutInMinutes: 120
+    strategy:
+      matrix:
+        Linux_Build_and_Test:
+          imageName: 'ubuntu-20.04'
+        Windows_Build_Test_and_Package:
+          imageName: 'windows-2019'
+    pool:
+      vmImage: $(imageName)
+    variables:
+      - name: DotnetBuildName
+        value: 'net6.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.reportgenerator.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposeup.yml
+    - template: azure-pipelines-jobs-build-step.sonarcloudprepare.yml
+    - template: azure-pipelines-jobs-build-step.net6_0.yml
+    - template: azure-pipelines-jobs-build-step.unittest.yml
+    - template: azure-pipelines-jobs-build-step.codecov.yml
+    - template: azure-pipelines-jobs-build-step.sonarcloudfinalize.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposedown.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
+
   - job: BuildDotNet5_0
     displayName: 'Development branch (net5, build, test, code-coverage, code-analysis)'
     timeoutInMinutes: 120
@@ -16,17 +46,10 @@
     steps:
     - template: azure-pipelines-jobs-build-step.dotnet.yml
     - template: azure-pipelines-jobs-build-step.minvertool.yml
-    - template: azure-pipelines-jobs-build-step.reportgenerator.yml
     - template: azure-pipelines-jobs-build-step.snk.yml
     - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
     - template: azure-pipelines-jobs-build-step.restore.yml
-    - template: azure-pipelines-jobs-build-step.dockercomposeup.yml
-    - template: azure-pipelines-jobs-build-step.sonarcloudprepare.yml
     - template: azure-pipelines-jobs-build-step.net5_0.yml
-    - template: azure-pipelines-jobs-build-step.unittest.yml
-    - template: azure-pipelines-jobs-build-step.codecov.yml
-    - template: azure-pipelines-jobs-build-step.sonarcloudfinalize.yml
-    - template: azure-pipelines-jobs-build-step.dockercomposedown.yml
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
   - job: BuildDotNet3_1
