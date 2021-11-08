@@ -1,4 +1,11 @@
-﻿Version: 6.0.0
+﻿Version: 6.3.0
+Availability: NET Standard 2.0, NET 5.0, NET 6.0
+ 
+# New Features
+- ADDED InMemoryTestStore class in the Cuemon.Extensions.Xunit namespace that provides a default base implementation of the ITestStore{T} interface
+- ADDED ITestStore{T} interface in the Cuemon.Extensions.Xunit namespace that represents the members needed for adding and querying a store tailored for unit testing
+ 
+Version: 6.0.0
 Availability: NET Standard 2.0, NET 5.0
  
 # New Features

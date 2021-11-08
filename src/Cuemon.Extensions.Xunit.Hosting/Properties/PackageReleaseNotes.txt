@@ -1,4 +1,11 @@
-﻿Version: 6.0.0
+﻿Version: 6.3.0
+Availability: NET Standard 2.0, NET Core 3.0, NET 5.0, NET 6.0
+  
+# New Features
+- ADDED GenericHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting namespace that provides a set of static methods for IHost unit testing
+- ADDED IGenericHostTest interface in the Cuemon.Extensions.Xunit.Hosting namespace that represents the members needed for bare-bone DI testing with support for IHost
+ 
+Version: 6.0.0
 Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
  
 # New Features

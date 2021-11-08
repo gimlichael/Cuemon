@@ -1,4 +1,10 @@
-﻿Version: 6.0.0
+﻿Version: 6.3.0
+Availability: NET Core 3.1, NET 5.0, NET 6.0
+  
+# New Features
+- CHANGED IMiddlewareTest class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to inherit from IGenericHostTest
+ 
+Version: 6.0.0
 Availability: NET Core 3.1, NET 5.0
  
 # New Features
