@@ -3,7 +3,7 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
  
 # New Features
 - ADDED CacheableMiddleware class in the Cuemon.AspNetCore.Http.Headers namespace that provides a Cache-Control middleware implementation for ASP.NET Core
-- ADDED CacheBustingOptions class in the Cuemon.AspNetCore.Http.Headers namespace that specifies options related to CacheableMiddleware
+- ADDED CacheableOptions class in the Cuemon.AspNetCore.Http.Headers namespace that specifies options related to CacheableMiddleware
 - ADDED ExpiresHeaderValue class in the Cuemon.AspNetCore.Http.Headers namespace that represents a HTTP Expires header that contains the date/time after which the response is considered stale
 - ADDED ICacheableValidator interface in the Cuemon.AspNetCore.Http.Headers namespace that represents an HTTP validator tailored for cacheable flows, that asynchronously surrounds execution of the intercepted response body
  
