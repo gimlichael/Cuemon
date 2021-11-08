@@ -30,8 +30,8 @@
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
   - job: BuildDotNet5_0
-    displayName: 'Development branch (net5, build, test, code-coverage, code-analysis)'
-    timeoutInMinutes: 120
+    displayName: 'Development branch (net5, build)'
+    timeoutInMinutes: 90
     strategy:
       matrix:
         Linux_Build_and_Test:
@@ -147,6 +147,7 @@
   - job: PublishBuildArtifacts
     condition: succeeded()
     dependsOn:
+    - BuildDotNet6_0
     - BuildDotNet5_0
     - BuildDotNet3_1
     - BuildDotNet3_0
@@ -165,6 +166,7 @@
     - template: azure-pipelines-jobs-build-step.nuget.yml
       parameters:
         artifactPackages:
+          - "net6.0"
           - "net5.0"
           - "netcoreapp3.1"
           - "netcoreapp3.0"
