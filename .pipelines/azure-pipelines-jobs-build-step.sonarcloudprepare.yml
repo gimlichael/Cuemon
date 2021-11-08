@@ -1,9 +1,6 @@
 ﻿steps:
   - task: UseDotNet@2
     condition: eq(variables['Agent.OS'], 'Linux')
-    displayName: 'Use .Net Core SDK 2.1.814 (SonarCloud - LTS)'
-    inputs:
-      version: 2.1.814
 
   - task: SonarCloudPrepare@1
     condition: eq(variables['Agent.OS'], 'Linux')
