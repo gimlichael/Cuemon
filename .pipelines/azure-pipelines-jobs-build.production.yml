@@ -118,6 +118,7 @@
       - name: ArtifactPackageName
         value: 'Production'
     steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
     - template: azure-pipelines-jobs-build-step.minvertool.yml
     - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
     - template: azure-pipelines-jobs-build-step.nuget.yml
