@@ -3,7 +3,7 @@
 # Cuemon for .NET
 
 An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
-Your ideal companion for .NET6, .NET 5, .NET Core 3, .NET Core 2, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer.
+Your ideal companion for .NET 6, .NET 5, .NET Core 3, .NET Core 2, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
