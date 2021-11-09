@@ -22,7 +22,7 @@ namespace Cuemon.Data.SqlClient.Assets
                         .AddJsonFile("appsettings.json", true, true)
                         .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
                         .AddEnvironmentVariables()
-                        .AddUserSecrets<UserSecretsHostFixture>();
+                        .AddUserSecrets<UserSecretsHostFixture>(true); // NET 6 consequence change (why not keep NET 5 behaviour?)
 
                     ConfigureCallback(config.Build(), context.HostingEnvironment);
                 })
