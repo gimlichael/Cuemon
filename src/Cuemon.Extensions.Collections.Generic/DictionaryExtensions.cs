@@ -101,7 +101,7 @@ namespace Cuemon.Extensions.Collections.Generic
             return Decorator.Enclose(dictionary).TryAdd(key, value, condition);
         }
 
-        #if NETSTANDARD2_0
+        #if NETSTANDARD
         /// <summary>
         /// Attempts to add the specified <paramref name="key"/> and <paramref name="value"/> to the <paramref name="dictionary"/>.
         /// </summary>

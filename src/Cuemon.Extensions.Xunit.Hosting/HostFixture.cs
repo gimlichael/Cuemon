@@ -68,7 +68,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// <value>The delegate that initializes the test class.</value>
         /// <remarks>Mimics the Startup convention.</remarks>
         public Action<IConfiguration, IHostingEnvironment> ConfigureCallback { get; set; }
-        #elif NETCOREAPP
+        #else
         /// <summary>
         /// Gets or sets the delegate that initializes the test class.
         /// </summary>
@@ -113,7 +113,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// </summary>
         /// <value>The <see cref="IHostingEnvironment"/> initialized by this instance.</value>
         public IHostingEnvironment HostingEnvironment { get; protected set; }
-        #elif NETCOREAPP
+        #else
         /// <summary>
         /// Gets the <see cref="IHostEnvironment"/> initialized by this instance.
         /// </summary>

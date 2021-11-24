@@ -168,10 +168,10 @@ namespace Cuemon
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, token) =>
             {
                 var bytes = Convertible.GetBytes(decorator.Inner, Patterns.ConfigureExchange<AsyncEncodingOptions, EncodingOptions>(setup));
-                #if NET5_0_OR_GREATER
-                await ms.WriteAsync(bytes.AsMemory(0, bytes.Length), token).ConfigureAwait(false);
-                #else
+                #if NETSTANDARD
                 await ms.WriteAsync(bytes, 0, bytes.Length, token).ConfigureAwait(false);
+                #else
+                await ms.WriteAsync(bytes.AsMemory(0, bytes.Length), token).ConfigureAwait(false);
                 #endif
                 ms.Position = 0;
                 return ms;

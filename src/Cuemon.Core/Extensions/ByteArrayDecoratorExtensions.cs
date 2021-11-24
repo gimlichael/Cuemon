@@ -59,10 +59,10 @@ namespace Cuemon
             Validator.ThrowIfNull(decorator, nameof(decorator));
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(decorator.Inner.Length), async (ms, cti) =>
             {
-                #if NET5_0_OR_GREATER
-                await ms.WriteAsync(decorator.Inner.AsMemory(0, decorator.Inner.Length), cti).ConfigureAwait(false);
-                #else
+                #if NETSTANDARD
                 await ms.WriteAsync(decorator.Inner, 0, decorator.Inner.Length, cti).ConfigureAwait(false);
+                #else
+                await ms.WriteAsync(decorator.Inner.AsMemory(0, decorator.Inner.Length), cti).ConfigureAwait(false);
                 #endif
                 ms.Position = 0;
                 return ms;

@@ -57,10 +57,10 @@ namespace Cuemon.Extensions.AspNetCore.Http
             var bodyContent = body?.Invoke();
             if (bodyContent != null)
             {
-                #if NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-                await response.Body.WriteAsync(bodyContent.AsMemory(0, bodyContent.Length)).ConfigureAwait(false);
-                #else
+                #if NETSTANDARD
                 await response.Body.WriteAsync(bodyContent, 0, bodyContent.Length).ConfigureAwait(false);
+                #else
+                await response.Body.WriteAsync(bodyContent.AsMemory(0, bodyContent.Length)).ConfigureAwait(false);
                 #endif
             }
         }
