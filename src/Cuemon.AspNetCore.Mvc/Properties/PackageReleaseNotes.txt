@@ -1,11 +1,18 @@
-﻿Version: 6.0.1
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
+ 
+Version: 6.0.1
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # Bug Fixes
 - FIXED misguided dependency to TimeMeasureProfiler on the ServerTimingFilter class located in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace
  
 Version: 6.0.0
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # Upgrade Steps
 - Any former extension methods of the Cuemon.AspNetCore.Mvc namespace was merged either into the Cuemon.Extensions.AspNetCore.Mvc namespace or Cuemon.Extensions.AspNetCore namespace

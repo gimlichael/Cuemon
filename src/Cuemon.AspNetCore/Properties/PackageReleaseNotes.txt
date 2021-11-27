@@ -1,5 +1,12 @@
-﻿Version: 6.2.0
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
+ 
+Version: 6.2.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # New Features
 - ADDED CacheableMiddleware class in the Cuemon.AspNetCore.Http.Headers namespace that provides a Cache-Control middleware implementation for ASP.NET Core
@@ -8,13 +15,13 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - ADDED ICacheableValidator interface in the Cuemon.AspNetCore.Http.Headers namespace that represents an HTTP validator tailored for cacheable flows, that asynchronously surrounds execution of the intercepted response body
  
 Version: 6.0.1
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # New Features
 - ADDED ServerTimingMiddleware class in the Cuemon.AspNetCore.Diagnostics namespace that provides a Server-Timing middleware implementation for ASP.NET Core
  
 Version: 6.0.0
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # Upgrade Steps
 - Any former extension methods of the Cuemon.AspNetCore namespace was merged into the Cuemon.Extensions.AspNetCore namespace

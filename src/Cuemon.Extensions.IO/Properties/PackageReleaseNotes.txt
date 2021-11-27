@@ -1,5 +1,11 @@
-﻿Version: 6.0.0
-Availability: NET Standard 2.0, NET Standard 2.1, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, .NET Standard 2.1, .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+ 
+Version: 6.0.0
+Availability: .NET Standard 2.0, .NET Standard 2.1, .NET 5.0
  
 # New Features
 - ADDED ByteArrayExtensions class in the Cuemon.Extensions.IO namespace that consist of extension methods for the byte[] struct: ToStream, ToStreamAsync

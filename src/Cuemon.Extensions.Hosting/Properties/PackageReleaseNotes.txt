@@ -1,5 +1,12 @@
-﻿Version: 6.0.0
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
+ 
+Version: 6.0.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # New Features
 - Added extension methods for IHostEnvironment: IsLocalDevelopment and IsNonProduction

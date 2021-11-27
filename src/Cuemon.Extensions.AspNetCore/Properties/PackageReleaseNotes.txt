@@ -1,18 +1,25 @@
-﻿Version: 6.2.0
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
+ 
+Version: 6.2.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # New Features
 - EXTENDED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Http.Headers namespace with one new extension method for the IApplicationBuilder interface: UseCacheControl
 - ADDED EntityTagCacheableValidator class in the Cuemon.Extensions.AspNetCore.Http.Headers namespace that provides an HTTP validator that conforms to the ETag response header
  
 Version: 6.0.1
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # New Features
 - ADDED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace that consist of extension methods for the IApplicationBuilder interface: UseServerTiming
  
 Version: 6.0.0
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # Upgrade Steps
 - HttpResponseMessageExtensions class was not merged to this assembly
