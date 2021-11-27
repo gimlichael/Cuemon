@@ -3,7 +3,7 @@ Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
  
 # ALM
 - ADDED TFM for .NET 6
-- Microsoft.SourceLink.GitHub updated from 1.0.0 to 1.1.0
+- CHANGED Dependencies to latest and greatest with respect to TFM
  
 # New Features
 - ADDED ReservedKeywordException class in the Cuemon namespace that provides the exception that is thrown when the value of an argument is a reserved keyword
