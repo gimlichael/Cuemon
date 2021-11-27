@@ -13,7 +13,7 @@
 
   - stage: UpdateBuildNumber
     displayName: 'Updating BUILD_BUILDNUMBER for development branch'
-    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'development'))
+    condition: and(succeeded(), endsWith(variables['build.sourceBranch'], 'pullrequest'))
     dependsOn: BuildPullRequest
     jobs:
     - template: azure-pipelines-jobs-finalization.yml
