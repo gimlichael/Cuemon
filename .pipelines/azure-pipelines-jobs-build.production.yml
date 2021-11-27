@@ -50,23 +50,6 @@
     - template: azure-pipelines-jobs-build-step.netcoreapp3_1.yml
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
-  - job: BuildDotNet3_0
-    displayName: 'Master branch (netcoreapp3.0, build)'
-    timeoutInMinutes: 30
-    pool:
-      vmImage: 'windows-2019'
-    variables:
-      - name: DotnetBuildName
-        value: 'netcoreapp3.0'
-    steps:
-    - template: azure-pipelines-jobs-build-step.dotnet.yml
-    - template: azure-pipelines-jobs-build-step.minvertool.yml
-    - template: azure-pipelines-jobs-build-step.snk.yml
-    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
-    - template: azure-pipelines-jobs-build-step.restore.yml
-    - template: azure-pipelines-jobs-build-step.netcoreapp3_0.yml
-    - template: azure-pipelines-jobs-build-step.artifact.yml
-
   - job: BuildDotNet2_1
     displayName: 'Master branch (netstandard2.1, build)'
     timeoutInMinutes: 30
@@ -107,7 +90,6 @@
     - BuildDotNet6_0
     - BuildDotNet5_0
     - BuildDotNet3_1
-    - BuildDotNet3_0
     - BuildDotNet2_1
     - BuildDotNet2_0
     displayName: 'Store NuGet Packages for Production'
@@ -127,6 +109,5 @@
           - "net6.0"
           - "net5.0"
           - "netcoreapp3.1"
-          - "netcoreapp3.0"
           - "netstandard2.1"
           - "netstandard2.0"
