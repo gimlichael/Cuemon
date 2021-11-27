@@ -31,7 +31,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             Profiler = new TimeMeasureProfiler();
             Environment = he;
         }
-        #elif NETCOREAPP
+        #else
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerTimingFilter" /> class.
         /// </summary>
@@ -46,7 +46,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
         #if NETSTANDARD
         private IHostingEnvironment Environment { get; }
-        #elif NETCOREAPP
+        #else
         private IHostEnvironment Environment { get; }
         #endif
 

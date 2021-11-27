@@ -1,5 +1,13 @@
-﻿Version: 6.1.0
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+Version: 6.1.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # Bug Fixes
 - FIXED output of type-attribute to skip HTML encoding on the LinkTagHelper class (earlier LinkCdnTagHelper class) located in the Cuemon.AspNetCore.Razor.TagHelpers namespace
@@ -20,7 +28,7 @@ Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
 - ADDED CdnScriptTagHelper class in the Cuemon.AspNetCore.Razor.TagHelpers namespace that provides an implementation targeting <script> elements that supports ICacheBusting versioning of a static script placed on a location with a CDN role
  
 Version: 6.0.0
-Availability: NET Standard 2.0, NET Core 3.0, NET 5.0
+Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # Upgrade Steps
 - Any former extension methods of the Cuemon.AspNetCore.Razor.TagHelpers namespace was merged into the Cuemon.Extensions.Core namespace

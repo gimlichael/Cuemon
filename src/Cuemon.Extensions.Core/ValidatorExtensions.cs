@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Cuemon.Extensions
 {
@@ -7,6 +9,41 @@ namespace Cuemon.Extensions
     /// </summary>
     public static class ValidatorExtensions
     {
+        /// <summary>
+        /// Validates and throws an <see cref="ReservedKeywordException"/> if the specified <paramref name="keyword"/> is found in the sequence of <paramref name="reserverdKeywords"/>.
+        /// </summary>
+        /// <param name="validator">The <see cref="Validator"/> to extend.</param>
+        /// <param name="keyword">The keyword to compare with <paramref name="reserverdKeywords"/>.</param>
+        /// <param name="reserverdKeywords">The reserverd keywords to compare with <paramref name="keyword"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        public static void ContainsReservedKeyword(this Validator validator, string keyword, IEnumerable<string> reserverdKeywords, string paramName, string message = null)
+        {
+            ContainsReservedKeyword(validator, keyword, reserverdKeywords, null, paramName, message);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ReservedKeywordException"/> if the specified <paramref name="keyword"/> is found in the sequence of <paramref name="reserverdKeywords"/>.
+        /// </summary>
+        /// <param name="validator">The <see cref="Validator"/> to extend.</param>
+        /// <param name="keyword">The keyword to compare with <paramref name="reserverdKeywords"/>.</param>
+        /// <param name="reserverdKeywords">The reserverd keywords to compare with <paramref name="keyword"/>.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing <paramref name="reserverdKeywords"/> with <paramref name="keyword"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        public static void ContainsReservedKeyword(this Validator validator, string keyword, IEnumerable<string> reserverdKeywords, IEqualityComparer<string> comparer, string paramName, string message = null)
+        {
+            if (keyword == null || reserverdKeywords == null) { return; }
+            try
+            {
+                validator.ThrowWhenCondition(c => c.IsTrue(() => reserverdKeywords.Contains(keyword, comparer)).Create(() => new ReservedKeywordException(paramName, keyword, message)).TryThrow());
+            }
+            catch (ReservedKeywordException ex)
+            {
+                throw ex;
+            }
+        }
+
         /// <summary>
         /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if there is a difference between <paramref name="second"/> and <paramref name="first"/>.
         /// </summary>

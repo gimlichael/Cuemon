@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Messaging namespace contains types that assist in more advanced scenarios such as CQRS, microservices and event-driven architecture. The namespace is an addition to the System.Messaging namespace.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Complements: [System.Messaging namespace](https://docs.microsoft.com/en-us/dotnet/api/system.messaging?view=netframework-4.6.1) 🔗
 

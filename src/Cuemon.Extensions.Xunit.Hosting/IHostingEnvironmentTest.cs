@@ -3,7 +3,7 @@
 namespace Cuemon.Extensions.Xunit.Hosting
 {
     /// <summary>
-    /// Represents the members needed for ASP.NET Core testing with support for HostingEnvironment.
+    /// Represents the members needed for DI testing with support for HostingEnvironment.
     /// </summary>
     public interface IHostingEnvironmentTest
     {
@@ -13,7 +13,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// </summary>
         /// <value>The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</value>
         IHostingEnvironment HostingEnvironment { get; }
-        #elif NETCOREAPP
+        #else
         /// <summary>
         /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
         /// </summary>

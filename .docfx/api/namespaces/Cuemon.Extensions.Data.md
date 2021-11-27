@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Data namespace contains extension methods that complements the Cuemon.Data namespace while being an addition to the System.Data namespace.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Complements: [Cuemon.Data namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Data.html) 🔗
 

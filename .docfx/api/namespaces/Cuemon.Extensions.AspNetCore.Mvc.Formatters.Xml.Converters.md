@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters namespace contains extension methods that complements the Cuemon.Extensions.Xml.Serialization.Converters namespace.
 
-Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
 
 Complements: [Cuemon.Extensions.Xml.Serialization.Converters namespace](https://docs.cuemon.net/api/dotnet/ext/Cuemon.Extensions.Xml.Serialization.Converters.html) 🔗
 

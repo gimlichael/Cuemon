@@ -51,9 +51,23 @@ namespace Cuemon.Extensions.Reflection
             var sut3 = sut1.GetType().GetRuntimePropertiesExceptOf<AggregateException>().ToList();
             var sut4 = sut1.GetType().GetRuntimeProperties().ToList();
 
-            Assert.True(sut2.Count == 3, "sut2.Count == 3");
+            foreach (var pi in sut2)
+            {
+                TestOutput.WriteLine(pi.Name);
+            }
+
+            TestOutput.WriteLine(" --- ");
+
+            foreach (var pi in sut3)
+            {
+                TestOutput.WriteLine(pi.Name);
+            }
+
+            TestOutput.WriteLine(" --- ");
+
+            Assert.True(sut2.Count == 5, "sut2.Count == 5"); // with .net 6 ms decided to add two extra internals; InnerExceptionCount and InternalInnerExceptions (yup; ugly)
             Assert.True(sut3.Count == 2, "sut2.Count == 2");
-            Assert.Equal(11, sut4.Count);
+            Assert.Equal(13, sut4.Count);
 
             foreach (var pi in sut4)
             {
@@ -63,7 +77,9 @@ namespace Cuemon.Extensions.Reflection
             Assert.Collection(sut2,
                 pi => Assert.Equal("Code", pi.Name),
                 pi => Assert.Equal("CodePhrase", pi.Name),
-                pi => Assert.Equal("InnerExceptions", pi.Name));
+                pi => Assert.Equal("InnerExceptions", pi.Name),
+                pi => Assert.Equal("InnerExceptionCount", pi.Name),
+                pi => Assert.Equal("InternalInnerExceptions", pi.Name));
 
             Assert.Collection(sut3, 
                 pi => Assert.Equal("Code", pi.Name),
@@ -74,13 +90,15 @@ namespace Cuemon.Extensions.Reflection
                 pi => Assert.Equal("CodePhrase", pi.Name),
                 pi => Assert.Equal("InnerExceptions", pi.Name),
                 pi => Assert.Equal("Message", pi.Name),
+                pi => Assert.Equal("InnerExceptionCount", pi.Name),
+                pi => Assert.Equal("InternalInnerExceptions", pi.Name),
                 pi => Assert.Equal("TargetSite", pi.Name),
-                pi => Assert.Equal("StackTrace", pi.Name),
                 pi => Assert.Equal("Data", pi.Name),
                 pi => Assert.Equal("InnerException", pi.Name),
                 pi => Assert.Equal("HelpLink", pi.Name),
                 pi => Assert.Equal("Source", pi.Name),
-                pi => Assert.Equal("HResult", pi.Name));
+                pi => Assert.Equal("HResult", pi.Name),
+                pi => Assert.Equal("StackTrace", pi.Name));
         }
 
         [Fact]

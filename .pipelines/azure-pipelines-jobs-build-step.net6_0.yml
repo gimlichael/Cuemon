@@ -1,0 +1,9 @@
+﻿steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Build net6.0 compatible Assemblies'
+    inputs:
+      command: build
+      projects: |
+        src/**/*.csproj
+      arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework net6.0'
+      workingDirectory: '$(BuildSource)'

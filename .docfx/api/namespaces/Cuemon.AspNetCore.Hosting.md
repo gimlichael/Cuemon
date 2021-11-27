@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Hosting namespace contains types that provides middleware for determining the hosting environment. The namespace is an addition to the Microsoft.AspNetCore.Hosting namespace.
 
-Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Hosting namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting?view=aspnetcore-2.0) 🔗
 

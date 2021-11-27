@@ -41,7 +41,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <value>The function delegate that can determine if the Server-Timing HTTP header(s) should be suppressed.</value>
         #if NETSTANDARD
         public Func<IHostingEnvironment, bool> SuppressHeaderPredicate { get; set; }
-        #elif NETCOREAPP
+        #else
         public Func<IHostEnvironment, bool> SuppressHeaderPredicate { get; set; }
         #endif
     }

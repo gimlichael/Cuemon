@@ -1,23 +1,33 @@
-﻿Version: 6.2.0
-Availability: NET Standard 2.0, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+# New Features
+- ADDED ReservedKeywordException class in the Cuemon namespace that provides the exception that is thrown when the value of an argument is a reserved keyword
+ 
+Version: 6.2.0
+Availability: .NET Standard 2.0, .NET 5.0
  
 # Improvements
 - EXTENDED Condition class in the Cuemon namespace with one new static members: FlipFlopAsync
  
 Version: 6.1.0
-Availability: NET Standard 2.0, NET 5.0
+Availability: .NET Standard 2.0, .NET 5.0
  
 # Bug Fixes
 - FIXED TotalYears calculation on the DateSpan struct located in the Cuemon namespace
  
 Version: 6.0.1
-Availability: NET Standard 2.0, NET 5.0
+Availability: .NET Standard 2.0, .NET 5.0
  
 # Bug Fixes
 - FIXED critical bug in the DateSpan struct located on the Cuemon namespace
  
 Version: 6.0.0
-Availability: NET Standard 2.0, NET 5.0
+Availability: .NET Standard 2.0, .NET 5.0
  
 # Upgrade Steps
 - To use the earlier built-in support for transient fault handling, please refer to the Cuemon.Resilience namespace, as it has been merged and refactored out of this assembly

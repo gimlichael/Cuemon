@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Configuration namespace contains types focusing on writing configurable classes to help suport adhering to Separation of Concerns (SoC).
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 ## Github branches 🖇️
 

@@ -1,5 +1,12 @@
-﻿Version: 6.0.0
-Availability: NET Standard 2.0, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+Version: 6.0.0
+Availability: .NET Standard 2.0, .NET 5.0
  
 # Breaking Changes
 - CHANGED SqlDataManager class in the Cuemon.Data.SqlClient namespace to be less dependant on base class and applied quality gate actions

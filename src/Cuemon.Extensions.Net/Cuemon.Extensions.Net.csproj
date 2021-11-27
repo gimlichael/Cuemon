@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>070bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
@@ -11,6 +11,10 @@
     <Description>The Cuemon.Extensions.Net namespace contains both types and extension methods that complements the Cuemon.Net namespace while being an addition to the System.Net namespace. Includes support for both traditional and factory based ways of working with HttpClient instances while also including a simple and lightweight implementation of the IHttpClientFactory interface named SlimHttpClientFactory.</Description>
     <PackageTags>extension-methods extensions to-signed-uri validate-signed-uri http-manager-factory slim-http-client-factory i-http-client-factory</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+  </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />

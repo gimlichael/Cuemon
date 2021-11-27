@@ -46,10 +46,10 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var bodyStream = new MemoryStream())
             {
                 var body = context.Response.Body;
-                #if NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
-                context.Features.Set<IHttpResponseBodyFeature>(new StreamResponseBodyFeature(bodyStream));                
-                #else 
+                #if NETSTANDARD
                 context.Response.Body = bodyStream;
+                #else 
+                context.Features.Set<IHttpResponseBodyFeature>(new StreamResponseBodyFeature(bodyStream));                
                 #endif
 
                 var serverTiming = context.RequestServices.GetService(typeof(IServerTiming)) as IServerTiming;

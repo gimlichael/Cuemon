@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Collections.Generic namespace contains extension methods that complements the Cuemon.Collections.Generic namespace while being an addition to the System.Collections.Generic namespace.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Complements: [Cuemon.Collections.Specialized namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Collections.Generic.html) 🔗
 

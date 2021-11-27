@@ -1,7 +1,34 @@
 ﻿jobs:
+  - job: BuildDotNet6_0
+    displayName: 'Release branch (net6, build, test)'
+    timeoutInMinutes: 90
+    strategy:
+      matrix:
+        Linux_Build_and_Test:
+          imageName: 'ubuntu-20.04'
+        Windows_Build_Test_and_Package:
+          imageName: 'windows-2019'
+    pool:
+      vmImage: $(imageName)
+    variables:
+      - name: DotnetBuildName
+        value: 'net6.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.reportgenerator.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposeup.yml
+    - template: azure-pipelines-jobs-build-step.net6_0.yml
+    - template: azure-pipelines-jobs-build-step.unittest.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposedown.yml
+    - template: azure-pipelines-jobs-build-step.artifact.yml
+
   - job: BuildDotNet5_0
     displayName: 'Release branch (net5, build, test)'
-    timeoutInMinutes: 90
+    timeoutInMinutes: 30
     strategy:
       matrix:
         Linux_Build_and_Test:
@@ -16,14 +43,10 @@
     steps:
     - template: azure-pipelines-jobs-build-step.dotnet.yml
     - template: azure-pipelines-jobs-build-step.minvertool.yml
-    - template: azure-pipelines-jobs-build-step.reportgenerator.yml
     - template: azure-pipelines-jobs-build-step.snk.yml
     - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
     - template: azure-pipelines-jobs-build-step.restore.yml
-    - template: azure-pipelines-jobs-build-step.dockercomposeup.yml
     - template: azure-pipelines-jobs-build-step.net5_0.yml
-    - template: azure-pipelines-jobs-build-step.unittest.yml
-    - template: azure-pipelines-jobs-build-step.dockercomposedown.yml
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
   - job: BuildDotNet3_1
@@ -47,29 +70,6 @@
     - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
     - template: azure-pipelines-jobs-build-step.restore.yml
     - template: azure-pipelines-jobs-build-step.netcoreapp3_1.yml
-    - template: azure-pipelines-jobs-build-step.artifact.yml
-
-  - job: BuildDotNet3_0
-    displayName: 'Release branch (netcoreapp3.0, build)'
-    timeoutInMinutes: 30
-    strategy:
-      matrix:
-        Linux_Build:
-          imageName: 'ubuntu-20.04'
-        Windows_Build_and_Package:
-          imageName: 'windows-2019'
-    pool:
-      vmImage: $(imageName)
-    variables:
-      - name: DotnetBuildName
-        value: 'netcoreapp3.0'
-    steps:
-    - template: azure-pipelines-jobs-build-step.dotnet.yml
-    - template: azure-pipelines-jobs-build-step.minvertool.yml
-    - template: azure-pipelines-jobs-build-step.snk.yml
-    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
-    - template: azure-pipelines-jobs-build-step.restore.yml
-    - template: azure-pipelines-jobs-build-step.netcoreapp3_0.yml
     - template: azure-pipelines-jobs-build-step.artifact.yml
 
   - job: BuildDotNet2_1
@@ -121,9 +121,9 @@
   - job: PublishBuildArtifacts
     condition: succeeded()
     dependsOn:
+    - BuildDotNet6_0
     - BuildDotNet5_0
     - BuildDotNet3_1
-    - BuildDotNet3_0
     - BuildDotNet2_1
     - BuildDotNet2_0
     displayName: 'Store NuGet Packages for RC'
@@ -134,13 +134,14 @@
       - name: ArtifactPackageName
         value: 'ReleaseCandidate'
     steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
     - template: azure-pipelines-jobs-build-step.minvertool.yml
     - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
     - template: azure-pipelines-jobs-build-step.nuget.yml
       parameters:
         artifactPackages:
+          - "net6.0"
           - "net5.0"
           - "netcoreapp3.1"
-          - "netcoreapp3.0"
           - "netstandard2.1"
           - "netstandard2.0"
