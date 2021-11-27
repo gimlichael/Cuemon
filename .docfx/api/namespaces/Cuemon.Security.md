@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Security namespace contains types related to hashing (both non-cryptographic and CRC) and has the base class from which all implementations of hash algorithms and checksums should derive. The namespace is an addition to the System.Security namespace.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Complements: [System.Security namespace](https://docs.microsoft.com/en-us/dotnet/api/system.security?view=netstandard-2.0) 🔗
 

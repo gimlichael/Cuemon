@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace contains types that provides a uniform way of doing unit testing that depends on ASP.NET Core MVC and used in conjunction with Microsoft Dependency Injection. The namespace relates to the Microsoft.AspNetCore.Mvc.Testing namespace.
 
-Availability: NET Core 3.1, .NET 5.0
+Availability: NET Core 3.1, .NET 5.0, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Mvc.Testing namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.testing?view=aspnetcore-3.0) 🔗
 

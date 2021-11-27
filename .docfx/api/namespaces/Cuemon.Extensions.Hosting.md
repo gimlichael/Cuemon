@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Hosting namespace contains extension methods and features related to the Microsoft.Extensions.Hosting namespace.
 
-Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
 
 Complements: [Microsoft.Extensions.Hosting namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting?view=dotnet-plat-ext-2.0) 🔗
 

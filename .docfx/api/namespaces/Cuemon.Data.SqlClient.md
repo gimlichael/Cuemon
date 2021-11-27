@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Data.SqlClient namespace contains types that provide ways for developers to work with Microsoft SQL Server integrations. The namespace is an addition to the System.Data.SqlClient namespace.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Complements: [System.Data.SqlClient namespace](https://docs.microsoft.com/en-us/dotnet/api/system.Data.SqlClient?view=netframework-4.8) 🔗
 

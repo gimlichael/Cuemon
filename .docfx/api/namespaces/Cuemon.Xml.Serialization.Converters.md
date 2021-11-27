@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Xml.Serialization.Converters namespace contains types tailored to resemble the [JsonConverter](https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_JsonConverter.htm) except we convert objects to and from XML.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Related: [Cuemon.Extensions.Xml.Serialization.Converters namespace](https://docs.cuemon.net/api/dotnet/ext/Cuemon.Extensions.Xml.Serialization.Converters.html) 📘
 

@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore namespace contains types focusing on providing means for easier plumber coding in the ASP.NET Core pipeline while serving some concrete implementation of the shell as well. The namespace is an addition to the Microsoft.AspNetCore namespace.
 
-Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
 
 Complements: [Microsoft.AspNetCore namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore?view=aspnetcore-2.0) 🔗
 
