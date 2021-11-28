@@ -109,7 +109,7 @@ So by adhering to this rule, we ensure that both groups is taken care of; the fo
 + [NuGet Package Explorer](https://github.com/NuGetPackageExplorer/NuGetPackageExplorer) is helpful to iron out kinks of NuGet packages
 + It goes without saying, that without [Microsoft .NET](https://dotnet.microsoft.com/) there would be no [Cuemon for .NET](https://github.com/gimlichael/Cuemon)
 
-## Continous improvement of Cuemon for .NET
+## Continuous improvement of Cuemon for .NET
 
 The constant of the code being written for **Cuemon for .NET** has and will always be **Framework Design Guidelines: Conventions, Idioms, and Patterns for Reusable .NET Libraries**. In more recent history, [Engineering Guidelines](https://github.com/dotnet/aspnetcore/wiki/Engineering-guidelines) from Microsoft ASP.NET Core team, has also been widely adapted into this project.
 

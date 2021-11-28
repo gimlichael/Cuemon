@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Xunit namespace contains types that provides a uniform way of doing unit testing. The namespace relates to the Xunit.Abstractions namespace.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Complements: [xUnit: Capturing Output](https://xunit.net/docs/capturing-output) 🔗
 

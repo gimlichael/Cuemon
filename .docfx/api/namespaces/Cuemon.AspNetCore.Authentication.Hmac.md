@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Authentication.Hmac namespace contains types that enable support for HMAC Access Authentication Scheme. Inspired by AWS Signature Version 4 [Authenticating Requests: Using the Authorization Header](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-auth-using-authorization-header.html) and [Signing AWS requests with Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/sigv4_signing.html).
 
-Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
 
 ## Github branches 🖇️
 

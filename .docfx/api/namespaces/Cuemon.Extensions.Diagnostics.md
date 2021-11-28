@@ -4,14 +4,14 @@ summary: *content
 ---
 The Cuemon.Extensions.Diagnostics namespace contains extension methods that complements the Cuemon.Diagnostics namespace while being an addition to the System.Diagnostics namespace.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Complements: [Cuemon.Diagnostics namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.html) 🔗
 
 ## Github branches 🖇️
 
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Diagnostics) 🧪\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Diagnostics) �\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Diagnostics) ��\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Diagnostics) 🛡️
 
 ## NuGet packages

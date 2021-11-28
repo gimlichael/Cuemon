@@ -22,7 +22,7 @@ So even though Microsoft decided to write their own [JSON framework](https://doc
 
 The Cuemon.Extensions.Newtonsoft.Json namespace contains both types and extension methods that complements the Newtonsoft.Json namespace by adding new ways of working with JSON; both in terms of serialization and parsing.
 
-Availability: **.NET Standard 2.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Newtonsoft.Json
 

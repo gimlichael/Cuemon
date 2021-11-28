@@ -78,7 +78,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
             get;
             private set;
         }
-        #elif NETCOREAPP
+        #else
         /// <summary>
         /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
         /// </summary>
@@ -101,7 +101,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
             Configuration = configuration;
             HostingEnvironment = environment;
         }
-        #elif NETCOREAPP
+        #else
         /// <summary>
         /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
         /// </summary>

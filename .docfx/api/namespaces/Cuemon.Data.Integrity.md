@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Data.Integrity namespace contains types that provide ways for developers to determine and maintain integrity of data that is normally associated with an entity/resource.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Related: [Cuemon.Extensions.Data.Integrity namespace](https://docs.cuemon.net/api/dotnet/ext/Cuemon.Extensions.Data.Integrity.html) 🔗
 

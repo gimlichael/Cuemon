@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Authentication.Basic namespace contains types that enable support for Basic Authentication Scheme.
 
-Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
 
 ## Github branches 🖇️
 

@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// </summary>
         /// <value>The delegate that adds configuration and environment information to a <see cref="HostTest{T}"/>.</value>
         Action<IConfiguration, IHostingEnvironment> ConfigureCallback { get; set; }
-        #elif NETCOREAPP
+        #else
         /// <summary>
         /// Gets or sets the delegate that adds configuration and environment information to a <see cref="HostTest{T}"/>.
         /// </summary>

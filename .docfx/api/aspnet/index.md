@@ -44,7 +44,7 @@ ASP.NET Core API, that is part of Cuemon for .NET, is a toolbelt of assemblies d
 
 The Cuemon.AspNetCore namespace contains types focusing on providing means for easier plumber coding in the ASP.NET Core pipeline while serving some concrete implementation of the shell as well. The namespace is an addition to the Microsoft.AspNetCore namespace.
 
-Availability: **.NET Standard 2.0, .NET Core 3.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
 
 Assembly: Cuemon.AspNetCore
 
@@ -56,7 +56,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.AspNetCore.Authentication namespace contains types that enable support for authentication using the concept of an Authenticator, AuthorizationHeader and (to tie the knots) an AuthorizationHeaderBuilder. Basic-, Digest Access- and HMAC Authentication is provided out-of-the-box. The namespace is an addition to the Microsoft.AspNetCore.Authentication namespace.
 
-Availability: **.NET Standard 2.0, .NET Core 3.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
 
 Assembly: Cuemon.AspNetCore.Authentication
 
@@ -68,7 +68,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.AspNetCore,Mvc namespace contains types that specializes in cache expiration and validation models and an abundant range of ready-to-use filters in the ASP.NET Core MVC pipeline. The namespace is an addition to the Microsoft.AspNetCore.Mvc namespace.
 
-Availability: **.NET Standard 2.0, .NET Core 3.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
 
 Assembly: Cuemon.AspNetCore.Mvc
 
@@ -80,7 +80,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.AspNetCore.Razor.TagHelpers namespace contains types tailored tag helper implementations. The namespace is an addition to the Microsoft.AspNetCore.Razor.TagHelpers namespace.
 
-Availability: **.NET Standard 2.0, .NET Core 3.0, .NET 5.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
 
 Assembly: Cuemon.AspNetCore.Razor.TagHelpers
 

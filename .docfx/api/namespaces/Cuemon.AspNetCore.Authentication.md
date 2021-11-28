@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Authentication namespace contains types that enable support for authentication using the concept of an Authenticator, AuthorizationHeader and (to tie the knots) an AuthorizationHeaderBuilder. Basic-, Digest Access- and HMAC Authentication is provided out-of-the-box. The namespace is an addition to the Microsoft.AspNetCore.Authentication namespace.
 
-Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Authentication namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication?view=aspnetcore-2.0) 🔗
 

@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Newtonsoft.Json.Diagnostics namespace contains extension methods that complements the Cuemon.Diagnostics namespace.
 
-Availability: NET Standard 2.0, .NET 5.0
+Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
 Complements: [Cuemon.Diagnostics namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Diagnostics.html) 🔗
 

@@ -4,14 +4,14 @@ summary: *content
 ---
 The Cuemon.Extensions.AspNetCore.Configuration namespace contains both types and extension methods that complements the Cuemon.AspNetCore.Configuration namespace.
 
-Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
 
 Complements: [Cuemon.AspNetCore.Configuration namespace](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Configuration.html) 🔗
 
 ## Github branches 🖇️
 
 [development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore) 🧪\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore) �\
+[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore) �\
 [master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore) 🛡️
 
 ## NuGet packages

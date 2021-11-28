@@ -3,12 +3,9 @@
     /// <summary>
     /// Represents the members needed for ASP.NET Core middleware testing.
     /// </summary>
-    /// <seealso cref="IServiceTest" />
+    /// <seealso cref="IGenericHostTest" />
     /// <seealso cref="IPipelineTest" />
-    /// <seealso cref="IConfigurationTest" />
-    /// <seealso cref="IHostingEnvironmentTest" />
-    /// <seealso cref="ITest" />
-    public interface IMiddlewareTest : IServiceTest, IPipelineTest, IConfigurationTest, IHostingEnvironmentTest, ITest
+    public interface IMiddlewareTest : IGenericHostTest, IPipelineTest
     {
     }
 }

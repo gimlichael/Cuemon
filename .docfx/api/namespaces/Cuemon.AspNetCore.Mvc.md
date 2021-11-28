@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore,Mvc namespace contains types that specializes in cache expiration and validation models and an abundant range of ready-to-use filters in the ASP.NET Core MVC pipeline. The namespace is an addition to the Microsoft.AspNetCore.Mvc namespace.
 
-Availability: NET Standard 2.0, NET Core 3.0, .NET 5.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Mvc namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc?view=aspnetcore-2.0) 🔗
 

@@ -1,5 +1,21 @@
-﻿Version: 6.0.0
-Availability: NET Core 3.1, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Core 3.1, .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+# New Features
+- ADDED InMemoryTestStore class in the Cuemon.Extensions.Xunit namespace that provides a default base implementation of the ITestStore{T} interface
+- ADDED ITestStore{T} interface in the Cuemon.Extensions.Xunit namespace that represents the members needed for adding and querying a store tailored for unit testing
+- ADDED GenericHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting namespace that provides a set of static methods for IHost unit testing
+- ADDED IGenericHostTest interface in the Cuemon.Extensions.Xunit.Hosting namespace that represents the members needed for bare-bone DI testing with support for IHost
+- CHANGED IMiddlewareTest class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to inherit from IGenericHostTest
+- ADDED IWebApplicationTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that the members needed for ASP.NET Core MVC, Razor and related testing
+- ADDED WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that provides a set of static methods for ASP.NET Core MVC, Razor and related unit testing
+ 
+Version: 6.0.0
+Availability: .NET Core 3.1, .NET 5.0
  
 # References
 - Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc

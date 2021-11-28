@@ -1,7 +1,33 @@
 ﻿jobs:
-  - job: BuildDotNet5_0
+  - job: BuildDotNet6_0
     displayName: 'PR (build, test)'
     timeoutInMinutes: 90
+    strategy:
+      matrix:
+        Linux_Build_and_Test:
+          imageName: 'ubuntu-20.04'
+        Windows_Build_and_Test:
+          imageName: 'windows-2019'
+    pool:
+      vmImage: $(imageName)
+    variables:
+      - name: DotnetBuildName
+        value: 'net6.0'
+    steps:
+    - template: azure-pipelines-jobs-build-step.dotnet.yml
+    - template: azure-pipelines-jobs-build-step.minvertool.yml
+    - template: azure-pipelines-jobs-build-step.reportgenerator.yml
+    - template: azure-pipelines-jobs-build-step.snk.yml
+    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
+    - template: azure-pipelines-jobs-build-step.restore.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposeup.yml
+    - template: azure-pipelines-jobs-build-step.net6_0.yml
+    - template: azure-pipelines-jobs-build-step.unittest.yml
+    - template: azure-pipelines-jobs-build-step.dockercomposedown.yml
+
+  - job: BuildDotNet5_0
+    displayName: 'PR (build)'
+    timeoutInMinutes: 30
     strategy:
       matrix:
         Linux_Build_and_Test:
@@ -16,14 +42,10 @@
     steps:
     - template: azure-pipelines-jobs-build-step.dotnet.yml
     - template: azure-pipelines-jobs-build-step.minvertool.yml
-    - template: azure-pipelines-jobs-build-step.reportgenerator.yml
     - template: azure-pipelines-jobs-build-step.snk.yml
     - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
     - template: azure-pipelines-jobs-build-step.restore.yml
-    - template: azure-pipelines-jobs-build-step.dockercomposeup.yml
     - template: azure-pipelines-jobs-build-step.net5_0.yml
-    - template: azure-pipelines-jobs-build-step.unittest.yml
-    - template: azure-pipelines-jobs-build-step.dockercomposedown.yml
 
   - job: BuildDotNet3_1
     displayName: 'PR (netcoreapp3.1, build)'
@@ -46,28 +68,6 @@
     - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
     - template: azure-pipelines-jobs-build-step.restore.yml
     - template: azure-pipelines-jobs-build-step.netcoreapp3_1.yml
-
-  - job: BuildDotNet3_0
-    displayName: 'PR (netcoreapp3.0, build)'
-    timeoutInMinutes: 30
-    strategy:
-      matrix:
-        Linux_Build:
-          imageName: 'ubuntu-20.04'
-        Windows_Build:
-          imageName: 'windows-2019'
-    pool:
-      vmImage: $(imageName)
-    variables:
-      - name: DotnetBuildName
-        value: 'netcoreapp3.0'
-    steps:
-    - template: azure-pipelines-jobs-build-step.dotnet.yml
-    - template: azure-pipelines-jobs-build-step.minvertool.yml
-    - template: azure-pipelines-jobs-build-step.snk.yml
-    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
-    - template: azure-pipelines-jobs-build-step.restore.yml
-    - template: azure-pipelines-jobs-build-step.netcoreapp3_0.yml
 
   - job: BuildDotNet2_1
     displayName: 'PR (netstandard2.1, build)'

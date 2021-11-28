@@ -1,5 +1,15 @@
-﻿Version: 6.1.0
-Availability: NET Standard 2.0, NET 5.0
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, (.NET Core 3.1), .NET 5.0, .NET 6.0
+ 
+# ALM
+- ADDED TFM for .NET 6
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+# New Features
+- ADDED ReservedKeywordException class in the Cuemon namespace that provides the exception that is thrown when the value of an argument is a reserved keyword
+ 
+Version: 6.1.0
+Availability: .NET Standard 2.0, .NET 5.0
  
 # References
  - Cuemon.Core
@@ -31,7 +41,7 @@ Availability: NET Standard 2.0, NET 5.0
  - Cuemon.Xml
  
 Version: 6.0.0
-Availability: NET Standard 2.0, NET 5.0
+Availability: .NET Standard 2.0, .NET 5.0
  
 # References
  - Cuemon.Core

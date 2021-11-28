@@ -52,7 +52,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         {
             #if NETSTANDARD
             var he = serviceProvider.GetRequiredService<IHostingEnvironment>();
-            #elif NETCOREAPP
+            #else
             var he = serviceProvider.GetRequiredService<IHostEnvironment>();
             #endif
             var filter = new ServerTimingFilter(Options.Create(new ServerTimingOptions()
