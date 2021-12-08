@@ -9,6 +9,7 @@
     <RootNamespace>Cuemon.Extensions</RootNamespace>
     <AssemblyName>Cuemon.Extensions.Core</AssemblyName>
     <AssemblyTitle>Cuemon.Extensions</AssemblyTitle>
+    <Title>Cuemon.Extensions</Title>
     <Description>The Cuemon.Extensions namespace contains extension methods that complements the Cuemon namespace while being an addition to the System namespace.</Description>
     <PackageTags>extension-methods extensions to-byte-array flatten to-encoded-string configure create-instance action-delegate options-pattern</PackageTags>
   </PropertyGroup>
