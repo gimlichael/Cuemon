@@ -6,7 +6,7 @@ The Cuemon.Extensions.Collections.Generic namespace contains extension methods t
 
 Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
 
-Complements: [Cuemon.Collections.Specialized namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Collections.Generic.html) 🔗
+Complements: [Cuemon.Collections.Generic namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Collections.Generic.html) 🔗
 
 ## Github branches 🖇️
 
@@ -23,8 +23,8 @@ Complements: [Cuemon.Collections.Specialized namespace](https://docs.cuemon.net/
 \
 \
 🏭 Productivity Pack\
-[Cuemon.Core.App (CI)](https://nuget.cuemon.net/packages/Cuemon.Core.App)\
-[Cuemon.Core.App (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Core.App)\
+[Cuemon.App (CI)](https://nuget.cuemon.net/packages/Cuemon.Core.App)\
+[Cuemon.App (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Core.App)\
 ![NuGet Version](https://img.shields.io/nuget/v/Cuemon.Core.App?logo=nuget) ![NuGet Preview Version](https://img.shields.io/nuget/vpre/Cuemon.Core.App?logo=nuget) ![NuGet Downloads](https://img.shields.io/nuget/dt/Cuemon.Core.App?color=blueviolet&logo=nuget)
 
 ### Extension Methods
