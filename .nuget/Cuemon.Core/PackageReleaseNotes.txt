@@ -1,4 +1,15 @@
-﻿Version: 6.3.0
+﻿Version: 6.4.0
+Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
+ 
+# New Features
+- ADDED ConditionalValue class in the Cuemon.Threading namespace that represents the base class to determine whether an async operation was a success or not
+- ADDED ConditionalValue{TResult} class in the Cuemon.Threading namespace that represents the base class to support the Try-Parse pattern of an async operation
+- ADDED SuccessfulValue class in the Cuemon.Threading namespace that provides a way to indicate a successful async operation
+- ADDED SuccessfulValue{TResult} class in the Cuemon.Threading namespace that provides a way to indicate a successful async operation
+- ADDED UnsuccessfulValue class in the Cuemon.Threading namespace that provides a way to indicate a faulted async operation
+- ADDED UnsuccessfulValue{TResult} class in the Cuemon.Threading namespace that provides a way to indicate a faulted async operation
+ 
+Version: 6.3.0
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
  
 # ALM
