@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
-    <Copyright>Copyright © Geekle 2009-2021. All rights reserved.</Copyright>
+    <Copyright>Copyright © Geekle 2009-2022. All rights reserved.</Copyright>
     <Authors>gimlichael</Authors>
     <Company>Geekle</Company>
     <Product>Cuemon for .NET</Product>
