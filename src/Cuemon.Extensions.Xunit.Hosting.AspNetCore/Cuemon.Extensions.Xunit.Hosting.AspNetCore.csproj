@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
