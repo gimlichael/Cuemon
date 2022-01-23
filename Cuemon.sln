@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.202
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}"
 EndProject
@@ -167,11 +167,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Data.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.DependencyInjection.Tests", "test\Cuemon.Extensions.DependencyInjection.Tests\Cuemon.Extensions.DependencyInjection.Tests.csproj", "{F15DA9B3-6C93-4813-8FF6-94EFC6E0CE2B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.RazorPages", "src\Cuemon.Extensions.AspNetCore.Mvc.RazorPages\Cuemon.Extensions.AspNetCore.Mvc.RazorPages.csproj", "{B8975784-832F-4952-93F4-1575AC28694A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.RazorPages", "src\Cuemon.Extensions.AspNetCore.Mvc.RazorPages\Cuemon.Extensions.AspNetCore.Mvc.RazorPages.csproj", "{C6B592E8-2413-4BFF-ADF2-8A72C62199E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.AspNetCore.Razor.TagHelpers.Tests", "test\Cuemon.AspNetCore.Razor.TagHelpers.Tests\Cuemon.AspNetCore.Razor.TagHelpers.Tests.csproj", "{9D83BDB8-153B-4159-8F7B-054A464BCE44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.AspNetCore.Mvc.RazorPages.Tests", "test\Cuemon.Extensions.AspNetCore.Mvc.RazorPages.Tests\Cuemon.Extensions.AspNetCore.Mvc.RazorPages.Tests.csproj", "{7E486338-CC7F-455A-8E88-A17284087431}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.RazorPages.Tests", "test\Cuemon.Extensions.AspNetCore.Mvc.RazorPages.Tests\Cuemon.Extensions.AspNetCore.Mvc.RazorPages.Tests.csproj", "{7E486338-CC7F-455A-8E88-A17284087431}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.Newtonsoft.Json.App", "src\Cuemon.Extensions.Newtonsoft.Json.App\Cuemon.Extensions.Newtonsoft.Json.App.csproj", "{D9E19ABA-133F-45DE-B5C5-765161A75BD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -499,10 +501,10 @@ Global
 		{F15DA9B3-6C93-4813-8FF6-94EFC6E0CE2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F15DA9B3-6C93-4813-8FF6-94EFC6E0CE2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F15DA9B3-6C93-4813-8FF6-94EFC6E0CE2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8975784-832F-4952-93F4-1575AC28694A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8975784-832F-4952-93F4-1575AC28694A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8975784-832F-4952-93F4-1575AC28694A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8975784-832F-4952-93F4-1575AC28694A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B592E8-2413-4BFF-ADF2-8A72C62199E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B592E8-2413-4BFF-ADF2-8A72C62199E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B592E8-2413-4BFF-ADF2-8A72C62199E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B592E8-2413-4BFF-ADF2-8A72C62199E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D83BDB8-153B-4159-8F7B-054A464BCE44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9D83BDB8-153B-4159-8F7B-054A464BCE44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D83BDB8-153B-4159-8F7B-054A464BCE44}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -511,6 +513,10 @@ Global
 		{7E486338-CC7F-455A-8E88-A17284087431}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E486338-CC7F-455A-8E88-A17284087431}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E486338-CC7F-455A-8E88-A17284087431}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E19ABA-133F-45DE-B5C5-765161A75BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E19ABA-133F-45DE-B5C5-765161A75BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E19ABA-133F-45DE-B5C5-765161A75BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E19ABA-133F-45DE-B5C5-765161A75BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -596,9 +602,10 @@ Global
 		{6FA157C8-D254-4333-8C91-C9694D8AD599} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{C5C7510A-E4E6-4C1A-A98F-67DA4218DDFD} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{F15DA9B3-6C93-4813-8FF6-94EFC6E0CE2B} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
-		{B8975784-832F-4952-93F4-1575AC28694A} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{C6B592E8-2413-4BFF-ADF2-8A72C62199E3} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{9D83BDB8-153B-4159-8F7B-054A464BCE44} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{7E486338-CC7F-455A-8E88-A17284087431} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
+		{D9E19ABA-133F-45DE-B5C5-765161A75BD8} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A848386-B682-4F6D-8254-B5F6247C3054}

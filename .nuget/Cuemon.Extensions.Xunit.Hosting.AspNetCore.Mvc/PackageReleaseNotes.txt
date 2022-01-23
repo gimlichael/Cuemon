@@ -1,4 +1,10 @@
-﻿Version: 6.1.0
+﻿Version: 6.4.0
+Availability: .NET Core 3.1, .NET 5.0, .NET 6.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+Version: 6.1.0
 Availability: .NET Core 3.1, .NET 5.0
  
 # ALM

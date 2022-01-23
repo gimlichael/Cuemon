@@ -1,0 +1,6 @@
+﻿Version: 6.3.0
+Availability: .NET Standard 2.0, (.NET Core 3.1), .NET 5.0, .NET 6.0
+ 
+# References
+- Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
+- Cuemon.Extensions.Newtonsoft.Json

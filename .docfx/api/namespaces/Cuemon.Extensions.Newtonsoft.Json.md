@@ -23,9 +23,9 @@ Complements: [Newtonsoft.Json namespace](https://www.newtonsoft.com/json/help/ht
 \
 \
 🏭 Productivity Pack\
-[Cuemon.Core.App (CI)](https://nuget.cuemon.net/packages/Cuemon.Core.App)\
-[Cuemon.Core.App (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Core.App)\
-![NuGet Version](https://img.shields.io/nuget/v/Cuemon.Core.App?logo=nuget) ![NuGet Preview Version](https://img.shields.io/nuget/vpre/Cuemon.Core.App?logo=nuget) ![NuGet Downloads](https://img.shields.io/nuget/dt/Cuemon.Core.App?color=blueviolet&logo=nuget)
+[Cuemon.Extensions.Newtonsoft.Json.App (CI)](https://nuget.cuemon.net/packages/Cuemon.Extensions.Newtonsoft.Json.App)\
+[Cuemon.Extensions.Newtonsoft.Json.App (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json.App)\
+![NuGet Version](https://img.shields.io/nuget/v/Cuemon.Extensions.Newtonsoft.Json.App?logo=nuget) ![NuGet Preview Version](https://img.shields.io/nuget/vpre/Cuemon.Extensions.Newtonsoft.Json.App?logo=nuget) ![NuGet Downloads](https://img.shields.io/nuget/dt/Cuemon.Extensions.Newtonsoft.Json.App?color=blueviolet&logo=nuget)
 
 ### Extension Methods
 

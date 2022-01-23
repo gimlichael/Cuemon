@@ -34,7 +34,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace contains both types and extension methods that complements the Cuemon.Extensions.Newtonsoft.Json namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides JSON formatters for ASP.NET Core that is powered by Newtonsoft.Json.
 
-Availability: **.NET Standard 2.0, NET Core 3.0, .NET 5.0**
+Availability: **.NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
 
