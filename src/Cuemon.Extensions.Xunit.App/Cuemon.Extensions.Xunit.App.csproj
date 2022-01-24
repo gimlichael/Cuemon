@@ -8,7 +8,7 @@
   <PropertyGroup>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <IncludeSymbols>false</IncludeSymbols>
-    <Description>Provides a convenient set of default API additions for building .NET Core test projects based on xUnit.</Description>
+    <Description>Provides a convenient set of default API additions for building .NET test projects based on xUnit.</Description>
   </PropertyGroup>
 
   <ItemGroup>

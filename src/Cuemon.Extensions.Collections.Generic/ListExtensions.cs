@@ -88,5 +88,24 @@ namespace Cuemon.Extensions.Collections.Generic
             if (previousIndex >= list.Count) { return default; }
             return list[previousIndex];
         }
+
+        /// <summary>
+        /// Attempts to add the specified <paramref name="item"/> to the <paramref name="list"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The <see cref="IList{T}"/> to extend.</param>
+        /// <param name="item">The item to add.</param>
+        /// <returns><c>true</c> if the item was added to the <paramref name="list"/> successfully, <c>false</c> otherwise.</returns>
+        /// <remarks>This method will add the specified <paramref name="item"/> to the list if it is not already present.</remarks>
+        public static bool TryAdd<T>(this IList<T> list, T item)
+        {
+            Validator.ThrowIfNull(list, nameof(list));
+            if (!list.Contains(item))
+            {
+                list.Add(item);
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -9,7 +9,7 @@
   </Target>
 
   <PropertyGroup>
-   <PackageReleaseNotesFile>$(MSBuildProjectDirectory)/Properties/PackageReleaseNotes.txt</PackageReleaseNotesFile>
+   <PackageReleaseNotesFile>..\..\.nuget\$(MSBuildProjectName)\PackageReleaseNotes.txt</PackageReleaseNotesFile>
   </PropertyGroup>
 
   <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec" Condition="'$(IsTestProject)' == 'false' AND Exists('$(PackageReleaseNotesFile)')">

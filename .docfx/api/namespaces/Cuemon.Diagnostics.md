@@ -25,6 +25,6 @@ Related: [Cuemon.Extensions.Diagnostics namespace](https://docs.cuemon.net/api/e
 \
 \
 🏭 Productivity Pack\
-[Cuemon.Core.App (CI)](https://nuget.cuemon.net/packages/Cuemon.Core.App)\
-[Cuemon.Core.App (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Core.App)\
+[Cuemon.App (CI)](https://nuget.cuemon.net/packages/Cuemon.Core.App)\
+[Cuemon.App (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Core.App)\
 ![NuGet Version](https://img.shields.io/nuget/v/Cuemon.Core.App?logo=nuget) ![NuGet Preview Version](https://img.shields.io/nuget/vpre/Cuemon.Core.App?logo=nuget) ![NuGet Downloads](https://img.shields.io/nuget/dt/Cuemon.Core.App?color=blueviolet&logo=nuget)
