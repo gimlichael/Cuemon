@@ -10,33 +10,33 @@ namespace Cuemon.Extensions
     public static class ValidatorExtensions
     {
         /// <summary>
-        /// Validates and throws an <see cref="ReservedKeywordException"/> if the specified <paramref name="keyword"/> is found in the sequence of <paramref name="reserverdKeywords"/>.
+        /// Validates and throws an <see cref="ReservedKeywordException"/> if the specified <paramref name="keyword"/> is found in the sequence of <paramref name="reservedKeywords"/>.
         /// </summary>
         /// <param name="validator">The <see cref="Validator"/> to extend.</param>
-        /// <param name="keyword">The keyword to compare with <paramref name="reserverdKeywords"/>.</param>
-        /// <param name="reserverdKeywords">The reserverd keywords to compare with <paramref name="keyword"/>.</param>
+        /// <param name="keyword">The keyword to compare with <paramref name="reservedKeywords"/>.</param>
+        /// <param name="reservedKeywords">The reserved keywords to compare with <paramref name="keyword"/>.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        public static void ContainsReservedKeyword(this Validator validator, string keyword, IEnumerable<string> reserverdKeywords, string paramName, string message = null)
+        public static void ContainsReservedKeyword(this Validator validator, string keyword, IEnumerable<string> reservedKeywords, string paramName, string message = null)
         {
-            ContainsReservedKeyword(validator, keyword, reserverdKeywords, null, paramName, message);
+            ContainsReservedKeyword(validator, keyword, reservedKeywords, null, paramName, message);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ReservedKeywordException"/> if the specified <paramref name="keyword"/> is found in the sequence of <paramref name="reserverdKeywords"/>.
+        /// Validates and throws an <see cref="ReservedKeywordException"/> if the specified <paramref name="keyword"/> is found in the sequence of <paramref name="reservedKeywords"/>.
         /// </summary>
         /// <param name="validator">The <see cref="Validator"/> to extend.</param>
-        /// <param name="keyword">The keyword to compare with <paramref name="reserverdKeywords"/>.</param>
-        /// <param name="reserverdKeywords">The reserverd keywords to compare with <paramref name="keyword"/>.</param>
-        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing <paramref name="reserverdKeywords"/> with <paramref name="keyword"/>.</param>
+        /// <param name="keyword">The keyword to compare with <paramref name="reservedKeywords"/>.</param>
+        /// <param name="reservedKeywords">The reserved keywords to compare with <paramref name="keyword"/>.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing <paramref name="reservedKeywords"/> with <paramref name="keyword"/>.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        public static void ContainsReservedKeyword(this Validator validator, string keyword, IEnumerable<string> reserverdKeywords, IEqualityComparer<string> comparer, string paramName, string message = null)
+        public static void ContainsReservedKeyword(this Validator validator, string keyword, IEnumerable<string> reservedKeywords, IEqualityComparer<string> comparer, string paramName, string message = null)
         {
-            if (keyword == null || reserverdKeywords == null) { return; }
+            if (keyword == null || reservedKeywords == null) { return; }
             try
             {
-                validator.ThrowWhenCondition(c => c.IsTrue(() => reserverdKeywords.Contains(keyword, comparer)).Create(() => new ReservedKeywordException(paramName, keyword, message)).TryThrow());
+                validator.ThrowWhenCondition(c => c.IsTrue(() => reservedKeywords.Contains(keyword, comparer)).Create(() => new ReservedKeywordException(paramName, keyword, message)).TryThrow());
             }
             catch (ReservedKeywordException ex)
             {
