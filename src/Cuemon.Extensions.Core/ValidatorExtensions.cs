@@ -17,6 +17,9 @@ namespace Cuemon.Extensions
         /// <param name="reservedKeywords">The reserved keywords to compare with <paramref name="keyword"/>.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ReservedKeywordException">
+        /// The specified <paramref name="keyword"/> is contained within <paramref name="reservedKeywords"/>.
+        /// </exception>
         public static void ContainsReservedKeyword(this Validator validator, string keyword, IEnumerable<string> reservedKeywords, string paramName, string message = null)
         {
             ContainsReservedKeyword(validator, keyword, reservedKeywords, null, paramName, message);
@@ -31,6 +34,9 @@ namespace Cuemon.Extensions
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing <paramref name="reservedKeywords"/> with <paramref name="keyword"/>.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ReservedKeywordException">
+        /// The specified <paramref name="keyword"/> is contained within <paramref name="reservedKeywords"/>.
+        /// </exception>
         public static void ContainsReservedKeyword(this Validator validator, string keyword, IEnumerable<string> reservedKeywords, IEqualityComparer<string> comparer, string paramName, string message = null)
         {
             if (keyword == null || reservedKeywords == null) { return; }
