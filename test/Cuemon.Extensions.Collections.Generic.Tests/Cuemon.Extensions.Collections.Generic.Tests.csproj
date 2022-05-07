@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Cuemon.Extensions.Collections.Generic</RootNamespace>
-    <TargetFrameworks>net6.0;net5.0;net461</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
