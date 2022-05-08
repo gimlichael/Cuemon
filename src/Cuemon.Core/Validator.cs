@@ -35,20 +35,20 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Provides a convenient way to validate a parameter while returning a value from the specified <paramref name="instance"/>.
+        /// Provides a convenient way to validate a parameter while returning a value from the specified <paramref name="value"/>.
         /// </summary>
         /// <typeparam name="T">The type of the object to evaluate.</typeparam>
         /// <typeparam name="TValue">The type of the value to return.</typeparam>
-        /// <param name="instance">The value to be evaluated.</param>
-        /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="instance"/> is not valid.</param>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="value"/> is not valid.</param>
         /// <param name="valueSelector">The function delegate that is in charge of selecting the value to return.</param>
         /// <returns>The value provided by <paramref name="valueSelector"/>.</returns>
-        public static TValue CheckParameter<T, TValue>(T instance, Action validator, Func<T, TValue> valueSelector) where T : class
+        public static TValue CheckParameter<T, TValue>(T value, Action validator, Func<T, TValue> valueSelector) where T : class
         {
             ThrowIfNull(validator, nameof(validator));
             ThrowIfNull(valueSelector, nameof(valueSelector));
             validator();
-            return valueSelector(instance);
+            return valueSelector(value);
         }
 
         /// <summary>
