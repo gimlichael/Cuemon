@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
@@ -9,7 +9,6 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <IncludeSymbols>false</IncludeSymbols>
     <Description>Provides a convenient set of default API additions for building a .NET application.</Description>
-    <Title>Cuemon.App</Title>
   </PropertyGroup>
 
   <ItemGroup>
