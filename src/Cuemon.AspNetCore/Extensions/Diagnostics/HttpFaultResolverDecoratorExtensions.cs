@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
 
-namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
+namespace Cuemon.AspNetCore.Diagnostics
 {
     /// <summary>
     /// Extension methods for the <see cref="HttpFaultResolver"/> class tailored to adhere the decorator pattern.

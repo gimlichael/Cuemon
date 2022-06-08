@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Reflection;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
@@ -20,11 +21,6 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// <seealso cref="CorrelationIdentifierMiddleware"/>
     public class FaultDescriptorFilter : Configurable<FaultDescriptorOptions>, IExceptionFilter
     {
-        /// <summary>
-        /// The key to set or get a copy of a captured request body.
-        /// </summary>
-        public const string HttpContextItemsKeyForCapturedRequestBody = "CuemonAspNetCoreMvcFiltersDiagnostics_HttpContextItemsKeyForCapturedRequestBody";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FaultDescriptorFilter"/> class.
         /// </summary>

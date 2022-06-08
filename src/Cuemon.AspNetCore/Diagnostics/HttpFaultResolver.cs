@@ -1,8 +1,7 @@
 ﻿using System;
-using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 
-namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
+namespace Cuemon.AspNetCore.Diagnostics
 {
     /// <summary>
     /// Provides a way to evaluate an exception and provide details about it in a developer friendly way, optimized for open- and otherwise public application programming interfaces (API).

@@ -4,13 +4,18 @@ using Cuemon.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 
-namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
+namespace Cuemon.AspNetCore.Diagnostics
 {
     /// <summary>
     /// Provides detailed information about a given <seealso cref="HttpRequest"/>.
     /// </summary>
     public class HttpRequestEvidence
     {
+        /// <summary>
+        /// The key to set or get a copy of a captured request body.
+        /// </summary>
+        public const string HttpContextItemsKeyForCapturedRequestBody = "CuemonAspNetCoreDiagnostics_HttpContextItemsKeyForCapturedRequestBody";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpRequestEvidence"/> class.
         /// </summary>
@@ -27,7 +32,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             if (request.HasFormContentType && !hasMultipartContentType) { Form = request.Form; }
             Cookies = request.Cookies;
             var requestBody = new MemoryStream();
-            if (request.HttpContext.Items.TryGetValue(FaultDescriptorFilter.HttpContextItemsKeyForCapturedRequestBody, out var capturedRequestBody) && capturedRequestBody is MemoryStream crb)
+            if (request.HttpContext.Items.TryGetValue(HttpContextItemsKeyForCapturedRequestBody, out var capturedRequestBody) && capturedRequestBody is MemoryStream crb)
             {
                 crb.Position = 0;
                 requestBody = crb;
