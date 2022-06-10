@@ -113,7 +113,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// <summary>
         /// Gets or sets the callback delegate that is invoked when an exception has been thrown.
         /// </summary>
-        /// <value>A <see cref="Action{T}"/>. The default value is <c>null</c>.</value>
-        public Action<Exception, HttpExceptionDescriptor> ExceptionCallback { get; set; }
+        /// <value>A <see cref="Action{T1,T2,T3}"/>. The default value is <c>null</c>.</value>
+        public Action<HttpContext, Exception, HttpExceptionDescriptor> ExceptionCallback { get; set; }
     }
 }

@@ -67,8 +67,8 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                             sb.AppendLine($"{nameof(exceptionDescriptor.CorrelationId)}: {correlationId}");
                             exceptionDescriptor.CorrelationId = correlationId.ToString();
                         }
-                        
-                        options.ExceptionCallback?.Invoke(ehf.Error, exceptionDescriptor);
+
+                        options.ExceptionCallback?.Invoke(context, ehf.Error, exceptionDescriptor);
 
                         await WriteResponseAsync(sb, context, exceptionDescriptor, ehf, options.CancellationToken).ConfigureAwait(false);
                     }
@@ -85,13 +85,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
             context.Response.StatusCode = exceptionDescriptor.StatusCode;
             if (ehf.Error is HttpStatusCodeException httpFault)
             {
-                foreach (var header in httpFault.Headers)
-                {
-                    if (!context.Response.Headers.Contains(header))
-                    {
-                        context.Response.Headers.Add(header);
-                    }
-                }
+                Decorator.Enclose(context.Response.Headers).AddRange(httpFault.Headers);
             }
             return context.Response.Body.WriteAsync(buffer, 0, buffer.Length, ct);
         }
