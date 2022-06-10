@@ -51,6 +51,12 @@ namespace Cuemon.AspNetCore.Http
         }
 
         /// <summary>
+        /// Gets the collection of HTTP response headers.
+        /// </summary>
+        /// <value>The collection of HTTP response headers.</value>
+        public IHeaderDictionary Headers { get; } = new HeaderDictionary();
+
+        /// <summary>
         /// Gets the HTTP status code associated with this exception.
         /// </summary>
         /// <value>The HTTP status code associated with this exception.</value>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,8 +28,7 @@ namespace Cuemon.AspNetCore.Http
         /// <param name="decorator">The <see cref="IDecorator{HttpContext}"/> to extend.</param>
         /// <param name="tc">The <see cref="IThrottlingCache"/> implementation.</param>
         /// <param name="options">The configured options.</param>
-        /// <param name="transformer">The delegate that merges an instance of <see cref="HttpResponseMessage"/> into the <see cref="HttpResponse"/> pipeline.</param>
-        public static async Task InvokeThrottlerSentinelAsync(this IDecorator<HttpContext> decorator, IThrottlingCache tc, ThrottlingSentinelOptions options, Action<HttpResponseMessage, HttpResponse> transformer)
+        public static async Task InvokeThrottlerSentinelAsync(this IDecorator<HttpContext> decorator, IThrottlingCache tc, ThrottlingSentinelOptions options)
         {
             var utcNow = DateTime.UtcNow;
             var throttlingContext = options.ContextResolver?.Invoke(decorator.Inner);
@@ -72,8 +70,9 @@ namespace Cuemon.AspNetCore.Http
                         var message = options.ResponseBroker?.Invoke(delta, reset);
                         if (message != null)
                         {
-                            transformer?.Invoke(message, decorator.Inner.Response);
-                            throw new ThrottlingException(await message.Content.ReadAsStringAsync().ConfigureAwait(false), tr.Quota.RateLimit, delta, reset);
+                            throw Decorator.Enclose(new ThrottlingException(await message.Content.ReadAsStringAsync().ConfigureAwait(false), tr.Quota.RateLimit, delta, reset))
+                                .AddResponseHeaders(decorator.Inner.Response.Headers)
+                                .AddResponseHeaders(message.Headers).Inner;
                         }
                     }
                 }
@@ -90,8 +89,7 @@ namespace Cuemon.AspNetCore.Http
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{HttpContext}"/> to extend.</param>
         /// <param name="options">The configured options.</param>
-        /// <param name="transformer">The delegate that merges an instance of <see cref="HttpResponseMessage"/> into the <see cref="HttpResponse"/> pipeline.</param>
-        public static async Task InvokeUserAgentSentinelAsync(this IDecorator<HttpContext> decorator, UserAgentSentinelOptions options, Action<HttpResponseMessage, HttpResponse> transformer)
+        public static async Task InvokeUserAgentSentinelAsync(this IDecorator<HttpContext> decorator, UserAgentSentinelOptions options)
         {
             var userAgent = decorator.Inner.Request.Headers[HeaderNames.UserAgent].FirstOrDefault();
             if (options.RequireUserAgentHeader)
@@ -99,8 +97,8 @@ namespace Cuemon.AspNetCore.Http
                 var message = options.ResponseHandler?.Invoke(userAgent);
                 if (message != null)
                 {
-                    transformer?.Invoke(message, decorator.Inner.Response);
-                    throw new UserAgentException((int)message.StatusCode, await message.Content.ReadAsStringAsync().ConfigureAwait(false));
+                    throw Decorator.Enclose(new UserAgentException((int)message.StatusCode, await message.Content.ReadAsStringAsync().ConfigureAwait(false)))
+                        .AddResponseHeaders(decorator.Inner.Response.Headers).Inner;
                 }
             }
         }

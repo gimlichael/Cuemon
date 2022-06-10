@@ -2,6 +2,9 @@
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Mvc.Assets;
+using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
@@ -22,9 +25,79 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         }
 
         [Fact]
+        public async Task OnActionExecutionAsync_ShouldCaptureUserAgentException_BadRequest()
+        {
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }, services =>
+                   {
+                       services.AddControllers(o =>
+                       {
+                           o.Filters.Add<FaultDescriptorFilter>();
+                           o.Filters.Add<UserAgentSentinelFilter>();
+                       }).AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddNewtonsoftJson()
+                           .AddJsonSerializationFormatters();
+                       services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
+                   }))
+            {
+                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var client = filter.Host.GetTestClient();
+
+                var result = await client.GetAsync("/fake/it");
+
+                Assert.Contains(options.Value.BadRequestMessage, await result.Content.ReadAsStringAsync());
+                Assert.Equal((int)result.StatusCode, StatusCodes.Status400BadRequest);
+
+                Assert.True(options.Value.RequireUserAgentHeader);
+            }
+        }
+
+        [Fact]
+        public async Task OnActionExecutionAsync_ShouldCaptureUserAgentException_Forbidden()
+        {
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }, services =>
+                   {
+                       services.Configure<UserAgentSentinelOptions>(o =>
+                       {
+                           o.RequireUserAgentHeader = true;
+                           o.ValidateUserAgentHeader = true;
+                           o.AllowedUserAgents.Add("Cuemon-Agent");
+                       });
+                       services.AddControllers(o =>
+                           {
+                               o.Filters.Add<FaultDescriptorFilter>();
+                               o.Filters.Add<UserAgentSentinelFilter>();
+                           }).AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddNewtonsoftJson()
+                           .AddJsonSerializationFormatters();
+                   }))
+            {
+                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var client = filter.Host.GetTestClient();
+                client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Invalid-Agent");
+
+                var result = await client.GetAsync("/fake/it");
+
+                Assert.Contains(options.Value.ForbiddenMessage, await result.Content.ReadAsStringAsync());
+                Assert.Equal(StatusCodes.Status403Forbidden, (int)result.StatusCode);
+
+                Assert.True(options.Value.RequireUserAgentHeader);
+                Assert.True(options.Value.ValidateUserAgentHeader);
+                Assert.True(options.Value.AllowedUserAgents.Any());
+            }
+        }
+
+        [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -53,7 +126,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_Forbidden()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -90,7 +163,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest_BecauseOfUseGenericResponse()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -128,7 +201,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldAllowRequestUnconditional()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -147,7 +220,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldAllowRequestAfterBeingValidated()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

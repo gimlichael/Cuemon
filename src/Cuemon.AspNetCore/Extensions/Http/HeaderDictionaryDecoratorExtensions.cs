@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using Cuemon.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Cuemon.AspNetCore.Http.Headers
+namespace Cuemon.AspNetCore.Http
 {
     /// <summary>
     /// Extension methods for the <see cref="IHeaderDictionary"/> interface tailored to adhere the decorator pattern.
@@ -15,6 +16,26 @@ namespace Cuemon.AspNetCore.Http.Headers
     public static class HeaderDictionaryDecoratorExtensions
     {
         /// <summary>
+        /// Adds a range of <paramref name="headers"/> to the enclosed <see cref="IHeaderDictionary"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="headers">The <see cref="IHeaderDictionary"/> to populate.</param>
+        /// <param name="predicate">The function delegate that specifies what elements to populate from <paramref name="headers"/>. Default is only non-existing headers.</param>
+        /// <returns>A reference to <paramref name="decorator.Inner" /> so that additional calls can be chained.</returns>
+        /// <remarks>When <paramref name="predicate"/> is <c>null</c>, only new headers are added to the enclosed <see cref="IHeaderDictionary"/>.</remarks>
+        public static IHeaderDictionary AddRange(this IDecorator<IHeaderDictionary> decorator, IHeaderDictionary headers, Func<KeyValuePair<string, StringValues>, IHeaderDictionary, bool> predicate = null)
+        {
+            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(headers, nameof(headers));
+            predicate ??= (kvp, hd) => !hd.Contains(kvp);
+            foreach (var header in headers.Where(pair => predicate(pair, decorator.Inner)))
+            {
+                decorator.Inner.Add(header);
+            }
+            return decorator.Inner;
+        }
+
+                /// <summary>
         /// Attempts to add or update an existing element with the provided key and value to the enclosed <see cref="IHeaderDictionary"/> of the <paramref name="decorator"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>

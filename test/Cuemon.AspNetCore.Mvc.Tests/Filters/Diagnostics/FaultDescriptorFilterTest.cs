@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Assets;
+using Cuemon.Extensions.AspNetCore.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Http.Headers;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
-using Cuemon.Extensions.Hosting;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;
@@ -25,7 +25,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [InlineData(false)]
         public async Task OnException_ShouldIncludeFailure_DifferentiateOnUseBaseException(bool useBaseException)
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -79,9 +79,45 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         }
 
         [Fact]
+        public async Task OnException_ShouldCaptureUserAgent_BadRequestMessage()
+        {
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler();
+                       app.UseUserAgentSentinel(o =>
+                       {
+                           o.RequireUserAgentHeader = true;
+                       });
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }, (context, services) =>
+                   {
+                       services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddNewtonsoftJson()
+                           .AddJsonFormatterOptions(o =>
+                           {
+                               o.IncludeExceptionDescriptorFailure = false;
+                           })
+                           .AddJsonSerializationFormatters();
+                   }))
+            {
+                var client = filter.Host.GetTestClient();
+                var result = await client.GetAsync("/fake/it");
+                var body = await result.Content.ReadAsStringAsync();
+
+                TestOutput.WriteLine(body);
+
+                Assert.Equal(@"BadRequest: The requirements of the HTTP User-Agent header was not met.
+", body);
+                Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
+                Assert.Equal(HttpStatusDescription.Get(400), result.ReasonPhrase);
+            }
+        }
+
+        [Fact]
         public async Task OnException_ShouldCaptureBadRequest()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -117,7 +153,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureConflict()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -153,7 +189,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureForbidden()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -189,7 +225,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureGone()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -225,7 +261,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureNotFound()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -261,7 +297,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePayloadTooLarge()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -294,7 +330,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePreconditionFailed()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -327,7 +363,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePreconditionRequired()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -360,7 +396,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureTooManyRequests()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -393,7 +429,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUnauthorized()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -426,7 +462,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureMethodNotAllowed()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -459,7 +495,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureNotAcceptable()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -492,7 +528,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureGeneric()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -523,7 +559,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUnsupportedMediaType()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

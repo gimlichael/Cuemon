@@ -5,6 +5,7 @@ using System.Reflection;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
+using Cuemon.Threading;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
@@ -13,7 +14,7 @@ namespace Cuemon.AspNetCore.Diagnostics
     /// <summary>
     /// Specifies options that is related to <see cref="ExceptionHandlerMiddleware" /> operations.
     /// </summary>
-    public class FaultDescriptorExceptionHandlerOptions
+    public class FaultDescriptorExceptionHandlerOptions : AsyncOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FaultDescriptorExceptionHandlerOptions"/> class.
