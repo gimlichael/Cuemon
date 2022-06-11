@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 {
-    internal sealed class WebApplicationTest : IMvcFilterTest
+    internal sealed class WebApplicationTest : IWebApplicationTest
     {
         private readonly IMiddlewareTest _middlewareTest;
 

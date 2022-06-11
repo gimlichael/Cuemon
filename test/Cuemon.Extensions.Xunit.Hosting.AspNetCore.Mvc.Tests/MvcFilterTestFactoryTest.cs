@@ -31,7 +31,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         [Fact]
         public Task RunMvcFilterTest_ShouldHaveApplicationNameEqualToThisAssembly()
         {
-            return MvcFilterTestFactory.RunMvcFilterTest(Assert.NotNull, Assert.NotNull, host =>
+            return WebApplicationTestFactory.RunWebApplicationTest(Assert.NotNull, Assert.NotNull, host =>
             {
                 host.ConfigureAppConfiguration((context, configuration) =>
                 {
@@ -44,7 +44,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         [Fact]
         public Task RunMvcFilterTest_ShouldHaveApplicationNameEqualToThisAssembly_WithHostBuilderContext()
         {
-            return MvcFilterTestFactory.RunMvcFilterTest((context, app) =>
+            return WebApplicationTestFactory.RunWebApplicationTest((context, app) =>
             {
                 Assert.NotNull(context);
                 Assert.NotNull(context.HostingEnvironment);
