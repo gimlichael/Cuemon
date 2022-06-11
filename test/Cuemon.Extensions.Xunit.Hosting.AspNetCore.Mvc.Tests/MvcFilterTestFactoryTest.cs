@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         {
             Type sut1 = GetType();
             string sut2 = null;
-            var middleware = MvcFilterTestFactory.CreateMvcFilterTest(Assert.NotNull, Assert.NotNull, host =>
+            var middleware = WebApplicationTestFactory.CreateWebApplicationTest(Assert.NotNull, Assert.NotNull, host =>
             {
                 host.ConfigureAppConfiguration((context, configuration) =>
                 {

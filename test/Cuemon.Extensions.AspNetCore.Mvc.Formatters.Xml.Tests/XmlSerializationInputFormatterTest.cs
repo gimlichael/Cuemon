@@ -49,7 +49,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         [Fact]
         public async Task ReadRequestBodyAsync_ShouldReturnCreated()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
