@@ -43,7 +43,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                         o.Filters.Add<ThrottlingSentinelFilter>();
                     }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonSerializationFormatters(o => o.IncludeExceptionDescriptorFailure = false);
+                    .AddNewtonsoftJsonSerializationFormatters(o => o.IncludeExceptionDescriptorFailure = false);
                 services.Configure<ThrottlingSentinelOptions>(o =>
                 {
                     o.ContextResolver = context => nameof(OnActionExecutionAsync_ShouldCaptureThrottlingException);
@@ -91,7 +91,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                         o.Filters.Add<ThrottlingSentinelFilter>();
                     }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonSerializationFormatters(o => o.IncludeExceptionDescriptorFailure = false);
+                    .AddNewtonsoftJsonSerializationFormatters(o => o.IncludeExceptionDescriptorFailure = false);
                 services.Configure<ThrottlingSentinelOptions>(o =>
                 {
                     o.ContextResolver = context => nameof(OnActionExecutionAsync_ShouldCaptureThrottlingException);

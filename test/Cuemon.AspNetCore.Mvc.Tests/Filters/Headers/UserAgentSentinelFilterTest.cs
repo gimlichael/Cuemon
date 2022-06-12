@@ -39,7 +39,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                            o.Filters.Add<UserAgentSentinelFilter>();
                        }).AddApplicationPart(typeof(FakeController).Assembly)
                            .AddNewtonsoftJson()
-                           .AddJsonSerializationFormatters();
+                           .AddNewtonsoftJsonSerializationFormatters();
                        services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
                    }))
             {
@@ -76,7 +76,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                                o.Filters.Add<UserAgentSentinelFilter>();
                            }).AddApplicationPart(typeof(FakeController).Assembly)
                            .AddNewtonsoftJson()
-                           .AddJsonSerializationFormatters();
+                           .AddNewtonsoftJsonSerializationFormatters();
                    }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();

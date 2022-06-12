@@ -25,7 +25,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <exception cref="ArgumentNullException">
         /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddJsonSerializationFormatters(this IMvcCoreBuilder builder)
+        public static IMvcCoreBuilder AddNewtonsoftJsonSerializationFormatters(this IMvcCoreBuilder builder)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
@@ -42,10 +42,10 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddJsonSerializationFormatters(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
+        public static IMvcCoreBuilder AddNewtonsoftJsonSerializationFormatters(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            AddJsonSerializationFormatters(builder);
+            AddNewtonsoftJsonSerializationFormatters(builder);
             AddJsonFormatterOptions(builder, setup);
             return builder;
         }
