@@ -13,7 +13,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
     public abstract class CacheBustingTagHelper<TOptions> : TagHelper, IConfigurable<TOptions> where TOptions : TagHelperOptions, new()
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CdnTagHelper"/> class.
+        /// Initializes a new instance of the <see cref="CacheBustingTagHelper{TOptions}"/> class.
         /// </summary>
         /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
         /// <param name="cacheBusting">An optional object implementing the <see cref="ICacheBusting"/> interface.</param>

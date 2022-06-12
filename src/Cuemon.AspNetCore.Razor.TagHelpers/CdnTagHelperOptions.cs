@@ -1,7 +1,7 @@
 ﻿namespace Cuemon.AspNetCore.Razor.TagHelpers
 {
     /// <summary>
-    /// Configuration options for <see cref="ImageCdnTagHelper"/>, <see cref="LinkCdnTagHelper"/> and <see cref="ScriptCdnTagHelper"/>.
+    /// Configuration options for <see cref="CdnImageTagHelper"/>, <see cref="CdnLinkTagHelper"/> and <see cref="CdnScriptTagHelper"/>.
     /// </summary>
     public class CdnTagHelperOptions : TagHelperOptions
     {
