@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Data.Integrity</AssemblyName>
-    <AssemblyTitle>Cuemon.Data.Integrity</AssemblyTitle>
     <Description>The Cuemon.Data.Integrity namespace contains types that provide ways for developers to determine and maintain integrity of data that is normally associated with an entity/resource.</Description>
     <PackageTags>cache-validator checksum-builder entity-info data-integrity</PackageTags>
   </PropertyGroup>

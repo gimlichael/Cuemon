@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.IO</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.IO</AssemblyTitle>
     <Description>The Cuemon.Extensions.IO namespace contains extension methods that complements the Cuemon.IO namespace while being an addition to the System.IO namespace.</Description>
     <PackageTags>extension-methods extensions concat to-byte-array to-byte-array-async write-async to-encoded-string to-encoded-string-async compress-brotli compress-brotli-async compress-deflate compress-deflate-async compress-gzip compress-gzip-async</PackageTags>
   </PropertyGroup>

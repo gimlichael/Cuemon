@@ -8,7 +8,7 @@
   <PropertyGroup>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <IncludeSymbols>false</IncludeSymbols>
-    <Description>Provides a convenient set of default API additions for building a .NET application.</Description>
+    <Description>Provides a convenient set of default API additions for building a .NET application that favors Newtonsoft.Json.</Description>
   </PropertyGroup>
 
   <ItemGroup>

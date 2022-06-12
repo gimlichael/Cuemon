@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.Collections.Generic</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Collections.Generic</AssemblyTitle>
     <Description>The Cuemon.Extensions.Collections.Generic namespace contains extension methods that complements the Cuemon.Collections.Generic namespace while being an addition to the System.Collections.Generic namespace.</Description>
     <PackageTags>extension-methods extensions to-partitioner chunk shuffle random-or-default yield</PackageTags>
   </PropertyGroup>

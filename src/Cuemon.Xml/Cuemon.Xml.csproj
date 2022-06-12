@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Xml</AssemblyName>
-    <AssemblyTitle>Cuemon.Xml</AssemblyTitle>
     <Description>The Cuemon.Xml namespace contains types related to encoding, converting and serialization. The included lightweight XML serializer framework offers same flexibility as the one provided by the JSON equivalent from Newtonsoft. The namespace is an addition to both System.Xml- and System.Xml.Serialization namespaces.</Description>
     <PackageTags>xml-formatter xml-converter xml-serializer xml-factories</PackageTags>
   </PropertyGroup>

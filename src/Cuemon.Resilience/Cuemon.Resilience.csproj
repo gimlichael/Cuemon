@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Resilience</AssemblyName>
-    <AssemblyTitle>Cuemon.Resilience</AssemblyTitle>
     <Description>The Cuemon.Resilience namespace contains types related to applying transient fault handling to existing code using intuitively named methods taking both Action{..} and Func{..} delegates to provide a lightweight resilience framework.</Description>
     <PackageTags>transient-fault-handling transient-fault-evidence transient-fault-exception transient-operation async-transient-operation latency-exception</PackageTags>
   </PropertyGroup>

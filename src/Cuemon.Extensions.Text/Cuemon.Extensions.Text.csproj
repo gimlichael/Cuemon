@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.Text</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Text</AssemblyTitle>
     <Description>The Cuemon.Extensions.Text namespace contains extension methods that complements the Cuemon.Text namespace while being an addition to the System namespace.</Description>
     <PackageTags>extension-methods extensions to-encoded-string to-ascii-encoded-string</PackageTags>
   </PropertyGroup>

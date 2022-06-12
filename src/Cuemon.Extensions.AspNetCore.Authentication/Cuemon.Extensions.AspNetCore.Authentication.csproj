@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.AspNetCore.Authentication</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.AspNetCore.Authentication</AssemblyTitle>
     <Description>The Cuemon.Extensions.AspNetCore.Authentication namespace contains both types and extension methods that complements the Cuemon.AspNetCore namespace while being an addition to the Microsoft.AspNetCore namespace. Provides an in-memory implementation of a throttling cache for ASP.NET Core.</Description>
     <PackageTags>extension-methods extensions memory-throttling-cache use-hosting-environment-header use-correlation-identifier-header use-request-identifier-header use-user-agent-sentinel use-custom-throttling-sentinel</PackageTags>
   </PropertyGroup>

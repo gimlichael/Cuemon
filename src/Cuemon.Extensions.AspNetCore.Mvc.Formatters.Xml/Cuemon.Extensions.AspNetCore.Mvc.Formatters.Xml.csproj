@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml</AssemblyTitle>
     <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace contains both types and extension methods that complements the Cuemon.Extensions.Xml namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides XML formatters for ASP.NET Core that offers same flexibility as the one provided by the JSON equivalent from Newtonsoft.</Description>
     <PackageTags>extension-methods extensions xml-converters add-xml-serialization-formatters add-xml-formatter-options</PackageTags>
   </PropertyGroup>

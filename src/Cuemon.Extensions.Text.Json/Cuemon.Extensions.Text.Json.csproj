@@ -5,6 +5,11 @@
     <ProjectGuid>a80adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Description>The Cuemon.Extensions.Text.Json namespace contains both types and extension methods that complements the System.Text.Json namespace by adding new ways of working with JSON; both in terms of serialization and parsing.</Description>
+    <PackageTags>extension-methods extensions json-converter json-formatter dynamic-json-converter write-object write-property-name</PackageTags>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />

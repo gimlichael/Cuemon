@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc</AssemblyTitle>
     <Description>The Cuemon.Extensions.AspNetCore.Mvc namespace contains both types and extension methods that complements the Cuemon.AspNetCore.Mvc namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides a set of different cache busting strategies for ASP.NET Core MVC that can be easily customized.</Description>
     <PackageTags>extension-methods extensions add-assembly-cache-busting add-cache-busting add-dynamic-cache-busting use-when make-cacheable</PackageTags>
   </PropertyGroup>

@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Security.Cryptography</AssemblyName>
-    <AssemblyTitle>Cuemon.Security.Cryptography</AssemblyTitle>
     <Description>The Cuemon.Security.Cryptography namespace contains types related to cryptographic hashing (both keyed and non-keyed) and a ready-to-use implementation of the Advanced Encryption Standard (AES) symmetric algorithm. The namespace is an addition to the System.Security.Cryptography namespace.</Description>
     <PackageTags>aes-cryptor keyed-hash-factory hmac unkeyed-hash-factory unkeyed-crypto-hash keyed-crypto-hash hmac-message-digest-5 hmac-md5 hmac-secure-hash-algorithm-1 hmac-sha1 hmac-secure-hash-algorithm-256 hmac-sha256 hmac-secure-hash-algorithm-384 hmac-sha384 hmac-secure-hash-algorithm-512 hmac-sha512 message-digest-5 md5 secure-hash-algorithm-1 sha1 secure-hash-algorithm-256 sha256 secure-hash-algorithm-384 sha384 secure-hash-algorithm-512 sha512</PackageTags>
   </PropertyGroup>

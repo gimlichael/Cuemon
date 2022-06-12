@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.Xml</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Xml</AssemblyTitle>
     <Description>The Cuemon.Extensions.Xml namespace contains extension methods that complements the Cuemon.Xml namespace while being an addition to the System.Xml namespace.</Description>
     <PackageTags>extension-methods extensions to-xml-reader copy-xml-stream try-detect-xml-encoding chunk to-stream write-object is-xml-string try-parse-xelement</PackageTags>
   </PropertyGroup>

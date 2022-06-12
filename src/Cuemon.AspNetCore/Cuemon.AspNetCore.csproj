@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.AspNetCore</AssemblyName>
-    <AssemblyTitle>Cuemon.AspNetCore</AssemblyTitle>
     <Description>The Cuemon.AspNetCore namespace contains types focusing on providing means for easier plumber coding in the ASP.NET Core pipeline while serving some nice of the shell concrete implementation as well. The namespace is an addition to the Microsoft.AspNetCore namespace.</Description>
     <PackageTags>configurable-middleware middleware http-exception-descriptor throttling-sentinel-middleware user-agent-sentinel-middleware request-identifier-middleware correlation-identifier-middleware hosting-environment-middleware server-timing cache-busting middleware-builder-factory</PackageTags>
   </PropertyGroup>
