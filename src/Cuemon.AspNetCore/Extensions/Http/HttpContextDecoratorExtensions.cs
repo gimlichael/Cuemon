@@ -67,7 +67,7 @@ namespace Cuemon.AspNetCore.Http
                     }
                     if (tr.Total > tr.Quota.RateLimit && tr.Expires > utcNow)
                     {
-                        var message = options.ResponseBroker?.Invoke(delta, reset);
+                        var message = options.ResponseHandler?.Invoke(delta, reset);
                         if (message != null)
                         {
                             throw Decorator.Enclose(new ThrottlingException(await message.Content.ReadAsStringAsync().ConfigureAwait(false), tr.Quota.RateLimit, delta, reset))
