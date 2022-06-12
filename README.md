@@ -32,7 +32,7 @@ To consume a CI build, create a `NuGet.Config` in your root solution directory a
   <packageSources>
     <clear />
     <!-- Cuemon CI build feed -->
-    <add key="cuemon" value="https://nuget.cuemon.net/v3/index.json" />
+    <add key="codebelt" value="https://nuget.codebelt.net/v3/index.json" />
     <!-- Defaul nuget feed -->
     <add key="nuget" value="https://api.nuget.org/v3/index.json" />
   </packageSources>

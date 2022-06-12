@@ -17,7 +17,7 @@
                 downloadPath: '$(System.DefaultWorkingDirectory)'
 
             - task: NuGetCommand@2
-              displayName: 'Publish NuGet Packages to https://nuget.cuemon.net/v3/index.json'
+              displayName: 'Publish NuGet Packages to https://nuget.codebelt.net/v3/index.json'
               inputs:
                 command: push
                 packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.nupkg;$(System.DefaultWorkingDirectory)/**/*.snupkg'
