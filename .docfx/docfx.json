@@ -43,6 +43,7 @@
             "Cuemon.Extensions.Reflection/**.csproj",
             "Cuemon.Extensions.Runtime.Caching/**.csproj",
             "Cuemon.Extensions.Text/**.csproj",
+            "Cuemon.Extensions.Text.Json/**.csproj",
             "Cuemon.Extensions.Threading/**.csproj",
             "Cuemon.Extensions.Xml/**.csproj"
           ],
@@ -114,6 +115,7 @@
             "Cuemon.Extensions.AspNetCore/**.csproj",
             "Cuemon.Extensions.AspNetCore.Authentication/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc.RazorPages/**.csproj"
           ],
