@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
-using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Newtonsoft.Json.Formatters;
+using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
+namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters
 {
     public class JsonConverterCollectionExtensionsTest : Test
     {
@@ -70,20 +67,12 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
 
                 Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(HttpExceptionDescriptor))), jc =>
                 {
-                    var result = StreamFactory.Create(writer =>
-                    {
-                        var js = JsonSerializer.Create(sut2.Settings);
-                        using (var jsonWriter = new JsonTextWriter(writer))
-                        {
-                            jsonWriter.CloseOutput = false;
-                            js.Serialize(jsonWriter, sut1);
-                        }
-                    });
+                    var jf = new JsonFormatter(sut2);
 
-                    var json = result.ToEncodedString();
+                    var result = jf.Serialize(sut1);
 
-                    Assert.True(jc.CanWrite);
-                    Assert.False(jc.CanRead);
+                    var json = result.ToEncodedString(o => o.LeaveOpen = true);
+
                     Assert.True(jc.CanConvert(typeof(HttpExceptionDescriptor)));
 
                     Assert.Contains("\"error\":", json);
@@ -99,24 +88,24 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                     {
                         Assert.Contains("\"failure\":", json);
                         Assert.Contains("\"type\": \"System.OutOfMemoryException\"", json);
-                        Assert.Contains("\"source\": \"Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Tests\"", json);
+                        Assert.Contains("\"source\": \"Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Tests\"", json);
                         Assert.Contains("\"message\": \"Insufficient memory to continue the execution of the program.\"", json);
                     }, () =>
                     {
                         Assert.DoesNotContain("\"failure\":", json);
                         Assert.DoesNotContain("\"type\": \"System.OutOfMemoryException\"", json);
-                        Assert.DoesNotContain("\"source\": \"Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Tests\"", json);
+                        Assert.DoesNotContain("\"source\": \"Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Tests\"", json);
                         Assert.DoesNotContain("\"message\": \"Insufficient memory to continue the execution of the program.\"", json);
                     });
 
                     Condition.FlipFlop(includeExceptionStackTrace, () =>
                     {
                         Assert.Contains("\"stack\":", json);
-                        Assert.Contains("\"at Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters.JsonConverterCollectionExtensionsTest.AddHttpExceptionDescriptorConverter_ShouldAddHttpExceptionDescriptorToConverterCollection", json);
+                        Assert.Contains("\"at Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters.JsonConverterCollectionExtensionsTest.AddHttpExceptionDescriptorConverter_ShouldAddHttpExceptionDescriptorToConverterCollection", json);
                     }, () =>
                     {
                         Assert.DoesNotContain("\"stack\":", json);
-                        Assert.DoesNotContain("\"at Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters.JsonConverterCollectionExtensionsTest.AddHttpExceptionDescriptorConverter_ShouldAddHttpExceptionDescriptorToConverterCollection", json);
+                        Assert.DoesNotContain("\"at Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters.JsonConverterCollectionExtensionsTest.AddHttpExceptionDescriptorConverter_ShouldAddHttpExceptionDescriptorToConverterCollection", json);
                     });
 
                     Condition.FlipFlop(includeExceptionDescriptorEvidence, () =>
@@ -152,20 +141,12 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
 
             Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(StringValues))), jc =>
             {
-                var result = StreamFactory.Create(writer =>
-                {
-                    var js = JsonSerializer.Create(sut2.Settings);
-                    using (var jsonWriter = new JsonTextWriter(writer))
-                    {
-                        jsonWriter.CloseOutput = false;
-                        js.Serialize(jsonWriter, sut1);
-                    }
-                });
+                var jf = new JsonFormatter(sut2);
 
-                var json = result.ToEncodedString();
+                var result = jf.Serialize(sut1);
 
-                Assert.True(jc.CanWrite);
-                Assert.False(jc.CanRead);
+                var json = result.ToEncodedString(o => o.LeaveOpen = true);
+
                 Assert.True(jc.CanConvert(typeof(StringValues)));
 
                 Assert.Contains("[", json);
