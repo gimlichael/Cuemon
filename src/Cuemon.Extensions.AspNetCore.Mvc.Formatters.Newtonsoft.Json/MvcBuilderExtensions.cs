@@ -25,7 +25,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <exception cref="ArgumentNullException">
         /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddNewtonsoftJsonSerializationFormatters(this IMvcBuilder builder)
+        public static IMvcBuilder AddNewtonsoftJsonFormatters(this IMvcBuilder builder)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
@@ -42,11 +42,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddNewtonsoftJsonSerializationFormatters(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
+        public static IMvcBuilder AddNewtonsoftJsonFormatters(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            AddNewtonsoftJsonSerializationFormatters(builder);
-            AddJsonFormatterOptions(builder, setup);
+            AddNewtonsoftJsonFormatters(builder);
+            AddNewtonsoftJsonFormattersOptions(builder, setup);
             return builder;
         }
 
@@ -60,7 +60,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddJsonFormatterOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
+        public static IMvcBuilder AddNewtonsoftJsonFormattersOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             Validator.ThrowIfNull(setup, nameof(setup));

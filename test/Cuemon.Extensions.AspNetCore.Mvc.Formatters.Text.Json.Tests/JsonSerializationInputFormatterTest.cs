@@ -57,7 +57,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddJsonSerializationFormatters();
+                    .AddJsonFormatters();
             }))
             {
                 var wf = new WeatherForecast();

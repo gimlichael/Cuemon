@@ -25,7 +25,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
         /// <exception cref="ArgumentNullException">
         /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddJsonSerializationFormatters(this IMvcBuilder builder)
+        public static IMvcBuilder AddJsonFormatters(this IMvcBuilder builder)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
@@ -42,11 +42,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddJsonSerializationFormatters(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
+        public static IMvcBuilder AddJsonFormatters(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            builder.AddJsonSerializationFormatters();
-            builder.AddJsonFormatterOptions(setup);
+            builder.AddJsonFormatters();
+            builder.AddJsonFormattersOptions(setup);
             return builder;
         }
 
@@ -60,7 +60,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddJsonFormatterOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
+        public static IMvcBuilder AddJsonFormattersOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             Validator.ThrowIfNull(setup, nameof(setup));

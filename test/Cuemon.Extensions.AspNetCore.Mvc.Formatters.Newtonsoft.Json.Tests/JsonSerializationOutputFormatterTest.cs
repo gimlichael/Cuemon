@@ -54,7 +54,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();

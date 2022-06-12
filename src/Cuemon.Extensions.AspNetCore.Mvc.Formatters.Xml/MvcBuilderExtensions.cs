@@ -25,7 +25,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// <exception cref="ArgumentNullException">
         /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddXmlSerializationFormatters(this IMvcBuilder builder)
+        public static IMvcBuilder AddXmlFormatters(this IMvcBuilder builder)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, XmlSerializationMvcOptionsSetup>());
@@ -42,11 +42,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddXmlSerializationFormatters(this IMvcBuilder builder, Action<XmlFormatterOptions> setup)
+        public static IMvcBuilder AddXmlFormatters(this IMvcBuilder builder, Action<XmlFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
-            AddXmlSerializationFormatters(builder);
-            AddXmlFormatterOptions(builder, setup);
+            AddXmlFormatters(builder);
+            AddXmlFormattersOptions(builder, setup);
             return builder;
         }
 
@@ -61,7 +61,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddXmlFormatterOptions(this IMvcBuilder builder, Action<XmlFormatterOptions> setup)
+        public static IMvcBuilder AddXmlFormattersOptions(this IMvcBuilder builder, Action<XmlFormatterOptions> setup)
         {
             Validator.ThrowIfNull(builder, nameof(builder));
             Validator.ThrowIfNull(setup, nameof(setup));

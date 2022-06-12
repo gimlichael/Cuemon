@@ -34,7 +34,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 services.Configure<FaultDescriptorOptions>(o => o.UseBaseException = useBaseException);
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -94,11 +94,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                    {
                        services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                            .AddNewtonsoftJson()
-                           .AddJsonFormatterOptions(o =>
+                           .AddNewtonsoftJsonFormattersOptions(o =>
                            {
                                o.IncludeExceptionDescriptorFailure = false;
                            })
-                           .AddNewtonsoftJsonSerializationFormatters();
+                           .AddNewtonsoftJsonFormatters();
                    }))
             {
                 var client = filter.Host.GetTestClient();
@@ -125,11 +125,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -161,11 +161,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -197,11 +197,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -233,11 +233,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -269,11 +269,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -305,8 +305,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -338,8 +338,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -371,8 +371,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -404,8 +404,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -437,8 +437,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -470,8 +470,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -503,8 +503,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -536,8 +536,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -567,8 +567,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddNewtonsoftJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
