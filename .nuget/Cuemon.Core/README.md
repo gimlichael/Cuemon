@@ -27,6 +27,7 @@ More documentation available at [Cuemon for .NET documentation](https://docs.cue
 * [Cuemon.Extensions.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/) 📦
+* [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.RazorPages](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.RazorPages/) 📦
 * [Cuemon.Extensions.Collections.Generic](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Generic/) 📦
@@ -44,6 +45,7 @@ More documentation available at [Cuemon for .NET documentation](https://docs.cue
 * [Cuemon.Extensions.Reflection](https://www.nuget.org/packages/Cuemon.Extensions.Reflection/) 📦
 * [Cuemon.Extensions.Runtime.Caching](https://www.nuget.org/packages/Cuemon.Extensions.Runtime.Caching/) 📦
 * [Cuemon.Extensions.Text](https://www.nuget.org/packages/Cuemon.Extensions.Text/) 📦
+* [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
 * [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/) 📦
 * [Cuemon.Extensions.Xunit](https://www.nuget.org/packages/Cuemon.Extensions.Xunit/) 📦
