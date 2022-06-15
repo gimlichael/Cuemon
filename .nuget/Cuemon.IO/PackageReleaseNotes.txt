@@ -1,4 +1,13 @@
-﻿Version: 6.4.1
+﻿Version: 7.0.0
+Availability: .NET Standard 2.0, .NET Standard 2.1, .NET 5.0, .NET 6.0
+ 
+# New Features
+- ADDED BufferWriterOptions class in the Cuemon.IO namespace that specifies options that is related to the IBufferWriter interface
+ 
+# Improvements
+- CHANGED StreamFactory class in the Cuemon.IO namespace to include five new overloaded methods that accept an IBufferWriter{byte} as the first argument
+ 
+Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Standard 2.1, .NET 5.0, .NET 6.0
  
 # ALM
