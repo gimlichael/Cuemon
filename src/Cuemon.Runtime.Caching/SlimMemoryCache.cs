@@ -15,7 +15,7 @@ namespace Cuemon.Runtime.Caching
     /// <seealso cref="ICacheEnumerable{Int64}" />
     public class SlimMemoryCache : Disposable, ICacheEnumerable<long>
     {
-        private readonly ConcurrentDictionary<long, CacheEntry> _innerCaches = new ConcurrentDictionary<long, CacheEntry>();
+        private readonly ConcurrentDictionary<long, CacheEntry> _innerCaches = new();
         private readonly Timer _expirationTimer;
 
         /// <summary>

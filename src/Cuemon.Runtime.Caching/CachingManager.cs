@@ -8,7 +8,7 @@ namespace Cuemon.Runtime.Caching
     /// </summary>
     public static class CachingManager
     {
-        private static readonly Lazy<SlimMemoryCache> Singleton = new Lazy<SlimMemoryCache>(LazyThreadSafetyMode.ExecutionAndPublication);
+        private static readonly Lazy<SlimMemoryCache> Singleton = new(LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Gets a singleton instance of <see cref="SlimMemoryCache"/> that is an in-memory cache for an application.
