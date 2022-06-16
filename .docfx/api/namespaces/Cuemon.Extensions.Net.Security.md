@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Net.Security namespace contains extension methods that provides a generic way to make a Uniform Resource Identifier signed and tampering protected. This could be used to make your own lightweight concept of a Azure shared access signatures (SAS). Originally part of Cuemon .NET Framework: https://github.com/gimlichael/CuemonNetFramework/blob/master/Cuemon.Web/Security/WebSecurityUtility.cs. Greatly simplified anno 2020.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 ## Github branches 🖇️
 

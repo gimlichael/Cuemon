@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.DependencyInjection namespace contains extension methods that complements the Microsoft.Extensions.DependencyInjection namespace.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [Microsoft.Extensions.DependencyInjection namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection?view=dotnet-plat-ext-2.0) 🔗
 

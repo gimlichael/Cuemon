@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Http.Headers namespace contains types that provides a set of middleware components tied to HTTP headers. The namespace is an addition to the Microsoft.AspNetCore.Http.Headers namespace.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Http.Headers namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.headers?view=aspnetcore-2.0) 🔗
 

@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Mvc.Filters.Throttling namespace contains types that provides filter based throttling mechanism by specifying allowed quota and window duration of HTTP requests tied to a custom context (eg. IP-address, Authorization header, etc.). The namespace is an addition to the Microsoft.AspNetCore.Mvc.Filters namespace.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Mvc.Filters namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters?view=aspnetcore-2.0) 🔗
 

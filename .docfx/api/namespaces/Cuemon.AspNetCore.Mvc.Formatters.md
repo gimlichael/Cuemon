@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore,Mvc.Formatters namespace contains types that customizes working with both TextInputFormatter and TextOutputFormatter. The namespace is an addition to the Microsoft.AspNetCore.Mvc.Formatters namespace.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Mvc.Formatters namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.formatters?view=aspnetcore-2.0) 🔗
 

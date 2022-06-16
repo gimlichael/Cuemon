@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Http namespace contains types focusing on ways to provide developer friendly exception messages optimized for open- and otherwise public application programming interfaces (API). The namespace is an addition to the Microsoft.AspNetCore.Http namespace.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Http namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http?view=aspnetcore-2.0) 🔗
 

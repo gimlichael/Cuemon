@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.AspNetCore.Mvc.Rendering namespace contains extension methods that complements the Microsoft.AspNetCore.Mvc.Rendering namespace.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Mvc.Rendering namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.rendering?view=aspnetcore-3.0) 🔗
 

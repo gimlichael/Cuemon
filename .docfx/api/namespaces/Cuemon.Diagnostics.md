@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Diagnostics namespace contains types that provide ways for developers to describe exceptions including evidence to why an operation faulted. Also includes a flexible, generic and lambda friendly way to perform both synchronous and asynchronous time measuring operations. The namespace is an addition to the System.Diagnostics namespace.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [System.Diagnostics namespace](https://docs.microsoft.com/en-us/dotnet/api/system.Diagnostics?view=netstandard-2.0) 🔗
 

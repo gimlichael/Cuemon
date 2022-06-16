@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Xml.Linq namespace contains types that is used internally by this and related assemblies and is not intended to be used directly from your code. The namespace is an addition to the System.Xml.Linq namespace.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [System.Xml.Linq namespace](https://docs.microsoft.com/en-us/dotnet/api/system.xml.linq?view=netstandard-2.0) 🔗
 
