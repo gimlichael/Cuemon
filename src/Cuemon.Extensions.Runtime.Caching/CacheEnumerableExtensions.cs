@@ -731,8 +731,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             foreach (var arg in args)
             {
                 var current = arg ?? MemoizationNullHashCode;
-                var bytes = current as byte[];
-                result ^= bytes == null
+                result ^= current is not byte[] bytes
                     ? current.GetHashCode()
                     : Generate.HashCode32(bytes.Cast<IConvertible>());
             }
