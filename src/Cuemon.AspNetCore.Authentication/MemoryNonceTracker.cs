@@ -13,7 +13,7 @@ namespace Cuemon.AspNetCore.Authentication
     /// <seealso cref="INonceTracker" />
     public class MemoryNonceTracker : Disposable, INonceTracker
     {
-        private readonly ConcurrentDictionary<string, NonceTrackerEntry> _entries = new ConcurrentDictionary<string, NonceTrackerEntry>();
+        private readonly ConcurrentDictionary<string, NonceTrackerEntry> _entries = new();
         private readonly Timer _expirationTimer;
 
         /// <summary>
