@@ -5,7 +5,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 {
     internal static class Bootstrapper
     {
-        private static readonly object PadLock = new object();
+        private static readonly object PadLock = new();
         private static bool _initialized = false;
 
         internal static void Initialize()
