@@ -1,12 +1,5 @@
-﻿
-Version: 7.0.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
+﻿Version: 7.0.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0
  
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFM
@@ -29,6 +22,6 @@ Version: 6.0.0
 Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
  
 # New Features
-- Added extension methods for IHostEnvironment: IsLocalDevelopment and IsNonProduction
-- Added extension methods for IHostingEnvironment: IsLocalDevelopment and IsNonProduction
+- ADDED HostEnvironmentExtensions class in the Cuemon.Extensions.Hosting namespace that consist of extension methods for the IHostEnvironment interface: IsLocalDevelopment and IsNonProduction
+- ADDED HostingEnvironmentExtensions class in the Cuemon.Extensions.Hosting namespace that consist of extension methods for the IHostingEnvironment interface: IsLocalDevelopment and IsNonProduction
 - ADDED Environments class in the Cuemon.Extensions.Hosting namespace that provides a set of constants for commonly used environment names

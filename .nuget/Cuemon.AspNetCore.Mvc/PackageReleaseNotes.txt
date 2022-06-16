@@ -1,10 +1,10 @@
 ﻿Version: 7.0.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0
  
 # Breaking Changes
 - MOVED HttpContextItemsKeyForCapturedRequestBody string constant from FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to the HttpRequestEvidence class in the Cuemon.AspNetCore.Diagnostics namespace (Cuemon.AspNetCore)
 - CHANGED FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to include a reference to HttpContext from the ExceptionCallback delegate
-- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to inherit from FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics
+- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to inherit from FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace
 - MOVED HttpFaultResolver class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to a better suited namespace Cuemon.AspNetCore.Diagnostics (Cuemon.AspNetCore)
 - MOVED HttpRequestEvidence class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to a better suited namespace Cuemon.AspNetCore.Diagnostics (Cuemon.AspNetCore)
  

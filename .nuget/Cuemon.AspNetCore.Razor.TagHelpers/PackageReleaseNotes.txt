@@ -1,5 +1,5 @@
 ﻿Version: 7.0.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0
  
 # Breaking Changes
 - REMOVED CdnTagHelper class from the Cuemon.AspNetCore.Razor.TagHelpers namespace
