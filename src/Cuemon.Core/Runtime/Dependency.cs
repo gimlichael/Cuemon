@@ -12,7 +12,7 @@ namespace Cuemon.Runtime
     {
         private IEnumerable<IWatcher> _watchers;
         private readonly Func<EventHandler<WatcherEventArgs>, IEnumerable<IWatcher>> _watchersHandler;
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Dependency" /> class.

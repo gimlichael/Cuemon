@@ -12,7 +12,7 @@ namespace Cuemon
     /// </summary>
     public sealed class Validator
     {
-        private static readonly Validator ExtendedValidator = new Validator();
+        private static readonly Validator ExtendedValidator = new();
 
         /// <summary>
         /// Gets the singleton instance of the Validator functionality allowing for extensions methods like: <c>Validator.ThrowIf.InvalidJsonDocument()</c>.

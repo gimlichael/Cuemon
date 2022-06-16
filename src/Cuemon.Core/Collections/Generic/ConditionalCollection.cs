@@ -12,7 +12,7 @@ namespace Cuemon.Collections.Generic
     /// <seealso cref="ICollection{T}" />
     public abstract class ConditionalCollection<T> : ICollection<T>
     {
-        private readonly List<T> _wrapper = new List<T>();
+        private readonly List<T> _wrapper = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionalCollection{T}"/> class.

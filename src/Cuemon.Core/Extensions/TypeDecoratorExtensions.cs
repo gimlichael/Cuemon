@@ -17,7 +17,7 @@ namespace Cuemon
     /// <seealso cref="Decorator{T}"/>
     public static class TypeDecoratorExtensions
     {
-        private static ConcurrentDictionary<string, bool> ComplexValueTypeLookup { get; } = new ConcurrentDictionary<string, bool>();
+        private static ConcurrentDictionary<string, bool> ComplexValueTypeLookup { get; } = new();
 
         /// <summary>
         /// Retrieves a collection that represents all the properties defined on the enclosed <see cref="Type"/> of the <paramref name="decorator"/> except those defined on <typeparamref name="T"/>.

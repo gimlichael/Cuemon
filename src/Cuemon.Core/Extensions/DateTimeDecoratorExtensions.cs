@@ -12,7 +12,7 @@ namespace Cuemon
         /// <summary>
         /// A <see cref="DateTime"/> initialized to midnight, January 1st, 1970 in Coordinated Universal Time (UTC).
         /// </summary>
-        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime UnixEpoch = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Gets a <see cref="DateTime"/> initialized to midnight, January 1st, 1970 in Coordinated Universal Time (UTC).
