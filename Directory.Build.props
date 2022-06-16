@@ -34,6 +34,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly Condition="'$(TF_BUILD)' == 'true' OR '$(IsMainAuthor)' == 'true'">true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
+    <NoWarn>7035</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsMainAuthor)' == 'true' AND '$(IsTestProject)' == 'false' AND '$(TF_BUILD)' != 'true'">
