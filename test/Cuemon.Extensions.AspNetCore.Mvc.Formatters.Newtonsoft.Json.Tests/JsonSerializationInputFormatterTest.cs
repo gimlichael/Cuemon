@@ -66,13 +66,14 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
                 var stream = formatter.Serialize(wf);
                 var client = filter.Host.GetTestClient();
 
-                var result = await client.PostAsync("/fake", new StringContent(stream.ToEncodedString(), Encoding.UTF8, "application/json"));
+                var result = await client.PostAsync("/fake", new StringContent(stream.ToEncodedString(o => o.LeaveOpen = true), Encoding.UTF8, "application/json"));
                 var model = await result.Content.ReadAsStringAsync();
 
-                Assert.Contains($"\"date\": \"{wf.Date.ToString("O", CultureInfo.InvariantCulture)}\"", model);
-                Assert.Contains($"\"temperatureC\": {wf.TemperatureC}", model);
-                Assert.Contains($"\"temperatureF\": {wf.TemperatureF}", model);
-                Assert.Contains($"\"summary\": \"{wf.Summary}", model);
+                TestOutput.WriteLine(stream.ToEncodedString(o => o.LeaveOpen = true));
+                TestOutput.WriteLine("---");
+                TestOutput.WriteLine(model);
+
+                Assert.Equal(stream.ToEncodedString(), model, ignoreLineEndingDifferences: true);
 
                 Assert.Equal(StatusCodes.Status201Created, (int)result.StatusCode);
                 Assert.Equal(HttpMethod.Post, result.RequestMessage.Method);
