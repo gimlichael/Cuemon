@@ -35,10 +35,10 @@ namespace Cuemon.Data
 
         private void Init()
         {
-            foreach (var mapping in Mappings)
+            foreach (var mapping in Mappings.Select(mapping => mapping.Source))
             {
-                if (string.IsNullOrEmpty(mapping.Source)) { continue; }
-                Fields.Add(mapping.Source, null);
+                if (string.IsNullOrEmpty(mapping)) { continue; }
+                Fields.Add(mapping, null);
             }
             if (Fields.Count > 0 &&
                 Fields.Count != Mappings.Count) { throw new InvalidOperationException("Mappings must be either all name or all ordinal based."); }
