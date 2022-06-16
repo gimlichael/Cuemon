@@ -52,7 +52,7 @@ namespace Cuemon
         /// <value><c>true</c> if this instance has any children; otherwise, <c>false</c>.</value>
         public bool HasChildren => (Children.Count > 0);
 
-        private SortedList<int, IHierarchy<T>> Children => _children ?? (_children = new SortedList<int, IHierarchy<T>>());
+        private SortedList<int, IHierarchy<T>> Children => _children ??= new SortedList<int, IHierarchy<T>>();
 
         private IHierarchy<T> Parent { get; set; }
 
@@ -215,7 +215,7 @@ namespace Cuemon
     }
 
     /// <summary>
-    /// Provides a set of static methods for hierarchy releated operations.
+    /// Provides a set of static methods for hierarchy related operations.
     /// </summary>
     public static class Hierarchy
     {
