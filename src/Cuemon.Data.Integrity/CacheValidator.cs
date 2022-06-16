@@ -44,7 +44,7 @@ namespace Cuemon.Data.Integrity
         /// </exception>
         public static Assembly AssemblyReference
         {
-            get => _assemblyValue ?? (_assemblyValue = LazyAssembly.Value);
+            get => _assemblyValue ??= LazyAssembly.Value;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));

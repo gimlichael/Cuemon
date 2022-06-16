@@ -45,7 +45,7 @@ namespace Cuemon.Data.Integrity
         /// Gets a <see cref="HashResult"/> containing a computed hash value of the data this instance represents.
         /// </summary>
         /// <value>A <see cref="HashResult"/> containing a computed hash value of the data this instance represents.</value>
-        public HashResult Checksum => ComputedHash ?? (ComputedHash = HashFactory.Invoke().ComputeHash(Bytes.ToArray()));
+        public HashResult Checksum => ComputedHash ??= HashFactory.Invoke().ComputeHash(Bytes.ToArray());
 
         /// <summary>
         /// Gets or sets the computed checksum of <see cref="Bytes"/>.
