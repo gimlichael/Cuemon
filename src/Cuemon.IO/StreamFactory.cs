@@ -115,37 +115,6 @@ namespace Cuemon.IO
             return CreateStreamCore(factory, setup);
         }
 
-        private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : Template<StreamWriter>
-        {
-            var options = Patterns.Configure(setup);
-            return Patterns.SafeInvoke(() => new MemoryStream(options.BufferSize), (ms, f) =>
-            {
-                var writer = new InternalStreamWriter(ms, options);
-
-                f.GenericArguments.Arg1 = writer;
-                f.ExecuteMethod();
-                writer.Flush();
-
-                ms.Flush();
-                ms.Position = 0;
-                if (options.Preamble == PreambleSequence.Remove)
-                {
-                    var preamble = options.Encoding.GetPreamble();
-                    if (preamble.Length > 0)
-                    {
-                        return ByteOrderMark.Remove(ms, options.Encoding) as MemoryStream;
-                    }
-                }
-                return ms;
-            }, factory, (ex, f) =>
-            {
-                var parameters = new List<object>();
-                parameters.AddRange(f.GenericArguments.ToArray());
-                parameters.Add(options);
-                throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the Stream being written.", ex), f.DelegateInfo, parameters.ToArray());
-            });
-        }
-
         #if NETSTANDARD2_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
         /// <summary>
         /// Creates and returns a <see cref="Stream"/> by the specified delegate <paramref name="writer"/>.
@@ -280,5 +249,36 @@ namespace Cuemon.IO
             });
         }
         #endif
+
+        private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : Template<StreamWriter>
+        {
+            var options = Patterns.Configure(setup);
+            return Patterns.SafeInvoke(() => new MemoryStream(options.BufferSize), (ms, f) =>
+            {
+                var writer = new InternalStreamWriter(ms, options);
+
+                f.GenericArguments.Arg1 = writer;
+                f.ExecuteMethod();
+                writer.Flush();
+
+                ms.Flush();
+                ms.Position = 0;
+                if (options.Preamble == PreambleSequence.Remove)
+                {
+                    var preamble = options.Encoding.GetPreamble();
+                    if (preamble.Length > 0)
+                    {
+                        return ByteOrderMark.Remove(ms, options.Encoding) as MemoryStream;
+                    }
+                }
+                return ms;
+            }, factory, (ex, f) =>
+            {
+                var parameters = new List<object>();
+                parameters.AddRange(f.GenericArguments.ToArray());
+                parameters.Add(options);
+                throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the Stream being written.", ex), f.DelegateInfo, parameters.ToArray());
+            });
+        }
     }
 }
