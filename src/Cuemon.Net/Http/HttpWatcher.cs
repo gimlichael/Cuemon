@@ -13,7 +13,7 @@ namespace Cuemon.Net.Http
     /// <seealso cref="Watcher" />
     public class HttpWatcher : Watcher
     {
-        private readonly SemaphoreSlim _asyncLocker = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim _asyncLocker = new(1, 1);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpWatcher"/> class.
