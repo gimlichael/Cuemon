@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Http
     /// <seealso cref="Decorator{T}"/>
     public static class HttpContextDecoratorExtensions
     {
-        private static readonly SemaphoreSlim ThrottleLocker = new SemaphoreSlim(1);
+        private static readonly SemaphoreSlim ThrottleLocker = new(1);
 
         /// <summary>
         /// Common throttler operation logic for ASP.NET Core and ASP.NET Core MVC. Not intended to be used directly from your code.
