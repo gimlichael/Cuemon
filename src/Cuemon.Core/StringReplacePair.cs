@@ -171,8 +171,8 @@ namespace Cuemon
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is StringReplacePair)) { return false; }
-            return Equals((StringReplacePair)obj);
+            if (obj is not StringReplacePair pair) { return false; }
+            return Equals(pair);
         }
 
         /// <summary>

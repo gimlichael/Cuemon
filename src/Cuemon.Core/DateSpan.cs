@@ -188,8 +188,8 @@ namespace Cuemon
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is DateSpan)) { return false; }
-            return Equals((DateSpan)obj);
+            if (obj is not DateSpan span) { return false; }
+            return Equals(span);
         }
 
         /// <summary>
