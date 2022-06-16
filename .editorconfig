@@ -3,3 +3,6 @@ dotnet_diagnostic.IDE0057.severity = none
 
 [*.{cs,vb}]
 dotnet_diagnostic.IDE0066.severity = none
+
+[*.{cs,vb}]
+dotnet_analyzer_diagnostic.category-Performance.severity = none # Because many of the suggestions by performance analyzers are not compatible with .NET Standard 2.0
