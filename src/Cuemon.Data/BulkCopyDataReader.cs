@@ -158,31 +158,28 @@ namespace Cuemon.Data
         /// <returns><c>true</c> if there are more rows; otherwise, <c>false</c>.</returns>
         public override bool Read()
         {
-            if (Reader.Read())
+            if (!Reader.Read()) { return false; }
+            var fields = GetDefault();
+            for (var i = 0; i < Reader.FieldCount; i++)
             {
-                var fields = GetDefault();
-                for (var i = 0; i < Reader.FieldCount; i++)
+                if (UseOrdinal)
                 {
-                    if (UseOrdinal)
+                    if (fields.Contains(i))
                     {
-                        if (fields.Contains(i))
-                        {
-                            fields[i] = Reader[i];
-                        }
-                    }
-                    else
-                    {
-                        if (IsMatch(Reader.GetName(i)) && fields.Contains(Reader.GetName(i)))
-                        {
-                            fields[Reader.GetName(i)] = Reader[Reader.GetName(i)];
-                        }
+                        fields[i] = Reader[i];
                     }
                 }
-                RowCount++;
-                SetFields(fields);
-                return true;
+                else
+                {
+                    if (IsMatch(Reader.GetName(i)) && fields.Contains(Reader.GetName(i)))
+                    {
+                        fields[Reader.GetName(i)] = Reader[Reader.GetName(i)];
+                    }
+                }
             }
-            return false;
+            RowCount++;
+            SetFields(fields);
+            return true;
         }
 
         private bool IsMatch(string localName)
