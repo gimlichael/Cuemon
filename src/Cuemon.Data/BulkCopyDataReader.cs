@@ -14,7 +14,7 @@ namespace Cuemon.Data
     /// </summary>
     public sealed class BulkCopyDataReader : DbDataReader
     {
-        private static readonly object PadLock = new object();
+        private static readonly object PadLock = new();
         private IOrderedDictionary _defaultFields;
 
         /// <summary>
