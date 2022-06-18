@@ -23,11 +23,11 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="AllowedUserAgents"/></term>
-        ///         <description><c>new List{string{>}();</c></description>
+        ///         <description><c>new List{string}();</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="BadRequestMessage"/></term>
-        ///         <description>The requirements of the HTTP User-Agent header was not met.</description>
+        ///         <description>The requirements of the request was not met.</description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ForbiddenMessage"/></term>
@@ -53,8 +53,8 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </remarks>
         public UserAgentSentinelOptions()
         {
-            BadRequestMessage = "The requirements of the HTTP User-Agent header was not met.";
-            ForbiddenMessage = "The HTTP User-Agent specified was rejected.";
+            BadRequestMessage = "The requirements of the request was not met.";
+            ForbiddenMessage = "The User-Agent specified was rejected.";
             AllowedUserAgents = new List<string>();
             ResponseHandler = userAgent =>
             {
