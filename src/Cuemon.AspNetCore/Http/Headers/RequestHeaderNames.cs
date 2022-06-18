@@ -275,5 +275,15 @@
         /// </summary>
         /// <remarks>https://stackoverflow.com/questions/56068619/should-i-use-request-id-x-request-id-or-x-correlation-id-in-the-request-header</remarks>
         public const string XRequestId = "X-Request-ID";
+
+        /// <summary>
+        /// The de facto standard <c>X-Api-Key</c> request HTTP header name.
+        /// </summary>
+        /// <remarks>
+        /// X-Api-Key should not be used as authentication/authorization; it is merely a convenient first-line-of-defense in protecting your APIs.
+        /// Any use of X-Api-Key in this framework will result in 403 Forbidden - and not 401 Unauthorized; for 401 you should use well-known authentication schemes. 
+        /// Further info: https://aws.amazon.com/premiumsupport/knowledge-center/api-gateway-troubleshoot-403-forbidden/
+        /// </remarks>
+        public const string XApiKey = "X-Api-Key";
     }
 }

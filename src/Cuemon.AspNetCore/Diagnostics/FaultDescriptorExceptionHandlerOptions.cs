@@ -60,6 +60,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 .AddHttpFaultResolver<TooManyRequestsException>()
                 .AddHttpFaultResolver<UnauthorizedException>()
                 .AddHttpFaultResolver<UnsupportedMediaTypeException>()
+                .AddHttpFaultResolver<ApiKeyException>()
                 .AddHttpFaultResolver<ThrottlingException>()
                 .AddHttpFaultResolver<UserAgentException>()
                 .AddHttpFaultResolver<ValidationException>(StatusCodes.Status400BadRequest)

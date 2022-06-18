@@ -102,5 +102,21 @@ namespace Cuemon.AspNetCore.Http
                 }
             }
         }
+
+        /// <summary>
+        /// Common API key logic for ASP.NET Core and ASP.NET Core MVC. Not intended to be used directly from your code.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{HttpContext}"/> to extend.</param>
+        /// <param name="options">The configured options.</param>
+        public static async Task InvokeApiKeySentinelAsync(this IDecorator<HttpContext> decorator, ApiKeySentinelOptions options)
+        {
+            var apiKey = decorator.Inner.Request.Headers[options.HeaderName].FirstOrDefault();
+            var message = options.ResponseHandler?.Invoke(apiKey);
+            if (message != null)
+            {
+                throw Decorator.Enclose(new ApiKeyException((int)message.StatusCode, await message.Content.ReadAsStringAsync().ConfigureAwait(false)))
+                    .AddResponseHeaders(decorator.Inner.Response.Headers).Inner;
+            }
+        }
     }
 }

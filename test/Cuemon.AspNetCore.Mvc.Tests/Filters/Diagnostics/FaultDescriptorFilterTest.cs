@@ -107,7 +107,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
                 TestOutput.WriteLine(body);
 
-                Assert.Equal(@"BadRequest: The requirements of the HTTP User-Agent header was not met.
+                Assert.Equal(@"BadRequest: The requirements of the request was not met.
 ", body);
                 Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(400), result.ReasonPhrase);
