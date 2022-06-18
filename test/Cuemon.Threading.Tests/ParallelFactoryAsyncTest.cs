@@ -86,7 +86,7 @@ namespace Cuemon.Threading
         [Fact]
         public async Task ForAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
-            var count = 16384;
+            var count = 8192;
             var expected = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
@@ -167,7 +167,7 @@ namespace Cuemon.Threading
         public async Task ForResultAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var cb = new ConcurrentBag<int>();
 
             var result = await ParallelFactory.ForResultAsync(0, count, async (i, ct) =>
@@ -252,7 +252,7 @@ namespace Cuemon.Threading
         public async Task ForEachAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
@@ -340,7 +340,7 @@ namespace Cuemon.Threading
         public async Task ForEachResultAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
@@ -429,7 +429,7 @@ namespace Cuemon.Threading
         public async Task WhileAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
             var cb = new ConcurrentBag<int>();
@@ -521,7 +521,7 @@ namespace Cuemon.Threading
         public async Task WhileResultAsync_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
             var cb = new ConcurrentBag<int>();

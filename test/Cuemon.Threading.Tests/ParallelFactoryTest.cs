@@ -95,7 +95,7 @@ namespace Cuemon.Threading
         public void For_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var expected = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
@@ -188,7 +188,7 @@ namespace Cuemon.Threading
         public void ForResult_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var cb = new ConcurrentBag<int>();
 
             var result = ParallelFactory.ForResult(0, count, i =>
@@ -281,7 +281,7 @@ namespace Cuemon.Threading
         public void ForEach_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
@@ -377,7 +377,7 @@ namespace Cuemon.Threading
         public void ForEachResult_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var ic = Generate.RangeOf(count, i => i);
             var cb = new ConcurrentBag<int>();
 
@@ -473,7 +473,7 @@ namespace Cuemon.Threading
         public void While_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
             var cb = new ConcurrentBag<int>();
@@ -573,7 +573,7 @@ namespace Cuemon.Threading
         public void WhileResult_ShouldRunConcurrent_LongRunning_ExtremePartition()
         {
             var cts = new CancellationTokenSource(_maxAllowedTestTime);
-            var count = 16384;
+            var count = 8192;
             var expected = Generate.RangeOf(count, i => i);
             var ic = new Queue<int>(expected);
             var cb = new ConcurrentBag<int>();
