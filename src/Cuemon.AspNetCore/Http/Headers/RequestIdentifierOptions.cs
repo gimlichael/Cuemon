@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="HeaderName"/></term>
-        ///         <description><c>X-Request-ID</c></description>
+        ///         <description><see cref="RequestHeaderNames.XRequestId"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="RequestProvider"/></term>
@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </remarks>
         public RequestIdentifierOptions()
         {
-            HeaderName = "X-Request-ID";
+            HeaderName = RequestHeaderNames.XRequestId;
             RequestProvider = () => DynamicRequest.Create(Guid.NewGuid().ToString("N"));
         }
 

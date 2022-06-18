@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="HeaderName"/></term>
-        ///         <description><c>X-Correlation-ID</c></description>
+        ///         <description><see cref="RequestHeaderNames.XCorrelationId"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="CorrelationProvider"/></term>
@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </remarks>
         public CorrelationIdentifierOptions()
         {
-            HeaderName = "X-Correlation-ID";
+            HeaderName = RequestHeaderNames.XCorrelationId;
             CorrelationProvider = () => DynamicCorrelation.Create(Guid.NewGuid().ToString("N"));
         }
 
