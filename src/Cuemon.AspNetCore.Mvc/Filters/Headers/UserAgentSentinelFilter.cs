@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 {
     /// <summary>
-    /// A filter that provides an HTTP User-Agent sentinel of action methods.
+    /// A filter that provides an User-Agent sentinel on action methods.
     /// </summary>
     /// <seealso cref="ConfigurableAsyncActionFilter{TOptions}"/>
     /// <seealso cref="IAsyncActionFilter" />

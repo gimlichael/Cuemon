@@ -1,29 +1,25 @@
 ﻿using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
-using Cuemon.AspNetCore.Http.Throttling;
+using Cuemon.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 
-namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
+namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 {
     /// <summary>
-    /// A filter that provides an API throttling sentinel on action methods.
+    /// A filter that provides an API key sentinel on action methods.
     /// </summary>
     /// <seealso cref="ConfigurableAsyncActionFilter{TOptions}"/>
     /// <seealso cref="IAsyncActionFilter" />
-    public class ThrottlingSentinelFilter : ConfigurableAsyncActionFilter<ThrottlingSentinelOptions>
+    public class ApiKeySentinelFilter : ConfigurableAsyncActionFilter<ApiKeySentinelOptions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ThrottlingSentinelFilter"/> class.
+        /// Initializes a new instance of the <see cref="ApiKeySentinelFilter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="ThrottlingSentinelOptions" /> which need to be configured.</param>
-        /// <param name="tc">The dependency injected <see cref="IThrottlingCache"/>.</param>
-        public ThrottlingSentinelFilter(IOptions<ThrottlingSentinelOptions> setup, IThrottlingCache tc) : base(setup)
+        /// <param name="setup">The <see cref="ApiKeySentinelOptions" /> which need to be configured.</param>
+        public ApiKeySentinelFilter(IOptions<ApiKeySentinelOptions> setup) : base(setup)
         {
-            ThrottlingCache = tc;
         }
-
-        private IThrottlingCache ThrottlingCache { get; }
 
         /// <summary>
         /// Called asynchronously before the action, after model binding is complete.
@@ -33,7 +29,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         /// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            await Decorator.Enclose(context.HttpContext).InvokeThrottlerSentinelAsync(ThrottlingCache, Options).ConfigureAwait(false);
+            await Decorator.Enclose(context.HttpContext).InvokeApiKeySentinelAsync(Options).ConfigureAwait(false);
             await next().ConfigureAwait(false);
         }
     }

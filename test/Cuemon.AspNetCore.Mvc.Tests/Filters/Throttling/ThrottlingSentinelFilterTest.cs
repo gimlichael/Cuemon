@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.AspNetCore.Mvc.Assets;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
-using Cuemon.AspNetCore.Mvc.Filters.Headers;
 using Cuemon.Extensions;
 using Cuemon.Extensions.AspNetCore.Http.Throttling;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;

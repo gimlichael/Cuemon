@@ -17,14 +17,14 @@ using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 {
-    public class UserAgentSentinelFilterTest : Test
+    public class ApiKeySentinelFilterTest : Test
     {
-        public UserAgentSentinelFilterTest(ITestOutputHelper output) : base(output)
+        public ApiKeySentinelFilterTest(ITestOutputHelper output) : base(output)
         {
         }
 
         [Fact]
-        public async Task OnActionExecutionAsync_ShouldCaptureUserAgentException_BadRequest()
+        public async Task OnActionExecutionAsync_ShouldCaptureApiKeyException_BadRequest()
         {
             using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
                    {
@@ -35,27 +35,24 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                        services.AddControllers(o =>
                        {
                            o.Filters.Add<FaultDescriptorFilter>();
-                           o.Filters.Add<UserAgentSentinelFilter>();
+                           o.Filters.Add<ApiKeySentinelFilter>();
                        }).AddApplicationPart(typeof(FakeController).Assembly)
                            .AddNewtonsoftJson()
                            .AddNewtonsoftJsonFormatters();
-                       services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
                    }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
 
                 var result = await client.GetAsync("/fake/it");
 
                 Assert.Contains(options.Value.BadRequestMessage, await result.Content.ReadAsStringAsync());
                 Assert.Equal((int)result.StatusCode, StatusCodes.Status400BadRequest);
-
-                Assert.True(options.Value.RequireUserAgentHeader);
             }
         }
 
         [Fact]
-        public async Task OnActionExecutionAsync_ShouldCaptureUserAgentException_Forbidden()
+        public async Task OnActionExecutionAsync_ShouldCaptureApiKeyException_Forbidden()
         {
             using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
                    {
@@ -63,38 +60,34 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                        app.UseEndpoints(routes => { routes.MapControllers(); });
                    }, services =>
                    {
-                       services.Configure<UserAgentSentinelOptions>(o =>
+                       services.Configure<ApiKeySentinelOptions>(o =>
                        {
-                           o.RequireUserAgentHeader = true;
-                           o.ValidateUserAgentHeader = true;
-                           o.AllowedUserAgents.Add("Cuemon-Agent");
+                           o.AllowedKeys.Add("Cuemon-Key");
                        });
                        services.AddControllers(o =>
                            {
                                o.Filters.Add<FaultDescriptorFilter>();
-                               o.Filters.Add<UserAgentSentinelFilter>();
+                               o.Filters.Add<ApiKeySentinelFilter>();
                            }).AddApplicationPart(typeof(FakeController).Assembly)
                            .AddNewtonsoftJson()
                            .AddNewtonsoftJsonFormatters();
                    }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Invalid-Agent");
+                client.DefaultRequestHeaders.Add(options.Value.HeaderName, "Invalid-Key");
 
                 var result = await client.GetAsync("/fake/it");
 
                 Assert.Contains(options.Value.ForbiddenMessage, await result.Content.ReadAsStringAsync());
                 Assert.Equal(StatusCodes.Status403Forbidden, (int)result.StatusCode);
 
-                Assert.True(options.Value.RequireUserAgentHeader);
-                Assert.True(options.Value.ValidateUserAgentHeader);
-                Assert.True(options.Value.AllowedUserAgents.Any());
+                Assert.True(options.Value.AllowedKeys.Any());
             }
         }
 
         [Fact]
-        public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest()
+        public async Task OnActionExecutionAsync_ShouldThrowApiKeyException_BadRequest()
         {
             using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
             {
@@ -102,14 +95,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                 app.UseEndpoints(routes => { routes.MapControllers(); });
             }, services =>
             {
-                services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-                services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
+                services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
             }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
 
-                var uae = await Assert.ThrowsAsync<UserAgentException>(async () =>
+                var uae = await Assert.ThrowsAsync<ApiKeyException>(async () =>
                 {
                     var result = await client.GetAsync("/fake/it");
                 });
@@ -117,13 +109,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 
                 Assert.Equal(uae.Message, options.Value.BadRequestMessage);
                 Assert.Equal(uae.StatusCode, StatusCodes.Status400BadRequest);
-
-                Assert.True(options.Value.RequireUserAgentHeader);
             }
         }
 
         [Fact]
-        public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_Forbidden()
+        public async Task OnActionExecutionAsync_ShouldThrowApiKeyException_Forbidden()
         {
             using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
             {
@@ -131,20 +121,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                 app.UseEndpoints(routes => { routes.MapControllers(); });
             }, services =>
             {
-                services.Configure<UserAgentSentinelOptions>(o =>
+                services.Configure<ApiKeySentinelOptions>(o =>
                 {
-                    o.RequireUserAgentHeader = true;
-                    o.ValidateUserAgentHeader = true;
-                    o.AllowedUserAgents.Add("Cuemon-Agent");
+                    o.AllowedKeys.Add("Cuemon-Key");
                 });
-                services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
+                services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
             }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Invalid-Agent");
+                client.DefaultRequestHeaders.Add(options.Value.HeaderName, "Invalid-Key");
 
-                var uae = await Assert.ThrowsAsync<UserAgentException>(async () =>
+                var uae = await Assert.ThrowsAsync<ApiKeyException>(async () =>
                 {
                     var result = await client.GetAsync("/fake/it");
                 });
@@ -153,14 +141,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                 Assert.Equal(uae.Message, options.Value.ForbiddenMessage);
                 Assert.Equal(uae.StatusCode, StatusCodes.Status403Forbidden);
 
-                Assert.True(options.Value.RequireUserAgentHeader);
-                Assert.True(options.Value.ValidateUserAgentHeader);
-                Assert.True(options.Value.AllowedUserAgents.Any());
+                Assert.True(options.Value.AllowedKeys.Any());
             }
         }
 
         [Fact]
-        public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest_BecauseOfUseGenericResponse()
+        public async Task OnActionExecutionAsync_ShouldThrowApiKeyException_BadRequest_BecauseOfUseGenericResponse()
         {
             using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
             {
@@ -168,21 +154,19 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                 app.UseEndpoints(routes => { routes.MapControllers(); });
             }, services =>
             {
-                services.Configure<UserAgentSentinelOptions>(o =>
+                services.Configure<ApiKeySentinelOptions>(o =>
                 {
-                    o.RequireUserAgentHeader = true;
-                    o.ValidateUserAgentHeader = true;
                     o.UseGenericResponse = true;
-                    o.AllowedUserAgents.Add("Cuemon-Agent");
+                    o.AllowedKeys.Add("Cuemon-Key");
                 });
-                services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
+                services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
             }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Invalid-Agent");
+                client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Invalid-Key");
 
-                var uae = await Assert.ThrowsAsync<UserAgentException>(async () =>
+                var uae = await Assert.ThrowsAsync<ApiKeyException>(async () =>
                 {
                     var result = await client.GetAsync("/fake/it");
                 });
@@ -190,29 +174,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                 Assert.Equal(uae.Message, options.Value.BadRequestMessage);
                 Assert.Equal(uae.StatusCode, StatusCodes.Status400BadRequest);
 
-                Assert.True(options.Value.RequireUserAgentHeader);
-                Assert.True(options.Value.ValidateUserAgentHeader);
                 Assert.True(options.Value.UseGenericResponse);
-                Assert.True(options.Value.AllowedUserAgents.Any());
-            }
-        }
-
-        [Fact]
-        public async Task OnActionExecutionAsync_ShouldAllowRequestUnconditional()
-        {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services => services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)))
-            {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
-
-                var client = filter.Host.GetTestClient();
-                var result = await client.GetAsync("/fake/it");
-
-                Assert.Equal(StatusCodes.Status200OK, (int) result.StatusCode);
-                Assert.False(options.Value.RequireUserAgentHeader);
+                Assert.True(options.Value.AllowedKeys.Any());
             }
         }
 
@@ -225,23 +188,19 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                 app.UseEndpoints(routes => { routes.MapControllers(); });
             }, services =>
             {
-                services.Configure<UserAgentSentinelOptions>(o =>
+                services.Configure<ApiKeySentinelOptions>(o =>
                 {
-                    o.RequireUserAgentHeader = true;
-                    o.ValidateUserAgentHeader = true;
-                    o.AllowedUserAgents.Add("Cuemon-Agent");
+                    o.AllowedKeys.Add("Cuemon-Key");
                 });
-                services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
+                services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
             }))
             {
-                var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
+                var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "Cuemon-Agent");
+                client.DefaultRequestHeaders.Add(options.Value.HeaderName, "Cuemon-Key");
                 
                 var result = await client.GetAsync("/fake/it");
 
-                Assert.True(options.Value.RequireUserAgentHeader);
-                Assert.True(options.Value.ValidateUserAgentHeader);
                 Assert.Equal(StatusCodes.Status200OK, (int) result.StatusCode);
             }
         }
