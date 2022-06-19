@@ -45,7 +45,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters
         }
 
         /// <summary>
-        /// Adds a <see cref="UserAgentSentinelFilter"/> to the <paramref name="filters"/> handled in the MVC request pipeline that provides an HTTP User-Agent sentinel of action methods.
+        /// Adds an <see cref="UserAgentSentinelFilter"/> to the <paramref name="filters"/> handled in the MVC request pipeline that provides an User-Agent sentinel on action methods.
         /// </summary>
         /// <param name="filters">The <see cref="FilterCollection"/> to extend.</param>
         /// <returns>A <see cref="IFilterMetadata"/> representing the added type.</returns>
@@ -55,13 +55,23 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters
         }
 
         /// <summary>
-        /// Adds a <see cref="ThrottlingSentinelFilter"/> to the <paramref name="filters"/> handled in the MVC request pipeline that provides an API throttling of action methods.
+        /// Adds a <see cref="ThrottlingSentinelFilter"/> to the <paramref name="filters"/> handled in the MVC request pipeline that provides an API throttling on action methods.
         /// </summary>
         /// <param name="filters">The <see cref="FilterCollection"/> to extend.</param>
         /// <returns>A <see cref="IFilterMetadata"/> representing the added type.</returns>
         public static IFilterMetadata AddThrottlingSentinel(this FilterCollection filters)
         {
             return filters.Add<ThrottlingSentinelFilter>();
+        }
+
+        /// <summary>
+        /// Adds an <see cref="ApiKeySentinelFilter"/> to the <paramref name="filters"/> handled in the MVC request pipeline that provides an API key sentinel on action methods.
+        /// </summary>
+        /// <param name="filters">The <see cref="FilterCollection"/> to extend.</param>
+        /// <returns>A <see cref="IFilterMetadata"/> representing the added type.</returns>
+        public static IFilterMetadata AddApiKeySentinel(this FilterCollection filters)
+        {
+            return filters.Add<ApiKeySentinelFilter>();
         }
     }
 }
