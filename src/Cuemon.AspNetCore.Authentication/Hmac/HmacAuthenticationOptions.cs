@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         public HmacAuthenticationOptions()
         {
             AuthenticationScheme = HmacAuthorizationHeader.Scheme;
-            Algorithm = KeyedCryptoAlgorithm.HmacSha1;
+            Algorithm = KeyedCryptoAlgorithm.HmacSha256;
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         public string AuthenticationScheme { get; set; }
 
         /// <summary>
-        /// Gets or sets the algorithm of the HMAC Authentication. Default is <see cref="KeyedCryptoAlgorithm.HmacSha1"/>.
+        /// Gets or sets the algorithm of the HMAC Authentication. Default is <see cref="KeyedCryptoAlgorithm.HmacSha256"/>.
         /// </summary>
         /// <value>The algorithm of the HMAC Authentication.</value>
         public KeyedCryptoAlgorithm Algorithm { get; set; }

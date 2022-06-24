@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cuemon.Net.Http;
 
 namespace Cuemon.AspNetCore.Authentication.Hmac
 {
@@ -11,6 +12,10 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
     /// <seealso cref="AuthorizationHeader" />
     public class HmacAuthorizationHeader : AuthorizationHeader
     {
+        private const string CredentialComponent = "Credential";
+        private const string SignedHeadersComponent = "SignedHeaders";
+        private const string SignatureComponent = "Signature";
+
         /// <summary>
         /// Creates an instance of <see cref="HmacAuthorizationHeader"/> from the specified parameters.
         /// </summary>
@@ -36,7 +41,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <summary>
         /// The default authentication scheme of the <see cref="HmacAuthorizationHeader"/>.
         /// </summary>
-        public const string Scheme = "HMAC";
+        public const string Scheme = HttpAuthenticationSchemes.Hmac;
 
         HmacAuthorizationHeader(string authenticationScheme) : base(authenticationScheme)
         {
@@ -88,9 +93,9 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return $"{AuthenticationScheme} Credential={ClientId}/{CredentialScope}, SignedHeaders={string.Join(";", SignedHeaders)}, Signature={Signature}";
+            return $"{AuthenticationScheme} {CredentialComponent}={ClientId}/{CredentialScope}, {SignedHeadersComponent}={string.Join(";", SignedHeaders)}, {SignatureComponent}={Signature}";
         }
-
+        
         /// <summary>
         /// The core parser that resolves an <see cref="AuthorizationHeader" /> from a set of <paramref name="credentials" />.
         /// </summary>
@@ -104,19 +109,19 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                 var key = kvp.Key;
                 var value = kvp.Value;
 
-                if (key == "Credential")
+                if (key == CredentialComponent)
                 {
                     var cs = value.Split(new [] { '/' }, 2);
                     clientId = cs[0];
                     credentialScope = cs[1];
                 }
 
-                if (key == "SignedHeaders")
+                if (key == SignedHeadersComponent)
                 {
                     signedHeaders = value;
                 }
 
-                if (key == "Signature")
+                if (key == SignatureComponent)
                 {
                     signature = value;
                 }
