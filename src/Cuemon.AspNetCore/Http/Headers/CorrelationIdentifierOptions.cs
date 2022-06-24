@@ -1,5 +1,6 @@
 ﻿using System;
 using Cuemon.Messaging;
+using Cuemon.Net.Http;
 
 namespace Cuemon.AspNetCore.Http.Headers
 {
@@ -20,7 +21,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="HeaderName"/></term>
-        ///         <description><see cref="RequestHeaderNames.XCorrelationId"/></description>
+        ///         <description><see cref="HttpHeaderNames.XCorrelationId"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="CorrelationProvider"/></term>
@@ -30,7 +31,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </remarks>
         public CorrelationIdentifierOptions()
         {
-            HeaderName = RequestHeaderNames.XCorrelationId;
+            HeaderName = HttpHeaderNames.XCorrelationId;
             CorrelationProvider = () => DynamicCorrelation.Create(Guid.NewGuid().ToString("N"));
         }
 

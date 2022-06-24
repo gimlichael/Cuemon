@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using Cuemon.Net.Http;
 
 namespace Cuemon.AspNetCore.Http.Headers
 {
@@ -23,7 +24,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="HeaderName"/></term>
-        ///         <description><see cref="RequestHeaderNames.XApiKey"/></description>
+        ///         <description><see cref="HttpHeaderNames.XApiKey"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="AllowedKeys"/></term>
@@ -49,7 +50,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </remarks>
         public ApiKeySentinelOptions()
         {
-            HeaderName = RequestHeaderNames.XApiKey;
+            HeaderName = HttpHeaderNames.XApiKey;
             BadRequestMessage = "The requirements of the request was not met.";
             ForbiddenMessage = "The API key specified was rejected.";
             AllowedKeys = new List<string>();
