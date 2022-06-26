@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0;netcoreapp3.1</TargetFrameworks>
     <ProjectGuid>aa0adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+    <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -11,7 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Asp.Versioning\Cuemon.Extensions.Asp.Versioning.csproj" />
   </ItemGroup>
 
