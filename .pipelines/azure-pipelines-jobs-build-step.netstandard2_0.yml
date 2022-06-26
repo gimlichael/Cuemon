@@ -5,6 +5,9 @@
       command: build
       projects: |
         src/**/*.csproj
+        !src/**/Cuemon.Extensions.Asp.Versioning.csproj
+        !src/**/Cuemon.Extensions.AspNetCore.Authentication.HmacSha256Aws4.csproj
+        !src/**/Cuemon.Extensions.Swashbuckle.AspNetCore.csproj
         !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
         !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
         !src/**/Cuemon.AspNetCore.App.csproj
