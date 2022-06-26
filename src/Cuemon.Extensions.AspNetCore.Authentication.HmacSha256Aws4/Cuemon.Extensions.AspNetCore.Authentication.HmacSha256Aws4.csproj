@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;netcoreapp3.1</TargetFrameworks>
+    <ProjectGuid>ab0adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Extensions.AspNetCore.Authentication.HmacSha256Aws4 namespace complements the Cuemon.AspNetCore.Authentication namespace while providing a way to authenticate with Amazon Simple Storage Service (S3) using AWS Signature Version 4.</Description>
+    <PackageTags>aws simple-storage-service s3 amazon aws4-hmac-sha256</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.AspNetCore.Authentication\Cuemon.AspNetCore.Authentication.csproj" />
+  </ItemGroup>
+
+</Project>
