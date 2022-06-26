@@ -1,0 +1,7 @@
+﻿Version: 7.0.0
+Availability: .NET Core 3.1, .NET 6.0
+ 
+# New Features
+- ADDED RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace that provides programmatic configuration for the ServiceCollectionExtensions.AddRestfulApiVersioning method
+- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IServiceCollection interface: AddRestfulApiVersioning
+ 

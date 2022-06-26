@@ -60,6 +60,21 @@
       "src": [
         {
           "files": [
+            "Cuemon.Extensions.Asp.Versioning/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/aspversioning",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net6.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.csproj",
             "Cuemon.Extensions.Newtonsoft.Json/**.csproj"
           ],
@@ -67,6 +82,21 @@
         }
       ],
       "dest": "api/extensions/jsonnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net6.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.Swashbuckle.AspNetCore/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/swagger",
       "filter": "filterConfig.yml",
       "properties": {
         "TargetFramework": "net6.0"
@@ -114,6 +144,7 @@
           "files": [
             "Cuemon.Extensions.AspNetCore/**.csproj",
             "Cuemon.Extensions.AspNetCore.Authentication/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Authentication.HmacSha256Aws4/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.csproj",
