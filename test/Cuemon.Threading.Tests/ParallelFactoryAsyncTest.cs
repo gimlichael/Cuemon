@@ -11,6 +11,7 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Threading
 {
+    [Trait("Category", "Threading")]
     public class ParallelFactoryAsyncTest : Test
     {
         private static readonly bool IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
