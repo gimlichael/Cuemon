@@ -74,7 +74,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
             }
         }
 
-                [Fact]
+        [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowThrottlingException()
         {
             using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
@@ -98,7 +98,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
             }))
             {
                 var client = filter.Host.GetTestClient();
-                
+
                 HttpResponseMessage result = null;
                 for (var i = 0; i < 10; i++)
                 {
@@ -112,7 +112,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                     result = await client.GetAsync("/fake/it");
                 });
 
-                var options = filter.ServiceProvider .GetRequiredService<IOptions<ThrottlingSentinelOptions>>().Value;
+                var options = filter.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>().Value;
 
                 var ratelimitReset = result.Headers.GetValues("RateLimit-Reset").Single().As<int>();
                 Assert.Null(result.Headers.RetryAfter);
