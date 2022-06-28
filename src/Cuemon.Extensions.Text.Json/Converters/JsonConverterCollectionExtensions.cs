@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -14,6 +15,21 @@ namespace Cuemon.Extensions.Text.Json.Converters
     /// </summary>
     public static class JsonConverterCollectionExtensions
     {
+        /// <summary>
+        /// Adds a configurable <see cref="DateTime" /> JSON converter to the list.
+        /// </summary>
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <param name="format">A standard or custom date and time format string.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>A reference to <paramref name="converters" /> after the operation has completed.</returns>
+        /// <remarks>If you miss the opportunity to configure DateTime format handling like you could with Newtonsoft.JSON, here is an alternative way. Default is <c>"O"</c> (https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#table-of-format-specifiers).</remarks>
+        /// <example><code>var formatter = new JsonFormatter(o =&gt; o.Settings.Converters.AddDateTimeConverter());</code></example>
+        public static ICollection<JsonConverter> AddDateTimeConverter(this ICollection<JsonConverter> converters, string format = "O", CultureInfo provider = null)
+        {
+            converters.Add(new DateTimeConverter(format, provider));
+            return converters;
+        }
+
         /// <summary>
         /// Adds an <see cref="Enum" /> JSON converter to the list.
         /// </summary>

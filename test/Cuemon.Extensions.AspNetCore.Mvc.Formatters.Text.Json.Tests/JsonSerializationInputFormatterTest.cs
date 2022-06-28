@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Assets;
 using Cuemon.Extensions.IO;
+using Cuemon.Extensions.Text.Json.Converters;
 using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
@@ -57,7 +58,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddJsonFormatters();
+                    .AddJsonFormatters(o => o.Settings.Converters.AddDateTimeConverter());
             }))
             {
                 var wf = new WeatherForecast();
