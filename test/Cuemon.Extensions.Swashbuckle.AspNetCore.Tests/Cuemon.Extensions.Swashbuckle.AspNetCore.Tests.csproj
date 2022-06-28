@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Swashbuckle.AspNetCore\Cuemon.Extensions.Swashbuckle.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj" />
   </ItemGroup>

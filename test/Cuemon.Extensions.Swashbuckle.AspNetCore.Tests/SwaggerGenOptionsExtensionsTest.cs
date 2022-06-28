@@ -49,7 +49,14 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
 
                 TestOutput.WriteLine(result);
 
-                Assert.Contains(@"""paths"": {
+              
+                Assert.Equal(@"{
+  ""openapi"": ""3.0.1"",
+  ""info"": {
+    ""title"": ""Cuemon.Extensions.Swashbuckle.AspNetCore.Tests"",
+    ""version"": ""1.0""
+  },
+  ""paths"": {
     ""/Fake"": {
       ""get"": {
         ""tags"": [
@@ -67,9 +74,8 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         }
       }
     }
-  }", result);
-
-                Assert.Contains(@"""components"": {
+  },
+  ""components"": {
     ""parameters"": {
       ""User-Agent"": {
         ""name"": ""User-Agent"",
@@ -79,7 +85,8 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         ""example"": ""Your-Awesome-Client/1.0.0""
       }
     }
-  }", result);
+  }
+}", result, ignoreLineEndingDifferences: true);
 
             }
         }
@@ -114,7 +121,14 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
 
                 TestOutput.WriteLine(result);
 
-                Assert.Contains(@"""paths"": {
+
+                Assert.Equal(@"{
+  ""openapi"": ""3.0.1"",
+  ""info"": {
+    ""title"": ""Cuemon.Extensions.Swashbuckle.AspNetCore.Tests"",
+    ""version"": ""1.0""
+  },
+  ""paths"": {
     ""/Fake"": {
       ""get"": {
         ""tags"": [
@@ -127,9 +141,8 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         }
       }
     }
-  }", result);
-
-                Assert.Contains(@"""components"": {
+  },
+  ""components"": {
     ""securitySchemes"": {
       ""Bearer"": {
         ""type"": ""http"",
@@ -143,7 +156,8 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
     {
       ""Bearer"": [ ]
     }
-  ]", result);
+  ]
+}", result, ignoreLineEndingDifferences: true);
 
             }
         }
