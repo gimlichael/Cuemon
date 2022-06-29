@@ -79,7 +79,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
 
         private static Task WriteResponseAsync(StringBuilder sb, HttpContext context, HttpExceptionDescriptor exceptionDescriptor, IExceptionHandlerFeature ehf, CancellationToken ct)
         {
-            var buffer = Decorator.Enclose(sb.ToString()).ToByteArray();
+            var buffer = Decorator.Enclose(sb.ToString().TrimEnd()).ToByteArray();
             context.Response.ContentType = "text/plain";
             context.Response.ContentLength = buffer.Length;
             context.Response.StatusCode = exceptionDescriptor.StatusCode;
