@@ -98,7 +98,8 @@ namespace Cuemon.AspNetCore.Http
                 if (message != null)
                 {
                     throw Decorator.Enclose(new UserAgentException((int)message.StatusCode, await message.Content.ReadAsStringAsync().ConfigureAwait(false)))
-                        .AddResponseHeaders(decorator.Inner.Response.Headers).Inner;
+                        .AddResponseHeaders(decorator.Inner.Response.Headers)
+                        .AddResponseHeaders(message.Headers).Inner;
                 }
             }
         }
