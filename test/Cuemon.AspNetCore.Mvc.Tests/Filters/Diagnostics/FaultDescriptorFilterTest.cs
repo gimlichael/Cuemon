@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Cuemon.AspNetCore.Http.Headers;
+using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.AspNetCore.Mvc.Assets;
-using Cuemon.Extensions.AspNetCore.Diagnostics;
-using Cuemon.Extensions.AspNetCore.Http.Headers;
+using Cuemon.Extensions.AspNetCore.Http.Throttling;
+using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
@@ -79,26 +82,26 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         }
 
         [Fact]
-        public async Task OnException_ShouldCaptureUserAgent_BadRequestMessage()
+        public async Task OnException_ShouldCaptureUserAgentException_BadRequestMessage()
         {
             using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
                    {
-                       app.UseFaultDescriptorExceptionHandler();
-                       app.UseUserAgentSentinel(o =>
-                       {
-                           o.RequireUserAgentHeader = true;
-                       });
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
                    }, (context, services) =>
                    {
-                       services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
+                       services.AddControllers(o =>
+                           {
+                               o.Filters.AddFaultDescriptor();
+                               o.Filters.AddUserAgentSentinel();
+                           }).AddApplicationPart(typeof(FakeController).Assembly)
                            .AddNewtonsoftJson()
                            .AddNewtonsoftJsonFormattersOptions(o =>
                            {
                                o.IncludeExceptionDescriptorFailure = false;
                            })
                            .AddNewtonsoftJsonFormatters();
+                       services.Configure<UserAgentSentinelOptions>(o => o.RequireUserAgentHeader = true);
                    }))
             {
                 var client = filter.Host.GetTestClient();
@@ -107,10 +110,61 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
                 TestOutput.WriteLine(body);
 
-                Assert.Equal(@"BadRequest: The requirements of the request was not met.
-", body);
+                Assert.Equal(@"{
+  ""error"": {
+    ""status"": 400,
+    ""code"": ""BadRequest"",
+    ""message"": ""The requirements of the request was not met.""
+  }
+}", body);
                 Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(400), result.ReasonPhrase);
+            }
+        }
+
+        [Fact]
+        public async Task OnException_ShouldCaptureThrottlingException_TooManyRequests()
+        {
+            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }, (context, services) =>
+                   {
+                       services.AddControllers(o =>
+                           {
+                               o.Filters.AddFaultDescriptor();
+                               o.Filters.AddThrottlingSentinel();
+                           }).AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddNewtonsoftJson()
+                           .AddNewtonsoftJsonFormattersOptions(o =>
+                           {
+                               o.IncludeExceptionDescriptorFailure = false;
+                           })
+                           .AddNewtonsoftJsonFormatters();
+                       services.Configure<ThrottlingSentinelOptions>(o =>
+                       {
+                           o.ContextResolver = _ => "dummy";
+                           o.Quota = new ThrottleQuota(0, TimeSpan.Zero);
+                       });
+                       services.AddMemoryThrottlingCache();
+                   }))
+            {
+                var client = filter.Host.GetTestClient();
+                var result = await client.GetAsync("/fake/it");
+                var body = await result.Content.ReadAsStringAsync();
+
+                TestOutput.WriteLine(body);
+
+                Assert.Equal(@"{
+  ""error"": {
+    ""status"": 429,
+    ""code"": ""TooManyRequests"",
+    ""message"": ""Throttling rate limit quota violation. Quota limit exceeded.""
+  }
+}", body);
+                Assert.Equal(StatusCodes.Status429TooManyRequests, (int)result.StatusCode);
+                Assert.Equal(HttpStatusDescription.Get(429), result.ReasonPhrase);
             }
         }
 
