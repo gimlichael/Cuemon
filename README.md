@@ -93,6 +93,7 @@ NuGet links to all projects of Cuemon for .NET:
 * [Cuemon.Diagnostics](https://www.nuget.org/packages/Cuemon.Diagnostics/) 📦
 * [Cuemon.Extensions.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore/) 📦
 * [Cuemon.Extensions.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication/) 📦
+* [Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/) 📦
@@ -105,6 +106,7 @@ NuGet links to all projects of Cuemon for .NET:
 * [Cuemon.Extensions.Data.Integrity](https://www.nuget.org/packages/Cuemon.Extensions.Data.Integrity/) 📦
 * [Cuemon.Extensions.DependencyInjection](https://www.nuget.org/packages/Cuemon.Extensions.DependencyInjection/) 📦
 * [Cuemon.Extensions.Diagnostics](https://www.nuget.org/packages/Cuemon.Extensions.Diagnostics/) 📦
+* [Cuemon.Extensions.Asp.Versioning](https://www.nuget.org/packages/Cuemon.Extensions.Asp.Versioning/) 📦
 * [Cuemon.Extensions.Hosting](https://www.nuget.org/packages/Cuemon.Extensions.Hosting/) 📦
 * [Cuemon.Extensions.IO](https://www.nuget.org/packages/Cuemon.Extensions.IO/) 📦
 * [Cuemon.Extensions.Net](https://www.nuget.org/packages/Cuemon.Extensions.Net/) 📦
@@ -112,6 +114,7 @@ NuGet links to all projects of Cuemon for .NET:
 * [Cuemon.Extensions.Newtonsoft.Json.App](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json.App/) 🏭
 * [Cuemon.Extensions.Reflection](https://www.nuget.org/packages/Cuemon.Extensions.Reflection/) 📦
 * [Cuemon.Extensions.Runtime.Caching](https://www.nuget.org/packages/Cuemon.Extensions.Runtime.Caching/) 📦
+* [Cuemon.Extensions.Swashbuckle.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.Swashbuckle.AspNetCore/) 📦
 * [Cuemon.Extensions.Text](https://www.nuget.org/packages/Cuemon.Extensions.Text/) 📦
 * [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
