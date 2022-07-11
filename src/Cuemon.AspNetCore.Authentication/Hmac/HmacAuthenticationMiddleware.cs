@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cuemon.Collections.Generic;
 using Cuemon.IO;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
@@ -42,16 +44,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         {
             if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
-                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, async (message, response) =>
-                {
-                    context.Response.OnStarting(() =>
-                    {
-                        context.Response.Headers.Add(HeaderNames.WWWAuthenticate, Options.AuthenticationScheme);
-                        return Task.CompletedTask;
-                    });
-                    response.StatusCode = (int)message.StatusCode;
-                    await Decorator.Enclose(response.Body).WriteAllAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
-                }).ConfigureAwait(false);
+                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, dc => Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, Options.AuthenticationScheme)).ConfigureAwait(false);
             }
             await Next.Invoke(context).ConfigureAwait(false);
         }
