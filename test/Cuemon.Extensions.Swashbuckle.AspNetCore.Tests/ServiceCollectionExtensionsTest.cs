@@ -24,7 +24,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         [Fact]
         public async Task AddRestfulSwagger_ShouldInclude_RestfulApiVersioning_and_AddRestfulSwagger_Defaults()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -105,7 +105,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         [Fact]
         public async Task AddRestfulSwagger_ShouldInclude_RestfulApiVersioning_and_AddRestfulSwagger_Configured()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });

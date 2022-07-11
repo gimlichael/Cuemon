@@ -22,7 +22,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         [Fact]
         public async Task AddUserAgent_ShouldIncludeUserAgentDefaults()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -94,7 +94,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         [Fact]
         public async Task AddJwtBearerSecurity_ShouldIncludeJwtBearerSecurityDefaults()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });

@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         {
             Type sut1 = GetType();
             string sut2 = null;
-            var middleware = WebApplicationTestFactory.CreateWebApplicationTest(Assert.NotNull, Assert.NotNull, host =>
+            var middleware = WebApplicationTestFactory.Create(Assert.NotNull, Assert.NotNull, host =>
             {
                 host.ConfigureAppConfiguration((context, configuration) =>
                 {
@@ -31,7 +31,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         [Fact]
         public Task RunMvcFilterTest_ShouldHaveApplicationNameEqualToThisAssembly()
         {
-            return WebApplicationTestFactory.RunWebApplicationTest(Assert.NotNull, Assert.NotNull, host =>
+            return WebApplicationTestFactory.Run(Assert.NotNull, Assert.NotNull, host =>
             {
                 host.ConfigureAppConfiguration((context, configuration) =>
                 {
@@ -44,7 +44,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         [Fact]
         public Task RunMvcFilterTest_ShouldHaveApplicationNameEqualToThisAssembly_WithHostBuilderContext()
         {
-            return WebApplicationTestFactory.RunWebApplicationTest((context, app) =>
+            return WebApplicationTestFactory.RunWithHostBuilderContext((context, app) =>
             {
                 Assert.NotNull(context);
                 Assert.NotNull(context.HostingEnvironment);
