@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>The Cuemon.Extensions.Asp.Versioning namespace contains types and extension methods that complements the Asp.Versioning namespace by adding new ways of working versioning for Open API 3.x.</Description>
+    <Description>The Cuemon.Extensions.Asp.Versioning namespace contains types and extension methods that complements the Asp.Versioning namespace by adding new ways of working with versioning for Open API 3.x.</Description>
     <PackageTags>extension-methods extensions restful-api-versioning versioning</PackageTags>
   </PropertyGroup>
 
