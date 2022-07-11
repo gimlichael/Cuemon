@@ -12,12 +12,12 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 
         internal WebApplicationTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
         {
-            _middlewareTest = MiddlewareTestFactory.CreateMiddlewareTest(pipelineConfigurator, serviceConfigurator, hostConfigurator);
+            _middlewareTest = MiddlewareTestFactory.Create(pipelineConfigurator, serviceConfigurator, hostConfigurator);
         }
 
         internal WebApplicationTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
         {
-            _middlewareTest = MiddlewareTestFactory.CreateMiddlewareTest(pipelineConfigurator, serviceConfigurator, hostConfigurator);
+            _middlewareTest = MiddlewareTestFactory.CreateWithHostBuilderContext(pipelineConfigurator, serviceConfigurator, hostConfigurator);
         }
 
         public IServiceProvider ServiceProvider => _middlewareTest.ServiceProvider;
