@@ -26,7 +26,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldThrowUserAgentException_BadRequest()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseUserAgentSentinel();
             }, services =>
@@ -52,7 +52,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldThrowUserAgentException_Forbidden()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
                    {
                        app.UseUserAgentSentinel();
                    }, services =>
@@ -85,7 +85,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldCaptureUserAgentException_Forbidden()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseFaultDescriptorExceptionHandler();
                 app.UseUserAgentSentinel();
@@ -120,7 +120,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldCaptureUserAgentException_BadRequest()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
                    {
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseUserAgentSentinel();
@@ -151,7 +151,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldThrowUserAgentException_BadRequest_BecauseOfUseGenericResponse()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseUserAgentSentinel();
             }, services =>
@@ -187,7 +187,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldAllowRequestUnconditional()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseUserAgentSentinel();
                 app.Run(context =>
@@ -211,7 +211,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldAllowRequestAfterBeingValidated()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseUserAgentSentinel();
                 app.Run(context =>

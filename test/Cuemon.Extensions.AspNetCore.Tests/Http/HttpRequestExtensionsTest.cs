@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         public async Task IsGetOrHeadMethod_ShouldRecognizeGetOrHeadMethod(string method)
         {
             bool sut = false;
-            await MiddlewareTestFactory.RunMiddlewareTest(app =>
+            await MiddlewareTestFactory.Run(app =>
             {
                 app.Run(context =>
                 {
@@ -48,7 +48,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             var sut = CacheValidatorFactory.CreateValidator(typeof(HttpRequestExtensionsTest).Assembly);
             bool isClientSideResourceCached = false;
             int statusCdoe = 100;
-            await MiddlewareTestFactory.RunMiddlewareTest(app =>
+            await MiddlewareTestFactory.Run(app =>
             {
                 app.Use(async (context, next) =>
                 {
@@ -102,7 +102,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             var sut = DateTime.Parse("Mon, 29 Mar 2021 00:00:00 GMT").AddDays(-1);
             bool isClientSideResourceCached = false;
             int statusCdoe = 100;
-            await MiddlewareTestFactory.RunMiddlewareTest(app =>
+            await MiddlewareTestFactory.Run(app =>
             {
                 app.Use(async (context, next) =>
                 {

@@ -93,7 +93,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         [Fact]
         public async Task Bearer_VerifyHeadersAreSetCorrectly()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

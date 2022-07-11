@@ -28,7 +28,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         [Fact]
         public async Task OnActionExecutionAsync_ShouldCaptureThrottlingException()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -77,7 +77,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowThrottlingException()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         {
             Type sut1 = GetType();
             string sut2 = null;
-            var middleware = MiddlewareTestFactory.CreateMiddlewareTest(Assert.NotNull, Assert.NotNull, host =>
+            var middleware = MiddlewareTestFactory.Create(Assert.NotNull, Assert.NotNull, host =>
               {
                   host.ConfigureAppConfiguration((context, configuration) =>
                   {
@@ -31,7 +31,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         [Fact]
         public Task RunMiddlewareTest_ShouldHaveApplicationNameEqualToThisAssembly()
         {
-            return MiddlewareTestFactory.RunMiddlewareTest(Assert.NotNull, Assert.NotNull, host =>
+            return MiddlewareTestFactory.Run(Assert.NotNull, Assert.NotNull, host =>
               {
                   host.ConfigureAppConfiguration((context, configuration) =>
                   {
@@ -44,7 +44,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         [Fact]
         public Task RunMiddlewareTest_ShouldHaveApplicationNameEqualToThisAssembly_WithHostBuilderContext()
         {
-            return MiddlewareTestFactory.RunMiddlewareTest((context, app) =>
+            return MiddlewareTestFactory.RunWithHostBuilderContext((context, app) =>
                 {
                     Assert.NotNull(context);
                     Assert.NotNull(context.HostingEnvironment);

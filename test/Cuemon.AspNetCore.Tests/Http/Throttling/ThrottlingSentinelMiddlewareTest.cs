@@ -23,7 +23,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         [Fact]
         public async Task InvokeAsync_ShouldThrowThrottlingException_TooManyRequests()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseThrottlingSentinel();
             }, services =>
@@ -63,7 +63,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         [Fact]
         public async Task InvokeAsync_ShouldCaptureThrottlingException_TooManyRequests()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseFaultDescriptorExceptionHandler();
                 app.UseThrottlingSentinel();
@@ -106,7 +106,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         public async Task InvokeAsync_ShouldRehydrate()
         {
             var window = TimeSpan.FromSeconds(5);
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseThrottlingSentinel();
                 app.Run(context =>

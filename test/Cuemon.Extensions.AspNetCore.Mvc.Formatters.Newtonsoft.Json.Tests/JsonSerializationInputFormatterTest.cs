@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public async Task ReadRequestBodyAsync_ShouldReturnCreated()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

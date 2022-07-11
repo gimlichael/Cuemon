@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
         [Fact]
         public async Task Page_RenderLinkTagForAppRole()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
@@ -52,7 +52,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
         [Fact]
         public async Task Page_RenderLinkTagForAppRole_WithCacheBusting()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });

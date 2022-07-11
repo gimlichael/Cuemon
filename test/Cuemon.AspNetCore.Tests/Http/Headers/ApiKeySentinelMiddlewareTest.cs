@@ -25,7 +25,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldThrowApiKeyException_BadRequest()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseApiKeySentinel();
             }))
@@ -45,7 +45,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldThrowApiKeyException_Forbidden()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
                    {
                        app.UseApiKeySentinel();
                    }, services =>
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldCaptureApiKeyException_Forbidden()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseFaultDescriptorExceptionHandler();
                 app.UseApiKeySentinel();
@@ -103,7 +103,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldCaptureApiKeyException_BadRequest()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
                    {
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseApiKeySentinel();
@@ -126,7 +126,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         public async Task InvokeAsync_ShouldThrowApiKeyException_BadRequest_BecauseOfUseGenericResponse()
         {
             var allowedKey = Generate.RandomString(24);
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseApiKeySentinel();
             }, services =>
@@ -158,7 +158,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldNotAllowRequest()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseFaultDescriptorExceptionHandler();
                 app.UseApiKeySentinel();
@@ -183,7 +183,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         public async Task InvokeAsync_ShouldAllowRequestAfterBeingValidated()
         {
             var allowedKey = Generate.RandomString(24);
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseApiKeySentinel();
                 app.Run(context =>

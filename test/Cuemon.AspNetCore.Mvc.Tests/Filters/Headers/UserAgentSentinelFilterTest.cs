@@ -26,7 +26,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldCaptureUserAgentException_BadRequest()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -57,7 +57,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldCaptureUserAgentException_Forbidden()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -96,7 +96,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -125,7 +125,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_Forbidden()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -162,7 +162,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest_BecauseOfUseGenericResponse()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -200,7 +200,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldAllowRequestUnconditional()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -219,7 +219,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldAllowRequestAfterBeingValidated()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

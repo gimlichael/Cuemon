@@ -28,7 +28,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [InlineData(false)]
         public async Task OnException_ShouldIncludeFailure_DifferentiateOnUseBaseException(bool useBaseException)
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -84,7 +84,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUserAgentException_BadRequestMessage()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -125,7 +125,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureThrottlingException_TooManyRequests()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
                    {
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -171,7 +171,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureBadRequest()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -207,7 +207,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureConflict()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -243,7 +243,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureForbidden()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -279,7 +279,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureGone()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -315,7 +315,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureNotFound()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -351,7 +351,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePayloadTooLarge()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -384,7 +384,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePreconditionFailed()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -417,7 +417,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePreconditionRequired()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -450,7 +450,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureTooManyRequests()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -483,7 +483,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUnauthorized()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -516,7 +516,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureMethodNotAllowed()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -549,7 +549,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureNotAcceptable()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -582,7 +582,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureGeneric()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -613,7 +613,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUnsupportedMediaType()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

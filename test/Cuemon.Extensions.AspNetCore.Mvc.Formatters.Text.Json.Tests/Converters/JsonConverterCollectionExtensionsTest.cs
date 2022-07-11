@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters
                 oome = e;
             }
 
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app => { }, services => { services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton); }))
+            using (var middleware = MiddlewareTestFactory.Create(app => { }, services => { services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton); }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var correlationId = Guid.NewGuid().ToString("N");
