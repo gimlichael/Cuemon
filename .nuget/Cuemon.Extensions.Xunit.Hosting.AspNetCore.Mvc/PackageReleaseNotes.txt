@@ -4,6 +4,7 @@ Availability: .NET Core 3.1, .NET 6.0
 # Breaking Changes
 - REMOVED IMvcFilterTest interface from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 - REMOVED MvcFilterTestFactory class from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
+- CHANGED WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace to have non-ambiguous overloads of CreateWebApplicationTest -> Create, CreateWithHostBuilderContext and RunWebApplicationTest -> Run, RunWithHostBuilderContext
  
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFM

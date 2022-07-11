@@ -4,6 +4,18 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
+# References
+- Cuemon.AspNetCore.Authentication
+- Cuemon.AspNetCore.Mvc
+- Cuemon.AspNetCore.Razor.TagHelpers
+- Cuemon.AspNetCore
+- Cuemon.Extensions.AspNetCore.Authentication
+- Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
+- Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
+- Cuemon.Extensions.AspNetCore.Mvc.RazorPages
+- Cuemon.Extensions.AspNetCore.Mvc
+- Cuemon.Extensions.AspNetCore
+ 
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
  

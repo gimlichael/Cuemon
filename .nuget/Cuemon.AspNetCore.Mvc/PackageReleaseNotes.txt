@@ -11,6 +11,10 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0
 # Improvements
 - CHANGED UserAgentSentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Headers namespace to have a more lean and fault tolerant design
 - CHANGED ThrottlingSentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Throttling namespace to have a more lean and fault tolerant design
+- CHANGED HttpCacheableOptions class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that the age of a dynamically applied cache header is now 5 minutes instead of 24 hours
+ 
+# Bug Fixes
+- FIXED HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that logic is only applied if qualified
  
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0

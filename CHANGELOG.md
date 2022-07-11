@@ -20,7 +20,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - JsonSerializationOutputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that handles serialization of objects to JSON using JsonFormatter class
 - MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that consist of extension methods for the IMvcBuilder interface: AddJsonFormatters, AddJsonFormattersOptions
 - MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that consist of extension methods for the IMvcCoreBuilder interface: AddJsonFormatters, AddJsonFormattersOptions
-- JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddStringEnumConverter, AddStringFlagsEnumConverter, AddExceptionDescriptorConverterOf, AddTimeSpanConverter, AddExceptionConverter, AddDataPairConverter
+- JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddStringEnumConverter, AddStringFlagsEnumConverter, AddExceptionDescriptorConverterOf, AddTimeSpanConverter, AddExceptionConverter, AddDataPairConverter, AddDateTimeConverter
 - StringEnumConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that convert enums to and from strings
 - StringFlagsEnumConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that convert enums with FlagsAttribute to and from strings
 - JsonFormatter class in the Cuemon.Extensions.Text.Json.Formatters namespace that serializes and deserializes an object, in JSON format
@@ -32,7 +32,25 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - Utf8JsonReaderFunc delegate in the Cuemon.Extensions.Text.Json namespace that represents the Read method of JsonConverter{T}
 - Utf8JsonWriterAction delegate in the Cuemon.Extensions.Text.Json namespace that represents the Write method of JsonConverter{T}
 - Utf8JsonWriterExtensions class in the Cuemon.Extensions.Text.Json namespace that consist of extension methods for the Utf8JsonWriter class: WriteObject
+- DateTimeConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that provides a DateTime converter that can be configured like the Newtonsoft.JSON equivalent
 - BufferWriterOptions class in the Cuemon.IO namespace that specifies options that is related to the IBufferWriter interface
+- RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace that provides programmatic configuration for the ServiceCollectionExtensions.AddRestfulApiVersioning method
+- ServiceCollectionExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IServiceCollection interface: AddRestfulApiVersioning
+- Aws4HmacAuthorizationHeader class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that provides a representation of a HTTP AWS4-HMAC-SHA256 Authentication header
+- Aws4HmacAuthorizationHeaderBuilder class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that provides a way to fluently represent a HTTP AWS4-HMAC-SHA256 Authentication header
+- Aws4HmacFields class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that is a collection of constants for Aws4HmacAuthorizationHeaderBuilder and related
+- DateTimeExtensions class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that consist of extension methods for the DateTime struct: ToAwsDateString, ToAwsDateTimeString
+- ConfigureSwaggerGenOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents something that configures the SwaggerGenOptions type
+- ConfigureSwaggerUIOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents something that configures the SwaggerUIOptions type
+- DocumentFilter class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents the base class of an IDocumentFilter implementation
+- OpenApiInfoOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents a proxy for configuring an Open API Info Object that provides metadata about an Open API endpoint
+- OperationFilter class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents the base class of an IOperationFilter implementation
+- RestfulSwaggerOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that provides programmatic configuration for the ServiceCollectionExtensions.AddRestfulSwagger method
+- ServiceCollectionExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that consist of extension methods for the IServiceCollection interface: AddRestfulSwagger
+- SwaggerGenOptionsExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that consist of extension methods for the SwaggerGenOptions class: AddUserAgent, AddXApiKeySecurity, AddJwtBearerSecurity
+- UserAgentDocumentFilter class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that provides a User-Agent field to the generated OpenApiDocument
+- UserAgentDocumentOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that provides programmatic configuration for the UserAgentDocumentFilter class
+- XPathDocumentExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that consist of extension methods for the XPathDocument class: AddByType, AddByAssembly, AddByFilename
 
 ### Changed
 
@@ -58,6 +76,9 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace in the context of renaming the AddXmlSerializationFormatters method to AddXmlFormatters
 - MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace in the context of renaming the AddXmlFormatterOptions method to AddXmlFormattersOptions
 - StreamFactory class in the Cuemon.IO namespace to include five new overloaded methods that accept an IBufferWriter{byte} as the first argument
+- HttpCacheableOptions class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that the age of a dynamically applied cache header is now 5 minutes instead of 24 hours
+- MiddlewareTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to have non-ambiguous overloads of CreateMiddlewareTest -> Create, CreateWithHostBuilderContext and RunMiddlewareTest -> Run, RunWithHostBuilderContext
+- WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace to have non-ambiguous overloads of CreateWebApplicationTest -> Create, CreateWithHostBuilderContext and RunWebApplicationTest -> Run, RunWithHostBuilderContext
 
 ### Removed
 
@@ -68,6 +89,11 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ScriptCdnTagHelper class from the Cuemon.AspNetCore.Razor.TagHelpers namespace
 - IMvcFilterTest interface from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 - MvcFilterTestFactory class from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
+
+### Fixed
+
+- HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that logic is only applied if qualified
+- FakeHttpResponseFeature class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features namespace so that the OnStarting method ensures that callback delegate is only run once per response
 
 ## [6.4.1] - 2022-08-05
 
