@@ -62,7 +62,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
             }))
             {
                 var wf = new WeatherForecast();
-                var formatter = new JsonFormatter(o => o.Settings.WriteIndented = true);
+                var formatter = new JsonFormatter(o =>
+                {
+                    o.Settings.Converters.AddDateTimeConverter();
+                    o.Settings.WriteIndented = true;
+                });
                 var stream = formatter.Serialize(wf);
                 var client = filter.Host.GetTestClient();
 
