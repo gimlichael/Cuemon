@@ -1,7 +1,7 @@
 ﻿namespace Cuemon.AspNetCore.Authentication.Hmac
 {
     /// <summary>
-    /// A collection of constants for <see cref="HmacAuthorizationHeaderBuilder"/>.
+    /// A collection of constants for <see cref="HmacAuthorizationHeaderBuilder"/> and related.
     /// </summary>
     public static class HmacFields
     {
@@ -24,11 +24,21 @@
         /// The canonical headers.
         /// </summary>
         public const string HttpHeaders = "canonicalHeaders";
+        
+        /// <summary>
+        /// The delimiter used to separate the key-value pairs of <see cref="HttpHeaders"/>.
+        /// </summary>
+        public const char HttpHeadersDelimiter = ':';
 
         /// <summary>
         /// The headers that must be part of the signing process.
         /// </summary>
         public const string SignedHeaders = "signedHeaders";
+
+        /// <summary>
+        /// The delimiter used to separate the <see cref="SignedHeaders"/>.
+        /// </summary>
+        public const char SignedHeadersDelimiter = ';';
 
         /// <summary>
         /// The request payload.
@@ -54,5 +64,21 @@
         /// The credential scope that defines the remote resource.
         /// </summary>
         public const string CredentialScope = "credentialScope";
+
+        /// <summary>
+        /// The parts of the canonical request.
+        /// </summary>
+        public const string CanonicalRequest = "canonicalRequest";
+
+        /// <summary>
+        /// The parts of the string to sign.
+        /// </summary>
+        public const string StringToSign = "stringToSign";
+
+        /// <summary>
+        /// The default authentication scheme of the <see cref="HmacAuthorizationHeader"/>.
+        /// </summary>
+        /// <remarks>https://www.wolfe.id.au/2012/10/20/what-is-hmac-authentication-and-why-is-it-useful/, https://docs.microsoft.com/en-us/azure/azure-app-configuration/rest-api-authentication-hmac and https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Authentication.Hmac.HmacAuthorizationHeader.html</remarks>
+        public const string Scheme = "HMAC";
     }
 }

@@ -192,9 +192,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Swashbuck
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Swashbuckle.AspNetCore.Tests", "test\Cuemon.Extensions.Swashbuckle.AspNetCore.Tests\Cuemon.Extensions.Swashbuckle.AspNetCore.Tests.csproj", "{CCBC1CE5-66A2-4685-B7EF-16508ECA4D8F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Authentication.HmacSha256Aws4", "src\Cuemon.Extensions.AspNetCore.Authentication.HmacSha256Aws4\Cuemon.Extensions.AspNetCore.Authentication.HmacSha256Aws4.csproj", "{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4", "src\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.csproj", "{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.Asp.Versioning", "src\Cuemon.Extensions.Asp.Versioning\Cuemon.Extensions.Asp.Versioning.csproj", "{8B5D726C-66C4-4E37-BE35-FA6F3E0C7DEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Asp.Versioning", "src\Cuemon.Extensions.Asp.Versioning\Cuemon.Extensions.Asp.Versioning.csproj", "{AC0ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.Tests", "test\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.Tests\Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.Tests.csproj", "{39A2E3FD-E10A-459E-9EAC-F82FCA6DFCD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -566,10 +568,14 @@ Global
 		{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B5D726C-66C4-4E37-BE35-FA6F3E0C7DEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B5D726C-66C4-4E37-BE35-FA6F3E0C7DEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B5D726C-66C4-4E37-BE35-FA6F3E0C7DEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B5D726C-66C4-4E37-BE35-FA6F3E0C7DEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC0ADF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39A2E3FD-E10A-459E-9EAC-F82FCA6DFCD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39A2E3FD-E10A-459E-9EAC-F82FCA6DFCD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39A2E3FD-E10A-459E-9EAC-F82FCA6DFCD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39A2E3FD-E10A-459E-9EAC-F82FCA6DFCD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -666,7 +672,8 @@ Global
 		{AA0ADF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{CCBC1CE5-66A2-4685-B7EF-16508ECA4D8F} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{AB0ADF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
-		{8B5D726C-66C4-4E37-BE35-FA6F3E0C7DEB} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{AC0ADF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{39A2E3FD-E10A-459E-9EAC-F82FCA6DFCD3} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A848386-B682-4F6D-8254-B5F6247C3054}

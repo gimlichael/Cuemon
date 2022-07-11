@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>The Cuemon.Extensions.AspNetCore.Authentication.HmacSha256Aws4 namespace complements the Cuemon.AspNetCore.Authentication namespace while providing a way to authenticate with Amazon Simple Storage Service (S3) using AWS Signature Version 4.</Description>
+    <Description>The Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace complements the Cuemon.AspNetCore.Authentication namespace while providing a way making and signing HTTP requests in the context of specific AWS services using Signature Version 4.</Description>
     <PackageTags>aws simple-storage-service s3 amazon aws4-hmac-sha256</PackageTags>
   </PropertyGroup>
 

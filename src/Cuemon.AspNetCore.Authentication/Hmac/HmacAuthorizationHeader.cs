@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cuemon.Net.Http;
 
 namespace Cuemon.AspNetCore.Authentication.Hmac
 {
@@ -38,11 +37,6 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
             return new HmacAuthorizationHeader(authenticationScheme).Parse(authorizationHeader, setup) as HmacAuthorizationHeader;
         }
 
-        /// <summary>
-        /// The default authentication scheme of the <see cref="HmacAuthorizationHeader"/>.
-        /// </summary>
-        public const string Scheme = HttpAuthenticationSchemes.Hmac;
-
         HmacAuthorizationHeader(string authenticationScheme) : base(authenticationScheme)
         {
         }
@@ -54,8 +48,8 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <param name="credentialScope">The credential scope that defines the remote resource.</param>
         /// <param name="signedHeaders">The headers that will be part of the signing process.</param>
         /// <param name="signature">The signature that represents the integrity of this header.</param>
-        /// <param name="authenticationScheme">The authentication scheme of this header. Default is <see cref="Scheme"/> (HMAC).</param>
-        public HmacAuthorizationHeader(string clientId, string credentialScope, string signedHeaders, string signature, string authenticationScheme = Scheme) : base(authenticationScheme)
+        /// <param name="authenticationScheme">The authentication scheme of this header. Default is <see cref="HmacFields.Scheme"/> (HMAC).</param>
+        public HmacAuthorizationHeader(string clientId, string credentialScope, string signedHeaders, string signature, string authenticationScheme = HmacFields.Scheme) : base(authenticationScheme)
         {
             ClientId = clientId;
             CredentialScope = credentialScope;
@@ -132,7 +126,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                 signedHeaders != null && signedHeaders.Any() &&
                 !string.IsNullOrWhiteSpace(signature))
             {
-                return new HmacAuthorizationHeader(clientId, credentialScope, signedHeaders, signature);
+                return new HmacAuthorizationHeader(clientId, credentialScope, signedHeaders, signature, AuthenticationScheme);
             }
 
             return null;

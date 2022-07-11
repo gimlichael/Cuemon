@@ -13,7 +13,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// </summary>
         public HmacAuthenticationOptions()
         {
-            AuthenticationScheme = HmacAuthorizationHeader.Scheme;
+            AuthenticationScheme = HmacFields.Scheme;
             Algorithm = KeyedCryptoAlgorithm.HmacSha256;
         }
 

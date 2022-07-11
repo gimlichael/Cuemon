@@ -19,3 +19,12 @@
 - name: Ext. Json.NET API
   href: api/extensions/jsonnet
   topicHref: api/extensions/jsonnet/index.md
+- name: Ext. Asp.Versioning API
+  href: api/extensions/aspversioning
+  topicHref: api/extensions/aspversioning/index.md
+- name: Ext. Swashbuckle.AspNetCore API
+  href: api/extensions/swagger
+  topicHref: api/extensions/swagger/index.md
+- name: Ext. AWS Signature API
+  href: api/extensions/awssignature4
+  topicHref: api/extensions/awssignature4/index.md

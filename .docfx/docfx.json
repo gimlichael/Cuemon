@@ -75,6 +75,21 @@
       "src": [
         {
           "files": [
+            "Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/awssignature4",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net6.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.csproj",
             "Cuemon.Extensions.Newtonsoft.Json/**.csproj"
           ],

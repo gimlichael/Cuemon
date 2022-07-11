@@ -58,17 +58,5 @@
         /// </summary>
         /// <remarks>https://www.rfc-editor.org/rfc/rfc8292.html</remarks>
         public const string Vapid = "vapid";
-
-        /// <summary>
-        /// The customizable <c>HMAC</c> HTTP Authentication Scheme.
-        /// </summary>
-        /// <remarks>https://www.wolfe.id.au/2012/10/20/what-is-hmac-authentication-and-why-is-it-useful/, https://docs.microsoft.com/en-us/azure/azure-app-configuration/rest-api-authentication-hmac and https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Authentication.Hmac.HmacAuthorizationHeader.html</remarks>
-        public const string Hmac = "HMAC";
-
-        /// <summary>
-        /// The <c>AWS4-HMAC-SHA256</c> HTTP Authentication Scheme.
-        /// </summary>
-        /// <remarks>https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-auth-using-authorization-header.html</remarks>
-        public const string Aws4HmacSha256 = "AWS4-HMAC-SHA256";
     }
 }
