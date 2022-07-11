@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 {
-    internal sealed class MiddlewareAspNetCoreHostTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IMiddlewareTest
+    internal sealed class MiddlewareTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IMiddlewareTest
     {
         private readonly Action<IApplicationBuilder> _pipelineConfigurator;
         private readonly Action<IServiceCollection> _serviceConfigurator;
@@ -14,7 +14,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         private readonly Action<IHostBuilder> _hostConfigurator;
         private HostBuilderContext _hostBuilderContext;
 
-        internal MiddlewareAspNetCoreHostTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
+        internal MiddlewareTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
             _pipelineConfigurator = pipelineConfigurator;
             _serviceConfigurator = serviceConfigurator;
@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
 
-        internal MiddlewareAspNetCoreHostTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
+        internal MiddlewareTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
             _pipelineConfiguratorWithContext = pipelineConfigurator;
             _serviceConfiguratorWithContext = serviceConfigurator;
