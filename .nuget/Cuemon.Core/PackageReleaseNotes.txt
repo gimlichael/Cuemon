@@ -1,6 +1,10 @@
 ﻿Version: 7.0.0
 Availability: .NET Standard 2.0, .NET 6.0
  
+# New Features
+- ADDED HttpAuthenticationSchemes class in the Cuemon.Net.Http namespace that specifies options that defines constants for well-known HTTP authentication schemes
+- ADDED HttpHeaderNames class in the Cuemon.Net.Http namespace that defines constants for well-known HTTP headers
+ 
 # Improvements
 - EXTENDED Validator class in the Cuemon namespace with one new static member: CheckParameter
  

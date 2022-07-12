@@ -8,7 +8,6 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0
 - ADDED FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace that specifies options that is related to ExceptionHandlerMiddleware operations
 - ADDED HttpFaultResolver class in the Cuemon.AspNetCore.Diagnostics namespace that provides a way to evaluate an exception and provide details about it in a developer friendly way, optimized for open- and otherwise public application programming interfaces (API)
 - ADDED HttpRequestEvidence class in the Cuemon.AspNetCore.Diagnostics namespace that provides detailed information about a given HttpRequest
-- ADDED RequestHeaderNames class in the Cuemon.AspNetCore.Http.Headers namespace that defines constants for well-known HTTP request headers
  
 # Improvements
 - CHANGED HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace to include a new property where HTTP response Headers can be associated with the exception
