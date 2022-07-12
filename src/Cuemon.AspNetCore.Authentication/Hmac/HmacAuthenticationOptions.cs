@@ -18,7 +18,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         }
 
         /// <summary>
-        /// Gets the name of the authentication scheme. Default is <see cref="HmacAuthorizationHeader.Scheme"/>.
+        /// Gets the name of the authentication scheme. Default is <see cref="HmacFields.Scheme"/>.
         /// </summary>
         /// <value>The name of the authentication scheme.</value>
         public string AuthenticationScheme { get; set; }

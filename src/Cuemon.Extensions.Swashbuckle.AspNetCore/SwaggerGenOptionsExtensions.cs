@@ -24,6 +24,11 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
             return options;
         }
 
+        /// <summary>
+        /// Adds support for first line of defense using security based HTTP X-Api-Key header.
+        /// </summary>
+        /// <param name="options">The <see cref="SwaggerGenOptions"/> to extend.</param>
+        /// <returns>A reference to <paramref name="options" /> so that additional calls can be chained.</returns>
         public static SwaggerGenOptions AddXApiKeySecurity(this SwaggerGenOptions options)
         {
             Validator.ThrowIfNull(options, nameof(options));
@@ -55,6 +60,11 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
             return options;
         }
 
+        /// <summary>
+        /// Adds support for AuthN/AuthZ using the Bearer security scheme in JWT format.
+        /// </summary>
+        /// <param name="options">The <see cref="SwaggerGenOptions"/> to extend.</param>
+        /// <returns>A reference to <paramref name="options" /> so that additional calls can be chained.</returns>
         public static SwaggerGenOptions AddJwtBearerSecurity(this SwaggerGenOptions options)
         {
             options.AddSecurityDefinition(HttpAuthenticationSchemes.Bearer, new OpenApiSecurityScheme

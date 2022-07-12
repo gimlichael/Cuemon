@@ -44,7 +44,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
         /// Write the value as JSON.
         /// </summary>
         /// <param name="writer">The <see cref="Utf8JsonWriter"/> to write to.</param>
-        /// <param name="value">The value to convert. Note that the value of <seealso cref="HandleNull"/> determines if the converter handles <see langword="null" /> values.</param>
+        /// <param name="value">The value to convert.</param>
         /// <param name="options">The <see cref="JsonSerializerOptions"/> being used.</param>
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
         {
