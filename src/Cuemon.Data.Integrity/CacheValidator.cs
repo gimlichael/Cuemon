@@ -14,10 +14,10 @@ namespace Cuemon.Data.Integrity
     public class CacheValidator : ChecksumBuilder, IEntityInfo
     {
         private const long NullOrZeroLengthChecksum = 23719;
-        private static readonly CacheValidator DefaultCacheValidatorValue = new CacheValidator(new EntityInfo(DateTime.MinValue, DateTime.MinValue), () => Security.HashFactory.CreateFnv128());
+        private static readonly CacheValidator DefaultCacheValidatorValue = new(new EntityInfo(DateTime.MinValue, DateTime.MinValue), () => Security.HashFactory.CreateFnv128());
         private static CacheValidator _referencePointCacheValidator;
         private static Assembly _assemblyValue;
-        private static readonly Lazy<Assembly> LazyAssembly = new Lazy<Assembly>(() => Assembly.GetEntryAssembly() ?? typeof(ChecksumBuilder).GetTypeInfo().Assembly);
+        private static readonly Lazy<Assembly> LazyAssembly = new(() => Assembly.GetEntryAssembly() ?? typeof(ChecksumBuilder).GetTypeInfo().Assembly);
 
         /// <summary>
         /// Gets the most significant <see cref="CacheValidator"/> object from the most significant (largest) value of either <see cref="Created"/> or <see cref="Modified"/> in the specified <paramref name="sequence"/>.
@@ -44,7 +44,7 @@ namespace Cuemon.Data.Integrity
         /// </exception>
         public static Assembly AssemblyReference
         {
-            get => _assemblyValue ?? (_assemblyValue = LazyAssembly.Value);
+            get => _assemblyValue ??= LazyAssembly.Value;
             set
             {
                 Validator.ThrowIfNull(value, nameof(value));

@@ -1,13 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;netcoreapp3.1;netstandard2.0</TargetFrameworks>
     <ProjectGuid>c6b592e8-2413-4bff-adf2-8a72c62199e3</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.AspNetCore.Mvc.RazorPages</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.AspNetCore.Mvc.RazorPages</AssemblyTitle>
     <Description>The Cuemon.Extensions.AspNetCore.Mvc.RazorPages namespace contains extension methods tailored to accompany the types found in Cuemon.AspNetCore.Razor.TagHelpers while being an addition to the Microsoft.AspNetCore.Mvc.RazorPages namespace.</Description>
     <PackageTags>app cdn get-app-url get-cdn-url</PackageTags>
   </PropertyGroup>

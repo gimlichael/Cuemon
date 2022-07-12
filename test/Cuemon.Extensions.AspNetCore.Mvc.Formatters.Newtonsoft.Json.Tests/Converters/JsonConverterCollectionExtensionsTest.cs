@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                 oome = e;
             }
 
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app => { }, services => { services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton); }))
+            using (var middleware = MiddlewareTestFactory.Create(app => { }, services => { services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton); }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var correlationId = Guid.NewGuid().ToString("N");
@@ -177,6 +177,33 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                 Assert.Contains("]", json);
 
                 TestOutput.WriteLine(json);
+            });
+        }
+
+        [Fact]
+        public void AddStringValuesConverter_ShouldAddStringValuesConverterToConverterCollection_OneValue()
+        {
+            var sut1 = new StringValues(Arguments.ToArrayOf("This"));
+
+            var sut2 = new JsonFormatterOptions();
+
+            var dc = sut2.Settings.Converters.SingleOrDefault(jc => jc.CanConvert(typeof(StringValues)));
+            if (dc != null) { sut2.Settings.Converters.Remove(dc); }
+            sut2.Settings.Converters.AddStringValuesConverter();
+
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(StringValues))), jc =>
+            {
+                var jf = new JsonFormatter(sut2);
+
+                var result = jf.Serialize(sut1);
+
+                var json = result.ToEncodedString(o => o.LeaveOpen = true);
+
+                TestOutput.WriteLine(json);
+
+                Assert.True(jc.CanConvert(typeof(StringValues)));
+
+                Assert.Equal("\"This\"", json);
             });
         }
     }

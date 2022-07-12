@@ -11,7 +11,7 @@ namespace Cuemon.Runtime
     /// <seealso cref="Watcher" />
     public class FileWatcher : Watcher
     {
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileWatcher"/> class.

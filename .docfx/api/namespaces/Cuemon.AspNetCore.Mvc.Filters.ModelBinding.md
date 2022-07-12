@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Mvc.ModelBinding namespace contains types that alters the built-in way of doing model binding. The namespace is an addition to the Microsoft.AspNetCore.Mvc.ModelBinding namespace.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Mvc.ModelBinding namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.modelbinding?view=aspnetcore-2.0) 🔗
 

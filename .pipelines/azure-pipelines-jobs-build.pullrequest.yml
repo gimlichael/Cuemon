@@ -25,28 +25,6 @@
     - template: azure-pipelines-jobs-build-step.unittest.yml
     - template: azure-pipelines-jobs-build-step.dockercomposedown.yml
 
-  - job: BuildDotNet5_0
-    displayName: 'PR (build)'
-    timeoutInMinutes: 30
-    strategy:
-      matrix:
-        Linux_Build_and_Test:
-          imageName: 'ubuntu-20.04'
-        Windows_Build_and_Test:
-          imageName: 'windows-2019'
-    pool:
-      vmImage: $(imageName)
-    variables:
-      - name: DotnetBuildName
-        value: 'net5.0'
-    steps:
-    - template: azure-pipelines-jobs-build-step.dotnet.yml
-    - template: azure-pipelines-jobs-build-step.minvertool.yml
-    - template: azure-pipelines-jobs-build-step.snk.yml
-    - template: azure-pipelines-jobs-build-step.minverversionoverride.yml
-    - template: azure-pipelines-jobs-build-step.restore.yml
-    - template: azure-pipelines-jobs-build-step.net5_0.yml
-
   - job: BuildDotNet3_1
     displayName: 'PR (netcoreapp3.1, build)'
     timeoutInMinutes: 30

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization.Formatters;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -47,7 +47,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
             requestBody.Position = 0;
             var formatter = ActivatorFactory.CreateInstance<TOptions, TFormatter>(Options);
             var deserializedObject = formatter.Deserialize(requestBody, context.ModelType);
-            context.HttpContext.Items.Add(FaultDescriptorFilter.HttpContextItemsKeyForCapturedRequestBody, requestBody);
+            context.HttpContext.Items.Add(HttpRequestEvidence.HttpContextItemsKeyForCapturedRequestBody, requestBody);
             return await InputFormatterResult.SuccessAsync(deserializedObject).ConfigureAwait(false);
         }
     }

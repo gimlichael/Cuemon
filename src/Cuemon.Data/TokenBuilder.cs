@@ -43,7 +43,7 @@ namespace Cuemon.Data
 
         private int CurrentTokens { get; set; }
 
-        private StringBuilder Result { get; } = new StringBuilder();
+        private StringBuilder Result { get; } = new();
 
         /// <summary>
         /// Returns a value indicating whether the current state of this builder is valid.

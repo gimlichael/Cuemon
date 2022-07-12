@@ -1,13 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>010bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.Collections.Specialized</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Collections.Specialized</AssemblyTitle>
     <Description>The Cuemon.Extensions.Collections.Specialized namespace contains extension methods that complements the Cuemon.Collections.Specialized namespace while being an addition to the System.Collections.Specialized namespace.</Description>
     <PackageTags>extension-methods extensions to-name-value-collection to-dictionary</PackageTags>
   </PropertyGroup>

@@ -336,8 +336,7 @@ namespace Cuemon.Xml.Serialization.Converters
         {
             if (Decorator.Enclose(childNode.InstanceType).HasEnumerableImplementation() && childNode.InstanceType != typeof(string) && !Decorator.Enclose(childNode.InstanceType).HasDictionaryImplementation())
             {
-                var i = childNode.Instance as IEnumerable;
-                if (i == null || !i.Cast<object>().Any()) { return true; }
+                if (childNode.Instance is not IEnumerable i || !i.Cast<object>().Any()) { return true; }
             }
             return false;
         }

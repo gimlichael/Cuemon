@@ -11,6 +11,10 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
     /// <seealso cref="AuthorizationHeader" />
     public class HmacAuthorizationHeader : AuthorizationHeader
     {
+        private const string CredentialComponent = "Credential";
+        private const string SignedHeadersComponent = "SignedHeaders";
+        private const string SignatureComponent = "Signature";
+
         /// <summary>
         /// Creates an instance of <see cref="HmacAuthorizationHeader"/> from the specified parameters.
         /// </summary>
@@ -33,11 +37,6 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
             return new HmacAuthorizationHeader(authenticationScheme).Parse(authorizationHeader, setup) as HmacAuthorizationHeader;
         }
 
-        /// <summary>
-        /// The default authentication scheme of the <see cref="HmacAuthorizationHeader"/>.
-        /// </summary>
-        public const string Scheme = "HMAC";
-
         HmacAuthorizationHeader(string authenticationScheme) : base(authenticationScheme)
         {
         }
@@ -49,8 +48,8 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <param name="credentialScope">The credential scope that defines the remote resource.</param>
         /// <param name="signedHeaders">The headers that will be part of the signing process.</param>
         /// <param name="signature">The signature that represents the integrity of this header.</param>
-        /// <param name="authenticationScheme">The authentication scheme of this header. Default is <see cref="Scheme"/> (HMAC).</param>
-        public HmacAuthorizationHeader(string clientId, string credentialScope, string signedHeaders, string signature, string authenticationScheme = Scheme) : base(authenticationScheme)
+        /// <param name="authenticationScheme">The authentication scheme of this header. Default is <see cref="HmacFields.Scheme"/> (HMAC).</param>
+        public HmacAuthorizationHeader(string clientId, string credentialScope, string signedHeaders, string signature, string authenticationScheme = HmacFields.Scheme) : base(authenticationScheme)
         {
             ClientId = clientId;
             CredentialScope = credentialScope;
@@ -88,9 +87,9 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return $"{AuthenticationScheme} Credential={ClientId}/{CredentialScope}, SignedHeaders={string.Join(";", SignedHeaders)}, Signature={Signature}";
+            return $"{AuthenticationScheme} {CredentialComponent}={ClientId}/{CredentialScope}, {SignedHeadersComponent}={string.Join(";", SignedHeaders)}, {SignatureComponent}={Signature}";
         }
-
+        
         /// <summary>
         /// The core parser that resolves an <see cref="AuthorizationHeader" /> from a set of <paramref name="credentials" />.
         /// </summary>
@@ -104,19 +103,19 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                 var key = kvp.Key;
                 var value = kvp.Value;
 
-                if (key == "Credential")
+                if (key == CredentialComponent)
                 {
                     var cs = value.Split(new [] { '/' }, 2);
                     clientId = cs[0];
                     credentialScope = cs[1];
                 }
 
-                if (key == "SignedHeaders")
+                if (key == SignedHeadersComponent)
                 {
                     signedHeaders = value;
                 }
 
-                if (key == "Signature")
+                if (key == SignatureComponent)
                 {
                     signature = value;
                 }
@@ -127,7 +126,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                 signedHeaders != null && signedHeaders.Any() &&
                 !string.IsNullOrWhiteSpace(signature))
             {
-                return new HmacAuthorizationHeader(clientId, credentialScope, signedHeaders, signature);
+                return new HmacAuthorizationHeader(clientId, credentialScope, signedHeaders, signature, AuthenticationScheme);
             }
 
             return null;

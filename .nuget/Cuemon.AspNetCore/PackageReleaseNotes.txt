@@ -1,4 +1,24 @@
-﻿Version: 6.4.1
+﻿Version: 7.0.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0
+ 
+# Breaking Changes
+- CHANGED ThrottlingSentinelOptions class in the Cuemon.AspNetCore.Http.Throttling namespace in the context of renaming the ResponseBroker property to ResponseHandler
+ 
+# New Features
+- ADDED FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace that specifies options that is related to ExceptionHandlerMiddleware operations
+- ADDED HttpFaultResolver class in the Cuemon.AspNetCore.Diagnostics namespace that provides a way to evaluate an exception and provide details about it in a developer friendly way, optimized for open- and otherwise public application programming interfaces (API)
+- ADDED HttpRequestEvidence class in the Cuemon.AspNetCore.Diagnostics namespace that provides detailed information about a given HttpRequest
+- ADDED RequestHeaderNames class in the Cuemon.AspNetCore.Http.Headers namespace that defines constants for well-known HTTP request headers
+ 
+# Improvements
+- CHANGED HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace to include a new property where HTTP response Headers can be associated with the exception
+- CHANGED UserAgentSentinelMiddleware class in the Cuemon.AspNetCore.Http.Headers namespace to have a more lean and fault tolerant design
+- CHANGED ThrottlingSentinelMiddleware class in the Cuemon.AspNetCore.Http.Throttling namespace to have a more lean and fault tolerant design
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFM and removed these dependencies for .NET Standard 2.0: Microsoft.AspNetCore.Hosting.Abstractions, Microsoft.AspNetCore.WebUtilities, Microsoft.AspNetCore.Http.Extensions, Microsoft.Extensions.Options and System.Collections.Immutable
+ 
+Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
  
 # ALM

@@ -5,8 +5,15 @@
       command: build
       projects: |
         src/**/*.csproj
+        !src/**/Cuemon.Extensions.Asp.Versioning.csproj
+        !src/**/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.csproj
+        !src/**/Cuemon.Extensions.Swashbuckle.AspNetCore.csproj
         !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
         !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
+        !src/**/Cuemon.AspNetCore.App.csproj
+        !src/**/Cuemon.Core.App.csproj
         !src/**/Cuemon.Extensions.Xunit.App.csproj
+        !src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.csproj
+        !src/**/Cuemon.Extensions.Text.Json.csproj
       arguments: '--configuration $(BuildConfiguration) --verbosity quiet --no-restore --framework netstandard2.0'
       workingDirectory: '$(BuildSource)'

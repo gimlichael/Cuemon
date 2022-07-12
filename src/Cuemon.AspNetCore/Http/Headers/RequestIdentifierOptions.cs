@@ -1,5 +1,6 @@
 ﻿using System;
 using Cuemon.Messaging;
+using Cuemon.Net.Http;
 
 namespace Cuemon.AspNetCore.Http.Headers
 {
@@ -20,7 +21,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="HeaderName"/></term>
-        ///         <description><c>X-Request-ID</c></description>
+        ///         <description><see cref="HttpHeaderNames.XRequestId"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="RequestProvider"/></term>
@@ -30,7 +31,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </remarks>
         public RequestIdentifierOptions()
         {
-            HeaderName = "X-Request-ID";
+            HeaderName = HttpHeaderNames.XRequestId;
             RequestProvider = () => DynamicRequest.Create(Guid.NewGuid().ToString("N"));
         }
 

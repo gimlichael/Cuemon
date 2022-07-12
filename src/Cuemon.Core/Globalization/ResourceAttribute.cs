@@ -10,7 +10,7 @@ namespace Cuemon.Globalization
     /// <seealso cref="Attribute" />
     public abstract class ResourceAttribute : Attribute
     {
-        private readonly ConcurrentDictionary<string, PropertyInfo> _propertyInfos = new ConcurrentDictionary<string, PropertyInfo>();
+        private readonly ConcurrentDictionary<string, PropertyInfo> _propertyInfos = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceAttribute"/> class.

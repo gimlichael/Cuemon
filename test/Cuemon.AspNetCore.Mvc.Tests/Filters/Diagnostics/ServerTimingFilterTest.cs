@@ -25,7 +25,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnActionExecutionAsync_ShouldTimeMeasureFakeControllerAndFictiveMeasurements()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.Use(async (context, next) => 
@@ -64,7 +64,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnActionExecutionAsync_ShouldTimeMeasureFakeController()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -88,7 +88,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task ServerTimingAttribute_ShouldTimeMeasureFakeController_GetAfter1SecondDecorated()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -112,7 +112,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task ServerTimingAttribute_ShouldSuppressTimeMeasureFakeController_GetAfter1SecondDecorated()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

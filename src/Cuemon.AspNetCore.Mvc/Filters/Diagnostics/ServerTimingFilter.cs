@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
     /// <summary>
-    /// A filter that performs time measure profiling of an action method.
+    /// A filter that performs time measure profiling of action methods.
     /// </summary>
     /// <seealso cref="ConfigurableActionFilter{TOptions}"/>
     /// <seealso cref="IActionFilter" />

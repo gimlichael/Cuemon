@@ -32,7 +32,7 @@ Extensions for ASP.NET Core API, that is part of Cuemon for .NET, is a toolbelt 
 
 The Cuemon.Extensions.AspNetCore namespace contains both types and extension methods that complements the Cuemon.AspNetCore namespace while being an addition to the Microsoft.AspNetCore namespace. Provides an in-memory implementation of a throttling cache for ASP.NET Core.
 
-Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 6.0**
 
 Assembly: Cuemon.Extensions.AspNetCore
 
@@ -44,7 +44,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.AspNetCore.Authentication namespace contains extension methods that complements the Cuemon.AspNetCore.Authentication namespace.
 
-Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 6.0**
 
 Assembly: Cuemon.Extensions.AspNetCore.Authentication
 
@@ -56,7 +56,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.AspNetCore.Mvc namespace contains both types and extension methods that complements the Cuemon.AspNetCore.Mvc namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides a set of different cache busting strategies for ASP.NET Core MVC that can be easily customized.
 
-Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 6.0**
 
 Assembly: Cuemon.Extensions.AspNetCore.Mvc
 
@@ -68,7 +68,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace contains both types and extension methods that complements the Cuemon.Extensions.Xml namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides XML formatters for ASP.NET Core that offers same flexibility as the one provided by the JSON equivalent from Newtonsoft.
 
-Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 6.0**
 
 Assembly: Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 
@@ -80,7 +80,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.AspNetCore.Mvc.RazorPages namespace contains extension methods tailored to accompany the types found in Cuemon.AspNetCore.Razor.TagHelpers while being an addition to the Microsoft.AspNetCore.Mvc.RazorPages namespace.
 
-Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 6.0**
 
 Assembly: Cuemon.Extensions.AspNetCore.Mvc.RazorPages
 

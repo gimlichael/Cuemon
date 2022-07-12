@@ -1,13 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;netcoreapp3.1;netstandard2.0</TargetFrameworks>
     <ProjectGuid>1e0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.Xunit.Hosting</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Xunit.Hosting</AssemblyTitle>
     <Description>The Cuemon.Extensions.Xunit.Hosting namespace contains types that provides a uniform way of doing unit testing used in conjunction with Microsoft Dependency Injection. The namespace relates to the Xunit.Abstractions namespace.</Description>
     <PackageTags>host-test class-fixture host-fixture microsoft dependency injection host configuration hosting-environment service-provider configure-services</PackageTags>
   </PropertyGroup>
@@ -20,20 +18,12 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
-  </ItemGroup>
-
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.24" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.24" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.24" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.24" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.24" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.25" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.25" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.25" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.25" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.25" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">

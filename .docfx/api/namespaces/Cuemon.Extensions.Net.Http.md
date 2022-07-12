@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Net.Http namespace contains both types and extension methods that complements the Cuemon.Net namespace. Includes support for both traditional and factory based ways of working with HttpMangager instances while also including a simple and lightweight implementation of the IHttpClientFactory interface named SlimHttpClientFactory (that provides "managed" HttpClient instances).
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 ## Github branches 🖇️
 

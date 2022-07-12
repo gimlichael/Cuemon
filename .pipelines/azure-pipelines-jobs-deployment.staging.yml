@@ -17,7 +17,7 @@
                 downloadPath: '$(System.DefaultWorkingDirectory)'
 
             - task: NuGetCommand@2
-              displayName: 'Publish NuGet Packages to https://nuget.cuemon.net/v3/index.json'
+              displayName: 'Publish NuGet Packages to https://api.nuget.org/v3/index.json'
               inputs:
                 command: custom
                 arguments: 'push $(System.DefaultWorkingDirectory)/**/*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $(nuget-org-apikey) -SkipDuplicate'

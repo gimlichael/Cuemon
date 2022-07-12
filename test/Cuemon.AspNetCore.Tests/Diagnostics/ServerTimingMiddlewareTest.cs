@@ -21,7 +21,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         [Fact]
         public async Task InvokeAsync_ShouldProviderServerTimingHeaderWithMetrics()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.Use(async (context, next) =>
                 {
@@ -55,7 +55,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         [Fact]
         public async Task InvokeAsync_ShouldNotProviderServerTimingHeaderWithMetrics()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.Use(async (context, next) =>
                 {

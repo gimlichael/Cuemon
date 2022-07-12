@@ -10,7 +10,7 @@ namespace Cuemon.Globalization
     /// </summary>
     public static class World
     {
-        internal static readonly Lazy<IEnumerable<CultureInfo>> SpecificCultures = new Lazy<IEnumerable<CultureInfo>>(() =>
+        internal static readonly Lazy<IEnumerable<CultureInfo>> SpecificCultures = new(() =>
         {
             var cultures = new SortedList<string, CultureInfo>();
             var specificCultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
@@ -21,7 +21,7 @@ namespace Cuemon.Globalization
             return cultures.Values;
         });
 
-        private static readonly Lazy<IEnumerable<RegionInfo>> SpecificRegions = new Lazy<IEnumerable<RegionInfo>>(() =>
+        private static readonly Lazy<IEnumerable<RegionInfo>> SpecificRegions = new(() =>
         {
             var regions = new SortedList<string, RegionInfo>(StringComparer.OrdinalIgnoreCase);
             foreach (var c in SpecificCultures.Value)

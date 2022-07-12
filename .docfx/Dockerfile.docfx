@@ -1,6 +1,6 @@
 ﻿# escape=`
 
-FROM nginx:1.21.6 AS base
+FROM nginx:1.22.0 AS base
 RUN rm -rf /usr/share/nginx/html/*
 
 FROM mono:6.12.0.122 AS build

@@ -706,7 +706,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             };
         }
 
-        private static readonly object PadLock = new object();
+        private static readonly object PadLock = new();
 
         private static TResult Memoize<TKey, TTuple, TResult>(ICacheEnumerable<TKey> cache, string key, CacheInvalidation invalidation, FuncFactory<TTuple, TResult> valueFactory) where TTuple : Template
         {
@@ -731,8 +731,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             foreach (var arg in args)
             {
                 var current = arg ?? MemoizationNullHashCode;
-                var bytes = current as byte[];
-                result ^= bytes == null
+                result ^= current is not byte[] bytes
                     ? current.GetHashCode()
                     : Generate.HashCode32(bytes.Cast<IConvertible>());
             }

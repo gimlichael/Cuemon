@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cuemon.Net.Http;
 using Cuemon.Text;
 
 namespace Cuemon.AspNetCore.Authentication.Basic
@@ -32,7 +33,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         /// <summary>
         /// The default authentication scheme of the <see cref="BasicAuthorizationHeader"/>.
         /// </summary>
-        public const string Scheme = "Basic";
+        public const string Scheme = HttpAuthenticationSchemes.Basic;
 
         BasicAuthorizationHeader() : base(Scheme)
         {

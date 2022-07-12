@@ -21,7 +21,7 @@ namespace Cuemon
     {
         private static readonly Hash Fnv1A = HashFactory.CreateFnv64(o => o.Algorithm = FowlerNollVoAlgorithm.Fnv1a);
 
-        private static readonly ThreadLocal<Random> LocalRandomizer = new ThreadLocal<Random>(() =>
+        private static readonly ThreadLocal<Random> LocalRandomizer = new(() =>
         {
             var rnd = new byte[4];
             using (var rng = RandomNumberGenerator.Create())

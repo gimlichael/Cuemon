@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
-using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
@@ -8,7 +7,7 @@ using Microsoft.Extensions.Options;
 namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
 {
     /// <summary>
-    /// A filter that provides an API throttling of action methods.
+    /// A filter that provides an API throttling sentinel on action methods.
     /// </summary>
     /// <seealso cref="ConfigurableAsyncActionFilter{TOptions}"/>
     /// <seealso cref="IAsyncActionFilter" />
@@ -34,11 +33,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         /// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            await Decorator.Enclose(context.HttpContext).InvokeThrottlerSentinelAsync(ThrottlingCache, Options, (message, response) =>
-            {
-                response.StatusCode = (int) message.StatusCode;
-                Decorator.Enclose(response.Headers).AddOrUpdateHeaders(message.Headers);
-            }).ConfigureAwait(false);
+            await Decorator.Enclose(context.HttpContext).InvokeThrottlerSentinelAsync(ThrottlingCache, Options).ConfigureAwait(false);
             await next().ConfigureAwait(false);
         }
     }

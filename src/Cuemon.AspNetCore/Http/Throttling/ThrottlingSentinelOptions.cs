@@ -60,7 +60,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         ///         <description><c>null</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="ResponseBroker"/></term>
+        ///         <term><see cref="ResponseHandler"/></term>
         ///         <description>A <see cref="HttpResponseMessage"/> initialized to a HTTP status code 429 with zero of one Retry-After header and a body of <see cref="TooManyRequestsMessage"/>.</description>
         ///     </item>
         /// </list>
@@ -74,7 +74,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
             UseRetryAfterHeader = true;
             RetryAfterScope = RetryConditionScope.DeltaSeconds;
             TooManyRequestsMessage = "Throttling rate limit quota violation. Quota limit exceeded.";
-            ResponseBroker = (delta, reset) =>
+            ResponseHandler = (delta, reset) =>
             {
                 var message = new HttpResponseMessage((HttpStatusCode) StatusCodes.Status429TooManyRequests);
                 if (UseRetryAfterHeader)
@@ -98,7 +98,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// Gets or sets the function delegate that configures the response in the form of a <see cref="HttpResponseMessage"/>.
         /// </summary>
         /// <value>The function delegate that configures the response in the form of a <see cref="HttpResponseMessage"/>.</value>
-        public Func<TimeSpan, DateTime, HttpResponseMessage> ResponseBroker { get; set; }
+        public Func<TimeSpan, DateTime, HttpResponseMessage> ResponseHandler { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate that will resolve a unique context of the throttling middleware (eg. IP-address, Authorization header, etc.).

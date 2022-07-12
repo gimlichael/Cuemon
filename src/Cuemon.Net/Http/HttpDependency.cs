@@ -34,9 +34,9 @@ namespace Cuemon.Net.Http
         public HttpDependency(IEnumerable<Lazy<HttpWatcher>> lazyFileWatchers, bool breakTieOnChanged = false) : base(watcherChanged =>
         {
             var watchers = new List<HttpWatcher>();
-            foreach (var lazyFileWatcher in lazyFileWatchers ?? Enumerable.Empty<Lazy<HttpWatcher>>())
+            foreach (var lazyFileWatcher in lazyFileWatchers.Select(lazy => lazy.Value))
             {
-                var fileWatcher = lazyFileWatcher.Value;
+                var fileWatcher = lazyFileWatcher;
                 fileWatcher.Changed += watcherChanged;
                 fileWatcher.StartMonitoring();
                 watchers.Add(fileWatcher);

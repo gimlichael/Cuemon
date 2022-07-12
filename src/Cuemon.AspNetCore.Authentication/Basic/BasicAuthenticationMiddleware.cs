@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cuemon.Collections.Generic;
 using Cuemon.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -40,16 +42,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         {
             if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
-                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, async (message, response) =>
-                {
-                    context.Response.OnStarting(() =>
-                    {
-                        context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{BasicAuthorizationHeader.Scheme} realm=\"{Options.Realm}\""));
-                        return Task.CompletedTask;
-                    });
-                    response.StatusCode = (int)message.StatusCode;
-                    await Decorator.Enclose(response.Body).WriteAllAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
-                }).ConfigureAwait(false);
+                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, dc => Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{BasicAuthorizationHeader.Scheme} realm=\"{Options.Realm}\""))).ConfigureAwait(false);
             }
             await Next(context).ConfigureAwait(false);
         }

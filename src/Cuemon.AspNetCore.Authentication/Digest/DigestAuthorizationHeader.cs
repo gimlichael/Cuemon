@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cuemon.Net.Http;
 
 namespace Cuemon.AspNetCore.Authentication.Digest
 {
@@ -31,7 +32,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <summary>
         /// The authentication scheme of the <see cref="DigestAuthorizationHeader"/>.
         /// </summary>
-        public const string Scheme = "Digest";
+        public const string Scheme = HttpAuthenticationSchemes.Digest;
 
         DigestAuthorizationHeader() : base(Scheme)
         {

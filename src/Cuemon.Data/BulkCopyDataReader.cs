@@ -14,7 +14,7 @@ namespace Cuemon.Data
     /// </summary>
     public sealed class BulkCopyDataReader : DbDataReader
     {
-        private static readonly object PadLock = new object();
+        private static readonly object PadLock = new();
         private IOrderedDictionary _defaultFields;
 
         /// <summary>
@@ -35,10 +35,10 @@ namespace Cuemon.Data
 
         private void Init()
         {
-            foreach (var mapping in Mappings)
+            foreach (var mapping in Mappings.Select(mapping => mapping.Source))
             {
-                if (string.IsNullOrEmpty(mapping.Source)) { continue; }
-                Fields.Add(mapping.Source, null);
+                if (string.IsNullOrEmpty(mapping)) { continue; }
+                Fields.Add(mapping, null);
             }
             if (Fields.Count > 0 &&
                 Fields.Count != Mappings.Count) { throw new InvalidOperationException("Mappings must be either all name or all ordinal based."); }
@@ -158,31 +158,28 @@ namespace Cuemon.Data
         /// <returns><c>true</c> if there are more rows; otherwise, <c>false</c>.</returns>
         public override bool Read()
         {
-            if (Reader.Read())
+            if (!Reader.Read()) { return false; }
+            var fields = GetDefault();
+            for (var i = 0; i < Reader.FieldCount; i++)
             {
-                var fields = GetDefault();
-                for (var i = 0; i < Reader.FieldCount; i++)
+                if (UseOrdinal)
                 {
-                    if (UseOrdinal)
+                    if (fields.Contains(i))
                     {
-                        if (fields.Contains(i))
-                        {
-                            fields[i] = Reader[i];
-                        }
-                    }
-                    else
-                    {
-                        if (IsMatch(Reader.GetName(i)) && fields.Contains(Reader.GetName(i)))
-                        {
-                            fields[Reader.GetName(i)] = Reader[Reader.GetName(i)];
-                        }
+                        fields[i] = Reader[i];
                     }
                 }
-                RowCount++;
-                SetFields(fields);
-                return true;
+                else
+                {
+                    if (IsMatch(Reader.GetName(i)) && fields.Contains(Reader.GetName(i)))
+                    {
+                        fields[Reader.GetName(i)] = Reader[Reader.GetName(i)];
+                    }
+                }
             }
-            return false;
+            RowCount++;
+            SetFields(fields);
+            return true;
         }
 
         private bool IsMatch(string localName)

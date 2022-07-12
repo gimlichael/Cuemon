@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Newtonsoft.Json.Serialization namespace contains extension methods that help in the serialization process.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [Newtonsoft.Json.Serialization namespace](https://www.newtonsoft.com/json/help/html/N_Newtonsoft_Json_Serialization.htm) 🔗
 

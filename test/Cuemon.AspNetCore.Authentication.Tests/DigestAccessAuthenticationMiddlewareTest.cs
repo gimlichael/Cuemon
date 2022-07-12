@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldNotBeAuthenticated()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseExceptionMiddleware();
                 app.UseDigestAccessAuthentication();
@@ -63,8 +63,8 @@ namespace Cuemon.AspNetCore.Authentication
 
                 var ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));
 
-                Assert.Equal(ue.Message, options.Value.UnauthorizedMessage);
-                Assert.Equal(StatusCodes.Status401Unauthorized, context.Response.StatusCode);
+                Assert.Equal(options.Value.UnauthorizedMessage, ue.Message);
+                Assert.Equal(StatusCodes.Status401Unauthorized, ue.StatusCode);
 
                 var wwwAuthenticate = context.Response.Headers[HeaderNames.WWWAuthenticate];
 
@@ -75,7 +75,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldAuthenticateWhenApplyingAuthorizationHeader()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseDigestAccessAuthentication();
                 app.Run(context =>
@@ -112,8 +112,8 @@ namespace Cuemon.AspNetCore.Authentication
 
                 var ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));
 
-                Assert.Equal(ue.Message, options.Value.UnauthorizedMessage);
-                Assert.Equal(StatusCodes.Status401Unauthorized, context.Response.StatusCode);
+                Assert.Equal(options.Value.UnauthorizedMessage, ue.Message);
+                Assert.Equal(StatusCodes.Status401Unauthorized, ue.StatusCode);
 
                 var wwwAuthenticate = context.Response.Headers[HeaderNames.WWWAuthenticate];
 
@@ -151,7 +151,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldAuthenticateWhenApplyingAuthorizationHeaderNoPlainTextPassword()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseDigestAccessAuthentication();
                 app.Run(context =>
@@ -188,8 +188,8 @@ namespace Cuemon.AspNetCore.Authentication
 
                 var ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));
 
-                Assert.Equal(ue.Message, options.Value.UnauthorizedMessage);
-                Assert.Equal(StatusCodes.Status401Unauthorized, context.Response.StatusCode);
+                Assert.Equal(options.Value.UnauthorizedMessage, ue.Message);
+                Assert.Equal(StatusCodes.Status401Unauthorized, ue.StatusCode);
 
                 var wwwAuthenticate = context.Response.Headers[HeaderNames.WWWAuthenticate];
 
@@ -226,7 +226,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldAuthenticateWhenApplyingAuthorizationHeaderWithQopIntegrity()
         {
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseDigestAccessAuthentication();
                 app.Run(context =>
@@ -263,8 +263,8 @@ namespace Cuemon.AspNetCore.Authentication
 
                 var ue = await Assert.ThrowsAsync<UnauthorizedException>(async () => await pipeline(context));
 
-                Assert.Equal(ue.Message, options.Value.UnauthorizedMessage);
-                Assert.Equal(StatusCodes.Status401Unauthorized, context.Response.StatusCode);
+                Assert.Equal(options.Value.UnauthorizedMessage, ue.Message);
+                Assert.Equal(StatusCodes.Status401Unauthorized, ue.StatusCode);
 
                 var wwwAuthenticate = context.Response.Headers[HeaderNames.WWWAuthenticate];
                 

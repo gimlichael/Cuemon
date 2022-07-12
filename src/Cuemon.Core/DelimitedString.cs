@@ -12,7 +12,7 @@ namespace Cuemon
     /// </summary>
     public static class DelimitedString
     {
-        private static readonly ConcurrentDictionary<string, Regex> CompiledSplitExpressions = new ConcurrentDictionary<string, Regex>();
+        private static readonly ConcurrentDictionary<string, Regex> CompiledSplitExpressions = new();
 
         /// <summary>
         /// Creates a delimited string representation from the specified <paramref name="source"/>.

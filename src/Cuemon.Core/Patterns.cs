@@ -12,7 +12,7 @@ namespace Cuemon
     /// </summary>
     public sealed class Patterns
     {
-        private static readonly Patterns ExtendedPatterns = new Patterns();
+        private static readonly Patterns ExtendedPatterns = new();
 
         /// <summary>
         /// Gets the singleton instance of the Patterns functionality allowing for extensions methods like: <c>Patterns.Use.SomeIngeniousMethod()</c>.

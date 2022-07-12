@@ -21,7 +21,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         [Fact]
         public async Task GetEtag_ShouldReturnOkWithEtagAndSubsequentlyNotModified()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -51,7 +51,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         [Fact]
         public async Task GetLastModified_ShouldReturnOkWithLastModifiedAndSubsequentlyNotModified()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

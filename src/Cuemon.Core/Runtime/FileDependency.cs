@@ -33,9 +33,9 @@ namespace Cuemon.Runtime
         public FileDependency(IEnumerable<Lazy<FileWatcher>> lazyFileWatchers, bool breakTieOnChanged = false) : base(watcherChanged =>
         {
             var watchers = new List<FileWatcher>();
-            foreach (var lazyFileWatcher in lazyFileWatchers ?? Enumerable.Empty<Lazy<FileWatcher>>())
+            foreach (var lazyFileWatcher in lazyFileWatchers.Select(lazy => lazy.Value))
             {
-                var fileWatcher = lazyFileWatcher.Value;
+                var fileWatcher = lazyFileWatcher;
                 fileWatcher.Changed += watcherChanged;
                 fileWatcher.StartMonitoring();
                 watchers.Add(fileWatcher);

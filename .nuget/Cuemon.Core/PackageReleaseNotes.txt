@@ -1,4 +1,10 @@
-﻿Version: 6.4.1
+﻿Version: 7.0.0
+Availability: .NET Standard 2.0, .NET 6.0
+ 
+# Improvements
+- EXTENDED Validator class in the Cuemon namespace with one new static member: CheckParameter
+ 
+Version: 6.4.1
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
  
 # ALM
@@ -111,7 +117,6 @@ Availability: .NET Standard 2.0, .NET 5.0
 - REMOVED NumberUtility class from the Cuemon namespace
 - REMOVED ObjectConverter class from the Cuemon namespace
 - REMOVED RandomSeverity enum from the Cuemon namespace
-- REMOVED StandardizedDateTimeFormatPattern enum from the Cuemon namespace
 - REMOVED StringConverter class from the Cuemon namespace
 - REMOVED StringFormatter class from the Cuemon namespace
 - REMOVED StringUtility class from the Cuemon namespace

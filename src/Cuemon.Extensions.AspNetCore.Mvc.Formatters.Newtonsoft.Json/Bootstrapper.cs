@@ -5,7 +5,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
 {
     internal static class Bootstrapper
     {
-        private static readonly object PadLock = new object();
+        private static readonly object PadLock = new();
         private static bool _initialized;
 
         internal static void Initialize()

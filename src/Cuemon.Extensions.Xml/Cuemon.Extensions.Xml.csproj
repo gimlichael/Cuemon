@@ -1,13 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>0c0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.Xml</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Xml</AssemblyTitle>
     <Description>The Cuemon.Extensions.Xml namespace contains extension methods that complements the Cuemon.Xml namespace while being an addition to the System.Xml namespace.</Description>
     <PackageTags>extension-methods extensions to-xml-reader copy-xml-stream try-detect-xml-encoding chunk to-stream write-object is-xml-string try-parse-xelement</PackageTags>
   </PropertyGroup>

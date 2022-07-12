@@ -25,14 +25,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         ///     </item>
         ///     <item>
         ///         <term><see cref="CacheControl"/></term>
-        ///         <description><c>new CacheControlHeaderValue() { MaxAge = TimeSpan.FromHours(24), MustRevalidate = true, Private = true };</c></description>
+        ///         <description><c>new CacheControlHeaderValue() { MaxAge = TimeSpan.FromMinutes(5), MustRevalidate = true, Private = true };</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public HttpCacheableOptions()
         {
             Filters = new List<ICacheableAsyncResultFilter>();
-            CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromHours(24), MustRevalidate = true, Private = true };
+            CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromMinutes(5), MustRevalidate = true, Private = true };
         }
 
         /// <summary>

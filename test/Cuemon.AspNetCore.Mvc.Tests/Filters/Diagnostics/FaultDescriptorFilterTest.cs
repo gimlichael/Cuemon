@@ -1,13 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Cuemon.AspNetCore.Http.Headers;
+using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.AspNetCore.Mvc.Assets;
+using Cuemon.Extensions.AspNetCore.Http.Throttling;
+using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
-using Cuemon.Extensions.Hosting;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;
@@ -25,7 +28,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [InlineData(false)]
         public async Task OnException_ShouldIncludeFailure_DifferentiateOnUseBaseException(bool useBaseException)
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -34,7 +37,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 services.Configure<FaultDescriptorOptions>(o => o.UseBaseException = useBaseException);
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -79,9 +82,96 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         }
 
         [Fact]
+        public async Task OnException_ShouldCaptureUserAgentException_BadRequestMessage()
+        {
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }, (context, services) =>
+                   {
+                       services.AddControllers(o =>
+                           {
+                               o.Filters.AddFaultDescriptor();
+                               o.Filters.AddUserAgentSentinel();
+                           }).AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddNewtonsoftJson()
+                           .AddNewtonsoftJsonFormattersOptions(o =>
+                           {
+                               o.IncludeExceptionDescriptorFailure = false;
+                           })
+                           .AddNewtonsoftJsonFormatters();
+                       services.Configure<UserAgentSentinelOptions>(o => o.RequireUserAgentHeader = true);
+                   }))
+            {
+                var client = filter.Host.GetTestClient();
+                var result = await client.GetAsync("/fake/it");
+                var body = await result.Content.ReadAsStringAsync();
+
+                TestOutput.WriteLine(body);
+
+                Assert.Equal(@"{
+  ""error"": {
+    ""status"": 400,
+    ""code"": ""BadRequest"",
+    ""message"": ""The requirements of the request was not met.""
+  }
+}", body);
+                Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
+                Assert.Equal(HttpStatusDescription.Get(400), result.ReasonPhrase);
+            }
+        }
+
+        [Fact]
+        public async Task OnException_ShouldCaptureThrottlingException_TooManyRequests()
+        {
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }, (context, services) =>
+                   {
+                       services.AddControllers(o =>
+                           {
+                               o.Filters.AddFaultDescriptor();
+                               o.Filters.AddThrottlingSentinel();
+                           }).AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddNewtonsoftJson()
+                           .AddNewtonsoftJsonFormattersOptions(o =>
+                           {
+                               o.IncludeExceptionDescriptorFailure = false;
+                           })
+                           .AddNewtonsoftJsonFormatters();
+                       services.Configure<ThrottlingSentinelOptions>(o =>
+                       {
+                           o.ContextResolver = _ => "dummy";
+                           o.Quota = new ThrottleQuota(0, TimeSpan.Zero);
+                       });
+                       services.AddMemoryThrottlingCache();
+                   }))
+            {
+                var client = filter.Host.GetTestClient();
+                var result = await client.GetAsync("/fake/it");
+                var body = await result.Content.ReadAsStringAsync();
+
+                TestOutput.WriteLine(body);
+
+                Assert.Equal(@"{
+  ""error"": {
+    ""status"": 429,
+    ""code"": ""TooManyRequests"",
+    ""message"": ""Throttling rate limit quota violation. Quota limit exceeded.""
+  }
+}", body);
+                Assert.Equal(StatusCodes.Status429TooManyRequests, (int)result.StatusCode);
+                Assert.Equal(HttpStatusDescription.Get(429), result.ReasonPhrase);
+            }
+        }
+
+        [Fact]
         public async Task OnException_ShouldCaptureBadRequest()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -89,11 +179,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -117,7 +207,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureConflict()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -125,11 +215,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -153,7 +243,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureForbidden()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -161,11 +251,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -189,7 +279,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureGone()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -197,11 +287,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -225,7 +315,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureNotFound()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -233,11 +323,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o =>
+                    .AddNewtonsoftJsonFormattersOptions(o =>
                     {
                         o.IncludeExceptionDescriptorFailure = false;
                     })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -261,7 +351,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePayloadTooLarge()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -269,8 +359,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -294,7 +384,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePreconditionFailed()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -302,8 +392,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -327,7 +417,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePreconditionRequired()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -335,8 +425,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -360,7 +450,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureTooManyRequests()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -368,8 +458,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -393,7 +483,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUnauthorized()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -401,8 +491,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -426,7 +516,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureMethodNotAllowed()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -434,8 +524,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -459,7 +549,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureNotAcceptable()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -467,8 +557,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -492,7 +582,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureGeneric()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -500,8 +590,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -523,7 +613,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUnsupportedMediaType()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest((context, app) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -531,8 +621,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddJsonFormatterOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();

@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// </summary>
         public const string HeaderName = "Server-Timing";
 
-        private readonly List<ServerTimingMetric> _metrics = new List<ServerTimingMetric>();
+        private readonly List<ServerTimingMetric> _metrics = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerTiming"/> class.

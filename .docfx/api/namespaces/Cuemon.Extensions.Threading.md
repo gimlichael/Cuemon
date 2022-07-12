@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Threading namespace contains extension methods that complements the System.Threading namespace.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [System.Threading namespace](https://docs.microsoft.com/en-us/dotnet/api/system.threading?view=netstandard-2.0) 🔗
 

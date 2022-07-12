@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable namespace contains extension methods that complements the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.Cacheable.html) 🔗
 

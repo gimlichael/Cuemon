@@ -29,6 +29,6 @@ namespace Cuemon.Runtime
         /// <summary>
         /// Represents an event with no event data.
         /// </summary>
-        public new static readonly DependencyEventArgs Empty = new DependencyEventArgs();
+        public new static readonly DependencyEventArgs Empty = new();
     }
 }

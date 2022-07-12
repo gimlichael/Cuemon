@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Data.Integrity namespace contains extension methods that complements the Cuemon.Data.Integrity namespace.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [Cuemon.Data.Integrity namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Data.Integrity.html) 🔗
 

@@ -34,12 +34,11 @@ namespace Cuemon.Data
         public DatabaseDependency(IEnumerable<Lazy<DatabaseWatcher>> lazyDatabaseWatchers, bool breakTieOnChanged = false) : base(watcherChanged =>
         {
             var watchers = new List<DatabaseWatcher>();
-            foreach (var lazyDatabaseWatcher in lazyDatabaseWatchers ?? Enumerable.Empty<Lazy<DatabaseWatcher>>())
+            foreach (var lazyDatabaseWatcher in lazyDatabaseWatchers.Select(lazy => lazy.Value))
             {
-                var databaseWatcher = lazyDatabaseWatcher.Value;
-                databaseWatcher.Changed += watcherChanged;
-                databaseWatcher.StartMonitoring();
-                watchers.Add(databaseWatcher);
+                lazyDatabaseWatcher.Changed += watcherChanged;
+                lazyDatabaseWatcher.StartMonitoring();
+                watchers.Add(lazyDatabaseWatcher);
             }
             return watchers;
         }, breakTieOnChanged)

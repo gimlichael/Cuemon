@@ -88,7 +88,7 @@ namespace Cuemon.Security
         /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is HashResult hr)) { return false; }
+            if (obj is not HashResult hr) { return false; }
             return Equals(hr);
         }
 

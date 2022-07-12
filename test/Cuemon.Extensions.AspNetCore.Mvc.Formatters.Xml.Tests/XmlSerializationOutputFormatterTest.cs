@@ -46,7 +46,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         [Fact]
         public async Task WriteResponseBodyAsync_ShouldReturnOk()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -54,7 +54,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddXmlSerializationFormatters();
+                    .AddXmlFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();

@@ -1,4 +1,13 @@
-﻿Version: 6.4.1
+﻿Version: 7.0.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0
+ 
+# Breaking Changes
+- RENAMED AddJsonSerializationFormatters --> AddNewtonsoftJsonFormatters on the MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+- RENAMED AddJsonFormatterOptions --> AddNewtonsoftJsonFormattersOptions on the MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+- RENAMED AddJsonSerializationFormatters --> AddNewtonsoftJsonFormatters on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+- RENAMED AddJsonFormatterOptions --> AddNewtonsoftJsonFormattersOptions on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+ 
+Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
  
 # ALM

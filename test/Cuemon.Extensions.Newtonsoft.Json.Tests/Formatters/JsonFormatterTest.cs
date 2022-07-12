@@ -17,6 +17,27 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         }
 
         [Fact]
+        public void Deserialize_ShouldBeEquivalentToOriginal_DateTime()
+        {
+            var sut = DateTime.Parse("2022-06-26T22:39:14.3512950Z").ToUniversalTime();
+            TestOutput.WriteLine(sut.ToString("O"));
+
+            var formatter = new JsonFormatter(o => o.Settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK");
+            var serializedStream = formatter.Serialize(sut);
+
+            var sutAsIso8601String = serializedStream.ToEncodedString(o => o.LeaveOpen = true);
+
+            TestOutput.WriteLine(sutAsIso8601String); // note: trailing zeros stay true the formatter specification and do not omit anything
+
+            var deserializedDt = formatter.Deserialize<DateTime>(serializedStream);
+
+            TestOutput.WriteLine(deserializedDt.ToString("O"));
+
+            Assert.Equal(@$"""{sut.ToString("O")}""", sutAsIso8601String);
+            Assert.Equal(sut, deserializedDt);
+        }
+
+        [Fact]
         public void Serialize_ShouldSerializeUsingExceptionConverter_WithPascalCase()
         {
             try

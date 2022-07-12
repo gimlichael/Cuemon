@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         [Fact]
         public async Task Page_RenderUrlForAppRole()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
@@ -53,7 +53,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         [Fact]
         public async Task Page_RenderUrlForAppRole_WithCacheBusting()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
@@ -86,7 +86,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         [Fact]
         public async Task Page_RenderUrlForCdnRole()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
@@ -118,7 +118,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         [Fact]
         public async Task Page_RenderUrlForCdnRole_WithCacheBusting()
         {
-            using (var filter = WebApplicationTestFactory.CreateWebApplicationTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });

@@ -12,7 +12,7 @@ namespace Cuemon
     /// </summary>
     public sealed class Validator
     {
-        private static readonly Validator ExtendedValidator = new Validator();
+        private static readonly Validator ExtendedValidator = new();
 
         /// <summary>
         /// Gets the singleton instance of the Validator functionality allowing for extensions methods like: <c>Validator.ThrowIf.InvalidJsonDocument()</c>.
@@ -31,6 +31,20 @@ namespace Cuemon
         {
             ThrowIfNull(validator, nameof(validator));
             validator();
+            return value;
+        }
+
+        /// <summary>
+        /// Provides a convenient way to validate a parameter while returning the specified <paramref name="value"/> unaltered.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to evaluate.</typeparam>
+        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="value"/> is not valid.</param>
+        /// <returns>The specified <paramref name="value"/> unaltered.</returns>
+        public static T CheckParameter<T>(T value, Action<T> validator)
+        {
+            ThrowIfNull(validator, nameof(validator));
+            validator(value);
             return value;
         }
 

@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Xml.Serialization.Formatters namespace contains types that are used to serialize and deserialize objects into and from XML format using a generic signature.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 ## Github branches 🖇️
 

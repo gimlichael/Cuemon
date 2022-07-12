@@ -10,6 +10,35 @@ namespace Cuemon.Extensions.Collections.Generic
     public static class DictionaryExtensions
     {
         /// <summary>
+        /// Copies all elements from <paramref name="source"/> to <paramref name="destination"/>.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
+        /// <param name="source">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
+        /// <param name="destination">The <see cref="IDictionary{TKey,TValue}"/> to which the elements of the <paramref name="source"/> will be copied.</param>
+        /// <returns>An <see cref="IDictionary{TKey,TValue}"/> that is the result of the populated <paramref name="destination"/>.</returns>
+        public static IDictionary<TKey, TValue> CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> source, IDictionary<TKey, TValue> destination)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            return Decorator.Enclose(source).CopyTo(destination);
+        }
+
+        /// <summary>
+        /// Copies elements from <paramref name="source"/> to <paramref name="destination"/> using the <paramref name="copier"/> delegate.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
+        /// <param name="source">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
+        /// <param name="destination">The <see cref="IDictionary{TKey,TValue}"/> to which the elements of the <paramref name="source"/> will be copied.</param>
+        /// <param name="copier">The delegate that will populate a copy of <paramref name="source"/> to the specified <paramref name="destination"/>.</param>
+        /// <returns>An <see cref="IDictionary{TKey,TValue}"/> that is the result of the populated <paramref name="destination"/>.</returns>
+        public static IDictionary<TKey, TValue> CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> source, IDictionary<TKey, TValue> destination, Action<IDictionary<TKey, TValue>, IDictionary<TKey, TValue>> copier)
+        {
+            Validator.ThrowIfNull(source, nameof(source));
+            return Decorator.Enclose(source).CopyTo(destination, copier);
+        }
+
+        /// <summary>
         /// Gets the value associated with the specified <paramref name="key"/> or <c>default(<typeparamref name="TValue"/>)</c> when the key does not exists in the <paramref name="dictionary"/>.
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the <paramref name="dictionary"/>.</typeparam>

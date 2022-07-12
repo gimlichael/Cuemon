@@ -47,7 +47,7 @@ namespace Cuemon.Data
 
         internal DataTransferColumnCollection Columns { get; }
 
-        internal List<object> Data { get; } = new List<object>();
+        internal List<object> Data { get; } = new();
 
         /// <summary>
         /// Gets the column names that is present in this <see cref="DataTransferRow"/>.
@@ -57,11 +57,11 @@ namespace Cuemon.Data
         {
             get
             {
-                return _columnNames ?? (_columnNames = Columns.Select(column => column.Name));
+                return _columnNames ??= Columns.Select(column => column.Name);
             }
         }
 
-        private Collection<DataTransferRow> DataTransferRows { get; } = new Collection<DataTransferRow>();
+        private Collection<DataTransferRow> DataTransferRows { get; } = new();
 
         /// <summary>
         /// Gets the <see cref="DataTransferRow"/> at the specified index.

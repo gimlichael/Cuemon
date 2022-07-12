@@ -25,7 +25,7 @@ namespace Cuemon.Extensions.AspNetCore.Hosting
             HostingEnvironmentOptions sutOptions = null;
             IHeaderDictionary sut = null;
             IHostEnvironment environment = null;
-            await MiddlewareTestFactory.RunMiddlewareTest(app =>
+            await MiddlewareTestFactory.Run(app =>
             {
                 app.UseHostingEnvironment();
                 app.Run(context =>

@@ -133,9 +133,8 @@ namespace Cuemon.Extensions.Diagnostics
 
         private static void AppendInnerExceptions(StringBuilder builder, Exception exception, bool includeStackTrace)
         {
-            var aggregated = exception as AggregateException;
             var innerExceptions = new List<Exception>();
-            if (aggregated != null) { innerExceptions.AddRange(aggregated.Flatten().InnerExceptions); }
+            if (exception is AggregateException aggregated) { innerExceptions.AddRange(aggregated.Flatten().InnerExceptions); }
             if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
             if (innerExceptions.Count > 0)
             {

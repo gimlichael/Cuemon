@@ -14,7 +14,7 @@ namespace Cuemon.Data
     /// <seealso cref="Watcher" />
     public class DatabaseWatcher : Watcher
     {
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseWatcher"/> class.

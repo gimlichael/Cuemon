@@ -13,7 +13,7 @@ namespace Cuemon
     /// </summary>
     public static class Convertible
     {
-        private static readonly Dictionary<Type, Func<IConvertible, Action<EndianOptions>, byte[]>> EndianSensitiveByteArrayConverters = new Dictionary<Type, Func<IConvertible, Action<EndianOptions>, byte[]>>()
+        private static readonly Dictionary<Type, Func<IConvertible, Action<EndianOptions>, byte[]>> EndianSensitiveByteArrayConverters = new()
         {
             { typeof(bool), (i, o) => i is bool x ? GetBytes(x, o) : null },
             { typeof(byte), (i, o) => i is byte x ? GetBytes(x, o) : null },
@@ -30,7 +30,7 @@ namespace Cuemon
             { typeof(Enum), (i, o) => i is Enum x ? GetBytes(x, o) : null }
         };
 
-        private static readonly Dictionary<Type, Func<IConvertible, byte[]>> ByteArrayConverters =  new Dictionary<Type, Func<IConvertible, byte[]>>()
+        private static readonly Dictionary<Type, Func<IConvertible, byte[]>> ByteArrayConverters =  new()
         {
             { typeof(string), input => input is string x ? GetBytes(x) : null },
             { typeof(DateTime), input => input is DateTime x ? GetBytes(x) : null },

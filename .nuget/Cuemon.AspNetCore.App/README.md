@@ -1,6 +1,6 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 6, .NET 5, .NET Core 3.1, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 6, .NET Core 3.1, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
@@ -76,8 +76,10 @@ More documentation available at [Cuemon for .NET documentation](https://docs.cue
 * [Cuemon.Diagnostics](https://www.nuget.org/packages/Cuemon.Diagnostics/) 📦
 * [Cuemon.Extensions.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore/) 📦
 * [Cuemon.Extensions.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication/) 📦
+* [Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/) 📦
+* [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.RazorPages](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.RazorPages/) 📦
 * [Cuemon.Extensions.Collections.Generic](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Generic/) 📦
@@ -87,6 +89,7 @@ More documentation available at [Cuemon for .NET documentation](https://docs.cue
 * [Cuemon.Extensions.Data.Integrity](https://www.nuget.org/packages/Cuemon.Extensions.Data.Integrity/) 📦
 * [Cuemon.Extensions.DependencyInjection](https://www.nuget.org/packages/Cuemon.Extensions.DependencyInjection/) 📦
 * [Cuemon.Extensions.Diagnostics](https://www.nuget.org/packages/Cuemon.Extensions.Diagnostics/) 📦
+* [Cuemon.Extensions.Asp.Versioning](https://www.nuget.org/packages/Cuemon.Extensions.Asp.Versioning/) 📦
 * [Cuemon.Extensions.Hosting](https://www.nuget.org/packages/Cuemon.Extensions.Hosting/) 📦
 * [Cuemon.Extensions.IO](https://www.nuget.org/packages/Cuemon.Extensions.IO/) 📦
 * [Cuemon.Extensions.Net](https://www.nuget.org/packages/Cuemon.Extensions.Net/) 📦
@@ -94,7 +97,9 @@ More documentation available at [Cuemon for .NET documentation](https://docs.cue
 * [Cuemon.Extensions.Newtonsoft.Json.App](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json.App/) 🏭
 * [Cuemon.Extensions.Reflection](https://www.nuget.org/packages/Cuemon.Extensions.Reflection/) 📦
 * [Cuemon.Extensions.Runtime.Caching](https://www.nuget.org/packages/Cuemon.Extensions.Runtime.Caching/) 📦
+* [Cuemon.Extensions.Swashbuckle.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.Swashbuckle.AspNetCore/) 📦
 * [Cuemon.Extensions.Text](https://www.nuget.org/packages/Cuemon.Extensions.Text/) 📦
+* [Cuemon.Extensions.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.Text.Json/) 📦
 * [Cuemon.Extensions.Threading](https://www.nuget.org/packages/Cuemon.Extensions.Threading/) 📦
 * [Cuemon.Extensions.Xml](https://www.nuget.org/packages/Cuemon.Extensions.Xml/) 📦
 * [Cuemon.Extensions.Xunit](https://www.nuget.org/packages/Cuemon.Extensions.Xunit/) 📦
