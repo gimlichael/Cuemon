@@ -62,7 +62,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
             }))
             {
                 var wf = new WeatherForecast();
-                var formatter = new JsonFormatter(o => o.Settings.Formatting = Formatting.Indented);
+                var formatter = new JsonFormatter(o =>
+                {
+                    o.Settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK"; // default ISO8601 (ToString("O")
+                    o.Settings.Formatting = Formatting.Indented;
+                });
                 var stream = formatter.Serialize(wf);
                 var client = filter.Host.GetTestClient();
 
