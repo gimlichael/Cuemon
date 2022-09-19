@@ -3,7 +3,7 @@
     displayName: 'RC: release to public NuGet Feed'
     environment: 'Staging'
     pool:
-      vmImage: 'ubuntu-20.04'
+      vmImage: 'ubuntu-22.04'
     strategy:
       runOnce:
         deploy:

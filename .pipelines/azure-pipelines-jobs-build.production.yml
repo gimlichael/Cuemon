@@ -3,7 +3,7 @@
     displayName: 'Master branch (net5.0, build)'
     timeoutInMinutes: 60
     pool:
-      vmImage: 'windows-2019'
+      vmImage: 'windows-2022'
     variables:
       - name: DotnetBuildName
         value: 'net6.0'
@@ -20,7 +20,7 @@
     displayName: 'Master branch (netcoreapp3.1, build)'
     timeoutInMinutes: 30
     pool:
-      vmImage: 'windows-2019'
+      vmImage: 'windows-2022'
     variables:
       - name: DotnetBuildName
         value: 'netcoreapp3.1'
@@ -37,7 +37,7 @@
     displayName: 'Master branch (netstandard2.1, build)'
     timeoutInMinutes: 30
     pool:
-      vmImage: 'windows-2019'
+      vmImage: 'windows-2022'
     variables:
       - name: DotnetBuildName
         value: 'netstandard2.1'
@@ -54,7 +54,7 @@
     displayName: 'Master branch (netstandard2.0, build)'
     timeoutInMinutes: 30
     pool:
-      vmImage: 'windows-2019'
+      vmImage: 'windows-2022'
     variables:
       - name: DotnetBuildName
         value: 'netstandard2.0'
@@ -77,7 +77,7 @@
     displayName: 'Store NuGet Packages for Production'
     timeoutInMinutes: 30
     pool:
-      vmImage: 'windows-2019'
+      vmImage: 'windows-2022'
     variables:
       - name: ArtifactPackageName
         value: 'Production'

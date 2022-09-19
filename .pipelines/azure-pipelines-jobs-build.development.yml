@@ -5,9 +5,9 @@
     strategy:
       matrix:
         Linux_Build_and_Test:
-          imageName: 'ubuntu-20.04'
+          imageName: 'ubuntu-22.04'
         Windows_Build_Test_and_Package:
-          imageName: 'windows-2019'
+          imageName: 'windows-2022'
     pool:
       vmImage: $(imageName)
     variables:
@@ -28,9 +28,9 @@
     strategy:
       matrix:
         Linux_Build_and_Test:
-          imageName: 'ubuntu-20.04'
+          imageName: 'ubuntu-22.04'
         Windows_Build_Test_and_Package:
-          imageName: 'windows-2019'
+          imageName: 'windows-2022'
     pool:
       vmImage: $(imageName)
     variables:
@@ -58,9 +58,9 @@
     strategy:
       matrix:
         Linux_Build:
-          imageName: 'ubuntu-20.04'
+          imageName: 'ubuntu-22.04'
         Windows_Build_and_Package:
-          imageName: 'windows-2019'
+          imageName: 'windows-2022'
     pool:
       vmImage: $(imageName)
     variables:
@@ -81,9 +81,9 @@
     strategy:
       matrix:
         Linux_Build:
-          imageName: 'ubuntu-20.04'
+          imageName: 'ubuntu-22.04'
         Windows_Build_and_Package:
-          imageName: 'windows-2019'
+          imageName: 'windows-2022'
     pool:
       vmImage: $(imageName)
     variables:
@@ -104,9 +104,9 @@
     strategy:
       matrix:
         Linux_Build:
-          imageName: 'ubuntu-20.04'
+          imageName: 'ubuntu-22.04'
         Windows_Build_and_Package:
-          imageName: 'windows-2019'
+          imageName: 'windows-2022'
     pool:
       vmImage: $(imageName)
     variables:
@@ -132,7 +132,7 @@
     displayName: 'Store NuGet Packages for Preview'
     timeoutInMinutes: 30
     pool:
-      vmImage: 'windows-2019'
+      vmImage: 'windows-2022'
     variables:
       - name: ArtifactPackageName
         value: 'Preview'
