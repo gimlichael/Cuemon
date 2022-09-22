@@ -27,11 +27,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.25" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.25" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.25" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.25" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.25" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.29" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.29" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.29" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.29" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.29" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
@@ -43,7 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.2" />
   </ItemGroup>
 
   <ItemGroup>

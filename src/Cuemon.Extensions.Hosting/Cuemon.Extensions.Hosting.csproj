@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.25" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.29" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
