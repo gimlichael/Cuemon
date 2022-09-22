@@ -80,7 +80,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(objectType, nameof(objectType));
-            var ros = new ReadOnlySpan<byte>(Decorator.Enclose(value).ToByteArray());
+            var ros = new ReadOnlySpan<byte>(Decorator.Enclose(value).ToByteArray(o => o.LeaveOpen = true));
             var reader = new Utf8JsonReader(ros, new JsonReaderOptions()
             {
                 AllowTrailingCommas = Options.Settings.AllowTrailingCommas,
