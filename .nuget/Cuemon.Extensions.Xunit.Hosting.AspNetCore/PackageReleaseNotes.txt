@@ -1,11 +1,12 @@
 ﻿Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0
+Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
+ 
+# ALM
+- ADDED TFM for .NET 7
+- CHANGED Dependencies to latest and greatest with respect to TFM
  
 # Breaking Changes
 - CHANGED MiddlewareTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to have non-ambiguous overloads of CreateMiddlewareTest -> Create, CreateWithHostBuilderContext and RunMiddlewareTest -> Run, RunWithHostBuilderContext
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
  
 # Bug Fixes
 - FIXED FakeHttpResponseFeature class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features namespace so that the OnStarting method ensures that callback delegate is only run once per response

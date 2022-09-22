@@ -1,5 +1,5 @@
 ﻿Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0
+Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
  
 # New Features
 - ADDED Aws4HmacAuthorizationHeader class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that provides a representation of a HTTP AWS4-HMAC-SHA256 Authentication header

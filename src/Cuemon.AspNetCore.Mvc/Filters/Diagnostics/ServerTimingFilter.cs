@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
@@ -104,7 +105,28 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             var objects = new List<object>();
             foreach (var pi in descriptor.Parameters)
             {
-                objects.Add(Decorator.Enclose(context.RouteData.Values[pi.Name]).ChangeType(pi.ParameterType));
+                if (context.RouteData.Values.TryGetValue(pi.Name, out var routeObject))
+                {
+                    objects.Add(Decorator.Enclose(routeObject).ChangeType(pi.ParameterType));
+                    continue;
+                }
+
+                if (context.HttpContext.Request.Query[pi.Name] != StringValues.Empty)
+                {
+                    objects.Add(Decorator.Enclose(context.HttpContext.Request.Query[pi.Name].ToString()).ChangeType(pi.ParameterType));
+                    continue;
+                }
+
+                if (context.HttpContext.Request.Form[pi.Name] != StringValues.Empty)
+                {
+                    objects.Add(Decorator.Enclose(context.HttpContext.Request.Form[pi.Name].ToString()).ChangeType(pi.ParameterType));
+                    continue;
+                }
+
+                if (context.HttpContext.Request.Headers[pi.Name] != StringValues.Empty)
+                {
+                    objects.Add(Decorator.Enclose(context.HttpContext.Request.Headers[pi.Name].ToString()).ChangeType(pi.ParameterType));
+                }
             }
             return objects.ToArray();
         }

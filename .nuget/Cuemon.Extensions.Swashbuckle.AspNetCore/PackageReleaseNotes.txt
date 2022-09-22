@@ -1,5 +1,5 @@
 ﻿Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0
+Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
  
 # New Features
 - ADDED ConfigureSwaggerGenOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents something that configures the SwaggerGenOptions type
