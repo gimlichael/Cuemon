@@ -1,5 +1,9 @@
 ﻿Version: 7.0.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
+ 
+# ALM
+- ADDED TFM for .NET 7
+- CHANGED Dependencies to latest and greatest with respect to TFM
  
 # Breaking Changes
 - RENAMED AddXmlSerializationFormatters --> AddXmlFormatters on the MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace

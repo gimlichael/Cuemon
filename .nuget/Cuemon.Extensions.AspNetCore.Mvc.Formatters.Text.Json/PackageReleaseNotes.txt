@@ -1,5 +1,5 @@
 ﻿Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0
+Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
  
 # New Features
 - ADDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddHttpExceptionDescriptorConverter, AddStringValuesConverter

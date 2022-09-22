@@ -10,6 +10,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 
 ### Added
 
+- Target framework moniker (TFM) for .NET 7 in all projects
 - HttpAuthenticationSchemes class in the Cuemon.Net.Http namespace that specifies options that defines constants for well-known HTTP authentication schemes
 - HttpHeaderNames class in the Cuemon.Net.Http namespace that defines constants for well-known HTTP headers
 - FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace that specifies options that is related to ExceptionHandlerMiddleware operations
