@@ -5,6 +5,9 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
+# New Features
+- EXTENDED JsonFormatter class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace with two static methods; SerializeObject and DeserializeObject
+ 
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
  
