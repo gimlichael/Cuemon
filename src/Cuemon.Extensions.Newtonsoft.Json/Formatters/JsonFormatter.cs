@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// <param name="source">The object to serialize to JSON format.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
         /// <param name="setup">The <see cref="JsonFormatterOptions"/> which may be configured.</param>
-        /// <returns>A string of the serialized <paramref name="source"/>.</returns>
+        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
         public static Stream SerializeObject(object source, Type objectType = null, Action<JsonFormatterOptions> setup = null)
         {
             var formatter = new JsonFormatter(setup);
