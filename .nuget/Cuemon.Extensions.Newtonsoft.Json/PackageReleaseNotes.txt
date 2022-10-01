@@ -8,6 +8,12 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 # New Features
 - EXTENDED JsonFormatter class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace with two static methods; SerializeObject and DeserializeObject
  
+# Breaking Changes
+- REMOVED AddTimeSpanConverter extension method from JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace
+ 
+# Bug Fixes
+- FIXED StringFlagsEnumConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace so that it includes check on FlagsAttribute definition in inherited CanConvert method
+ 
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
  

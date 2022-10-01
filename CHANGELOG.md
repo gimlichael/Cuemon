@@ -54,6 +54,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - UserAgentDocumentOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that provides programmatic configuration for the UserAgentDocumentFilter class
 - XPathDocumentExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that consist of extension methods for the XPathDocument class: AddByType, AddByAssembly, AddByFilename
 - JsonFormatter class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace was extended with two static methods; SerializeObject and DeserializeObject
+- XmlFormatter class in the Cuemon.Xml.Serialization.Formatters namespace was extended with two static methods; SerializeObject and DeserializeObject
 
 ### Changed
 
@@ -82,6 +83,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - HttpCacheableOptions class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that the age of a dynamically applied cache header is now 5 minutes instead of 24 hours
 - MiddlewareTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to have non-ambiguous overloads of CreateMiddlewareTest -> Create, CreateWithHostBuilderContext and RunMiddlewareTest -> Run, RunWithHostBuilderContext
 - WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace to have non-ambiguous overloads of CreateWebApplicationTest -> Create, CreateWithHostBuilderContext and RunWebApplicationTest -> Run, RunWithHostBuilderContext
+- AddTimeSpanConverter extension method on XmlConverterDecoratorExtensions class in the Cuemon.Xml.Serialization.Converters namespace to be aligned with the JSON equivalents
 
 ### Removed
 
@@ -92,12 +94,14 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ScriptCdnTagHelper class from the Cuemon.AspNetCore.Razor.TagHelpers namespace
 - IMvcFilterTest interface from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 - MvcFilterTestFactory class from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
+- AddTimeSpanConverter extension method from JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace
 
 ### Fixed
 
 - HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that logic is only applied if qualified
 - FakeHttpResponseFeature class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features namespace so that the OnStarting method ensures that callback delegate is only run once per response
 - ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace that was triggered when parsing runtime parameters for time measuring and parameters exceeded what was part of route
+- StringFlagsEnumConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace so that it includes check on FlagsAttribute definition in inherited CanConvert method
 
 ## [6.4.1] - 2022-08-05
 
