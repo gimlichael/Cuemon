@@ -22,7 +22,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
             var y = new JsonFormatterOptions();
             var bootstrapInvocationList = JsonFormatterOptions.DefaultConverters.GetInvocationList().Length;
 
-            Assert.Equal(4, defaultConverters.Count);
+            Assert.Equal(3, defaultConverters.Count);
             Assert.Equal(1, bootstrapInvocationList);
             Assert.Equal(2, x.Settings.Converters.Count - defaultConverters.Count);
             Assert.Equal(2, y.Settings.Converters.Count - defaultConverters.Count);

@@ -12,6 +12,31 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
     {
         public ContractResolverExtensionsTest(ITestOutputHelper output) : base(output)
         {
+            JsonFormatterOptions.DefaultConverters += list => list.Insert(0, DynamicJsonConverter.Create<TimeSpan>((writer, value, serializer) =>
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName("Ticks", serializer);
+                writer.WriteValue(value.Ticks);
+                writer.WritePropertyName("Days", serializer);
+                writer.WriteValue(value.Days);
+                writer.WritePropertyName("Hours", serializer);
+                writer.WriteValue(value.Hours);
+                writer.WritePropertyName("Minutes", serializer);
+                writer.WriteValue(value.Minutes);
+                writer.WritePropertyName("Seconds", serializer);
+                writer.WriteValue(value.Seconds);
+                writer.WritePropertyName("TotalDays", serializer);
+                writer.WriteValue(value.TotalDays);
+                writer.WritePropertyName("TotalHours", serializer);
+                writer.WriteValue(value.TotalHours);
+                writer.WritePropertyName("TotalMilliseconds", serializer);
+                writer.WriteValue(value.TotalMilliseconds);
+                writer.WritePropertyName("TotalMinutes", serializer);
+                writer.WriteValue(value.TotalMinutes);
+                writer.WritePropertyName("TotalSeconds", serializer);
+                writer.WriteValue(value.TotalSeconds);
+                writer.WriteEndObject();
+            }));
         }
 
         [Fact]
