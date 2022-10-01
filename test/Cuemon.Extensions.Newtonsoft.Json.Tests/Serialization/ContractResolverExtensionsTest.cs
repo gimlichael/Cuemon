@@ -2,6 +2,7 @@
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Xunit;
 using Xunit.Abstractions;
@@ -10,40 +11,45 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
 {
     public class ContractResolverExtensionsTest : Test
     {
+        private readonly JsonConverter _tsConverter = DynamicJsonConverter.Create<TimeSpan>((writer, value, serializer) =>
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("Ticks", serializer);
+            writer.WriteValue(value.Ticks);
+            writer.WritePropertyName("Days", serializer);
+            writer.WriteValue(value.Days);
+            writer.WritePropertyName("Hours", serializer);
+            writer.WriteValue(value.Hours);
+            writer.WritePropertyName("Minutes", serializer);
+            writer.WriteValue(value.Minutes);
+            writer.WritePropertyName("Seconds", serializer);
+            writer.WriteValue(value.Seconds);
+            writer.WritePropertyName("TotalDays", serializer);
+            writer.WriteValue(value.TotalDays);
+            writer.WritePropertyName("TotalHours", serializer);
+            writer.WriteValue(value.TotalHours);
+            writer.WritePropertyName("TotalMilliseconds", serializer);
+            writer.WriteValue(value.TotalMilliseconds);
+            writer.WritePropertyName("TotalMinutes", serializer);
+            writer.WriteValue(value.TotalMinutes);
+            writer.WritePropertyName("TotalSeconds", serializer);
+            writer.WriteValue(value.TotalSeconds);
+            writer.WriteEndObject();
+        });
+
         public ContractResolverExtensionsTest(ITestOutputHelper output) : base(output)
         {
-            JsonFormatterOptions.DefaultConverters += list => list.Insert(0, DynamicJsonConverter.Create<TimeSpan>((writer, value, serializer) =>
-            {
-                writer.WriteStartObject();
-                writer.WritePropertyName("Ticks", serializer);
-                writer.WriteValue(value.Ticks);
-                writer.WritePropertyName("Days", serializer);
-                writer.WriteValue(value.Days);
-                writer.WritePropertyName("Hours", serializer);
-                writer.WriteValue(value.Hours);
-                writer.WritePropertyName("Minutes", serializer);
-                writer.WriteValue(value.Minutes);
-                writer.WritePropertyName("Seconds", serializer);
-                writer.WriteValue(value.Seconds);
-                writer.WritePropertyName("TotalDays", serializer);
-                writer.WriteValue(value.TotalDays);
-                writer.WritePropertyName("TotalHours", serializer);
-                writer.WriteValue(value.TotalHours);
-                writer.WritePropertyName("TotalMilliseconds", serializer);
-                writer.WriteValue(value.TotalMilliseconds);
-                writer.WritePropertyName("TotalMinutes", serializer);
-                writer.WriteValue(value.TotalMinutes);
-                writer.WritePropertyName("TotalSeconds", serializer);
-                writer.WriteValue(value.TotalSeconds);
-                writer.WriteEndObject();
-            }));
         }
 
         [Fact]
         public void ResolveNamingStrategyOrDefault_ShouldResolveDefaultNamingStrategy()
         {
             var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatter(o => o.Settings.ContractResolver = new DefaultContractResolver());
+            var sut2 = new JsonFormatter(o =>
+            {
+                o.Settings.Converters.Add(_tsConverter);
+                o.Settings.ContractResolver = new DefaultContractResolver();
+            });
             var json = sut2.Serialize(sut1).ToEncodedString();
 
             TestOutput.WriteLine(json);
@@ -67,7 +73,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
         public void ResolveNamingStrategyOrDefault_ShouldResolveCamelCaseNamingStrategy()
         {
             var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatter();
+            var sut2 = new JsonFormatter(o => o.Settings.Converters.Add(_tsConverter));
             var json = sut2.Serialize(sut1).ToEncodedString();
 
             TestOutput.WriteLine(json);
@@ -92,7 +98,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
         public void ResolveNamingStrategyOrDefault_ShouldResolveSnakeCaseNamingStrategy()
         {
             var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatter(o => o.Settings.ContractResolver = new DefaultContractResolver() { NamingStrategy = new SnakeCaseNamingStrategy() });
+            var sut2 = new JsonFormatter(o =>
+            {
+                o.Settings.Converters.Add(_tsConverter);
+                o.Settings.ContractResolver = new DefaultContractResolver() { NamingStrategy = new SnakeCaseNamingStrategy() };
+            });
             var json = sut2.Serialize(sut1).ToEncodedString();
 
             TestOutput.WriteLine(json);
@@ -116,7 +126,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
         public void ResolveNamingStrategyOrDefault_ShouldResolveKebabCaseNamingStrategy()
         {
             var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatter(o => o.Settings.ContractResolver = new DefaultContractResolver() { NamingStrategy = new KebabCaseNamingStrategy() });
+            var sut2 = new JsonFormatter(o =>
+            {
+                o.Settings.Converters.Add(_tsConverter);
+                o.Settings.ContractResolver = new DefaultContractResolver() { NamingStrategy = new KebabCaseNamingStrategy() };
+            });
             var json = sut2.Serialize(sut1).ToEncodedString();
 
             TestOutput.WriteLine(json);
