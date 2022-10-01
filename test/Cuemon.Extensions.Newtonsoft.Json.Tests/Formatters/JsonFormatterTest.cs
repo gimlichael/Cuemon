@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
@@ -14,6 +15,38 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     {
         public JsonFormatterTest(ITestOutputHelper output) : base(output)
         {
+        }
+
+        [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_BindingFlags()
+        {
+            var sut1 = BindingFlags.DeclaredOnly;
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var json = JsonFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = JsonFormatter.DeserializeObject<BindingFlags>(json);
+
+            Assert.Equal(sut1, sut2);
+        }
+
+        [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_UriScheme()
+        {
+            var sut1 = UriScheme.Https;
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var json = JsonFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = JsonFormatter.DeserializeObject<UriScheme>(json);
+
+            Assert.Equal(sut1, sut2);
         }
 
         [Fact]
