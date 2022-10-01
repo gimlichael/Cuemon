@@ -15,7 +15,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     public class JsonFormatter : Formatter<Stream>, IConfigurable<JsonFormatterOptions>
     {
         /// <summary>
-        /// Serializes the specified <paramref name="source"/> to an object of <see cref="string"/>.
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
         /// </summary>
         /// <param name="source">The object to serialize to JSON format.</param>
         /// <param name="objectType">The type of the object to serialize.</param>

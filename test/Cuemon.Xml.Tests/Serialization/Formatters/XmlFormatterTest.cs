@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Xml;
 using Cuemon.Diagnostics;
+using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.IO;
 using Cuemon.Xml.Assets;
@@ -16,6 +17,38 @@ namespace Cuemon.Xml.Serialization.Formatters
     {
         public XmlFormatterTest(ITestOutputHelper output) : base(output)
         {
+        }
+
+        [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_TimeSpan()
+        {
+            var sut1 = TimeSpan.Parse("01:12:05");
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var xml = XmlFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(xml.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = XmlFormatter.DeserializeObject<TimeSpan>(xml);
+
+            Assert.Equal(sut1, sut2);
+        }
+
+        [Fact]
+        public void SerializeObject_ShouldBeEquivalentToOriginal_String()
+        {
+            var sut1 = "<?xml version=\"1.0\" encoding=\"utf-8\"?><TimeSpan>01:12:05</TimeSpan>";
+
+            TestOutput.WriteLine(sut1);
+
+            var timeSpan = XmlFormatter.DeserializeObject<TimeSpan>(sut1.ToStream());
+
+            TestOutput.WriteLine(timeSpan.ToString());
+
+            var sut2 = XmlFormatter.SerializeObject(timeSpan);
+
+            Assert.Equal(sut1, sut2.ToEncodedString());
         }
 
         [Fact]

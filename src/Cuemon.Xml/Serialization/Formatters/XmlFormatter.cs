@@ -15,6 +15,44 @@ namespace Cuemon.Xml.Serialization.Formatters
     public class XmlFormatter : Formatter<Stream>, IConfigurable<XmlFormatterOptions>
     {
         /// <summary>
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="source">The object to serialize to XML format.</param>
+        /// <param name="objectType">The type of the object to serialize.</param>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
+        public static Stream SerializeObject(object source, Type objectType = null, Action<XmlFormatterOptions> setup = null)
+        {
+            var formatter = new XmlFormatter(setup);
+            return formatter.Serialize(source, objectType ?? source?.GetType());
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value"/> into an object of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to return.</typeparam>
+        /// <param name="value">The object from which to deserialize the object graph.</param>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which may be configured.</param>
+        /// <returns>An object of <typeparamref name="T" />.</returns>
+        public static T DeserializeObject<T>(Stream value, Action<XmlFormatterOptions> setup = null)
+        {
+            return (T)DeserializeObject(value, typeof(T), setup);
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value" /> into an object of <paramref name="objectType"/>.
+        /// </summary>
+        /// <param name="value">The string from which to deserialize the object graph.</param>
+        /// <param name="objectType">The type of the deserialized object.</param>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which may be configured.</param>
+        /// <returns>An object of <paramref name="objectType"/>.</returns>
+        public static object DeserializeObject(Stream value, Type objectType, Action<XmlFormatterOptions> setup = null)
+        {
+            var formatter = new XmlFormatter(setup);
+            return formatter.Deserialize(value, objectType);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="XmlFormatter"/> class.
         /// </summary>
         public XmlFormatter() : this((Action<XmlFormatterOptions>) null)

@@ -257,7 +257,11 @@ namespace Cuemon.Xml.Serialization.Converters
                 {
                     writer.WriteValue(value.ToString());
                 });
-            }, (reader, _) => TimeSpan.Parse(reader.Value));
+            }, (reader, _) =>
+            {
+                var decorator = Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy());
+                return decorator.Inner.Instance.Type == typeof(DateTime) ? Decorator.Enclose(decorator.Inner.Instance.Value).ChangeTypeOrDefault<DateTime>().TimeOfDay : TimeSpan.Parse(decorator.Inner.Instance.Value.ToString());
+            });
             return decorator;
         }
 
