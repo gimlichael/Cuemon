@@ -88,41 +88,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         }
 
         /// <summary>
-        /// Adds a <see cref="TimeSpan"/> JSON converter to the list.
-        /// </summary>
-        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
-        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
-        public static ICollection<JsonConverter> AddTimeSpanConverter(this ICollection<JsonConverter> converters)
-        {
-            converters.Add(DynamicJsonConverter.Create<TimeSpan>((writer, value, serializer) =>
-            {
-                writer.WriteStartObject();
-                writer.WritePropertyName("Ticks", serializer);
-                writer.WriteValue(value.Ticks);
-                writer.WritePropertyName("Days", serializer);
-                writer.WriteValue(value.Days);
-                writer.WritePropertyName("Hours", serializer);
-                writer.WriteValue(value.Hours);
-                writer.WritePropertyName("Minutes", serializer);
-                writer.WriteValue(value.Minutes);
-                writer.WritePropertyName("Seconds", serializer);
-                writer.WriteValue(value.Seconds);
-                writer.WritePropertyName("TotalDays", serializer);
-                writer.WriteValue(value.TotalDays);
-                writer.WritePropertyName("TotalHours", serializer);
-                writer.WriteValue(value.TotalHours);
-                writer.WritePropertyName("TotalMilliseconds", serializer);
-                writer.WriteValue(value.TotalMilliseconds);
-                writer.WritePropertyName("TotalMinutes", serializer);
-                writer.WriteValue(value.TotalMinutes);
-                writer.WritePropertyName("TotalSeconds", serializer);
-                writer.WriteValue(value.TotalSeconds);
-                writer.WriteEndObject();
-            }, (reader, objectType, existingValue, serializer) => Decorator.Enclose(reader.ToHierarchy()).UseTimeSpanFormatter()));
-            return converters;
-        }
-
-        /// <summary>
         /// Adds an <see cref="Exception" /> JSON converter to the list.
         /// </summary>
         /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>

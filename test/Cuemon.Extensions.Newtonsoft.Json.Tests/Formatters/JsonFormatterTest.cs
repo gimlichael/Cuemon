@@ -17,6 +17,38 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         }
 
         [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_TimeSpan()
+        {
+            var sut1 = TimeSpan.Parse("01:12:05");
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var json = JsonFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = JsonFormatter.DeserializeObject<TimeSpan>(json);
+
+            Assert.Equal(sut1, sut2);
+        }
+
+        [Fact]
+        public void SerializeObject_ShouldBeEquivalentToOriginal_String()
+        {
+            var sut1 = "\"01:12:05\"";
+
+            TestOutput.WriteLine(sut1);
+
+            var timeSpan = JsonFormatter.DeserializeObject<TimeSpan>(sut1.ToStream());
+
+            TestOutput.WriteLine(timeSpan.ToString());
+
+            var sut2 = JsonFormatter.SerializeObject(timeSpan);
+
+            Assert.Equal(sut1, sut2.ToEncodedString());
+        }
+
+        [Fact]
         public void Deserialize_ShouldBeEquivalentToOriginal_DateTime()
         {
             var sut = DateTime.Parse("2022-06-26T22:39:14.3512950Z").ToUniversalTime();

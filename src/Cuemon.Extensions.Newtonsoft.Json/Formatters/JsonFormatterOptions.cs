@@ -16,7 +16,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         {
             DefaultConverters = list =>
             {
-                list.AddTimeSpanConverter();
                 list.AddDataPairConverter();
                 list.AddStringFlagsEnumConverter();
                 list.AddStringEnumConverter();

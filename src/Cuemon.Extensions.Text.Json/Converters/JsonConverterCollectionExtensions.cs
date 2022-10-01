@@ -116,31 +116,6 @@ namespace Cuemon.Extensions.Text.Json.Converters
         }
 
         /// <summary>
-        /// Adds a <see cref="TimeSpan"/> JSON converter to the list.
-        /// </summary>
-        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
-        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
-        public static ICollection<JsonConverter> AddTimeSpanConverter(this ICollection<JsonConverter> converters)
-        {
-            converters.Add(DynamicJsonConverter.Create((writer, value, options) =>
-            {
-                writer.WriteStartObject();
-                writer.WriteNumber(options.SetPropertyName("Ticks"), value.Ticks);
-                writer.WriteNumber(options.SetPropertyName("Days"), value.Days);
-                writer.WriteNumber(options.SetPropertyName("Hours"), value.Hours);
-                writer.WriteNumber(options.SetPropertyName("Minutes"), value.Minutes);
-                writer.WriteNumber(options.SetPropertyName("Seconds"), value.Seconds);
-                writer.WriteNumber(options.SetPropertyName("TotalDays"), value.TotalDays);
-                writer.WriteNumber(options.SetPropertyName("TotalHours"), value.TotalHours);
-                writer.WriteNumber(options.SetPropertyName("TotalMilliseconds"), value.TotalMilliseconds);
-                writer.WriteNumber(options.SetPropertyName("TotalMinutes"), value.TotalMinutes);
-                writer.WriteNumber(options.SetPropertyName("TotalSeconds"), value.TotalSeconds);
-                writer.WriteEndObject();
-            }, (ref Utf8JsonReader reader, Type _, JsonSerializerOptions _) => Decorator.Enclose(reader.ToHierarchy()).UseTimeSpanFormatter()));
-            return converters;
-        }
-
-        /// <summary>
         /// Adds an <see cref="Exception" /> JSON converter to the list.
         /// </summary>
         /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
@@ -244,7 +219,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             }
             else
             {
-                if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }    
+                if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }
             }
             if (innerExceptions.Count > 0)
             {

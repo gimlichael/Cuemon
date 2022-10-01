@@ -257,7 +257,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 {
                     writer.WriteValue(value.ToString());
                 });
-            }, (reader, _) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseTimeSpanFormatter());
+            }, (reader, _) => TimeSpan.Parse(reader.Value));
             return decorator;
         }
 

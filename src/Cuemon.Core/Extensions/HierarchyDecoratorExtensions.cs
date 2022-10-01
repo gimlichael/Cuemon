@@ -33,21 +33,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// A formatter implementation that resolves a <see cref="TimeSpan"/>.
-        /// </summary>
-        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{DataPair}}"/> to extend.</param>
-        /// <returns>A <see cref="TimeSpan"/> from the enclosed <see cref="T:IHierarchy{DataPair}"/> of the <paramref name="decorator"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null.
-        /// </exception>
-        public static TimeSpan UseTimeSpanFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
-        {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            var ticks = decorator.FindSingleInstance(h => h.Instance.Name.Equals("Ticks", StringComparison.OrdinalIgnoreCase));
-            return ticks == null ? decorator.Inner.UseGenericConverter<TimeSpan>() : TimeSpan.FromTicks(Convert.ToInt64(ticks.Value));
-        }
-
-        /// <summary>
         /// A formatter implementation that resolves a <see cref="Uri"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{DataPair}}"/> to extend.</param>
@@ -430,11 +415,6 @@ namespace Cuemon
                 return items.Select(i => Decorator.Enclose(i).UseDateTimeFormatter()).Cast<object>();
             }
 
-            if (valueType == typeof(TimeSpan))
-            {
-                return items.Select(i => Decorator.Enclose(i).UseTimeSpanFormatter()).Cast<object>();
-            }
-
             return new List<object>();
         }
 
@@ -472,11 +452,6 @@ namespace Cuemon
             if (valueType == typeof(DateTime))
             {
                 return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseDateTimeFormatter()));
-            }
-
-            if (valueType == typeof(TimeSpan))
-            {
-                return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseTimeSpanFormatter()));
             }
 
             return new Dictionary<object, object>();
