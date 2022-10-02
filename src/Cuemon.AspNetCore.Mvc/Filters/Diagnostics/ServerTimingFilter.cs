@@ -117,7 +117,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                     continue;
                 }
 
-                if (context.HttpContext.Request.Form[pi.Name] != StringValues.Empty)
+                if (context.HttpContext.Request.HasFormContentType && context.HttpContext.Request.Form[pi.Name] != StringValues.Empty)
                 {
                     objects.Add(Decorator.Enclose(context.HttpContext.Request.Form[pi.Name].ToString()).ChangeType(pi.ParameterType));
                     continue;
