@@ -11,6 +11,10 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # Improvements
 - EXTENDED Validator class in the Cuemon namespace with one new static member: CheckParameter
+- CHANGED ActivatorOptions class in the Cuemon.Reflection namespace to match Activator BindingFlags defaults from Microsoft
+ 
+# Bug Fixes
+- FIXED TypeNameOptions class in the Cuemon.Reflection namespace that could throw a NullReferenceException when FullName is null; fallback to Name
  
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0

@@ -84,6 +84,8 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - MiddlewareTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to have non-ambiguous overloads of CreateMiddlewareTest -> Create, CreateWithHostBuilderContext and RunMiddlewareTest -> Run, RunWithHostBuilderContext
 - WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace to have non-ambiguous overloads of CreateWebApplicationTest -> Create, CreateWithHostBuilderContext and RunWebApplicationTest -> Run, RunWithHostBuilderContext
 - AddTimeSpanConverter extension method on XmlConverterDecoratorExtensions class in the Cuemon.Xml.Serialization.Converters namespace to be aligned with the JSON equivalents
+- ActivatorOptions class in the Cuemon.Reflection namespace to match Activator BindingFlags defaults from Microsoft
+- TypeNameOptions class in the Cuemon.Reflection namespace that could throw a NullReferenceException when FullName is null; fallback to Name
 
 ### Removed
 
