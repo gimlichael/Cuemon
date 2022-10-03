@@ -68,7 +68,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 DateParseHandling = DateParseHandling.DateTimeOffset,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
                 {
                     IgnoreSerializableInterface = true
