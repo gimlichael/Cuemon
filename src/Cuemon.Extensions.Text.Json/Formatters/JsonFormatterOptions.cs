@@ -61,7 +61,8 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                 WriteIndented = true,
                 DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                ReadCommentHandling = JsonCommentHandling.Skip
             };
             Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
             Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
