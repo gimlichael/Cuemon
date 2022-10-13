@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Data.Integrity\Cuemon.Extensions.Data.Integrity.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Diagnostics\Cuemon.Extensions.Diagnostics.csproj" />
     <ProjectReference Include="..\Cuemon.Security.Cryptography\Cuemon.Security.Cryptography.csproj" />
   </ItemGroup>
 

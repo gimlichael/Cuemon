@@ -17,16 +17,16 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// </summary>
     /// <seealso cref="IExceptionFilter"/>
     /// <seealso cref="ExceptionDescriptor" />
-    /// <seealso cref="FaultDescriptorOptions"/>
+    /// <seealso cref="MvcFaultDescriptorOptions"/>
     /// <seealso cref="RequestIdentifierMiddleware"/>
     /// <seealso cref="CorrelationIdentifierMiddleware"/>
-    public class FaultDescriptorFilter : Configurable<FaultDescriptorOptions>, IExceptionFilter
+    public class FaultDescriptorFilter : Configurable<MvcFaultDescriptorOptions>, IExceptionFilter
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FaultDescriptorFilter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="FaultDescriptorOptions"/> which need to be configured.</param>
-        public FaultDescriptorFilter(IOptions<FaultDescriptorOptions> setup) : base(setup.Value)
+        /// <param name="setup">The <see cref="MvcFaultDescriptorOptions"/> which need to be configured.</param>
+        public FaultDescriptorFilter(IOptions<MvcFaultDescriptorOptions> setup) : base(setup.Value)
         {
         }
 

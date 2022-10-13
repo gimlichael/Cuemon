@@ -1,11 +1,18 @@
 ﻿using System;
-using System.Text;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
+using Cuemon.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Text.Yaml.Converters;
+using Cuemon.Net.Http;
+using Cuemon.Text.Yaml.Formatters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -31,10 +38,10 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// Adds a middleware to the pipeline that will catch exceptions, log them, and re-execute the request in an alternate pipeline. The request will not be re-executed if the response has already started.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The <see cref="FaultDescriptorExceptionHandlerOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="FaultDescriptorOptions"/> which may be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <remarks>Extends the existing <see cref="ExceptionHandlerMiddleware"/> to include features provided by Cuemon.</remarks>
-        public static IApplicationBuilder UseFaultDescriptorExceptionHandler(this IApplicationBuilder builder, Action<FaultDescriptorExceptionHandlerOptions> setup = null)
+        public static IApplicationBuilder UseFaultDescriptorExceptionHandler(this IApplicationBuilder builder, Action<FaultDescriptorOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
             var handlerOptions = new ExceptionHandlerOptions()
@@ -46,48 +53,84 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                     {
                         var exceptionDescriptor = options.ExceptionDescriptorResolver?.Invoke(options.UseBaseException ? ehf.Error.GetBaseException() : ehf.Error);
                         if (exceptionDescriptor == null) { return; }
-
-                        var sb = new StringBuilder($"{exceptionDescriptor.Code}: {exceptionDescriptor.Message}").AppendLine();
-
+                        //exceptionDescriptor.PostInitializeWith(actionDescriptor.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>());
                         if (options.HasRootHelpLink && exceptionDescriptor.HelpLink == null) { exceptionDescriptor.HelpLink = options.RootHelpLink; }
-
-                        if (exceptionDescriptor.HelpLink != null)
-                        {
-                            sb.AppendLine($"{nameof(exceptionDescriptor.HelpLink)}: {exceptionDescriptor.HelpLink}");
-                        }
-
                         if (context.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId))
                         {
-                            sb.AppendLine($"{nameof(exceptionDescriptor.RequestId)}: {requestId}");
-                            exceptionDescriptor.RequestId = requestId.ToString();
+                            if (requestId != null) exceptionDescriptor.RequestId = requestId.ToString();
                         }
-
                         if (context.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId))
                         {
-                            sb.AppendLine($"{nameof(exceptionDescriptor.CorrelationId)}: {correlationId}");
-                            exceptionDescriptor.CorrelationId = correlationId.ToString();
+                            if (correlationId != null) exceptionDescriptor.CorrelationId = correlationId.ToString();
+                        }
+                        options.ExceptionCallback?.Invoke(context, ehf.Error, exceptionDescriptor);
+                        //if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
+                        if (options.IncludeRequest) { exceptionDescriptor.AddEvidence("Request", context.Request, request => new HttpRequestEvidence(request, options.RequestBodyParser)); }
+                        // Options.ExceptionDescriptorHandler?.Invoke(context, exceptionDescriptor);
+                        if (ehf.Error is HttpStatusCodeException httpFault)
+                        {
+                            Decorator.Enclose(context.Response.Headers).AddRange(httpFault.Headers);
+                        }
+                        var handlers = (options.NonMvcResponseHandler?.Invoke(context, exceptionDescriptor) ?? Enumerable.Empty<HttpExceptionDescriptorResponseHandler>()).ToList();
+                        if (handlers.Count > 0)
+                        {
+                            var accepts = context.Request.Headers[HttpHeaderNames.Accept]
+                                .OrderByDescending(accept =>
+                                {
+                                    var values = accept.Split(';').Select(raw => raw.Trim());
+                                    return values.FirstOrDefault(quality => quality.StartsWith("q=")) ?? "q=0.0";
+                                })
+                                .Select(accept => accept.Split(';').First())
+                                .ToList();
+
+                            foreach (var accept in accepts)
+                            {
+                                var handler = handlers.FirstOrDefault(rh => rh.ContentType.MediaType != null && rh.ContentType.MediaType.Equals(accept, StringComparison.OrdinalIgnoreCase));
+                                if (handler != null)
+                                {
+                                    await WriteResponseAsync(context, handler, options.CancellationToken).ConfigureAwait(false);
+                                    return;
+                                }
+                            }
                         }
 
-                        options.ExceptionCallback?.Invoke(context, ehf.Error, exceptionDescriptor);
-
-                        await WriteResponseAsync(sb, context, exceptionDescriptor, ehf, options.CancellationToken).ConfigureAwait(false);
+                        await WriteResponseAsync(context, GetFallbackHandler(exceptionDescriptor, Patterns.ConfigureExchange<FaultDescriptorOptions, ExceptionDescriptorOptions>(setup)), options.CancellationToken).ConfigureAwait(false);
                     }
                 }
             };
             return builder.UseExceptionHandler(handlerOptions);
         }
 
-        private static Task WriteResponseAsync(StringBuilder sb, HttpContext context, HttpExceptionDescriptor exceptionDescriptor, IExceptionHandlerFeature ehf, CancellationToken ct)
+        private static HttpExceptionDescriptorResponseHandler GetFallbackHandler(HttpExceptionDescriptor descriptor, Action<ExceptionDescriptorOptions> setup)
         {
-            var buffer = Decorator.Enclose(sb.ToString().TrimEnd()).ToByteArray();
-            context.Response.ContentType = "text/plain";
-            context.Response.ContentLength = buffer.Length;
-            context.Response.StatusCode = exceptionDescriptor.StatusCode;
-            if (ehf.Error is HttpStatusCodeException httpFault)
+            return new HttpExceptionDescriptorResponseHandler(descriptor, MediaTypeHeaderValue.Parse("text/plain"), (ed, mt) =>
             {
-                Decorator.Enclose(context.Response.Headers).AddRange(httpFault.Headers);
-            }
-            return context.Response.Body.WriteAsync(buffer, 0, buffer.Length, ct);
+                return new HttpResponseMessage()
+                {
+                    Content = new StreamContent(YamlFormatter.SerializeObject(ed, setup: yfo =>
+                    {
+                        yfo.Settings.Converters.AddHttpExceptionDescriptorConverter(setup);
+                    }))
+                    {
+                        Headers = { { HttpHeaderNames.ContentType, mt.MediaType } }
+                    },
+                    StatusCode = (HttpStatusCode)descriptor.StatusCode
+                };
+            });
+        }
+
+        private static async Task WriteResponseAsync(HttpContext context, HttpExceptionDescriptorResponseHandler handler, CancellationToken ct)
+        {
+            var message = handler.ToHttpResponseMessage();
+#if NET6_0_OR_GREATER
+            var buffer = await message.Content.ReadAsByteArrayAsync(ct).ConfigureAwait(false);
+#else
+            var buffer = await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+#endif
+            context.Response.ContentType = message.Content.Headers.ContentType!.ToString();
+            context.Response.ContentLength = buffer.Length;
+            context.Response.StatusCode = (int)message.StatusCode;
+            await context.Response.Body.WriteAsync(buffer, 0, buffer.Length, ct).ConfigureAwait(false);
         }
     }
 }
