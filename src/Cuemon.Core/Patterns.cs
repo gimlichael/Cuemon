@@ -114,16 +114,16 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Returns the delegate that will configure the public read-write properties of <typeparamref name="TExchangeOptions"/>.
+        /// Returns the delegate that will configure the public read-write properties of <typeparamref name="TResult"/>.
         /// </summary>
-        /// <typeparam name="TOptions">The type of the configuration options class having a default constructor.</typeparam>
-        /// <typeparam name="TExchangeOptions">The type of the configuration options class having a default constructor.</typeparam>
-        /// <param name="setup">The delegate that will configure the public read-write properties of <typeparamref name="TOptions"/>.</param>
-        /// <param name="initializer">The delegate that will exchange the parameter of <paramref name="setup"/> from <typeparamref name="TOptions"/> to <typeparamref name="TExchangeOptions"/>.</param>
+        /// <typeparam name="TSource">The type of the configuration options class having a default constructor.</typeparam>
+        /// <typeparam name="TResult">The type of the configuration options class having a default constructor.</typeparam>
+        /// <param name="setup">The delegate that will configure the public read-write properties of <typeparamref name="TSource"/>.</param>
+        /// <param name="initializer">The delegate that will exchange the parameter of <paramref name="setup"/> from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <returns>An <see cref="Action{TExchangeOptions}"/> otherwise equivalent to <paramref name="setup"/>.</returns>
-        public static Action<TExchangeOptions> ConfigureExchange<TOptions, TExchangeOptions>(Action<TOptions> setup, Action<TOptions, TExchangeOptions> initializer = null)
-            where TOptions : class, new()
-            where TExchangeOptions : class, new()
+        public static Action<TResult> ConfigureExchange<TSource, TResult>(Action<TSource> setup, Action<TSource, TResult> initializer = null)
+            where TSource : class, new()
+            where TResult : class, new()
         {
             var io = Configure(setup);
             if (initializer == null)
@@ -131,8 +131,8 @@ namespace Cuemon
                 initializer = (i, o) =>
                 {
                     var match = false;
-                    var typeOfInput = typeof(TOptions);
-                    var typeOfOutput = typeof(TExchangeOptions);
+                    var typeOfInput = typeof(TSource);
+                    var typeOfOutput = typeof(TResult);
                     var ips = typeOfInput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
                     var ops = typeOfOutput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
                     foreach (var ip in ips)
@@ -146,7 +146,7 @@ namespace Cuemon
                     }
                     if (!match)
                     {
-                        throw new InvalidOperationException(FormattableString.Invariant($"Unable to use default converter for exchange of {nameof(TOptions)} ({DelimitedString.Create(ips)}) with {nameof(TExchangeOptions)} ({DelimitedString.Create(ops)}); no match on public read-write properties."));
+                        throw new InvalidOperationException(FormattableString.Invariant($"Unable to use default converter for exchange of {nameof(TSource)} ({DelimitedString.Create(ips)}) with {nameof(TResult)} ({DelimitedString.Create(ops)}); no match on public read-write properties."));
                     }
                 };
             }
@@ -154,15 +154,34 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Returns a delegate that will be initialized by <paramref name="initializer"/> with the values from <paramref name="options"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the configuration options having a default constructor.</typeparam>
+        /// <typeparam name="TResult">The type of the configuration options having a default constructor.</typeparam>
+        /// <param name="options">The configured options to apply an instance of <typeparamref name="TResult"/>.</param>
+        /// <param name="initializer">The delegate that will initialize a default instance of <typeparamref name="TResult"/> with the values from <paramref name="options"/>.</param>
+        /// <returns>An <see cref="Action{TOptions}"/> with the values from <paramref name="options"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="options"/> cannot be null -or-
+        /// <paramref name="initializer"/> cannot be null.
+        /// </exception>
+        public static Action<TResult> ConfigureRevertExchange<TSource, TResult>(TSource options, Action<TSource, TResult> initializer = null) 
+            where TSource : class, new()
+            where TResult : class, new()
+        {
+            return ConfigureExchange(ConfigureRevert(options), initializer);
+        }
+
+        /// <summary>
         /// Returns the delegate that will configure the public read-write properties of <typeparamref name="TOptions"/>.
         /// </summary>
-        /// <typeparam name="TOptions">The type of the configuration options class having a default constructor.</typeparam>
+        /// <typeparam name="TOptions">The type of the configuration options having a default constructor.</typeparam>
         /// <param name="options">An instance of the configured options.</param>
         /// <returns>An <see cref="Action{TOptions}"/> otherwise equivalent to <paramref name="options"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="options"/> cannot be null.
         /// </exception>
-        public static Action<TOptions> ConfigureRevert<TOptions>(TOptions options)
+        public static Action<TOptions> ConfigureRevert<TOptions>(TOptions options) where TOptions : class, new()
         {
             Validator.ThrowIfNull(options, nameof(options));
             return o =>
