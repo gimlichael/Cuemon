@@ -1,6 +1,7 @@
 ﻿using System;
 using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Cuemon.Extensions.Asp.Versioning
 {
@@ -19,13 +20,15 @@ namespace Cuemon.Extensions.Asp.Versioning
         public static IServiceCollection AddRestfulApiVersioning(this IServiceCollection services, Action<RestfulApiVersioningOptions> setup = null)
         {
             Validator.ThrowIfNull(services, nameof(services));
+
             var options = Patterns.Configure(setup);
+
             services.AddApiVersioning(o =>
             {
                 o.DefaultApiVersion = options.DefaultApiVersion;
                 o.ReportApiVersions = options.ReportApiVersions;
                 o.AssumeDefaultVersionWhenUnspecified = true;
-                o.ApiVersionReader = new MediaTypeApiVersionReader(options.ParameterName);
+                o.ApiVersionReader = new RestfulApiVersionReader(options.ValidAcceptHeaders, options.ParameterName);
                 o.ApiVersionSelector = (Activator.CreateInstance(options.ApiVersionSelectorType, o) as IApiVersionSelector)!;
             }).AddMvc(o =>
             {
@@ -36,6 +39,9 @@ namespace Cuemon.Extensions.Asp.Versioning
                 o.DefaultApiVersion = options.DefaultApiVersion;
                 o.SubstituteApiVersionInUrl = true;
             });
+
+            if (options.ProblemDetailsFactoryType != null && options.ProblemDetailsFactoryType != typeof(DefaultProblemDetailsFactory)) { services.Replace(ServiceDescriptor.Singleton(_ => Activator.CreateInstance(options.ProblemDetailsFactoryType) as IProblemDetailsFactory)); }
+            
             return services;
         }
     }

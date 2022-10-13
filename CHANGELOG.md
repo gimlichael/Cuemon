@@ -38,6 +38,9 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - BufferWriterOptions class in the Cuemon.IO namespace that specifies options that is related to the IBufferWriter interface
 - RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace that provides programmatic configuration for the ServiceCollectionExtensions.AddRestfulApiVersioning method
 - ServiceCollectionExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IServiceCollection interface: AddRestfulApiVersioning
+- ApplicationBuilderExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IApplicationBuilder interface: UseRestfulApiVersioning
+- RestfulApiVersionReader class in the Cuemon.Extensions.Asp.Versioning namespace that represents a RESTful API version reader that reads the value from a filtered list of HTTP Accept headers in the request
+- RestfulProblemDetailsFactory class in the Cuemon.Extensions.Asp.Versioning namespace that represents a RESTful implementation of the IProblemDetailsFactory which throws variants of HttpStatusCodeException that needs to be translated accordingly
 - Aws4HmacAuthorizationHeader class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that provides a representation of a HTTP AWS4-HMAC-SHA256 Authentication header
 - Aws4HmacAuthorizationHeaderBuilder class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that provides a way to fluently represent a HTTP AWS4-HMAC-SHA256 Authentication header
 - Aws4HmacFields class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that is a collection of constants for Aws4HmacAuthorizationHeaderBuilder and related
