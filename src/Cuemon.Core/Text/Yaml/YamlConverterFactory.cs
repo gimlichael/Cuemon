@@ -38,6 +38,7 @@ namespace Cuemon.Text.Yaml
         /// <summary>
         /// Creates a dynamic instance of an <see cref="YamlConverter" /> implementation wrapping <see cref="YamlConverter.WriteYamlCore" /> through <paramref name="writer" /> and <see cref="YamlConverter.ReadYamlCore" /> through <paramref name="reader" />.
         /// </summary>
+        /// <param name="typeToConvert">The type to convert.</param>
         /// <param name="writer">The delegate that converts an object to its YAML representation.</param>
         /// <param name="reader">The delegate that generates an object from its YAML representation.</param>
         /// <returns>An <see cref="YamlConverter" /> implementation of an object.</returns>
