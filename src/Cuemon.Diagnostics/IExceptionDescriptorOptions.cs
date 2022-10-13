@@ -1,38 +1,10 @@
 ﻿namespace Cuemon.Diagnostics
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="ExceptionDescriptor"/> operations.
+    /// Defines options that is related to <see cref="ExceptionDescriptor"/> operations.
     /// </summary>
-    public class ExceptionDescriptorOptions : IExceptionDescriptorOptions
+    public interface IExceptionDescriptorOptions
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionDescriptorOptions"/> class.
-        /// </summary>
-        /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="ExceptionDescriptorOptions"/>.
-        /// <list type="table">
-        ///     <listheader>
-        ///         <term>Property</term>
-        ///         <description>Initial Value</description>
-        ///     </listheader>
-        ///     <item>
-        ///         <term><see cref="IncludeFailure"/></term>
-        ///         <description><c>false</c></description>
-        ///     </item>
-        ///     <item>
-        ///         <term><see cref="IncludeStackTrace"/></term>
-        ///         <description><c>false</c></description>
-        ///     </item>
-        ///     <item>
-        ///         <term><see cref="IncludeEvidence"/></term>
-        ///         <description><c>false</c></description>
-        ///     </item>
-        /// </list>
-        /// </remarks>
-        public ExceptionDescriptorOptions()
-        {
-        }
-
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result.
         /// </summary>
