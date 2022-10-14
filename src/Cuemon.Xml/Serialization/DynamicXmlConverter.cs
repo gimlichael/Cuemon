@@ -48,13 +48,13 @@ namespace Cuemon.Xml.Serialization
     /// <seealso cref="XmlConverter" />
     public class DynamicXmlConverterCore : XmlConverter
     {
-        internal DynamicXmlConverterCore(Type objectType, Action<XmlWriter, object, XmlQualifiedEntity> writer, Func<XmlReader, Type, object> reader, Func<Type, bool> secondaryCanConvertPredicate, XmlQualifiedEntity rootName)
+        internal DynamicXmlConverterCore(Type objectType, Action<XmlWriter, object, XmlQualifiedEntity> writer, Func<XmlReader, Type, object> reader, Func<Type, bool> canConvertPredicate, XmlQualifiedEntity rootName)
         {
             RootName = rootName;
             ObjectType = objectType;
             Writer = writer;
             Reader = reader;
-            CanConvertPredicate = secondaryCanConvertPredicate;
+            CanConvertPredicate = canConvertPredicate;
         }
 
         /// <summary>

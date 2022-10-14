@@ -18,8 +18,7 @@ namespace Cuemon.Extensions.Text.Json
         /// <returns>An <see cref="JsonConverter"/> implementation of <typeparamref name="T"/>.</returns>
         public static JsonConverter Create<T>(Utf8JsonWriterAction<T> writer = null, Utf8JsonReaderFunc<T> reader = null)
         {
-            var objectType = typeof(T);
-            return Create(objectType.IsAssignableFrom, writer, reader);
+            return Create(typeof(T).IsAssignableFrom, writer, reader);
         }
 
         /// <summary>

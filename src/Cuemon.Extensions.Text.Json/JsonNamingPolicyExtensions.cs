@@ -12,7 +12,7 @@ namespace Cuemon.Extensions.Text.Json
         /// </summary>
         /// <param name="policy">The policy to apply.</param>
         /// <param name="name">The name to apply to a JSON property.</param>
-        /// <returns>When <paramref name="policy"/> is null, the specified <paramref name="name"/> is returned unaltered; otherwise it is converted according to the <see cref="JsonNamingPolicy"/></returns>
+        /// <returns>When <paramref name="policy"/> is null, the specified <paramref name="name"/> is returned unaltered; otherwise it is converted according to the <see cref="JsonNamingPolicy"/>.</returns>
         public static string DefaultOrConvertName(this JsonNamingPolicy policy, string name)
         {
             return policy == null ? name : policy.ConvertName(name);
