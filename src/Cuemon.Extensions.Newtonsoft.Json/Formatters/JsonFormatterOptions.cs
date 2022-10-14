@@ -12,6 +12,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     /// </summary>
     public class JsonFormatterOptions
     {
+        private readonly object _locker = new();
+        private bool _refreshed;
+
         static JsonFormatterOptions()
         {
             DefaultConverters = list =>
@@ -46,19 +49,16 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         ///     </item>
         ///     <item>
         ///         <term><see cref="IncludeExceptionDescriptorFailure"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="IncludeExceptionDescriptorEvidence"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public JsonFormatterOptions()
         {
-            IncludeExceptionDescriptorFailure = true;
-            IncludeExceptionDescriptorEvidence = true;
-            IncludeExceptionStackTrace = false;
             Settings = new JsonSerializerSettings()
             {
                 CheckAdditionalContent = true,
@@ -74,12 +74,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                     IgnoreSerializableInterface = true
                 }
             };
-            Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
-            Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
-            {
-                o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
-                o.IncludeFailure = IncludeExceptionDescriptorFailure;
-            });
             DefaultConverters?.Invoke(Settings.Converters);
         }
 
@@ -118,5 +112,24 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// </summary>
         /// <returns>A <see cref="JsonSerializerSettings"/> instance that specifies a set of features to support the <see cref="JsonFormatter"/> object.</returns>
         public JsonSerializerSettings Settings { get; set; }
+
+        internal JsonSerializerSettings RefreshWithConverterDependencies()
+        {
+            lock (_locker)
+            {
+                if (!_refreshed)
+                {
+                    _refreshed = true;
+                    Settings.Converters.AddExceptionConverter(IncludeExceptionStackTrace);
+                    Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
+                    {
+                        o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
+                        o.IncludeFailure = IncludeExceptionDescriptorFailure;
+                        o.IncludeStackTrace = IncludeExceptionStackTrace;
+                    });
+                }
+                return Settings;
+            }
+        }
     }
 }

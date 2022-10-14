@@ -89,7 +89,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// </summary>
         /// <param name="source">The object to serialize to JSON format.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
-        /// <returns>A string of the serialized <paramref name="source"/>.</returns>
+        /// <returns>A stream of the serialized <paramref name="source"/>.</returns>
         public override Stream Serialize(object source, Type objectType)
         {
             Validator.ThrowIfNull(source, nameof(source));
@@ -103,7 +103,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                            Encoder = Options.Settings.Encoder
                        }))
                 {
-                    JsonSerializer.Serialize(jsonWriter, source, objectType, Options.Settings);
+                    JsonSerializer.Serialize(jsonWriter, source, objectType, Options.RefreshWithConverterDependencies());
                 }
             });
         }
@@ -125,7 +125,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                 CommentHandling = Options.Settings.ReadCommentHandling,
                 MaxDepth = Options.Settings.MaxDepth
             });
-            return JsonSerializer.Deserialize(ref reader, objectType, Options.Settings);
+            return JsonSerializer.Deserialize(ref reader, objectType, Options.RefreshWithConverterDependencies());
         }
     }
 }

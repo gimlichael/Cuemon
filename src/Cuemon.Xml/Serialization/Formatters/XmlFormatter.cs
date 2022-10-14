@@ -75,7 +75,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             Validator.ThrowIfNull(options, nameof(options));
             Options = options;
-            if (options.SynchronizeWithXmlConvert) { Decorator.Enclose(options.Settings).ApplyToDefaultSettings(); }
+            if (options.SynchronizeWithXmlConvert) { Decorator.Enclose(options.RefreshWithConverterDependencies()).ApplyToDefaultSettings(); }
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(objectType, nameof(objectType));
-            var serializer = XmlSerializer.Create(Options.Settings);
+            var serializer = XmlSerializer.Create(Options.RefreshWithConverterDependencies());
             return serializer.Serialize(source, objectType);
         }
 
@@ -118,7 +118,7 @@ namespace Cuemon.Xml.Serialization.Formatters
             Validator.ThrowIfNull(writer, nameof(writer));
             Validator.ThrowIfNull(source, nameof(source));
             Validator.ThrowIfNull(objectType, nameof(objectType));
-            var serializer = XmlSerializer.Create(Options.Settings);
+            var serializer = XmlSerializer.Create(Options.RefreshWithConverterDependencies());
             serializer.Serialize(writer, source, objectType);
         }
 
@@ -136,7 +136,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             Validator.ThrowIfNull(value, nameof(value));
             Validator.ThrowIfNull(objectType, nameof(objectType));
-            var serializer = XmlSerializer.Create(Options.Settings);
+            var serializer = XmlSerializer.Create(Options.RefreshWithConverterDependencies());
             return serializer.Deserialize(value, objectType);
         }
     }
