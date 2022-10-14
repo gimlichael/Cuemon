@@ -118,6 +118,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                     o.IncludeExceptionStackTrace = true;
                 });
                 var r = f.Serialize(e);
+
+                TestOutput.WriteLine(r.ToEncodedString(o => o.LeaveOpen = true));
+
                 var x = new StreamReader(r).ReadAllLines().ToList();
                 Assert.Contains(e.Data.Keys.Cast<string>(), s => s.Equals("Cuemon"));
                 Assert.Contains(e.Data.Values.Cast<string>(), s => s.Equals("XmlFormatterTest"));
@@ -136,7 +139,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 Assert.Contains("\"Type\": \"System.Threading.AbandonedMutexException\"", x[17]);
                 Assert.Contains("\"Type\": \"System.ArithmeticException\"", x[21]);
 
-                TestOutput.WriteLine(r.ToEncodedString());
                 r.Dispose();
             }
         }

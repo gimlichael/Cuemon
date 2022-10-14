@@ -24,8 +24,6 @@ namespace Cuemon.Extensions.Text.Json.Formatters
 
             Assert.Equal(3, defaultConverters.Count);
             Assert.Equal(1, bootstrapInvocationList);
-            Assert.Equal(2, x.Settings.Converters.Count - defaultConverters.Count);
-            Assert.Equal(2, y.Settings.Converters.Count - defaultConverters.Count);
 
             Assert.Equal(x.Settings.Converters.Count, y.Settings.Converters.Count);
         }

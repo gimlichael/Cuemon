@@ -265,6 +265,8 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             var sut = new XmlFormatter(o =>
             {
+                o.IncludeExceptionDescriptorFailure = true;
+                o.IncludeExceptionDescriptorEvidence = true;
                 o.Settings.Writer.Indent = true;
             });
 
@@ -311,6 +313,8 @@ namespace Cuemon.Xml.Serialization.Formatters
             var sut = new XmlFormatter(o =>
             {
                 o.IncludeExceptionStackTrace = true;
+                o.IncludeExceptionDescriptorFailure = true;
+                o.IncludeExceptionDescriptorEvidence = true;
                 o.Settings.Writer.Indent = true;
             });
 
@@ -356,7 +360,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             var sut = new XmlFormatter(o =>
             {
-                o.IncludeExceptionDescriptorFailure = false;
+                o.IncludeExceptionDescriptorEvidence = true;
                 o.Settings.Writer.Indent = true;
             });
 
@@ -402,7 +406,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             var sut = new XmlFormatter(o =>
             {
-                o.IncludeExceptionDescriptorEvidence = false;
+                o.IncludeExceptionDescriptorFailure = true;
                 o.Settings.Writer.Indent = true;
             });
 

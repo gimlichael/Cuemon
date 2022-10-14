@@ -148,11 +148,11 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 IncludeExceptionDescriptorEvidence = includeExceptionDescriptorEvidence
             };
 
-            sut2.Settings.Converters.Remove(sut2.Settings.Converters.Single(jc => jc.CanConvert(typeof(ExceptionDescriptor))));
             sut2.Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
             {
                 o.IncludeEvidence = includeExceptionDescriptorEvidence;
                 o.IncludeFailure = includeExceptionDescriptorFailure;
+                o.IncludeStackTrace = includeExceptionStackTrace;
             });
 
             Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(ExceptionDescriptor))), jc =>

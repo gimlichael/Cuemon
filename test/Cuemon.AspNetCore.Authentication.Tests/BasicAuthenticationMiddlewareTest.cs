@@ -94,7 +94,9 @@ namespace Cuemon.AspNetCore.Authentication
 
                 await pipeline(context);
 
-                Assert.EndsWith(options.Value.UnauthorizedMessage, context.Response.Body.ToEncodedString());
+                TestOutput.WriteLine(context.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
+
+                Assert.EndsWith(options.Value.UnauthorizedMessage, context.Response.Body.ToEncodedString().Trim()); // TODO: make sure text/plain does not have trailing linefeed
                 Assert.Equal(StatusCodes.Status401Unauthorized, context.Response.StatusCode);
 
                 var wwwAuthenticate = context.Response.Headers[HeaderNames.WWWAuthenticate];
