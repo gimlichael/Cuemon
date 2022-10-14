@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         public static IList<XmlConverter> AddHttpExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
-            return converters.AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, qe) =>
+            return converters.AddXmlConverter<HttpExceptionDescriptor>((writer, descriptor, _) =>
             {
                 writer.WriteStartElement("HttpExceptionDescriptor");
                 writer.WriteStartElement("Error");
@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
                 if (options.IncludeFailure)
                 {
                     writer.WriteStartElement("Failure");
-                    writer.WriteObject(descriptor.Failure);
+                    new ExceptionConverter(options.IncludeStackTrace).WriteXml(writer, descriptor.Failure);
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();

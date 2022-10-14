@@ -171,15 +171,15 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// Adds an <see cref="Exception" /> XML converter to the list.
         /// </summary>
         /// <param name="converters">The <see cref="T:IList{XmlConverter}" /> to extend.</param>
-        /// <param name="includeStackTraceFactory">The function delegate that is invoked when it is needed to determine whether the stack of an exception is included in the converted result.</param>
+        /// <param name="includeStackTrace">The value that determine whether the stack of an exception is included in the converted result.</param>
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="converters"/> cannot be null.
         /// </exception>
-        public static IList<XmlConverter> AddExceptionConverter(this IList<XmlConverter> converters, Func<bool> includeStackTraceFactory)
+        public static IList<XmlConverter> AddExceptionConverter(this IList<XmlConverter> converters, bool includeStackTrace)
         {
             Validator.ThrowIfNull(converters, nameof(converters));
-            return Decorator.Enclose(converters).AddExceptionConverter(includeStackTraceFactory).Inner;
+            return Decorator.Enclose(converters).AddExceptionConverter(includeStackTrace).Inner;
         }
     }
 }
