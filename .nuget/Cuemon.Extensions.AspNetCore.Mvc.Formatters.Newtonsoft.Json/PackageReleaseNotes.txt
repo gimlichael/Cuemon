@@ -11,6 +11,9 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 - RENAMED AddJsonSerializationFormatters --> AddNewtonsoftJsonFormatters on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
 - RENAMED AddJsonFormatterOptions --> AddNewtonsoftJsonFormattersOptions on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
  
+# New Features
+- ADDED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddNewtonsoftJsonResponseHandler
+ 
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
  

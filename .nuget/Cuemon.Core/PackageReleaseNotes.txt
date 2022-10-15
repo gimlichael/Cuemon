@@ -5,9 +5,24 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
+# Breaking Changes
+- CHANGED ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude Failure, Evidence and StackTrace as default
+ 
 # New Features
 - ADDED HttpAuthenticationSchemes class in the Cuemon.Net.Http namespace that specifies options that defines constants for well-known HTTP authentication schemes
 - ADDED HttpHeaderNames class in the Cuemon.Net.Http namespace that defines constants for well-known HTTP headers
+- ADDED YamlSerializer class in the Cuemon.Runtime.Serialization namespace that provides functionality to serialize objects to YAML and to deserialize YAML into objects
+- ADDED YamlSerializerOptions class in the Cuemon.Runtime.Serialization namespace that specifies options related to YamlSerializer
+- ADDED YamlTextReader class in the Cuemon.Runtime.Serialization namespace that represents a reader that provides fast, non-cached, forward-only access to YAML data
+- ADDED YamlTextWriter class in the Cuemon.Runtime.Serialization namespace that represents a writer that provides a fast, non-cached, forward-only way to generate streams or files that contain YAML data
+- ADDED ExceptionConverter class in the Cuemon.Text.Yaml.Converters namespace that converts an Exception to or from YAML
+- ADDED YamlConverter class in the Cuemon.Text.Yaml.Converters namespace that converts an object to or from YAML (YAML ain't markup language)
+- ADDED YamlFormatter class in the Cuemon.Text.Yaml.Formatters namespace that serializes and deserializes an object, in YAML format
+- ADDED YamlFormatterOptions class in the Cuemon.Text.Yaml.Formatters namespace that specifies options related to YamlFormatter
+- ADDED YamlConverterFactory class in the Cuemon.Text.Yaml namespace that provides a factory based way to create and wrap an YamlConverter implementation
+- ADDED YamlNamingPolicy class in the Cuemon.Text.Yaml namespace that determines the naming policy used to convert a string-based name to another format
+- EXTENDED Patterns class in the Cuemon namespace with one new static member: ConfigureRevertExchange
+- ADDED IExceptionDescriptorOptions interface in the Cuemon.Diagnostics namespace that defines options that is related to ExceptionDescriptor operations
  
 # Improvements
 - EXTENDED Validator class in the Cuemon namespace with one new static member: CheckParameter

@@ -8,7 +8,8 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 # Breaking Changes
 - MOVED HttpContextItemsKeyForCapturedRequestBody string constant from FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to the HttpRequestEvidence class in the Cuemon.AspNetCore.Diagnostics namespace (Cuemon.AspNetCore)
 - CHANGED FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to include a reference to HttpContext from the ExceptionCallback delegate
-- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to inherit from FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace
+- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to be named MvcFaultDescriptorOptions and inherit from FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace
+- CHANGED FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to rely on MvcFaultDescriptorOptions instead of FaultDescriptorOptions
 - MOVED HttpFaultResolver class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to a better suited namespace Cuemon.AspNetCore.Diagnostics (Cuemon.AspNetCore)
 - MOVED HttpRequestEvidence class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to a better suited namespace Cuemon.AspNetCore.Diagnostics (Cuemon.AspNetCore)
  
@@ -20,6 +21,7 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 # Bug Fixes
 - FIXED HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that logic is only applied if qualified
 - FIXED ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace that was triggered when parsing runtime parameters for time measuring and parameters exceeded what was part of route
+- FIXED StreamOutputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace so that only non-nullable objects are being serialized
  
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0

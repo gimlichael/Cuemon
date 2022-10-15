@@ -11,6 +11,9 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 - RENAMED AddXmlSerializationFormatters --> AddXmlFormatters on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace
 - RENAMED AddXmlFormatterOptions --> AddXmlFormattersOptions on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace
  
+# New Features
+- ADDED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddXmlResponseHandler
+ 
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
  

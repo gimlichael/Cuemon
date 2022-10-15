@@ -5,6 +5,9 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
+# New Features
+- ADDED ExceptionDescriptorConverter class in the Cuemon.Diagnostics.Text.Yaml namespace that converts an ExceptionDescriptor to or from YAML
+ 
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
  

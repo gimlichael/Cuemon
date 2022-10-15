@@ -199,7 +199,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         }
 
         [Fact]
-        public async Task sGetRequest_ShouldFailWithBadRequestFormattedAsPlainResponse_As_b3_IsAnUnknownVersion()
+        public async Task GetRequest_ShouldFailWithBadRequestFormattedAsPlainResponse_As_b3_IsAnUnknownVersion()
         {
             using (var app = WebApplicationTestFactory.Create(app =>
             {

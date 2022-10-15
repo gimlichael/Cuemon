@@ -7,6 +7,7 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # New Features
 - EXTENDED XmlFormatter class in the Cuemon.Xml.Serialization.Formatters namespace with two static methods; SerializeObject and DeserializeObject
+- ADDED ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace that converts an Exception to XML
  
 # Breaking Changes
 - CHANGED AddTimeSpanConverter extension method on XmlConverterDecoratorExtensions class in the Cuemon.Xml.Serialization.Converters namespace to be aligned with the JSON equivalents
