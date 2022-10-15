@@ -246,7 +246,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                 Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
                 Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
                 Assert.EndsWith("text/plain", sut.Content.Headers.ContentType.ToString());
-                Assert.Equal(@"Error: 
+                Assert.StartsWith(@"Error: 
   Status: 400
   Code: BadRequest
   Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'b3'.
@@ -255,14 +255,8 @@ namespace Cuemon.Extensions.Asp.Versioning
     Source: Cuemon.Extensions.Asp.Versioning
     Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'b3'.
     Stack: 
-      at Cuemon.Extensions.Asp.Versioning.RestfulProblemDetailsFactory.CreateProblemDetails(HttpRequest request, Nullable`1 statusCode, String title, String type, String detail, String instance) in C:\Source\Github\Cuemon\src\Cuemon.Extensions.Asp.Versioning\RestfulProblemDetailsFactory.cs:line 41
-      at Asp.Versioning.Routing.MalformedApiVersionEndpoint.OnExecute(HttpContext context, ILogger logger)
-      at Asp.Versioning.Routing.MalformedApiVersionEndpoint.<>c__DisplayClass1_0.<.ctor>b__0(HttpContext c)
-      at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
-      --- End of stack trace from previous location ---
-      at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
-    StatusCode: 400
-    ReasonPhrase: Bad Request
+", await sut.Content.ReadAsStringAsync());
+                Assert.EndsWith(@"
 Evidence: 
   Request: 
     Location: http://localhost/fake/throw
@@ -282,7 +276,7 @@ Evidence:
     Query: []
     Cookies: []
     Body: 
-", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+", await sut.Content.ReadAsStringAsync());
             }
         }
 
