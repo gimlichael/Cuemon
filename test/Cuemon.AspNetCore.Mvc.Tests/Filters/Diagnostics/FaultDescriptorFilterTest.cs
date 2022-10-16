@@ -34,10 +34,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 app.UseEndpoints(routes => { routes.MapControllers(); });
             }, (context, services) =>
             {
-                services.Configure<FaultDescriptorOptions>(o => o.UseBaseException = useBaseException);
+                services.Configure<MvcFaultDescriptorOptions>(o =>
+                {
+                    o.IncludeFailure = true; // TODO: find a way make FaultDescriptorOptions enough in terms of Exception controlling (e.g., do not rely on AddNewtonsoftJsonFormatters .. -> .. IncludeExceptionDescriptorFailure
+                    o.UseBaseException = useBaseException;
+                });
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters();
+                    .AddNewtonsoftJsonFormatters(o => o.IncludeExceptionDescriptorFailure = true);
             }))
             {
                 var client = filter.Host.GetTestClient();

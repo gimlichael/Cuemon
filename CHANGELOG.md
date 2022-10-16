@@ -38,6 +38,9 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - BufferWriterOptions class in the Cuemon.IO namespace that specifies options that is related to the IBufferWriter interface
 - RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace that provides programmatic configuration for the ServiceCollectionExtensions.AddRestfulApiVersioning method
 - ServiceCollectionExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IServiceCollection interface: AddRestfulApiVersioning
+- ApplicationBuilderExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IApplicationBuilder interface: UseRestfulApiVersioning
+- RestfulApiVersionReader class in the Cuemon.Extensions.Asp.Versioning namespace that represents a RESTful API version reader that reads the value from a filtered list of HTTP Accept headers in the request
+- RestfulProblemDetailsFactory class in the Cuemon.Extensions.Asp.Versioning namespace that represents a RESTful implementation of the IProblemDetailsFactory which throws variants of HttpStatusCodeException that needs to be translated accordingly
 - Aws4HmacAuthorizationHeader class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that provides a representation of a HTTP AWS4-HMAC-SHA256 Authentication header
 - Aws4HmacAuthorizationHeaderBuilder class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that provides a way to fluently represent a HTTP AWS4-HMAC-SHA256 Authentication header
 - Aws4HmacFields class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that is a collection of constants for Aws4HmacAuthorizationHeaderBuilder and related
@@ -53,6 +56,28 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - UserAgentDocumentFilter class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that provides a User-Agent field to the generated OpenApiDocument
 - UserAgentDocumentOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that provides programmatic configuration for the UserAgentDocumentFilter class
 - XPathDocumentExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that consist of extension methods for the XPathDocument class: AddByType, AddByAssembly, AddByFilename
+- JsonFormatter class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace was extended with two static methods; SerializeObject and DeserializeObject
+- XmlFormatter class in the Cuemon.Xml.Serialization.Formatters namespace was extended with two static methods; SerializeObject and DeserializeObject
+- YamlSerializer class in the Cuemon.Runtime.Serialization namespace that provides functionality to serialize objects to YAML and to deserialize YAML into objects
+- YamlSerializerOptions class in the Cuemon.Runtime.Serialization namespace that specifies options related to YamlSerializer
+- YamlTextReader class in the Cuemon.Runtime.Serialization namespace that represents a reader that provides fast, non-cached, forward-only access to YAML data
+- YamlTextWriter class in the Cuemon.Runtime.Serialization namespace that represents a writer that provides a fast, non-cached, forward-only way to generate streams or files that contain YAML data
+- ExceptionConverter class in the Cuemon.Text.Yaml.Converters namespace that converts an Exception to or from YAML
+- YamlConverter class in the Cuemon.Text.Yaml.Converters namespace that converts an object to or from YAML (YAML ain't markup language)
+- YamlFormatter class in the Cuemon.Text.Yaml.Formatters namespace that serializes and deserializes an object, in YAML format
+- YamlFormatterOptions class in the Cuemon.Text.Yaml.Formatters namespace that specifies options related to YamlFormatter
+- YamlConverterFactory class in the Cuemon.Text.Yaml namespace that provides a factory based way to create and wrap an YamlConverter implementation
+- YamlNamingPolicy class in the Cuemon.Text.Yaml namespace that determines the naming policy used to convert a string-based name to another format
+- ExceptionDescriptorConverter class in the Cuemon.Diagnostics.Text.Yaml namespace that converts an ExceptionDescriptor to or from YAML
+- YamlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters namespace that consist of extension methods for the YamlConverter class: AddExceptionDescriptorConverter, AddHttpExceptionDescriptorConverter
+- HttpExceptionDescriptorResponseHandler class in the Cuemon.AspNetCore.Diagnostics namespace that provides a way to support content negotiation for HttpExceptionDescriptor
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddNewtonsoftJsonResponseHandler
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddJsonResponseHandler
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddXmlResponseHandler
+- IExceptionDescriptorOptions interface in the Cuemon.Diagnostics namespace that defines options that is related to ExceptionDescriptor operations
+- ExceptionConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace that converts an Exception to or from JSON
+- ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that converts an Exception to or from JSON
+- ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace that converts an Exception to XML
 
 ### Changed
 
@@ -62,7 +87,8 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ThrottlingSentinelMiddleware class in the Cuemon.AspNetCore.Http.Throttling namespace to have a more lean and fault tolerant design
 - HttpContextItemsKeyForCapturedRequestBody string constant from FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace was moved to the HttpRequestEvidence class in the Cuemon.AspNetCore.Diagnostics namespace
 - FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to include a reference to HttpContext from the ExceptionCallback delegate
-- FaultDescriptorOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to inherit from FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace
+- FaultDescriptorOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to be named MvcFaultDescriptorOptions and inherit from FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace
+- FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to rely on MvcFaultDescriptorOptions instead of FaultDescriptorOptions
 - HttpFaultResolver class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace was moved to the Cuemon.AspNetCore.Diagnostics namespace
 - HttpRequestEvidence class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace was moved to the Cuemon.AspNetCore.Diagnostics namespace
 - UserAgentSentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Headers namespace received a more lean and fault tolerant design
@@ -81,6 +107,14 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - HttpCacheableOptions class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that the age of a dynamically applied cache header is now 5 minutes instead of 24 hours
 - MiddlewareTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to have non-ambiguous overloads of CreateMiddlewareTest -> Create, CreateWithHostBuilderContext and RunMiddlewareTest -> Run, RunWithHostBuilderContext
 - WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace to have non-ambiguous overloads of CreateWebApplicationTest -> Create, CreateWithHostBuilderContext and RunWebApplicationTest -> Run, RunWithHostBuilderContext
+- AddTimeSpanConverter extension method on XmlConverterDecoratorExtensions class in the Cuemon.Xml.Serialization.Converters namespace to be aligned with the JSON equivalents
+- ActivatorOptions class in the Cuemon.Reflection namespace to match Activator BindingFlags defaults from Microsoft
+- TypeNameOptions class in the Cuemon.Reflection namespace that could throw a NullReferenceException when FullName is null; fallback to Name
+- JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to use DateTimeZoneHandling.RoundtripKind instead of DateTimeZoneHandling.Utc when dealing with DateTimeZoneHandling
+- FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace was renamed to FaultDescriptorOptions
+- ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude Failure, Evidence and StackTrace as default
+- Patterns class in the Cuemon namespace was extended with one new static member: ConfigureRevertExchange
+- HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace with extended with one new overloaded static member: TryParse
 
 ### Removed
 
@@ -91,12 +125,15 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ScriptCdnTagHelper class from the Cuemon.AspNetCore.Razor.TagHelpers namespace
 - IMvcFilterTest interface from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 - MvcFilterTestFactory class from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
+- AddTimeSpanConverter extension method from JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace
 
 ### Fixed
 
 - HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that logic is only applied if qualified
 - FakeHttpResponseFeature class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features namespace so that the OnStarting method ensures that callback delegate is only run once per response
 - ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace that was triggered when parsing runtime parameters for time measuring and parameters exceeded what was part of route
+- StringFlagsEnumConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace so that it includes check on FlagsAttribute definition in inherited CanConvert method
+- StreamOutputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace so that only non-nullable objects are being serialized
 
 ## [6.4.1] - 2022-08-05
 

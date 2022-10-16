@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Threading;
@@ -21,9 +22,73 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         }
 
         [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_BindingFlags()
+        {
+            var sut1 = BindingFlags.DeclaredOnly;
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var json = JsonFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = JsonFormatter.DeserializeObject<BindingFlags>(json);
+
+            Assert.Equal(sut1, sut2);
+        }
+
+        [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_UriScheme()
+        {
+            var sut1 = UriScheme.Https;
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var json = JsonFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = JsonFormatter.DeserializeObject<UriScheme>(json);
+
+            Assert.Equal(sut1, sut2);
+        }
+
+        [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_TimeSpan()
+        {
+            var sut1 = TimeSpan.Parse("01:12:05");
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var json = JsonFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = JsonFormatter.DeserializeObject<TimeSpan>(json);
+
+            Assert.Equal(sut1, sut2);
+        }
+
+        [Fact]
+        public void SerializeObject_ShouldBeEquivalentToOriginal_String()
+        {
+            var sut1 = "\"01:12:05\"";
+
+            TestOutput.WriteLine(sut1);
+
+            var timeSpan = JsonFormatter.DeserializeObject<TimeSpan>(sut1.ToStream());
+
+            TestOutput.WriteLine(timeSpan.ToString());
+
+            var sut2 = JsonFormatter.SerializeObject(timeSpan);
+
+            Assert.Equal(sut1, sut2.ToEncodedString());
+        }
+
+        [Fact]
         public void Deserialize_ShouldBeEquivalentToOriginal_DateTime()
         {
-            var sut = DateTime.Parse("2022-06-26T22:39:14.3512950Z").ToUniversalTime();
+            var sut = DateTime.Parse("2022 -06-26T22:39:14.3512950Z").ToUniversalTime();
             TestOutput.WriteLine(sut.ToString("O"));
 
             var formatter = new JsonFormatter(o => o.Settings.Converters.AddDateTimeConverter());

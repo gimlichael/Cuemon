@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Asp.Versioning;
 using Asp.Versioning.Conventions;
 
@@ -24,6 +25,10 @@ namespace Cuemon.Extensions.Asp.Versioning
         ///         <description><c>typeof(CurrentImplementationApiVersionSelector)</c></description>
         ///     </item>
         ///     <item>
+        ///         <term><see cref="ProblemDetailsFactoryType"/></term>
+        ///         <description><c>typeof(RestfulProblemDetailsFactory)</c></description>
+        ///     </item>
+        ///     <item>
         ///         <term><see cref="Conventions"/></term>
         ///         <description><c>new ApiVersionConventionBuilder()</c></description>
         ///     </item>
@@ -39,15 +44,50 @@ namespace Cuemon.Extensions.Asp.Versioning
         ///         <term><see cref="ReportApiVersions"/></term>
         ///         <description><c>false</c></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="ValidAcceptHeaders"/></term>
+        ///         <description><c>application/json, application/xml, application/vnd</c></description>
+        ///     </item>
         /// </list>
         /// </remarks>
         public RestfulApiVersioningOptions()
         {
             ApiVersionSelectorType = typeof(CurrentImplementationApiVersionSelector);
+            ProblemDetailsFactoryType = typeof(RestfulProblemDetailsFactory);
             Conventions = new ApiVersionConventionBuilder();
             DefaultApiVersion = ApiVersion.Default;
             ParameterName = "v";
+            ValidAcceptHeaders = new List<string>()
+            {
+                "application/json",
+                "application/xml",
+                "application/vnd"
+            };
         }
+
+        /// <summary>
+        /// Specify what <see cref="IProblemDetailsFactory"/> to set on the <seealso cref="ProblemDetailsFactoryType"/>. Default is <see cref="RestfulProblemDetailsFactory"/>.
+        /// </summary>
+        /// <typeparam name="T">The type that implements the <see cref="IProblemDetailsFactory"/> interface.</typeparam>
+        /// <returns>A reference to this instance so that additional calls can be chained.</returns>
+        public RestfulApiVersioningOptions UseProblemDetailsFactory<T>() where T : class, IProblemDetailsFactory
+        {
+            ProblemDetailsFactoryType = typeof(T);
+            return this;
+        }
+
+        /// <summary>
+        /// Gets or sets the valid accept headers used as a filter by <see cref="RestfulApiVersionReader"/>.
+        /// </summary>
+        /// <value>The valid accept headers used as a filter by <see cref="RestfulApiVersionReader"/>.</value>
+        /// <remarks>This option was introduced to have an inclusive filter on what MIME types to consider valid when parsing HTTP Accept headers; for more information have a read at https://github.com/dotnet/aspnet-api-versioning/issues/887</remarks>
+        public IList<string> ValidAcceptHeaders { get; set; }
+
+        /// <summary>
+        /// Gets the implementation type of the <see cref="IProblemDetailsFactory"/>.
+        /// </summary>
+        /// <value>The implementation type of the <see cref="IProblemDetailsFactory"/>.</value>
+        public Type ProblemDetailsFactoryType { get; private set; }
 
         /// <summary>
         /// Specify what <see cref="IApiVersionSelector"/> to set on the <seealso cref="ApiVersionSelectorType"/>. Default is <see cref="CurrentImplementationApiVersionSelector"/>.

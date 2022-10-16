@@ -39,6 +39,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
             Validator.ThrowIfNull(context, nameof(context));
             Validator.ThrowIfNull(selectedEncoding, nameof(selectedEncoding));
             var value = context.Object;
+            if (value == null) { return; }
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))
             {
                 var formatter = ActivatorFactory.CreateInstance<TOptions, TFormatter>(Options);

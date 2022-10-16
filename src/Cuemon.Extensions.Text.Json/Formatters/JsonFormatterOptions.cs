@@ -12,11 +12,13 @@ namespace Cuemon.Extensions.Text.Json.Formatters
     /// </summary>
     public class JsonFormatterOptions
     {
+        private readonly object _locker = new();
+        private bool _refreshed;
+
         static JsonFormatterOptions()
         {
             DefaultConverters = list =>
             {
-                list.AddTimeSpanConverter();
                 list.AddDataPairConverter();
                 list.AddStringEnumConverter();
                 list.AddStringFlagsEnumConverter();
@@ -43,33 +45,25 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         ///     </item>
         ///     <item>
         ///         <term><see cref="IncludeExceptionDescriptorFailure"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="IncludeExceptionDescriptorEvidence"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public JsonFormatterOptions()
         {
-            IncludeExceptionDescriptorFailure = true;
-            IncludeExceptionDescriptorEvidence = true;
-            IncludeExceptionStackTrace = false;
             Settings = new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = true,
                 DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                ReadCommentHandling = JsonCommentHandling.Skip
             };
-            Settings.Converters.AddExceptionConverter(() => IncludeExceptionStackTrace);
-            Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
-            {
-                o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
-                o.IncludeFailure = IncludeExceptionDescriptorFailure;
-            });
             DefaultConverters?.Invoke(Settings.Converters);
         }
 
@@ -102,5 +96,24 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// </summary>
         /// <returns>A <see cref="JsonSerializerOptions"/> instance that specifies a set of features to support the <see cref="JsonFormatter"/> object.</returns>
         public JsonSerializerOptions Settings { get; set; }
+
+        internal JsonSerializerOptions RefreshWithConverterDependencies()
+        {
+            lock (_locker)
+            {
+                if (!_refreshed)
+                {
+                    _refreshed = true;
+                    Settings.Converters.AddExceptionConverter(IncludeExceptionStackTrace);
+                    Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
+                    {
+                        o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
+                        o.IncludeFailure = IncludeExceptionDescriptorFailure;
+                        o.IncludeStackTrace = IncludeExceptionStackTrace;
+                    });
+                }
+                return Settings;
+            }
+        }
     }
 }

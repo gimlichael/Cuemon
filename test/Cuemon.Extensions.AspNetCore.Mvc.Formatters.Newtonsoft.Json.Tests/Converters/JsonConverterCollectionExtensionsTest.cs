@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                 oome = e;
             }
 
-            using (var middleware = MiddlewareTestFactory.Create(app => { }, services => { services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton); }))
+            using (var middleware = MiddlewareTestFactory.Create())
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var correlationId = Guid.NewGuid().ToString("N");
@@ -52,6 +52,8 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                 };
 
                 sut1.AddEvidence("Request", context.Request, request => new HttpRequestEvidence(request));
+                
+                // TODO: look into IncludeException* and Include equivalents
 
                 var sut2 = new JsonFormatterOptions()
                 {
@@ -66,6 +68,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                 {
                     o.IncludeEvidence = includeExceptionDescriptorEvidence;
                     o.IncludeFailure = includeExceptionDescriptorFailure;
+                    o.IncludeStackTrace = includeExceptionStackTrace;
                 });
 
                 Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(HttpExceptionDescriptor))), jc =>

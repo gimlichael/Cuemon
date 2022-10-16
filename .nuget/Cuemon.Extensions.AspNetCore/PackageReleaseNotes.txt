@@ -7,6 +7,7 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
  
 # New Features
 - EXTENDED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace with one new extension method for the IApplicationBuilder interface: UseFaultDescriptorExceptionHandler
+- ADDED YamlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters namespace that consist of extension methods for the YamlConverter class: AddExceptionDescriptorConverter, AddHttpExceptionDescriptorConverter
  
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0

@@ -32,7 +32,7 @@ namespace Cuemon.Reflection
         public ActivatorOptions()
         {
             Binder = Type.DefaultBinder;
-            Flags = BindingFlags.Instance | BindingFlags.Public;
+            Flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.CreateInstance;
         }
 
         /// <summary>

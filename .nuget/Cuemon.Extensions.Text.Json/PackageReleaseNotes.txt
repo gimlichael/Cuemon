@@ -2,7 +2,7 @@
 Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
  
 # New Features
-- ADDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddStringEnumConverter, AddStringFlagsEnumConverter, AddExceptionDescriptorConverterOf, AddTimeSpanConverter, AddExceptionConverter, AddDataPairConverter, AddDateTimeConverter
+- ADDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddStringEnumConverter, AddStringFlagsEnumConverter, AddExceptionDescriptorConverterOf, AddExceptionConverter, AddDataPairConverter, AddDateTimeConverter
 - ADDED StringEnumConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that convert enums to and from strings
 - ADDED StringFlagsEnumConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that convert enums with FlagsAttribute to and from strings
 - ADDED JsonFormatter class in the Cuemon.Extensions.Text.Json.Formatters namespace that serializes and deserializes an object, in JSON format
@@ -15,4 +15,5 @@ Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
 - ADDED Utf8JsonWriterAction delegate in the Cuemon.Extensions.Text.Json namespace that represents the Write method of JsonConverter{T}
 - ADDED Utf8JsonWriterExtensions class in the Cuemon.Extensions.Text.Json namespace that consist of extension methods for the Utf8JsonWriter class: WriteObject
 - ADDED DateTimeConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that provides a DateTime converter that can be configured like the Newtonsoft.JSON equivalent
+- ADDED ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that converts an Exception to or from JSON
  

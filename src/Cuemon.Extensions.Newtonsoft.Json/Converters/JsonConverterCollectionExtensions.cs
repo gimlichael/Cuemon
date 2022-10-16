@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cuemon.Diagnostics;
@@ -67,7 +66,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 if (options.IncludeFailure)
                 {
                     writer.WritePropertyName("Failure", serializer);
-                    writer.WriteObject(descriptor.Failure, serializer);
+                    new ExceptionConverter(options.IncludeStackTrace).WriteJson(writer, descriptor.Failure, serializer);
                 }
                 writer.WriteEndObject();
                 if (options.IncludeEvidence && descriptor.Evidence.Any())
@@ -88,52 +87,14 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         }
 
         /// <summary>
-        /// Adds a <see cref="TimeSpan"/> JSON converter to the list.
-        /// </summary>
-        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
-        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
-        public static ICollection<JsonConverter> AddTimeSpanConverter(this ICollection<JsonConverter> converters)
-        {
-            converters.Add(DynamicJsonConverter.Create<TimeSpan>((writer, value, serializer) =>
-            {
-                writer.WriteStartObject();
-                writer.WritePropertyName("Ticks", serializer);
-                writer.WriteValue(value.Ticks);
-                writer.WritePropertyName("Days", serializer);
-                writer.WriteValue(value.Days);
-                writer.WritePropertyName("Hours", serializer);
-                writer.WriteValue(value.Hours);
-                writer.WritePropertyName("Minutes", serializer);
-                writer.WriteValue(value.Minutes);
-                writer.WritePropertyName("Seconds", serializer);
-                writer.WriteValue(value.Seconds);
-                writer.WritePropertyName("TotalDays", serializer);
-                writer.WriteValue(value.TotalDays);
-                writer.WritePropertyName("TotalHours", serializer);
-                writer.WriteValue(value.TotalHours);
-                writer.WritePropertyName("TotalMilliseconds", serializer);
-                writer.WriteValue(value.TotalMilliseconds);
-                writer.WritePropertyName("TotalMinutes", serializer);
-                writer.WriteValue(value.TotalMinutes);
-                writer.WritePropertyName("TotalSeconds", serializer);
-                writer.WriteValue(value.TotalSeconds);
-                writer.WriteEndObject();
-            }, (reader, objectType, existingValue, serializer) => Decorator.Enclose(reader.ToHierarchy()).UseTimeSpanFormatter()));
-            return converters;
-        }
-
-        /// <summary>
         /// Adds an <see cref="Exception" /> JSON converter to the list.
         /// </summary>
         /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
-        /// <param name="includeStackTraceFactory">The function delegate that is invoked when it is needed to determine whether the stack of an exception is included in the converted result.</param>
+        /// <param name="includeStackTrace">The value that determine whether the stack of an exception is included in the converted result.</param>
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
-        public static ICollection<JsonConverter> AddExceptionConverter(this ICollection<JsonConverter> converters, Func<bool> includeStackTraceFactory)
+        public static ICollection<JsonConverter> AddExceptionConverter(this ICollection<JsonConverter> converters, bool includeStackTrace)
         {
-            converters.Add(DynamicJsonConverter.Create<Exception>((writer, exception, serializer) =>
-            {
-                WriteException(writer, exception, includeStackTraceFactory?.Invoke() ?? false, serializer);
-            }));
+            converters.Add(new ExceptionConverter(includeStackTrace));
             return converters;
         }
 
@@ -160,95 +121,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteEndObject();
             }));
             return converters;
-        }
-
-        private static void WriteException(JsonWriter writer, Exception exception, bool includeStackTrace, JsonSerializer serializer)
-        {
-            var exceptionType = exception.GetType();
-            writer.WriteStartObject();
-            writer.WritePropertyName("Type", serializer);
-            writer.WriteValue(exceptionType.FullName);
-            WriteExceptionCore(writer, exception, includeStackTrace, serializer);
-            writer.WriteEndObject();
-        }
-
-        private static void WriteExceptionCore(JsonWriter writer, Exception exception, bool includeStackTrace, JsonSerializer serializer)
-        {
-            if (!string.IsNullOrWhiteSpace(exception.Source))
-            {
-                writer.WritePropertyName("Source", serializer);
-                writer.WriteValue(exception.Source);
-            }
-
-            if (!string.IsNullOrWhiteSpace(exception.Message))
-            {
-                writer.WritePropertyName("Message", serializer);
-                writer.WriteValue(exception.Message);
-            }
-
-            if (exception.StackTrace != null && includeStackTrace)
-            {
-                writer.WritePropertyName("Stack", serializer);
-                writer.WriteStartArray();
-                var lines = exception.StackTrace.Split(new[] { Alphanumeric.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var line in lines)
-                {
-                    writer.WriteValue(line.Trim());
-                }
-                writer.WriteEndArray();
-            }
-
-            if (exception.Data.Count > 0)
-            {
-                writer.WritePropertyName("Data", serializer);
-                writer.WriteStartObject();
-                foreach (DictionaryEntry entry in exception.Data)
-                {
-                    writer.WritePropertyName(entry.Key.ToString());
-                    writer.WriteObject(entry.Value, serializer);
-                }
-                writer.WriteEndObject();
-            }
-
-            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => !Decorator.Enclose(pi.PropertyType).IsComplex());
-            foreach (var property in properties)
-            {
-                var value = property.GetValue(exception);
-                if (value == null) { continue; }
-                writer.WritePropertyName(property.Name, serializer);
-                writer.WriteObject(value, serializer);
-            }
-
-            WriteInnerExceptions(writer, exception, includeStackTrace, serializer);
-        }
-
-        private static void WriteInnerExceptions(JsonWriter writer, Exception exception, bool includeStackTrace, JsonSerializer serializer)
-        {
-            var innerExceptions = new List<Exception>();
-            if (exception is AggregateException aggregated)
-            {
-                innerExceptions.AddRange(aggregated.Flatten().InnerExceptions);
-            }
-            else
-            {
-                if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }    
-            }
-            if (innerExceptions.Count > 0)
-            {
-                var endElementsToWrite = 0;
-                foreach (var inner in innerExceptions)
-                {
-                    writer.WritePropertyName("Inner", serializer);
-                    var exceptionType = inner.GetType();
-                    writer.WriteStartObject();
-                    writer.WritePropertyName("Type", serializer);
-                    writer.WriteValue(exceptionType.FullName);
-                    WriteExceptionCore(writer, inner, includeStackTrace, serializer);
-                    endElementsToWrite++;
-                }
-
-                for (var i = 0; i < endElementsToWrite; i++) { writer.WriteEndObject(); }
-            }
         }
     }
 }

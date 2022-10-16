@@ -53,6 +53,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 {
                     writer.WriteValue(ns.GetPropertyName(flag.Trim(), false));
                 }
+
                 writer.WriteEndArray();
             }
             else
@@ -88,7 +89,18 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                         break;
                 }
             }
+
             return result;
+        }
+
+        /// <summary>
+        /// Determines whether this instance can convert the specified object type.
+        /// </summary>
+        /// <param name="objectType">Type of the object.</param>
+        /// <returns><c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType.IsDefined(typeof(FlagsAttribute), false) && base.CanConvert(objectType);
         }
     }
 }

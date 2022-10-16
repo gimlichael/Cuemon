@@ -16,6 +16,44 @@ namespace Cuemon.Extensions.Text.Json.Formatters
     public class JsonFormatter : Formatter<Stream>, IConfigurable<JsonFormatterOptions>
     {
         /// <summary>
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="source">The object to serialize to JSON format.</param>
+        /// <param name="objectType">The type of the object to serialize.</param>
+        /// <param name="setup">The <see cref="JsonFormatterOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
+        public static Stream SerializeObject(object source, Type objectType = null, Action<JsonFormatterOptions> setup = null)
+        {
+            var formatter = new JsonFormatter(setup);
+            return formatter.Serialize(source, objectType ?? source?.GetType());
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value"/> into an object of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to return.</typeparam>
+        /// <param name="value">The object from which to deserialize the object graph.</param>
+        /// <param name="setup">The <see cref="JsonFormatterOptions"/> which may be configured.</param>
+        /// <returns>An object of <typeparamref name="T" />.</returns>
+        public static T DeserializeObject<T>(Stream value, Action<JsonFormatterOptions> setup = null)
+        {
+            return (T)DeserializeObject(value, typeof(T), setup);
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value" /> into an object of <paramref name="objectType"/>.
+        /// </summary>
+        /// <param name="value">The string from which to deserialize the object graph.</param>
+        /// <param name="objectType">The type of the deserialized object.</param>
+        /// <param name="setup">The <see cref="JsonFormatterOptions"/> which may be configured.</param>
+        /// <returns>An object of <paramref name="objectType"/>.</returns>
+        public static object DeserializeObject(Stream value, Type objectType, Action<JsonFormatterOptions> setup = null)
+        {
+            var formatter = new JsonFormatter(setup);
+            return formatter.Deserialize(value, objectType);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
         /// </summary>
         public JsonFormatter() : this((Action<JsonFormatterOptions>)null)
@@ -47,11 +85,11 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         public JsonFormatterOptions Options { get; }
 
         /// <summary>
-        /// Serializes the specified <paramref name="source"/> to an object of <see cref="string"/>.
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
         /// </summary>
         /// <param name="source">The object to serialize to JSON format.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
-        /// <returns>A string of the serialized <paramref name="source"/>.</returns>
+        /// <returns>A stream of the serialized <paramref name="source"/>.</returns>
         public override Stream Serialize(object source, Type objectType)
         {
             Validator.ThrowIfNull(source, nameof(source));
@@ -65,7 +103,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                            Encoder = Options.Settings.Encoder
                        }))
                 {
-                    JsonSerializer.Serialize(jsonWriter, source, objectType, Options.Settings);
+                    JsonSerializer.Serialize(jsonWriter, source, objectType, Options.RefreshWithConverterDependencies());
                 }
             });
         }
@@ -87,7 +125,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                 CommentHandling = Options.Settings.ReadCommentHandling,
                 MaxDepth = Options.Settings.MaxDepth
             });
-            return JsonSerializer.Deserialize(ref reader, objectType, Options.Settings);
+            return JsonSerializer.Deserialize(ref reader, objectType, Options.RefreshWithConverterDependencies());
         }
     }
 }

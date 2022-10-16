@@ -148,11 +148,11 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 IncludeExceptionDescriptorEvidence = includeExceptionDescriptorEvidence
             };
 
-            sut2.Settings.Converters.Remove(sut2.Settings.Converters.Single(jc => jc.CanConvert(typeof(ExceptionDescriptor))));
             sut2.Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
             {
                 o.IncludeEvidence = includeExceptionDescriptorEvidence;
                 o.IncludeFailure = includeExceptionDescriptorFailure;
+                o.IncludeStackTrace = includeExceptionStackTrace;
             });
 
             Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(ExceptionDescriptor))), jc =>
@@ -202,39 +202,6 @@ namespace Cuemon.Extensions.Text.Json.Converters
                     Assert.DoesNotContain("\"evidence\":", json);
                     Assert.DoesNotContain("\"correlationId\": \"00000000000000000000000000000000\"", json);
                 });
-
-                TestOutput.WriteLine(json);
-            });
-        }
-
-        [Fact]
-        public void AddTimeSpanConverter_ShouldAddTimeSpanConverterToConverterCollection()
-        {
-            var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatterOptions();
-
-            sut2.Settings.Converters.Clear();
-            sut2.Settings.Converters.AddTimeSpanConverter();
-
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(TimeSpan))), jc =>
-            {
-                var jf = new JsonFormatter(sut2);
-
-                var result = jf.Serialize(sut1);
-
-                var json = result.ToEncodedString();
-
-                Assert.True(jc.CanConvert(typeof(TimeSpan)));
-                Assert.Contains("\"ticks\": 9223372036854775807", json);
-                Assert.Contains("\"days\": 10675199", json);
-                Assert.Contains("\"hours\": 2", json);
-                Assert.Contains("\"minutes\": 48", json);
-                Assert.Contains("\"seconds\": 5", json);
-                Assert.Contains("\"totalDays\": 10675199.116730064", json);
-                Assert.Contains("\"totalHours\": 256204778.80152154", json);
-                Assert.Contains("\"totalMilliseconds\": 922337203685477", json);
-                Assert.Contains("\"totalMinutes\": 15372286728.091293", json);
-                Assert.Contains("\"totalSeconds\": 922337203685.4775", json);
 
                 TestOutput.WriteLine(json);
             });

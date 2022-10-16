@@ -28,7 +28,12 @@ namespace Cuemon.Extensions.Diagnostics
             }
 
             var sut1 = ExceptionDescriptor.Extract(ime);
-            var sut2 = sut1.ToInsightsString();
+            var sut2 = sut1.ToInsightsString(o =>
+            {
+                o.IncludeStackTrace = true;
+                o.IncludeFailure = true;
+                o.IncludeEvidence = true;
+            });
 
             TestOutput.WriteLine(sut2);
 
@@ -117,39 +122,78 @@ namespace Cuemon.Extensions.Diagnostics
         {
             var parameters = new List<object[]>()
             {
-                new object[] { new ExceptionDescriptorOptions(), SystemSnapshots.CaptureAll },
-                new object[] 
-                { 
+                new object[]
+                {
                     new ExceptionDescriptorOptions()
                     {
-                        IncludeEvidence = false
+                        IncludeFailure = true,
+                        IncludeEvidence = true,
+                        IncludeStackTrace = true
+                    }, 
+                    SystemSnapshots.CaptureAll },
+                new object[]
+                {
+                    new ExceptionDescriptorOptions(),
+                    SystemSnapshots.None
+                },
+                new object[]
+                {
+                    new ExceptionDescriptorOptions()
+                    {
+                        IncludeFailure = false,
+                        IncludeEvidence = true,
+                        IncludeStackTrace = true
+                    },
+                    SystemSnapshots.CaptureThreadInfo
+                },
+                new object[]
+                {
+                    new ExceptionDescriptorOptions()
+                    {
+                        IncludeFailure = true,
+                        IncludeEvidence = false,
+                        IncludeStackTrace = true
                     },
                     SystemSnapshots.None
                 },
-                new object[] 
-                { 
+                new object[]
+                {
                     new ExceptionDescriptorOptions()
                     {
-                        IncludeFailure = false
-                    }, 
-                    SystemSnapshots.CaptureThreadInfo
-                },
-                new object[] 
-                { 
-                    new ExceptionDescriptorOptions()
-                    {
+                        IncludeFailure = true,
+                        IncludeEvidence = true,
                         IncludeStackTrace = false
-                    }, 
+                    },
                     SystemSnapshots.CaptureProcessInfo
                 },
-                new object[] 
-                { 
+                new object[]
+                {
                     new ExceptionDescriptorOptions()
                     {
+                        IncludeFailure = true,
                         IncludeEvidence = false,
-                        IncludeFailure = false,
                         IncludeStackTrace = false
-                    }, 
+                    },
+                    SystemSnapshots.None
+                },
+                new object[]
+                {
+                    new ExceptionDescriptorOptions()
+                    {
+                        IncludeFailure = false,
+                        IncludeEvidence = true,
+                        IncludeStackTrace = false
+                    },
+                    SystemSnapshots.CaptureEnvironmentInfo
+                },
+                new object[]
+                {
+                    new ExceptionDescriptorOptions()
+                    {
+                        IncludeFailure = false,
+                        IncludeEvidence = false,
+                        IncludeStackTrace = true
+                    },
                     SystemSnapshots.None
                 }
             };

@@ -63,6 +63,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters
                 {
                     o.IncludeEvidence = includeExceptionDescriptorEvidence;
                     o.IncludeFailure = includeExceptionDescriptorFailure;
+                    o.IncludeStackTrace = includeExceptionStackTrace;
                 });
 
                 Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(HttpExceptionDescriptor))), jc =>

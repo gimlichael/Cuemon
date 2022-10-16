@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
@@ -14,6 +15,70 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     {
         public JsonFormatterTest(ITestOutputHelper output) : base(output)
         {
+        }
+
+        [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_BindingFlags()
+        {
+            var sut1 = BindingFlags.DeclaredOnly;
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var json = JsonFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = JsonFormatter.DeserializeObject<BindingFlags>(json);
+
+            Assert.Equal(sut1, sut2);
+        }
+
+        [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_UriScheme()
+        {
+            var sut1 = UriScheme.Https;
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var json = JsonFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = JsonFormatter.DeserializeObject<UriScheme>(json);
+
+            Assert.Equal(sut1, sut2);
+        }
+
+        [Fact]
+        public void DeserializeObject_ShouldBeEquivalentToOriginal_TimeSpan()
+        {
+            var sut1 = TimeSpan.Parse("01:12:05");
+
+            TestOutput.WriteLine(sut1.ToString());
+
+            var json = JsonFormatter.SerializeObject(sut1);
+
+            TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
+
+            var sut2 = JsonFormatter.DeserializeObject<TimeSpan>(json);
+
+            Assert.Equal(sut1, sut2);
+        }
+
+        [Fact]
+        public void SerializeObject_ShouldBeEquivalentToOriginal_String()
+        {
+            var sut1 = "\"01:12:05\"";
+
+            TestOutput.WriteLine(sut1);
+
+            var timeSpan = JsonFormatter.DeserializeObject<TimeSpan>(sut1.ToStream());
+
+            TestOutput.WriteLine(timeSpan.ToString());
+
+            var sut2 = JsonFormatter.SerializeObject(timeSpan);
+
+            Assert.Equal(sut1, sut2.ToEncodedString());
         }
 
         [Fact]
@@ -53,6 +118,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                     o.IncludeExceptionStackTrace = true;
                 });
                 var r = f.Serialize(e);
+
+                TestOutput.WriteLine(r.ToEncodedString(o => o.LeaveOpen = true));
+
                 var x = new StreamReader(r).ReadAllLines().ToList();
                 Assert.Contains(e.Data.Keys.Cast<string>(), s => s.Equals("Cuemon"));
                 Assert.Contains(e.Data.Values.Cast<string>(), s => s.Equals("XmlFormatterTest"));
@@ -71,7 +139,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 Assert.Contains("\"Type\": \"System.Threading.AbandonedMutexException\"", x[17]);
                 Assert.Contains("\"Type\": \"System.ArithmeticException\"", x[21]);
 
-                TestOutput.WriteLine(r.ToEncodedString());
                 r.Dispose();
             }
         }

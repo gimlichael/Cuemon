@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Reflection;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
+using Cuemon.Diagnostics;
 using Cuemon.Threading;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -14,13 +16,13 @@ namespace Cuemon.AspNetCore.Diagnostics
     /// <summary>
     /// Specifies options that is related to <see cref="ExceptionHandlerMiddleware" /> operations.
     /// </summary>
-    public class FaultDescriptorExceptionHandlerOptions : AsyncOptions
+    public class FaultDescriptorOptions : AsyncOptions, IExceptionDescriptorOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FaultDescriptorExceptionHandlerOptions"/> class.
+        /// Initializes a new instance of the <see cref="FaultDescriptorOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="FaultDescriptorExceptionHandlerOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="FaultDescriptorOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -42,9 +44,29 @@ namespace Cuemon.AspNetCore.Diagnostics
         ///         <term><see cref="RootHelpLink"/></term>
         ///         <description><c>null</c></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="IncludeRequest"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="IncludeFailure"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="IncludeStackTrace"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="IncludeEvidence"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="RequestBodyParser"/></term>
+        ///         <description><c>null</c></description>
+        ///     </item>
         /// </list>
         /// </remarks>
-        public FaultDescriptorExceptionHandlerOptions()
+        public FaultDescriptorOptions()
         {
             Decorator.Enclose(HttpFaultResolvers)
                 .AddHttpFaultResolver<BadRequestException>()
@@ -78,7 +100,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 }
                 return new HttpExceptionDescriptor(e, StatusCodes.Status500InternalServerError, message: FormattableString.Invariant($"An unhandled exception was raised by {Assembly.GetEntryAssembly()?.GetName().Name}."), helpLink: RootHelpLink);
             };
-            UseBaseException = false;
+            RequestBodyParser = null;
         }
 
         /// <summary>
@@ -116,5 +138,41 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// </summary>
         /// <value>A <see cref="Action{T1,T2,T3}"/>. The default value is <c>null</c>.</value>
         public Action<HttpContext, Exception, HttpExceptionDescriptor> ExceptionCallback { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function delegate that handles exception handling and content negotiation for non-MVC thrown exceptions.
+        /// </summary>
+        /// <value>The function delegate that handles exception handling and content negotiation for non-MVC thrown exceptions.</value>
+        public Func<HttpContext, HttpExceptionDescriptor, IEnumerable<HttpExceptionDescriptorResponseHandler>> NonMvcResponseHandler { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function delegate that, when <see cref="IncludeRequest"/> is <c>true</c>, will determines the string result of a HTTP request body.
+        /// </summary>
+        /// <value>The function delegate that determines the string result of a HTTP request body.</value>
+        public Func<Stream, string> RequestBodyParser { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the request that caused the exception should be included as evidence.
+        /// </summary>
+        /// <value><c>true</c> if the request that caused the exception should be included as evidence; otherwise, <c>false</c>.</value>
+        public bool IncludeRequest { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result.
+        /// </summary>
+        /// <value><c>true</c> if the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result; otherwise, <c>false</c>.</value>
+        public bool IncludeFailure { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the stack of the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result.
+        /// </summary>
+        /// <value><c>true</c> if the stack of the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result; otherwise, <c>false</c>.</value>
+        public bool IncludeStackTrace { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="ExceptionDescriptor.Evidence"/> property is included in the serialized result.
+        /// </summary>
+        /// <value><c>true</c> if the <see cref="ExceptionDescriptor.Evidence"/> property is included in the serialized result; otherwise, <c>false</c>.</value>
+        public bool IncludeEvidence { get; set; }
     }
 }

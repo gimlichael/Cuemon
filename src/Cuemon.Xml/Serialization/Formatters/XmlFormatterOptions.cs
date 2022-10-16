@@ -10,6 +10,9 @@ namespace Cuemon.Xml.Serialization.Formatters
     /// </summary>
     public class XmlFormatterOptions
     {
+        private readonly object _locker = new();
+        private bool _refreshed;
+
         static XmlFormatterOptions()
         {
             DefaultConverters = list =>
@@ -47,28 +50,17 @@ namespace Cuemon.Xml.Serialization.Formatters
         ///     </item>
         ///     <item>
         ///         <term><see cref="IncludeExceptionDescriptorFailure"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="IncludeExceptionDescriptorEvidence"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public XmlFormatterOptions()
         {
-            IncludeExceptionDescriptorFailure = true;
-            IncludeExceptionDescriptorEvidence = true;
-            IncludeExceptionStackTrace = false;
             Settings = new XmlSerializerOptions();
-            Decorator.Enclose(Settings.Converters)
-                .AddExceptionConverter(() => IncludeExceptionStackTrace)
-                .AddExceptionDescriptorConverter(o =>
-                {
-                    o.IncludeStackTrace = IncludeExceptionStackTrace;
-                    o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
-                    o.IncludeFailure = IncludeExceptionDescriptorFailure;
-                });
             DefaultConverters?.Invoke(Settings.Converters);
         }
 
@@ -107,5 +99,25 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// </summary>
         /// <returns>A <see cref="XmlSerializerOptions"/> instance that specifies a set of features to support the <see cref="XmlFormatter"/> object.</returns>
         public XmlSerializerOptions Settings { get; }
+
+        internal XmlSerializerOptions RefreshWithConverterDependencies()
+        {
+            lock (_locker)
+            {
+                if (!_refreshed)
+                {
+                    _refreshed = true;
+                    Decorator.Enclose(Settings.Converters)
+                        .AddExceptionConverter(IncludeExceptionStackTrace)
+                        .AddExceptionDescriptorConverter(o =>
+                        {
+                            o.IncludeStackTrace = IncludeExceptionStackTrace;
+                            o.IncludeEvidence = IncludeExceptionDescriptorEvidence;
+                            o.IncludeFailure = IncludeExceptionDescriptorFailure;
+                        });
+                }
+                return Settings;
+            }
+        }
     }
 }

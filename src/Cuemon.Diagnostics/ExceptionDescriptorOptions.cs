@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies options that is related to <see cref="ExceptionDescriptor"/> operations.
     /// </summary>
-    public class ExceptionDescriptorOptions
+    public class ExceptionDescriptorOptions : IExceptionDescriptorOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionDescriptorOptions"/> class.
@@ -17,23 +17,20 @@
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="IncludeFailure"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="IncludeStackTrace"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="IncludeEvidence"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public ExceptionDescriptorOptions()
         {
-            IncludeFailure = true;
-            IncludeStackTrace = true;
-            IncludeEvidence = true;
         }
 
         /// <summary>
