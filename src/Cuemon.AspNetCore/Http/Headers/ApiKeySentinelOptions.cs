@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using Cuemon.Configuration;
 using Cuemon.Net.Http;
 
 namespace Cuemon.AspNetCore.Http.Headers
@@ -10,7 +11,7 @@ namespace Cuemon.AspNetCore.Http.Headers
     /// <summary>
     /// Configuration options for <see cref="ApiKeySentinelMiddleware"/>.
     /// </summary>
-    public class ApiKeySentinelOptions
+    public class ApiKeySentinelOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiKeySentinelOptions"/> class.
@@ -100,10 +101,10 @@ namespace Cuemon.AspNetCore.Http.Headers
         public bool UseGenericResponse { get; set; }
 
         /// <summary>
-        /// Gets a list of whitelisted API keys.
+        /// Gets or sets a list of whitelisted API keys.
         /// </summary>
         /// <value>A list of whitelisted API keys.</value>
-        public IList<string> AllowedKeys { get; }
+        public IList<string> AllowedKeys { get; set; }
 
         /// <summary>
         /// Gets or sets the generic message of a request without a valid <see cref="HeaderName"/>.
@@ -116,5 +117,25 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </summary>
         /// <value>The message of a request without a valid <see cref="HeaderName"/>.</value>
         public string ForbiddenMessage { get; set; }
+
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// <see cref="HeaderName"/> cannot be null - or -
+        /// <see cref="ResponseHandler"/> cannot be null - or -
+        /// <see cref="AllowedKeys"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <see cref="HeaderName"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfNullOrWhitespace(HeaderName, nameof(HeaderName), $"{nameof(HeaderName)} cannot be null, empty or consist only of white-space characters.");
+            Validator.ThrowIfNull(ResponseHandler, nameof(ResponseHandler), $"{nameof(ResponseHandler)} cannot be null.");
+            Validator.ThrowIfNull(AllowedKeys, nameof(AllowedKeys), $"{nameof(AllowedKeys)} cannot be null.");
+        }
     }
 }

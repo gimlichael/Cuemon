@@ -17,7 +17,7 @@ namespace Cuemon.AspNetCore.Diagnostics
     /// <summary>
     /// Specifies options that is related to <see cref="ExceptionHandlerMiddleware" /> operations.
     /// </summary>
-    public class FaultDescriptorOptions : AsyncOptions, IExceptionDescriptorOptions, IValidatableParameters
+    public class FaultDescriptorOptions : AsyncOptions, IExceptionDescriptorOptions, IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FaultDescriptorOptions"/> class.

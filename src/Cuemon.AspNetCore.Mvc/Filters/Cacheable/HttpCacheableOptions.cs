@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cuemon.Configuration;
 using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
@@ -7,7 +8,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
     /// <summary>
     /// Specifies options that is related to the <see cref="HttpCacheableFilter" />.
     /// </summary>
-    public class HttpCacheableOptions
+    public class HttpCacheableOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpCacheableOptions"/> class.
@@ -39,7 +40,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// Gets the filters that will be invoked one by one in <see cref="HttpCacheableFilter.OnResultExecutionAsync"/>.
         /// </summary>
         /// <value>The filters that will be invoked by <see cref="HttpCacheableFilter"/>.</value>
-        public IList<ICacheableAsyncResultFilter> Filters { get; }
+        public IList<ICacheableAsyncResultFilter> Filters { get; set; }
 
         /// <summary>
         /// Gets or sets the Cache-Control header that is applied to objects implementing the <see cref="ICacheableObjectResult"/> interface.
@@ -52,5 +53,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// </summary>
         /// <value><c>true</c> if this instance has an <see cref="CacheControl"/>; otherwise, <c>false</c>.</value>
         public bool UseCacheControl => CacheControl != null;
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// <see cref="Filters"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfNull(Filters, nameof(Filters), $"{nameof(Filters)} cannot be null.");
+        }
     }
 }

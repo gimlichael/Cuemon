@@ -9,8 +9,8 @@ namespace Cuemon.AspNetCore.Diagnostics
     /// <summary>
     /// Specifies options that is related to <see cref="HttpExceptionDescriptorResponseHandler" /> operations.
     /// </summary>
-    /// <seealso cref="IValidatableParameters"/>
-    public class HttpExceptionDescriptorResponseHandlerOptions : IValidatableParameters
+    /// <seealso cref="IValidatableParameterObject"/>
+    public class HttpExceptionDescriptorResponseHandlerOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpExceptionDescriptorResponseHandlerOptions"/> class.

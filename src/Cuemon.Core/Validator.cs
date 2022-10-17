@@ -38,14 +38,14 @@ namespace Cuemon
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="setup"/> results in an instance of invalid <paramref name="options"/>.
         /// </summary>
-        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameters"/> interface.</typeparam>
+        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameterObject"/> interface.</typeparam>
         /// <param name="setup">The delegate that will configure the public read-write properties of <paramref name="options"/>.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="options">The default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="setup"/> failed to configure an instance of <paramref name="options"/> in a valid state.
         /// </exception>
-        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, out TOptions options) where TOptions : class, IValidatableParameters, new()
+        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, out TOptions options) where TOptions : class, IValidatableParameterObject, new()
         {
             ThrowIfInvalidConfigurator(setup, paramName, "Delegate must configure the public read-write properties to be in a valid state.", out options);
         }
@@ -53,7 +53,7 @@ namespace Cuemon
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="setup"/> results in an instance of invalid <paramref name="options"/>.
         /// </summary>
-        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameters"/> interface.</typeparam>
+        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameterObject"/> interface.</typeparam>
         /// <param name="setup">The delegate that will configure the public read-write properties of <paramref name="options"/>.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
@@ -61,7 +61,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="setup"/> failed to configure an instance <paramref name="options"/> in a valid state.
         /// </exception>
-        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, string message, out TOptions options) where TOptions : class, IValidatableParameters, new()
+        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, string message, out TOptions options) where TOptions : class, IValidatableParameterObject, new()
         {
             options = Patterns.Configure(setup);
             ThrowIfInvalidOptions(options, paramName, message);
@@ -70,7 +70,7 @@ namespace Cuemon
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="options"/> are not in a valid state.
         /// </summary>
-        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameters"/> interface.</typeparam>
+        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameterObject"/> interface.</typeparam>
         /// <param name="options">The configured options to validate.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
@@ -80,7 +80,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="options"/> are not in a valid state.
         /// </exception>
-        public static void ThrowIfInvalidOptions<TOptions>(TOptions options, string paramName, string message = "Options are not in a valid state.") where TOptions : class, IValidatableParameters, new()
+        public static void ThrowIfInvalidOptions<TOptions>(TOptions options, string paramName, string message = "Options are not in a valid state.") where TOptions : class, IValidatableParameterObject, new()
         {
             ThrowIfNull(options, nameof(options));
             try

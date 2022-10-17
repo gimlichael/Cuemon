@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="TOptions">The type of the configured options.</typeparam>
     /// <seealso cref="IConfigurable{TOptions}" />
-    public abstract class Configurable<TOptions> : IConfigurable<TOptions> where TOptions : class, new()
+    public abstract class Configurable<TOptions> : IConfigurable<TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Configurable{TOptions}"/> class.

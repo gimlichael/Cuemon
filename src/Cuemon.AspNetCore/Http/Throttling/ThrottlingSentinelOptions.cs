@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Cuemon.AspNetCore.Http.Headers;
+using Cuemon.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
@@ -11,7 +12,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
     /// <summary>
     /// Configuration options for <see cref="ThrottlingSentinelMiddleware"/>.
     /// </summary>
-    public class ThrottlingSentinelOptions
+    public class ThrottlingSentinelOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrottlingSentinelOptions"/> class.
@@ -153,5 +154,34 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// </summary>
         /// <value>The preferred Retry-After HTTP header value that conforms with RFC 7231.</value>
         public RetryConditionScope RetryAfterScope { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// <see cref="RateLimitHeaderName"/> cannot be null - or -
+        /// <see cref="RateLimitRemainingHeaderName"/> cannot be null - or -
+        /// <see cref="RateLimitResetHeaderName"/> cannot be null - or -
+        /// <see cref="ResponseHandler"/> cannot be null - or -
+        /// <see cref="ResponseHandler"/> cannot be null - or -
+        /// <see cref="Quota"/> cannot be null when <see cref="ContextResolver"/> has been specified.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <see cref="RateLimitHeaderName"/> cannot be empty or consist only of white-space characters - or -
+        /// <see cref="RateLimitRemainingHeaderName"/> cannot be empty or consist only of white-space characters - or -
+        /// <see cref="RateLimitResetHeaderName"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfNullOrWhitespace(RateLimitHeaderName, nameof(RateLimitHeaderName), $"{nameof(RateLimitHeaderName)} cannot be null, empty or consist only of white-space characters.");
+            Validator.ThrowIfNullOrWhitespace(RateLimitRemainingHeaderName, nameof(RateLimitRemainingHeaderName), $"{nameof(RateLimitRemainingHeaderName)} cannot be null, empty or consist only of white-space characters.");
+            Validator.ThrowIfNullOrWhitespace(RateLimitResetHeaderName, nameof(RateLimitResetHeaderName), $"{nameof(RateLimitResetHeaderName)} cannot be null, empty or consist only of white-space characters.");
+            Validator.ThrowIfNull(ResponseHandler, nameof(ResponseHandler), $"{nameof(ResponseHandler)} cannot be null.");
+            if (ContextResolver != null)
+            {
+                Validator.ThrowIfNull(Quota, nameof(Quota), $"{nameof(Quota)} cannot be null when {ContextResolver} has been specified.");
+            }
+        }
     }
 }
