@@ -6,6 +6,7 @@ using System.Reflection;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
+using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Threading;
 using Microsoft.AspNetCore.Diagnostics;
@@ -16,7 +17,7 @@ namespace Cuemon.AspNetCore.Diagnostics
     /// <summary>
     /// Specifies options that is related to <see cref="ExceptionHandlerMiddleware" /> operations.
     /// </summary>
-    public class FaultDescriptorOptions : AsyncOptions, IExceptionDescriptorOptions
+    public class FaultDescriptorOptions : AsyncOptions, IExceptionDescriptorOptions, IValidatableParameters
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FaultDescriptorOptions"/> class.
@@ -31,6 +32,10 @@ namespace Cuemon.AspNetCore.Diagnostics
         ///     <item>
         ///         <term><see cref="ExceptionDescriptorResolver"/></term>
         ///         <description>The default implementation iterates over <see cref="HttpFaultResolvers"/> until a match is found from an <see cref="Exception"/>; then the associated <see cref="HttpExceptionDescriptor"/> is returned. If no match is found, a <see cref="HttpExceptionDescriptor"/> initialized to status 500 InternalServerError is returned</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="HttpFaultResolvers"/></term>
+        ///         <description><c>new List&lt;HttpFaultResolver&gt;();</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ExceptionCallback"/></term>
@@ -64,6 +69,10 @@ namespace Cuemon.AspNetCore.Diagnostics
         ///         <term><see cref="RequestBodyParser"/></term>
         ///         <description><c>null</c></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="NonMvcResponseHandlers"/></term>
+        ///         <description><c>new List&lt;HttpExceptionDescriptorResponseHandler&gt;()</c></description>
+        ///     </item>
         /// </list>
         /// </remarks>
         public FaultDescriptorOptions()
@@ -88,7 +97,6 @@ namespace Cuemon.AspNetCore.Diagnostics
                 .AddHttpFaultResolver<ValidationException>(StatusCodes.Status400BadRequest)
                 .AddHttpFaultResolver<FormatException>(StatusCodes.Status400BadRequest)
                 .AddHttpFaultResolver<ArgumentException>(StatusCodes.Status400BadRequest, exceptionValidator: ex => Decorator.Enclose(ex.GetType()).HasTypes(typeof(ArgumentException)));
-            ExceptionCallback = null;
             ExceptionDescriptorResolver = e =>
             {
                 if (e != null)
@@ -100,7 +108,6 @@ namespace Cuemon.AspNetCore.Diagnostics
                 }
                 return new HttpExceptionDescriptor(e, StatusCodes.Status500InternalServerError, message: FormattableString.Invariant($"An unhandled exception was raised by {Assembly.GetEntryAssembly()?.GetName().Name}."), helpLink: RootHelpLink);
             };
-            RequestBodyParser = null;
         }
 
         /// <summary>
@@ -122,10 +129,10 @@ namespace Cuemon.AspNetCore.Diagnostics
         public bool UseBaseException { get; set; }
 
         /// <summary>
-        /// Gets a collection of <see cref="HttpFaultResolver"/> that can ease the usage of <see cref="ExceptionDescriptorResolver"/>.
+        /// Gets or sets a collection of <see cref="HttpFaultResolver"/> that can ease the usage of <see cref="ExceptionDescriptorResolver"/>.
         /// </summary>
         /// <value>The collection of <see cref="HttpFaultResolver"/>.</value>
-        public IList<HttpFaultResolver> HttpFaultResolvers { get; } = new List<HttpFaultResolver>();
+        public IList<HttpFaultResolver> HttpFaultResolvers { get; set; } = new List<HttpFaultResolver>();
 
         /// <summary>
         /// Gets or sets the function delegate that will resolve a <see cref="HttpExceptionDescriptor"/> from the specified <see cref="Exception"/>.
@@ -136,14 +143,14 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// <summary>
         /// Gets or sets the callback delegate that is invoked when an exception has been thrown.
         /// </summary>
-        /// <value>A <see cref="Action{T1,T2,T3}"/>. The default value is <c>null</c>.</value>
+        /// <value>The delegate that provides a way to interact with captured exceptions.</value>
         public Action<HttpContext, Exception, HttpExceptionDescriptor> ExceptionCallback { get; set; }
 
         /// <summary>
-        /// Gets or sets the function delegate that handles exception handling and content negotiation for non-MVC thrown exceptions.
+        /// Gets or sets a collection of <see cref="HttpExceptionDescriptorResponseHandler"/> that handles exception handling and content negotiation for non-MVC thrown exceptions.
         /// </summary>
-        /// <value>The function delegate that handles exception handling and content negotiation for non-MVC thrown exceptions.</value>
-        public Func<HttpContext, HttpExceptionDescriptor, IEnumerable<HttpExceptionDescriptorResponseHandler>> NonMvcResponseHandler { get; set; }
+        /// <value>The collection of <see cref="HttpExceptionDescriptorResponseHandler"/>.</value>
+        public IList<HttpExceptionDescriptorResponseHandler> NonMvcResponseHandlers { get; set; } = new List<HttpExceptionDescriptorResponseHandler>();
 
         /// <summary>
         /// Gets or sets the function delegate that, when <see cref="IncludeRequest"/> is <c>true</c>, will determines the string result of a HTTP request body.
@@ -174,5 +181,14 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// </summary>
         /// <value><c>true</c> if the <see cref="ExceptionDescriptor.Evidence"/> property is included in the serialized result; otherwise, <c>false</c>.</value>
         public bool IncludeEvidence { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfNull(HttpFaultResolvers, nameof(HttpFaultResolvers));
+        }
     }
 }

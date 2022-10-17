@@ -21,31 +21,29 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the list of <paramref name="handlers"/> that uses <see cref="XmlSerializer"/> as engine of serialization.
         /// </summary>
         /// <param name="handlers">The sequence of <see cref="HttpExceptionDescriptorResponseHandler"/> to extend.</param>
-        /// <param name="descriptor">The exception descriptor tailored for HTTP requests.</param>
         /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which may be configured.</param>
         /// <returns>A reference to <paramref name="handlers" /> so that additional calls can be chained.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="handlers"/> cannot be null -or-
-        /// <paramref name="descriptor"/> cannot be null.
+        /// <paramref name="handlers"/> cannot be null.
         /// </exception>
-        public static ICollection<HttpExceptionDescriptorResponseHandler> AddXmlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, HttpExceptionDescriptor descriptor, Action<ExceptionDescriptorOptions> setup = null)
+        public static ICollection<HttpExceptionDescriptorResponseHandler> AddXmlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, Action<ExceptionDescriptorOptions> setup = null)
         {
             Validator.ThrowIfNull(handlers, nameof(handlers));
-            Validator.ThrowIfNull(descriptor, nameof(descriptor));
-            handlers.Add(new HttpExceptionDescriptorResponseHandler(descriptor, MediaTypeHeaderValue.Parse("application/xml"), (ed, mt) =>
+            Decorator.Enclose(handlers).AddResponseHandler(o =>
             {
-                return new HttpResponseMessage()
+                o.ContentType = MediaTypeHeaderValue.Parse("application/xml");
+                o.ContentFactory = ed =>
                 {
-                    Content = new StreamContent(XmlFormatter.SerializeObject(ed, setup: jfo =>
+                    return new StreamContent(XmlFormatter.SerializeObject(ed, setup: xfo =>
                     {
-                        jfo.Settings.Converters.AddHttpExceptionDescriptorConverter(setup);
+                        xfo.Settings.Converters.AddHttpExceptionDescriptorConverter(setup);
                     }))
                     {
-                        Headers = { { HttpHeaderNames.ContentType, mt.MediaType } }
-                    },
-                    StatusCode = (HttpStatusCode)descriptor.StatusCode
+                        Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }
+                    };
                 };
-            }));
+                o.StatusCodeFactory = ed => (HttpStatusCode)ed.StatusCode;
+            });
             return handlers;
         }
     }
