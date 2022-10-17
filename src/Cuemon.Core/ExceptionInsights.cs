@@ -15,6 +15,8 @@ namespace Cuemon
     /// </summary>
     public static class ExceptionInsights
     {
+        private static readonly string EmptyBase64 = Convert.ToBase64String(Convertible.GetBytes(""));
+
         /// <summary>
         /// The <see cref="Key"/> used when applying insights to the <see cref="Exception.Data"/> dictionary.
         /// </summary>
@@ -46,7 +48,7 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(exception, nameof(exception));
             var builder = new StringBuilder();
-            var empty = Convert.ToBase64String(Convertible.GetBytes(""));
+            var empty = EmptyBase64;
             if (thrower != null || exception.TargetSite != null)
             {
                 var descriptor = new MethodDescriptor(thrower ?? exception.TargetSite);
