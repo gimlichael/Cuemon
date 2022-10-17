@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using Cuemon.Collections.Generic;
+using Cuemon.Configuration;
 
 namespace Cuemon
 {
@@ -35,34 +36,61 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Provides a convenient way to validate a parameter while returning the specified <paramref name="value"/> unaltered.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="setup"/> results in an instance of invalid <paramref name="options"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the object to evaluate.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="value"/> is not valid.</param>
-        /// <returns>The specified <paramref name="value"/> unaltered.</returns>
-        public static T CheckParameter<T>(T value, Action<T> validator)
+        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameters"/> interface.</typeparam>
+        /// <param name="setup">The delegate that will configure the public read-write properties of <paramref name="options"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="options">The default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> failed to configure an instance of <paramref name="options"/> in a valid state.
+        /// </exception>
+        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, out TOptions options) where TOptions : class, IValidatableParameters, new()
         {
-            ThrowIfNull(validator, nameof(validator));
-            validator(value);
-            return value;
+            ThrowIfInvalidConfigurator(setup, paramName, "Delegate must configure the public read-write properties to be in a valid state.", out options);
         }
 
         /// <summary>
-        /// Provides a convenient way to validate a parameter while returning a value from the specified <paramref name="value"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="setup"/> results in an instance of invalid <paramref name="options"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the object to evaluate.</typeparam>
-        /// <typeparam name="TValue">The type of the value to return.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="value"/> is not valid.</param>
-        /// <param name="valueSelector">The function delegate that is in charge of selecting the value to return.</param>
-        /// <returns>The value provided by <paramref name="valueSelector"/>.</returns>
-        public static TValue CheckParameter<T, TValue>(T value, Action validator, Func<T, TValue> valueSelector) where T : class
+        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameters"/> interface.</typeparam>
+        /// <param name="setup">The delegate that will configure the public read-write properties of <paramref name="options"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="options">The default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> failed to configure an instance <paramref name="options"/> in a valid state.
+        /// </exception>
+        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, string message, out TOptions options) where TOptions : class, IValidatableParameters, new()
         {
-            ThrowIfNull(validator, nameof(validator));
-            ThrowIfNull(valueSelector, nameof(valueSelector));
-            validator();
-            return valueSelector(value);
+            options = Patterns.Configure(setup);
+            ThrowIfInvalidOptions(options, paramName, message);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="options"/> are not in a valid state.
+        /// </summary>
+        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameters"/> interface.</typeparam>
+        /// <param name="options">The configured options to validate.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="options"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="options"/> are not in a valid state.
+        /// </exception>
+        public static void ThrowIfInvalidOptions<TOptions>(TOptions options, string paramName, string message = "Options are not in a valid state.") where TOptions : class, IValidatableParameters, new()
+        {
+            ThrowIfNull(options, nameof(options));
+            try
+            {
+                options.ValidateOptions();
+            }
+            catch (Exception e)
+            {
+                throw ExceptionInsights.Embed(new ArgumentException(message, paramName, e), MethodBase.GetCurrentMethod(), Arguments.ToArray(options, paramName, message));
+            }
         }
 
         /// <summary>
@@ -218,6 +246,41 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="decorator"/> is null.
+        /// </summary>
+        /// <typeparam name="T">The type of the inner object denoted by <paramref name="decorator"/>.</typeparam>
+        /// <param name="decorator">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="inner">The inner object of <paramref name="decorator"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null - or -
+        /// <see cref="P:IDecorator.Inner"/> property of <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static void ThrowIfNull<T>(IDecorator<T> decorator, string paramName, out T inner)
+        {
+            ThrowIfNull(decorator, paramName, "Decorator or Inner cannot be null.", out inner);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="decorator"/> is null.
+        /// </summary>
+        /// <typeparam name="T">The type of the inner object denoted by <paramref name="decorator"/>.</typeparam>
+        /// <param name="decorator">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="inner">The inner object of <paramref name="decorator"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null - or -
+        /// <see cref="P:IDecorator.Inner"/> property of <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static void ThrowIfNull<T>(IDecorator<T> decorator, string paramName, string message, out T inner)
+        {
+            ThrowIfNull(decorator, paramName, message);
+            ThrowIfNull(decorator.Inner, nameof(decorator.Inner), message);
+            inner = decorator.Inner;
+        }
+
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="value"/> is null.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
@@ -237,7 +300,7 @@ namespace Cuemon
                 throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
-        
+
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="predicate" /> returns <c>false</c>.
         /// </summary>
@@ -301,7 +364,7 @@ namespace Cuemon
             }
         }
 
-        
+
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="value" /> is <c>true</c>.
         /// </summary>
@@ -1356,7 +1419,7 @@ namespace Cuemon
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
@@ -1400,7 +1463,7 @@ namespace Cuemon
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
