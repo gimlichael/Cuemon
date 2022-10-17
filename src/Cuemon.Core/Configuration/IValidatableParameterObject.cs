@@ -3,8 +3,8 @@
     /// <summary>
     /// Denotes a Parameter Object where one or more conditions can be verified that they are in a valid state.
     /// </summary>
-    /// <seealso cref="IParameters" />
-    public interface IValidatableParameters : IParameters
+    /// <seealso cref="IParameterObject" />
+    public interface IValidatableParameterObject : IParameterObject
     {
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
