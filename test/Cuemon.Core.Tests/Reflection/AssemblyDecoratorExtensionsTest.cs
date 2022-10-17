@@ -42,7 +42,7 @@ namespace Cuemon.Reflection
 
             Assert.InRange(allTypesCount, 515, 530); // range because of tooling on CI adding dynamic types and high range of refactoring
             Assert.Equal(5, disposableTypesCount);
-            Assert.Equal(2, configurationTypesCount);
+            Assert.Equal(4, configurationTypesCount);
         }
 
         [Fact]
