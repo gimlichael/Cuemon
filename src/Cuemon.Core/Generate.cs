@@ -57,7 +57,7 @@ namespace Cuemon
                 if (Decorator.Enclose(mi).IsOverridden())
                 {
                     var stringResult = instance.ToString();
-                    return mi.DeclaringType == typeof(bool) ? stringResult.ToLowerInvariant() : stringResult;
+                    return mi!.DeclaringType == typeof(bool) ? stringResult!.ToLowerInvariant() : stringResult;
                 }
             }
 
