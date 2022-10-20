@@ -56,14 +56,8 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                         var exceptionDescriptor = options.ExceptionDescriptorResolver?.Invoke(options.UseBaseException ? ehf.Error.GetBaseException() : ehf.Error);
                         if (exceptionDescriptor == null) { return; }
                         if (options.HasRootHelpLink && exceptionDescriptor.HelpLink == null) { exceptionDescriptor.HelpLink = options.RootHelpLink; }
-                        if (context.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId))
-                        {
-                            if (requestId != null) exceptionDescriptor.RequestId = requestId.ToString();
-                        }
-                        if (context.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId))
-                        {
-                            if (correlationId != null) exceptionDescriptor.CorrelationId = correlationId.ToString();
-                        }
+                        if (context.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId) && requestId != null) { exceptionDescriptor.RequestId = requestId.ToString(); }
+                        if (context.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId) && correlationId != null) { exceptionDescriptor.CorrelationId = correlationId.ToString(); }
                         options.ExceptionCallback?.Invoke(context, ehf.Error, exceptionDescriptor);
                         if (options.IncludeRequest) { exceptionDescriptor.AddEvidence("Request", context.Request, request => new HttpRequestEvidence(request, options.RequestBodyParser)); }
                         if (ehf.Error is HttpStatusCodeException httpFault)

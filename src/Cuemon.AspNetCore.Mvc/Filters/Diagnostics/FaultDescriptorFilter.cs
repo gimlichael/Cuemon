@@ -44,14 +44,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 context.HttpContext.Response.StatusCode = exceptionDescriptor.StatusCode;
                 exceptionDescriptor.PostInitializeWith(actionDescriptor.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>());
                 if (Options.HasRootHelpLink && exceptionDescriptor.HelpLink == null) { exceptionDescriptor.HelpLink = Options.RootHelpLink; }
-                if (context.HttpContext.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId))
-                {
-                    if (requestId != null) exceptionDescriptor.RequestId = requestId.ToString();
-                }
-                if (context.HttpContext.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId))
-                {
-                    if (correlationId != null) exceptionDescriptor.CorrelationId = correlationId.ToString();
-                }
+                if (context.HttpContext.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId) && requestId != null) { exceptionDescriptor.RequestId = requestId.ToString(); }
+                if (context.HttpContext.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId) && correlationId != null) { exceptionDescriptor.CorrelationId = correlationId.ToString(); }
                 Options.ExceptionCallback?.Invoke(context.HttpContext, context.Exception, exceptionDescriptor);
                 if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
                 if (Options.IncludeRequest) { exceptionDescriptor.AddEvidence("Request", context.HttpContext.Request, request => new HttpRequestEvidence(request, Options.RequestBodyParser)); }
