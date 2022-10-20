@@ -189,6 +189,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         public void ValidateOptions()
         {
             Validator.ThrowIfNull(HttpFaultResolvers, nameof(HttpFaultResolvers));
+            Validator.ThrowIfNull(NonMvcResponseHandlers, nameof(NonMvcResponseHandlers));
         }
     }
 }
