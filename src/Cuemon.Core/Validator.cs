@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Reflection;
 using Cuemon.Collections.Generic;
 using Cuemon.Configuration;
+using System.Runtime.CompilerServices;
 
 namespace Cuemon
 {
@@ -91,6 +92,34 @@ namespace Cuemon
             {
                 throw ExceptionInsights.Embed(new ArgumentException(message, paramName, e), MethodBase.GetCurrentMethod(), Arguments.ToArray(options, paramName, message));
             }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="InvalidOperationException" /> if the specified <paramref name="predicate" /> is <c>true</c>.
+        /// </summary>
+        /// <param name="predicate">The value that determines if an <see cref="InvalidOperationException"/> is thrown.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="expression">The <paramref name="predicate"/> expressed as a string.</param>
+        /// <exception cref="InvalidOperationException">
+        /// <paramref name="predicate" /> is <c>true</c>.
+        /// </exception>
+        public static void ThrowIfObjectInDistress(bool predicate, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression("predicate")] string expression = null)
+        {
+            ThrowIfObjectInDistress(() => predicate, message, expression);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="InvalidOperationException" /> if the specified <paramref name="predicate" /> returns <c>true</c>.
+        /// </summary>
+        /// <param name="predicate">The function delegate that determines if an <see cref="InvalidOperationException"/> is thrown.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="expression">The <paramref name="predicate"/> expressed as a string.</param>
+        /// <exception cref="InvalidOperationException">
+        /// <paramref name="predicate" /> returned <c>true</c>.
+        /// </exception>
+        public static void ThrowIfObjectInDistress(Func<bool> predicate, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression("predicate")] string expression = null)
+        {
+            if (predicate?.Invoke() ?? false) { throw new InvalidOperationException($"{message} (Expression '{expression}')"); }
         }
 
         /// <summary>
