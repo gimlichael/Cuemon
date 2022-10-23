@@ -78,6 +78,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ExceptionConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace that converts an Exception to or from JSON
 - ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that converts an Exception to or from JSON
 - ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace that converts an Exception to XML
+- ServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection
 
 ### Changed
 
@@ -93,7 +94,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - HttpRequestEvidence class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace was moved to the Cuemon.AspNetCore.Diagnostics namespace
 - UserAgentSentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Headers namespace received a more lean and fault tolerant design
 - ThrottlingSentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Throttling namespace received a more lean and fault tolerant design
-- Validator class in the Cuemon namespace with one new static member: CheckParameter
+- Validator class in the Cuemon namespace with several new static members: ThrowIfInvalidConfigurator, ThrowIfInvalidOptions, ThrowIfObjectInDistress
 - ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace with one new extension method for the IApplicationBuilder interface: UseFaultDescriptorExceptionHandler
 - MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace in the context of renaming the AddJsonSerializationFormatters method to AddNewtonsoftJsonFormatters
 - MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace in the context of renaming the AddJsonFormatterOptions method to AddNewtonsoftJsonFormattersOptions
@@ -114,7 +115,8 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace was renamed to FaultDescriptorOptions
 - ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude Failure, Evidence and StackTrace as default
 - Patterns class in the Cuemon namespace was extended with one new static member: ConfigureRevertExchange
-- HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace with extended with one new overloaded static member: TryParse
+- HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace was extended with one new overloaded static member: TryParse
+- ServiceCollectionExtensions class in the Cuemon.Extensions.DependencyInjection namespace was exteded with twelve new overloaded extension methods for the IServiceCollection interface: Add, TryAdd
 
 ### Removed
 
@@ -126,6 +128,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - IMvcFilterTest interface from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 - MvcFilterTestFactory class from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 - AddTimeSpanConverter extension method from JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace
+- CheckParameter overloads from the Validator class in the Cuemon namespace
 
 ### Fixed
 
