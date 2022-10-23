@@ -155,6 +155,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
+        /// <remarks>If the underlying type of <typeparamref name="TService"/> implements <see cref="IDependencyInjectionMarker{TMarker}"/> interface then this is automatically handled.</remarks>
         public static IServiceCollection Add<TService>(this IServiceCollection services, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
         {
@@ -244,6 +245,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
+        /// <remarks>If the underlying type of <typeparamref name="TService"/> implements <see cref="IDependencyInjectionMarker{TMarker}"/> interface then this is automatically handled.</remarks>
         public static IServiceCollection TryAdd<TService>(this IServiceCollection services, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
         {
