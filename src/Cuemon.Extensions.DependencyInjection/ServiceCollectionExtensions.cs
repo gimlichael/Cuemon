@@ -153,9 +153,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection Add<TService>(this IServiceCollection services, Action<ServiceOptions> setup = null)
+        public static IServiceCollection Add<TService>(this IServiceCollection services, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
         {
             return Add<TService, TService>(services, setup);
@@ -167,9 +167,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection Add<TService, TImplementation>(this IServiceCollection services, Action<ServiceOptions> setup = null)
+        public static IServiceCollection Add<TService, TImplementation>(this IServiceCollection services, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -182,9 +182,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="service">The type of the service to register.</param>
         /// <param name="implementation">The implementation type of the service.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection Add(this IServiceCollection services, Type service, Type implementation, Action<ServiceOptions> setup = null)
+        public static IServiceCollection Add(this IServiceCollection services, Type service, Type implementation, Action<TypeForwardServiceOptions> setup = null)
         {
             Validator.ThrowIfNull(services, nameof(services));
             Validator.ThrowIfNull(service, nameof(service));
@@ -198,9 +198,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection Add<TService>(this IServiceCollection services, Func<IServiceProvider, TService> implementationFactory, Action<ServiceOptions> setup = null)
+        public static IServiceCollection Add<TService>(this IServiceCollection services, Func<IServiceProvider, TService> implementationFactory, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
         {
             return Add<TService, TService>(services, implementationFactory, setup);
@@ -213,9 +213,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection Add<TService, TImplementation>(this IServiceCollection services, Func<IServiceProvider, TImplementation> implementationFactory, Action<ServiceOptions> setup = null)
+        public static IServiceCollection Add<TService, TImplementation>(this IServiceCollection services, Func<IServiceProvider, TImplementation> implementationFactory, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -228,9 +228,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="service">The type of the service to register.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection Add(this IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, Action<ServiceOptions> setup = null)
+        public static IServiceCollection Add(this IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, Action<TypeForwardServiceOptions> setup = null)
         {
             Validator.ThrowIfNull(services, nameof(services));
             Validator.ThrowIfNull(implementationFactory, nameof(implementationFactory));
@@ -242,9 +242,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection TryAdd<TService>(this IServiceCollection services, Action<ServiceOptions> setup = null)
+        public static IServiceCollection TryAdd<TService>(this IServiceCollection services, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
         {
             return TryAdd<TService, TService>(services, setup);
@@ -256,9 +256,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection TryAdd<TService, TImplementation>(this IServiceCollection services, Action<ServiceOptions> setup = null)
+        public static IServiceCollection TryAdd<TService, TImplementation>(this IServiceCollection services, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -271,9 +271,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="service">The type of the service to register.</param>
         /// <param name="implementation">The implementation type of the service.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection TryAdd(this IServiceCollection services, Type service, Type implementation, Action<ServiceOptions> setup = null)
+        public static IServiceCollection TryAdd(this IServiceCollection services, Type service, Type implementation, Action<TypeForwardServiceOptions> setup = null)
         {
             Validator.ThrowIfNull(services, nameof(services));
             Validator.ThrowIfNull(service, nameof(service));
@@ -287,9 +287,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection TryAdd<TService>(this IServiceCollection services, Func<IServiceProvider, TService> implementationFactory, Action<ServiceOptions> setup = null)
+        public static IServiceCollection TryAdd<TService>(this IServiceCollection services, Func<IServiceProvider, TService> implementationFactory, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
         {
             return TryAdd<TService, TService>(services, implementationFactory, setup);
@@ -302,9 +302,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection TryAdd<TService, TImplementation>(this IServiceCollection services, Func<IServiceProvider, TImplementation> implementationFactory, Action<ServiceOptions> setup = null)
+        public static IServiceCollection TryAdd<TService, TImplementation>(this IServiceCollection services, Func<IServiceProvider, TImplementation> implementationFactory, Action<TypeForwardServiceOptions> setup = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -317,9 +317,9 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="service">The type of the service to register.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
-        /// <param name="setup">The <see cref="ServiceOptions" /> which may be configured.</param>
+        /// <param name="setup">The <see cref="TypeForwardServiceOptions" /> which may be configured.</param>
         /// <returns>A reference to <paramref name="services"/> so that additional configuration calls can be chained.</returns>
-        public static IServiceCollection TryAdd(this IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, Action<ServiceOptions> setup = null)
+        public static IServiceCollection TryAdd(this IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, Action<TypeForwardServiceOptions> setup = null)
         {
             Validator.ThrowIfNull(services, nameof(services));
             Validator.ThrowIfNull(implementationFactory, nameof(implementationFactory));
@@ -507,7 +507,7 @@ namespace Cuemon.Extensions.DependencyInjection
             }
         }
 
-        private static IServiceCollection AddServicesWithNestedTypeForwarding(IServiceCollection services, Type service, Type implementation, Action<ServiceOptions> setup, bool useTesterDoerPattern)
+        private static IServiceCollection AddServicesWithNestedTypeForwarding(IServiceCollection services, Type service, Type implementation, Action<TypeForwardServiceOptions> setup, bool useTesterDoerPattern)
         {
             var options = Patterns.Configure(setup);
             Condition.FlipFlop(useTesterDoerPattern, () => services.TryAdd(service, implementation, options.Lifetime), () => services.Add(service, implementation, options.Lifetime));
@@ -515,7 +515,7 @@ namespace Cuemon.Extensions.DependencyInjection
             return services;
         }
 
-        private static IServiceCollection AddServicesWithNestedTypeForwarding(IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, Action<ServiceOptions> setup, bool useTesterDoerPattern)
+        private static IServiceCollection AddServicesWithNestedTypeForwarding(IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, Action<TypeForwardServiceOptions> setup, bool useTesterDoerPattern)
         {
             var options = Patterns.Configure(setup);
             Condition.FlipFlop(useTesterDoerPattern, () => services.TryAdd(service, implementationFactory, options.Lifetime), () => services.Add(service, implementationFactory, options.Lifetime));
@@ -523,7 +523,7 @@ namespace Cuemon.Extensions.DependencyInjection
             return services;
         }
 
-        private static void AddServicesWithNestedTypeForwarding(IServiceCollection services, Type service, ServiceOptions options, bool useTesterDoerPattern)
+        private static void AddServicesWithNestedTypeForwarding(IServiceCollection services, Type service, TypeForwardServiceOptions options, bool useTesterDoerPattern)
         {
             var hasMarkerType = service.TryGetDependencyInjectionMarker(out _);
             foreach (var groupingTypes in options.NestedTypeSelector(service).Where(type => options.NestedTypePredicate(type)).GroupBy(type => Decorator.Enclose(type).ToFriendlyName(o => o.ExcludeGenericArguments = true)))

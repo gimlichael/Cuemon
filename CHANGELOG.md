@@ -79,6 +79,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that converts an Exception to or from JSON
 - ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace that converts an Exception to XML
 - ServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection
+- TypeForwardServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection that support nested type forwarding
 
 ### Changed
 

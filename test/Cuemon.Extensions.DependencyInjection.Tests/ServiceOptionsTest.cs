@@ -6,16 +6,16 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.DependencyInjection
 {
-    public class ServiceOptionsTest : Test
+    public class TypeForwardServiceOptionsTest : Test
     {
-        public ServiceOptionsTest(ITestOutputHelper output) : base(output)
+        public TypeForwardServiceOptionsTest(ITestOutputHelper output) : base(output)
         {
         }
 
         [Fact]
         public void ValidateOptions_ShouldThrowInvalidOperationExceptionForNestedTypePredicate()
         {
-            var sut1 = new ServiceOptions
+            var sut1 = new TypeForwardServiceOptions
             {
                 NestedTypePredicate = null
             };
@@ -28,7 +28,7 @@ namespace Cuemon.Extensions.DependencyInjection
         [Fact]
         public void ValidateOptions_ShouldThrowInvalidOperationExceptionForNestedTypeSelector()
         {
-            var sut1 = new ServiceOptions
+            var sut1 = new TypeForwardServiceOptions
             {
                 NestedTypeSelector = null
             };
@@ -41,11 +41,11 @@ namespace Cuemon.Extensions.DependencyInjection
         [Fact]
         public void ValidateOptions_ShouldHaveDefaultValues()
         {
-            var sut = new ServiceOptions();
+            var sut = new TypeForwardServiceOptions();
 
             Assert.NotNull(sut.NestedTypePredicate);
             Assert.NotNull(sut.NestedTypeSelector);
-            Assert.False(sut.UseNestedTypeForwarding);
+            Assert.True(sut.UseNestedTypeForwarding);
             Assert.Equal(ServiceLifetime.Transient, sut.Lifetime);
         }
     }

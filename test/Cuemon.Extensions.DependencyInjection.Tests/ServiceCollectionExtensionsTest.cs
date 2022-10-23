@@ -101,7 +101,6 @@ namespace Cuemon.Extensions.DependencyInjection
                 .Add<Foo>(o =>
                 {
                     o.Lifetime = ServiceLifetime.Scoped;
-                    o.UseNestedTypeForwarding = true;
                 });
             
             var provider = sut1.BuildServiceProvider();
@@ -125,6 +124,7 @@ namespace Cuemon.Extensions.DependencyInjection
             var sut1 = new ServiceCollection()
                 .Add<Foo>(o =>
                 {
+                    o.UseNestedTypeForwarding = false;
                     o.Lifetime = ServiceLifetime.Scoped;
                 });
             
@@ -149,7 +149,6 @@ namespace Cuemon.Extensions.DependencyInjection
                 .Add<DefaultService<FakeService>>(o =>
                 {
                     o.Lifetime = ServiceLifetime.Scoped;
-                    o.UseNestedTypeForwarding = true;
                 });
             
             var provider = sut1.BuildServiceProvider();
@@ -173,6 +172,7 @@ namespace Cuemon.Extensions.DependencyInjection
             var sut1 = new ServiceCollection()
                 .Add<DefaultService<FakeService>>(o =>
                 {
+                    o.UseNestedTypeForwarding = false;
                     o.Lifetime = ServiceLifetime.Scoped;
                 });
             
