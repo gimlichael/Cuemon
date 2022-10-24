@@ -77,7 +77,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
             TooManyRequestsMessage = "Throttling rate limit quota violation. Quota limit exceeded.";
             ResponseHandler = (delta, reset) =>
             {
-                var message = new HttpResponseMessage((HttpStatusCode) StatusCodes.Status429TooManyRequests);
+                var message = new HttpResponseMessage((HttpStatusCode)StatusCodes.Status429TooManyRequests);
                 if (UseRetryAfterHeader)
                 {
                     switch (RetryAfterScope)
@@ -158,30 +158,21 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>
-        /// <exception cref="ArgumentNullException">
-        /// <see cref="RateLimitHeaderName"/> cannot be null - or -
-        /// <see cref="RateLimitRemainingHeaderName"/> cannot be null - or -
-        /// <see cref="RateLimitResetHeaderName"/> cannot be null - or -
-        /// <see cref="ResponseHandler"/> cannot be null - or -
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="RateLimitHeaderName"/> cannot be null, empty or consist only of white-space characters - or -
+        /// <see cref="RateLimitRemainingHeaderName"/> cannot be null, empty or consist only of white-space characters - or -
+        /// <see cref="RateLimitResetHeaderName"/> cannot be null, empty or consist only of white-space characters - or -
         /// <see cref="ResponseHandler"/> cannot be null - or -
         /// <see cref="Quota"/> cannot be null when <see cref="ContextResolver"/> has been specified.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <see cref="RateLimitHeaderName"/> cannot be empty or consist only of white-space characters - or -
-        /// <see cref="RateLimitRemainingHeaderName"/> cannot be empty or consist only of white-space characters - or -
-        /// <see cref="RateLimitResetHeaderName"/> cannot be empty or consist only of white-space characters.
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfNullOrWhitespace(RateLimitHeaderName, nameof(RateLimitHeaderName), $"{nameof(RateLimitHeaderName)} cannot be null, empty or consist only of white-space characters.");
-            Validator.ThrowIfNullOrWhitespace(RateLimitRemainingHeaderName, nameof(RateLimitRemainingHeaderName), $"{nameof(RateLimitRemainingHeaderName)} cannot be null, empty or consist only of white-space characters.");
-            Validator.ThrowIfNullOrWhitespace(RateLimitResetHeaderName, nameof(RateLimitResetHeaderName), $"{nameof(RateLimitResetHeaderName)} cannot be null, empty or consist only of white-space characters.");
-            Validator.ThrowIfNull(ResponseHandler, nameof(ResponseHandler), $"{nameof(ResponseHandler)} cannot be null.");
-            if (ContextResolver != null)
-            {
-                Validator.ThrowIfNull(Quota, nameof(Quota), $"{nameof(Quota)} cannot be null when {ContextResolver} has been specified.");
-            }
+            Validator.ThrowIfObjectInDistress(Condition.IsNull(RateLimitHeaderName) || Condition.IsEmpty(RateLimitHeaderName) || Condition.IsWhiteSpace(RateLimitHeaderName));
+            Validator.ThrowIfObjectInDistress(Condition.IsNull(RateLimitRemainingHeaderName) || Condition.IsEmpty(RateLimitRemainingHeaderName) || Condition.IsWhiteSpace(RateLimitRemainingHeaderName));
+            Validator.ThrowIfObjectInDistress(Condition.IsNull(RateLimitResetHeaderName) || Condition.IsEmpty(RateLimitResetHeaderName) || Condition.IsWhiteSpace(RateLimitResetHeaderName));
+            Validator.ThrowIfObjectInDistress(ResponseHandler == null);
+            Validator.ThrowIfObjectInDistress(ContextResolver != null && Quota == null);
         }
     }
 }

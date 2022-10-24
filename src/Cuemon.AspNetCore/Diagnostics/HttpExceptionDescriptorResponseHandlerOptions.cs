@@ -64,7 +64,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="InvalidOperationException">
         /// <see cref="ContentFactory"/> cannot be null - or -
         /// <see cref="ContentType"/> cannot be null - or -
         /// <see cref="StatusCodeFactory"/> cannot be null.
@@ -72,9 +72,9 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfNull(ContentFactory, nameof(ContentFactory));
-            Validator.ThrowIfNull(ContentType, nameof(ContentType));
-            Validator.ThrowIfNull(StatusCodeFactory, nameof(StatusCodeFactory));
+            Validator.ThrowIfObjectInDistress(ContentFactory == null);
+            Validator.ThrowIfObjectInDistress(ContentType == null);
+            Validator.ThrowIfObjectInDistress(StatusCodeFactory == null);
         }
     }
 }

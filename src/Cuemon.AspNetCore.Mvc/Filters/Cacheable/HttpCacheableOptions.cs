@@ -57,13 +57,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="InvalidOperationException">
         /// <see cref="Filters"/> cannot be null.
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfNull(Filters, nameof(Filters), $"{nameof(Filters)} cannot be null.");
+            Validator.ThrowIfObjectInDistress(Filters == null);
         }
     }
 }

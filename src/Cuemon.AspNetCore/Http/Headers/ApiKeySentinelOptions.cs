@@ -122,20 +122,17 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>
-        /// <exception cref="ArgumentNullException">
-        /// <see cref="HeaderName"/> cannot be null - or -
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="HeaderName"/> cannot be null, empty or consist only of white-space characters - or -
         /// <see cref="ResponseHandler"/> cannot be null - or -
         /// <see cref="AllowedKeys"/> cannot be null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <see cref="HeaderName"/> cannot be empty or consist only of white-space characters.
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfNullOrWhitespace(HeaderName, nameof(HeaderName), $"{nameof(HeaderName)} cannot be null, empty or consist only of white-space characters.");
-            Validator.ThrowIfNull(ResponseHandler, nameof(ResponseHandler), $"{nameof(ResponseHandler)} cannot be null.");
-            Validator.ThrowIfNull(AllowedKeys, nameof(AllowedKeys), $"{nameof(AllowedKeys)} cannot be null.");
+            Validator.ThrowIfObjectInDistress(Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName));
+            Validator.ThrowIfObjectInDistress(ResponseHandler == null);
+            Validator.ThrowIfObjectInDistress(AllowedKeys == null);
         }
     }
 }

@@ -16,33 +16,39 @@ namespace Cuemon.AspNetCore.Diagnostics
         }
 
         [Fact]
-        public void ValidateOptions_ShouldThrowArgumentNullExceptionForHttpFaultResolvers()
+        public void FaultDescriptorOptions_ShouldThrowArgumentNullExceptionForHttpFaultResolvers()
         {
             var sut1 = new FaultDescriptorOptions
             {
                 HttpFaultResolvers = null
             };
 
-            var sut2 = Assert.Throws<ArgumentNullException>(() => sut1.ValidateOptions());
+            var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
-            Assert.Equal("Value cannot be null. (Parameter 'HttpFaultResolvers')", sut2.Message);
+            Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'HttpFaultResolvers == null')", sut2.Message);
+            Assert.Equal("FaultDescriptorOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+            Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
 
         [Fact]
-        public void ValidateOptions_ShouldThrowArgumentNullExceptionForNonMvcResponseHandlers()
+        public void FaultDescriptorOptions_ShouldThrowArgumentNullExceptionForNonMvcResponseHandlers()
         {
             var sut1 = new FaultDescriptorOptions
             {
                 NonMvcResponseHandlers = null
             };
 
-            var sut2 = Assert.Throws<ArgumentNullException>(() => sut1.ValidateOptions());
+            var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
-            Assert.Equal("Value cannot be null. (Parameter 'NonMvcResponseHandlers')", sut2.Message);
+            Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'NonMvcResponseHandlers == null')", sut2.Message);
+            Assert.Equal("FaultDescriptorOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+            Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
 
         [Fact]
-        public void ValidateOptions_ShouldHaveDefaultValues()
+        public void FaultDescriptorOptions_ShouldHaveDefaultValues()
         {
             var sut = new FaultDescriptorOptions();
 

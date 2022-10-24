@@ -46,7 +46,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         public static ICollection<HttpExceptionDescriptorResponseHandler> AddYamlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, Action<ExceptionDescriptorOptions> setup = null)
         {
             Validator.ThrowIfNull(handlers, nameof(handlers));
-            Decorator.Enclose(handlers).AddResponseHandler(o =>
+            handlers.AddResponseHandler(o =>
             {
                 o.ContentType = MediaTypeHeaderValue.Parse("text/plain");
                 o.ContentFactory = ed =>

@@ -130,15 +130,15 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="InvalidOperationException">
         /// <see cref="ResponseHandler"/> cannot be null - or -
         /// <see cref="AllowedUserAgents"/> cannot be null.
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfNull(ResponseHandler, nameof(ResponseHandler), $"{nameof(ResponseHandler)} cannot be null.");
-            Validator.ThrowIfNull(AllowedUserAgents, nameof(AllowedUserAgents), $"{nameof(AllowedUserAgents)} cannot be null.");
+            Validator.ThrowIfObjectInDistress(ResponseHandler == null);
+            Validator.ThrowIfObjectInDistress(AllowedUserAgents == null);
         }
     }
 }

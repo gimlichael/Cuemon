@@ -31,8 +31,6 @@ namespace Cuemon.Diagnostics
         /// </remarks>
         protected ProfilerOptions()
         {
-            MethodDescriptor = null;
-            RuntimeParameters = null;
         }
 
         /// <summary>

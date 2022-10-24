@@ -6,6 +6,7 @@ using System.Reflection;
 using Cuemon.Collections.Generic;
 using Cuemon.Configuration;
 using System.Runtime.CompilerServices;
+using Cuemon.Text;
 
 namespace Cuemon
 {
@@ -81,7 +82,8 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="options"/> are not in a valid state.
         /// </exception>
-        public static void ThrowIfInvalidOptions<TOptions>(TOptions options, string paramName, string message = "Options are not in a valid state.") where TOptions : class, IValidatableParameterObject, new()
+        /// <remarks><paramref name="message"/> will have the name of the <typeparamref name="TOptions"/> if possible; otherwise Options.</remarks>
+        public static void ThrowIfInvalidOptions<TOptions>(TOptions options, string paramName, string message = "{0} are not in a valid state.") where TOptions : class, IValidatableParameterObject, new()
         {
             ThrowIfNull(options, nameof(options));
             try
@@ -90,6 +92,7 @@ namespace Cuemon
             }
             catch (Exception e)
             {
+                if (message?.Equals("{0} are not in a valid state.", StringComparison.InvariantCulture) ?? false) { message = string.Format(message, Patterns.InvokeOrDefault(() => typeof(TOptions).Name, "Options")); }
                 throw ExceptionInsights.Embed(new ArgumentException(message, paramName, e), MethodBase.GetCurrentMethod(), Arguments.ToArray(options, paramName, message));
             }
         }

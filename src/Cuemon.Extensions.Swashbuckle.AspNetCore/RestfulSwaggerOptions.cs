@@ -13,6 +13,27 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// <summary>
         /// Initializes a new instance of the <see cref="RestfulSwaggerOptions"/> class.
         /// </summary>
+        /// <remarks>
+        /// The following table shows the initial property values for an instance of <see cref="RestfulSwaggerOptions"/>.
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Property</term>
+        ///         <description>Initial Value</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <term><see cref="XmlDocumentations"/></term>
+        ///         <description><c>new List&lt;XPathDocument&gt;();</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="OpenApiInfo"/></term>
+        ///         <description><c>new();</c></description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="IncludeControllerXmlComments"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
         public RestfulSwaggerOptions()
         {
         }
@@ -39,15 +60,15 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="InvalidOperationException">
         /// <see cref="OpenApiInfo"/> cannot be null - or -
         /// <see cref="XmlDocumentations"/> cannot be null.
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfNull(OpenApiInfo, nameof(OpenApiInfo), $"{nameof(OpenApiInfo)} cannot be null.");
-            Validator.ThrowIfNull(XmlDocumentations, nameof(XmlDocumentations), $"{nameof(XmlDocumentations)} cannot be null.");
+            Validator.ThrowIfObjectInDistress(OpenApiInfo == null);
+            Validator.ThrowIfObjectInDistress(XmlDocumentations == null);
         }
     }
 }
