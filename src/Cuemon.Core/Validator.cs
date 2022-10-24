@@ -321,7 +321,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName, string message = "Value cannot be null.")
+        public static void ThrowIfNull<T>(T value, [CallerArgumentExpression("value")] string paramName = null, string message = "Value cannot be null.")
         {
             try
             {
@@ -517,7 +517,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be empty.
         /// </exception>
-        public static void ThrowIfNullOrEmpty(string value, string paramName)
+        public static void ThrowIfNullOrEmpty(string value, [CallerArgumentExpression("value")] string paramName = null)
         {
             try
             {
@@ -566,7 +566,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be empty or consist only of white-space characters.
         /// </exception>
-        public static void ThrowIfNullOrWhitespace(string value, string paramName)
+        public static void ThrowIfNullOrWhitespace(string value, [CallerArgumentExpression("value")] string paramName = null)
         {
             try
             {

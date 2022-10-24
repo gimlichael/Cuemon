@@ -488,79 +488,121 @@ Actual value was 1 != 2.", sut.Message);
             Assert.Equal("customMessage (Parameter 'marapName')", sut.Message);
         }
 
-        [Fact]
-        public void ThrowIfNull_ShouldThrowArgumentNullException()
+        [Theory]
+        [InlineData(null)]
+        public void ThrowIfNull_ShouldThrowArgumentNullException(string value)
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            var sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNull<string>(null, "paramName");
+                Validator.ThrowIfNull(value, nameof(value));
             });
+
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentNullException>(() =>
+            {
+                Validator.ThrowIfNull(value);
+            });
+
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
         }
 
-        [Fact]
-        public void ThrowIfNullOrEmpty_ShouldThrowArgumentNullException()
+        [Theory]
+        [InlineData(null)]
+        public void ThrowIfNullOrEmpty_ShouldThrowArgumentNullException(string value)
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            var sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrEmpty(null, "paramName");
+                Validator.ThrowIfNullOrEmpty(value);
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrEmpty(null, "paramName", "message");
+                Validator.ThrowIfNullOrEmpty(value, nameof(value));
             });
+
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentNullException>(() =>
+            {
+                Validator.ThrowIfNullOrEmpty(value, nameof(value), "message");
+            });
+
+            Assert.Equal("message (Parameter 'value')", sut.Message);
         }
 
-        [Fact]
-        public void ThrowIfNullOrEmpty_ShouldThrowArgumentException()
+        [Theory]
+        [InlineData("")]
+        public void ThrowIfNullOrEmpty_ShouldThrowArgumentException(string value)
         {
-            Assert.Throws<ArgumentException>(() =>
+            var sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrEmpty("", "paramName");
+                Validator.ThrowIfNullOrEmpty(value);
             });
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Equal("Value cannot be empty. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrEmpty("", "paramName", "message");
+                Validator.ThrowIfNullOrEmpty("", nameof(value));
             });
+
+            Assert.Equal("Value cannot be empty. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfNullOrEmpty("", nameof(value), "message");
+            });
+
+            Assert.Equal("message (Parameter 'value')", sut.Message);
         }
 
-        [Fact]
-        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentNullException()
+        [Theory]
+        [InlineData(null)]
+        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentNullException(string value)
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            var sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace(null, "paramName");
+                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace(null, "paramName", "message");
+                Validator.ThrowIfNullOrWhitespace(value);
             });
+
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
         }
 
-        [Fact]
-        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentException()
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentException(string value)
         {
-            Assert.Throws<ArgumentException>(() =>
+            var sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace("", "paramName");
+                Validator.ThrowIfNullOrWhitespace(value);
             });
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Equal(Condition.TernaryIf(value.Length == 0, ()=> "Value cannot be empty. (Parameter 'value')", () => "Value cannot consist only of white-space characters. (Parameter 'value')"), sut.Message);
+
+            sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace("", "paramName", "message");
+                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
             });
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Equal(Condition.TernaryIf(value.Length == 0, ()=> "Value cannot be empty. (Parameter 'value')", () => "Value cannot consist only of white-space characters. (Parameter 'value')"), sut.Message);
+
+            sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace(" ", "paramName");
+                Validator.ThrowIfNullOrWhitespace(value, nameof(value), "message");
             });
 
-            Assert.Throws<ArgumentException>(() =>
-            {
-                Validator.ThrowIfNullOrWhitespace(" ", "paramName", "message");
-            });
+            Assert.Equal("message (Parameter 'value')", sut.Message);
         }
 
         [Fact]
