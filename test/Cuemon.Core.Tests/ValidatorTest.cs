@@ -80,7 +80,7 @@ namespace Cuemon
                 Validator.ThrowIfInvalidOptions(new FakeOptions(), "paramName");
             });
 
-            Assert.Equal("Options are not in a valid state. (Parameter 'paramName')", result.Message);
+            Assert.Equal("FakeOptions are not in a valid state. (Parameter 'paramName')", result.Message);
             Assert.IsType<NotImplementedException>(result.InnerException);
         }
 
