@@ -67,10 +67,7 @@ namespace Cuemon.Data.Integrity
         {
             get
             {
-                if (_referencePointCacheValidator == null)
-                {
-                    _referencePointCacheValidator = CacheValidatorFactory.CreateValidator(AssemblyReference);
-                }
+                _referencePointCacheValidator ??= CacheValidatorFactory.CreateValidator(AssemblyReference);
                 return _referencePointCacheValidator.Clone();
             }
         }

@@ -70,10 +70,7 @@ namespace Cuemon.Runtime
         {
             lock (_locker)
             {
-                if (_watcherTimer == null)
-                {
-                    _watcherTimer = TimerFactory.CreateNonCapturingTimer(TimerInvoking, null, DueTime, Period);
-                }
+                _watcherTimer ??= TimerFactory.CreateNonCapturingTimer(TimerInvoking, null, DueTime, Period);
             }
         }
 
@@ -174,10 +171,7 @@ namespace Cuemon.Runtime
             {
                 lock (_locker)
                 {
-                    if (_watcherPostponingTimer == null)
-                    {
-                        _watcherPostponingTimer = TimerFactory.CreateNonCapturingTimer(PostponedHandleSignaling, e, DueTimeOnChanged, Timeout.InfiniteTimeSpan);
-                    }
+                    _watcherPostponingTimer ??= TimerFactory.CreateNonCapturingTimer(PostponedHandleSignaling, e, DueTimeOnChanged, Timeout.InfiniteTimeSpan);
                 }
                 return;
             }

@@ -22,8 +22,8 @@ namespace Cuemon.Extensions
         /// <returns>>A <see cref="string"/> that contains the set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.</returns>
         public static string Difference(this string first, string second)
         {
-            if (first == null) { first = string.Empty; }
-            if (second == null) { second = string.Empty; }
+            first ??= string.Empty;
+            second ??= string.Empty;
             return string.Concat(second.Except(first));
         }
 
@@ -733,7 +733,7 @@ namespace Cuemon.Extensions
 
         private static bool IsSequenceOfCore<T>(IEnumerable<string> source, CultureInfo culture, ITypeDescriptorContext context, Func<string, CultureInfo, bool> parser)
         {
-            if (culture == null) { culture = CultureInfo.InvariantCulture; }
+            culture ??= CultureInfo.InvariantCulture;
             var converterHasValue = (parser != null);
             var valid = true;
             foreach (var substring in source)

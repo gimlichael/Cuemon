@@ -211,7 +211,7 @@ namespace Cuemon.Data.SqlClient
                     HandleSqlDateTime(sqlParameter); // handle dates so they are compatible with SQL 200X and forward
                 }
 
-                if (parameter.Value == null) { parameter.Value = DBNull.Value; }
+                parameter.Value ??= DBNull.Value;
                 command.Parameters.Add(parameter);
             }
         }

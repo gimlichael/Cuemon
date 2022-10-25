@@ -126,30 +126,28 @@ namespace Cuemon
             where TResult : class, new()
         {
             var io = Configure(setup);
-            if (initializer == null)
+            initializer ??= (i, o) =>
             {
-                initializer = (i, o) =>
+                var match = false;
+                var typeOfInput = typeof(TSource);
+                var typeOfOutput = typeof(TResult);
+                var ips = typeOfInput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                var ops = typeOfOutput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                foreach (var ip in ips)
                 {
-                    var match = false;
-                    var typeOfInput = typeof(TSource);
-                    var typeOfOutput = typeof(TResult);
-                    var ips = typeOfInput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
-                    var ops = typeOfOutput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
-                    foreach (var ip in ips)
+                    var op = ops.SingleOrDefault(opi => opi.Name == ip.Name && opi.PropertyType == ip.PropertyType);
+                    if (op != null)
                     {
-                        var op = ops.SingleOrDefault(opi => opi.Name == ip.Name && opi.PropertyType == ip.PropertyType);
-                        if (op != null)
-                        {
-                            op.SetValue(o, ip.GetValue(i));
-                            match = true;
-                        }
+                        op.SetValue(o, ip.GetValue(i));
+                        match = true;
                     }
-                    if (!match)
-                    {
-                        throw new InvalidOperationException(FormattableString.Invariant($"Unable to use default converter for exchange of {nameof(TSource)} ({DelimitedString.Create(ips)}) with {nameof(TResult)} ({DelimitedString.Create(ops)}); no match on public read-write properties."));
-                    }
-                };
-            }
+                }
+
+                if (!match)
+                {
+                    throw new InvalidOperationException(FormattableString.Invariant($"Unable to use default converter for exchange of {nameof(TSource)} ({DelimitedString.Create(ips)}) with {nameof(TResult)} ({DelimitedString.Create(ops)}); no match on public read-write properties."));
+                }
+            };
             return oo => initializer(io, oo);
         }
 

@@ -27,7 +27,7 @@ namespace Cuemon.Collections.Generic
         public PaginationEnumerable(IEnumerable<T> source, Func<int> totalElementCounter, Action<PaginationOptions> setup = null)
         {
             Validator.ThrowIfNull(totalElementCounter);
-            if (source == null) { source = Enumerable.Empty<T>(); }
+            source ??= Enumerable.Empty<T>();
             var options = Patterns.Configure(setup);
             _source = options.PageNumber == 1  
                 ? source.Take(options.PageSize)

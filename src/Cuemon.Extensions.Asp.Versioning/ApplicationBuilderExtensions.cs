@@ -24,17 +24,14 @@ namespace Cuemon.Extensions.Asp.Versioning
         public static IApplicationBuilder UseRestfulApiVersioning(this IApplicationBuilder builder, Func<HttpContext, HttpStatusCodeException> statusCodeExceptionFactory = null)
         {
             Validator.ThrowIfNull(builder);
-            if (statusCodeExceptionFactory == null)
+            statusCodeExceptionFactory ??= context =>
             {
-                statusCodeExceptionFactory = context =>
+                if (HttpStatusCodeException.TryParse(context.Response.StatusCode, out var statusCodeEquivalentException))
                 {
-                    if (HttpStatusCodeException.TryParse(context.Response.StatusCode, out var statusCodeEquivalentException))
-                    {
-                        return statusCodeEquivalentException;
-                    }
-                    return new InternalServerErrorException();
-                };
-            }
+                    return statusCodeEquivalentException;
+                }
+                return new InternalServerErrorException();
+            };
             return builder.UseStatusCodePages(app =>
             {
                 app.Use((HttpContext context, Func<Task> _) => throw statusCodeExceptionFactory(context));

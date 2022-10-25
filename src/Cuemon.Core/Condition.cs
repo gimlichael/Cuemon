@@ -581,7 +581,7 @@ namespace Cuemon
             if (string.IsNullOrWhiteSpace(value)) { return false; }
             if (string.Equals(value, "NaN", StringComparison.OrdinalIgnoreCase)) { return false; }
             if (string.Equals(value, "Infinity", StringComparison.OrdinalIgnoreCase)) { return false; }
-            if (provider == null) { provider = CultureInfo.InvariantCulture; }
+            provider ??= CultureInfo.InvariantCulture;
             return double.TryParse(value, styles, provider, out _);
         }
 

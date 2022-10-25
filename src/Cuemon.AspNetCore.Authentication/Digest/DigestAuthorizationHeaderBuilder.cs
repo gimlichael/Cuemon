@@ -91,7 +91,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
         public DigestAuthorizationHeaderBuilder AddCnonce(string clientNonce = null)
         {
-            if (clientNonce == null) { clientNonce = Generate.RandomString(32); }
+            clientNonce ??= Generate.RandomString(32);
             return AddOrUpdate(DigestFields.ClientNonce, clientNonce);
         }
 

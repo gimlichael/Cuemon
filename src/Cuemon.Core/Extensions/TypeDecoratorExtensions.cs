@@ -366,7 +366,7 @@ namespace Cuemon
             Validator.ThrowIfNull(source);
             Validator.ThrowIfLowerThanOrEqual(maxDepth, 0, nameof(maxDepth));
             if (source.GetType() != decorator.Inner) { throw new InvalidOperationException("The specified source has a different type than the underlying type of the extended decorator."); }
-            if (valueResolver == null) { valueResolver = Infrastructure.DefaultPropertyValueResolver; }
+            valueResolver ??= Infrastructure.DefaultPropertyValueResolver;
             var hasCircularReference = false;
             var currentDepth = 0;
             var stack = new Stack<object>();

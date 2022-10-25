@@ -68,7 +68,7 @@ namespace Cuemon.Runtime
                         stream.Position = 0;
                         var currentChecksum = HashFactory.CreateCrc64().ComputeHash(stream).ToHexadecimalString();
 
-                        if (Checksum == null) { Checksum = currentChecksum; }
+                        Checksum ??= currentChecksum;
                         if (!Checksum.Equals(currentChecksum, StringComparison.OrdinalIgnoreCase))
                         {
                             SetUtcLastModified(utcLastModified);

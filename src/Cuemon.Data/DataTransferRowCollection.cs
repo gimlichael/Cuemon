@@ -26,7 +26,7 @@ namespace Cuemon.Data
             var rowNumber = 1;
             while (reader.Read())
             {
-                if (Columns == null) { Columns = new DataTransferColumnCollection(reader); }
+                Columns ??= new DataTransferColumnCollection(reader);
                 DataTransferRows.Add(new DataTransferRow(this, rowNumber));
                 var fieldCount = reader.FieldCount;
                 var values = new object[fieldCount];

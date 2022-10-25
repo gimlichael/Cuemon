@@ -24,7 +24,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         public HttpRequestEvidence(HttpRequest request, Func<Stream, string> bodyConverter = null)
         {
             var hasMultipartContentType = request.GetMultipartBoundary().Length > 0;
-            if (bodyConverter == null) { bodyConverter = body => hasMultipartContentType ? null : Decorator.Enclose(body).ToEncodedString(); }
+            bodyConverter ??= body => hasMultipartContentType ? null : Decorator.Enclose(body).ToEncodedString();
             Location = request.GetDisplayUrl();
             Method = request.Method;
             Headers = request.Headers;

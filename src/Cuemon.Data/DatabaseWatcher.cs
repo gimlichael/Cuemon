@@ -73,7 +73,7 @@ namespace Cuemon.Data
 
                     var currentChecksum = HashFactory.CreateCrc64().ComputeHash(checksums.Cast<IConvertible>()).ToHexadecimalString();
 
-                    if (Checksum == null) { Checksum = currentChecksum; }
+                    Checksum ??= currentChecksum;
                     if (!Checksum.Equals(currentChecksum, StringComparison.OrdinalIgnoreCase))
                     {
                         SetUtcLastModified(DateTime.UtcNow);

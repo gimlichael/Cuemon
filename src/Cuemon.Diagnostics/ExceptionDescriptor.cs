@@ -68,7 +68,7 @@ namespace Cuemon.Diagnostics
                 var e = stack.Pop();
                 if (e.Data[ExceptionInsights.Key] is string base64Segments && !string.IsNullOrWhiteSpace(base64Segments))
                 {
-                    if (result == null) { result = base64Segments; }
+                    result ??= base64Segments;
                     e.Data.Remove(ExceptionInsights.Key);
                 }
                 if (e.InnerException != null) { stack.Push(e.InnerException); }
