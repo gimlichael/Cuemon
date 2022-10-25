@@ -37,12 +37,12 @@ namespace Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4
         /// <remarks>The following string represents the scope part of the Credential parameter for a S3 request in the eu-west-1 Region: <c>20220710/eu-west-1/s3/aws4_request</c></remarks>
         public Aws4HmacAuthorizationHeaderBuilder AddCredentialScope(DateTime timestamp, string region = "eu-west-1", string service = "s3", string termination = Aws4HmacFields.Aws4Request)
         {
-            Validator.ThrowIfNullOrWhitespace(region, nameof(region));
+            Validator.ThrowIfNullOrWhitespace(region);
             return AddOrUpdate(Aws4HmacFields.DateTimeStamp, timestamp.ToAwsDateTimeString())
                 .AddOrUpdate(Aws4HmacFields.DateStamp, timestamp.ToAwsDateString())
                 .AddOrUpdate(Aws4HmacFields.Region, region)
                 .AddOrUpdate(Aws4HmacFields.Service, service)
-                .AddOrUpdate(HmacFields.CredentialScope, $"{timestamp.ToAwsDateString()}/{region}/{service}/{Aws4HmacFields.Aws4Request}");
+                .AddOrUpdate(HmacFields.CredentialScope, $"{timestamp.ToAwsDateString()}/{region}/{service}/{termination}");
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4
         /// <returns>A reference to this instance so that additional calls can be chained.</returns>
         public override Aws4HmacAuthorizationHeaderBuilder AddFromRequest(HttpRequest request)
         {
-            Validator.ThrowIfNull(request, nameof(request));
+            Validator.ThrowIfNull(request);
             return AddOrUpdate(HmacFields.HttpMethod, request.Method)
                 .AddOrUpdate(HmacFields.UriPath, request.Path.ToUriComponent())
                 .AddOrUpdate(HmacFields.UriQuery, string.Concat(request.Query.OrderBy(pair => pair.Key).Select(pair => $"{Decorator.Enclose(pair.Key).UrlEncode()}={Decorator.Enclose(pair.Value.ToString()).UrlEncode()}")))

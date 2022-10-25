@@ -20,7 +20,7 @@ namespace Cuemon.Runtime
         /// <paramref name="lazyFileWatcher"/> cannot be null.
         /// </exception>
         /// <remarks>The <see cref="FileWatcher"/> initialization is deferred until <see cref="Dependency.StartAsync"/> is invoked.</remarks>
-        public FileDependency(Lazy<FileWatcher> lazyFileWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyFileWatcher, () => Validator.ThrowIfNull(lazyFileWatcher, nameof(lazyFileWatcher)))), breakTieOnChanged)
+        public FileDependency(Lazy<FileWatcher> lazyFileWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyFileWatcher, () => Validator.ThrowIfNull(lazyFileWatcher))), breakTieOnChanged)
         {
         }
 

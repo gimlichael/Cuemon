@@ -25,9 +25,9 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same order as the while loop evaluates <c>true</c>.</returns>
         public static Task<IReadOnlyCollection<TResult>> WhileResultAsync<TReader, TElement, TResult>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, CancellationToken, Task<TResult>> worker, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default), setup);
         }
 
@@ -48,9 +48,9 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same order as the while loop evaluates <c>true</c>.</returns>
         public static Task<IReadOnlyCollection<TResult>> WhileResultAsync<TReader, TElement, T, TResult>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T, CancellationToken, Task<TResult>> worker, T arg, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg), setup);
         }
 
@@ -73,9 +73,9 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same order as the while loop evaluates <c>true</c>.</returns>
         public static Task<IReadOnlyCollection<TResult>> WhileResultAsync<TReader, TElement, T1, T2, TResult>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T1, T2, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg1, arg2), setup);
         }
 
@@ -100,9 +100,9 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same order as the while loop evaluates <c>true</c>.</returns>
         public static Task<IReadOnlyCollection<TResult>> WhileResultAsync<TReader, TElement, T1, T2, T3, TResult>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T1, T2, T3, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg1, arg2, arg3), setup);
         }
 
@@ -129,9 +129,9 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same order as the while loop evaluates <c>true</c>.</returns>
         public static Task<IReadOnlyCollection<TResult>> WhileResultAsync<TReader, TElement, T1, T2, T3, T4, TResult>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T1, T2, T3, T4, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
         }
 
@@ -160,9 +160,9 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same order as the while loop evaluates <c>true</c>.</returns>
         public static Task<IReadOnlyCollection<TResult>> WhileResultAsync<TReader, TElement, T1, T2, T3, T4, T5, TResult>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T1, T2, T3, T4, T5, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileResultCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskFuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 

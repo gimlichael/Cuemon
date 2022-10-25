@@ -32,7 +32,7 @@ namespace Cuemon.Diagnostics
         /// <remarks>Any meta data embedded by <see cref="ExceptionInsights.Embed{T}(T,object[],SystemSnapshots)"/> will be extracted and added as evidence to the final result.</remarks>
         public static ExceptionDescriptor Extract(Exception exception, string code = "UnhandledException", string message = "An unhandled exception occurred.", Uri helpLink = null)
         {
-            Validator.ThrowIfNull(exception, nameof(exception));
+            Validator.ThrowIfNull(exception);
             var ed = new ExceptionDescriptor(exception, code, message, helpLink);
             var base64Segments = RetrieveAndSweepExceptionData(exception);
             if (!string.IsNullOrWhiteSpace(base64Segments))
@@ -106,8 +106,8 @@ namespace Cuemon.Diagnostics
         /// <remarks><paramref name="code"/> will remove any spaces that might be present.</remarks>
         public ExceptionDescriptor(Exception failure, string code, string message, Uri helpLink = null)
         {
-            Validator.ThrowIfNull(failure, nameof(failure));
-            Validator.ThrowIfNullOrWhitespace(message, nameof(message));
+            Validator.ThrowIfNull(failure);
+            Validator.ThrowIfNullOrWhitespace(message);
             Code = StringReplacePair.RemoveAll(code, ' ');
             Message = message;
             HelpLink = helpLink;

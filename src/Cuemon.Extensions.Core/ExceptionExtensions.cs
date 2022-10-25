@@ -22,7 +22,7 @@ namespace Cuemon.Extensions
         /// </remarks>
         public static IEnumerable<Exception> Flatten(this Exception exception)
         {
-            Validator.ThrowIfNull(exception, nameof(exception));
+            Validator.ThrowIfNull(exception);
             return Decorator.Enclose(exception).Flatten();
         }
     }

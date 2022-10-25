@@ -16,7 +16,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <param name="authenticationScheme">The name of the authentication scheme.</param>
         protected AuthorizationHeader(string authenticationScheme)
         {
-            Validator.ThrowIfNullOrWhitespace(authenticationScheme, nameof(authenticationScheme));
+            Validator.ThrowIfNullOrWhitespace(authenticationScheme);
             AuthenticationScheme = authenticationScheme;
         }
 
@@ -34,7 +34,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <returns>An <see cref="AuthorizationHeader"/> equivalent of <paramref name="authorizationHeader"/>.</returns>
         public virtual AuthorizationHeader Parse(string authorizationHeader, Action<AuthorizationHeaderOptions> setup)
         {
-            Validator.ThrowIfNullOrWhitespace(authorizationHeader, nameof(authorizationHeader));
+            Validator.ThrowIfNullOrWhitespace(authorizationHeader);
             Validator.ThrowIfFalse(() => authorizationHeader.StartsWith(AuthenticationScheme), nameof(authorizationHeader), $"Header did not start with {AuthenticationScheme}.");
             
             var options = Patterns.Configure(setup);

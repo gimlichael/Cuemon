@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// </exception>
         public static IMvcBuilder AddXmlFormatters(this IMvcBuilder builder)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, XmlSerializationMvcOptionsSetup>());
             return builder;
         }
@@ -44,7 +44,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// </exception>
         public static IMvcBuilder AddXmlFormatters(this IMvcBuilder builder, Action<XmlFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             AddXmlFormatters(builder);
             AddXmlFormattersOptions(builder, setup);
             return builder;
@@ -63,8 +63,8 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// </exception>
         public static IMvcBuilder AddXmlFormattersOptions(this IMvcBuilder builder, Action<XmlFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
-            Validator.ThrowIfNull(setup, nameof(setup));
+            Validator.ThrowIfNull(builder);
+            Validator.ThrowIfNull(setup);
             builder.Services.Configure(setup);
             return builder;
         }

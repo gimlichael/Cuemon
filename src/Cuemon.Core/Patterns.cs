@@ -30,7 +30,7 @@ namespace Cuemon
         {
             try
             {
-                Validator.ThrowIfNull(method, nameof(method));
+                Validator.ThrowIfNull(method);
                 method();
                 return true;
             }
@@ -62,7 +62,7 @@ namespace Cuemon
         {
             try
             {
-                Validator.ThrowIfNull(method, nameof(method));
+                Validator.ThrowIfNull(method);
                 result = method();
                 return true;
             }
@@ -183,7 +183,7 @@ namespace Cuemon
         /// </exception>
         public static Action<TOptions> ConfigureRevert<TOptions>(TOptions options) where TOptions : class, new()
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             return o =>
             {
                 var to = typeof(TOptions);
@@ -202,8 +202,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<TResult>(Func<TResult> initializer, Func<TResult, TResult> tester, Action<Exception> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default);
             var f2 = ActionFactory.Create(catcher, default);
             return SafeInvokeCore(f1, initializer, f2);
@@ -221,8 +221,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T, TResult>(Func<TResult> initializer, Func<TResult, T, TResult> tester, T arg, Action<Exception, T> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg);
             var f2 = ActionFactory.Create(catcher, default, arg);
             return SafeInvokeCore(f1, initializer, f2);
@@ -242,8 +242,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T1, T2, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, TResult> tester, T1 arg1, T2 arg2, Action<Exception, T1, T2> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg1, arg2);
             var f2 = ActionFactory.Create(catcher, default, arg1, arg2);
             return SafeInvokeCore(f1, initializer, f2);
@@ -265,8 +265,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T1, T2, T3, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, TResult> tester, T1 arg1, T2 arg2, T3 arg3, Action<Exception, T1, T2, T3> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3);
             var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3);
             return SafeInvokeCore(f1, initializer, f2);
@@ -290,8 +290,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T1, T2, T3, T4, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, TResult> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<Exception, T1, T2, T3, T4> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3, arg4);
             var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4);
             return SafeInvokeCore(f1, initializer, f2);
@@ -317,8 +317,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T1, T2, T3, T4, T5, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, T5, TResult> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<Exception, T1, T2, T3, T4, T5> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3, arg4, arg5);
             var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4, arg5);
             return SafeInvokeCore(f1, initializer, f2);
@@ -335,8 +335,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<TResult>(Func<TResult> initializer, Func<TResult, CancellationToken, Task<TResult>> tester, CancellationToken ct = default, Func<Exception, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default);
             var f2 = TaskActionFactory.Create(catcher, default);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -355,8 +355,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T, TResult>(Func<TResult> initializer, Func<TResult, T, CancellationToken, Task<TResult>> tester, T arg, CancellationToken ct = default, Func<Exception, T, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg);
             var f2 = TaskActionFactory.Create(catcher, default, arg);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -377,8 +377,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T1, T2, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, CancellationToken, Task<TResult>> tester, T1 arg1, T2 arg2, CancellationToken ct = default, Func<Exception, T1, T2, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2);
             var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -401,8 +401,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T1, T2, T3, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, CancellationToken, Task<TResult>> tester, T1 arg1, T2 arg2, T3 arg3, CancellationToken ct = default, Func<Exception, T1, T2, T3, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2, arg3);
             var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2, arg3);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -427,8 +427,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T1, T2, T3, T4, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, CancellationToken, Task<TResult>> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, CancellationToken ct = default, Func<Exception, T1, T2, T3, T4, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2, arg3, arg4);
             var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -455,8 +455,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T1, T2, T3, T4, T5, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, T5, CancellationToken, Task<TResult>> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, CancellationToken ct = default, Func<Exception, T1, T2, T3, T4, T5, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2, arg3, arg4, arg5);
             var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4, arg5);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);

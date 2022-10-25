@@ -21,7 +21,7 @@ namespace Cuemon.Data.Xml
         /// </exception>
         public XmlDataReader(XmlReader reader, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParserFactory.FromValueType().Parse)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(reader);
             Reader = reader;
         }
 

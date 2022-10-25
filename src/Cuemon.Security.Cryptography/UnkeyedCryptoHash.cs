@@ -21,7 +21,7 @@ namespace Cuemon.Security.Cryptography
         /// </exception>
         protected UnkeyedCryptoHash(Func<TAlgorithm> initializer, Action<ConvertibleOptions> setup) : base(setup)
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
+            Validator.ThrowIfNull(initializer);
             Initializer = initializer;
         }
 

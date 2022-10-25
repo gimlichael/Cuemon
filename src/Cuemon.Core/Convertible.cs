@@ -53,7 +53,7 @@ namespace Cuemon
         /// </exception>
         public static void RegisterConvertible<T>(Func<T, byte[]> converter) where T : IConvertible
         {
-            Validator.ThrowIfNull(converter, nameof(converter));
+            Validator.ThrowIfNull(converter);
             ByteArrayConverters.Add(typeof(T), convertible => converter((T)convertible));
         }
 
@@ -344,7 +344,7 @@ namespace Cuemon
         /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static byte[] GetBytes(string input, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(input, nameof(input));
+            Validator.ThrowIfNull(input);
             var options = Patterns.Configure(setup);
             byte[] valueInBytes;
             switch (options.Preamble)
@@ -421,7 +421,7 @@ namespace Cuemon
         /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToString(byte[] input, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(input, nameof(input));
+            Validator.ThrowIfNull(input);
             var options = Patterns.Configure(setup);
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = ByteOrderMark.DetectEncodingOrDefault(input, options.Encoding); }
             switch (options.Preamble)

@@ -24,8 +24,8 @@ namespace Cuemon.Data
         /// <param name="mappings">A sequence of <see cref="Mapping"/> elements that specifies the data to be copied.</param>
         public BulkCopyDataReader(DbDataReader reader, IEnumerable<Mapping> mappings)
         {
-            Validator.ThrowIfNull(reader, "source");
-            Validator.ThrowIfNull(mappings, nameof(mappings));
+            Validator.ThrowIfNull(reader);
+            Validator.ThrowIfNull(mappings);
 
             Reader = reader;
             Fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
@@ -364,7 +364,7 @@ namespace Cuemon.Data
         /// </exception>
         public override int GetOrdinal(string name)
         {
-            Validator.ThrowIfNull(name, nameof(name));
+            Validator.ThrowIfNull(name);
             var current = 0;
             foreach (var mapping in Mappings)
             {
@@ -439,7 +439,7 @@ namespace Cuemon.Data
         /// <returns>The number of instances of <see cref="T:System.Object" /> in the array.</returns>
         public override int GetValues(object[] values)
         {
-            Validator.ThrowIfNull(values, nameof(values));
+            Validator.ThrowIfNull(values);
             var length = FieldCount;
             for (var i = 0; i < length; i++)
             {

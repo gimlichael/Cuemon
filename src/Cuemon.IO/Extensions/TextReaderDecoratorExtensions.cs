@@ -27,8 +27,8 @@ namespace Cuemon.IO
         /// </exception>
         public static async Task CopyToAsync(this IDecorator<TextReader> decorator, TextWriter writer, int bufferSize = 81920)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(writer, nameof(writer));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(writer);
             Validator.ThrowIfLowerThanOrEqual(bufferSize, 0, nameof(bufferSize));
             var buffer = new char[bufferSize];
             int read;

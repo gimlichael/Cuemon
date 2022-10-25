@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// </exception>
         public static bool IsGetOrHeadMethod(this HttpRequest request)
         {
-            Validator.ThrowIfNull(request, nameof(request));
+            Validator.ThrowIfNull(request);
             return Decorator.Enclose(request).IsGetOrHeadMethod();
         }
 
@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// </exception>
         public static bool IsClientSideResourceCached(this HttpRequest request, ChecksumBuilder builder)
         {
-            Validator.ThrowIfNull(request, nameof(request));
+            Validator.ThrowIfNull(request);
             return Decorator.Enclose(request).IsClientSideResourceCached(builder);
         }
 
@@ -55,7 +55,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// </exception>
         public static bool IsClientSideResourceCached(this HttpRequest request, DateTime lastModified)
         {
-            Validator.ThrowIfNull(request, nameof(request));
+            Validator.ThrowIfNull(request);
             return Decorator.Enclose(request).IsClientSideResourceCached(lastModified);
         }
     }

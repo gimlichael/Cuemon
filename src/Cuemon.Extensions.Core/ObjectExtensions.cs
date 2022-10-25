@@ -82,7 +82,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static string ToDelimitedString<T>(this IEnumerable<T> source, Action<DelimitedStringOptions<T>> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             return DelimitedString.Create(source, setup);
         }
 

@@ -21,7 +21,7 @@ namespace Cuemon.Runtime
         /// <param name="setup">The <see cref="WatcherOptions" /> which may be configured.</param>
         public FileWatcher(string path, bool readFile = false, Action<WatcherOptions> setup = null) : base(setup)
         {
-            Validator.ThrowIfNullOrWhitespace(path, nameof(path));
+            Validator.ThrowIfNullOrWhitespace(path);
             Path = path;
             ReadFile = readFile;
             UtcCreated = DateTime.UtcNow;

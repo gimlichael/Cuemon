@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Xml
         /// <returns>An <see cref="XmlReader"/> representation of <paramref name="value"/>.</returns>
         public static XmlReader ToXmlReader(this byte[] value, Action<XmlReaderSettings> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).ToStream().ToXmlReader(setup: setup);
         }
     }

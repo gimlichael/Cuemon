@@ -23,7 +23,7 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static bool IsGetOrHeadMethod(this IDecorator<HttpRequest> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var method = decorator.Inner.Method;
             return HttpMethods.IsGet(method) || HttpMethods.IsHead(method);
         }
@@ -40,8 +40,8 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static bool IsClientSideResourceCached(this IDecorator<HttpRequest> decorator, ChecksumBuilder builder)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(builder);
             var headers = new RequestHeaders(decorator.Inner.Headers);
             if (headers.IfNoneMatch != null)
             {
@@ -71,8 +71,8 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static bool IsClientSideResourceCached(this IDecorator<HttpRequest> decorator, DateTime lastModified)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(lastModified, nameof(lastModified));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(lastModified);
             var headers = new RequestHeaders(decorator.Inner.Headers);
             var adjustedLastModified = Decorator.Enclose(lastModified).Adjust(o => new DateTime(o.Year, o.Month, o.Day, o.Hour, o.Minute, o.Second, DateTimeKind.Utc)); // make sure, that modified has the same format as the if-modified-since header
             var ifModifiedSince = headers.IfModifiedSince?.UtcDateTime;

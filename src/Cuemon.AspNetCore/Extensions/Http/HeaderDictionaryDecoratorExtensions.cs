@@ -25,8 +25,8 @@ namespace Cuemon.AspNetCore.Http
         /// <remarks>When <paramref name="predicate"/> is <c>null</c>, only new headers are added to the enclosed <see cref="IHeaderDictionary"/>.</remarks>
         public static IHeaderDictionary AddRange(this IDecorator<IHeaderDictionary> decorator, IHeaderDictionary headers, Func<KeyValuePair<string, StringValues>, IHeaderDictionary, bool> predicate = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(headers, nameof(headers));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(headers);
             predicate ??= (kvp, hd) => !hd.Contains(kvp);
             foreach (var header in headers.Where(pair => predicate(pair, decorator.Inner)))
             {

@@ -80,7 +80,7 @@ namespace Cuemon.Reflection
             get => _friendlyNameStringConverter;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _friendlyNameStringConverter = value;
             }
         }

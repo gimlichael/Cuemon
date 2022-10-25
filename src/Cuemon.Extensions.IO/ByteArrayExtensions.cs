@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.IO
         /// </exception>
         public static Stream ToStream(this byte[] bytes)
         {
-            Validator.ThrowIfNull(bytes, nameof(bytes));
+            Validator.ThrowIfNull(bytes);
             return Decorator.Enclose(bytes).ToStream();
         }
 
@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.IO
         /// </exception>
         public static Task<Stream> ToStreamAsync(this byte[] bytes)
         {
-            Validator.ThrowIfNull(bytes, nameof(bytes));
+            Validator.ThrowIfNull(bytes);
             return Decorator.Enclose(bytes).ToStreamAsync();
         }
     }

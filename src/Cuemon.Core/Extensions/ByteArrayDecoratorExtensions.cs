@@ -22,7 +22,7 @@ namespace Cuemon
         /// <remarks><see cref="EncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToEncodedString(this IDecorator<byte[]> decorator, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Convertible.ToString(decorator.Inner, setup);
         }
 
@@ -36,7 +36,7 @@ namespace Cuemon
         /// </exception>
         public static Stream ToStream(this IDecorator<byte[]> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Patterns.SafeInvoke(() => new MemoryStream(decorator.Inner.Length), ms =>
             {
                 ms.Write(decorator.Inner, 0, decorator.Inner.Length);
@@ -56,7 +56,7 @@ namespace Cuemon
         /// </exception>
         public static Task<Stream> ToStreamAsync(this IDecorator<byte[]> decorator, CancellationToken ct = default)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(decorator.Inner.Length), async (ms, cti) =>
             {
                 #if NETSTANDARD

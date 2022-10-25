@@ -22,8 +22,8 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// </exception>
         public HttpExceptionDescriptorResponseHandler(MediaTypeHeaderValue contentType, Func<HttpExceptionDescriptor, HttpResponseMessage> responseMessageFactory)
         {
-            Validator.ThrowIfNull(contentType, nameof(contentType));
-            Validator.ThrowIfNull(responseMessageFactory, nameof(responseMessageFactory));
+            Validator.ThrowIfNull(contentType);
+            Validator.ThrowIfNull(responseMessageFactory);
 
             ContentType = contentType;
 

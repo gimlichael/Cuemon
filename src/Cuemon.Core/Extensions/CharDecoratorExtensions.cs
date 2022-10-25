@@ -21,7 +21,7 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<string> ToEnumerable(this IDecorator<IEnumerable<char>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.Select(c => new string(c, 1));
         }
 
@@ -35,7 +35,7 @@ namespace Cuemon
         /// </exception>
         public static string ToStringEquivalent(this IDecorator<IEnumerable<char>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return string.Concat(decorator.Inner);
         }
     }

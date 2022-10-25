@@ -44,7 +44,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasEqualityComparerImplementation(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).HasEqualityComparerImplementation();
         }
 
@@ -58,7 +58,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasComparableImplementation(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).HasComparableImplementation();
         }
 
@@ -72,7 +72,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasComparerImplementation(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).HasComparerImplementation();
         }
 
@@ -86,7 +86,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasEnumerableImplementation(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).HasEnumerableImplementation();
         }
 
@@ -100,7 +100,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasDictionaryImplementation(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).HasDictionaryImplementation();
         }
 
@@ -114,7 +114,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasKeyValuePairImplementation(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).HasKeyValuePairImplementation();
         }
 
@@ -130,7 +130,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool IsNullable(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             if (!type.IsValueType) { return false; }
             return Nullable.GetUnderlyingType(type) != null;
         }
@@ -146,7 +146,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasAnonymousCharacteristics(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).HasAnonymousCharacteristics();
         }
 
@@ -160,7 +160,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool IsComplex(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).IsComplex();
         }
 
@@ -184,7 +184,7 @@ namespace Cuemon.Extensions
         /// <returns>The default value of <paramref name="type"/>.</returns>
         public static object GetDefaultValue(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).GetDefaultValue();
         }
 
@@ -200,7 +200,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasTypes(this Type type, params Type[] targets)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).HasTypes(targets);
         }
 
@@ -218,8 +218,8 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasInterfaces(this Type type, params Type[] interfaceTypes)
         {
-            Validator.ThrowIfNull(type, nameof(type));
-            Validator.ThrowIfNull(interfaceTypes, nameof(interfaceTypes));
+            Validator.ThrowIfNull(type);
+            Validator.ThrowIfNull(interfaceTypes);
             return Decorator.Enclose(type).HasInterface(interfaceTypes);
         }
 
@@ -237,8 +237,8 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool HasAttributes(this Type type, params Type[] attributeTypes)
         {
-            Validator.ThrowIfNull(type, nameof(type));
-            Validator.ThrowIfNull(attributeTypes, nameof(attributeTypes));
+            Validator.ThrowIfNull(type);
+            Validator.ThrowIfNull(attributeTypes);
             return Decorator.Enclose(type).HasAttribute(attributeTypes);
         }
     }

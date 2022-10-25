@@ -19,8 +19,8 @@ namespace Cuemon.Extensions.Reflection
         /// </returns>
         public static bool HasAttributes(this MemberInfo source, params Type[] targets)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(targets, nameof(targets));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(targets);
             return Decorator.Enclose(source).HasAttribute(targets);
         }
     }

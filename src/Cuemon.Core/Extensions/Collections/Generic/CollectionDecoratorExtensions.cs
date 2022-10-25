@@ -35,7 +35,7 @@ namespace Cuemon.Collections.Generic
         /// </exception>
         public static void AddRange<T>(this IDecorator<ICollection<T>> decorator, IEnumerable<T> source)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             if (decorator.Inner is List<T> list)
             {
                 list.AddRange(source);

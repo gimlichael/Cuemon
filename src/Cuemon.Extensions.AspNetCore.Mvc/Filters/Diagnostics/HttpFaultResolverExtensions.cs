@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
         /// </remarks>
         public static IList<HttpFaultResolver> AddHttpFaultResolver<T>(this IList<HttpFaultResolver> descriptors, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : HttpStatusCodeException
         {
-            Validator.ThrowIfNull(descriptors, nameof(descriptors));
+            Validator.ThrowIfNull(descriptors);
             return Decorator.Enclose(descriptors).AddHttpFaultResolver<T>(message, helpLink, exceptionValidator).Inner;
         }
 
@@ -75,7 +75,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
         /// </remarks>
         public static IList<HttpFaultResolver> AddHttpFaultResolver<T>(this IList<HttpFaultResolver> descriptors, int statusCode, string code = null, string message = null, Uri helpLink = null, Func<Exception, bool> exceptionValidator = null) where T : Exception
         {
-            Validator.ThrowIfNull(descriptors, nameof(descriptors));
+            Validator.ThrowIfNull(descriptors);
             return Decorator.Enclose(descriptors).AddHttpFaultResolver<T>(statusCode, code, message, helpLink, exceptionValidator).Inner;
         }
 
@@ -92,7 +92,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
         /// </exception>
         public static IList<HttpFaultResolver> AddHttpFaultResolver<T>(this IList<HttpFaultResolver> descriptors, Func<T, HttpExceptionDescriptor> exceptionDescriptorResolver, Func<Exception, bool> exceptionValidator) where T : Exception
         {
-            Validator.ThrowIfNull(descriptors, nameof(descriptors));
+            Validator.ThrowIfNull(descriptors);
             return Decorator.Enclose(descriptors).AddHttpFaultResolver(exceptionDescriptorResolver, exceptionValidator).Inner;
         }
     }

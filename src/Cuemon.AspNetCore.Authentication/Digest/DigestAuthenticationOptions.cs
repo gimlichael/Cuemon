@@ -58,7 +58,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             OpaqueGenerator = () => Generate.RandomString(32, Alphanumeric.Hexadecimal).ToLowerInvariant();
             NonceExpiredParser = (nonce, timeToLive) =>
             {
-                Validator.ThrowIfNullOrEmpty(nonce, nameof(nonce));
+                Validator.ThrowIfNullOrEmpty(nonce);
                 if (ParserFactory.FromBase64().TryParse(nonce, out var rawNonce))
                 {
                     var nonceProtocol = Convertible.ToString(rawNonce, options =>
@@ -74,8 +74,8 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             };
             NonceGenerator = (timestamp, entityTag, privateKey) =>
             {
-                Validator.ThrowIfNullOrWhitespace(entityTag, nameof(entityTag));
-                Validator.ThrowIfNull(privateKey, nameof(privateKey));
+                Validator.ThrowIfNullOrWhitespace(entityTag);
+                Validator.ThrowIfNull(privateKey);
                 var nonceHash = UnkeyedHashFactory.CreateCryptoSha256().ComputeHash(timestamp.Ticks, entityTag, Convert.ToBase64String(privateKey)).ToHexadecimalString();
                 var nonceProtocol = string.Format(CultureInfo.InvariantCulture, "{0}:{1}", timestamp.ToString("u", CultureInfo.InvariantCulture), nonceHash);
                 return Convert.ToBase64String(Convertible.GetBytes(nonceProtocol, options =>

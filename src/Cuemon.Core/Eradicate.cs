@@ -21,7 +21,7 @@ namespace Cuemon
         /// </exception>
         public static byte[] TrailingZeros(byte[] bytes)
         {
-            Validator.ThrowIfNull(bytes, nameof(bytes));
+            Validator.ThrowIfNull(bytes);
             Validator.ThrowIfLowerThanOrEqual(bytes.Length, 1, nameof(bytes), "The byte array must have a length larger than 1.");
             var hasTrailingZeros = false;
             var marker = bytes.Length - 1;

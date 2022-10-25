@@ -28,7 +28,7 @@ namespace Cuemon.IO
         /// </exception>
         public static async Task CopyStreamAsync(this IDecorator<Stream> decorator, Stream destination, int bufferSize = 81920, bool changePosition = true, CancellationToken ct = default)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var source = decorator.Inner;
             long lastPosition = 0;
             if (changePosition && source.CanSeek)
@@ -58,7 +58,7 @@ namespace Cuemon.IO
         /// </exception>
         public static byte[] ToByteArray(this IDecorator<Stream> decorator, Action<StreamCopyOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             Validator.ThrowIfFalse(decorator.Inner.CanRead, nameof(decorator.Inner), "Stream cannot be read from.");
             var options = Patterns.Configure(setup);
             return decorator.InvokeToByteArray(options.BufferSize, options.LeaveOpen);
@@ -78,7 +78,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Task<byte[]> ToByteArrayAsync(this IDecorator<Stream> decorator, Action<AsyncStreamCopyOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             Validator.ThrowIfFalse(decorator.Inner.CanRead, nameof(decorator.Inner), "Stream cannot be read from.");
             return ToByteArrayAsyncCore(decorator, Patterns.Configure(setup));
         }
@@ -133,7 +133,7 @@ namespace Cuemon.IO
         /// </exception>
         public static string ToEncodedString(this IDecorator<Stream> decorator, Action<StreamReaderOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var options = Patterns.Configure(setup);
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding))
             {
@@ -172,7 +172,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Task<string> ToEncodedStringAsync(this IDecorator<Stream> decorator, Action<AsyncStreamReaderOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var options = Patterns.Configure(setup);
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding))
             {
@@ -217,7 +217,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Stream CompressBrotli(this IDecorator<Stream> decorator, Action<StreamCompressionOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Compress(decorator, Patterns.Configure(setup), (stream, level, leaveOpen) => new BrotliStream(stream, level, leaveOpen));
         }
 
@@ -235,7 +235,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Task<Stream> CompressBrotliAsync(this IDecorator<Stream> decorator, Action<AsyncStreamCompressionOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return CompressAsync(decorator, Patterns.Configure(setup), (stream, level, leaveOpen) => new BrotliStream(stream, level, leaveOpen));
         }
 
@@ -256,7 +256,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Stream DecompressBrotli(this IDecorator<Stream> decorator, Action<StreamCopyOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Decompress(decorator, Patterns.Configure(setup), (stream, mode, leaveOpen) => new BrotliStream(stream, mode, leaveOpen));
         }
 
@@ -277,7 +277,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Task<Stream> DecompressBrotliAsync(this IDecorator<Stream> decorator, Action<AsyncStreamCopyOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return DecompressAsync(decorator, Patterns.Configure(setup), (stream, mode, leaveOpen) => new BrotliStream(stream, mode, leaveOpen));
         }
         #endif
@@ -296,7 +296,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Stream CompressGZip(this IDecorator<Stream> decorator, Action<StreamCompressionOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Compress(decorator, Patterns.Configure(setup), (stream, level, leaveOpen) => new GZipStream(stream, level, leaveOpen));
         }
 
@@ -314,7 +314,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Task<Stream> CompressGZipAsync(this IDecorator<Stream> decorator, Action<AsyncStreamCompressionOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return CompressAsync(decorator, Patterns.Configure(setup), (stream, level, leaveOpen) => new GZipStream(stream, level, leaveOpen));
         }
 
@@ -335,7 +335,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Stream DecompressGZip(this IDecorator<Stream> decorator, Action<StreamCopyOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Decompress(decorator, Patterns.Configure(setup), (stream, mode, leaveOpen) => new GZipStream(stream, mode, leaveOpen));
         }
 
@@ -356,7 +356,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Task<Stream> DecompressGZipAsync(this IDecorator<Stream> decorator, Action<AsyncStreamCopyOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return DecompressAsync(decorator, Patterns.Configure(setup), (stream, mode, leaveOpen) => new GZipStream(stream, mode, leaveOpen));
         }
 
@@ -374,7 +374,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Stream CompressDeflate(this IDecorator<Stream> decorator, Action<StreamCompressionOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Compress(decorator, Patterns.Configure(setup), (stream, level, leaveOpen) => new DeflateStream(stream, level, leaveOpen));
         }
 
@@ -392,7 +392,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Task<Stream> CompressDeflateAsync(this IDecorator<Stream> decorator, Action<AsyncStreamCompressionOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return CompressAsync(decorator, Patterns.Configure(setup), (stream, level, leaveOpen) => new DeflateStream(stream, level, leaveOpen));
         }
 
@@ -413,7 +413,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Stream DecompressDeflate(this IDecorator<Stream> decorator, Action<StreamCopyOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Decompress(decorator, Patterns.Configure(setup), (stream, mode, leaveOpen) => new DeflateStream(stream, mode, leaveOpen));
         }
 
@@ -434,7 +434,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Task<Stream> DecompressDeflateAsync(this IDecorator<Stream> decorator, Action<AsyncStreamCopyOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return DecompressAsync(decorator, Patterns.Configure(setup), (stream, mode, leaveOpen) => new DeflateStream(stream, mode, leaveOpen));
         }
 
@@ -531,7 +531,7 @@ namespace Cuemon.IO
         /// </exception>
         public static Task WriteAllAsync(this IDecorator<Stream> decorator, byte[] buffer)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.WriteAsync(buffer, 0, buffer.Length);
         }
     }

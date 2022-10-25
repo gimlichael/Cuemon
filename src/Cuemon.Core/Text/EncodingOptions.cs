@@ -68,7 +68,7 @@ namespace Cuemon.Text
             get => _encoding;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _encoding = value;
             }
         }

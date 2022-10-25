@@ -39,7 +39,7 @@ namespace Cuemon
         /// <param name="calendar">The <see cref="Calendar"/> that applies to this <see cref="DateSpan"/>.</param>
         public DateSpan(DateTime start, DateTime end, Calendar calendar) : this()
         {
-            Validator.ThrowIfNull(calendar, nameof(calendar));
+            Validator.ThrowIfNull(calendar);
 
             _lower = Arguments.ToEnumerableOf(start, end).Min();
             _upper = Arguments.ToEnumerableOf(start, end).Max();

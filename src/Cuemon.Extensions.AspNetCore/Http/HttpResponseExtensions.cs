@@ -26,7 +26,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// </exception>
         public static void AddOrUpdateEntityTagHeader(this HttpResponse response, HttpRequest request, ChecksumBuilder builder, bool isWeak = false)
         {
-            Validator.ThrowIfNull(response, nameof(response));
+            Validator.ThrowIfNull(response);
             Decorator.Enclose(response).AddOrUpdateEntityTagHeader(request, builder, isWeak);
         }
 
@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// </exception>
         public static void AddOrUpdateLastModifiedHeader(this HttpResponse response, HttpRequest request, DateTime lastModified)
         {
-            Validator.ThrowIfNull(response, nameof(response));
+            Validator.ThrowIfNull(response);
             Decorator.Enclose(response).AddOrUpdateLastModifiedHeader(request, lastModified);
         }
 
@@ -73,8 +73,8 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// <param name="transformer">The delegate that converts a <see cref="HttpResponseMessage"/> to an HTTP equivalent <see cref="HttpResponse"/>.</param>
         public static void OnStartingInvokeTransformer(this HttpResponse response, HttpResponseMessage message, Action<HttpResponseMessage, HttpResponse> transformer)
         {
-            Validator.ThrowIfNull(message, nameof(message));
-            Validator.ThrowIfNull(response, nameof(response));
+            Validator.ThrowIfNull(message);
+            Validator.ThrowIfNull(response);
             response.OnStarting(() =>
             {
                 transformer?.Invoke(message, response);

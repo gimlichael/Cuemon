@@ -66,8 +66,8 @@ namespace Cuemon
         /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
         public static object ChangeType(this IDecorator<object> decorator, Type targetType, Action<ObjectFormattingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(targetType, nameof(targetType));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(targetType);
             if (decorator.Inner == null) { return null; }
             var options = Patterns.Configure(setup);
             try
@@ -102,7 +102,7 @@ namespace Cuemon
         /// </exception>
         public static T Adjust<T>(this IDecorator<T> decorator, Func<T, T> tweaker)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Tweaker.Adjust(decorator.Inner, tweaker);
         }
     }

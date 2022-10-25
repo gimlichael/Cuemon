@@ -45,8 +45,8 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// <returns>A stream of the serialized <paramref name="source"/>.</returns>
         public override Stream Serialize(object source, Type objectType)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(objectType);
 
             return StreamFactory.Create(writer =>
             {
@@ -69,8 +69,8 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// <returns>An object of <paramref name="objectType"/>.</returns>
         public override object Deserialize(Stream value, Type objectType)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(objectType);
             var ros = new ReadOnlySpan<byte>(Decorator.Enclose(value).ToByteArray(o => o.LeaveOpen = true));
             var reader = new Utf8JsonReader(ros, new JsonReaderOptions()
             {

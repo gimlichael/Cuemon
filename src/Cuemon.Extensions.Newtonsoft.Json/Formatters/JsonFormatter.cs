@@ -45,8 +45,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// <returns>A string of the serialized <paramref name="source"/>.</returns>
         public override Stream Serialize(object source, Type objectType)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(objectType);
 
             return StreamFactory.Create(writer =>
             {
@@ -68,8 +68,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// <returns>An object of <paramref name="objectType"/>.</returns>
         public override object Deserialize(Stream value, Type objectType)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(objectType);
             var serializer = Options.SynchronizeWithJsonConvert ? JsonSerializer.CreateDefault() : JsonSerializer.Create(Options.RefreshWithConverterDependencies());
             var sr = new StreamReader(value, true);
             using (var reader = new JsonTextReader(sr))

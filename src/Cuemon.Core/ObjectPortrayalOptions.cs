@@ -108,7 +108,7 @@ namespace Cuemon
             get => _nullValue;
             set
             {
-                Validator.ThrowIfNullOrEmpty(value, nameof(value));
+                Validator.ThrowIfNullOrEmpty(value);
                 _nullValue = value;
             }
         }
@@ -128,7 +128,7 @@ namespace Cuemon
             get => _noGetterValue;
             set
             {
-                Validator.ThrowIfNullOrEmpty(value, nameof(value));
+                Validator.ThrowIfNullOrEmpty(value);
                 _noGetterValue = value;
             }
         }
@@ -155,7 +155,7 @@ namespace Cuemon
             get => _delimiter;
             set
             {
-                Validator.ThrowIfNullOrEmpty(value, nameof(value));
+                Validator.ThrowIfNullOrEmpty(value);
                 _delimiter = value;
             }
         }
@@ -172,7 +172,7 @@ namespace Cuemon
             get => _propertyConverter;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _propertyConverter = value;
             }
         }
@@ -189,7 +189,7 @@ namespace Cuemon
             get => _propertiesPredicate;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _propertiesPredicate = value;
             }
         }

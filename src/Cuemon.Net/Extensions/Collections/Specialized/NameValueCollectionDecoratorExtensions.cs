@@ -24,7 +24,7 @@ namespace Cuemon.Net.Collections.Specialized
         /// </exception>
         public static string ToString(this IDecorator<NameValueCollection> decorator, FieldValueSeparator separator, bool urlEncode)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var fieldValuePairs = decorator.Inner;
             var characterSeparator = GetSeparator(separator);
             var builder = new StringBuilder(separator == FieldValueSeparator.Ampersand ? "?" : "");

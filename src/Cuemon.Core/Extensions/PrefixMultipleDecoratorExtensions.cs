@@ -19,7 +19,7 @@ namespace Cuemon
         /// <returns>An <see cref="IPrefixUnit"/> implementation.</returns>
         public static IPrefixUnit ApplyPrefix(this IDecorator<IPrefixMultiple> decorator, IPrefixUnit unit, Action<UnitFormatOptions> setup = null)
         {
-            Validator.ThrowIfNull(unit, nameof(unit));
+            Validator.ThrowIfNull(unit);
             try
             {
                 return (IPrefixUnit)Activator.CreateInstance(unit.GetType(), unit.UnitValue, decorator.Inner, setup);

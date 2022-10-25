@@ -15,8 +15,8 @@ namespace Cuemon
         /// <param name="typeOf">The type of the data pair.</param>
         public DataPair(string name, object value, Type typeOf)
         {
-            Validator.ThrowIfNullOrEmpty(name, nameof(name));
-            Validator.ThrowIfNull(typeOf, nameof(typeOf));
+            Validator.ThrowIfNullOrEmpty(name);
+            Validator.ThrowIfNull(typeOf);
             Name = name;
             Value = value;
             Type = typeOf;

@@ -18,7 +18,7 @@ namespace Cuemon.Xml.Serialization
         /// </exception>
         public static void ApplyToDefaultSettings(this IDecorator<XmlSerializerOptions> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             XmlConvert.DefaultSettings = () => decorator.Inner;
         }
     }

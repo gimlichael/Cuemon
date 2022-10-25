@@ -33,7 +33,7 @@ namespace Cuemon.Text
         /// <param name="value">The stem to apply affixes.</param>
         public Stem(string value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             Value = value;
         }
 

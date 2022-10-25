@@ -31,7 +31,7 @@ namespace Cuemon.Extensions.Diagnostics
 
         private static VersionResult ToVersion(this FileVersionInfo fvi, Func<FileVersionInfo, string> propertySelector)
         {
-            Validator.ThrowIfNull(fvi, nameof(fvi));
+            Validator.ThrowIfNull(fvi);
             var version = propertySelector(fvi);
             return new VersionResult(version);
         }

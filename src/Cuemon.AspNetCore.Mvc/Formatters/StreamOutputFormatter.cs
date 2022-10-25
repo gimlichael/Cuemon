@@ -36,8 +36,8 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
         /// <returns>A <see cref="Task" /> which can write the response body.</returns>
         public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            Validator.ThrowIfNull(context, nameof(context));
-            Validator.ThrowIfNull(selectedEncoding, nameof(selectedEncoding));
+            Validator.ThrowIfNull(context);
+            Validator.ThrowIfNull(selectedEncoding);
             var value = context.Object;
             if (value == null) { return; }
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))

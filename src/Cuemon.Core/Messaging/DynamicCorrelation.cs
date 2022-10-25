@@ -14,7 +14,7 @@ namespace Cuemon.Messaging
         /// <returns>A dynamic <see cref="ICorrelation"/> implementation.</returns>
         public static ICorrelation Create(Func<string> correlationIdProvider)
         {
-            Validator.ThrowIfNull(correlationIdProvider, nameof(correlationIdProvider));
+            Validator.ThrowIfNull(correlationIdProvider);
             return new DynamicCorrelationCore(correlationIdProvider.Invoke());
         }
 
@@ -25,7 +25,7 @@ namespace Cuemon.Messaging
         /// <returns>A dynamic <see cref="ICorrelation"/> implementation.</returns>
         public static ICorrelation Create(string correlationId)
         {
-            Validator.ThrowIfNullOrWhitespace(correlationId, nameof(correlationId));
+            Validator.ThrowIfNullOrWhitespace(correlationId);
             return new DynamicCorrelationCore(correlationId);
         }
     }

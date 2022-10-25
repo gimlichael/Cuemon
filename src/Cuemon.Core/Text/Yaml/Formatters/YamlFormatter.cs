@@ -73,8 +73,8 @@ namespace Cuemon.Text.Yaml.Formatters
         /// </exception>
         public override Stream Serialize(object source, Type objectType)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(objectType);
             var serializer = new YamlSerializer(Patterns.ConfigureRevert(Options.Settings));
             return serializer.Serialize(source, objectType);
         }
@@ -91,8 +91,8 @@ namespace Cuemon.Text.Yaml.Formatters
         /// </exception>
         public override object Deserialize(Stream value, Type objectType)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(objectType);
             var serializer = new YamlSerializer(Patterns.ConfigureRevert(Options.Settings));
             return serializer.Deserialize(value, objectType);
         }

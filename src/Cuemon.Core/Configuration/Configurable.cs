@@ -13,7 +13,7 @@
         /// <param name="options">The configured options of this instance.</param>
         protected Configurable(TOptions options)
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             Options = options;
         }
 

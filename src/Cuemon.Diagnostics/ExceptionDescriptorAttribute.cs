@@ -19,7 +19,7 @@ namespace Cuemon.Diagnostics
         /// <param name="failureType">The <see cref="Type"/> of the failure to match and describe.</param>
         public ExceptionDescriptorAttribute(Type failureType)
         {
-            Validator.ThrowIfNull(failureType, nameof(failureType));
+            Validator.ThrowIfNull(failureType);
             Validator.ThrowIfNotContainsType(failureType, nameof(failureType), "The specified type is not an Exception.", typeof(Exception));
             FailureType = failureType;
         }

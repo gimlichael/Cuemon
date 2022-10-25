@@ -21,7 +21,7 @@ namespace Cuemon.Data
         /// <paramref name="lazyDatabaseWatcher"/> cannot be null.
         /// </exception>
         /// <remarks>The <see cref="DatabaseWatcher"/> initialization is deferred until <see cref="Dependency.StartAsync"/> is invoked.</remarks>
-        public DatabaseDependency(Lazy<DatabaseWatcher> lazyDatabaseWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyDatabaseWatcher, () => Validator.ThrowIfNull(lazyDatabaseWatcher, nameof(lazyDatabaseWatcher)))), breakTieOnChanged)
+        public DatabaseDependency(Lazy<DatabaseWatcher> lazyDatabaseWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyDatabaseWatcher, () => Validator.ThrowIfNull(lazyDatabaseWatcher))), breakTieOnChanged)
         {
         }
 

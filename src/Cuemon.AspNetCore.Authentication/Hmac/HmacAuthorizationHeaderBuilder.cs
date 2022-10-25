@@ -48,7 +48,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <returns>A reference to this instance so that additional calls can be chained.</returns>
         public override HmacAuthorizationHeaderBuilder AddFromRequest(HttpRequest request)
         {
-            Validator.ThrowIfNull(request, nameof(request));
+            Validator.ThrowIfNull(request);
             return AddOrUpdate(HmacFields.HttpMethod, request.Method)
                 .AddOrUpdate(HmacFields.UriPath, request.Path.ToUriComponent())
                 .AddOrUpdate(HmacFields.UriQuery, string.Concat(request.Query.OrderBy(pair => pair.Key).Select(pair => $"{Decorator.Enclose(pair.Key).UrlEncode()}={Decorator.Enclose(pair.Value.ToString()).UrlEncode()}")))

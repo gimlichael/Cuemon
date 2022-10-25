@@ -193,8 +193,8 @@ namespace Cuemon.Data.SqlClient
         /// </exception>
         protected override DbCommand GetCommandCore(IDataCommand dataCommand, params IDbDataParameter[] parameters)
         {
-            Validator.ThrowIfNull(dataCommand, nameof(dataCommand));
-            Validator.ThrowIfNull(parameters, nameof(parameters));
+            Validator.ThrowIfNull(dataCommand);
+            Validator.ThrowIfNull(parameters);
             return Patterns.SafeInvoke(() => new SqlCommand(dataCommand.Text, new SqlConnection(ConnectionString)), sc =>
            {
                AddSqlParameters(sc, parameters);

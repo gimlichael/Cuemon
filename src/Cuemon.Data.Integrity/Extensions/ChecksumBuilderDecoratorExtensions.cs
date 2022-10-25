@@ -156,7 +156,7 @@ namespace Cuemon.Data.Integrity
         /// </exception>
         public static T CombineWith<T>(this IDecorator<T> decorator, byte[] additionalChecksum) where T : ChecksumBuilder
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             if (additionalChecksum == null) { return decorator.Inner; }
             if (additionalChecksum.Length == 0) { return decorator.Inner; }
             decorator.Inner.CombineWith(additionalChecksum);

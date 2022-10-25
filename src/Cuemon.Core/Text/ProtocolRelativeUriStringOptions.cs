@@ -56,7 +56,7 @@ namespace Cuemon.Text
             get => _relativeReference;
             set
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrWhitespace(value);
                 _relativeReference = value;
             }
         }

@@ -90,7 +90,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// </exception>
         public static IDecorator<IList<HttpFaultResolver>> AddHttpFaultResolver<T>(this IDecorator<IList<HttpFaultResolver>> decorator, Func<T, HttpExceptionDescriptor> exceptionDescriptorResolver, Func<Exception, bool> exceptionValidator) where T : Exception
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             if (exceptionValidator == null) { exceptionValidator = ex => ex is T; }
             decorator.Inner.Add(new HttpFaultResolver(exceptionValidator, ex => exceptionDescriptorResolver((T)ex)));
             return decorator;

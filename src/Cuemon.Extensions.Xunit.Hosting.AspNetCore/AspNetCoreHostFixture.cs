@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         public override void ConfigureHost(Test hostTest)
         {
             var hostTestType = hostTest?.GetType();
-            Validator.ThrowIfNull(hostTest, nameof(hostTest));
+            Validator.ThrowIfNull(hostTest);
             Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from AspNetCoreHostTest<T>.", typeof(AspNetCoreHostTest<>));
 
             var hb = new HostBuilder()

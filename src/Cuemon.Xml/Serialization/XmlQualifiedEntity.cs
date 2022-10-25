@@ -118,7 +118,7 @@ namespace Cuemon.Xml.Serialization
 
         private static T ValidateArguments<T>(T attribute) where T : Attribute
         {
-            return Validator.CheckParameter(attribute, () => Validator.ThrowIfNull(attribute, nameof(attribute)));
+            return Validator.CheckParameter(attribute, () => Validator.ThrowIfNull(attribute));
         }
     }
 }

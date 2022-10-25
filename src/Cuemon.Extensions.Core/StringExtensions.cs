@@ -113,7 +113,7 @@ namespace Cuemon.Extensions
         /// <returns>An array of 8-bit unsigned integers that is equivalent to <paramref name="value"/>.</returns>
         public static byte[] FromBase64(this string value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Convert.FromBase64String(value);
         }
 
@@ -142,7 +142,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static string ToCasing(this string value, CasingMethod method, CultureInfo culture)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).ToCasing(method, culture);
         }
 
@@ -160,7 +160,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static Uri ToUri(this string value, UriKind uriKind = UriKind.Absolute)
         {
-            Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+            Validator.ThrowIfNullOrWhitespace(value);
             return Decorator.Enclose(value).ToUri(uriKind);
         }
 
@@ -186,7 +186,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool IsNullOrEmpty(this IEnumerable<string> source)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             foreach (var value in source)
             {
                 if (string.IsNullOrEmpty(value)) { return true; }
@@ -288,7 +288,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static int Count(this string value, char character)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             var count = 0;
             for (var i = 0; i < value.Length; i++)
             {
@@ -387,7 +387,7 @@ namespace Cuemon.Extensions
         /// <returns>The input <paramref name="value"/> with an escaped equivalent.</returns>
         public static string JsEscape(this string value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             var builder = new StringBuilder(value.Length);
             foreach (var character in value)
             {
@@ -410,7 +410,7 @@ namespace Cuemon.Extensions
         /// <returns>The input <paramref name="value"/> with an unescaped equivalent.</returns>
         public static string JsUnescape(this string value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             var builder = new StringBuilder(value);
             var unicode = new Regex("%u([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])([0-9]|[a-f])", RegexOptions.IgnoreCase);
             var matches = unicode.Matches(value);
@@ -463,7 +463,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool ContainsAny(this string value, StringComparison comparison, params string[] values)
         {
-            Validator.ThrowIfNull(values, nameof(values));
+            Validator.ThrowIfNull(values);
             foreach (var find in values)
             {
                 if (ContainsAny(value, find, comparison)) { return true; }
@@ -486,8 +486,8 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool ContainsAny(this string value, string find, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(find, nameof(find));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(find);
             return (value.IndexOf(find, comparison) >= 0);
         }
 
@@ -507,7 +507,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool ContainsAny(this string value, StringComparison comparison, params char[] values)
         {
-            Validator.ThrowIfNull(values, nameof(values));
+            Validator.ThrowIfNull(values);
             foreach (var find in values)
             {
                 if (ContainsAny(value, find, comparison)) { return true; }
@@ -530,8 +530,8 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool ContainsAny(this string value, char find, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(find, nameof(find));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(find);
             return (value.IndexOf(new string(find, 1), 0, value.Length, comparison) >= 0);
         }
 
@@ -578,8 +578,8 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool ContainsAll(this string value, StringComparison comparison, params string[] values)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(values, nameof(values));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(values);
             var result = true;
             foreach (var s in values)
             {
@@ -694,7 +694,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static string TrimAll(this string value, params char[] trimChars)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             if (trimChars == null || trimChars.Length == 0) { trimChars = Alphanumeric.WhiteSpace.ToCharArray(); }
             var result = new List<char>();
             foreach (var c in value)
@@ -727,7 +727,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool IsSequenceOf<T>(this IEnumerable<string> source, CultureInfo culture = null, ITypeDescriptorContext context = null, Func<string, CultureInfo, bool> parser = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             return IsSequenceOfCore<T>(source, culture, context, parser);
         }
 
@@ -835,8 +835,8 @@ namespace Cuemon.Extensions
         /// <returns>A substring that contains only the value just before <paramref name="match"/>.</returns>
         public static string SubstringBefore(this string value, string match, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(match, nameof(match));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(match);
             var indexOf = value.IndexOf(match, comparisonType);
             return indexOf == -1 ? "" : value.Substring(0, indexOf);
         }
@@ -868,7 +868,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static IEnumerable<string> Chunk(this string value, int length)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             Validator.ThrowIfLowerThanOrEqual(length, 0, nameof(length));
             if (value.Length <= length)
             {

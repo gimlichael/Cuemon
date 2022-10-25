@@ -19,7 +19,7 @@ namespace Cuemon.Threading
         /// <remarks>Used by Microsoft internally in various scenarios: https://github.com/dotnet/runtime/blob/master/src/libraries/Common/src/Extensions/NonCapturingTimer/NonCapturingTimer.cs</remarks>
         public static Timer CreateNonCapturingTimer(TimerCallback callback, object state, TimeSpan dueTime, TimeSpan period)
         {
-            Validator.ThrowIfNull(callback, nameof(callback));
+            Validator.ThrowIfNull(callback);
             var restoreFlow = false;
             try
             {

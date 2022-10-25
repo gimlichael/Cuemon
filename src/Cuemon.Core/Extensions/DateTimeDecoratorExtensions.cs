@@ -32,7 +32,7 @@ namespace Cuemon
         /// <remarks>This implementation converts the enclosed <see cref="DateTime"/> of the <paramref name="decorator"/> to an UTC representation ONLY if the <see cref="DateTime.Kind"/> equals <see cref="DateTimeKind.Local"/>.</remarks>
         public static double ToUnixEpochTime(this IDecorator<DateTime> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var value = decorator.Inner.Kind == DateTimeKind.Local ? decorator.Inner.ToUniversalTime() : decorator.Inner;
             return Math.Floor((value - UnixEpoch).TotalSeconds);
         }
@@ -47,7 +47,7 @@ namespace Cuemon
         /// </exception>
         public static DateTime ToUtcKind(this IDecorator<DateTime> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return ToKind(decorator.Inner, DateTimeKind.Utc);
         }
 
@@ -61,7 +61,7 @@ namespace Cuemon
         /// </exception>
         public static DateTime ToLocalKind(this IDecorator<DateTime> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return ToKind(decorator.Inner, DateTimeKind.Local);
         }
 
@@ -75,7 +75,7 @@ namespace Cuemon
         /// </exception>
         public static DateTime ToDefaultKind(this IDecorator<DateTime> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return ToKind(decorator.Inner, DateTimeKind.Unspecified);
         }
 

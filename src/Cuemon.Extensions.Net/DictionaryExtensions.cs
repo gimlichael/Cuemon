@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Net
         /// <returns>A <see cref="string"/> equivalent to the values in the <paramref name="query"/>.</returns>
         public static string ToQueryString(this IDictionary<string, string[]> query, bool urlEncode = false)
         {
-            Validator.ThrowIfNull(query, nameof(query));
+            Validator.ThrowIfNull(query);
             return Decorator.Enclose(query).ToNameValueCollection().ToQueryString(urlEncode);
         }
     }

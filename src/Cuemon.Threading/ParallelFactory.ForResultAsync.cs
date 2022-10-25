@@ -19,7 +19,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<TResult>(int fromInclusive, int toExclusive, Func<int, CancellationToken, Task<TResult>> worker, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, setup);
         }
 
@@ -37,7 +37,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T, TResult>(int fromInclusive, int toExclusive, Func<int, T, CancellationToken, Task<TResult>> worker, T arg, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg, setup);
         }
 
@@ -57,7 +57,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T1, T2, TResult>(int fromInclusive, int toExclusive, Func<int, T1, T2, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg1, arg2, setup);
         }
 
@@ -79,7 +79,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T1, T2, T3, TResult>(int fromInclusive, int toExclusive, Func<int, T1, T2, T3, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, setup);
         }
 
@@ -103,7 +103,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T1, T2, T3, T4, TResult>(int fromInclusive, int toExclusive, Func<int, T1, T2, T3, T4, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, arg4, setup);
         }
 
@@ -129,7 +129,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T1, T2, T3, T4, T5, TResult>(int fromInclusive, int toExclusive, Func<int, T1, T2, T3, T4, T5, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, arg4, arg5, setup);
         }
 
@@ -145,7 +145,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<TResult>(long fromInclusive, long toExclusive, Func<long, CancellationToken, Task<TResult>> worker, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, setup: setup);
         }
 
@@ -163,7 +163,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T, TResult>(long fromInclusive, long toExclusive, Func<long, T, CancellationToken, Task<TResult>> worker, T arg, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg, setup: setup);
         }
 
@@ -183,7 +183,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T1, T2, TResult>(long fromInclusive, long toExclusive, Func<long, T1, T2, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg1, arg2, setup: setup);
         }
 
@@ -205,7 +205,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T1, T2, T3, TResult>(long fromInclusive, long toExclusive, Func<long, T1, T2, T3, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, setup: setup);
         }
 
@@ -229,7 +229,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T1, T2, T3, T4, TResult>(long fromInclusive, long toExclusive, Func<long, T1, T2, T3, T4, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, arg4, setup: setup);
         }
 
@@ -255,7 +255,7 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as the for loop.</returns>
         public static Task<IReadOnlyCollection<TResult>> ForResultAsync<T1, T2, T3, T4, T5, TResult>(long fromInclusive, long toExclusive, Func<long, T1, T2, T3, T4, T5, CancellationToken, Task<TResult>> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForResultAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, arg4, arg5, setup: setup);
         }
     }

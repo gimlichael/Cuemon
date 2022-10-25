@@ -63,7 +63,7 @@ namespace Cuemon
         /// <param name="range">The time range to cover.</param>
         public DayPart(string name, TimeRange range)
         {
-            Validator.ThrowIfNullOrWhitespace(name, nameof(name));
+            Validator.ThrowIfNullOrWhitespace(name);
             Validator.ThrowIfGreaterThan(range.Duration.TotalHours, 24, nameof(range), "A day part cannot exceed a period of 24 hours.");
 
             Name = name;

@@ -66,7 +66,7 @@ namespace Cuemon.Data
         /// </exception>
         public InOperatorResult ToSafeResult(IEnumerable<T> expressions, Func<IEnumerable<string>, string> argumentsStringConverter = null)
         {
-            Validator.ThrowIfNull(expressions, nameof(expressions));
+            Validator.ThrowIfNull(expressions);
             var elements = expressions as List<T> ?? new List<T>(expressions);
             return new InOperatorResult(elements.Select(ArgumentsSelector), elements.Select(ParametersSelector), argumentsStringConverter);
         }

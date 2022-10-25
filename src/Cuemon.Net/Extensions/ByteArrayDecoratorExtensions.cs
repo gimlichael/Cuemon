@@ -33,7 +33,7 @@ namespace Cuemon.Net
         /// </exception>
         public static byte[] UrlEncode(this IDecorator<byte[]> decorator, int position = 0, int bytesToRead = -1, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var bytes = decorator.Inner;
             if (bytes.Length == 0) { return Array.Empty<byte>(); }
 

@@ -6,7 +6,6 @@ using System.Reflection;
 using Cuemon.Collections.Generic;
 using Cuemon.Configuration;
 using System.Runtime.CompilerServices;
-using Cuemon.Text;
 
 namespace Cuemon
 {
@@ -32,7 +31,7 @@ namespace Cuemon
         /// <returns>The specified <paramref name="value"/> unaltered.</returns>
         public static T CheckParameter<T>(T value, Action validator)
         {
-            ThrowIfNull(validator, nameof(validator));
+            ThrowIfNull(validator);
             validator();
             return value;
         }
@@ -85,7 +84,7 @@ namespace Cuemon
         /// <remarks><paramref name="message"/> will have the name of the <typeparamref name="TOptions"/> if possible; otherwise Options.</remarks>
         public static void ThrowIfInvalidOptions<TOptions>(TOptions options, string paramName, string message = "{0} are not in a valid state.") where TOptions : class, IValidatableParameterObject, new()
         {
-            ThrowIfNull(options, nameof(options));
+            ThrowIfNull(options);
             try
             {
                 options.ValidateOptions();
@@ -321,7 +320,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, [CallerArgumentExpression("value")] string paramName = null, string message = "Value cannot be null.")
+        public static void ThrowIfNull(object value, [CallerArgumentExpression("value")] string paramName = null, string message = "Value cannot be null.")
         {
             try
             {
@@ -1247,8 +1246,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsInterface(Type value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
@@ -1296,7 +1295,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsInterface<T>(string typeParamName, string message, params Type[] types)
         {
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(types);
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
@@ -1344,7 +1343,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsInterface<T>(string typeParamName, string message, params Type[] types)
         {
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(types);
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
@@ -1394,8 +1393,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsInterface(Type value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
@@ -1439,8 +1438,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType(object value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value.GetType()).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
@@ -1483,8 +1482,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType(Type value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
@@ -1525,7 +1524,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType<T>(string typeParamName, string message, params Type[] types)
         {
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
@@ -1568,8 +1567,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType(Type value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
@@ -1612,8 +1611,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType(object value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value.GetType()).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
@@ -1654,7 +1653,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType<T>(string typeParamName, string message, params Type[] types)
         {
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());

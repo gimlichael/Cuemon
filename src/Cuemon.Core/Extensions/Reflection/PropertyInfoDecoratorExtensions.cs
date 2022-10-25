@@ -22,7 +22,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static bool IsOverridden(this IDecorator<PropertyInfo> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.GetGetMethod().GetBaseDefinition().DeclaringType != decorator.Inner.DeclaringType;
         }
 
@@ -36,7 +36,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static bool IsAutoProperty(this IDecorator<PropertyInfo> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var hasGetMethodWithAttribute = decorator.Inner.GetMethod != null && decorator.Inner.GetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null;
             var hasSetMethodWithAttribute = decorator.Inner.SetMethod != null && decorator.Inner.SetMethod.GetCustomAttribute<CompilerGeneratedAttribute>() != null;
             if (hasGetMethodWithAttribute || hasSetMethodWithAttribute)

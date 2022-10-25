@@ -17,7 +17,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// <param name="location">The location of the URL to redirect to.</param>
         public SeeOtherResult(Uri location) : base(StatusCodes.Status303SeeOther)
         {
-            Validator.ThrowIfNull(location, nameof(location));
+            Validator.ThrowIfNull(location);
             Location = location;
         }
 
@@ -34,7 +34,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// <returns>A task that represents the asynchronous execute operation.</returns>
         public override Task ExecuteResultAsync(ActionContext context)
         {
-            Validator.ThrowIfNull(context, nameof(context));
+            Validator.ThrowIfNull(context);
             context.HttpContext.Response.Headers[HeaderNames.Location] = Location.OriginalString;
             return base.ExecuteResultAsync(context);
         }

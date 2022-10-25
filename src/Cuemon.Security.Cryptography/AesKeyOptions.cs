@@ -79,7 +79,7 @@ namespace Cuemon.Security.Cryptography
             get => _randomStringProvider;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _randomStringProvider = value;
             }
         }

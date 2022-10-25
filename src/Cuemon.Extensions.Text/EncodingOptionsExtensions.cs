@@ -18,7 +18,7 @@ namespace Cuemon.Extensions.Text
         /// <returns>Either the detected encoding of <paramref name="stream"/>  or the encoding of this instance.</returns>
         public static Encoding DetectUnicodeEncoding(this IEncodingOptions options, Stream stream)
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             return ByteOrderMark.DetectEncodingOrDefault(stream, options.Encoding);
         }
 
@@ -31,7 +31,7 @@ namespace Cuemon.Extensions.Text
         /// <returns>Either the detected encoding of <paramref name="bytes"/> or the encoding of this instance.</returns>
         public static Encoding DetectUnicodeEncoding(this IEncodingOptions options, byte[] bytes)
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             return ByteOrderMark.DetectEncodingOrDefault(bytes, options.Encoding);
         }
     }

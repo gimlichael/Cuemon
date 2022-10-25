@@ -43,7 +43,7 @@ namespace Cuemon.Data.Integrity
             get => _integrityConverter;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _integrityConverter = value;
             }
         }

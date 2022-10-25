@@ -28,7 +28,7 @@ namespace Cuemon.Extensions.Net
         /// </exception>
         public static byte[] UrlEncode(this byte[] bytes, int position = 0, int bytesToRead = -1, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(bytes, nameof(bytes));
+            Validator.ThrowIfNull(bytes);
             return Decorator.Enclose(bytes).UrlEncode(position, bytesToRead, setup);
         } 
     }

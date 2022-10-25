@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// <returns>A reference to <paramref name="options" /> so that additional calls can be chained.</returns>
         public static SwaggerGenOptions AddUserAgent(this SwaggerGenOptions options, Action<UserAgentDocumentOptions> setup = null)
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             options.DocumentFilter<UserAgentDocumentFilter>(Patterns.Configure(setup));
             return options;
         }
@@ -31,7 +31,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// <returns>A reference to <paramref name="options" /> so that additional calls can be chained.</returns>
         public static SwaggerGenOptions AddXApiKeySecurity(this SwaggerGenOptions options)
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             options.AddSecurityDefinition(HttpHeaderNames.XApiKey, new OpenApiSecurityScheme
             {
                 Description = $"Protects an API by adding a first line of defense {HttpHeaderNames.XApiKey} header.",

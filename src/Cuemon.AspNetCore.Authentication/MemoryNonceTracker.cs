@@ -38,7 +38,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// </exception>
         public bool TryGetEntry(string nonce, out NonceTrackerEntry entry)
         {
-            Validator.ThrowIfNullOrWhitespace(nonce, nameof(nonce));
+            Validator.ThrowIfNullOrWhitespace(nonce);
             return _entries.TryGetValue(nonce, out entry);
         }
 
@@ -56,7 +56,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// </exception>
         public bool TryAddEntry(string nonce, int count)
         {
-            Validator.ThrowIfNullOrWhitespace(nonce, nameof(nonce));
+            Validator.ThrowIfNullOrWhitespace(nonce);
             return _entries.TryAdd(nonce, new NonceTrackerEntry(count, DateTime.UtcNow));
         }
 
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// </exception>
         public bool TryRemoveEntry(string nonce)
         {
-            Validator.ThrowIfNullOrWhitespace(nonce, nameof(nonce));
+            Validator.ThrowIfNullOrWhitespace(nonce);
             return _entries.TryRemove(nonce, out _);
         }
 

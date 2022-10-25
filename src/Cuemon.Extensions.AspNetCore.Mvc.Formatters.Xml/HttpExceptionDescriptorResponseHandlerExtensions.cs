@@ -28,7 +28,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// </exception>
         public static ICollection<HttpExceptionDescriptorResponseHandler> AddXmlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, Action<ExceptionDescriptorOptions> setup = null)
         {
-            Validator.ThrowIfNull(handlers, nameof(handlers));
+            Validator.ThrowIfNull(handlers);
             Decorator.Enclose(handlers).AddResponseHandler(o =>
             {
                 o.ContentType = MediaTypeHeaderValue.Parse("application/xml");

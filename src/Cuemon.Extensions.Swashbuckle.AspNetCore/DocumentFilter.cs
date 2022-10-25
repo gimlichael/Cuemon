@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// <param name="options">The configured options of this instance.</param>
         protected DocumentFilter(T options)
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             Options = options;
         }
 

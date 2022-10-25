@@ -46,7 +46,7 @@ namespace Cuemon
         /// <returns>The provided <paramref name="exception"/> enriched with an embedded entry of insights.</returns>
         public static T Embed<T>(T exception, MethodBase thrower, object[] runtimeParameters, SystemSnapshots snapshots = SystemSnapshots.None) where T : Exception
         {
-            Validator.ThrowIfNull(exception, nameof(exception));
+            Validator.ThrowIfNull(exception);
             var builder = new StringBuilder();
             var empty = EmptyBase64;
             if (thrower != null || exception.TargetSite != null)

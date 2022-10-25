@@ -81,7 +81,7 @@ namespace Cuemon.Runtime.Serialization.Formatters
         /// <param name="options">The configured options.</param>
         protected StreamFormatter(TOptions options)
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             Options = options;
         }
 

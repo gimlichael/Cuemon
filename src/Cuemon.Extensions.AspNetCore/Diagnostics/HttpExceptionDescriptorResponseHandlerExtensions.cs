@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// </exception>
         public static ICollection<HttpExceptionDescriptorResponseHandler> AddResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, Action<HttpExceptionDescriptorResponseHandlerOptions> setup)
         {
-            Validator.ThrowIfNull(handlers, nameof(handlers));
+            Validator.ThrowIfNull(handlers);
             return Decorator.Enclose(handlers).AddResponseHandler(setup);
         }
 
@@ -45,7 +45,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// <remarks>This is also the fallback response handler for <see cref="M:ApplicationBuilderExtensions.UseFaultDescriptorExceptionHandler"/> found on <see cref="ApplicationBuilderExtensions"/>.</remarks>
         public static ICollection<HttpExceptionDescriptorResponseHandler> AddYamlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, Action<ExceptionDescriptorOptions> setup = null)
         {
-            Validator.ThrowIfNull(handlers, nameof(handlers));
+            Validator.ThrowIfNull(handlers);
             handlers.AddResponseHandler(o =>
             {
                 o.ContentType = MediaTypeHeaderValue.Parse("text/plain");

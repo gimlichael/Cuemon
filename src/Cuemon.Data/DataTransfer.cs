@@ -21,7 +21,7 @@ namespace Cuemon.Data
         /// </exception>
         public static DataTransferRowCollection GetRows(IDataReader reader)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(reader);
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
             return new DataTransferRowCollection(reader);
         }
@@ -42,7 +42,7 @@ namespace Cuemon.Data
         /// </exception>
         public static DataTransferColumnCollection GetColumns(IDataReader reader)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(reader);
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
             return new DataTransferColumnCollection(reader);
         }

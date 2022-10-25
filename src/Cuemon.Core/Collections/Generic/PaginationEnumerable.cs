@@ -26,7 +26,7 @@ namespace Cuemon.Collections.Generic
         /// <param name="setup">The <see cref="PaginationOptions"/> which may be configured.</param>
         public PaginationEnumerable(IEnumerable<T> source, Func<int> totalElementCounter, Action<PaginationOptions> setup = null)
         {
-            Validator.ThrowIfNull(totalElementCounter, nameof(totalElementCounter));
+            Validator.ThrowIfNull(totalElementCounter);
             if (source == null) { source = Enumerable.Empty<T>(); }
             var options = Patterns.Configure(setup);
             _source = options.PageNumber == 1  

@@ -25,8 +25,8 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static IDecorator<T> AddResponseHeaders<T>(this IDecorator<T> decorator, IHeaderDictionary headers) where T : HttpStatusCodeException
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(headers, nameof(headers));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(headers);
             foreach (var header in headers)
             {
                 if (!decorator.Inner.Headers.Contains(header))
@@ -48,8 +48,8 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static IDecorator<T> AddResponseHeaders<T>(this IDecorator<T> decorator, HttpResponseHeaders headers) where T : HttpStatusCodeException
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(headers, nameof(headers));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(headers);
             foreach (var header in headers)
             {
                 if (!decorator.Inner.Headers.ContainsKey(header.Key))

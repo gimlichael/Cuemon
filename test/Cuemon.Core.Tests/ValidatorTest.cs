@@ -95,7 +95,7 @@ namespace Cuemon
                 {
                     Validator.CheckParameter(value, () =>
                     {
-                        Validator.ThrowIfNull(value, nameof(value));
+                        Validator.ThrowIfNull(value);
                     });
                 });
             }
@@ -103,7 +103,7 @@ namespace Cuemon
             {
                 Assert.Equal("cuemon", Validator.CheckParameter(value, () =>
                 {
-                    Validator.ThrowIfNull(value, nameof(value));
+                    Validator.ThrowIfNull(value);
                 }));
             }
         }
@@ -494,7 +494,7 @@ Actual value was 1 != 2.", sut.Message);
         {
             var sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
             });
 
             Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
@@ -520,7 +520,7 @@ Actual value was 1 != 2.", sut.Message);
 
             sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrEmpty(value, nameof(value));
+                Validator.ThrowIfNullOrEmpty(value);
             });
 
             Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
@@ -565,7 +565,7 @@ Actual value was 1 != 2.", sut.Message);
         {
             var sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrWhitespace(value);
             });
 
             Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
@@ -592,7 +592,7 @@ Actual value was 1 != 2.", sut.Message);
 
             sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrWhitespace(value);
             });
 
             Assert.Equal(Condition.TernaryIf(value.Length == 0, ()=> "Value cannot be empty. (Parameter 'value')", () => "Value cannot consist only of white-space characters. (Parameter 'value')"), sut.Message);

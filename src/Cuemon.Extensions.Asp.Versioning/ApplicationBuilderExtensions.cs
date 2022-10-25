@@ -23,7 +23,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         /// <remarks>This method was introduced because of the design decisions made of the author of Asp.Versioning; for more information have a read at https://github.com/dotnet/aspnet-api-versioning/issues/886</remarks>
         public static IApplicationBuilder UseRestfulApiVersioning(this IApplicationBuilder builder, Func<HttpContext, HttpStatusCodeException> statusCodeExceptionFactory = null)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             if (statusCodeExceptionFactory == null)
             {
                 statusCodeExceptionFactory = context =>

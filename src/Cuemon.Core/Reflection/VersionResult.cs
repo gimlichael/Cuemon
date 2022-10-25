@@ -36,7 +36,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public VersionResult(Version version)
         {
-            Validator.ThrowIfNull(version, nameof(version));
+            Validator.ThrowIfNull(version);
             _version = version;
         }
 

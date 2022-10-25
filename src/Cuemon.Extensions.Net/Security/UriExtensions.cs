@@ -19,8 +19,8 @@ namespace Cuemon.Extensions.Net.Security
         /// <returns>A <see cref="Uri"/> that is equivalent to <paramref name="uri"/> but signed and protected from tampering.</returns>
         public static Uri ToSignedUri(this Uri uri, byte[] secret, DateTime? signedStart = null, DateTime? signedExpiry = null, Action<SignedUriOptions> setup = null)
         {
-            Validator.ThrowIfNull(uri, nameof(uri));
-            Validator.ThrowIfNull(secret, nameof(secret));
+            Validator.ThrowIfNull(uri);
+            Validator.ThrowIfNull(secret);
             return uri.OriginalString.ToSignedUri(secret, signedStart, signedExpiry, setup);
         }
 
@@ -37,8 +37,8 @@ namespace Cuemon.Extensions.Net.Security
         /// <seealso cref="ToSignedUri"/>
         public static void ValidateSignedUri(this Uri signedUri, byte[] secret, Action<SignedUriOptions> setup = null)
         {
-            Validator.ThrowIfNull(signedUri, nameof(signedUri));
-            Validator.ThrowIfNull(secret, nameof(secret));
+            Validator.ThrowIfNull(signedUri);
+            Validator.ThrowIfNull(secret);
             signedUri.OriginalString.ValidateSignedUri(secret, setup);
         }
     }

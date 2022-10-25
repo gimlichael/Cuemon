@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.Collections.Specialized
         /// </exception>
         public static IDictionary<string, string[]> ToDictionary(this NameValueCollection nvc, Action<DelimitedStringOptions> setup = null)
         {
-            Validator.ThrowIfNull(nvc, nameof(nvc));
+            Validator.ThrowIfNull(nvc);
             var result = new Dictionary<string, string[]>();
             foreach (string item in nvc)
             {

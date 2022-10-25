@@ -37,7 +37,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
         /// <remarks>In this implementation <paramref name="encoding"/> is disregarded.</remarks>
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
         {
-            Validator.ThrowIfNull(context, nameof(context));
+            Validator.ThrowIfNull(context);
             var requestBody = new MemoryStream();
             #if NETSTANDARD
             await context.HttpContext.Request.Body.CopyToAsync(requestBody).ConfigureAwait(false);

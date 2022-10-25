@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.Xml.Serialization
         /// </exception>
         public static void ApplyToDefaultSettings(this XmlSerializerOptions options)
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             Decorator.Enclose(options).ApplyToDefaultSettings();
         }
     }

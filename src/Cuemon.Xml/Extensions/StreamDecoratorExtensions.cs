@@ -26,7 +26,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static XmlReader ToXmlReader(this IDecorator<Stream> decorator, Encoding encoding = null, Action<XmlReaderSettings> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             if (encoding == null) { TryDetectXmlEncoding(decorator, out encoding); }
             var value = decorator.Inner;
             if (value.CanSeek) { value.Position = 0; }
@@ -45,7 +45,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static bool TryDetectXmlEncoding(this IDecorator<Stream> decorator, out Encoding result)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var value = decorator.Inner;
             result = new UTF8Encoding(false);
             if (!ByteOrderMark.TryDetectEncoding(value, out var encoding))

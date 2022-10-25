@@ -22,8 +22,8 @@ namespace Cuemon.Reflection
         /// </exception>
         public ParameterSignature(Type parameterType, string parameterName)
         {
-            Validator.ThrowIfNull(parameterType, nameof(parameterType));
-            Validator.ThrowIfNullOrEmpty(parameterName, nameof(parameterName));
+            Validator.ThrowIfNull(parameterType);
+            Validator.ThrowIfNullOrEmpty(parameterName);
             ParameterName = parameterName;
             ParameterType = parameterType;
         }
@@ -55,7 +55,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static IEnumerable<ParameterSignature> Parse(MethodBase method)
         {
-            Validator.ThrowIfNull(method, nameof(method));
+            Validator.ThrowIfNull(method);
             return Parse(method.GetParameters());
         }
 
@@ -69,7 +69,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static IEnumerable<ParameterSignature> Parse(IEnumerable<ParameterInfo> parameters)
         {
-            Validator.ThrowIfNull(parameters, nameof(parameters));
+            Validator.ThrowIfNull(parameters);
             var safeParameters = new List<ParameterInfo>(parameters);
             if (safeParameters.Count == 0) { yield break; }
 

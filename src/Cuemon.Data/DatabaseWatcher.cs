@@ -24,8 +24,8 @@ namespace Cuemon.Data
         /// <param name="setup">The <see cref="WatcherOptions" /> which may be configured.</param>
         public DatabaseWatcher(IDbConnection connection, Func<IDbConnection, IDataReader> readerFactory, Action<WatcherOptions> setup = null) : base(setup)
         {
-            Validator.ThrowIfNull(connection, nameof(connection));
-            Validator.ThrowIfNull(readerFactory, nameof(readerFactory));
+            Validator.ThrowIfNull(connection);
+            Validator.ThrowIfNull(readerFactory);
             Connection = connection;
             ReaderFactory = readerFactory;
         }

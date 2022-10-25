@@ -101,7 +101,7 @@ namespace Cuemon.Reflection
             get => _skipPropertyType;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _skipPropertyType = value;
             }
         }
@@ -115,7 +115,7 @@ namespace Cuemon.Reflection
             get => _skipProperty;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _skipProperty = value;
             }
         }
@@ -129,7 +129,7 @@ namespace Cuemon.Reflection
             get => _hasCircularReference;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _hasCircularReference = value;
             }
         }
@@ -143,7 +143,7 @@ namespace Cuemon.Reflection
             get => _valueResolver;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _valueResolver = value;
             }
         }

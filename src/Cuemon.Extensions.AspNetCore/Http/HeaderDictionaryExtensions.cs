@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         /// <param name="useAsciiEncodingConversion">if set to <c>true</c> an ASCII encoding conversion is applied to the <paramref name="value"/>.</param>
         public static void AddOrUpdateHeader(this IHeaderDictionary dictionary, string key, StringValues value, bool useAsciiEncodingConversion = true)
         {
-            Validator.ThrowIfNull(dictionary, nameof(dictionary));
+            Validator.ThrowIfNull(dictionary);
             Decorator.Enclose(dictionary).AddOrUpdateHeader(key, value, useAsciiEncodingConversion);
         }
 
