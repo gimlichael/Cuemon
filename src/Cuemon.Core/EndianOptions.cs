@@ -1,11 +1,12 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="BitConverter"/>.
     /// </summary>
-    public class EndianOptions
+    public class EndianOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EndianOptions"/> class.

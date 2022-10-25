@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Text\Yaml\Formatters\" />
+  </ItemGroup>
+
 </Project>

@@ -9,8 +9,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
     /// <typeparam name="TOptions">The type of the configured options.</typeparam>
     /// <seealso cref="TextInputFormatter" />
     /// <seealso cref="IConfigurable{TOptions}" />
-    public abstract class ConfigurableOutputFormatter<TOptions> : TextOutputFormatter, IConfigurable<TOptions>
-        where TOptions : class, new()
+    public abstract class ConfigurableOutputFormatter<TOptions> : TextOutputFormatter, IConfigurable<TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurableOutputFormatter{TOptions}"/> class.

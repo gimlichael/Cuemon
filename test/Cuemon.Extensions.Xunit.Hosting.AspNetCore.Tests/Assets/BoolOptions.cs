@@ -1,6 +1,8 @@
-﻿namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Assets
+﻿using Cuemon.Configuration;
+
+namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Assets
 {
-    public class BoolOptions
+    public class BoolOptions : IParameterObject
     {
         public bool A { get; set; }
 

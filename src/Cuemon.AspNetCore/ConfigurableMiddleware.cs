@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Infrastructure;
+using Cuemon.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -12,7 +13,7 @@ namespace Cuemon.AspNetCore
     /// </summary>
     /// <typeparam name="TOptions">The type of the options to setup.</typeparam>
     /// <seealso cref="Middleware" />
-    public abstract class ConfigurableMiddleware<TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, new()
+    public abstract class ConfigurableMiddleware<TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurableMiddleware{TOptions}"/> class.
@@ -46,7 +47,7 @@ namespace Cuemon.AspNetCore
     /// <typeparam name="T">The type of the dependency injected parameter of <see cref="InvokeAsync"/>.</typeparam>
     /// <typeparam name="TOptions">The type of the options to setup.</typeparam>
     /// <seealso cref="Middleware{T}" />
-    public abstract class ConfigurableMiddleware<T, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, new()
+    public abstract class ConfigurableMiddleware<T, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurableMiddleware{TOptions}"/> class.
@@ -82,7 +83,7 @@ namespace Cuemon.AspNetCore
     /// <typeparam name="T2">The type of the second dependency injected parameter of <see cref="InvokeAsync"/>.</typeparam>
     /// <typeparam name="TOptions">The type of the options to setup.</typeparam>
     /// <seealso cref="Middleware{T1,T2}" />
-    public abstract class ConfigurableMiddleware<T1, T2, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, new()
+    public abstract class ConfigurableMiddleware<T1, T2, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurableMiddleware{TOptions}"/> class.
@@ -120,7 +121,7 @@ namespace Cuemon.AspNetCore
     /// <typeparam name="T3">The type of the third dependency injected parameter of <see cref="InvokeAsync"/>.</typeparam>
     /// <typeparam name="TOptions">The type of the options to setup.</typeparam>
     /// <seealso cref="Middleware{T1,T2,T3}" />
-    public abstract class ConfigurableMiddleware<T1, T2, T3, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, new()
+    public abstract class ConfigurableMiddleware<T1, T2, T3, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurableMiddleware{TOptions}"/> class.
@@ -160,7 +161,7 @@ namespace Cuemon.AspNetCore
     /// <typeparam name="T4">The type of the fourth dependency injected parameter of <see cref="InvokeAsync"/>.</typeparam>
     /// <typeparam name="TOptions">The type of the options to setup.</typeparam>
     /// <seealso cref="Middleware{T1,T2,T3,T4}" />
-    public abstract class ConfigurableMiddleware<T1, T2, T3, T4, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, new()
+    public abstract class ConfigurableMiddleware<T1, T2, T3, T4, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurableMiddleware{TOptions}"/> class.
@@ -202,7 +203,7 @@ namespace Cuemon.AspNetCore
     /// <typeparam name="T5">The type of the fifth dependency injected parameter of <see cref="InvokeAsync"/>.</typeparam>
     /// <typeparam name="TOptions">The type of the options to setup.</typeparam>
     /// <seealso cref="Middleware{T1,T2,T3,T4,T5}" />
-    public abstract class ConfigurableMiddleware<T1, T2, T3, T4, T5, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, new()
+    public abstract class ConfigurableMiddleware<T1, T2, T3, T4, T5, TOptions> : ConfigurableMiddlewareCore<TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurableMiddleware{TOptions}"/> class.

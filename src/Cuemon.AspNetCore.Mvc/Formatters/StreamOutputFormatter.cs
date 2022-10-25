@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Cuemon.Configuration;
 using Cuemon.IO;
 using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization.Formatters;
@@ -16,7 +17,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
     /// <typeparam name="TOptions">The type of the configured options.</typeparam>
     public abstract class StreamOutputFormatter<TFormatter, TOptions> : ConfigurableOutputFormatter<TOptions>
         where TFormatter : Formatter<Stream>
-        where TOptions : class, new()
+        where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StreamOutputFormatter{TFormatter, TOptions}"/> class.

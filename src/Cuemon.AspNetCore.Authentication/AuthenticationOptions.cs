@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using Cuemon.Configuration;
 
 namespace Cuemon.AspNetCore.Authentication
 {
     /// <summary>
     /// Base options for all authentication middleware.
     /// </summary>
-    public abstract class AuthenticationOptions
+    public abstract class AuthenticationOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationOptions"/> class.

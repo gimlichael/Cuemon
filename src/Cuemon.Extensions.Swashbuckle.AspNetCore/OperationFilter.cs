@@ -32,7 +32,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
     /// Represents a configurable base class of an <see cref="IOperationFilter"/> implementation.
     /// </summary>
     /// <seealso cref="OperationFilter"/>
-    public abstract class OperationFilter<T> : OperationFilter, IConfigurable<T> where T : class, new()
+    public abstract class OperationFilter<T> : OperationFilter, IConfigurable<T> where T : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentFilter{T}"/> class.

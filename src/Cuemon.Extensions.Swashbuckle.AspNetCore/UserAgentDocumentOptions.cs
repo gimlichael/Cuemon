@@ -1,9 +1,11 @@
-﻿namespace Cuemon.Extensions.Swashbuckle.AspNetCore
+﻿using Cuemon.Configuration;
+
+namespace Cuemon.Extensions.Swashbuckle.AspNetCore
 {
     /// <summary>
     /// Provides programmatic configuration for the <see cref="UserAgentDocumentFilter"/> class.
     /// </summary>
-    public class UserAgentDocumentOptions
+    public class UserAgentDocumentOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserAgentDocumentOptions"/> class.

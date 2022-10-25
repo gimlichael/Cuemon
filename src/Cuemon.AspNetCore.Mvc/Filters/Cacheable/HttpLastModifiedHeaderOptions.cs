@@ -1,5 +1,6 @@
 ﻿using System;
 using Cuemon.AspNetCore.Http;
+using Cuemon.Configuration;
 using Cuemon.Data.Integrity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
     /// Specifies options that is related to the <see cref="HttpLastModifiedHeaderFilter" />.
     /// </summary>
     /// <seealso cref="HttpCacheableFilter"/>
-    public class HttpLastModifiedHeaderOptions
+    public class HttpLastModifiedHeaderOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpLastModifiedHeaderOptions"/> class.

@@ -10,7 +10,7 @@ namespace Cuemon.Runtime.Serialization.Formatters
     /// Serializes and deserializes an object, in <see cref="Stream"/> format.
     /// </summary>
     /// <seealso cref="Formatter{TFormat}" />.
-    public abstract class StreamFormatter<TOptions> : Formatter<Stream>, IConfigurable<TOptions> where TOptions : class, new()
+    public abstract class StreamFormatter<TOptions> : Formatter<Stream>, IConfigurable<TOptions> where TOptions : class, IParameterObject, new()
     {
         private static readonly Type OptionsType = typeof(TOptions);
         private static readonly List<Type> StreamFormatterTypes = OptionsType.Assembly.GetTypes().Where(type => type.BaseType == typeof(StreamFormatter<TOptions>)).ToList();
