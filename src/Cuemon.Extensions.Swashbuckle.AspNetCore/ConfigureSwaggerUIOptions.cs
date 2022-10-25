@@ -1,4 +1,5 @@
-﻿using Asp.Versioning.ApiExplorer;
+﻿using System.Linq;
+using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -29,9 +30,9 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// <param name="options">The options instance to configure.</param>
         public void Configure(SwaggerUIOptions options)
         {
-            foreach ( var description in _provider.ApiVersionDescriptions )
+            foreach (var groupName in _provider.ApiVersionDescriptions.Select(description => description.GroupName))
             {
-                options.SwaggerEndpoint( $"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant() );
+                options.SwaggerEndpoint( $"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant() );
             }
         }
     }
