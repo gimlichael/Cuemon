@@ -32,7 +32,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <returns><typeparamref name="TAuthorizationHeaderBuilder"/> that can be used to further build the header.</returns>
         public TAuthorizationHeaderBuilder AddOrUpdate(string name, string value)
         {
-            Validator.ThrowIfNullOrWhitespace(name, nameof(name));
+            Validator.ThrowIfNullOrWhitespace(name);
             Decorator.Enclose(Data).AddOrUpdate(name, value);
             return this as TAuthorizationHeaderBuilder;
         }
@@ -55,7 +55,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <param name="authenticationScheme">The name of the authentication scheme.</param>
         protected AuthorizationHeaderBuilder(string authenticationScheme)
         {
-            Validator.ThrowIfNullOrWhitespace(authenticationScheme, nameof(authenticationScheme));
+            Validator.ThrowIfNullOrWhitespace(authenticationScheme);
             AuthenticationScheme = authenticationScheme;
         }
 
@@ -84,7 +84,7 @@ namespace Cuemon.AspNetCore.Authentication
         /// <param name="fieldNames">The field names to associate with <paramref name="memberName"/>.</param>
         protected void MapRelation(string memberName, params string[] fieldNames)
         {
-            Validator.ThrowIfNullOrWhitespace(memberName, nameof(memberName));
+            Validator.ThrowIfNullOrWhitespace(memberName);
             Validator.ThrowIfSequenceNullOrEmpty(fieldNames, nameof(fieldNames));
             foreach (var key in fieldNames) { Decorator.Enclose(Relation).AddOrUpdate(key, memberName); }
         }

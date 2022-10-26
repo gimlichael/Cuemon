@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Diagnostics
         /// <returns>A string that represents the specified <paramref name="descriptor"/>.</returns>
         public static string ToInsightsString(this ExceptionDescriptor descriptor, Action<ExceptionDescriptorOptions> setup = null)
         {
-            Validator.ThrowIfNull(descriptor, nameof(descriptor));
+            Validator.ThrowIfNull(descriptor);
             var options = Patterns.Configure(setup);
             var builder = new StringBuilder();
             builder.AppendLine("Error");

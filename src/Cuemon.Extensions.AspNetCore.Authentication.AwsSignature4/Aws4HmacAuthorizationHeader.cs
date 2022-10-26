@@ -24,7 +24,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4
         /// </exception>
         public static HmacAuthorizationHeader Create(string authorizationHeader, Action<AuthorizationHeaderOptions> setup = null)
         {
-            Validator.ThrowIfNullOrWhitespace(authorizationHeader, nameof(authorizationHeader));
+            Validator.ThrowIfNullOrWhitespace(authorizationHeader);
             return Create(Aws4HmacFields.Scheme, authorizationHeader, setup);
         }
 

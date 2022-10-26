@@ -1,9 +1,11 @@
-﻿namespace Cuemon.AspNetCore.Configuration
+﻿using Cuemon.Configuration;
+
+namespace Cuemon.AspNetCore.Configuration
 {
     /// <summary>
     /// Specifies options that is related to <see cref="CacheBusting"/> operations.
     /// </summary>
-    public class CacheBustingOptions
+    public class CacheBustingOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheBustingOptions"/> class.

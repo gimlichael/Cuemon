@@ -52,7 +52,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
             var viewTemplate = template == null ? null : helper.ViewContext.RouteData.Values[routeTemplate] as string;
             var templates = template?.Split(',');
             var targets = target.Split(',');
-            if (templates == null) { templates = targets; }
+            templates ??= targets;
             foreach (var te in templates)
             {
                 foreach (var ta in targets)

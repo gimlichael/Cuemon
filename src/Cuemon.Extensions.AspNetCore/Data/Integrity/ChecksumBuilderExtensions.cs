@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.AspNetCore.Data.Integrity
         /// </exception>
         public static EntityTagHeaderValue ToEntityTagHeaderValue(this ChecksumBuilder builder, bool isWeak = false)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             return Decorator.Enclose(builder).ToEntityTagHeaderValue(isWeak);
         }
     }

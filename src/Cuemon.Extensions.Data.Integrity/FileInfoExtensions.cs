@@ -23,7 +23,7 @@ namespace Cuemon.Extensions.Data.Integrity
         /// <remarks>Should the specified <paramref name="file"/> trigger any sort of exception, a <see cref="CacheValidator.Default"/> is returned.</remarks>
         public static CacheValidator GetCacheValidator(this FileInfo file, Func<Hash> hashFactory = null, Action<FileChecksumOptions> setup = null)
         {
-            Validator.ThrowIfNull(file, nameof(file));
+            Validator.ThrowIfNull(file);
             try
             {
                 return CacheValidatorFactory.CreateValidator(file, hashFactory, setup);

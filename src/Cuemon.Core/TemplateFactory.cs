@@ -17,7 +17,7 @@ namespace Cuemon
         /// <param name="hasDelegate"><c>true</c> if this instance has a valid delegate; otherwise, <c>false</c>.</param>
         protected TemplateFactory(TTuple tuple, bool hasDelegate)
         {
-            Validator.ThrowIfNull(tuple, nameof(tuple));
+            Validator.ThrowIfNull(tuple);
             GenericArguments = tuple;
             HasDelegate = hasDelegate;
         }

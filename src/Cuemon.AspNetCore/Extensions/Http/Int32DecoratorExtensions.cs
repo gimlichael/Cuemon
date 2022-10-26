@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static bool IsInformationStatusCode(this IDecorator<int> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return (decorator.Inner >= StatusCodes.Status100Continue && decorator.Inner <= 199);
         }
 
@@ -34,7 +34,7 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static bool IsSuccessStatusCode(this IDecorator<int> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return (decorator.Inner >= StatusCodes.Status200OK && decorator.Inner <= 299);
         }
 
@@ -48,7 +48,7 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static bool IsRedirectionStatusCode(this IDecorator<int> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return (decorator.Inner >= StatusCodes.Status300MultipleChoices && decorator.Inner <= 399);
         }
 
@@ -62,7 +62,7 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static bool IsNotModifiedStatusCode(this IDecorator<int> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return (decorator.Inner == StatusCodes.Status304NotModified);
         }
 
@@ -76,7 +76,7 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static bool IsClientErrorStatusCode(this IDecorator<int> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return (decorator.Inner >= StatusCodes.Status400BadRequest && decorator.Inner <= 499);
         }
 
@@ -90,7 +90,7 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static bool IsServerErrorStatusCode(this IDecorator<int> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return (decorator.Inner >= StatusCodes.Status500InternalServerError && decorator.Inner <= 599);
         }
     }

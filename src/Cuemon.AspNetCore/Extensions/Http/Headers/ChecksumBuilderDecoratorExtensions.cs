@@ -22,7 +22,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </exception>
         public static EntityTagHeaderValue ToEntityTagHeaderValue(this IDecorator<ChecksumBuilder> decorator, bool isWeak = false)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return new EntityTagHeaderValue(string.Concat("\"", decorator.Inner.Checksum.ToHexadecimalString(), "\""), isWeak);
         }
     }

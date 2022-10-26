@@ -23,7 +23,7 @@ namespace Cuemon.Data
         /// </exception>
         protected DataReader(Func<string, Action<FormattingOptions<CultureInfo>>, object> parser)
         {
-            Validator.ThrowIfNull(parser, nameof(parser));
+            Validator.ThrowIfNull(parser);
             StringParser = parser;
             Fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
         }
@@ -271,7 +271,7 @@ namespace Cuemon.Data
         /// </exception>
         public int GetOrdinal(string name)
         {
-            Validator.ThrowIfNull(name, nameof(name));
+            Validator.ThrowIfNull(name);
             var current = 0;
             foreach (string columnName in Fields.Keys)
             {
@@ -330,7 +330,7 @@ namespace Cuemon.Data
         /// <returns>The number of instances of <see cref="T:System.Object" /> in the array.</returns>
         public int GetValues(object[] values)
         {
-            Validator.ThrowIfNull(values, nameof(values));
+            Validator.ThrowIfNull(values);
             var length = FieldCount;
             for (var i = 0; i < length; i++)
             {

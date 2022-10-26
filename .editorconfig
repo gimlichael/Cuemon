@@ -22,3 +22,7 @@ dotnet_diagnostic.IDE0063.severity = none
 # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0071
 [*.{cs,vb}]
 dotnet_diagnostic.IDE0071.severity = none
+
+# S3267: Loops should be simplified with "LINQ" expressions
+# https://rules.sonarsource.com/csharp/RSPEC-3267
+dotnet_diagnostic.S3267.severity = none

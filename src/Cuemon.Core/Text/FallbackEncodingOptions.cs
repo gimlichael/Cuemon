@@ -65,7 +65,7 @@ namespace Cuemon.Text
             }
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _targetEncoding = value;
             }
         }

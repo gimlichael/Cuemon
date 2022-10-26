@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Xunit
         /// </exception>
         public static void WriteLines(this ITestOutputHelper helper, params object[] values)
         {
-            Validator.ThrowIfNull(helper, nameof(helper));
+            Validator.ThrowIfNull(helper);
             helper.WriteLine(DelimitedString.Create(values, o => o.Delimiter = Environment.NewLine));
         }
 
@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Xunit
         /// </exception>
         public static void WriteLines<T>(this ITestOutputHelper helper, IEnumerable<T> values)
         {
-            Validator.ThrowIfNull(helper, nameof(helper));
+            Validator.ThrowIfNull(helper);
             helper.WriteLine(DelimitedString.Create(values, o => o.Delimiter = Environment.NewLine));
         }
     }

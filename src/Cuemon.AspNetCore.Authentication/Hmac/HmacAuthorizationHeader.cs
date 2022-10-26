@@ -32,8 +32,8 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// </exception>
         public static HmacAuthorizationHeader Create(string authenticationScheme, string authorizationHeader, Action<AuthorizationHeaderOptions> setup = null)
         {
-            Validator.ThrowIfNullOrWhitespace(authenticationScheme, nameof(authenticationScheme));
-            Validator.ThrowIfNullOrWhitespace(authorizationHeader, nameof(authorizationHeader));
+            Validator.ThrowIfNullOrWhitespace(authenticationScheme);
+            Validator.ThrowIfNullOrWhitespace(authorizationHeader);
             return new HmacAuthorizationHeader(authenticationScheme).Parse(authorizationHeader, setup) as HmacAuthorizationHeader;
         }
 

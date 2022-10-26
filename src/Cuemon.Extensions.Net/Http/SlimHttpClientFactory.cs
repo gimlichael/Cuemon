@@ -30,7 +30,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="setup">The <see cref="SlimHttpClientFactoryOptions" /> which may be configured.</param>
         public SlimHttpClientFactory(Func<HttpClientHandler> handlerFactory, Action<SlimHttpClientFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(handlerFactory, nameof(handlerFactory));
+            Validator.ThrowIfNull(handlerFactory);
             _handlerFactory = handlerFactory;
             _options = Patterns.Configure(setup);
         }

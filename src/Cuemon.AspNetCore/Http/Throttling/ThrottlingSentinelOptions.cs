@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Cuemon.AspNetCore.Http.Headers;
+using Cuemon.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
@@ -11,7 +12,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
     /// <summary>
     /// Configuration options for <see cref="ThrottlingSentinelMiddleware"/>.
     /// </summary>
-    public class ThrottlingSentinelOptions
+    public class ThrottlingSentinelOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrottlingSentinelOptions"/> class.
@@ -76,7 +77,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
             TooManyRequestsMessage = "Throttling rate limit quota violation. Quota limit exceeded.";
             ResponseHandler = (delta, reset) =>
             {
-                var message = new HttpResponseMessage((HttpStatusCode) StatusCodes.Status429TooManyRequests);
+                var message = new HttpResponseMessage((HttpStatusCode)StatusCodes.Status429TooManyRequests);
                 if (UseRetryAfterHeader)
                 {
                     switch (RetryAfterScope)
@@ -153,5 +154,25 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// </summary>
         /// <value>The preferred Retry-After HTTP header value that conforms with RFC 7231.</value>
         public RetryConditionScope RetryAfterScope { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="RateLimitHeaderName"/> cannot be null, empty or consist only of white-space characters - or -
+        /// <see cref="RateLimitRemainingHeaderName"/> cannot be null, empty or consist only of white-space characters - or -
+        /// <see cref="RateLimitResetHeaderName"/> cannot be null, empty or consist only of white-space characters - or -
+        /// <see cref="ResponseHandler"/> cannot be null - or -
+        /// <see cref="Quota"/> cannot be null when <see cref="ContextResolver"/> has been specified.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(Condition.IsNull(RateLimitHeaderName) || Condition.IsEmpty(RateLimitHeaderName) || Condition.IsWhiteSpace(RateLimitHeaderName));
+            Validator.ThrowIfObjectInDistress(Condition.IsNull(RateLimitRemainingHeaderName) || Condition.IsEmpty(RateLimitRemainingHeaderName) || Condition.IsWhiteSpace(RateLimitRemainingHeaderName));
+            Validator.ThrowIfObjectInDistress(Condition.IsNull(RateLimitResetHeaderName) || Condition.IsEmpty(RateLimitResetHeaderName) || Condition.IsWhiteSpace(RateLimitResetHeaderName));
+            Validator.ThrowIfObjectInDistress(ResponseHandler == null);
+            Validator.ThrowIfObjectInDistress(ContextResolver != null && Quota == null);
+        }
     }
 }

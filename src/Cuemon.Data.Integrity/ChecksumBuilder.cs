@@ -24,7 +24,7 @@ namespace Cuemon.Data.Integrity
         /// <param name="hashFactory">The function delegate that is invoked to produce the <see cref="HashResult"/>.</param>
         public ChecksumBuilder(byte[] checksum, Func<Hash> hashFactory)
         {
-            Validator.ThrowIfNull(hashFactory, nameof(hashFactory));
+            Validator.ThrowIfNull(hashFactory);
             Bytes = checksum == null ? new List<byte>() : new List<byte>(checksum);
             HashFactory = hashFactory;
         }

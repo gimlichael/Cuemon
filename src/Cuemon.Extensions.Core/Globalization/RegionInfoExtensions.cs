@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Globalization
         /// <returns>An <see cref="IEnumerable{T}"/> sequence of <see cref="CultureInfo"/> objects.</returns>
         public static IEnumerable<CultureInfo> GetCultures(this RegionInfo region)
         {
-            Validator.ThrowIfNull(region, nameof (region));
+            Validator.ThrowIfNull(region);
             return World.GetCultures(region);
         }
     }

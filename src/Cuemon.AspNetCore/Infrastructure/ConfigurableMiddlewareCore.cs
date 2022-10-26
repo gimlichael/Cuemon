@@ -11,7 +11,7 @@ namespace Cuemon.AspNetCore.Infrastructure
     /// </summary>
     /// <typeparam name="TOptions">The type of the options to setup.</typeparam>
     /// <seealso cref="Middleware" />
-    public abstract class ConfigurableMiddlewareCore<TOptions> : MiddlewareCore, IConfigurable<TOptions> where TOptions : class, new()
+    public abstract class ConfigurableMiddlewareCore<TOptions> : MiddlewareCore, IConfigurable<TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Middleware{TOptions}"/> class.

@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <returns>An <see cref="IDictionary{TKey,TValue}"/> that is the result of the populated <paramref name="destination"/>.</returns>
         public static IDictionary<TKey, TValue> CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> source, IDictionary<TKey, TValue> destination)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             return Decorator.Enclose(source).CopyTo(destination);
         }
 
@@ -34,7 +34,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <returns>An <see cref="IDictionary{TKey,TValue}"/> that is the result of the populated <paramref name="destination"/>.</returns>
         public static IDictionary<TKey, TValue> CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> source, IDictionary<TKey, TValue> destination, Action<IDictionary<TKey, TValue>, IDictionary<TKey, TValue>> copier)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             return Decorator.Enclose(source).CopyTo(destination, copier);
         }
 
@@ -52,7 +52,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            Validator.ThrowIfNull(dictionary, nameof(dictionary));
+            Validator.ThrowIfNull(dictionary);
             return Decorator.Enclose(dictionary).GetValueOrDefault(key);
         }
 
@@ -72,7 +72,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultProvider)
         {
-            Validator.ThrowIfNull(dictionary, nameof(dictionary));
+            Validator.ThrowIfNull(dictionary);
             return Decorator.Enclose(dictionary).GetValueOrDefault(key, defaultProvider);
         }
 
@@ -91,7 +91,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static bool TryGetValueOrFallback<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<IEnumerable<TKey>, TKey> fallbackKeySelector, out TValue value)
         {
-            Validator.ThrowIfNull(dictionary, nameof(dictionary));
+            Validator.ThrowIfNull(dictionary);
             return Decorator.Enclose(dictionary).TryGetValueOrFallback(key, fallbackKeySelector, out value);
         }
 
@@ -107,7 +107,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static IEnumerable<KeyValuePair<TKey, TValue>> ToEnumerable<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
-            Validator.ThrowIfNull(dictionary, nameof(dictionary));
+            Validator.ThrowIfNull(dictionary);
             return Decorator.Enclose(dictionary).ToEnumerable();
         }
 
@@ -126,7 +126,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value, Func<IDictionary<TKey, TValue>, bool> condition)
         {
-            Validator.ThrowIfNull(dictionary, nameof(dictionary));
+            Validator.ThrowIfNull(dictionary);
             return Decorator.Enclose(dictionary).TryAdd(key, value, condition);
         }
 
@@ -144,7 +144,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
-            Validator.ThrowIfNull(dictionary, nameof(dictionary));
+            Validator.ThrowIfNull(dictionary);
             return Decorator.Enclose(dictionary).TryAdd(key, value);
         }
         #endif
@@ -161,7 +161,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
-            Validator.ThrowIfNull(dictionary, nameof(dictionary));
+            Validator.ThrowIfNull(dictionary);
             Decorator.Enclose(dictionary).AddOrUpdate(key, value);
         }
     }

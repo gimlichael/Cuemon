@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
         /// </exception>
         public static IMvcCoreBuilder AddJsonFormatters(this IMvcCoreBuilder builder)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
             return builder;
         }
@@ -44,7 +44,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
         /// </exception>
         public static IMvcCoreBuilder AddJsonFormatters(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             builder.AddJsonFormatters();
             builder.AddJsonFormattersOptions(setup);
             return builder;
@@ -62,8 +62,8 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
         /// </exception>
         public static IMvcCoreBuilder AddJsonFormattersOptions(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
-            Validator.ThrowIfNull(setup, nameof(setup));
+            Validator.ThrowIfNull(builder);
+            Validator.ThrowIfNull(setup);
             builder.Services.Configure(setup);
             return builder;
         }

@@ -51,7 +51,7 @@ namespace Cuemon
         /// </exception>
         public static bool AreEqual<T>(T x, T y, IEqualityComparer<T> comparer)
         {
-            Validator.ThrowIfNull(comparer, nameof(comparer));
+            Validator.ThrowIfNull(comparer);
             return comparer.Equals(x, y);
         }
 
@@ -80,7 +80,7 @@ namespace Cuemon
         /// </exception>
         public static bool AreNotEqual<T>(T x, T y, IEqualityComparer<T> comparer)
         {
-            Validator.ThrowIfNull(comparer, nameof(comparer));
+            Validator.ThrowIfNull(comparer);
             return !AreEqual(x, y, comparer);
         }
 
@@ -116,8 +116,8 @@ namespace Cuemon
         /// <param name="secondExpression">The delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
         public static void FlipFlop(bool condition, Action firstExpression, Action secondExpression)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             if (IsTrue(condition)) { firstExpression(); }
             if (IsFalse(condition)) { secondExpression(); }
         }
@@ -132,8 +132,8 @@ namespace Cuemon
         /// <param name="arg">The parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         public static void FlipFlop<T>(bool condition, Action<T> firstExpression, Action<T> secondExpression, T arg)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             if (IsTrue(condition)) { firstExpression(arg); }
             if (IsFalse(condition)) { secondExpression(arg); }
         }
@@ -150,8 +150,8 @@ namespace Cuemon
         /// <param name="arg2">The second parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         public static void FlipFlop<T1, T2>(bool condition, Action<T1, T2> firstExpression, Action<T1, T2> secondExpression, T1 arg1, T2 arg2)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             if (IsTrue(condition)) { firstExpression(arg1, arg2); }
             if (IsFalse(condition)) { secondExpression(arg1, arg2); }
         }
@@ -170,8 +170,8 @@ namespace Cuemon
         /// <param name="arg3">The third parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         public static void FlipFlop<T1, T2, T3>(bool condition, Action<T1, T2, T3> firstExpression, Action<T1, T2, T3> secondExpression, T1 arg1, T2 arg2, T3 arg3)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             if (IsTrue(condition)) { firstExpression(arg1, arg2, arg3); }
             if (IsFalse(condition)) { secondExpression(arg1, arg2, arg3); }
         }
@@ -192,8 +192,8 @@ namespace Cuemon
         /// <param name="arg4">The fourth parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         public static void FlipFlop<T1, T2, T3, T4>(bool condition, Action<T1, T2, T3, T4> firstExpression, Action<T1, T2, T3, T4> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             if (IsTrue(condition)) { firstExpression(arg1, arg2, arg3, arg4); }
             if (IsFalse(condition)) { secondExpression(arg1, arg2, arg3, arg4); }
         }
@@ -216,8 +216,8 @@ namespace Cuemon
         /// <param name="arg5">The fifth parameter of the delegates <paramref name="firstExpression"/> and <paramref name="secondExpression"/>.</param>
         public static void FlipFlop<T1, T2, T3, T4, T5>(bool condition, Action<T1, T2, T3, T4, T5> firstExpression, Action<T1, T2, T3, T4, T5> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             if (IsTrue(condition)) { firstExpression(arg1, arg2, arg3, arg4, arg5); }
             if (IsFalse(condition)) { secondExpression(arg1, arg2, arg3, arg4, arg5); }
         }
@@ -231,8 +231,8 @@ namespace Cuemon
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task FlipFlopAsync(bool condition, Func<Task> firstExpression, Func<Task> secondExpression)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             return condition ? firstExpression() : secondExpression();
         }
 
@@ -413,7 +413,7 @@ namespace Cuemon
         /// <param name="expression">The delegate that is invoked when <paramref name="condition"/> is <c>false</c>.</param>
         public static void IsFalse(bool condition, Action expression)
         {
-            Validator.ThrowIfNull(expression, nameof(expression));
+            Validator.ThrowIfNull(expression);
             if (IsFalse(condition)) { expression(); }
         }
 
@@ -581,7 +581,7 @@ namespace Cuemon
             if (string.IsNullOrWhiteSpace(value)) { return false; }
             if (string.Equals(value, "NaN", StringComparison.OrdinalIgnoreCase)) { return false; }
             if (string.Equals(value, "Infinity", StringComparison.OrdinalIgnoreCase)) { return false; }
-            if (provider == null) { provider = CultureInfo.InvariantCulture; }
+            provider ??= CultureInfo.InvariantCulture;
             return double.TryParse(value, styles, provider, out _);
         }
 
@@ -642,7 +642,7 @@ namespace Cuemon
         /// <param name="expression">The delegate that is invoked when <paramref name="condition"/> is <c>true</c>.</param>
         public static void IsTrue(bool condition, Action expression)
         {
-            Validator.ThrowIfNull(expression, nameof(expression));
+            Validator.ThrowIfNull(expression);
             if (IsTrue(condition)) { expression(); }
         }
 
@@ -689,8 +689,8 @@ namespace Cuemon
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
         public static TResult TernaryIf<TResult>(bool condition, Func<TResult> firstExpression, Func<TResult> secondExpression)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             return condition ? firstExpression() : secondExpression();
         }
 
@@ -706,8 +706,8 @@ namespace Cuemon
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
         public static TResult TernaryIf<T, TResult>(bool condition, Func<T, TResult> firstExpression, Func<T, TResult> secondExpression, T arg)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             return condition ? firstExpression(arg) : secondExpression(arg);
         }
 
@@ -725,8 +725,8 @@ namespace Cuemon
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
         public static TResult TernaryIf<T1, T2, TResult>(bool condition, Func<T1, T2, TResult> firstExpression, Func<T1, T2, TResult> secondExpression, T1 arg1, T2 arg2)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             return condition ? firstExpression(arg1, arg2) : secondExpression(arg1, arg2);
         }
 
@@ -746,8 +746,8 @@ namespace Cuemon
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
         public static TResult TernaryIf<T1, T2, T3, TResult>(bool condition, Func<T1, T2, T3, TResult> firstExpression, Func<T1, T2, T3, TResult> secondExpression, T1 arg1, T2 arg2, T3 arg3)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             return condition ? firstExpression(arg1, arg2, arg3) : secondExpression(arg1, arg2, arg3);
         }
 
@@ -769,8 +769,8 @@ namespace Cuemon
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
         public static TResult TernaryIf<T1, T2, T3, T4, TResult>(bool condition, Func<T1, T2, T3, T4, TResult> firstExpression, Func<T1, T2, T3, T4, TResult> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             return condition ? firstExpression(arg1, arg2, arg3, arg4) : secondExpression(arg1, arg2, arg3, arg4);
         }
 
@@ -794,8 +794,8 @@ namespace Cuemon
         /// <returns>The result of either function delegate <paramref name="firstExpression"/> or function delegate <paramref name="secondExpression"/>.</returns>
         public static TResult TernaryIf<T1, T2, T3, T4, T5, TResult>(bool condition, Func<T1, T2, T3, T4, T5, TResult> firstExpression, Func<T1, T2, T3, T4, T5, TResult> secondExpression, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
-            Validator.ThrowIfNull(firstExpression, nameof(firstExpression));
-            Validator.ThrowIfNull(secondExpression, nameof(secondExpression));
+            Validator.ThrowIfNull(firstExpression);
+            Validator.ThrowIfNull(secondExpression);
             return condition ? firstExpression(arg1, arg2, arg3, arg4, arg5) : secondExpression(arg1, arg2, arg3, arg4, arg5);
         }
 

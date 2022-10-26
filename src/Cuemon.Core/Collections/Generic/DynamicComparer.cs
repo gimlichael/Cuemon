@@ -24,7 +24,7 @@ namespace Cuemon.Collections.Generic
     {
         internal DynamicComparer(Func<T, T, int> comparer)
         {
-            Validator.ThrowIfNull(comparer, nameof(comparer));
+            Validator.ThrowIfNull(comparer);
 
             Comparer = comparer;
         }

@@ -102,22 +102,19 @@ namespace Cuemon.Extensions.Asp.Versioning
             {
                 app.UseFaultDescriptorExceptionHandler(o =>
                 {
-                    o.NonMvcResponseHandler = (context, descriptor) =>
-                    {
-                        return new List<HttpExceptionDescriptorResponseHandler>()
-                            .AddJsonResponseHandler(descriptor, Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(context.RequestServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions(), (s, r) =>
-                            {
-                                r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                                r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                                r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                            }))
-                            .AddXmlResponseHandler(descriptor, Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(context.RequestServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions(), (s, r) =>
-                            {
-                                r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                                r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                                r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                            }));
-                    };
+                    o.NonMvcResponseHandlers
+                        .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions(), (s, r) =>
+                        {
+                            r.IncludeStackTrace = s.IncludeExceptionStackTrace;
+                            r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
+                            r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
+                        }))
+                        .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions(), (s, r) =>
+                        {
+                            r.IncludeStackTrace = s.IncludeExceptionStackTrace;
+                            r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
+                            r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
+                        }));
                 });
                 app.UseRestfulApiVersioning();
                 app.UseRouting();

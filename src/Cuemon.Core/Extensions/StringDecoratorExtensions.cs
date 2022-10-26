@@ -44,8 +44,8 @@ namespace Cuemon
         /// </exception>
         public static string ToCasing(this IDecorator<string> decorator, CasingMethod method, CultureInfo culture)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(culture, nameof(culture));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(culture);
             var value = decorator.Inner;
             switch (method)
             {
@@ -75,7 +75,7 @@ namespace Cuemon
         /// </exception>
         public static byte[] ToByteArray(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Convertible.GetBytes(decorator.Inner, setup);
         }
 
@@ -91,7 +91,7 @@ namespace Cuemon
         /// <remarks>The inspiration for this method was retrieved @ SO: https://stackoverflow.com/a/135473/175073.</remarks>
         public static string ToEncodedString(this IDecorator<string> decorator, Action<FallbackEncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var options = Patterns.Configure(setup);
             var result = Encoding.Convert(options.Encoding, Encoding.GetEncoding(options.TargetEncoding.WebName, options.EncoderFallback, options.DecoderFallback), Convertible.GetBytes(decorator.Inner, o =>
             {
@@ -112,7 +112,7 @@ namespace Cuemon
         /// </exception>
         public static string ToAsciiEncodedString(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var options = Patterns.Configure(setup);
             return ToEncodedString(decorator, o =>
             {
@@ -138,7 +138,7 @@ namespace Cuemon
         /// </exception>
         public static Stream ToStream(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Patterns.SafeInvoke(() => new MemoryStream(), ms =>
             {
                 var bytes = Convertible.GetBytes(decorator.Inner, setup);
@@ -163,7 +163,7 @@ namespace Cuemon
         /// </exception>
         public static Task<Stream> ToStreamAsync(this IDecorator<string> decorator, Action<AsyncEncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var options = Patterns.Configure(setup);
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, token) =>
             {
@@ -195,8 +195,8 @@ namespace Cuemon
         /// </exception>
         public static Uri ToUri(this IDecorator<string> decorator, UriKind uriKind = UriKind.Absolute)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNullOrWhitespace(decorator.Inner, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNullOrWhitespace(decorator.Inner);
             return new Uri(decorator.Inner, uriKind);
         }
 

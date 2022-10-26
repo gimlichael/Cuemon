@@ -174,10 +174,10 @@ namespace Cuemon.Extensions.Runtime.Caching
         /// <returns>The value for the specified <paramref name="key"/>. This will either be the existing value if the <paramref name="key"/> is already in the cache, or the new value returned by <paramref name="valueFactory"/> if the <paramref name="key"/> was not in the cache.</returns>
         public static TResult GetOrAdd<TKey, TResult>(this ICacheEnumerable<TKey> cache, string key, string ns, CacheInvalidation invalidation, Func<TResult> valueFactory)
         {
-            Validator.ThrowIfNull(cache, nameof(cache));
-            Validator.ThrowIfNull(key, nameof(key));
-            Validator.ThrowIfNull(invalidation, nameof(invalidation));
-            Validator.ThrowIfNull(valueFactory, nameof(valueFactory));
+            Validator.ThrowIfNull(cache);
+            Validator.ThrowIfNull(key);
+            Validator.ThrowIfNull(invalidation);
+            Validator.ThrowIfNull(valueFactory);
 
             if (!cache.TryGet(key, ns, out var value))
             {

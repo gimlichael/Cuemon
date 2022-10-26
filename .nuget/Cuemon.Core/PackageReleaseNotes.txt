@@ -7,6 +7,7 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # Breaking Changes
 - CHANGED ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude Failure, Evidence and StackTrace as default
+- REMOVED CheckParameter overloads from the Validator class in the Cuemon namespace
  
 # New Features
 - ADDED HttpAuthenticationSchemes class in the Cuemon.Net.Http namespace that specifies options that defines constants for well-known HTTP authentication schemes
@@ -25,7 +26,7 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED IExceptionDescriptorOptions interface in the Cuemon.Diagnostics namespace that defines options that is related to ExceptionDescriptor operations
  
 # Improvements
-- EXTENDED Validator class in the Cuemon namespace with one new static member: CheckParameter
+- EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIfInvalidConfigurator, ThrowIfInvalidOptions, ThrowIfObjectInDistress
 - CHANGED ActivatorOptions class in the Cuemon.Reflection namespace to match Activator BindingFlags defaults from Microsoft
  
 # Bug Fixes

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Xml.Serialization.Converters;
 
@@ -8,7 +9,7 @@ namespace Cuemon.Xml.Serialization.Formatters
     /// <summary>
     /// Configuration options for <see cref="XmlFormatter"/>.
     /// </summary>
-    public class XmlFormatterOptions
+    public class XmlFormatterOptions : IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;
@@ -98,7 +99,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// Gets or sets the settings to support the <see cref="XmlFormatter"/>.
         /// </summary>
         /// <returns>A <see cref="XmlSerializerOptions"/> instance that specifies a set of features to support the <see cref="XmlFormatter"/> object.</returns>
-        public XmlSerializerOptions Settings { get; }
+        public XmlSerializerOptions Settings { get; set; }
 
         internal XmlSerializerOptions RefreshWithConverterDependencies()
         {
@@ -118,6 +119,18 @@ namespace Cuemon.Xml.Serialization.Formatters
                 }
                 return Settings;
             }
+        }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="Settings"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(Settings == null);
         }
     }
 }

@@ -73,7 +73,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// <param name="options">The configured <see cref="XmlFormatterOptions"/>.</param>
         public XmlFormatter(XmlFormatterOptions options)
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             Options = options;
             if (options.SynchronizeWithXmlConvert) { Decorator.Enclose(options.RefreshWithConverterDependencies()).ApplyToDefaultSettings(); }
         }
@@ -96,8 +96,8 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// </exception>
         public override Stream Serialize(object source, Type objectType)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(objectType);
             var serializer = XmlSerializer.Create(Options.RefreshWithConverterDependencies());
             return serializer.Serialize(source, objectType);
         }
@@ -115,9 +115,9 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// </exception>
         public void SerializeToWriter(XmlWriter writer, object source, Type objectType)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(writer);
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(objectType);
             var serializer = XmlSerializer.Create(Options.RefreshWithConverterDependencies());
             serializer.Serialize(writer, source, objectType);
         }
@@ -134,8 +134,8 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// </exception>
         public override object Deserialize(Stream value, Type objectType)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(objectType);
             var serializer = XmlSerializer.Create(Options.RefreshWithConverterDependencies());
             return serializer.Deserialize(value, objectType);
         }

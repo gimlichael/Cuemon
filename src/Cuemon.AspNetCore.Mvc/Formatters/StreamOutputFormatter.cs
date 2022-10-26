@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Cuemon.Configuration;
 using Cuemon.IO;
 using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization.Formatters;
@@ -16,7 +17,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
     /// <typeparam name="TOptions">The type of the configured options.</typeparam>
     public abstract class StreamOutputFormatter<TFormatter, TOptions> : ConfigurableOutputFormatter<TOptions>
         where TFormatter : Formatter<Stream>
-        where TOptions : class, new()
+        where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StreamOutputFormatter{TFormatter, TOptions}"/> class.
@@ -36,8 +37,8 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
         /// <returns>A <see cref="Task" /> which can write the response body.</returns>
         public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            Validator.ThrowIfNull(context, nameof(context));
-            Validator.ThrowIfNull(selectedEncoding, nameof(selectedEncoding));
+            Validator.ThrowIfNull(context);
+            Validator.ThrowIfNull(selectedEncoding);
             var value = context.Object;
             if (value == null) { return; }
             using (var textWriter = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding))

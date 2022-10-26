@@ -23,18 +23,15 @@ namespace Cuemon.Extensions.Asp.Versioning
         /// <remarks>This method was introduced because of the design decisions made of the author of Asp.Versioning; for more information have a read at https://github.com/dotnet/aspnet-api-versioning/issues/886</remarks>
         public static IApplicationBuilder UseRestfulApiVersioning(this IApplicationBuilder builder, Func<HttpContext, HttpStatusCodeException> statusCodeExceptionFactory = null)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
-            if (statusCodeExceptionFactory == null)
+            Validator.ThrowIfNull(builder);
+            statusCodeExceptionFactory ??= context =>
             {
-                statusCodeExceptionFactory = context =>
+                if (HttpStatusCodeException.TryParse(context.Response.StatusCode, out var statusCodeEquivalentException))
                 {
-                    if (HttpStatusCodeException.TryParse(context.Response.StatusCode, out var statusCodeEquivalentException))
-                    {
-                        return statusCodeEquivalentException;
-                    }
-                    return new InternalServerErrorException();
-                };
-            }
+                    return statusCodeEquivalentException;
+                }
+                return new InternalServerErrorException();
+            };
             return builder.UseStatusCodePages(app =>
             {
                 app.Use((HttpContext context, Func<Task> _) => throw statusCodeExceptionFactory(context));

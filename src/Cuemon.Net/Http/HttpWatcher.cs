@@ -99,7 +99,7 @@ namespace Cuemon.Net.Http
             {
                 var currentChecksum = HashFactory().ComputeHash(await response.Content.ReadAsStreamAsync().ConfigureAwait(false)).ToHexadecimalString();
 
-                if (Checksum == null) { Checksum = currentChecksum; }
+                Checksum ??= currentChecksum;
                 if (!Checksum.Equals(currentChecksum, StringComparison.OrdinalIgnoreCase))
                 {
                     SetUtcLastModified(DateTime.UtcNow);
@@ -127,7 +127,7 @@ namespace Cuemon.Net.Http
                 else
                 {
                     var currentEntityTag = etag.Tag;
-                    if (EntityTag == null) { EntityTag = currentEntityTag; }
+                    EntityTag ??= currentEntityTag;
                     if (!EntityTag.Equals(currentEntityTag, StringComparison.OrdinalIgnoreCase))
                     {
                         SetUtcLastModified(DateTime.UtcNow);

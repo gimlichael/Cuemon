@@ -81,7 +81,7 @@ namespace Cuemon
         /// <param name="instanceType">The type of the new instance.</param>
         public void Replace(T instance, Type instanceType)
         {
-            Validator.ThrowIfNull(instanceType, nameof(instanceType));
+            Validator.ThrowIfNull(instanceType);
             Instance = instance;
             InstanceType = instanceType;
         }
@@ -231,7 +231,7 @@ namespace Cuemon
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all nodes that match the conditions defined by the specified predicate, if found.</returns>
         public static IEnumerable<IHierarchy<T>> Find<T>(IHierarchy<T> hierarchy, Func<IHierarchy<T>, bool> match)
         {
-            Validator.ThrowIfNull(match, nameof(match));
+            Validator.ThrowIfNull(match);
             return DescendantsAndSelf(hierarchy).Where(match);
         }
 
@@ -246,7 +246,7 @@ namespace Cuemon
         /// </exception>
         public static IHierarchy<object> GetObjectHierarchy(object source, Action<ObjectHierarchyOptions> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             var options = Patterns.Configure(setup);
             IDictionary<int, int> referenceSafeguards = new Dictionary<int, int>();
             var stack = new Stack<Wrapper<object>>();
@@ -322,8 +322,8 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<TSource> WhileSourceTraversalIsNotNull<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(traversal, nameof(traversal));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(traversal);
 
             return WhileSourceTraversalIsNotNullIterator(source, traversal);
         }

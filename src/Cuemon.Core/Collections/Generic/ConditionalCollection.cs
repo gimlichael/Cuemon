@@ -66,8 +66,8 @@ namespace Cuemon.Collections.Generic
         /// <returns><c>true</c> if <paramref name="item" /> was successfully removed from the <see cref="ConditionalCollection{T}" />; otherwise, <c>false</c>. This method also returns false if <paramref name="item" /> is not found in the original <see cref="ConditionalCollection{T}" />.</returns>
         protected bool Remove(T item, Func<T, bool> predicate, IEqualityComparer<T> comparer = null)
         {
-            if (comparer == null) { comparer = EqualityComparer<T>.Default; }
-            if (predicate == null) { predicate = x => comparer.Equals(item, x) && (comparer.GetHashCode(item) == comparer.GetHashCode(x)); }
+            comparer ??= EqualityComparer<T>.Default;
+            predicate ??= x => comparer.Equals(item, x) && (comparer.GetHashCode(item) == comparer.GetHashCode(x));
             var match = new Predicate<T>(predicate);
             return _wrapper.RemoveAll(match) > 0;
         }
@@ -87,7 +87,7 @@ namespace Cuemon.Collections.Generic
         /// <returns><c>true</c> if <paramref name="item" /> is found in the <see cref="ConditionalCollection{T}" />; otherwise, <c>false</c>.</returns>
         protected bool Contains(T item, IEqualityComparer<T> comparer)
         {
-            if (comparer == null) { comparer = EqualityComparer<T>.Default; }
+            comparer ??= EqualityComparer<T>.Default;
             return _wrapper.Contains(item, comparer);
         }
 

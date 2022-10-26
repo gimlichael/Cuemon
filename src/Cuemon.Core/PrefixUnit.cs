@@ -32,8 +32,8 @@ namespace Cuemon
         /// </exception>
         protected PrefixUnit(string name, string symbol, double value, IPrefixMultiple prefix, Action<UnitFormatOptions> setup = null)
         {
-            Validator.ThrowIfNullOrWhitespace(name, nameof(name));
-            Validator.ThrowIfNullOrWhitespace(symbol, nameof(symbol));
+            Validator.ThrowIfNullOrWhitespace(name);
+            Validator.ThrowIfNullOrWhitespace(symbol);
             Validator.ThrowIfLowerThan(value, 0, nameof(value));
 
             UnitName = name;

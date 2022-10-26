@@ -38,7 +38,7 @@ namespace Cuemon.Globalization
         /// </exception>
         protected string GetString(string name)
         {
-            Validator.ThrowIfNullOrWhitespace(name, nameof(name));
+            Validator.ThrowIfNullOrWhitespace(name);
             if (ResourceType == null) { throw new InvalidOperationException("You must specify a type to perform the actual lookup of localized strings."); }
             var cacheKey = $"{ResourceType.ToString().ToUpperInvariant()}.{name.ToUpperInvariant()}";
             if (!_propertyInfos.TryGetValue(cacheKey, out var property))

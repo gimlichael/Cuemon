@@ -22,9 +22,9 @@ namespace Cuemon.Data.Integrity
         /// </exception>
         public static CacheValidator CreateValidator(FileInfo file, Func<Hash> hashFactory = null, Action<FileChecksumOptions> setup = null)
         {
-            Validator.ThrowIfNull(file, nameof(file));
+            Validator.ThrowIfNull(file);
             var options = Patterns.Configure(setup);
-            if (hashFactory == null) { hashFactory = DefaultFactoryProvider(options.BytesToRead); }
+            hashFactory ??= DefaultFactoryProvider(options.BytesToRead);
             return DataIntegrityFactory.CreateIntegrity(file, fio =>
             {
                 fio.BytesToRead = options.BytesToRead;
@@ -52,9 +52,9 @@ namespace Cuemon.Data.Integrity
         /// </exception>
         public static CacheValidator CreateValidator(Assembly assembly, Func<Hash> hashFactory = null, Action<FileChecksumOptions> setup = null)
         {
-            Validator.ThrowIfNull(assembly, nameof(assembly));
+            Validator.ThrowIfNull(assembly);
             var options = Patterns.Configure(setup);
-            if (hashFactory == null) { hashFactory = DefaultFactoryProvider(options.BytesToRead); }
+            hashFactory ??= DefaultFactoryProvider(options.BytesToRead);
             var assemblyHashCode64 = Generate.HashCode64(assembly.FullName);
             var assemblyLocation = assembly.Location;
             return assembly.IsDynamic

@@ -16,9 +16,9 @@ namespace Cuemon.Threading
         /// <param name="setup">The <see cref="AsyncTaskFactoryOptions" /> which may be configured.</param>
         public static void While<TReader, TElement>(TReader reader, Func<bool> condition, Func<TReader, TElement> provider, Action<TElement> worker, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             WhileCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), ActionFactory.Create(worker, default), setup);
         }
 
@@ -36,9 +36,9 @@ namespace Cuemon.Threading
         /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
         public static void While<TReader, TElement, T>(TReader reader, Func<bool> condition, Func<TReader, TElement> provider, Action<TElement, T> worker, T arg, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             WhileCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), ActionFactory.Create(worker, default, arg), setup);
         }
 
@@ -58,9 +58,9 @@ namespace Cuemon.Threading
         /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
         public static void While<TReader, TElement, T1, T2>(TReader reader, Func<bool> condition, Func<TReader, TElement> provider, Action<TElement, T1, T2> worker, T1 arg1, T2 arg2, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             WhileCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), ActionFactory.Create(worker, default, arg1, arg2), setup);
         }
 
@@ -82,9 +82,9 @@ namespace Cuemon.Threading
         /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
         public static void While<TReader, TElement, T1, T2, T3>(TReader reader, Func<bool> condition, Func<TReader, TElement> provider, Action<TElement, T1, T2, T3> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             WhileCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), ActionFactory.Create(worker, default, arg1, arg2, arg3), setup);
         }
 
@@ -108,9 +108,9 @@ namespace Cuemon.Threading
         /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
         public static void While<TReader, TElement, T1, T2, T3, T4>(TReader reader, Func<bool> condition, Func<TReader, TElement> provider, Action<TElement, T1, T2, T3, T4> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             WhileCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
         }
 
@@ -136,9 +136,9 @@ namespace Cuemon.Threading
         /// <param name="setup">The <see cref="AsyncTaskFactoryOptions"/> which may be configured.</param>
         public static void While<TReader, TElement, T1, T2, T3, T4, T5>(TReader reader, Func<bool> condition, Func<TReader, TElement> provider, Action<TElement, T1, T2, T3, T4, T5> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             WhileCore(new ForwardIterator<TReader, TElement>(reader, condition, provider), ActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 

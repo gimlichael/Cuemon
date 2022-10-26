@@ -26,7 +26,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <remarks>The original <paramref name="source"/> is reduced equivalent to the number of elements in the returned sequence.</remarks>
         public static PartitionerEnumerable<T> Chunk<T>(this IEnumerable<T> source, int size = 128)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             Validator.ThrowIfLowerThanOrEqual(size, 0, nameof(size));
             return new PartitionerEnumerable<T>(source, size);
         }
@@ -51,8 +51,8 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <remarks>Fisher–Yates shuffle: https://en.wikipedia.org/wiki/Fisher–Yates_shuffle</remarks>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Func<int, int, int> randomizer)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(randomizer, nameof(randomizer));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(randomizer);
             var buffer = source.ToArray();
             var length = buffer.Length;
             while (length > 0)
@@ -85,8 +85,8 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <returns>An <see cref="IEnumerable{T}"/> that contains ascending sorted elements from the source sequence.</returns>
         public static IEnumerable<T> OrderAscending<T>(this IEnumerable<T> source, IComparer<T> comparer)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(comparer, nameof(comparer));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(comparer);
             return source.OrderBy(t => t, comparer);
         }
 
@@ -110,8 +110,8 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <returns>An <see cref="IEnumerable{T}"/> that contains descending sorted elements from the source sequence.</returns>
         public static IEnumerable<T> OrderDescending<T>(this IEnumerable<T> source, IComparer<T> comparer)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(comparer, nameof(comparer));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(comparer);
             return source.OrderByDescending(t => t, comparer);
         }
 
@@ -123,7 +123,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <returns><c>default</c> if <paramref name="source"/> is empty; otherwise, a random element of <paramref name="source"/>.</returns>
         public static T RandomOrDefault<T>(this IEnumerable<T> source)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             var collection = source as ICollection<T> ?? new List<T>(source);
             return collection.Count == 0 ? default : collection.ElementAt(Generate.RandomNumber(collection.Count));
         }
@@ -173,8 +173,8 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source, IEqualityComparer<TKey> comparer)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(comparer, nameof(comparer));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(comparer);
 
             var result = new Dictionary<TKey, TValue>(comparer);
             foreach (var item in source)

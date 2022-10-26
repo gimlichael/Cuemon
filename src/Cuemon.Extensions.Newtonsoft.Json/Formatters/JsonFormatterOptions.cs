@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
@@ -10,7 +11,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     /// <summary>
     /// Specifies options that is related to <see cref="JsonFormatter"/> operations.
     /// </summary>
-    public class JsonFormatterOptions
+    public class JsonFormatterOptions : IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;
@@ -130,6 +131,18 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 }
                 return Settings;
             }
+        }
+        
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="Settings"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(Settings == null);
         }
     }
 }

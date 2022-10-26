@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <param name="setup">The <see cref="JsonSerializerSettings"/> which need to be configured.</param>
         public static void Use<T>(this JsonSerializerSettings s1, Action<T> setup = null) where T : JsonSerializerSettings, new()
         {
-            Validator.ThrowIfNull(s1, nameof(s1));
+            Validator.ThrowIfNull(s1);
             var s2 = Patterns.Configure(setup);
             s1.CheckAdditionalContent = s2.CheckAdditionalContent;
             s1.ConstructorHandling = s2.ConstructorHandling;

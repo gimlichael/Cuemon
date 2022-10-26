@@ -29,7 +29,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static TResult WithFunc<TResult>(Func<TResult> faultSensitiveMethod, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = FuncFactory.Create(faultSensitiveMethod);
             return WithFuncCore(factory, setup);
         }
@@ -58,7 +58,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static TResult WithFunc<T, TResult>(Func<T, TResult> faultSensitiveMethod, T arg, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = FuncFactory.Create(faultSensitiveMethod, arg);
             return WithFuncCore(factory, setup);
         }
@@ -89,7 +89,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static TResult WithFunc<T1, T2, TResult>(Func<T1, T2, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = FuncFactory.Create(faultSensitiveMethod, arg1, arg2);
             return WithFuncCore(factory, setup);
         }
@@ -122,7 +122,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static TResult WithFunc<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = FuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
             return WithFuncCore(factory, setup);
         }
@@ -157,7 +157,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static TResult WithFunc<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = FuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
             return WithFuncCore(factory, setup);
         }
@@ -194,7 +194,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static TResult WithFunc<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, TResult> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = FuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
             return WithFuncCore(factory, setup);
         }
@@ -219,7 +219,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static void WithAction(Action faultSensitiveMethod, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = ActionFactory.Create(faultSensitiveMethod);
             WithActionCore(factory, setup);
         }
@@ -246,7 +246,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static void WithAction<T>(Action<T> faultSensitiveMethod, T arg, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = ActionFactory.Create(faultSensitiveMethod, arg);
             WithActionCore(factory, setup);
         }
@@ -275,7 +275,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static void WithAction<T1, T2>(Action<T1, T2> faultSensitiveMethod, T1 arg1, T2 arg2, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = ActionFactory.Create(faultSensitiveMethod, arg1, arg2);
             WithActionCore(factory, setup);
         }
@@ -306,7 +306,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static void WithAction<T1, T2, T3>(Action<T1, T2, T3> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = ActionFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
             WithActionCore(factory, setup);
         }
@@ -339,7 +339,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static void WithAction<T1, T2, T3, T4>(Action<T1, T2, T3, T4> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = ActionFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
             WithActionCore(factory, setup);
         }
@@ -374,7 +374,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static void WithAction<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<TransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = ActionFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
             WithActionCore(factory, setup);
         }

@@ -37,8 +37,8 @@ namespace Cuemon.Xml.XPath
         /// </exception>
         public static XPathDocument CreateDocument(string value, Encoding encoding)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(encoding, nameof(encoding));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(encoding);
             using (var stream = Decorator.Enclose(value).ToStream(options =>
             {
                 options.Encoding = encoding;
@@ -60,7 +60,7 @@ namespace Cuemon.Xml.XPath
         /// </exception>
         public static XPathDocument CreateDocument(Stream stream, bool leaveOpen = false)
         {
-            Validator.ThrowIfNull(stream, nameof(stream));
+            Validator.ThrowIfNull(stream);
             if (leaveOpen)
             {
                 var reader = XmlReader.Create(stream);
@@ -84,7 +84,7 @@ namespace Cuemon.Xml.XPath
         /// </exception>
         public static XPathDocument CreateDocument(XmlReader reader)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(reader);
             return new XPathDocument(reader);
         }
 
@@ -98,7 +98,7 @@ namespace Cuemon.Xml.XPath
         /// </exception>
         public static XPathDocument CreateDocument(Uri uriLocation)
         {
-            Validator.ThrowIfNull(uriLocation, nameof(uriLocation));
+            Validator.ThrowIfNull(uriLocation);
             return new XPathDocument(uriLocation.ToString());
         }
     }

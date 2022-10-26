@@ -25,7 +25,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static bool IsDebugBuild(this IDecorator<Assembly> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var debuggingFlags = GetDebuggingFlags(decorator.Inner);
             var isDebug = debuggingFlags.HasFlag(DebuggableAttribute.DebuggingModes.Default) ||
                           debuggingFlags.HasFlag(DebuggableAttribute.DebuggingModes.DisableOptimizations) ||
@@ -46,7 +46,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static IEnumerable<Type> GetTypes(this IDecorator<Assembly> decorator, string namespaceFilter = null, Type typeFilter = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var hasNamespaceFilter = !string.IsNullOrEmpty(namespaceFilter);
             var hasTypeFilter = (typeFilter != null);
             var types = decorator.Inner.GetTypes() as IEnumerable<Type>;
@@ -71,7 +71,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static VersionResult GetAssemblyVersion(this IDecorator<Assembly> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return new VersionResult(decorator.Inner.GetName().Version);
         }
 
@@ -85,7 +85,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static VersionResult GetFileVersion(this IDecorator<Assembly> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var version = decorator.Inner.GetCustomAttribute<AssemblyFileVersionAttribute>();
             return new VersionResult(version.Version);
         }
@@ -100,7 +100,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static VersionResult GetProductVersion(this IDecorator<Assembly> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var version = decorator.Inner.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
             return new VersionResult(version.InformationalVersion);
         }
@@ -127,8 +127,8 @@ namespace Cuemon.Reflection
         /// <seealso cref="Assembly.GetManifestResourceNames()"/>
         public static IDictionary<string, Stream> GetManifestResources(this IDecorator<Assembly> decorator, string name, ManifestResourceMatch match = default)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNullOrWhitespace(name, nameof(name));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNullOrWhitespace(name);
             var resources = new Dictionary<string, Stream>();
             switch (match)
             {

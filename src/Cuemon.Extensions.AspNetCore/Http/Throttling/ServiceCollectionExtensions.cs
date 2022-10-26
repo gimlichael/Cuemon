@@ -25,7 +25,7 @@ namespace Cuemon.Extensions.AspNetCore.Http.Throttling
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
         public static IServiceCollection AddThrottlingCache<T>(this IServiceCollection services) where T : class, IThrottlingCache
         {
-            Validator.ThrowIfNull(services, nameof(services));
+            Validator.ThrowIfNull(services);
             services.AddSingleton<IThrottlingCache, T>();
             return services;
         }

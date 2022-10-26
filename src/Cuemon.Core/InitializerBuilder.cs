@@ -14,7 +14,7 @@ namespace Cuemon
         /// <param name="instance">The instance to initialize within a protective wrapping.</param>
         internal InitializerBuilder(T instance)
         {
-            Validator.ThrowIfNull(instance, nameof(instance));
+            Validator.ThrowIfNull(instance);
             Instance = instance;
         }
 
@@ -52,8 +52,8 @@ namespace Cuemon
         /// <returns>A reference to this instance.</returns>
         public InitializerBuilder<T> Ignore(Action<T> initializer, Func<Exception, bool> ignorer)
         {
-            Validator.ThrowIfNull(ignorer, nameof(ignorer));
-            Validator.ThrowIfNull(initializer, nameof(initializer));
+            Validator.ThrowIfNull(ignorer);
+            Validator.ThrowIfNull(initializer);
             try
             {
                 initializer(Instance);

@@ -26,7 +26,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         /// </exception>
         public static BasicAuthorizationHeader Create(string authorizationHeader)
         {
-            Validator.ThrowIfNullOrWhitespace(authorizationHeader, nameof(authorizationHeader));
+            Validator.ThrowIfNullOrWhitespace(authorizationHeader);
             return new BasicAuthorizationHeader().Parse(authorizationHeader, null) as BasicAuthorizationHeader;
         }
 
@@ -55,8 +55,8 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         /// </exception>
         public BasicAuthorizationHeader(string username, string password) : base(Scheme)
         {
-            Validator.ThrowIfNullOrWhitespace(username, nameof(username));
-            Validator.ThrowIfNullOrWhitespace(password, nameof(password));
+            Validator.ThrowIfNullOrWhitespace(username);
+            Validator.ThrowIfNullOrWhitespace(password);
             Validator.ThrowIfTrue(() => username.Contains(":"), nameof(username), $"Colon is not allowed as part of the {nameof(username)}.");
             UserName = username;
             Password = password;
@@ -93,7 +93,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         /// <returns>An <see cref="AuthorizationHeader" /> equivalent of <paramref name="authorizationHeader" />.</returns>
         public override AuthorizationHeader Parse(string authorizationHeader, Action<AuthorizationHeaderOptions> setup)
         {
-            Validator.ThrowIfNullOrWhitespace(authorizationHeader, nameof(authorizationHeader));
+            Validator.ThrowIfNullOrWhitespace(authorizationHeader);
             Validator.ThrowIfFalse(() => authorizationHeader.StartsWith(AuthenticationScheme), nameof(authorizationHeader), $"Header did not start with {AuthenticationScheme}.");
 
             var headerWithoutScheme = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);

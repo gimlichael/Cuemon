@@ -29,7 +29,7 @@ namespace Cuemon.Net
         /// </exception>
         public static string UrlEncode(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var value = decorator.Inner;
             if (value == null) { return null; }
             if (value == string.Empty) { return string.Empty; }
@@ -69,7 +69,7 @@ namespace Cuemon.Net
         /// </exception>
         public static string UrlDecode(this IDecorator<string> decorator, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var value = decorator.Inner;
             if (null == value) { return null; }
             if (value.IndexOf('%') == -1 && value.IndexOf('+') == -1) { return value; }
@@ -155,7 +155,7 @@ namespace Cuemon.Net
 
         internal static QueryStringCollection ToQueryString(this IDecorator<string> decorator, bool urlDecode)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var fieldValuePairs = decorator.Inner ?? "";
             var modifiedFieldValuePairs = new QueryStringCollection();
             if (fieldValuePairs.Length == 0) { return modifiedFieldValuePairs; }

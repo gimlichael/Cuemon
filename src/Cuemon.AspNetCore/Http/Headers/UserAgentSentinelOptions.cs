@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using Cuemon.Configuration;
 
 namespace Cuemon.AspNetCore.Http.Headers
 {
     /// <summary>
     /// Configuration options for <see cref="UserAgentSentinelMiddleware"/>.
     /// </summary>
-    public class UserAgentSentinelOptions
+    public class UserAgentSentinelOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserAgentSentinelOptions"/> class.
@@ -109,10 +110,10 @@ namespace Cuemon.AspNetCore.Http.Headers
         public bool ValidateUserAgentHeader { get; set; }
 
         /// <summary>
-        /// Gets a list of whitelisted user agents.
+        /// Gets or sets a list of whitelisted user agents.
         /// </summary>
         /// <value>A list of whitelisted user agents.</value>
-        public IList<string> AllowedUserAgents { get; }
+        public IList<string> AllowedUserAgents { get; set; }
 
         /// <summary>
         /// Gets or sets the message of a request missing the requirements of a User-Agent header.
@@ -125,5 +126,19 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </summary>
         /// <value>The message of a request without a valid User-Agent header.</value>
         public string ForbiddenMessage { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="ResponseHandler"/> cannot be null - or -
+        /// <see cref="AllowedUserAgents"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(ResponseHandler == null);
+            Validator.ThrowIfObjectInDistress(AllowedUserAgents == null);
+        }
     }
 }

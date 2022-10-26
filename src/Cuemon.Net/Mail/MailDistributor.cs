@@ -23,7 +23,7 @@ namespace Cuemon.Net.Mail
         /// </remarks>
         public MailDistributor(Func<SmtpClient> carrier, int deliverySize = 20)
         {
-            Validator.ThrowIfNull(carrier, nameof(carrier));
+            Validator.ThrowIfNull(carrier);
             Validator.ThrowIfLowerThan(deliverySize, 1, nameof(deliverySize));
             Carrier = carrier;
             DeliverySize = deliverySize;
@@ -41,7 +41,7 @@ namespace Cuemon.Net.Mail
         /// <remarks>The function delegate <paramref name="filter"/> will only include the <paramref name="mail"/> if that evaluates to <c>true</c>.</remarks>
         public Task SendOneAsync(MailMessage mail, Func<MailMessage, bool> filter = null)
         {
-            Validator.ThrowIfNull(mail, nameof(mail));
+            Validator.ThrowIfNull(mail);
             return SendAsync(Arguments.Yield(mail), filter);
         }
 
@@ -53,7 +53,7 @@ namespace Cuemon.Net.Mail
         /// <remarks>The function delegate <paramref name="filter"/> will only include those <paramref name="mails"/> that evaluates to <c>true</c>.</remarks>
         public Task SendAsync(IEnumerable<MailMessage> mails, Func<MailMessage, bool> filter = null)
         {
-            Validator.ThrowIfNull(mails, nameof(mails));
+            Validator.ThrowIfNull(mails);
             var carriers = PrepareShipment(this, mails, filter);
             var shipments = new List<Task>();
             foreach (var shipment in carriers)

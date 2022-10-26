@@ -25,7 +25,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// </exception>
         public static DigestAuthorizationHeader Create(string authorizationHeader)
         {
-            Validator.ThrowIfNullOrWhitespace(authorizationHeader, nameof(authorizationHeader));
+            Validator.ThrowIfNullOrWhitespace(authorizationHeader);
             return new DigestAuthorizationHeader().Parse(authorizationHeader, o => o.CredentialsDelimiter = " ") as DigestAuthorizationHeader;
         }
 

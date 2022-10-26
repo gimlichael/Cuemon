@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         /// <remarks>This is a convenient method to add API versioning to your ASP.NET Core WebApi. Call <c>AddApiVersioning</c>, <c>AddMvc</c> and <c>AddApiExplorer</c>. Configuration, which is optimized for RESTful APIs, are done through <paramref name="setup"/>.</remarks>
         public static IServiceCollection AddRestfulApiVersioning(this IServiceCollection services, Action<RestfulApiVersioningOptions> setup = null)
         {
-            Validator.ThrowIfNull(services, nameof(services));
+            Validator.ThrowIfNull(services);
 
             var options = Patterns.Configure(setup);
 

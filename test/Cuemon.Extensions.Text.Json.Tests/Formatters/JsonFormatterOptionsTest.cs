@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Reflection;
@@ -11,6 +12,32 @@ namespace Cuemon.Extensions.Text.Json.Formatters
     {
         public JsonFormatterOptionsTest(ITestOutputHelper output) : base(output)
         {
+        }
+
+        [Fact]
+        public void JsonFormatterOptions_SettingsIsNull_ShouldThrowInvalidOperationException()
+        {
+            var sut1 = new JsonFormatterOptions()
+            {
+                Settings = null
+            };
+            var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+
+            Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Settings == null')", sut2.Message);
+            Assert.Equal("JsonFormatterOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+            Assert.IsType<InvalidOperationException>(sut3.InnerException);
+        }
+
+        [Fact]
+        public void JsonFormatterOptions_ShouldHaveDefaultValues()
+        {
+            var sut = new JsonFormatterOptions();
+
+            Assert.NotNull(sut.Settings);
+            Assert.False(sut.IncludeExceptionStackTrace);
+            Assert.False(sut.IncludeExceptionDescriptorFailure);
+            Assert.False(sut.IncludeExceptionDescriptorEvidence);
         }
 
         [Fact]

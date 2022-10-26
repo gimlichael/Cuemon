@@ -9,36 +9,26 @@ namespace Cuemon.AspNetCore.Diagnostics
     /// </summary>
     public class HttpExceptionDescriptorResponseHandler
     {
-        private readonly Func<HttpExceptionDescriptor, MediaTypeHeaderValue, HttpResponseMessage> _responseMessageFactory;
+        private readonly Func<HttpExceptionDescriptor, HttpResponseMessage> _responseMessageFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpExceptionDescriptorResponseHandler"/> class.
         /// </summary>
-        /// <param name="descriptor">The exception descriptor tailored for HTTP requests.</param>
         /// <param name="contentType">The media type that this handler supports.</param>
         /// <param name="responseMessageFactory">The function delegate that produces the <see cref="HttpResponseMessage"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="descriptor"/> cannot be null -or-
         /// <paramref name="contentType"/> cannot be null -or-
         /// <paramref name="responseMessageFactory"/> cannot be null.
         /// </exception>
-        public HttpExceptionDescriptorResponseHandler(HttpExceptionDescriptor descriptor, MediaTypeHeaderValue contentType, Func<HttpExceptionDescriptor, MediaTypeHeaderValue, HttpResponseMessage> responseMessageFactory)
+        public HttpExceptionDescriptorResponseHandler(MediaTypeHeaderValue contentType, Func<HttpExceptionDescriptor, HttpResponseMessage> responseMessageFactory)
         {
-            Validator.ThrowIfNull(descriptor, nameof(descriptor));
-            Validator.ThrowIfNull(contentType, nameof(contentType));
-            Validator.ThrowIfNull(responseMessageFactory, nameof(responseMessageFactory));
+            Validator.ThrowIfNull(contentType);
+            Validator.ThrowIfNull(responseMessageFactory);
 
-            Descriptor = descriptor;
             ContentType = contentType;
 
             _responseMessageFactory = responseMessageFactory;
         }
-
-        /// <summary>
-        /// Gets the exception descriptor tailored for HTTP requests.
-        /// </summary>
-        /// <value>The exception descriptor tailored for HTTP requests.</value>
-        public HttpExceptionDescriptor Descriptor { get; }
 
         /// <summary>
         /// Gets the media type that this handler supports.
@@ -49,10 +39,14 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// <summary>
         /// Converts this instance into an <see cref="HttpResponseMessage"/> from the by constructor provided factory.
         /// </summary>
+        /// <param name="descriptor">The exception descriptor tailored for HTTP requests.</param>
         /// <returns>An <see cref="HttpResponseMessage"/> from the by constructor provided factory.</returns>
-        public HttpResponseMessage ToHttpResponseMessage()
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="descriptor"/> cannot be null.
+        /// </exception>
+        public HttpResponseMessage ToHttpResponseMessage(HttpExceptionDescriptor descriptor)
         {
-            return _responseMessageFactory(Descriptor, ContentType);
+            return _responseMessageFactory(descriptor);
         }
     }
 }   

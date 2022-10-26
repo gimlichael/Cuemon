@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cuemon.Configuration;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Text.Yaml.Converters;
 
@@ -8,7 +9,7 @@ namespace Cuemon.Text.Yaml.Formatters
     /// <summary>
     /// Configuration options for <see cref="YamlFormatter"/>.
     /// </summary>
-    public sealed class YamlFormatterOptions : EncodingOptions
+    public sealed class YamlFormatterOptions : EncodingOptions, IValidatableParameterObject
     {
         static YamlFormatterOptions()
         {
@@ -46,6 +47,18 @@ namespace Cuemon.Text.Yaml.Formatters
         /// Gets or sets the settings to support the <see cref="YamlConverter"/>.
         /// </summary>
         /// <returns>A <see cref="YamlSerializerOptions"/> instance that specifies a set of features to support the <see cref="YamlConverter"/> object.</returns>
-        public YamlSerializerOptions Settings { get; }
+        public YamlSerializerOptions Settings { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="Settings"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(Settings == null);
+        }
     }
 }

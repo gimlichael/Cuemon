@@ -15,7 +15,7 @@ namespace Cuemon.Extensions
         /// <param name="destination">The name of the destination column/field/item within the data destination.</param>
         public static void AddMapping(this ICollection<Mapping> collection, string source, string destination)
         {
-            Validator.ThrowIfNull(collection, nameof(collection));
+            Validator.ThrowIfNull(collection);
             collection.Add(new Mapping(source, destination));
         }
 
@@ -27,7 +27,7 @@ namespace Cuemon.Extensions
         /// <param name="destination">The name of the destination column/field/item within the data destination.</param>
         public static void AddMapping(this ICollection<Mapping> collection, int sourceIndex, string destination)
         {
-            Validator.ThrowIfNull(collection, nameof(collection));
+            Validator.ThrowIfNull(collection);
             collection.Add(new IndexMapping(sourceIndex, destination));
         }
 
@@ -39,7 +39,7 @@ namespace Cuemon.Extensions
         /// <param name="destinationIndex">The ordinal position of the destination column/field/item within the data destination.</param>
         public static void AddMapping(this ICollection<Mapping> collection, string source, int destinationIndex)
         {
-            Validator.ThrowIfNull(collection, nameof(collection));
+            Validator.ThrowIfNull(collection);
             collection.Add(new IndexMapping(source, destinationIndex));
         }
 
@@ -51,7 +51,7 @@ namespace Cuemon.Extensions
         /// <param name="destinationIndex">The ordinal position of the destination column/field/item within the data destination.</param>
         public static void AddMapping(this ICollection<Mapping> collection, int sourceIndex, int destinationIndex)
         {
-            Validator.ThrowIfNull(collection, nameof(collection));
+            Validator.ThrowIfNull(collection);
             collection.Add(new IndexMapping(sourceIndex, destinationIndex));
         }
     }

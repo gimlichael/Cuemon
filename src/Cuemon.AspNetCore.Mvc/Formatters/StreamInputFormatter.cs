@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Diagnostics;
+using Cuemon.Configuration;
 using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization.Formatters;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -16,7 +17,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
     /// <typeparam name="TOptions">The type of the configured options.</typeparam>
     public abstract class StreamInputFormatter<TFormatter, TOptions> : ConfigurableInputFormatter<TOptions>
         where TFormatter : Formatter<Stream>
-        where TOptions : class, new()
+        where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StreamInputFormatter{TFormatter, TOptions}"/> class.
@@ -37,7 +38,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
         /// <remarks>In this implementation <paramref name="encoding"/> is disregarded.</remarks>
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
         {
-            Validator.ThrowIfNull(context, nameof(context));
+            Validator.ThrowIfNull(context);
             var requestBody = new MemoryStream();
             #if NETSTANDARD
             await context.HttpContext.Request.Body.CopyToAsync(requestBody).ConfigureAwait(false);

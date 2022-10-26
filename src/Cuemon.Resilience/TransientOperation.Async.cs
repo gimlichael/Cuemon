@@ -29,7 +29,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task<TResult> WithFuncAsync<TResult>(Func<CancellationToken, Task<TResult>> faultSensitiveMethod, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskFuncFactory.Create(faultSensitiveMethod);
             return WithFuncAsyncCore(factory, setup);
         }
@@ -59,7 +59,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task<TResult> WithFuncAsync<T, TResult>(Func<T, CancellationToken, Task<TResult>> faultSensitiveMethod, T arg, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskFuncFactory.Create(faultSensitiveMethod, arg);
             return WithFuncAsyncCore(factory, setup);
         }
@@ -91,7 +91,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task<TResult> WithFuncAsync<T1, T2, TResult>(Func<T1, T2, CancellationToken, Task<TResult>> faultSensitiveMethod, T1 arg1, T2 arg2, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskFuncFactory.Create(faultSensitiveMethod, arg1, arg2);
             return WithFuncAsyncCore(factory, setup);
         }
@@ -125,7 +125,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task<TResult> WithFuncAsync<T1, T2, T3, TResult>(Func<T1, T2, T3, CancellationToken, Task<TResult>> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
             return WithFuncAsyncCore(factory, setup);
         }
@@ -161,7 +161,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task<TResult> WithFuncAsync<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, CancellationToken, Task<TResult>> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
             return WithFuncAsyncCore(factory, setup);
         }
@@ -199,7 +199,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task<TResult> WithFuncAsync<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, CancellationToken, Task<TResult>> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskFuncFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
             return WithFuncAsyncCore(factory, setup);
         }
@@ -225,7 +225,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task WithActionAsync(Func<CancellationToken, Task> faultSensitiveMethod, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskActionFactory.Create(faultSensitiveMethod);
             return WithActionAsyncCore(factory, setup);
         }
@@ -253,7 +253,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task WithActionAsync<T>(Func<T, CancellationToken, Task> faultSensitiveMethod, T arg, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskActionFactory.Create(faultSensitiveMethod, arg);
             return WithActionAsyncCore(factory, setup);
         }
@@ -283,7 +283,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task WithActionAsync<T1, T2>(Func<T1, T2, CancellationToken, Task> faultSensitiveMethod, T1 arg1, T2 arg2, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskActionFactory.Create(faultSensitiveMethod, arg1, arg2);
             return WithActionAsyncCore(factory, setup);
         }
@@ -315,7 +315,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task WithActionAsync<T1, T2, T3>(Func<T1, T2, T3, CancellationToken, Task> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskActionFactory.Create(faultSensitiveMethod, arg1, arg2, arg3);
             return WithActionAsyncCore(factory, setup);
         }
@@ -349,7 +349,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task WithActionAsync<T1, T2, T3, T4>(Func<T1, T2, T3, T4, CancellationToken, Task> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskActionFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4);
             return WithActionAsyncCore(factory, setup);
         }
@@ -385,7 +385,7 @@ namespace Cuemon.Resilience
         /// </exception>
         public static Task WithActionAsync<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5, CancellationToken, Task> faultSensitiveMethod, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncTransientOperationOptions> setup = null)
         {
-            Validator.ThrowIfNull(faultSensitiveMethod, nameof(faultSensitiveMethod));
+            Validator.ThrowIfNull(faultSensitiveMethod);
             var factory = TaskActionFactory.Create(faultSensitiveMethod, arg1, arg2, arg3, arg4, arg5);
             return WithActionAsyncCore(factory, setup);
         }

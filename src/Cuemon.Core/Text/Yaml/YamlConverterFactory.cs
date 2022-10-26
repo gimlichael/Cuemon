@@ -62,7 +62,7 @@ namespace Cuemon.Text.Yaml
 
     internal class DynamicConvertFactory : YamlConverter
     {
-        internal DynamicConvertFactory(Func<Type, bool> predicate, Action<YamlTextWriter, object, YamlSerializerOptions> writer, Func<YamlTextReader, Type, YamlSerializerOptions, object> reader, Type objectType = null)
+        internal DynamicConvertFactory(Func<Type, bool> predicate, Action<YamlTextWriter, object, YamlSerializerOptions> writer, Func<YamlTextReader, Type, YamlSerializerOptions, object> reader)
         {
             Predicate = predicate;
             Writer = writer;

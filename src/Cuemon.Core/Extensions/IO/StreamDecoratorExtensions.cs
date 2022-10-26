@@ -23,7 +23,7 @@ namespace Cuemon.IO
         /// </exception>
         public static void CopyStream(this IDecorator<Stream> decorator, Stream destination, int bufferSize = 81920, bool changePosition = true)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var source = decorator.Inner;
             long lastPosition = 0;
             if (changePosition && source.CanSeek)
@@ -50,7 +50,7 @@ namespace Cuemon.IO
         /// </exception>
         public static byte[] InvokeToByteArray(this IDecorator<Stream> decorator, int bufferSize = 81920, bool leaveOpen = false)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             Validator.ThrowIfFalse(decorator.Inner.CanRead, nameof(decorator.Inner), "Stream cannot be read from.");
             try
             {

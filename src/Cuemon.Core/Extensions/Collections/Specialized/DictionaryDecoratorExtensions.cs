@@ -22,7 +22,7 @@ namespace Cuemon.Collections.Specialized
         /// </exception>
         public static NameValueCollection ToNameValueCollection(this IDecorator<IDictionary<string, string[]>> decorator, Action<DelimitedStringOptions<string>> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var result = new NameValueCollection();
             foreach (var item in decorator.Inner)
             {

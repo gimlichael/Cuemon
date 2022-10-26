@@ -31,7 +31,7 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static IDictionary<string, Stream> GetEmbeddedResources(this Type source, string name, ManifestResourceMatch match)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             return Decorator.Enclose(source.Assembly).GetManifestResources(name, match);
         }
 
@@ -46,7 +46,7 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static IEnumerable<PropertyInfo> GetRuntimePropertiesExceptOf<T>(this Type type)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             return Decorator.Enclose(type).GetRuntimePropertiesExceptOf<T>();
         }
 

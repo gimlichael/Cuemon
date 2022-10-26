@@ -27,7 +27,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static XmlConverter FirstOrDefaultReaderConverter(this IDecorator<IList<XmlConverter>> decorator, Type objectType)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.FirstOrDefault(c => c.CanConvert(objectType) && c.CanRead);
         }
 
@@ -42,7 +42,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static XmlConverter FirstOrDefaultWriterConverter(this IDecorator<IList<XmlConverter>> decorator, Type objectType)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.FirstOrDefault(c => c.CanConvert(objectType) && c.CanWrite);
         }
 
@@ -61,7 +61,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddXmlConverter<T>(this IDecorator<IList<XmlConverter>> decorator, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity qe = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.Inner.Add(DynamicXmlConverter.Create(writer, reader, canConvertPredicate, qe));
             return decorator;
         }
@@ -82,7 +82,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> InsertXmlConverter<T>(this IDecorator<IList<XmlConverter>> decorator, int index, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity qe = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.Inner.Insert(index, DynamicXmlConverter.Create(writer, reader, canConvertPredicate, qe));
             return decorator;
         }
@@ -97,7 +97,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddEnumerableConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter<IEnumerable>((w, o, q) =>
             {
                 if (w.WriteState == WriteState.Start && q == null && !(o is IDictionary || o is IList)) { q = new XmlQualifiedEntity("Enumerable"); }
@@ -164,7 +164,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddExceptionDescriptorConverter(this IDecorator<IList<XmlConverter>> decorator, Action<ExceptionDescriptorOptions> setup)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter<ExceptionDescriptor>((writer, descriptor, _) =>
             {
                 var options = Patterns.Configure(setup);
@@ -205,7 +205,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddUriConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter((w, d, q) =>
             {
                 if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(Uri)).ToFriendlyName()); }
@@ -227,7 +227,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddDateTimeConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter((w, d, q) =>
             {
                 if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(DateTime)).ToFriendlyName()); }
@@ -249,7 +249,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddTimeSpanConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter((w, d, q) =>
             {
                 if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(TimeSpan)).ToFriendlyName()); }
@@ -275,7 +275,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddStringConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter<string>((w, s, q) =>
             {
                 if (string.IsNullOrWhiteSpace(s)) { return; }
@@ -306,7 +306,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddExceptionConverter(this IDecorator<IList<XmlConverter>> decorator, bool includeStackTrace)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.Inner.Add(new ExceptionConverter(includeStackTrace));
             return decorator;
         }

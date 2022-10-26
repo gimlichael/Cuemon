@@ -28,7 +28,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static bool HasXmlIgnoreAttribute(this IDecorator<IHierarchy<object>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.HasMemberReference && Decorator.Enclose(decorator.Inner.MemberReference).HasAttribute(typeof(XmlIgnoreAttribute));
         }
 
@@ -44,7 +44,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static bool IsNodeEnumerable(this IDecorator<IHierarchy<object>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Decorator.Enclose(decorator.Inner.InstanceType).HasEnumerableImplementation() && (decorator.Inner.InstanceType != typeof(string));
         }
 
@@ -59,7 +59,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static XmlQualifiedEntity GetXmlQualifiedEntity(this IDecorator<IHierarchy<object>> decorator, XmlQualifiedEntity qualifiedEntity = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
 
             if (qualifiedEntity != null && !string.IsNullOrWhiteSpace(qualifiedEntity.LocalName)) { return qualifiedEntity; }
             
@@ -150,7 +150,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static IEnumerable<IHierarchy<T>> OrderByXmlAttributes<T>(this IDecorator<IEnumerable<IHierarchy<T>>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var attributes = new List<IHierarchy<T>>();
             var rest = new List<IHierarchy<T>>();
             foreach (var value in decorator.Inner)

@@ -5,6 +5,11 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
+# New Features
+- ADDED ServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection
+- ADDED TypeForwardServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection that support nested type forwarding
+- EXTENDED ServiceCollectionExtensions class in the Cuemon.Extensions.DependencyInjection namespace with twelve new extension methods for the IServiceCollection interface: Add, TryAdd
+ 
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
  

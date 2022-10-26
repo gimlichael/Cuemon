@@ -1,8 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
@@ -10,9 +8,7 @@ using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.AspNetCore.Text.Yaml.Converters;
 using Cuemon.Net.Http;
-using Cuemon.Text.Yaml.Formatters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -40,10 +36,16 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <param name="setup">The <see cref="FaultDescriptorOptions"/> which may be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        /// <remarks>Extends the existing <see cref="ExceptionHandlerMiddleware"/> to include features provided by Cuemon.</remarks>
+        /// <remarks>Extends the existing <see cref="ExceptionHandlerMiddleware"/> to include features similar to those provided by Cuemon.AspNetCore.Mvc.Filters.Diagnostics.FaultDescriptorFilter, except:<br/>
+        /// 1. Unable to interact with controller applied attributes (outside scope; part of MVC context)<br/>
+        /// 2. Unable to mark an exception as handled (outside scope; part of MVC context)
+        /// </remarks>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> failed to configure an instance of <see cref="FaultDescriptorOptions"/> in a valid state.
+        /// </exception>
         public static IApplicationBuilder UseFaultDescriptorExceptionHandler(this IApplicationBuilder builder, Action<FaultDescriptorOptions> setup = null)
         {
-            var options = Patterns.Configure(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
             var handlerOptions = new ExceptionHandlerOptions()
             {
                 ExceptionHandler = async context =>
@@ -53,25 +55,18 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                     {
                         var exceptionDescriptor = options.ExceptionDescriptorResolver?.Invoke(options.UseBaseException ? ehf.Error.GetBaseException() : ehf.Error);
                         if (exceptionDescriptor == null) { return; }
-                        //exceptionDescriptor.PostInitializeWith(actionDescriptor.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>());
                         if (options.HasRootHelpLink && exceptionDescriptor.HelpLink == null) { exceptionDescriptor.HelpLink = options.RootHelpLink; }
-                        if (context.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId))
-                        {
-                            if (requestId != null) exceptionDescriptor.RequestId = requestId.ToString();
-                        }
-                        if (context.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId))
-                        {
-                            if (correlationId != null) exceptionDescriptor.CorrelationId = correlationId.ToString();
-                        }
+                        if (context.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId) && requestId != null) { exceptionDescriptor.RequestId = requestId.ToString(); }
+                        if (context.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId) && correlationId != null) { exceptionDescriptor.CorrelationId = correlationId.ToString(); }
                         options.ExceptionCallback?.Invoke(context, ehf.Error, exceptionDescriptor);
-                        //if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
                         if (options.IncludeRequest) { exceptionDescriptor.AddEvidence("Request", context.Request, request => new HttpRequestEvidence(request, options.RequestBodyParser)); }
-                        // Options.ExceptionDescriptorHandler?.Invoke(context, exceptionDescriptor);
                         if (ehf.Error is HttpStatusCodeException httpFault)
                         {
                             Decorator.Enclose(context.Response.Headers).AddRange(httpFault.Headers);
                         }
-                        var handlers = (options.NonMvcResponseHandler?.Invoke(context, exceptionDescriptor) ?? Enumerable.Empty<HttpExceptionDescriptorResponseHandler>()).ToList();
+
+                        var fallback = new List<HttpExceptionDescriptorResponseHandler>().AddYamlResponseHandler(Patterns.ConfigureExchange<FaultDescriptorOptions, ExceptionDescriptorOptions>(setup));
+                        var handlers = options.NonMvcResponseHandlers ?? fallback;
                         if (handlers.Count > 0)
                         {
                             var accepts = context.Request.Headers[HttpHeaderNames.Accept]
@@ -88,40 +83,21 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                                 var handler = handlers.FirstOrDefault(rh => rh.ContentType.MediaType != null && rh.ContentType.MediaType.Equals(accept, StringComparison.OrdinalIgnoreCase));
                                 if (handler != null)
                                 {
-                                    await WriteResponseAsync(context, handler, options.CancellationToken).ConfigureAwait(false);
+                                    await WriteResponseAsync(context, handler, exceptionDescriptor, options.CancellationToken).ConfigureAwait(false);
                                     return;
                                 }
                             }
                         }
-
-                        await WriteResponseAsync(context, GetFallbackHandler(exceptionDescriptor, Patterns.ConfigureExchange<FaultDescriptorOptions, ExceptionDescriptorOptions>(setup)), options.CancellationToken).ConfigureAwait(false);
+                        await WriteResponseAsync(context, fallback.First(), exceptionDescriptor, options.CancellationToken).ConfigureAwait(false);
                     }
                 }
             };
             return builder.UseExceptionHandler(handlerOptions);
         }
 
-        private static HttpExceptionDescriptorResponseHandler GetFallbackHandler(HttpExceptionDescriptor descriptor, Action<ExceptionDescriptorOptions> setup)
+        private static async Task WriteResponseAsync(HttpContext context, HttpExceptionDescriptorResponseHandler handler, HttpExceptionDescriptor exceptionDescriptor, CancellationToken ct)
         {
-            return new HttpExceptionDescriptorResponseHandler(descriptor, MediaTypeHeaderValue.Parse("text/plain"), (ed, mt) =>
-            {
-                return new HttpResponseMessage()
-                {
-                    Content = new StreamContent(YamlFormatter.SerializeObject(ed, setup: yfo =>
-                    {
-                        yfo.Settings.Converters.AddHttpExceptionDescriptorConverter(setup);
-                    }))
-                    {
-                        Headers = { { HttpHeaderNames.ContentType, mt.MediaType } }
-                    },
-                    StatusCode = (HttpStatusCode)descriptor.StatusCode
-                };
-            });
-        }
-
-        private static async Task WriteResponseAsync(HttpContext context, HttpExceptionDescriptorResponseHandler handler, CancellationToken ct)
-        {
-            var message = handler.ToHttpResponseMessage();
+            var message = handler.ToHttpResponseMessage(exceptionDescriptor);
 #if NET6_0_OR_GREATER
             var buffer = await message.Content.ReadAsByteArrayAsync(ct).ConfigureAwait(false);
 #else

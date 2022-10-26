@@ -56,7 +56,7 @@ namespace Cuemon
         /// </exception>
         internal Decorator(T inner, bool throwIfNull)
         {
-            if (throwIfNull) { Validator.ThrowIfNull(inner, nameof(inner)); }
+            if (throwIfNull) { Validator.ThrowIfNull(inner); }
             Inner = inner;
         }
 

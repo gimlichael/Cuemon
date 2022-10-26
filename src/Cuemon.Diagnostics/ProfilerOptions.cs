@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Configuration;
 using Cuemon.Reflection;
 
 namespace Cuemon.Diagnostics
@@ -6,7 +7,7 @@ namespace Cuemon.Diagnostics
     /// <summary>
     /// Specifies options that is related to <see cref="Profiler"/> operations.
     /// </summary>
-    public class ProfilerOptions
+    public class ProfilerOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProfilerOptions"/> class.
@@ -30,8 +31,6 @@ namespace Cuemon.Diagnostics
         /// </remarks>
         protected ProfilerOptions()
         {
-            MethodDescriptor = null;
-            RuntimeParameters = null;
         }
 
         /// <summary>

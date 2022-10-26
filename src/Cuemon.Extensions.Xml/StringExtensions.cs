@@ -18,7 +18,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static string EscapeXml(this string value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).EscapeXml();
         }
 
@@ -32,7 +32,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static string UnescapeXml(this string value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).UnescapeXml();
         }
 
@@ -51,7 +51,7 @@ namespace Cuemon.Extensions.Xml
         /// </remarks>
         public static string SanitizeXmlElementName(this string value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).SanitizeXmlElementName();
         }
 

@@ -9,7 +9,7 @@ namespace Cuemon.Diagnostics
     {
         internal MemberEvidence(string memberSignature, IDictionary<string, string> runtimeParameters)
         {
-            Validator.ThrowIfNullOrWhitespace(memberSignature, nameof(memberSignature));
+            Validator.ThrowIfNullOrWhitespace(memberSignature);
             MemberSignature = memberSignature;
             RuntimeParameters = runtimeParameters ?? new Dictionary<string, string>();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Cuemon.AspNetCore.Http;
+using Cuemon.Configuration;
 using Cuemon.Data.Integrity;
 using Cuemon.IO;
 using Cuemon.Security;
@@ -15,7 +16,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
     /// Specifies options that is related to the <see cref="HttpEntityTagHeaderFilter" />.
     /// </summary>
     /// <seealso cref="HttpCacheableFilter"/>
-    public class HttpEntityTagHeaderOptions
+    public class HttpEntityTagHeaderOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpEntityTagHeaderOptions"/> class.

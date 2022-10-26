@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static IHierarchy<DataPair> ToHierarchy(this XmlReader reader)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(reader);
             return Decorator.Enclose(reader).ToHierarchy();
         }
 
@@ -40,7 +40,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static IEnumerable<XmlReader> Chunk(this XmlReader reader, int size = 128, Action<XmlWriterSettings> setup = null)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(reader);
             Validator.ThrowIfTrue(reader.ReadState != ReadState.Initial, nameof(reader), "The Read method of the XmlReader object has already been called.");
             return Decorator.Enclose(reader).Chunk(size, setup);
         }
@@ -126,8 +126,8 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static Stream ToStream(this XmlReader reader, Action<XmlWriter, XmlReader, DisposableOptions> copier, Action<XmlCopyOptions> setup = null)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
-            Validator.ThrowIfNull(copier, nameof(copier));
+            Validator.ThrowIfNull(reader);
+            Validator.ThrowIfNull(copier);
             var options = Patterns.Configure(setup);
             return XmlStreamFactory.CreateStream(writer => copier(writer, reader, options), options.WriterSettings);
         }
@@ -145,7 +145,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static bool MoveToFirstElement(this XmlReader reader)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(reader);
             return Decorator.Enclose(reader).MoveToFirstElement();
         }
     }

@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Infrastructure
         /// <param name="next">The delegate of the request pipeline to invoke.</param>
         internal MiddlewareCore(RequestDelegate next)
         {
-            Validator.ThrowIfNull(next, nameof(next));
+            Validator.ThrowIfNull(next);
             Next = next;
         }
 

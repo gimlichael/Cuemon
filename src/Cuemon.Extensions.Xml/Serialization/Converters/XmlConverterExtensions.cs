@@ -24,7 +24,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static XmlConverter FirstOrDefaultReaderConverter(this IList<XmlConverter> converters, Type objectType)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).FirstOrDefaultReaderConverter(objectType);
         }
 
@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static XmlConverter FirstOrDefaultWriterConverter(this IList<XmlConverter> converters, Type objectType)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).FirstOrDefaultWriterConverter(objectType);
         }
 
@@ -58,7 +58,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static IList<XmlConverter> AddXmlConverter<T>(this IList<XmlConverter> converters, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity qe = null)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).AddXmlConverter(writer, reader, canConvertPredicate, qe).Inner;
         }
 
@@ -78,7 +78,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static IList<XmlConverter> InsertXmlConverter<T>(this IList<XmlConverter> converters, int index, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity qe = null)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).InsertXmlConverter(index, writer, reader, canConvertPredicate, qe).Inner;
         }
 
@@ -92,7 +92,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static IList<XmlConverter> AddEnumerableConverter(this IList<XmlConverter> converters)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).AddEnumerableConverter().Inner;
         }
 
@@ -107,7 +107,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static IList<XmlConverter> AddExceptionDescriptorConverter(this IList<XmlConverter> converters, Action<ExceptionDescriptorOptions> setup)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).AddExceptionDescriptorConverter(setup).Inner;
         }
 
@@ -121,7 +121,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static IList<XmlConverter> AddUriConverter(this IList<XmlConverter> converters)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).AddUriConverter().Inner;
         }
 
@@ -135,7 +135,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static IList<XmlConverter> AddDateTimeConverter(this IList<XmlConverter> converters)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).AddDateTimeConverter().Inner;
         }
 
@@ -149,7 +149,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static IList<XmlConverter> AddTimeSpanConverter(this IList<XmlConverter> converters)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).AddTimeSpanConverter().Inner;
         }
 
@@ -163,7 +163,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static IList<XmlConverter> AddStringConverter(this IList<XmlConverter> converters)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).AddStringConverter().Inner;
         }
 
@@ -178,7 +178,7 @@ namespace Cuemon.Extensions.Xml.Serialization.Converters
         /// </exception>
         public static IList<XmlConverter> AddExceptionConverter(this IList<XmlConverter> converters, bool includeStackTrace)
         {
-            Validator.ThrowIfNull(converters, nameof(converters));
+            Validator.ThrowIfNull(converters);
             return Decorator.Enclose(converters).AddExceptionConverter(includeStackTrace).Inner;
         }
     }

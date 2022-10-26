@@ -40,9 +40,9 @@ namespace Cuemon.Collections.Generic
         /// <returns>An <see cref="IDictionary{TKey,TValue}"/> that is the result of the populated <paramref name="destination"/>.</returns>
         public static IDictionary<TKey, TValue> CopyTo<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator, IDictionary<TKey, TValue> destination, Action<IDictionary<TKey, TValue>, IDictionary<TKey, TValue>> copier)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(destination, nameof(destination));
-            Validator.ThrowIfNull(copier, nameof(copier));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(destination);
+            Validator.ThrowIfNull(copier);
             copier(decorator.Inner, destination);
             return destination;
         }
@@ -61,7 +61,7 @@ namespace Cuemon.Collections.Generic
         /// </exception>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator, TKey key)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.GetValueOrDefault(key, () => default);
         }
 
@@ -81,9 +81,9 @@ namespace Cuemon.Collections.Generic
         /// </exception>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator, TKey key, Func<TValue> defaultProvider)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(key, nameof(key));
-            Validator.ThrowIfNull(defaultProvider, nameof(defaultProvider));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(key);
+            Validator.ThrowIfNull(defaultProvider);
             return decorator.Inner.TryGetValue(key, out var value) ? value : defaultProvider();
         }
 
@@ -102,7 +102,7 @@ namespace Cuemon.Collections.Generic
         /// </exception>
         public static bool TryGetValueOrFallback<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator, TKey key, Func<IEnumerable<TKey>, TKey> fallbackKeySelector, out TValue value)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             value = default;
             if (key == null) { return false; }
             if (!decorator.Inner.TryGetValue(key, out value))
@@ -126,7 +126,7 @@ namespace Cuemon.Collections.Generic
         /// </exception>
         public static IEnumerable<KeyValuePair<TKey, TValue>> ToEnumerable<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner;
         }
 
@@ -147,9 +147,9 @@ namespace Cuemon.Collections.Generic
         /// </exception>
         public static bool TryAdd<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator, TKey key, TValue value, Func<IDictionary<TKey, TValue>, bool> condition)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(key, nameof(key));
-            Validator.ThrowIfNull(condition, nameof(condition));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(key);
+            Validator.ThrowIfNull(condition);
             return condition(decorator.Inner) && Patterns.TryInvoke(() => decorator.Inner.Add(key, value));
         }
 
@@ -185,8 +185,8 @@ namespace Cuemon.Collections.Generic
         /// </exception>
         public static void AddOrUpdate<TKey, TValue>(this IDecorator<IDictionary<TKey, TValue>> decorator, TKey key, TValue value)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(key, nameof(key));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(key);
             Condition.FlipFlop(decorator.Inner.ContainsKey(key), () => Patterns.TryInvoke(() => { decorator.Inner[key] = value; }), () => TryAdd(decorator, key, value));
         }
 
@@ -201,7 +201,7 @@ namespace Cuemon.Collections.Generic
         /// <returns>The index at the specified <paramref name="nesting"/>.</returns>
         public static int GetDepthIndex(this IDecorator<IDictionary<int, Dictionary<int, int>>> decorator, int readerDepth, int index, int nesting)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
 
             var depthIndexes = decorator.Inner;
             if (depthIndexes.TryGetValue(nesting, out var row))

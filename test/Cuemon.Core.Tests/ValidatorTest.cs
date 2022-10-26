@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Cuemon.Assets;
+using Cuemon.Configuration;
 using Cuemon.Extensions.Xunit;
+using Microsoft.VisualBasic.CompilerServices;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -11,6 +14,74 @@ namespace Cuemon
     {
         public ValidatorTest(ITestOutputHelper output) : base(output)
         {
+        }
+
+        [Fact]
+        public void ThrowIfNull_Decorator_ShouldInitFakeOptionsToDefault()
+        {
+            var sut = Decorator.Enclose(new FakeOptions());
+
+            Validator.ThrowIfNull(sut, "paramName", out var options);
+            Assert.Equal(sut.Inner, options);
+        }
+
+        [Fact]
+        public void ThrowIfNull_Decorator_ShouldThrowArgumentNullException()
+        {
+            var sut = (Decorator<FakeOptions>)null;
+
+            var result = Assert.Throws<ArgumentNullException>(() =>
+            {
+                Validator.ThrowIfNull(sut, "paramName", out var options);
+                Assert.Null(options);
+            });
+
+            Assert.Equal("Decorator or Inner cannot be null. (Parameter 'paramName')", result.Message);
+
+            sut = Decorator.Enclose<FakeOptions>(null, false);
+
+            result = Assert.Throws<ArgumentNullException>(() =>
+            {
+                Validator.ThrowIfNull(sut, "paramName", out var options);
+                Assert.Null(options);
+            });
+
+            Assert.Equal("Decorator or Inner cannot be null. (Parameter 'Inner')", result.Message);
+        }
+
+        [Fact]
+        public void ThrowIfInvalidConfigurator_ShouldThrowArgumentException_WithInnerNotImplementedException()
+        {
+            var result = Assert.Throws<ArgumentException>(() =>
+            {
+                Action<FakeOptions> setup = null;
+                Validator.ThrowIfInvalidConfigurator(setup, "paramName", out var options);
+                Assert.Equal(new FakeOptions(), options);
+            });
+
+            Assert.Equal("Delegate must configure the public read-write properties to be in a valid state. (Parameter 'paramName')", result.Message);
+            Assert.IsType<NotImplementedException>(result.InnerException);
+        }
+
+        [Fact]
+        public void ThrowIfInvalidOptions_ShouldThrowArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                Validator.ThrowIfInvalidOptions((FakeOptions)null, "paramName");
+            });
+        }
+
+        [Fact]
+        public void ThrowIfInvalidOptions_ShouldThrowArgumentException_WithInnerNotImplementedException()
+        {
+            var result = Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfInvalidOptions(new FakeOptions(), "paramName");
+            });
+
+            Assert.Equal("FakeOptions are not in a valid state. (Parameter 'paramName')", result.Message);
+            Assert.IsType<NotImplementedException>(result.InnerException);
         }
 
         [Theory]
@@ -24,7 +95,7 @@ namespace Cuemon
                 {
                     Validator.CheckParameter(value, () =>
                     {
-                        Validator.ThrowIfNull(value, nameof(value));
+                        Validator.ThrowIfNull(value);
                     });
                 });
             }
@@ -32,7 +103,7 @@ namespace Cuemon
             {
                 Assert.Equal("cuemon", Validator.CheckParameter(value, () =>
                 {
-                    Validator.ThrowIfNull(value, nameof(value));
+                    Validator.ThrowIfNull(value);
                 }));
             }
         }
@@ -233,19 +304,49 @@ namespace Cuemon
         [Fact]
         public void ThrowIfEqual_ShouldThrowArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            var sut = Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 Validator.ThrowIfEqual(1, 1, "paramName");
             });
+
+            Assert.Equal(@"Specified arguments x and y are equal to one another. (Parameter 'paramName')
+Actual value was 1 == 1.", sut.Message);
+        }
+
+        [Fact]
+        public void ThrowIfEqual_ShouldThrowArgumentOutOfRangeException_Message()
+        {
+            var sut = Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfEqual(1, 1, "marapName", "customMessage");
+            });
+
+            Assert.Equal(@"customMessage (Parameter 'marapName')
+Actual value was 1 == 1.", sut.Message);
         }
 
         [Fact]
         public void ThrowIfNotEqual_ShouldThrowArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            var sut = Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 Validator.ThrowIfNotEqual(1, 2, "paramName");
             });
+
+            Assert.Equal(@"Specified arguments x and y are not equal to one another. (Parameter 'paramName')
+Actual value was 1 != 2.", sut.Message);
+        }
+
+        [Fact]
+        public void ThrowIfNotEqual_ShouldThrowArgumentOutOfRangeException_Message()
+        {
+            var sut = Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfNotEqual(1, 2, "marapName", "customMessage");
+            });
+
+            Assert.Equal(@"customMessage (Parameter 'marapName')
+Actual value was 1 != 2.", sut.Message);
         }
 
         [Fact]
@@ -368,85 +469,140 @@ namespace Cuemon
         [Fact]
         public void ThrowIfNotNumber_ShouldThrowArgumentException()
         {
-            Assert.Throws<ArgumentException>(() =>
+            var sut = Assert.Throws<ArgumentException>(() =>
             {
                 Validator.ThrowIfNotNumber("22cads", "paramName");
             });
+
+            Assert.Equal("Value must be a number. (Parameter 'paramName')", sut.Message);
         }
 
         [Fact]
-        public void ThrowIfNull_ShouldThrowArgumentNullException()
+        public void ThrowIfNotNumber_ShouldThrowArgumentException_Message()
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            var sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNull<string>(null, "paramName");
+                Validator.ThrowIfNotNumber("22cads", "marapName", "customMessage");
             });
+
+            Assert.Equal("customMessage (Parameter 'marapName')", sut.Message);
         }
 
-        [Fact]
-        public void ThrowIfNullOrEmpty_ShouldThrowArgumentNullException()
+        [Theory]
+        [InlineData(null)]
+        public void ThrowIfNull_ShouldThrowArgumentNullException(string value)
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            var sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrEmpty(null, "paramName");
+                Validator.ThrowIfNull(value);
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrEmpty(null, "paramName", "message");
+                Validator.ThrowIfNull(value);
             });
+
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
         }
 
-        [Fact]
-        public void ThrowIfNullOrEmpty_ShouldThrowArgumentException()
+        [Theory]
+        [InlineData(null)]
+        public void ThrowIfNullOrEmpty_ShouldThrowArgumentNullException(string value)
         {
-            Assert.Throws<ArgumentException>(() =>
+            var sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrEmpty("", "paramName");
+                Validator.ThrowIfNullOrEmpty(value);
             });
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrEmpty("", "paramName", "message");
+                Validator.ThrowIfNullOrEmpty(value);
             });
+
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentNullException>(() =>
+            {
+                Validator.ThrowIfNullOrEmpty(value, nameof(value), "message");
+            });
+
+            Assert.Equal("message (Parameter 'value')", sut.Message);
         }
 
-        [Fact]
-        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentNullException()
+        [Theory]
+        [InlineData("")]
+        public void ThrowIfNullOrEmpty_ShouldThrowArgumentException(string value)
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            var sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace(null, "paramName");
+                Validator.ThrowIfNullOrEmpty(value);
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Equal("Value cannot be empty. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace(null, "paramName", "message");
+                Validator.ThrowIfNullOrEmpty("", nameof(value));
             });
+
+            Assert.Equal("Value cannot be empty. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfNullOrEmpty("", nameof(value), "message");
+            });
+
+            Assert.Equal("message (Parameter 'value')", sut.Message);
         }
 
-        [Fact]
-        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentException()
+        [Theory]
+        [InlineData(null)]
+        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentNullException(string value)
         {
-            Assert.Throws<ArgumentException>(() =>
+            var sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace("", "paramName");
+                Validator.ThrowIfNullOrWhitespace(value);
             });
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
+
+            sut = Assert.Throws<ArgumentNullException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace("", "paramName", "message");
+                Validator.ThrowIfNullOrWhitespace(value);
             });
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Equal("Value cannot be null. (Parameter 'value')", sut.Message);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentException(string value)
+        {
+            var sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace(" ", "paramName");
+                Validator.ThrowIfNullOrWhitespace(value);
             });
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Equal(Condition.TernaryIf(value.Length == 0, ()=> "Value cannot be empty. (Parameter 'value')", () => "Value cannot consist only of white-space characters. (Parameter 'value')"), sut.Message);
+
+            sut = Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNullOrWhitespace(" ", "paramName", "message");
+                Validator.ThrowIfNullOrWhitespace(value);
             });
+
+            Assert.Equal(Condition.TernaryIf(value.Length == 0, ()=> "Value cannot be empty. (Parameter 'value')", () => "Value cannot consist only of white-space characters. (Parameter 'value')"), sut.Message);
+
+            sut = Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfNullOrWhitespace(value, nameof(value), "message");
+            });
+
+            Assert.Equal("message (Parameter 'value')", sut.Message);
         }
 
         [Fact]

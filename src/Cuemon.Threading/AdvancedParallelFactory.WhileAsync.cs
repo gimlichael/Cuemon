@@ -20,9 +20,9 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task" /> that represents the asynchronous operation.</returns>
         public static Task WhileAsync<TReader, TElement>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, CancellationToken, Task> worker, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskActionFactory.Create(worker, default), setup);
         }
 
@@ -41,9 +41,9 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task WhileAsync<TReader, TElement, T>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T, CancellationToken, Task> worker, T arg, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskActionFactory.Create(worker, default, arg), setup);
         }
 
@@ -64,9 +64,9 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task WhileAsync<TReader, TElement, T1, T2>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T1, T2, CancellationToken, Task> worker, T1 arg1, T2 arg2, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskActionFactory.Create(worker, default, arg1, arg2), setup);
         }
 
@@ -89,9 +89,9 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task WhileAsync<TReader, TElement, T1, T2, T3>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T1, T2, T3, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskActionFactory.Create(worker, default, arg1, arg2, arg3), setup);
         }
 
@@ -116,9 +116,9 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task WhileAsync<TReader, TElement, T1, T2, T3, T4>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T1, T2, T3, T4, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskActionFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
         }
 
@@ -145,9 +145,9 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task WhileAsync<TReader, TElement, T1, T2, T3, T4, T5>(TReader reader, Func<Task<bool>> condition, Func<TReader, TElement> provider, Func<TElement, T1, T2, T3, T4, T5, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(condition, nameof(condition));
-            Validator.ThrowIfNull(provider, nameof(provider));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(condition);
+            Validator.ThrowIfNull(provider);
+            Validator.ThrowIfNull(worker);
             return WhileCoreAsync(new AsyncForwardIterator<TReader, TElement>(reader, condition, provider), TaskActionFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 

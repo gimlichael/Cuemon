@@ -11,7 +11,7 @@ namespace Cuemon.Data.SqlClient.Assets
         public override void ConfigureHost(Test hostTest)
         {
             var hostTestType = hostTest?.GetType();
-            Validator.ThrowIfNull(hostTest, nameof(hostTest));
+            Validator.ThrowIfNull(hostTest);
             Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from HostTest<T>.", typeof(HostTest<>));
 
             Host = new HostBuilder()

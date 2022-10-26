@@ -22,7 +22,7 @@ namespace Cuemon.Runtime.Serialization.Formatters
         /// <returns>An object of the serialized <paramref name="source" />.</returns>
         public TFormat Serialize(object source)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             return Serialize(source, source.GetType());
         }
 
@@ -42,7 +42,7 @@ namespace Cuemon.Runtime.Serialization.Formatters
         /// <returns>An object of <typeparamref name="T" />.</returns>
         public T Deserialize<T>(TFormat value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return (T)Deserialize(value, typeof(T));
         }
 

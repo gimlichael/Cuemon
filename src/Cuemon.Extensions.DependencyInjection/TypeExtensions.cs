@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <returns><c>true</c> if the specified <paramref name="type"/> contains an <see cref="IDependencyInjectionMarker{TMarker}"/> interface, <c>false</c> otherwise.</returns>
         public static bool TryGetDependencyInjectionMarker(this Type type, out Type result)
         {
-            Validator.ThrowIfNull(type, nameof(type));
+            Validator.ThrowIfNull(type);
             var dim = type.GetInterfaces().SingleOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IDependencyInjectionMarker<>));
             if (dim != null)
             {

@@ -34,7 +34,7 @@ namespace Cuemon.Text
         /// <returns>An <see cref="IParser"/> implementation.</returns>
         public static IParser CreateParser(Func<string, Type, object> parser)
         {
-            Validator.ThrowIfNull(parser, nameof(parser));
+            Validator.ThrowIfNull(parser);
             return new Parser(parser);
         }
 
@@ -46,7 +46,7 @@ namespace Cuemon.Text
         /// <returns>An <see cref="IParser{TResult}"/> implementation.</returns>
         public static IParser<TResult> CreateParser<TResult>(Func<string, TResult> parser)
         {
-            Validator.ThrowIfNull(parser, nameof(parser));
+            Validator.ThrowIfNull(parser);
             return new Parser<TResult>(parser);
         }
 
@@ -58,7 +58,7 @@ namespace Cuemon.Text
         /// <returns>An <see cref="IConfigurableParser{TOptions}"/> implementation.</returns>
         public static IConfigurableParser<TOptions> CreateConfigurableParser<TOptions>(Func<string, Type, Action<TOptions>, object> parser) where TOptions : class, new()
         {
-            Validator.ThrowIfNull(parser, nameof(parser));
+            Validator.ThrowIfNull(parser);
             return new ConfigurableParser<TOptions>(parser);
         }
 
@@ -71,7 +71,7 @@ namespace Cuemon.Text
         /// <returns>An <see cref="IConfigurableParser{TResult,TOptions}"/> implementation.</returns>
         public static IConfigurableParser<TResult, TOptions> CreateConfigurableParser<TResult, TOptions>(Func<string, Action<TOptions>, TResult> parser) where TOptions : class, new()
         {
-            Validator.ThrowIfNull(parser, nameof(parser));
+            Validator.ThrowIfNull(parser);
             return new ConfigurableParser<TResult, TOptions>(parser);
         }
 
@@ -109,7 +109,7 @@ namespace Cuemon.Text
             {
                 try
                 {
-                    Validator.ThrowIfNullOrWhitespace(input, nameof(input));
+                    Validator.ThrowIfNullOrWhitespace(input);
                     Validator.ThrowIfNotBinaryDigits(input, nameof(input));
                     var bytes = new List<byte>();
                     for (var i = 0; i < input.Length; i += 8)
@@ -144,7 +144,7 @@ namespace Cuemon.Text
         {
             return CreateConfigurableParser<Guid, GuidStringOptions>((input, setup) =>
             {
-                Validator.ThrowIfNullOrWhitespace(input, nameof(input));
+                Validator.ThrowIfNullOrWhitespace(input);
                 var options = Patterns.Configure(setup);
                 if (options.Formats.HasFlag(GuidFormats.Any)) { return Guid.Parse(input); }
 
@@ -228,7 +228,7 @@ namespace Cuemon.Text
         {
             return CreateParser(input =>
             {
-                Validator.ThrowIfNull(input, nameof(input));
+                Validator.ThrowIfNull(input);
                 Validator.ThrowIfNotHex(input, nameof(input));
                 var converted = new List<byte>();
                 var stringLength = input.Length / 2;
@@ -259,7 +259,7 @@ namespace Cuemon.Text
         {
             return CreateParser(input =>
             {
-                Validator.ThrowIfNullOrWhitespace(input, nameof(input));
+                Validator.ThrowIfNullOrWhitespace(input);
                 if (!StringToUriSchemeLookupTable.TryGetValue(input ?? "", out var result))
                 {
                     result = UriScheme.Undefined;
@@ -285,7 +285,7 @@ namespace Cuemon.Text
         {
             return CreateParser(input =>
             {
-                Validator.ThrowIfNullOrWhitespace(input, nameof(input));
+                Validator.ThrowIfNullOrWhitespace(input);
                 input = input.Replace('-', '+');
                 input = input.Replace('_', '/');
                 switch (input.Length % 4)
@@ -341,7 +341,7 @@ namespace Cuemon.Text
         {
             return CreateConfigurableParser<Uri, UriStringOptions>((input, setup) =>
             {
-                Validator.ThrowIfNullOrWhitespace(input, nameof(input));
+                Validator.ThrowIfNullOrWhitespace(input);
                 var options = Patterns.Configure(setup);
                 var isValid = false;
                 foreach (var scheme in options.Schemes)
@@ -388,7 +388,7 @@ namespace Cuemon.Text
         {
             return CreateConfigurableParser<Uri, ProtocolRelativeUriStringOptions>((input, setup) =>
             {
-                Validator.ThrowIfNullOrWhitespace(input, nameof(input));
+                Validator.ThrowIfNullOrWhitespace(input);
                 var options = Patterns.Configure(setup, validator: o =>
                 {
                     Validator.ThrowIfFalse(input.StartsWith(o.RelativeReference, StringComparison.OrdinalIgnoreCase), nameof(input), FormattableString.Invariant($"The specified input did not start with the expected input of: {o.RelativeReference}."));
@@ -443,8 +443,8 @@ namespace Cuemon.Text
         {
             return CreateConfigurableParser<EnumStringOptions>((input, targetType, setup) =>
             {
-                Validator.ThrowIfNullOrWhitespace(input, nameof(input));
-                Validator.ThrowIfNull(targetType, nameof(targetType));
+                Validator.ThrowIfNullOrWhitespace(input);
+                Validator.ThrowIfNull(targetType);
                 Validator.ThrowIfNotEnumType(targetType, nameof(targetType));
                 var options = Patterns.Configure(setup);
                 var enumType = targetType;

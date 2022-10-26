@@ -45,7 +45,7 @@ namespace Cuemon.Net.Http
         /// <param name="clientFactory">The function delegate that creates and configures an <see cref="HttpClient"/> instance.</param>
         public HttpManager(Func<HttpClient> clientFactory)
         {
-            Validator.ThrowIfNull(clientFactory, nameof(clientFactory));
+            Validator.ThrowIfNull(clientFactory);
             _httpClient = new Lazy<HttpClient>(clientFactory.Invoke);
         }
 
@@ -269,7 +269,7 @@ namespace Cuemon.Net.Http
         /// </exception>
         public Task<HttpResponseMessage> HttpAsync(HttpMethod method, Uri location, string contentType, Stream content, CancellationToken ct = default)
         {
-            Validator.ThrowIfNullOrEmpty(contentType, nameof(contentType));
+            Validator.ThrowIfNullOrEmpty(contentType);
             return HttpAsync(method, location, MediaTypeHeaderValue.Parse(contentType), content, ct);
         }
 
@@ -290,9 +290,9 @@ namespace Cuemon.Net.Http
         /// </exception>
         public Task<HttpResponseMessage> HttpAsync(HttpMethod method, Uri location, MediaTypeHeaderValue contentType, Stream content, CancellationToken ct = default)
         {
-            Validator.ThrowIfNull(method, nameof(method));
-            Validator.ThrowIfNull(contentType, nameof(contentType));
-            Validator.ThrowIfNull(content, nameof(content));
+            Validator.ThrowIfNull(method);
+            Validator.ThrowIfNull(contentType);
+            Validator.ThrowIfNull(content);
             return HttpAsync(location, o =>
             {
                 o.Request.Method = method;
@@ -314,8 +314,8 @@ namespace Cuemon.Net.Http
         /// </exception>
         public virtual Task<HttpResponseMessage> HttpAsync(Uri location, Action<HttpRequestOptions> setup)
         {
-            Validator.ThrowIfNull(location, nameof(location));
-            Validator.ThrowIfNull(setup, nameof(setup));
+            Validator.ThrowIfNull(location);
+            Validator.ThrowIfNull(setup);
             var options = Patterns.Configure(setup);
             options.Request.RequestUri = location;
             return Client.SendAsync(options.Request, options.CompletionOption, options.CancellationToken);

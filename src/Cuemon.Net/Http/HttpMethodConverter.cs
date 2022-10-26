@@ -34,7 +34,7 @@ namespace Cuemon.Net.Http
         /// </exception>
         public static HttpMethods ToHttpMethod(HttpMethod method)
         {
-            Validator.ThrowIfNull(method, nameof(method));
+            Validator.ThrowIfNull(method);
             if (!StringToHttpMethodLookupTable.TryGetValue(method.Method, out var result))
             {
                 result = HttpMethods.Get;

@@ -63,7 +63,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static void HasDifference(this Validator validator, string first, string second, string paramName, string message = null)
         {
-            if (message == null) { message = FormattableString.Invariant($"Specified arguments has a difference between {nameof(second)} and {nameof(first)}."); }
+            message ??= FormattableString.Invariant($"Specified arguments has a difference between {nameof(second)} and {nameof(first)}.");
             try
             {
                 validator.ThrowWhenCondition(c => c.IsTrue((out string invalidCharacters) => Condition.Query.HasDifference(first, second, out invalidCharacters)).Create(invalidCharacters => new ArgumentOutOfRangeException(paramName, invalidCharacters, message)).TryThrow());
@@ -87,7 +87,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static void NoDifference(this Validator validator, string first, string second, string paramName, string message = null)
         {
-            if (message == null) { message = FormattableString.Invariant($"Specified arguments does not have a difference between {nameof(second)} and {nameof(first)}."); }
+            message ??= FormattableString.Invariant($"Specified arguments does not have a difference between {nameof(second)} and {nameof(first)}.");
             try
             {
                 validator.ThrowWhenCondition(c => c.IsFalse(() => Condition.Query.HasDifference(first, second, out _)).Create(() => new ArgumentOutOfRangeException(paramName, message)).TryThrow());

@@ -26,7 +26,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static XmlReader ToXmlReader(this Stream value, Encoding encoding = null, Action<XmlReaderSettings> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).ToXmlReader(encoding, setup);
         }
 
@@ -41,7 +41,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static Stream CopyXmlStream(this Stream value, Action<XmlWriterSettings> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
 
             long startingPosition = -1;
             if (value.CanSeek)
@@ -78,7 +78,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static bool TryDetectXmlEncoding(this Stream value, out Encoding result)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).TryDetectXmlEncoding(out result);
         }
 
@@ -90,7 +90,7 @@ namespace Cuemon.Extensions.Xml
         /// <returns>A <see cref="Stream"/> object representing the specified <paramref name="value"/>, but with no namespace declarations.</returns>
         public static Stream RemoveXmlNamespaceDeclarations(this Stream value, Action<XmlWriterSettings> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             var options = Patterns.Configure(setup);
             var navigable = XPathDocumentFactory.CreateDocument(value, true);
             var navigator = navigable.CreateNavigator();

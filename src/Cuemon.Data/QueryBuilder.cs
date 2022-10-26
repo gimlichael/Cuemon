@@ -107,11 +107,7 @@ namespace Cuemon.Data
 
         private StringBuilder Query
         {
-            get
-            {
-                if (_query == null) { _query = new StringBuilder(100); }
-                return _query;
-            }
+            get { return _query ??= new StringBuilder(100); }
         }
         #endregion
 

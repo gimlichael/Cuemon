@@ -20,7 +20,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static XmlDocument CreateDocument(Stream stream, bool leaveOpen = false)
         {
-            Validator.ThrowIfNull(stream, nameof(stream));
+            Validator.ThrowIfNull(stream);
             long startPosition = -1;
             if (stream.CanSeek)
             {
@@ -75,7 +75,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static XmlDocument CreateDocument(Uri uriLocation)
         {
-            Validator.ThrowIfNull(uriLocation, nameof(uriLocation));
+            Validator.ThrowIfNull(uriLocation);
             var document = new XmlDocument();
             document.Load(new StringReader(uriLocation.ToString()));
             return document;
@@ -94,7 +94,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static XmlDocument CreateDocument(string value)
         {
-            Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+            Validator.ThrowIfNullOrWhitespace(value);
             var document = new XmlDocument();
             try
             {

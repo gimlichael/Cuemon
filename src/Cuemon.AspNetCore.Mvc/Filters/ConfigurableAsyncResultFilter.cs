@@ -12,7 +12,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters
     /// <typeparam name="TOptions">The type of the configured options.</typeparam>
     /// <seealso cref="Configurable{TOptions}" />
     /// <seealso cref="IAsyncResultFilter" />
-    public abstract class ConfigurableAsyncResultFilter<TOptions> : Configurable<TOptions>, IAsyncResultFilter where TOptions : class, new()
+    public abstract class ConfigurableAsyncResultFilter<TOptions> : Configurable<TOptions>, IAsyncResultFilter where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurableAsyncResultFilter{TOptions}"/> class.

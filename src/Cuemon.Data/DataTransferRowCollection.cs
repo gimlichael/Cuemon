@@ -20,13 +20,13 @@ namespace Cuemon.Data
         /// <param name="reader">The reader to convert.</param>
         internal DataTransferRowCollection(IDataReader reader)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(reader);
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
 
             var rowNumber = 1;
             while (reader.Read())
             {
-                if (Columns == null) { Columns = new DataTransferColumnCollection(reader); }
+                Columns ??= new DataTransferColumnCollection(reader);
                 DataTransferRows.Add(new DataTransferRow(this, rowNumber));
                 var fieldCount = reader.FieldCount;
                 var values = new object[fieldCount];

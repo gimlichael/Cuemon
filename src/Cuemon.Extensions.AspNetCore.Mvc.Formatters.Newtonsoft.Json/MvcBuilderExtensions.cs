@@ -27,7 +27,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// </exception>
         public static IMvcBuilder AddNewtonsoftJsonFormatters(this IMvcBuilder builder)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
             return builder;
         }
@@ -44,7 +44,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// </exception>
         public static IMvcBuilder AddNewtonsoftJsonFormatters(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             AddNewtonsoftJsonFormatters(builder);
             AddNewtonsoftJsonFormattersOptions(builder, setup);
             return builder;
@@ -62,8 +62,8 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// </exception>
         public static IMvcBuilder AddNewtonsoftJsonFormattersOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
-            Validator.ThrowIfNull(setup, nameof(setup));
+            Validator.ThrowIfNull(builder);
+            Validator.ThrowIfNull(setup);
             builder.Services.Configure(setup);
             return builder;
         }

@@ -25,7 +25,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
         public static IServiceCollection AddServerTiming<T>(this IServiceCollection services) where T : class, IServerTiming
         {
-            Validator.ThrowIfNull(services, nameof(services));
+            Validator.ThrowIfNull(services);
             services.AddScoped<IServerTiming, T>();
             return services;
         }

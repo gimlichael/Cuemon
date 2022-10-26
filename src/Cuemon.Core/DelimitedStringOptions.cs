@@ -51,7 +51,7 @@ namespace Cuemon
             get => _delimiter;
             set
             {
-                Validator.ThrowIfNullOrEmpty(value, nameof(value));
+                Validator.ThrowIfNullOrEmpty(value);
                 _delimiter = value;
             }
         }
@@ -71,7 +71,7 @@ namespace Cuemon
             get => _qualifier;
             set
             {
-                Validator.ThrowIfNullOrEmpty(value, nameof(value));
+                Validator.ThrowIfNullOrEmpty(value);
                 _qualifier = value;
             }
         }
@@ -124,7 +124,7 @@ namespace Cuemon
             get => _stringConverter;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _stringConverter = value;
             }
         }
@@ -144,7 +144,7 @@ namespace Cuemon
             get => _delimiter;
             set
             {
-                Validator.ThrowIfNullOrEmpty(value, nameof(value));
+                Validator.ThrowIfNullOrEmpty(value);
                 _delimiter = value;
             }
         }

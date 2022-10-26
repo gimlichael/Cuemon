@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static void WriteObject(this XmlWriter writer, object value, Type objectType, Action<XmlFormatterOptions> setup = null)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
+            Validator.ThrowIfNull(writer);
             Decorator.Enclose(writer).WriteObject(value, objectType, setup);
         }
 
@@ -52,7 +52,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static void WriteStartElement(this XmlWriter writer, XmlQualifiedEntity elementName)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
+            Validator.ThrowIfNull(writer);
             Decorator.Enclose(writer).WriteStartElement(elementName);
         }
 
@@ -70,7 +70,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static void WriteEncapsulatingElementWhenNotNull<T>(this XmlWriter writer, T value, XmlQualifiedEntity elementName, Action<XmlWriter, T> nodeWriter)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
+            Validator.ThrowIfNull(writer);
             Decorator.Enclose(writer).WriteEncapsulatingElementIfNotNull(value, elementName, nodeWriter);
         }
 
@@ -87,7 +87,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static void WriteXmlRootElement<T>(this XmlWriter writer, T value, Action<XmlWriter, T, XmlQualifiedEntity> treeWriter, XmlQualifiedEntity rootEntity = null)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
+            Validator.ThrowIfNull(writer);
             Decorator.Enclose(writer).WriteXmlRootElement(value, treeWriter, rootEntity);
         }
     }

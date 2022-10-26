@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.AspNetCore.Hosting
@@ -6,7 +7,7 @@ namespace Cuemon.AspNetCore.Hosting
     /// <summary>
     /// Configuration options for <see cref="HostingEnvironmentMiddleware"/>.
     /// </summary>
-    public class HostingEnvironmentOptions
+    public class HostingEnvironmentOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HostingEnvironmentOptions"/> class.
@@ -48,6 +49,19 @@ namespace Cuemon.AspNetCore.Hosting
         public Func<IHostingEnvironment, bool> SuppressHeaderPredicate { get; set; }
         #else
         public Func<IHostEnvironment, bool> SuppressHeaderPredicate { get; set; }
-        #endif
+#endif
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="HeaderName"/> cannot be null, empty or consist only of white-space characters - or -
+        /// <see cref="SuppressHeaderPredicate"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName));
+            Validator.ThrowIfObjectInDistress(SuppressHeaderPredicate == null);
+        }
     }
 }
