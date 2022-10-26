@@ -19,9 +19,11 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// <returns>A reference to <paramref name="services" /> so that additional calls can be chained.</returns>
         public static IServiceCollection AddRestfulSwagger(this IServiceCollection services, Action<RestfulSwaggerOptions> setup = null)
         {
+            var options = Patterns.Configure(setup);
+            services.AddSwaggerGen(Patterns.ConfigureRevert(options.Settings));
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>();
             services.AddTransient<IConfigureOptions<SwaggerUIOptions>, ConfigureSwaggerUIOptions>();
-            services.Configure(setup ?? Patterns.ConfigureRevert(new RestfulSwaggerOptions()));
+            services.Configure(setup ?? Patterns.ConfigureRevert(options));
             return services;
         }
     }

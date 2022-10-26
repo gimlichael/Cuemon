@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.XPath;
 using Cuemon.Configuration;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Cuemon.Extensions.Swashbuckle.AspNetCore
 {
@@ -51,6 +52,12 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         public IList<XPathDocument> XmlDocumentations { get; set; } = new List<XPathDocument>();
 
         /// <summary>
+        /// Gets or sets the <see cref="SwaggerGenOptions"/> used to configure Swagger.
+        /// </summary>
+        /// <value>The <see cref="SwaggerGenOptions"/> used to configure Swagger.</value>
+        public SwaggerGenOptions Settings { get; set; } = new();
+
+        /// <summary>
         /// Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
         /// Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
         /// </summary>
@@ -62,13 +69,15 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// </summary>
         /// <exception cref="InvalidOperationException">
         /// <see cref="OpenApiInfo"/> cannot be null - or -
-        /// <see cref="XmlDocumentations"/> cannot be null.
+        /// <see cref="XmlDocumentations"/> cannot be null - or -
+        /// <see cref="Settings"/> cannot be null.
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
             Validator.ThrowIfObjectInDistress(OpenApiInfo == null);
             Validator.ThrowIfObjectInDistress(XmlDocumentations == null);
+            Validator.ThrowIfObjectInDistress(Settings == null);
         }
     }
 }
