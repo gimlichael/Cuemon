@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using Cuemon.Configuration;
 
 namespace Cuemon.Text
 {
@@ -56,7 +57,7 @@ namespace Cuemon.Text
         /// <typeparam name="TOptions">The type of the delegate setup.</typeparam>
         /// <param name="parser">The function delegate that does the actual parsing of a <see cref="string"/>.</param>
         /// <returns>An <see cref="IConfigurableParser{TOptions}"/> implementation.</returns>
-        public static IConfigurableParser<TOptions> CreateConfigurableParser<TOptions>(Func<string, Type, Action<TOptions>, object> parser) where TOptions : class, new()
+        public static IConfigurableParser<TOptions> CreateConfigurableParser<TOptions>(Func<string, Type, Action<TOptions>, object> parser) where TOptions : class, IParameterObject, new()
         {
             Validator.ThrowIfNull(parser);
             return new ConfigurableParser<TOptions>(parser);
@@ -69,7 +70,7 @@ namespace Cuemon.Text
         /// <typeparam name="TOptions">The type of the delegate setup.</typeparam>
         /// <param name="parser">The function delegate that does the actual parsing of a <see cref="string"/>.</param>
         /// <returns>An <see cref="IConfigurableParser{TResult,TOptions}"/> implementation.</returns>
-        public static IConfigurableParser<TResult, TOptions> CreateConfigurableParser<TResult, TOptions>(Func<string, Action<TOptions>, TResult> parser) where TOptions : class, new()
+        public static IConfigurableParser<TResult, TOptions> CreateConfigurableParser<TResult, TOptions>(Func<string, Action<TOptions>, TResult> parser) where TOptions : class, IParameterObject, new()
         {
             Validator.ThrowIfNull(parser);
             return new ConfigurableParser<TResult, TOptions>(parser);
@@ -342,7 +343,7 @@ namespace Cuemon.Text
             return CreateConfigurableParser<Uri, UriStringOptions>((input, setup) =>
             {
                 Validator.ThrowIfNullOrWhitespace(input);
-                var options = Patterns.Configure(setup);
+                Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
                 var isValid = false;
                 foreach (var scheme in options.Schemes)
                 {

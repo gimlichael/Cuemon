@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using Asp.Versioning;
 using Asp.Versioning.Conventions;
+using Cuemon.Configuration;
 
 namespace Cuemon.Extensions.Asp.Versioning
 {
     /// <summary>
     /// Provides programmatic configuration for the <see cref="ServiceCollectionExtensions.AddRestfulApiVersioning" /> method.
     /// </summary>
-    public class RestfulApiVersioningOptions
+    /// <see cref="IValidatableParameterObject"/>
+    public class RestfulApiVersioningOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RestfulApiVersioningOptions"/> class.
@@ -130,5 +132,19 @@ namespace Cuemon.Extensions.Asp.Versioning
         /// </summary>
         /// <value><c>true</c> if the responses contain API version compatibility information; otherwise, <c>false</c>.</value>
         public bool ReportApiVersions { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="ParameterName"/> cannot be null, empty or consist only of white-space characters - or -
+        /// <see cref="ValidAcceptHeaders"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(Condition.IsNull(ParameterName) || Condition.IsEmpty(ParameterName) || Condition.IsWhiteSpace(ParameterName));
+            Validator.ThrowIfObjectInDistress(ValidAcceptHeaders == null);
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace Cuemon.Xml
         /// <returns>A <see cref="Stream"/> holding the XML created by the delegate <paramref name="writer"/>.</returns>
         public static Stream CreateStream(Action<XmlWriter> writer, Action<XmlWriterSettings> setup = null)
         {
-            var options = Patterns.Configure(setup);
+            var options = Patterns.CreateInstance(setup);
             return Patterns.SafeInvoke(() => new MemoryStream(), ms =>
             {
                 using (var w = XmlWriter.Create(ms, options))

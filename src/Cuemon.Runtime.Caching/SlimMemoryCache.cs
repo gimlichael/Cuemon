@@ -24,11 +24,11 @@ namespace Cuemon.Runtime.Caching
         /// <param name="setup">The <see cref="SlimMemoryCacheOptions"/> which may be configured.</param>
         public SlimMemoryCache(Action<SlimMemoryCacheOptions> setup = null)
         {
-            var options = Patterns.Configure(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
             KeyProvider = options.KeyProvider;
             if (options.EnableCleanup)
             {
-                _expirationTimer = TimerFactory.CreateNonCapturingTimer(state => ((SlimMemoryCache)state).OnAutomatedSweepCleanup(), this, options.FirstSweep, options.SucceedingSweep);
+                _expirationTimer = TimerFactory.CreateNonCapturingTimer(state => ((SlimMemoryCache)state!).OnAutomatedSweepCleanup(), this, options.FirstSweep, options.SucceedingSweep);
             }
         }
 

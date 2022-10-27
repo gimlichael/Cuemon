@@ -1,9 +1,12 @@
-﻿namespace Cuemon.Text
+﻿using Cuemon.Configuration;
+
+namespace Cuemon.Text
 {
     /// <summary>
     /// Configuration options for <see cref="ParserFactory.FromGuid"/>.
     /// </summary>
-    public class GuidStringOptions
+    /// <seealso cref="IParameterObject"/>
+    public class GuidStringOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidStringOptions"/> class.

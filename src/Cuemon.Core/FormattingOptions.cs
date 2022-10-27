@@ -1,11 +1,13 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="IFormatProvider"/>.
     /// </summary>
-    public class FormattingOptions<T> where T : IFormatProvider
+    /// <seealso cref="IParameterObject"/>
+    public class FormattingOptions<T> : IParameterObject where T : IFormatProvider
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FormattingOptions{T}"/> class.

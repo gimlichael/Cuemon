@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Configuration;
 using Cuemon.Security.Cryptography;
 
 namespace Cuemon.Extensions.Net.Security
@@ -6,7 +7,7 @@ namespace Cuemon.Extensions.Net.Security
     /// <summary>
     /// Configuration options for <see cref="StringExtensions.ToSignedUri"/> and <see cref="UriExtensions.ToSignedUri"/>.
     /// </summary>
-    public class SignedUriOptions
+    public class SignedUriOptions : IParameterObject
     {
         private string _contentMd5Header;
         private Func<string, string> _canonicalRepresentationBuilder;

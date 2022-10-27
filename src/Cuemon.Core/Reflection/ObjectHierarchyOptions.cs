@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Cuemon.Configuration;
 using Cuemon.Runtime.Serialization;
 
 namespace Cuemon.Reflection
@@ -7,7 +8,8 @@ namespace Cuemon.Reflection
     /// <summary>
     /// Specifies options that is related to <see cref="Hierarchy"/> and <see cref="HierarchySerializer"/> operations.
     /// </summary>
-    public class ObjectHierarchyOptions
+    /// <seealso cref="IParameterObject"/>
+    public class ObjectHierarchyOptions : IParameterObject
     {
         private int _maxDepth;
         private int _maxCircularCalls;

@@ -1,11 +1,13 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="IDisposable"/>.
     /// </summary>
-    public class DisposableOptions
+    /// <seealso cref="IParameterObject"/>
+    public class DisposableOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DisposableOptions"/> class.

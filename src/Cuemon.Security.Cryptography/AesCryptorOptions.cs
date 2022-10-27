@@ -1,11 +1,13 @@
 ﻿using System.Security.Cryptography;
+using Cuemon.Configuration;
 
 namespace Cuemon.Security.Cryptography
 {
     /// <summary>
     /// Configuration options for <see cref="AesCryptor"/>.
     /// </summary>
-    public class AesCryptorOptions
+    /// <seealso cref="IParameterObject"/>
+    public class AesCryptorOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AesCryptorOptions"/> class.

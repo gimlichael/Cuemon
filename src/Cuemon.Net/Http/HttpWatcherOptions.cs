@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using Cuemon.Configuration;
 using Cuemon.Runtime;
 using Cuemon.Security;
 
@@ -9,7 +10,7 @@ namespace Cuemon.Net.Http
     /// <summary>
     /// Configuration options for <see cref="HttpWatcher"/>.
     /// </summary>
-    public class HttpWatcherOptions : WatcherOptions
+    public class HttpWatcherOptions : WatcherOptions, IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpWatcherOptions"/> class.
@@ -49,7 +50,6 @@ namespace Cuemon.Net.Http
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
                 MaxAutomaticRedirections = 10
             }, false);
-            ReadResponseBody = false;
         }
 
         /// <summary>
@@ -69,5 +69,19 @@ namespace Cuemon.Net.Http
         /// </summary>
         /// <value><c>true</c> to compute a hash from the response data of the <see cref="HttpWatcher"/>; otherwise, <c>false</c>.</value>
         public bool ReadResponseBody { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="ClientFactory"/> cannot be null - or -
+        /// <see cref="HashFactory"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(ClientFactory == null);
+            Validator.ThrowIfObjectInDistress(HashFactory == null);
+        }
     }
 }

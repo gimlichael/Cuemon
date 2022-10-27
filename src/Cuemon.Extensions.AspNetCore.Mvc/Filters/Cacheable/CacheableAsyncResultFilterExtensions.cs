@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
+using Cuemon.Configuration;
 using Cuemon.Reflection;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
@@ -30,7 +31,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
         /// <param name="setup">The <see cref="Action{TOptions}"/> which may be configured.</param>
         public static void AddFilter<T, TOptions>(this IList<ICacheableAsyncResultFilter> filters, Action<TOptions> setup = null)
             where T : ICacheableAsyncResultFilter
-            where TOptions : class, new()
+            where TOptions : class, IParameterObject, new()
         {
             filters.Add(ActivatorFactory.CreateInstance<Action<TOptions>, T>(setup));
         }
@@ -57,7 +58,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
         /// <param name="setup">The <see cref="Action{TOptions}"/> which may be configured.</param>
         public static void InsertFilter<T, TOptions>(this IList<ICacheableAsyncResultFilter> filters, int index, Action<TOptions> setup = null) 
             where T : ICacheableAsyncResultFilter
-            where TOptions : class, new()
+            where TOptions : class, IParameterObject, new()
         {
             filters.Insert(index, ActivatorFactory.CreateInstance<Action<TOptions>, T>(setup));
         }

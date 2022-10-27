@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon.Text
 {
@@ -52,7 +53,7 @@ namespace Cuemon.Text
         }
     }
 
-    internal class ConfigurableParser<TResult, TOptions> : IConfigurableParser<TResult, TOptions> where TOptions : class, new()
+    internal class ConfigurableParser<TResult, TOptions> : IConfigurableParser<TResult, TOptions> where TOptions : class, IParameterObject, new()
     {
         private readonly Func<string, Action<TOptions>, TResult> _parser;
 
@@ -72,7 +73,7 @@ namespace Cuemon.Text
         }
     }
 
-    internal class ConfigurableParser<TOptions> : IConfigurableParser<TOptions> where TOptions : class, new()
+    internal class ConfigurableParser<TOptions> : IConfigurableParser<TOptions> where TOptions : class, IParameterObject, new()
     {
         private readonly Func<string, Type, Action<TOptions>, object> _parser;
 

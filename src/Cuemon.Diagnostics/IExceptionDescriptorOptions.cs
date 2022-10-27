@@ -1,9 +1,11 @@
-﻿namespace Cuemon.Diagnostics
+﻿using Cuemon.Configuration;
+
+namespace Cuemon.Diagnostics
 {
     /// <summary>
     /// Defines options that is related to <see cref="ExceptionDescriptor"/> operations.
     /// </summary>
-    public interface IExceptionDescriptorOptions
+    public interface IExceptionDescriptorOptions : IParameterObject
     {
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result.

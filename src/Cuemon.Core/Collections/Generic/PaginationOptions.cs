@@ -1,9 +1,11 @@
-﻿namespace Cuemon.Collections.Generic
+﻿using Cuemon.Configuration;
+
+namespace Cuemon.Collections.Generic
 {
     /// <summary>
     /// Configuration options for <see cref="PaginationEnumerable{T}"/> and <see cref="PaginationList{T}"/>.
     /// </summary>
-    public class PaginationOptions
+    public class PaginationOptions : IParameterObject
     {
         private int _pageNumber;
         private int _pageSize;
