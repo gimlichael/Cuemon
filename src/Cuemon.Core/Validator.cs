@@ -139,7 +139,7 @@ namespace Cuemon
         internal static void ThrowWhen(Action<ExceptionCondition<ArgumentException>> condition)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            Patterns.Configure(condition);
+            Patterns.CreateInstance(condition);
         }
 
         /// <summary>
