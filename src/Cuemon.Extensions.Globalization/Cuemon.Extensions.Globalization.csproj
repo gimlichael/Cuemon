@@ -4,11 +4,11 @@
     <ProjectGuid>270bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Surrogate' ">
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net48;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+  <PropertyGroup Condition=" '$(Configuration)' != 'Surrogate' ">
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
