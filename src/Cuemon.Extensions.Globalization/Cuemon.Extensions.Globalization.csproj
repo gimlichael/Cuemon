@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>The Cuemon.Globalization namespace contains types that define culture-related information, including language, country/region, calendars in use, format patterns for dates, currency, and numbers, and sort order for strings. The namespace is an addition to the System.Globalization namespace.</Description>
-    <PackageTags>cultureinfo culture-info windows linux windows-linux</PackageTags>
+    <Description>The Cuemon.Extensions.Globalization namespace contains extension methods that complements the Cuemon.Globalization namespace while being an addition to the System.Globalization namespace.</Description>
+    <PackageTags>cultureinfo culture-info windows linux windows-linux nls icu</PackageTags>
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 

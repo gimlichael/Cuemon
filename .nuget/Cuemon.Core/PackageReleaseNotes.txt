@@ -8,6 +8,8 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 # Breaking Changes
 - CHANGED ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude Failure, Evidence and StackTrace as default
 - REMOVED CheckParameter overloads from the Validator class in the Cuemon namespace
+- CHANGED ThrowIfNull{T} --> ThrowIfNull on the Validator class in the Cuemon namespace
+- CHANGED Configure{T}, ConfigureExchange{T} and ConfigureRevertExchange{T} on the Patterns class in the Cuemon namespace to have type conditions include IParameterObject
  
 # New Features
 - ADDED HttpAuthenticationSchemes class in the Cuemon.Net.Http namespace that specifies options that defines constants for well-known HTTP authentication schemes
@@ -22,7 +24,7 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED YamlFormatterOptions class in the Cuemon.Text.Yaml.Formatters namespace that specifies options related to YamlFormatter
 - ADDED YamlConverterFactory class in the Cuemon.Text.Yaml namespace that provides a factory based way to create and wrap an YamlConverter implementation
 - ADDED YamlNamingPolicy class in the Cuemon.Text.Yaml namespace that determines the naming policy used to convert a string-based name to another format
-- EXTENDED Patterns class in the Cuemon namespace with one new static member: ConfigureRevertExchange
+- EXTENDED Patterns class in the Cuemon namespace with two new static members: ConfigureRevertExchange, CreateInstance{T}
 - ADDED IExceptionDescriptorOptions interface in the Cuemon.Diagnostics namespace that defines options that is related to ExceptionDescriptor operations
  
 # Improvements

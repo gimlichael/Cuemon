@@ -80,9 +80,11 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace that converts an Exception to XML
 - ServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection
 - TypeForwardServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection that support nested type forwarding
+- CultureInfoExtensions class in the Cuemon.Extensions.Globalization namespace that consist of extension methods for the CultureInfo class: MergeWithOriginalFormatting
 
 ### Changed
 
+- ThrowIfNull{T} --> ThrowIfNull method on the Validator class in the Cuemon namespace
 - ThrottlingSentinelOptions class in the Cuemon.AspNetCore.Http.Throttling namespace in the context of renaming the ResponseBroker property to ResponseHandler
 - HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace to include a new property where HTTP response Headers can be associated with the exception
 - UserAgentSentinelMiddleware class in the Cuemon.AspNetCore.Http.Headers namespace to have a more lean and fault tolerant design
