@@ -91,7 +91,10 @@ namespace Cuemon.Runtime.Serialization
         /// <returns>An object of <paramref name="objectType"/>.</returns>
         public object Deserialize(Stream value, Type objectType)
         {
-            throw new NotImplementedException();
+            using (var itr = new YamlTextReader(value, _options.Encoding))
+            {
+                return (_options.Converters.FirstOrDefault(c => c.CanConvert(objectType)) ?? new DefaultYamlConverter(_options.Converters)).ReadYamlCore(itr, objectType, _options);
+            }
         }
     }
 }

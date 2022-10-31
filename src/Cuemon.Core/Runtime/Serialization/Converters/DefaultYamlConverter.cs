@@ -14,7 +14,7 @@ namespace Cuemon.Runtime.Serialization.Converters
         private readonly List<YamlConverter> _converters = new()
         {
             {
-                YamlConverterFactory.Create(type => type.IsPrimitive, (writer, value, so) =>
+                YamlConverterFactory.Create(type => !Decorator.Enclose(type).IsComplex(), (writer, value, so) =>
                 {
                     writer.Write(value);
                     writer.WriteLine();
