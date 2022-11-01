@@ -1,9 +1,7 @@
-﻿using System;
-using Cuemon.Globalization;
-using System.Globalization;
+﻿using Cuemon.Globalization;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using Cuemon.Extensions.IO;
+using Cuemon.Text.Yaml.Formatters;
 
 namespace Cuemon.Extensions.Globalization
 {
@@ -15,6 +13,10 @@ namespace Cuemon.Extensions.Globalization
         {
             var assemblyPath = typeof(Program).Assembly.Location;
             SurrogatesPath = Path.GetFullPath(Path.Combine(assemblyPath, "..", "..", "..", "..", "Surrogates"));
+            YamlFormatterOptions.DefaultConverters += list =>
+            {
+                list.Add(new CultureInfoSurrogateConverter());
+            };
             Directory.CreateDirectory(SurrogatesPath);
         }
 
@@ -30,12 +32,8 @@ namespace Cuemon.Extensions.Globalization
                     var nfSurrogate = new NumberFormatInfoSurrogate(cultureInfo.NumberFormat);
                     var ciSurrogate = new CultureInfoSurrogate(dtSurrogate, nfSurrogate);
 
-                    var bf = new BinaryFormatter();
-                    using var ms = new MemoryStream();
-#pragma warning disable SYSLIB0011
-                    bf.Serialize(ms, ciSurrogate);
-#pragma warning restore SYSLIB0011
-                    ms.Position = 0;
+                    var ms = YamlFormatter.SerializeObject(ciSurrogate);
+
                     using var cms = ms.CompressGZip();
                     using var fs = new FileStream(Path.Combine(SurrogatesPath, $"{cultureInfo.Name.ToLowerInvariant()}.bin"), FileMode.Create);
                     fs.Write(cms.ToByteArray(o => o.LeaveOpen = true), 0, (int)cms.Length);

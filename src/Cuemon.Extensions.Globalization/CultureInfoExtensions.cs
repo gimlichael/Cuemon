@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Reflection;
 using Cuemon.Reflection;
+using Cuemon.Text.Yaml.Formatters;
 
 namespace Cuemon.Extensions.Globalization
 {
@@ -55,13 +55,8 @@ namespace Cuemon.Extensions.Globalization
                 else
                 {
                     var surrogate = typeof(CultureInfoExtensions).GetEmbeddedResources($"{culture.Name}.bin", ManifestResourceMatch.ContainsName).SingleOrDefault();
-                    var bf = new BinaryFormatter();
-#pragma warning disable S5773 // Types allowed to be deserialized should be restricted
-#pragma warning disable SYSLIB0011
                     var ms = new MemoryStream(surrogate.Value.DecompressGZip().ToByteArray());
-                    var suggogateCulture = (CultureInfoSurrogate)bf.Deserialize(ms);
-#pragma warning restore SYSLIB0011
-#pragma warning restore S5773 // Types allowed to be deserialized should be restricted
+                    var suggogateCulture = YamlFormatter.DeserializeObject<CultureInfoSurrogate>(ms, o => o.Settings.Converters.Add(new CultureInfoSurrogateConverter()));
                     Enrich(culture, suggogateCulture);
                     EnrichedCultureInfos.Add(culture);
                     enrichedCultures.Add(culture);

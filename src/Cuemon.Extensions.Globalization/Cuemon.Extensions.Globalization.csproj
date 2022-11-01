@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <ProjectGuid>270bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+    <Configurations>Debug;Release;Surrogate</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Surrogate' ">
@@ -15,7 +16,6 @@
   <PropertyGroup>
     <Description>The Cuemon.Extensions.Globalization namespace contains extension methods that complements the Cuemon.Globalization namespace while being an addition to the System.Globalization namespace.</Description>
     <PackageTags>cultureinfo culture-info windows linux windows-linux nls icu</PackageTags>
-    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -1212,8 +1212,6 @@
     <EmbeddedResource Include="Surrogates\zh-tw.bin" />
     <EmbeddedResource Include="Surrogates\zu-za.bin" />
   </ItemGroup>
-
-  
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />

@@ -202,7 +202,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Asp.Versi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Globalization", "src\Cuemon.Extensions.Globalization\Cuemon.Extensions.Globalization.csproj", "{270BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.Globalization.Tests", "test\Cuemon.Extensions.Globalization.Tests\Cuemon.Extensions.Globalization.Tests.csproj", "{3EC7ADB9-EA78-44D2-BD09-85CE6242B7BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Globalization.Tests", "test\Cuemon.Extensions.Globalization.Tests\Cuemon.Extensions.Globalization.Tests.csproj", "{3EC7ADB9-EA78-44D2-BD09-85CE6242B7BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -586,8 +586,8 @@ Global
 		{42E47719-555C-4F05-8530-7D94388324D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42E47719-555C-4F05-8530-7D94388324D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42E47719-555C-4F05-8530-7D94388324D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{270BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{270BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{270BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.ActiveCfg = Surrogate|Any CPU
+		{270BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.Build.0 = Surrogate|Any CPU
 		{270BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{270BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3EC7ADB9-EA78-44D2-BD09-85CE6242B7BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
