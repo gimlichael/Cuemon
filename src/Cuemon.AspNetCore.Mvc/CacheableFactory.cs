@@ -1,15 +1,13 @@
 ﻿using System;
-using Cuemon.AspNetCore.Mvc;
 using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
 using Cuemon.Data.Integrity;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc
+namespace Cuemon.AspNetCore.Mvc
 {
     /// <summary>
-    /// Extension methods for the <see cref="ICacheableObjectResult"/> interface.
+    /// Provides access to factory methods for creating and configuring objects implementing the <see cref="ICacheableObjectResult"/> interface.
     /// </summary>
-    /// <seealso cref="ICacheableObjectResult"/>
-    public static class CacheableObjectResultExtensions
+    public static class CacheableFactory
     {
         /// <summary>
         /// Encapsulates the specified <paramref name="instance" /> within a timestamp based object that is processed by a Last-Modified filter implementation.
@@ -22,9 +20,10 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         /// <seealso cref="CacheableObjectResult{T}" />
         /// <seealso cref="HttpLastModifiedHeaderFilter"/>
         /// <seealso cref="HttpCacheableFilter"/>
-        public static ICacheableObjectResult WithLastModifiedHeader<T>(this T instance, Action<TimeBasedObjectResultOptions<T>> setup)
+        public static ICacheableObjectResult CreateHttpLastModified<T>(T instance, Action<TimeBasedObjectResultOptions<T>> setup)
         {
-            return CacheableFactory.CreateHttpLastModified(instance, setup);
+            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            return new TimeBasedObjectResult<T>(instance, options.TimestampProvider.Invoke(instance), options.ChangedTimestampProvider?.Invoke(instance));
         }
 
         /// <summary>
@@ -38,9 +37,10 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         /// <seealso cref="CacheableObjectResult{T}" />
         /// <seealso cref="HttpEntityTagHeaderFilter"/>
         /// <seealso cref="HttpCacheableFilter"/>
-        public static ICacheableObjectResult WithEntityTagHeader<T>(this T instance, Action<ContentBasedObjectResultOptions<T>> setup)
+        public static ICacheableObjectResult CreateHttpEntityTag<T>(T instance, Action<ContentBasedObjectResultOptions<T>> setup)
         {
-            return CacheableFactory.CreateHttpEntityTag(instance, setup);
+            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            return new ContentBasedObjectResult<T>(instance, options.ChecksumProvider.Invoke(instance), options.WeakChecksumProvider?.Invoke(instance) ?? false);
         }
 
         /// <summary>
@@ -57,9 +57,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         /// <seealso cref="HttpLastModifiedHeaderFilter"/>
         /// <seealso cref="HttpEntityTagHeaderFilter"/>
         /// <seealso cref="HttpCacheableFilter"/>
-        public static ICacheableObjectResult WithCacheableHeaders<T>(this T instance, Action<CacheableObjectResultOptions<T>> setup)
+        public static ICacheableObjectResult Create<T>(T instance, Action<CacheableObjectResultOptions<T>> setup)
         {
-            return CacheableFactory.Create(instance, setup);
+            return new ContentTimeBasedObjectResult<T>(instance, 
+                (IEntityDataTimestamp)CreateHttpLastModified(instance, Patterns.ConfigureExchange<CacheableObjectResultOptions<T>, TimeBasedObjectResultOptions<T>>(setup)),
+                (IEntityDataIntegrity)CreateHttpEntityTag(instance, Patterns.ConfigureExchange<CacheableObjectResultOptions<T>, ContentBasedObjectResultOptions<T>>(setup)));
         }
     }
 }

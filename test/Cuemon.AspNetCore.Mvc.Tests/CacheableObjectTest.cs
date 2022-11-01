@@ -13,10 +13,14 @@ namespace Cuemon.AspNetCore.Mvc
         }
 
         [Fact]
-        public void CreateCacheableObject_ShouldHaveICacheableTimestampImplementation_WhenCreatedWithTimestampRelatedArguments()
+        public void CreateHttpLastModified_ShouldHaveICacheableTimestampImplementation_WhenCreatedWithTimestampRelatedArguments()
         {
             var or = Generate.RandomString(2048);
-            var cor = CacheableObjectFactory.CreateCacheableObjectResult(or, () => DateTime.MinValue, () => DateTime.MaxValue);
+            var cor = CacheableFactory.CreateHttpLastModified(or, o =>
+            {
+                o.TimestampProvider = _ => DateTime.MinValue;
+                o.ChangedTimestampProvider = _ => DateTime.MaxValue;
+            });
             Assert.IsAssignableFrom<IEntityDataTimestamp>(cor);
             if (cor.Value is IEntityDataTimestamp timestamp)
             {
@@ -27,11 +31,15 @@ namespace Cuemon.AspNetCore.Mvc
         }
 
         [Fact]
-        public void CreateCacheableObject_ShouldHaveICacheableIntegrityImplementation_WhenCreatedWithIntegrityRelatedArguments()
+        public void CreateHttpEntityTag_ShouldHaveICacheableIntegrityImplementation_WhenCreatedWithIntegrityRelatedArguments()
         {
             var or = Generate.RandomString(2048);
             var orBytes = Convertible.GetBytes(or);
-            var cor = CacheableObjectFactory.CreateCacheableObjectResult(or, () => orBytes, () => false);
+            var cor = CacheableFactory.CreateHttpEntityTag(or, o =>
+            {
+                o.ChecksumProvider = _ => orBytes;
+                o.WeakChecksumProvider = _ => false;
+            });
             Assert.IsAssignableFrom<IEntityDataIntegrity>(cor);
             if (cor.Value is IEntityDataIntegrity integrity)
             {
@@ -42,11 +50,17 @@ namespace Cuemon.AspNetCore.Mvc
         }
 
         [Fact]
-        public void CreateCacheableObject_ShouldHaveICacheableEntityImplementation_WhenCreatedWithTimestampRelatedArguments_And_IntegrityRelatedArguments()
+        public void Create_ShouldHaveICacheableEntityImplementation_WhenCreatedWithTimestampRelatedArguments_And_IntegrityRelatedArguments()
         {
             var or = Generate.RandomString(2048);
             var orBytes = Convertible.GetBytes(or);
-            var cor = CacheableObjectFactory.CreateCacheableObjectResult(or, () => DateTime.MinValue, () => orBytes, () => DateTime.MaxValue, () => false);
+            var cor = CacheableFactory.Create(or, o =>
+            {
+                o.TimestampProvider = _ => DateTime.MinValue;
+                o.ChecksumProvider = _ => orBytes;
+                o.ChangedTimestampProvider = _ => DateTime.MaxValue;
+                o.WeakChecksumProvider = _ => false;
+            });
             Assert.IsAssignableFrom<IEntityInfo>(cor);
             if (cor.Value is IEntityInfo entity)
             {

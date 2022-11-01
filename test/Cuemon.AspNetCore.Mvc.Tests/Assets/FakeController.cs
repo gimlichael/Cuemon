@@ -48,13 +48,13 @@ namespace Cuemon.AspNetCore.Mvc.Assets
         [HttpGet("getCacheByEtag")]
         public IActionResult GetEtag()
         {
-            return Ok("Unit Test".MakeCacheable(s => Convertible.GetBytes(Generate.HashCode32(s))));
+            return Ok("Unit Test".WithEntityTagHeader(o => o.ChecksumProvider = s => Convertible.GetBytes(Generate.HashCode32(s))));
         }
 
         [HttpGet("getCacheByLastModified")]
         public IActionResult GetLastModified()
         {
-            return Ok("Unit Test".MakeCacheable(s => DateTime.UnixEpoch));
+            return Ok("Unit Test".WithLastModifiedHeader(o => o.TimestampProvider = s => DateTime.UnixEpoch));
         }
     }
 }

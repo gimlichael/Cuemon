@@ -15,12 +15,16 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         }
 
         [Fact]
-        public void MakeCacheable_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataTimestamp()
+        public void WithLastModifiedHeader_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataTimestamp()
         {
             var sut1 = Generate.RandomString(2048);
-            var sut2 = sut1.MakeCacheable(() => DateTime.MinValue, () => DateTime.MaxValue);
+            var sut2 = sut1.WithLastModifiedHeader(o =>
+            {
+                o.TimestampProvider = _ => DateTime.MinValue;
+                o.ChangedTimestampProvider = _ => DateTime.MaxValue;
+            });
             var sut3 = sut2 as IEntityDataTimestamp;
-            
+
             Assert.IsAssignableFrom<ICacheableObjectResult>(sut2);
             Assert.IsAssignableFrom<IEntityDataTimestamp>(sut2);
             Assert.NotNull(sut3);
@@ -30,13 +34,17 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         }
 
         [Fact]
-        public void MakeCacheable_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataIntegrity_WithStrongValidation()
+        public void WithEntityTagHeader_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataIntegrity_WithStrongValidation()
         {
             var sut1 = Generate.RandomString(2048);
             var sut2 = HashFactory.CreateFnv64().ComputeHash(sut1).GetBytes();
-            var sut3 = sut1.MakeCacheable(() => sut2, () => false);
+            var sut3 = sut1.WithEntityTagHeader(o =>
+            {
+                o.ChecksumProvider = _ => sut2;
+                o.WeakChecksumProvider = _ => false;
+            });
             var sut4 = sut3 as IEntityDataIntegrity;
-            
+
             Assert.IsAssignableFrom<ICacheableObjectResult>(sut3);
             Assert.IsAssignableFrom<IEntityDataIntegrity>(sut3);
             Assert.NotNull(sut4);
@@ -46,13 +54,17 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         }
 
         [Fact]
-        public void MakeCacheable_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataIntegrity_WithWeakValidation()
+        public void WithEntityTagHeader_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataIntegrity_WithWeakValidation()
         {
             var sut1 = Generate.RandomString(2048);
             var sut2 = HashFactory.CreateFnv64().ComputeHash(sut1).GetBytes();
-            var sut3 = sut1.MakeCacheable(() => sut2, () => true);
+            var sut3 = sut1.WithEntityTagHeader(o =>
+            {
+                o.ChecksumProvider = _ => sut2;
+                o.WeakChecksumProvider = _ => true;
+            });
             var sut4 = sut3 as IEntityDataIntegrity;
-            
+
             Assert.IsAssignableFrom<ICacheableObjectResult>(sut3);
             Assert.IsAssignableFrom<IEntityDataIntegrity>(sut3);
             Assert.NotNull(sut4);
@@ -62,14 +74,20 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         }
 
         [Fact]
-        public void MakeCacheable_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataIntegrityAndOfTypeEntityDataTimestamp_WithStrongValidation()
+        public void WithCacheableHeaders_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataIntegrityAndOfTypeEntityDataTimestamp_WithStrongValidation()
         {
             var sut1 = Generate.RandomString(2048);
             var sut2 = HashFactory.CreateFnv64().ComputeHash(sut1).GetBytes();
-            var sut3 = sut1.MakeCacheable(() => DateTime.MinValue, () => sut2, () => DateTime.MaxValue, () => true);
+            var sut3 = sut1.WithCacheableHeaders(o =>
+            {
+                o.TimestampProvider = _ => DateTime.MinValue;
+                o.ChecksumProvider = _ => sut2;
+                o.ChangedTimestampProvider = _ => DateTime.MaxValue;
+                o.WeakChecksumProvider = _ => true;
+            });
             var sut4 = sut3 as IEntityDataIntegrity;
             var sut5 = sut3 as IEntityDataTimestamp;
-            
+
             Assert.IsAssignableFrom<ICacheableObjectResult>(sut3);
             Assert.IsAssignableFrom<IEntityDataIntegrity>(sut3);
             Assert.IsAssignableFrom<IEntityDataTimestamp>(sut3);
@@ -83,14 +101,20 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         }
 
         [Fact]
-        public void MakeCacheable_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataIntegrityAndOfTypeEntityDataTimestamp_WithWeakValidation()
+        public void WithCacheableHeaders_ShouldWrapObjectInCacheableObjectResultOfTypeEntityDataIntegrityAndOfTypeEntityDataTimestamp_WithWeakValidation()
         {
             var sut1 = Generate.RandomString(2048);
             var sut2 = HashFactory.CreateFnv64().ComputeHash(sut1).GetBytes();
-            var sut3 = sut1.MakeCacheable(() => DateTime.MinValue, () => sut2, () => DateTime.MaxValue, () => false);
+            var sut3 = sut1.WithCacheableHeaders(o =>
+            {
+                o.TimestampProvider = _ => DateTime.MinValue;
+                o.ChecksumProvider = _ => sut2;
+                o.ChangedTimestampProvider = _ => DateTime.MaxValue;
+                o.WeakChecksumProvider = _ => false;
+            });
             var sut4 = sut3 as IEntityDataIntegrity;
             var sut5 = sut3 as IEntityDataTimestamp;
-            
+
             Assert.IsAssignableFrom<ICacheableObjectResult>(sut3);
             Assert.IsAssignableFrom<IEntityDataIntegrity>(sut3);
             Assert.IsAssignableFrom<IEntityDataTimestamp>(sut3);
