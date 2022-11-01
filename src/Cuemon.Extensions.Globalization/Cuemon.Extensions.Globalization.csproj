@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <ProjectGuid>270bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
-    <Configurations>Debug;Release;Surrogate</Configurations>
+    <!--<Configurations>Debug;Release;Surrogate</Configurations>-->
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Surrogate' ">
