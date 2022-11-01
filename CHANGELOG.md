@@ -90,6 +90,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - IValidatableParameterObject interface in the Cuemon.Configuration namespace that denotes a Parameter Object where one or more conditions can be verified that they are in a valid state
 - Patterns class in the Cuemon namespace was extended with two new static members: ConfigureRevertExchange{T}, CreateInstance{T}
 - Validator class in the Cuemon namespace was extended with several new static members: ThrowIfInvalidConfigurator{T}, ThrowIfInvalidOptions{T}, ThrowIfObjectInDistress
+- CallerArgumentExpressionAttribute class in the System.Runtime.CompilerServices namespace that indicates that a parameter captures the expression passed for another parameter as a string (for .NET versions <= .NET Core 3.0)
 
 ### Changed
 
