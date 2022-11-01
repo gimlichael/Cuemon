@@ -7,6 +7,7 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # New Features
 - ADDED ExceptionDescriptorConverter class in the Cuemon.Diagnostics.Text.Yaml namespace that converts an ExceptionDescriptor to or from YAML
+- ADDED IExceptionDescriptorOptions interface in the Cuemon.Diagnostics namespace that defines options that is related to ExceptionDescriptor operations
  
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0

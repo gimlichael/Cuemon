@@ -81,10 +81,20 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection
 - TypeForwardServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection that support nested type forwarding
 - CultureInfoExtensions class in the Cuemon.Extensions.Globalization namespace that consist of extension methods for the CultureInfo class: MergeWithOriginalFormatting
+- CacheableObjectResultOptions{T} class in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
+- ContentBasedObjectResultOptions{T} class in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
+- IContentBasedObjectResultOptions{T} interface in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
+- ITimeBasedObjectResultOptions{T} interface in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
+- TimeBasedObjectResultOptions{T} class in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
+- IParameterObject interface in the Cuemon.Configuration namespace that serves as a marker interface denoting a Parameter Object
+- IValidatableParameterObject interface in the Cuemon.Configuration namespace that denotes a Parameter Object where one or more conditions can be verified that they are in a valid state
+- Patterns class in the Cuemon namespace was extended with two new static members: ConfigureRevertExchange{T}, CreateInstance{T}
+- Validator class in the Cuemon namespace was extended with several new static members: ThrowIfInvalidConfigurator{T}, ThrowIfInvalidOptions{T}, ThrowIfObjectInDistress
 
 ### Changed
 
 - ThrowIfNull{T} --> ThrowIfNull method on the Validator class in the Cuemon namespace
+- ThrowIfNull, ThrowIfNullOrEmpty and ThrowIfNullOrWhitespace on the Validator class in the Cuemon namespace to embrace the new CallerArgumentExpression attribute
 - ThrottlingSentinelOptions class in the Cuemon.AspNetCore.Http.Throttling namespace in the context of renaming the ResponseBroker property to ResponseHandler
 - HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace to include a new property where HTTP response Headers can be associated with the exception
 - UserAgentSentinelMiddleware class in the Cuemon.AspNetCore.Http.Headers namespace to have a more lean and fault tolerant design
@@ -97,7 +107,6 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - HttpRequestEvidence class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace was moved to the Cuemon.AspNetCore.Diagnostics namespace
 - UserAgentSentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Headers namespace received a more lean and fault tolerant design
 - ThrottlingSentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Throttling namespace received a more lean and fault tolerant design
-- Validator class in the Cuemon namespace with several new static members: ThrowIfInvalidConfigurator, ThrowIfInvalidOptions, ThrowIfObjectInDistress
 - ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace with one new extension method for the IApplicationBuilder interface: UseFaultDescriptorExceptionHandler
 - MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace in the context of renaming the AddJsonSerializationFormatters method to AddNewtonsoftJsonFormatters
 - MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace in the context of renaming the AddJsonFormatterOptions method to AddNewtonsoftJsonFormattersOptions
@@ -117,9 +126,11 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to use DateTimeZoneHandling.RoundtripKind instead of DateTimeZoneHandling.Utc when dealing with DateTimeZoneHandling
 - FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace was renamed to FaultDescriptorOptions
 - ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude Failure, Evidence and StackTrace as default
-- Patterns class in the Cuemon namespace was extended with one new static member: ConfigureRevertExchange
 - HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace was extended with one new overloaded static member: TryParse
-- ServiceCollectionExtensions class in the Cuemon.Extensions.DependencyInjection namespace was exteded with twelve new overloaded extension methods for the IServiceCollection interface: Add, TryAdd
+- ServiceCollectionExtensions class in the Cuemon.Extensions.DependencyInjection namespace was extended with twelve new overloaded extension methods for the IServiceCollection interface: Add, TryAdd
+- CacheableObjectResultExtensions in the Cuemon.Extensions.AspNetCore.Mvc namespace to exclude non-generic MakeCacheable methods
+- MakeCacheable{T} --> WithLastModifiedHeader{T}, WithEntityTagHeader{T} and WithCacheableHeaders{T} on the CacheableObjectResultExtensions class in the Cuemon.Extensions.AspNetCore.Mvc namespace
+- Configure{T}, ConfigureExchange{T} and ConfigureRevertExchange{T} on the Patterns class in the Cuemon namespace to have type conditions include IParameterObject
 
 ### Removed
 
@@ -135,11 +146,13 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 
 ### Fixed
 
-- HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that logic is only applied if qualified
+- HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that logic is only applied if qualified and that response has not started
 - FakeHttpResponseFeature class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features namespace so that the OnStarting method ensures that callback delegate is only run once per response
 - ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace that was triggered when parsing runtime parameters for time measuring and parameters exceeded what was part of route
 - StringFlagsEnumConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace so that it includes check on FlagsAttribute definition in inherited CanConvert method
 - StreamOutputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace so that only non-nullable objects are being serialized
+- World class in the Cuemon.Globalization namespace to exclude CultureInfo with LCID value of 127 (triggered exception on Alpine OS)
+- HttpEntityTagHeaderFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace that was triggered when UseEntityTagResponseParser was set to true and no cacheable object was returned
 
 ## [6.4.1] - 2022-08-05
 
