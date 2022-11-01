@@ -18,8 +18,8 @@ namespace Cuemon.Extensions.Globalization
             var df = new DateTimeFormatInfoSurrogate();
             var nf = new NumberFormatInfoSurrogate();
 
-            var dfProperties = df.GetType().GetRuntimeProperties();
-            var nfProperties = nf.GetType().GetRuntimeProperties();
+            var dfProperties = df.GetType().GetRuntimeProperties().ToList();
+            var nfProperties = nf.GetType().GetRuntimeProperties().ToList();
 
             while (!reader.EndOfStream)
             {
@@ -37,10 +37,7 @@ namespace Cuemon.Extensions.Globalization
                         continue;
                     }
                     var nfProperty = nfProperties.FirstOrDefault(pi => pi.Name == key);
-                    if (nfProperty != null)
-                    {
-                        nfProperty.SetValue(nf, Decorator.Enclose(value).ChangeType(nfProperty.PropertyType));
-                    }
+                    nfProperty?.SetValue(nf, Decorator.Enclose(value).ChangeType(nfProperty.PropertyType));
                 }
             }
 
