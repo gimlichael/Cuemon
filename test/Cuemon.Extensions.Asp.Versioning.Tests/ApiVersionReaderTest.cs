@@ -90,8 +90,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                 Assert.Equal(@"Error: 
   Status: 415
   Code: UnsupportedMediaType
-  Message: The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.
-", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+  Message: The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
             }
         }
 

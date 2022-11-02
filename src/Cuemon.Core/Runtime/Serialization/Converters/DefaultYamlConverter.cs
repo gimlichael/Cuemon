@@ -89,14 +89,20 @@ namespace Cuemon.Runtime.Serialization.Converters
                 YamlConverterFactory.Create(type => Decorator.Enclose(type).IsComplex(), (writer, value, so) =>
                 {
                     writer.WriteStartObject();
-                    var properties = value.GetType().GetRuntimeProperties();
-                    foreach (var property in properties)
+
+                    var valueHierarchy = new HierarchySerializer(value, o =>
                     {
-                        var propertyValue = property.GetValue(value);
-                        if (propertyValue == null) { continue; }
-                        writer.WritePropertyName(so.SetPropertyName(property.Name));
-                        writer.WriteObject(propertyValue, so);
+                        o.MaxCircularCalls = 0;
+                        o.MaxDepth = 0;
+                    });
+
+                    foreach (var node in valueHierarchy.Nodes.GetChildren())
+                    {
+                        if (node.Instance == null) { continue; }
+                        writer.WritePropertyName(so.SetPropertyName(node.MemberReference.Name));
+                        writer.WriteObject(node.Instance, node.InstanceType, so);
                     }
+
                     writer.WriteEndObject();
                 })
             }

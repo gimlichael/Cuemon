@@ -51,20 +51,21 @@ namespace Cuemon.Runtime.Serialization
             sw.Flush();
             ms.Flush();
             ms.Position = 0;
+            var intermediate = Eradicate.TrailingBytes(ms.ToArray(), Decorator.Enclose(Environment.NewLine).ToByteArray());
             if (_options.Preamble == PreambleSequence.Remove)
             {
                 var preamble = _options.Encoding.GetPreamble();
                 if (preamble.Length > 0)
                 {
-                    return ByteOrderMark.Remove(ms, _options.Encoding) as MemoryStream;
+                    intermediate = ByteOrderMark.Remove(intermediate, _options.Encoding);
                 }
             }
-            return ms;
+            return new MemoryStream(intermediate);
         }
 
-        internal void Serialize<T>(YamlTextWriter writer, T source)
+        internal void Serialize(YamlTextWriter writer, object source)
         {
-            Serialize(writer, source, typeof(T));
+            Serialize(writer, source, source.GetType());
         }
 
         internal void Serialize(YamlTextWriter writer, object source, Type inputType)

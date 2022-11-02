@@ -38,7 +38,6 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
             converters.Add(YamlConverterFactory.Create<HttpExceptionDescriptor>(type => type == typeof(HttpExceptionDescriptor), (writer, value, so) =>
             {
                 writer.WritePropertyName(so.SetPropertyName("Error"));
-
                 writer.WriteStartObject();
                 writer.WriteString(so.SetPropertyName("Status"), value.StatusCode.ToString());
                 writer.WriteString(so.SetPropertyName("Code"), value.Code);
