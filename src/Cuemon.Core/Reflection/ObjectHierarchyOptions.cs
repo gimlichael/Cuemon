@@ -60,6 +60,7 @@ namespace Cuemon.Reflection
                         property.Name.Equals("IsSynchronized", StringComparison.Ordinal) ||
                         property.Name.Equals("Count", StringComparison.Ordinal) ||
                         property.Name.Equals("HResult", StringComparison.Ordinal) ||
+                        property.Name.Equals("Parent", StringComparison.Ordinal) ||
                         property.Name.Equals("TargetSite", StringComparison.Ordinal));
             };
             HasCircularReference = i => Decorator.Enclose(i.GetType()).HasCircularReference(i);
