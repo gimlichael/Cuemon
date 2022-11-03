@@ -18,11 +18,23 @@ namespace Cuemon.Text.Yaml.Formatters
         /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
         /// </summary>
         /// <param name="source">The object to serialize to YAML format.</param>
+        /// <param name="setup">The <see cref="YamlFormatterOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
+        public static Stream SerializeObject(object source, Action<YamlFormatterOptions> setup = null)
+        {
+            return SerializeObject(source, null, setup);
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="source">The object to serialize to YAML format.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
         /// <param name="setup">The <see cref="YamlFormatterOptions"/> which may be configured.</param>
         /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
-        public static Stream SerializeObject(object source, Type objectType = null, Action<YamlFormatterOptions> setup = null)
+        public static Stream SerializeObject(object source, Type objectType, Action<YamlFormatterOptions> setup = null)
         {
+            Validator.ThrowIfNull(source);
             var formatter = new YamlFormatter(setup);
             return formatter.Serialize(source, objectType ?? source?.GetType());
         }
@@ -48,6 +60,7 @@ namespace Cuemon.Text.Yaml.Formatters
         /// <returns>An object of <paramref name="objectType"/>.</returns>
         public static object DeserializeObject(Stream value, Type objectType, Action<YamlFormatterOptions> setup = null)
         {
+            Validator.ThrowIfNull(value);
             var formatter = new YamlFormatter(setup);
             return formatter.Deserialize(value, objectType);
         }

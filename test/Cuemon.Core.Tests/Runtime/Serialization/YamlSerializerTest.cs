@@ -1,6 +1,11 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.InteropServices;
+using Cuemon.Extensions.Globalization;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
+using Cuemon.Text.Yaml;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -8,6 +13,9 @@ namespace Cuemon.Runtime.Serialization
 {
     public class YamlSerializerTest : Test
     {
+        private static readonly bool IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        private readonly CultureInfo _cultureInfo = IsLinux ? new CultureInfo("da-DK").MergeWithOriginalFormatting() : new CultureInfo("da-DK");
+
         public YamlSerializerTest(ITestOutputHelper output) : base(output)
         {
         }
@@ -15,8 +23,11 @@ namespace Cuemon.Runtime.Serialization
         [Fact]
         public void Serialize_ShouldSerializeDateFormatInfo()
         {
-            var sut1 = new YamlSerializer();
-            var sut2 = new CultureInfo("da-DK");
+            var sut1 = new YamlSerializer(o => o.Converters.Add(YamlConverterFactory.Create<DateTime>((writer, dt, so) =>
+            {
+                writer.WriteLine(dt.ToString(_cultureInfo));
+            })));
+            var sut2 = _cultureInfo;
             var sut3 = sut1.Serialize(sut2.DateTimeFormat);
             var sut4 = sut3.ToEncodedString();
 
@@ -126,14 +137,14 @@ MonthGenitiveNames:
   - oktober
   - november
   - december
-  - ", sut4, ignoreLineEndingDifferences: true);
+  - ".ReplaceLineEndings(), sut4);
         }
 
         [Fact]
         public void Serialize_ShouldSerializeNumberFormatInfo()
         {
             var sut1 = new YamlSerializer();
-            var sut2 = new CultureInfo("da-DK");
+            var sut2 = _cultureInfo;
             var sut3 = sut1.Serialize(sut2.NumberFormat);
             var sut4 = sut3.ToEncodedString();
 
@@ -178,21 +189,25 @@ NativeDigits:
   - 7
   - 8
   - 9
-DigitSubstitution: None", sut4, ignoreLineEndingDifferences: true);
+DigitSubstitution: None".ReplaceLineEndings(), sut4);
         }
 
 
         [Fact]
         public void Serialize_ShouldSerializeCultureInfo()
         {
-            var sut1 = new YamlSerializer();
-            var sut2 = new CultureInfo("da-DK");
+            var sut1 = new YamlSerializer(o => o.Converters.Add(YamlConverterFactory.Create<DateTime>((writer, dt, so) =>
+            {
+                writer.WriteLine(dt.ToString(_cultureInfo));
+            })));
+            var sut2 = _cultureInfo;
             var sut3 = sut1.Serialize(sut2);
-            var sut4 = sut3.ToEncodedString();
+            var sut4 = sut3.ToEncodedString().ReplaceLineEndings().Split(Environment.NewLine).ToList();
 
-            TestOutput.WriteLine(sut4);
+            sut4.RemoveRange(sut4.FindIndex(s => s.StartsWith("CompareInfo")), 6);
+            sut4.RemoveRange(sut4.FindIndex(s => s.StartsWith("CultureTypes")), 1);
 
-            Assert.Equal(@"LCID: 1030
+            var expected = @"LCID: 1030
 KeyboardLayoutId: 1030
 Name: da-DK
 IetfLanguageTag: da-DK
@@ -202,12 +217,6 @@ EnglishName: Danish (Denmark)
 TwoLetterISOLanguageName: da
 ThreeLetterISOLanguageName: dan
 ThreeLetterWindowsLanguageName: DAN
-CompareInfo: 
-  Name: da-DK
-  Version: 
-    FullVersion: 136734873
-    SortId: 08266899-0000-0000-0000-000000000406
-  LCID: 1030
 TextInfo: 
   ANSICodePage: 1252
   OEMCodePage: 850
@@ -218,7 +227,6 @@ TextInfo:
   ListSeparator: ;
   IsRightToLeft: False
 IsNeutralCulture: False
-CultureTypes: SpecificCultures, InstalledWin32Cultures
 NumberFormat: 
   CurrencyDecimalDigits: 2
   CurrencyDecimalSeparator: ,
@@ -383,7 +391,12 @@ OptionalCalendars:
     Eras: 
       - 1
     TwoDigitYearMax: 2029
-UseUserOverride: True", sut4, ignoreLineEndingDifferences: true);
+UseUserOverride: True".ReplaceLineEndings().Split(Environment.NewLine).ToList();
+
+
+            TestOutput.WriteLines(sut4);
+            
+            Assert.Equal(expected, sut4);
         }
     }
 }
