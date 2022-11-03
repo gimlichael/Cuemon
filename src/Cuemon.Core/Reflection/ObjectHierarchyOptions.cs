@@ -17,6 +17,7 @@ namespace Cuemon.Reflection
         private Func<PropertyInfo, bool> _skipProperty;
         private Func<object, bool> _hasCircularReference;
         private Func<object, PropertyInfo, object> _valueResolver;
+        private MemberReflection _reflectionRules;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectHierarchyOptions"/> class.
@@ -25,6 +26,7 @@ namespace Cuemon.Reflection
         {
             MaxDepth = 10;
             MaxCircularCalls = 2;
+            ReflectionRules = new MemberReflection(true, true);
             SkipPropertyType = source =>
             {
                 switch (Type.GetTypeCode(source))
@@ -92,6 +94,23 @@ namespace Cuemon.Reflection
             {
                 Validator.ThrowIfLowerThan(value, 0, nameof(value));
                 _maxCircularCalls = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the binding constraints for reflection based member searching.
+        /// </summary>
+        /// <value>The binding constraints for reflection based member searching.</value>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        public MemberReflection ReflectionRules
+        {
+            get => _reflectionRules;
+            set
+            {
+                Validator.ThrowIfNull(value);
+                _reflectionRules = value;
             }
         }
 

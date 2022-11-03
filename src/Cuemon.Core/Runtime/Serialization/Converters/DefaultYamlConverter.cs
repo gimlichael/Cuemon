@@ -93,7 +93,8 @@ namespace Cuemon.Runtime.Serialization.Converters
                     var valueHierarchy = new HierarchySerializer(value, o =>
                     {
                         o.MaxCircularCalls = 0;
-                        o.MaxDepth = 0;
+                        o.MaxDepth = 1;
+                        o.ReflectionRules = so.ReflectionRules;
                     });
 
                     foreach (var node in valueHierarchy.Nodes.GetChildren())
