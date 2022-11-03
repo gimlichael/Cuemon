@@ -1,6 +1,7 @@
 ﻿using Cuemon.Globalization;
 using System.IO;
 using Cuemon.Extensions.IO;
+using Cuemon.Reflection;
 using Cuemon.Text.Yaml.Formatters;
 
 namespace Cuemon.Extensions.Globalization
@@ -32,7 +33,7 @@ namespace Cuemon.Extensions.Globalization
                     var nfSurrogate = new NumberFormatInfoSurrogate(cultureInfo.NumberFormat);
                     var ciSurrogate = new CultureInfoSurrogate(dtSurrogate, nfSurrogate);
 
-                    var ms = YamlFormatter.SerializeObject(ciSurrogate);
+                    var ms = YamlFormatter.SerializeObject(ciSurrogate, o => o.Settings.ReflectionRules = new MemberReflection());
 
                     using var cms = ms.CompressGZip();
                     using var fs = new FileStream(Path.Combine(SurrogatesPath, $"{cultureInfo.Name.ToLowerInvariant()}.bin"), FileMode.Create);

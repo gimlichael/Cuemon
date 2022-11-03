@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Text.Yaml.Converters;
 
@@ -10,7 +9,7 @@ namespace Cuemon.Extensions.Globalization
     {
         public override void WriteYaml(YamlTextWriter writer, CultureInfoSurrogate value, YamlSerializerOptions so)
         {
-            writer.WriteObject(value, so);
+            writer.WriteObject(value, typeof(object), so);
         }
 
         public override CultureInfoSurrogate ReadYaml(YamlTextReader reader, Type typeToConvert, YamlSerializerOptions so)
@@ -18,8 +17,8 @@ namespace Cuemon.Extensions.Globalization
             var df = new DateTimeFormatInfoSurrogate();
             var nf = new NumberFormatInfoSurrogate();
 
-            var dfProperties = df.GetType().GetRuntimeProperties().ToList();
-            var nfProperties = nf.GetType().GetRuntimeProperties().ToList();
+            var dfProperties = df.GetType().GetProperties().ToList();
+            var nfProperties = nf.GetType().GetProperties().ToList();
 
             while (!reader.EndOfStream)
             {

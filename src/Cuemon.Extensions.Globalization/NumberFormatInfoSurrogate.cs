@@ -1,11 +1,8 @@
-﻿using System;
-using System.Globalization;
-using System.Runtime.Serialization;
+﻿using System.Globalization;
 
 namespace Cuemon.Extensions.Globalization
 {
-    [Serializable]
-    internal class NumberFormatInfoSurrogate : ISerializable
+    internal class NumberFormatInfoSurrogate
     {
         internal NumberFormatInfoSurrogate()
         {
@@ -36,33 +33,6 @@ namespace Cuemon.Extensions.Globalization
             PercentSymbol = numberFormatInfo.PercentSymbol;
             PositiveInfinitySymbol = numberFormatInfo.PositiveInfinitySymbol;
             PositiveSign = numberFormatInfo.PositiveSign;
-        }
-
-        internal NumberFormatInfoSurrogate(SerializationInfo info, StreamingContext context)
-        {
-            CurrencyDecimalDigits = (int)info.GetValue(nameof(CurrencyDecimalDigits), typeof(int));
-            CurrencyNegativePattern = (int)info.GetValue(nameof(CurrencyNegativePattern), typeof(int));
-            CurrencyPositivePattern = (int)info.GetValue(nameof(CurrencyPositivePattern), typeof(int));
-            DigitSubstitution = (DigitShapes)info.GetValue(nameof(DigitSubstitution), typeof(DigitShapes));
-            NumberDecimalDigits = (int)info.GetValue(nameof(NumberDecimalDigits), typeof(int));
-            NumberNegativePattern = (int)info.GetValue(nameof(NumberNegativePattern), typeof(int));
-            PercentDecimalDigits = (int)info.GetValue(nameof(PercentDecimalDigits), typeof(int));
-            PercentNegativePattern = (int)info.GetValue(nameof(PercentNegativePattern), typeof(int));
-            PercentPositivePattern = (int)info.GetValue(nameof(PercentPositivePattern), typeof(int));
-            CurrencyDecimalSeparator = (string)info.GetValue(nameof(CurrencyDecimalSeparator), typeof(string));
-            CurrencyGroupSeparator = (string)info.GetValue(nameof(CurrencyGroupSeparator), typeof(string));
-            CurrencySymbol = (string)info.GetValue(nameof(CurrencySymbol), typeof(string));
-            NaNSymbol = (string)info.GetValue(nameof(NaNSymbol), typeof(string));
-            NegativeInfinitySymbol = (string)info.GetValue(nameof(NegativeInfinitySymbol), typeof(string));
-            NegativeSign = (string)info.GetValue(nameof(NegativeSign), typeof(string));
-            NumberDecimalSeparator = (string)info.GetValue(nameof(NumberDecimalSeparator), typeof(string));
-            NumberGroupSeparator = (string)info.GetValue(nameof(NumberGroupSeparator), typeof(string));
-            PercentDecimalSeparator = (string)info.GetValue(nameof(PercentDecimalSeparator), typeof(string));
-            PercentGroupSeparator = (string)info.GetValue(nameof(PercentGroupSeparator), typeof(string));
-            PercentSymbol = (string)info.GetValue(nameof(PercentSymbol), typeof(string));
-            PerMilleSymbol = (string)info.GetValue(nameof(PerMilleSymbol), typeof(string));
-            PositiveInfinitySymbol = (string)info.GetValue(nameof(PositiveInfinitySymbol), typeof(string));
-            PositiveSign = (string)info.GetValue(nameof(PositiveSign), typeof(string));
         }
 
         public int CurrencyDecimalDigits { get; set; }
@@ -110,32 +80,5 @@ namespace Cuemon.Extensions.Globalization
         public string PositiveInfinitySymbol { get; set; }
         
         public string PositiveSign { get; set; }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(DigitSubstitution), DigitSubstitution);
-            info.AddValue(nameof(CurrencyDecimalDigits), CurrencyDecimalDigits);
-            info.AddValue(nameof(CurrencyNegativePattern), CurrencyNegativePattern);
-            info.AddValue(nameof(CurrencyPositivePattern), CurrencyPositivePattern);
-            info.AddValue(nameof(NumberDecimalDigits), NumberDecimalDigits);
-            info.AddValue(nameof(NumberNegativePattern), NumberNegativePattern);
-            info.AddValue(nameof(PercentDecimalDigits), PercentDecimalDigits);
-            info.AddValue(nameof(PercentNegativePattern), PercentNegativePattern);
-            info.AddValue(nameof(PercentPositivePattern), PercentPositivePattern);
-            info.AddValue(nameof(CurrencyDecimalSeparator), CurrencyDecimalSeparator);
-            info.AddValue(nameof(CurrencyGroupSeparator), CurrencyGroupSeparator);
-            info.AddValue(nameof(CurrencySymbol), CurrencySymbol);
-            info.AddValue(nameof(NaNSymbol), NaNSymbol);
-            info.AddValue(nameof(NegativeInfinitySymbol), NegativeInfinitySymbol);
-            info.AddValue(nameof(NegativeSign), NegativeSign);
-            info.AddValue(nameof(NumberDecimalSeparator), NumberDecimalSeparator);
-            info.AddValue(nameof(NumberGroupSeparator), NumberGroupSeparator);
-            info.AddValue(nameof(PercentDecimalSeparator), PercentDecimalSeparator);
-            info.AddValue(nameof(PercentGroupSeparator), PercentGroupSeparator);
-            info.AddValue(nameof(PercentSymbol), PercentSymbol);
-            info.AddValue(nameof(PerMilleSymbol), PerMilleSymbol);
-            info.AddValue(nameof(PositiveInfinitySymbol), PositiveInfinitySymbol);
-            info.AddValue(nameof(PositiveSign), PositiveSign);
-        }
     }
 }

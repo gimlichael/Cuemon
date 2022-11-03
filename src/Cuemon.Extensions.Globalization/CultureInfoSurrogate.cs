@@ -1,10 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Cuemon.Extensions.Globalization
 {
-    [Serializable]
-    internal class CultureInfoSurrogate  : ISerializable
+    internal class CultureInfoSurrogate
     {
         public CultureInfoSurrogate()
         {
@@ -25,11 +23,5 @@ namespace Cuemon.Extensions.Globalization
         internal DateTimeFormatInfoSurrogate DateTimeFormat { get; set; }
 
         internal NumberFormatInfoSurrogate NumberFormat { get; set; }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(DateTimeFormat), DateTimeFormat);
-            info.AddValue(nameof(NumberFormat), NumberFormat);
-        }
     }
 }
