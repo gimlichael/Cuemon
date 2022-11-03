@@ -273,7 +273,7 @@ namespace Cuemon
                     continue;
                 }
 
-                foreach (var property in currentType.GetProperties(new MemberReflection(true, true)))
+                foreach (var property in currentType.GetProperties(options.ReflectionRules))
                 {
                     if (options.SkipProperty(property)) { continue; }
                     if (!property.CanRead) { continue; }
