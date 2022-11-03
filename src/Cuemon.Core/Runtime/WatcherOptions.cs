@@ -1,11 +1,12 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon.Runtime
 {
     /// <summary>
     /// Configuration options for <see cref="IWatcher"/>.
     /// </summary>
-    public class WatcherOptions
+    public class WatcherOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WatcherOptions"/> class.

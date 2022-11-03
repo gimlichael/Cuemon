@@ -84,14 +84,14 @@ namespace Cuemon
         /// <remarks><paramref name="message"/> will have the name of the <typeparamref name="TOptions"/> if possible; otherwise Options.</remarks>
         public static void ThrowIfInvalidOptions<TOptions>(TOptions options, string paramName, string message = "{0} are not in a valid state.") where TOptions : class, IValidatableParameterObject, new()
         {
-            ThrowIfNull(options);
+            ThrowIfNull(options, paramName);
             try
             {
                 options.ValidateOptions();
             }
             catch (Exception e)
             {
-                if (message?.Equals("{0} are not in a valid state.", StringComparison.InvariantCulture) ?? false) { message = string.Format(message, Patterns.InvokeOrDefault(() => typeof(TOptions).Name, "Options")); }
+                if (message?.Equals("{0} are not in a valid state.", StringComparison.InvariantCulture) ?? false) { message = string.Format(message, Patterns.InvokeOrDefault(() => Decorator.Enclose(typeof(TOptions)).ToFriendlyName(), "Options")); }
                 throw ExceptionInsights.Embed(new ArgumentException(message, paramName, e), MethodBase.GetCurrentMethod(), Arguments.ToArray(options, paramName, message));
             }
         }
@@ -139,7 +139,7 @@ namespace Cuemon
         internal static void ThrowWhen(Action<ExceptionCondition<ArgumentException>> condition)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            Patterns.Configure(condition);
+            Patterns.CreateInstance(condition);
         }
 
         /// <summary>

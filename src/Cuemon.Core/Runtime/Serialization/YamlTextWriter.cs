@@ -1,4 +1,5 @@
-﻿using System.CodeDom.Compiler;
+﻿using System;
+using System.CodeDom.Compiler;
 using System.IO;
 
 namespace Cuemon.Runtime.Serialization
@@ -10,6 +11,8 @@ namespace Cuemon.Runtime.Serialization
     /// <seealso cref="IndentedTextWriter" />
     public class YamlTextWriter : IndentedTextWriter
     {
+        private int _writes;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="YamlTextWriter"/> class.
         /// </summary>
@@ -28,14 +31,32 @@ namespace Cuemon.Runtime.Serialization
         }
 
         /// <summary>
+        /// Gets the type of the last processed YAML token.
+        /// </summary>
+        /// <value>The type of the last processed YAML token.</value>
+        public YamlTokenType TokenType { get; private set; }
+
+        /// <summary>
         /// Serializes the specified <paramref name="value"/> into a YAML format.
         /// </summary>
         /// <param name="value">The object to serialize.</param>
         /// <param name="so">The <see cref="YamlSerializerOptions"/> to use.</param>
         public void WriteObject(object value, YamlSerializerOptions so)
         {
+            WriteObject(value, value.GetType(), so);
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="value"/> into a YAML format.
+        /// </summary>
+        /// <param name="value">The object to serialize.</param>
+        /// <param name="valueType">The type of the <paramref name="value"/> to convert.</param>
+        /// <param name="so">The <see cref="YamlSerializerOptions"/> to use.</param>
+        public void WriteObject(object value, Type valueType, YamlSerializerOptions so)
+        {
             var serializer = new YamlSerializer(Patterns.ConfigureRevert(so));
-            serializer.Serialize(this, value);
+            serializer.Serialize(this, value, valueType);
+            _writes++;
         }
 
         /// <summary>
@@ -43,8 +64,13 @@ namespace Cuemon.Runtime.Serialization
         /// </summary>
         public void WriteStartObject()
         {
-            WriteLine();
-            Indent++;
+            TokenType = YamlTokenType.StartObject;
+            if (_writes > 0)
+            {
+                WriteLine();
+                Indent++;
+            }
+            _writes++;
         }
 
         /// <summary>
@@ -52,6 +78,7 @@ namespace Cuemon.Runtime.Serialization
         /// </summary>
         public void WriteEndObject()
         {
+            TokenType = YamlTokenType.EndObject;
             Indent--;
         }
 
@@ -60,8 +87,13 @@ namespace Cuemon.Runtime.Serialization
         /// </summary>
         public void WriteStartArray()
         {
-            WriteLine();
-            Indent++;
+            TokenType = YamlTokenType.StartArray;
+            if (_writes > 0)
+            {
+                WriteLine();
+                Indent++;
+            }
+            _writes++;
         }
 
         /// <summary>
@@ -69,6 +101,7 @@ namespace Cuemon.Runtime.Serialization
         /// </summary>
         public void WriteEndArray()
         {
+            TokenType = YamlTokenType.EndArray;
             Indent--;
         }
 
@@ -80,6 +113,7 @@ namespace Cuemon.Runtime.Serialization
         public void WriteString(string propertyName, string value)
         {
             WriteLine($"{propertyName}: {value}");
+            _writes++;
         }
 
         /// <summary>
@@ -88,7 +122,9 @@ namespace Cuemon.Runtime.Serialization
         /// <param name="propertyName">The name of the YAML object.</param>
         public void WritePropertyName(string propertyName)
         {
+            TokenType = YamlTokenType.PropertyName;
             Write($"{propertyName}: ");
+            _writes++;
         }
     }
 }

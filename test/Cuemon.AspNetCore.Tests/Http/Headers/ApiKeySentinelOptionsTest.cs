@@ -2,12 +2,13 @@
 using Cuemon.Extensions.Xunit;
 using Cuemon.Net.Http;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Cuemon.AspNetCore.Http.Headers
 {
     public class ApiKeySentinelOptionsTest : Test
     {
-        public ApiKeySentinelOptionsTest()
+        public ApiKeySentinelOptionsTest(ITestOutputHelper output) : base(output)
         {
         }
 

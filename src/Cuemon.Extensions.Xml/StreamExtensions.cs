@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.Xml
                 value.Position = 0;
             }
 
-            var options = Patterns.Configure(setup);
+            var options = Patterns.CreateInstance(setup);
             return Patterns.SafeInvoke(() => new MemoryStream(), ms =>
             {
                 var document = new XmlDocument();
@@ -91,7 +91,7 @@ namespace Cuemon.Extensions.Xml
         public static Stream RemoveXmlNamespaceDeclarations(this Stream value, Action<XmlWriterSettings> setup = null)
         {
             Validator.ThrowIfNull(value);
-            var options = Patterns.Configure(setup);
+            var options = Patterns.CreateInstance(setup);
             var navigable = XPathDocumentFactory.CreateDocument(value, true);
             var navigator = navigable.CreateNavigator();
             return Patterns.SafeInvoke(() => new MemoryStream(), ms => 

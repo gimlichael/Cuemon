@@ -20,8 +20,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         public static IServiceCollection AddRestfulApiVersioning(this IServiceCollection services, Action<RestfulApiVersioningOptions> setup = null)
         {
             Validator.ThrowIfNull(services);
-
-            var options = Patterns.Configure(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
 
             services.AddApiVersioning(o =>
             {

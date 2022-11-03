@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Microsoft.Extensions.Hosting;
 
@@ -8,7 +9,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// Configuration options for <see cref="ServerTimingFilter"/>.
     /// </summary>
     /// <seealso cref="TimeMeasureOptions" />
-    public class ServerTimingOptions : TimeMeasureOptions
+    public class ServerTimingOptions : TimeMeasureOptions, IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerTimingOptions"/> class.
@@ -44,5 +45,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         #else
         public Func<IHostEnvironment, bool> SuppressHeaderPredicate { get; set; }
         #endif
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="SuppressHeaderPredicate"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(SuppressHeaderPredicate == null);
+        }
     }
 }

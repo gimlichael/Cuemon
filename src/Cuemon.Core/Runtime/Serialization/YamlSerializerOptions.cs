@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Cuemon.Configuration;
+using Cuemon.Reflection;
 using Cuemon.Serialization.Converters;
 using Cuemon.Text;
 using Cuemon.Text.Yaml;
@@ -9,7 +12,7 @@ namespace Cuemon.Runtime.Serialization
     /// <summary>
     /// Configuration options for <see cref="YamlSerializer"/>.
     /// </summary>
-    public class YamlSerializerOptions : EncodingOptions
+    public class YamlSerializerOptions : EncodingOptions, IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="YamlSerializerOptions"/> class.
@@ -37,6 +40,7 @@ namespace Cuemon.Runtime.Serialization
         /// </remarks>
         public YamlSerializerOptions()
         {
+            ReflectionRules = new MemberReflection(true, true);
             WhiteSpaceIndentation = 2;
         }
 
@@ -59,6 +63,15 @@ namespace Cuemon.Runtime.Serialization
         public YamlNamingPolicy NamingPolicy { get; set; }
 
         /// <summary>
+        /// Gets or sets the binding constraints for reflection based member searching.
+        /// </summary>
+        /// <value>The binding constraints for reflection based member searching.</value>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        public MemberReflection ReflectionRules { get; set; }
+
+        /// <summary>
         /// Returns the specified <paramref name="name"/> adhering to the underlying <see cref="NamingPolicy"/>.
         /// </summary>
         /// <param name="name">The name of the property.</param>
@@ -66,6 +79,20 @@ namespace Cuemon.Runtime.Serialization
         public string SetPropertyName(string name)
         {
             return Decorator.Enclose(NamingPolicy, false).DefaultOrConvertName(name);
+        }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="Converters"/> cannot be null - or -,
+        /// <see cref="ReflectionRules"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(Converters == null);
+            Validator.ThrowIfObjectInDistress(ReflectionRules == null);
         }
     }
 }

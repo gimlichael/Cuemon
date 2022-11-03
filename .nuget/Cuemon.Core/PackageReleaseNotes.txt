@@ -8,6 +8,8 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 # Breaking Changes
 - CHANGED ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude Failure, Evidence and StackTrace as default
 - REMOVED CheckParameter overloads from the Validator class in the Cuemon namespace
+- CHANGED ThrowIfNull{T} --> ThrowIfNull on the Validator class in the Cuemon namespace
+- CHANGED Configure{T}, ConfigureExchange{T} and ConfigureRevertExchange{T} on the Patterns class in the Cuemon namespace to have type conditions include IParameterObject
  
 # New Features
 - ADDED HttpAuthenticationSchemes class in the Cuemon.Net.Http namespace that specifies options that defines constants for well-known HTTP authentication schemes
@@ -22,15 +24,20 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED YamlFormatterOptions class in the Cuemon.Text.Yaml.Formatters namespace that specifies options related to YamlFormatter
 - ADDED YamlConverterFactory class in the Cuemon.Text.Yaml namespace that provides a factory based way to create and wrap an YamlConverter implementation
 - ADDED YamlNamingPolicy class in the Cuemon.Text.Yaml namespace that determines the naming policy used to convert a string-based name to another format
-- EXTENDED Patterns class in the Cuemon namespace with one new static member: ConfigureRevertExchange
-- ADDED IExceptionDescriptorOptions interface in the Cuemon.Diagnostics namespace that defines options that is related to ExceptionDescriptor operations
+- EXTENDED Patterns class in the Cuemon namespace with two new static members: ConfigureRevertExchange, CreateInstance{T}
+- ADDED IParameterObject interface in the Cuemon.Configuration namespace that serves as a marker interface denoting a Parameter Object
+- ADDED IValidatableParameterObject interface in the Cuemon.Configuration namespace that denotes a Parameter Object where one or more conditions can be verified that they are in a valid state
+- ADDED CallerArgumentExpressionAttribute class in the System.Runtime.CompilerServices namespace that indicates that a parameter captures the expression passed for another parameter as a string (for .NET versions <= .NET Core 3.0)
+- EXTENDED Eradicate class in the Cuemon namespace with one new static member: TrailingBytes
  
 # Improvements
 - EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIfInvalidConfigurator, ThrowIfInvalidOptions, ThrowIfObjectInDistress
 - CHANGED ActivatorOptions class in the Cuemon.Reflection namespace to match Activator BindingFlags defaults from Microsoft
+- CHANGED ThrowIfNull, ThrowIfNullOrEmpty and ThrowIfNullOrWhitespace on the Validator class in the Cuemon namespace to embrace the new CallerArgumentExpression attribute
  
 # Bug Fixes
 - FIXED TypeNameOptions class in the Cuemon.Reflection namespace that could throw a NullReferenceException when FullName is null; fallback to Name
+- FIXED World class in the Cuemon.Globalization namespace to exclude CultureInfo with LCID value of 127 (triggered exception on Alpine OS)
  
 Version: 6.4.1
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using Cuemon.Configuration;
 
 namespace Cuemon.Net.Http
 {
     /// <summary>
     /// Specifies options that is related to the <see cref="HttpManager"/> class.
     /// </summary>
-    public class HttpManagerOptions
+    /// <seealso cref="IValidatableParameterObject"/>
+    public class HttpManagerOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpManagerOptions"/> class.
@@ -60,10 +62,10 @@ namespace Cuemon.Net.Http
         public bool DisposeHandler { get; set; }
 
         /// <summary>
-        /// Gets the default headers which should be sent with each request.
+        /// Gets or sets the default headers which should be sent with each request.
         /// </summary>
         /// <value>The default headers which should be sent with each request.</value>
-        public Dictionary<string, string> DefaultRequestHeaders { get; }
+        public Dictionary<string, string> DefaultRequestHeaders { get; set; }
 
         /// <summary>
         /// Gets or sets the HTTP handler stack to use for sending requests.
@@ -76,5 +78,19 @@ namespace Cuemon.Net.Http
         /// </summary>
         /// <value>The timespan to wait before the request times out.</value>
         public TimeSpan Timeout { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="HandlerFactory"/> cannot be null - or -
+        /// <see cref="DefaultRequestHeaders"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(HandlerFactory == null);
+            Validator.ThrowIfObjectInDistress(DefaultRequestHeaders == null);
+        }
     }
 }

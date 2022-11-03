@@ -30,7 +30,7 @@ namespace Cuemon.Xml
             if (encoding == null) { TryDetectXmlEncoding(decorator, out encoding); }
             var value = decorator.Inner;
             if (value.CanSeek) { value.Position = 0; }
-            var options = Patterns.Configure(setup);
+            var options = Patterns.CreateInstance(setup);
             return XmlReader.Create(new StreamReader(value, encoding), options);
         }
 

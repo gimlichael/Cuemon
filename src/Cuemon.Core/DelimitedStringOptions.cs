@@ -1,11 +1,12 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="DelimitedString.Split"/>.
     /// </summary>
-    public class DelimitedStringOptions
+    public class DelimitedStringOptions : IParameterObject
     {
         private string _delimiter;
         private string _qualifier;
@@ -81,7 +82,7 @@ namespace Cuemon
     /// Configuration options for <see cref="DelimitedString" />.
     /// </summary>
     /// <typeparam name="T">The type of the object to convert.</typeparam>
-    public class DelimitedStringOptions<T>
+    public class DelimitedStringOptions<T> : IParameterObject
     {
         private string _delimiter;
         private Func<T, string> _stringConverter;

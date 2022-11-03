@@ -18,12 +18,24 @@ namespace Cuemon.Runtime.Serialization.Formatters
         /// <summary>
         /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
         /// </summary>
-        /// <param name="source">The object to serialize to JSON format.</param>
+        /// <param name="source">The object to serialize to <see cref="Stream"/> format.</param>
+        /// <param name="setup">The setup delegate which may be configured.</param>
+        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
+        public static Stream SerializeObject(object source, Action<TOptions> setup = null)
+        {
+            return SerializeObject(source, null, setup);
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="source">The object to serialize to <see cref="Stream"/> format.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
         /// <param name="setup">The setup delegate which may be configured.</param>
         /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
-        public static Stream SerializeObject(object source, Type objectType = null, Action<TOptions> setup = null)
+        public static Stream SerializeObject(object source, Type objectType, Action<TOptions> setup = null)
         {
+            Validator.ThrowIfNull(source);
             var formatter = GetFormatter(setup);
             return formatter!.Serialize(source, objectType ?? source?.GetType());
         }
@@ -49,6 +61,7 @@ namespace Cuemon.Runtime.Serialization.Formatters
         /// <returns>An object of <paramref name="objectType"/>.</returns>
         public static object DeserializeObject(Stream value, Type objectType, Action<TOptions> setup = null)
         {
+            Validator.ThrowIfNull(value);
             var formatter = GetFormatter(setup);
             return formatter!.Deserialize(value, objectType);
         }

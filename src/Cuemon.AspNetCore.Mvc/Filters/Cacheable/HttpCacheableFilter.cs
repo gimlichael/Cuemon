@@ -45,7 +45,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
             }
             else
             {
-                await next().ConfigureAwait(false);
+                if (!context.HttpContext.Response.HasStarted) { await next().ConfigureAwait(false); }
             }
         }
     }

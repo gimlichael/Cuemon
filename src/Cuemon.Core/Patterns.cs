@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.Configuration;
 
 namespace Cuemon
 {
@@ -95,6 +96,20 @@ namespace Cuemon
             return TryInvoke(method, out var result) ? result : fallbackResult;
         }
 
+        
+        /// <summary>
+        /// Provides a generic way to initialize the default, parameterless constructed instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the class having a default constructor.</typeparam>
+        /// <param name="factory">The delegate that will initialize the public write properties of <typeparamref name="T"/>.</param>
+        /// <returns>A default constructed instance of <typeparamref name="T"/> initialized with <paramref name="factory"/>.</returns>
+        public static T CreateInstance<T>(Action<T> factory) where T : class, new()
+        {
+            var options = Activator.CreateInstance<T>();
+            factory?.Invoke(options);
+            return options;
+        }
+
         /// <summary>
         /// Returns the default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.
         /// </summary>
@@ -104,7 +119,7 @@ namespace Cuemon
         /// <param name="validator">The optional delegate that will validate the <typeparamref name="TOptions"/> configured by the <paramref name="setup"/> delegate.</param>
         /// <returns>A default constructed instance of <typeparamref name="TOptions"/> initialized with the options of <paramref name="setup"/>.</returns>
         /// <remarks>Often referred to as part the Options pattern: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options</remarks>
-        public static TOptions Configure<TOptions>(Action<TOptions> setup, Action<TOptions> initializer = null, Action<TOptions> validator = null) where TOptions : class, new()
+        public static TOptions Configure<TOptions>(Action<TOptions> setup, Action<TOptions> initializer = null, Action<TOptions> validator = null) where TOptions : class, IParameterObject, new()
         {
             var options = Activator.CreateInstance<TOptions>();
             initializer?.Invoke(options);
@@ -122,7 +137,7 @@ namespace Cuemon
         /// <param name="initializer">The delegate that will exchange the parameter of <paramref name="setup"/> from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <returns>An <see cref="Action{TExchangeOptions}"/> otherwise equivalent to <paramref name="setup"/>.</returns>
         public static Action<TResult> ConfigureExchange<TSource, TResult>(Action<TSource> setup, Action<TSource, TResult> initializer = null)
-            where TSource : class, new()
+            where TSource : class, IParameterObject, new()
             where TResult : class, new()
         {
             var io = Configure(setup);
@@ -131,8 +146,8 @@ namespace Cuemon
                 var match = false;
                 var typeOfInput = typeof(TSource);
                 var typeOfOutput = typeof(TResult);
-                var ips = typeOfInput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
-                var ops = typeOfOutput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                var ips = typeOfInput.GetProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                var ops = typeOfOutput.GetProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
                 foreach (var ip in ips)
                 {
                     var op = ops.SingleOrDefault(opi => opi.Name == ip.Name && opi.PropertyType == ip.PropertyType);
@@ -164,7 +179,7 @@ namespace Cuemon
         /// <paramref name="initializer"/> cannot be null.
         /// </exception>
         public static Action<TResult> ConfigureRevertExchange<TSource, TResult>(TSource options, Action<TSource, TResult> initializer = null) 
-            where TSource : class, new()
+            where TSource : class, IParameterObject, new()
             where TResult : class, new()
         {
             return ConfigureExchange(ConfigureRevert(options), initializer);
@@ -185,7 +200,7 @@ namespace Cuemon
             return o =>
             {
                 var to = typeof(TOptions);
-                var tops = to.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                var tops = to.GetProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
                 foreach (var p in tops) { p.SetValue(o, p.GetValue(options)); }
             };
         }

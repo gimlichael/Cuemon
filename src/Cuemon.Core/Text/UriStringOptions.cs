@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cuemon.Collections.Generic;
+using Cuemon.Configuration;
 
 namespace Cuemon.Text
 {
     /// <summary>
     /// Configuration options for <see cref="ParserFactory.FromUri"/>.
     /// </summary>
-    public class UriStringOptions
+    public class UriStringOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Gets all supported URI schemes.
@@ -48,9 +49,21 @@ namespace Cuemon.Text
         public UriKind Kind { get; set; }
 
         /// <summary>
-        /// Gets a collection of <see cref="UriScheme"/> values that determines the outcome when parsing a URI.
+        /// Gets or sets a collection of <see cref="UriScheme"/> values that determines the outcome when parsing a URI.
         /// </summary>
         /// <value>The <see cref="UriScheme"/> values that determines the outcome when parsing a URI.</value>
-        public IList<UriScheme> Schemes { get; }
+        public IList<UriScheme> Schemes { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="Schemes"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(Schemes == null);
+        }
     }
 }

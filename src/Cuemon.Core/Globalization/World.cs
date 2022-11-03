@@ -14,7 +14,7 @@ namespace Cuemon.Globalization
         {
             var cultures = new SortedList<string, CultureInfo>();
             var specificCultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            foreach (var c in specificCultures)
+            foreach (var c in specificCultures.Where(ci => ci.LCID != 127))
             {
                 cultures.Add(c.DisplayName, c);
             }

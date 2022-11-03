@@ -6,6 +6,7 @@ namespace Cuemon
     /// <summary>
     /// Configuration options for <see cref="BitConverter"/>.
     /// </summary>
+    /// <seealso cref="IParameterObject"/>
     public class EndianOptions : IParameterObject
     {
         /// <summary>

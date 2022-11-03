@@ -34,7 +34,7 @@ namespace Cuemon
     }
 
     /// <summary>
-    /// Provides a generic way to implement the decorator pattern.
+    /// Provides a generic way to support the implementation of the decorator pattern.
     /// Implements the <see cref="IDecorator{T}" />
     /// </summary>
     /// <typeparam name="T">The type of the inner decorated object.</typeparam>

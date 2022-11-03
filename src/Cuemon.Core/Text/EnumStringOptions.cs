@@ -1,9 +1,12 @@
-﻿namespace Cuemon.Text
+﻿using Cuemon.Configuration;
+
+namespace Cuemon.Text
 {
     /// <summary>
     /// Configuration options for <see cref="ParserFactory.FromEnum"/>.
     /// </summary>
-    public class EnumStringOptions
+    /// <seealso cref="IParameterObject"/>
+    public class EnumStringOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumStringOptions"/> class.

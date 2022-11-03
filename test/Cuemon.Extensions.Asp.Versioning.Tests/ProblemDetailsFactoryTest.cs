@@ -269,8 +269,7 @@ Evidence:
         - localhost
     Query: []
     Cookies: []
-    Body: 
-", await sut.Content.ReadAsStringAsync());
+    Body: ", await sut.Content.ReadAsStringAsync());
             }
         }
 

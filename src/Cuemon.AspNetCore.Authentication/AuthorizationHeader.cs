@@ -36,8 +36,8 @@ namespace Cuemon.AspNetCore.Authentication
         {
             Validator.ThrowIfNullOrWhitespace(authorizationHeader);
             Validator.ThrowIfFalse(() => authorizationHeader.StartsWith(AuthenticationScheme), nameof(authorizationHeader), $"Header did not start with {AuthenticationScheme}.");
+            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
             
-            var options = Patterns.Configure(setup);
             var headerWithoutScheme = authorizationHeader.Remove(0, AuthenticationScheme.Length + 1);
             var credentials = DelimitedString.Split(headerWithoutScheme, o => o.Delimiter = options.CredentialsDelimiter).ToList();
 

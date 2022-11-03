@@ -17,9 +17,13 @@ namespace Cuemon.Runtime.Serialization
         /// Initializes a new instance of the <see cref="YamlSerializer"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="YamlSerializerOptions"/> which may be configured.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> was unable to configure a valid state of the public read-write properties.
+        /// </exception>
         public YamlSerializer(Action<YamlSerializerOptions> setup = null)
         {
-            _options = Patterns.Configure(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            _options = options;
         }
 
         /// <summary>
@@ -51,20 +55,21 @@ namespace Cuemon.Runtime.Serialization
             sw.Flush();
             ms.Flush();
             ms.Position = 0;
+            var intermediate = Eradicate.TrailingBytes(ms.ToArray(), Decorator.Enclose(Environment.NewLine).ToByteArray());
             if (_options.Preamble == PreambleSequence.Remove)
             {
                 var preamble = _options.Encoding.GetPreamble();
                 if (preamble.Length > 0)
                 {
-                    return ByteOrderMark.Remove(ms, _options.Encoding) as MemoryStream;
+                    intermediate = ByteOrderMark.Remove(intermediate, _options.Encoding);
                 }
             }
-            return ms;
+            return new MemoryStream(intermediate);
         }
 
-        internal void Serialize<T>(YamlTextWriter writer, T source)
+        internal void Serialize(YamlTextWriter writer, object source)
         {
-            Serialize(writer, source, typeof(T));
+            Serialize(writer, source, source.GetType());
         }
 
         internal void Serialize(YamlTextWriter writer, object source, Type inputType)
@@ -91,7 +96,10 @@ namespace Cuemon.Runtime.Serialization
         /// <returns>An object of <paramref name="objectType"/>.</returns>
         public object Deserialize(Stream value, Type objectType)
         {
-            throw new NotImplementedException();
+            using (var itr = new YamlTextReader(value, _options.Encoding))
+            {
+                return (_options.Converters.FirstOrDefault(c => c.CanConvert(objectType)) ?? new DefaultYamlConverter(_options.Converters)).ReadYamlCore(itr, objectType, _options);
+            }
         }
     }
 }

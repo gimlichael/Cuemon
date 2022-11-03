@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Reflection;
+using Cuemon.Configuration;
 
 namespace Cuemon.Reflection
 {
     /// <summary>
     /// Configuration options for <see cref="MethodBase"/>.
     /// </summary>
-    public class MethodBaseOptions
+    /// <seealso cref="IParameterObject"/>
+    public class MethodBaseOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodBaseOptions"/> class.
