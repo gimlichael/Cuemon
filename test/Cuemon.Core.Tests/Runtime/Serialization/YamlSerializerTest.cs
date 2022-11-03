@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Cuemon.Extensions.Globalization;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
@@ -13,8 +12,7 @@ namespace Cuemon.Runtime.Serialization
 {
     public class YamlSerializerTest : Test
     {
-        private static readonly bool IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        private readonly CultureInfo _cultureInfo = IsLinux ? new CultureInfo("da-DK").MergeWithOriginalFormatting() : new CultureInfo("da-DK");
+        private readonly CultureInfo _cultureInfo = new CultureInfo("da-DK").MergeWithOriginalFormatting(); // from .NET6+ this is needed for both Windows and Linux; at least from pipeline (worked locally for Windows without Merge ...)
 
         public YamlSerializerTest(ITestOutputHelper output) : base(output)
         {
