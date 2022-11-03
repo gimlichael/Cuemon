@@ -17,9 +17,13 @@ namespace Cuemon.Runtime.Serialization
         /// Initializes a new instance of the <see cref="YamlSerializer"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="YamlSerializerOptions"/> which may be configured.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> was unable to configure a valid state of the public read-write properties.
+        /// </exception>
         public YamlSerializer(Action<YamlSerializerOptions> setup = null)
         {
-            _options = Patterns.Configure(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            _options = options;
         }
 
         /// <summary>
