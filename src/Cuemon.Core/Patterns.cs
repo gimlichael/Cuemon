@@ -146,8 +146,8 @@ namespace Cuemon
                 var match = false;
                 var typeOfInput = typeof(TSource);
                 var typeOfOutput = typeof(TResult);
-                var ips = typeOfInput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
-                var ops = typeOfOutput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                var ips = typeOfInput.GetProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                var ops = typeOfOutput.GetProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
                 foreach (var ip in ips)
                 {
                     var op = ops.SingleOrDefault(opi => opi.Name == ip.Name && opi.PropertyType == ip.PropertyType);
@@ -200,7 +200,7 @@ namespace Cuemon
             return o =>
             {
                 var to = typeof(TOptions);
-                var tops = to.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                var tops = to.GetProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
                 foreach (var p in tops) { p.SetValue(o, p.GetValue(options)); }
             };
         }
