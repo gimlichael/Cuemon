@@ -48,7 +48,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 if (context.HttpContext.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId) && correlationId != null) { exceptionDescriptor.CorrelationId = correlationId.ToString(); }
                 Options.ExceptionCallback?.Invoke(context.HttpContext, context.Exception, exceptionDescriptor);
                 if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
-                if (Options.IncludeRequest) { exceptionDescriptor.AddEvidence("Request", context.HttpContext.Request, request => new HttpRequestEvidence(request, Options.RequestBodyParser)); }
+                if (Options.RequestEvidenceProvider != null && Options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence)) { exceptionDescriptor.AddEvidence("Request", context.HttpContext.Request, Options.RequestEvidenceProvider); }
                 if (exceptionDescriptor.Failure is HttpStatusCodeException httpFault)
                 {
                     Decorator.Enclose(context.HttpContext.Response.Headers).AddRange(httpFault.Headers);

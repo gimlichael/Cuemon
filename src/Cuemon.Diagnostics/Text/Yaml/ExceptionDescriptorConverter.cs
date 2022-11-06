@@ -39,14 +39,14 @@ namespace Cuemon.Diagnostics.Text.Yaml
             {
                 writer.WriteString(so.SetPropertyName("HelpLink"), value.HelpLink.OriginalString);
             }
-            if (_options.IncludeFailure)
+            if (_options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure))
             {
                 writer.WritePropertyName(so.SetPropertyName("Failure"));
-                new ExceptionConverter(_options.IncludeStackTrace).WriteYaml(writer, value.Failure, so);
+                new ExceptionConverter(_options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), _options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data)).WriteYaml(writer, value.Failure, so);
             }
             writer.WriteEndObject();
 
-            if (_options.IncludeEvidence && value.Evidence.Any())
+            if (_options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence) && value.Evidence.Any())
             {
                 writer.WritePropertyName(so.SetPropertyName("Evidence"));
                 writer.WriteStartObject();

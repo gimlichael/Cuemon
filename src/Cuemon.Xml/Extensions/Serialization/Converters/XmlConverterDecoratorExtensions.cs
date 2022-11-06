@@ -173,14 +173,14 @@ namespace Cuemon.Xml.Serialization.Converters
                 writer.WriteElementString("Code", descriptor.Code);
                 writer.WriteElementString("Message", descriptor.Message);
                 if (descriptor.HelpLink != null) { writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString); }
-                if (options.IncludeFailure)
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure))
                 {
                     writer.WriteStartElement("Failure");
-                    new ExceptionConverter(options.IncludeStackTrace).WriteXml(writer, descriptor.Failure);
+                    new ExceptionConverter(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data)).WriteXml(writer, descriptor.Failure);
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
-                if (options.IncludeEvidence && descriptor.Evidence.Any())
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence) && descriptor.Evidence.Any())
                 {
                     writer.WriteStartElement("Evidence");
                     foreach (var evidence in descriptor.Evidence)
@@ -259,8 +259,8 @@ namespace Cuemon.Xml.Serialization.Converters
                 });
             }, (reader, _) =>
             {
-                var decorator = Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy());
-                return decorator.Inner.Instance.Type == typeof(DateTime) ? Decorator.Enclose(decorator.Inner.Instance.Value).ChangeTypeOrDefault<DateTime>().TimeOfDay : TimeSpan.Parse(decorator.Inner.Instance.Value.ToString());
+                var decoratorHierarchy = Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy());
+                return decoratorHierarchy.Inner.Instance.Type == typeof(DateTime) ? Decorator.Enclose(decoratorHierarchy.Inner.Instance.Value).ChangeTypeOrDefault<DateTime>().TimeOfDay : TimeSpan.Parse(decoratorHierarchy.Inner.Instance.Value.ToString());
             });
             return decorator;
         }
@@ -300,14 +300,15 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </summary>
         /// <param name="decorator">The <see cref="T:IDecorator{IList{XmlConverter}}" /> to extend.</param>
         /// <param name="includeStackTrace">The value that determine whether the stack of an exception is included in the converted result.</param>
+        /// <param name="includeData">The value that determine whether the data of an exception is included in the converted result.</param>
         /// <returns>A reference to <paramref name="decorator"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static IDecorator<IList<XmlConverter>> AddExceptionConverter(this IDecorator<IList<XmlConverter>> decorator, bool includeStackTrace)
+        public static IDecorator<IList<XmlConverter>> AddExceptionConverter(this IDecorator<IList<XmlConverter>> decorator, bool includeStackTrace, bool includeData)
         {
             Validator.ThrowIfNull(decorator);
-            decorator.Inner.Add(new ExceptionConverter(includeStackTrace));
+            decorator.Inner.Add(new ExceptionConverter(includeStackTrace, includeData));
             return decorator;
         }
     }

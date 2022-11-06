@@ -59,7 +59,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                         if (context.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId) && requestId != null) { exceptionDescriptor.RequestId = requestId.ToString(); }
                         if (context.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId) && correlationId != null) { exceptionDescriptor.CorrelationId = correlationId.ToString(); }
                         options.ExceptionCallback?.Invoke(context, ehf.Error, exceptionDescriptor);
-                        if (options.IncludeRequest) { exceptionDescriptor.AddEvidence("Request", context.Request, request => new HttpRequestEvidence(request, options.RequestBodyParser)); }
+                        if (options.RequestEvidenceProvider != null && options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence)) { exceptionDescriptor.AddEvidence("Request", context.Request, options.RequestEvidenceProvider); }
                         if (ehf.Error is HttpStatusCodeException httpFault)
                         {
                             Decorator.Enclose(context.Response.Headers).AddRange(httpFault.Headers);

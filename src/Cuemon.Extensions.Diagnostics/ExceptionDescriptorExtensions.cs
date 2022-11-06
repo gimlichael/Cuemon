@@ -27,14 +27,14 @@ namespace Cuemon.Extensions.Diagnostics
             builder.AppendLine(FormattableString.Invariant($"{Alphanumeric.Tab}Code: {descriptor.Code}"));
             builder.AppendLine(FormattableString.Invariant($"{Alphanumeric.Tab}Message: {descriptor.Message}"));
             if (descriptor.HelpLink != null) { builder.AppendLine(FormattableString.Invariant($"{Alphanumeric.Tab}HelpLink: {descriptor.HelpLink.OriginalString}")); }
-            if (options.IncludeFailure)
+            if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure))
             {
                 builder.AppendLine();
                 builder.AppendLine("Failure");
-                AppendException(builder, descriptor.Failure, options.IncludeStackTrace);
+                AppendException(builder, descriptor.Failure, options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data));
             }
 
-            if (options.IncludeEvidence && descriptor.Evidence.Any())
+            if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence) && descriptor.Evidence.Any())
             {
                 builder.AppendLine();
                 builder.AppendLine("Evidence");
@@ -82,14 +82,14 @@ namespace Cuemon.Extensions.Diagnostics
             }
         }
 
-        private static void AppendException(StringBuilder builder, Exception exception, bool includeStackTrace)
+        private static void AppendException(StringBuilder builder, Exception exception, bool includeStackTrace, bool includeData)
         {
             var exceptionType = exception.GetType();
             builder.AppendLine(FormattableString.Invariant($"{Alphanumeric.Tab}{exceptionType.FullName}"));
-            AppendExceptionCore(builder, exception, includeStackTrace);
+            AppendExceptionCore(builder, exception, includeStackTrace, includeData);
         }
 
-        private static void AppendExceptionCore(StringBuilder builder, Exception exception, bool includeStackTrace)
+        private static void AppendExceptionCore(StringBuilder builder, Exception exception, bool includeStackTrace, bool includeData)
         {
             if (!string.IsNullOrEmpty(exception.Source))
             {
@@ -111,7 +111,7 @@ namespace Cuemon.Extensions.Diagnostics
                 }
             }
 
-            if (exception.Data.Count > 0)
+            if (includeData && exception.Data.Count > 0)
             {
                 builder.AppendLine(FormattableString.Invariant($"{Alphanumeric.Tab}{Alphanumeric.Tab}Data:"));
                 foreach (DictionaryEntry entry in exception.Data)
@@ -128,10 +128,10 @@ namespace Cuemon.Extensions.Diagnostics
                 builder.AppendLine(FormattableString.Invariant($"{Alphanumeric.Tab}{Alphanumeric.Tab}{property.Name}: {value}"));
             }
 
-            AppendInnerExceptions(builder, exception, includeStackTrace);
+            AppendInnerExceptions(builder, exception, includeStackTrace, includeData);
         }
 
-        private static void AppendInnerExceptions(StringBuilder builder, Exception exception, bool includeStackTrace)
+        private static void AppendInnerExceptions(StringBuilder builder, Exception exception, bool includeStackTrace, bool includeData)
         {
             var innerExceptions = new List<Exception>();
             if (exception is AggregateException aggregated) { innerExceptions.AddRange(aggregated.Flatten().InnerExceptions); }
@@ -142,7 +142,7 @@ namespace Cuemon.Extensions.Diagnostics
                 {
                     var exceptionType = inner.GetType();
                     builder.AppendLine(FormattableString.Invariant($"{Alphanumeric.Tab}{exceptionType.FullName}"));
-                    AppendExceptionCore(builder, inner, includeStackTrace);
+                    AppendExceptionCore(builder, inner, includeStackTrace, includeData);
                 }
             }
         }

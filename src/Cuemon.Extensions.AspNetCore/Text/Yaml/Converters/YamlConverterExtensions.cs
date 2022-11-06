@@ -46,14 +46,14 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
                 {
                     writer.WriteString(so.SetPropertyName("HelpLink"), value.HelpLink.OriginalString);
                 }
-                if (options.IncludeFailure)
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure))
                 {
                     writer.WritePropertyName(so.SetPropertyName("Failure"));
-                    new ExceptionConverter(options.IncludeStackTrace).WriteYaml(writer, value.Failure, so);
+                    new ExceptionConverter(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data)).WriteYaml(writer, value.Failure, so);
                 }
                 writer.WriteEndObject();
 
-                if (options.IncludeEvidence && value.Evidence.Any())
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence) && value.Evidence.Any())
                 {
                     writer.WritePropertyName(so.SetPropertyName("Evidence"));
                     writer.WriteStartObject();
