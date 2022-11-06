@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                    }, services =>
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters(o => o.IncludeExceptionDescriptorFailure = false);
+                           .AddJsonFormatters();
                        services.AddEndpointsApiExplorer();
                        services.AddRestfulApiVersioning(o =>
                        {
@@ -114,7 +114,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                    }, services =>
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters(o => o.IncludeExceptionDescriptorFailure = false);
+                           .AddJsonFormatters();
                        services.AddEndpointsApiExplorer();
                        services.AddRestfulApiVersioning(o =>
                        {

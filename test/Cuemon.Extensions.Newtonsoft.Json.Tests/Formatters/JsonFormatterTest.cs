@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Newtonsoft.Json.Serialization;
@@ -115,7 +116,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 var f = new JsonFormatter(o =>
                 {
                     o.Settings.ContractResolver = new DefaultContractResolver();
-                    o.IncludeExceptionStackTrace = true;
+                    o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTraceAndData;
                 });
                 var r = f.Serialize(e);
 

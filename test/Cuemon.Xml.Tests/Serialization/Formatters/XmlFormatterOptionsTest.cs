@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Reflection;
 using Cuemon.Xml.Serialization.Converters;
@@ -30,14 +31,28 @@ namespace Cuemon.Xml.Serialization.Formatters
         }
 
         [Fact]
+        public void XmlFormatterOptions_SupportedMediaTypesIsNull_ShouldThrowInvalidOperationException()
+        {
+            var sut1 = new XmlFormatterOptions()
+            {
+                SupportedMediaTypes = null
+            };
+            var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+
+            Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'SupportedMediaTypes == null')", sut2.Message);
+            Assert.Equal("XmlFormatterOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+            Assert.IsType<InvalidOperationException>(sut3.InnerException);
+        }
+
+        [Fact]
         public void XmlFormatterOptions_ShouldHaveDefaultValues()
         {
             var sut = new XmlFormatterOptions();
 
             Assert.NotNull(sut.Settings);
-            Assert.False(sut.IncludeExceptionStackTrace);
-            Assert.False(sut.IncludeExceptionDescriptorFailure);
-            Assert.False(sut.IncludeExceptionDescriptorEvidence);
+            Assert.Equal(FaultSensitivityDetails.None, sut.SensitivityDetails);
+            Assert.NotNull(sut.SupportedMediaTypes);
             Assert.False(sut.SynchronizeWithXmlConvert);
         }
 

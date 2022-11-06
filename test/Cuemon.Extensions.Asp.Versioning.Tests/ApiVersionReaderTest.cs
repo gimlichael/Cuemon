@@ -102,18 +102,8 @@ namespace Cuemon.Extensions.Asp.Versioning
                 app.UseFaultDescriptorExceptionHandler(o =>
                 {
                     o.NonMvcResponseHandlers
-                        .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions(), (s, r) =>
-                        {
-                            r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                            r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                            r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                        }))
-                        .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions(), (s, r) =>
-                        {
-                            r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                            r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                            r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                        }));
+                        .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions()))
+                        .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions()));
                 });
                 app.UseRestfulApiVersioning();
                 app.UseRouting();

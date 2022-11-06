@@ -12,6 +12,7 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 # Breaking Changes
 - REMOVED AddTimeSpanConverter extension method from JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace
 - CHANGED JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to use DateTimeZoneHandling.RoundtripKind instead of DateTimeZoneHandling.Utc when dealing with DateTimeZoneHandling
+- REMOVED ExceptionDescriptorExtensions class from the Cuemon.Extensions.Newtonsoft.Json.Diagnostics namespace
  
 # Bug Fixes
 - FIXED StringFlagsEnumConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace so that it includes check on FlagsAttribute definition in inherited CanConvert method

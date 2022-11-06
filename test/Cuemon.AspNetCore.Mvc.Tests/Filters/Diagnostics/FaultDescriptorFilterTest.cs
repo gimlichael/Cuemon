@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.AspNetCore.Mvc.Assets;
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Http.Throttling;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
@@ -36,12 +37,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.Configure<MvcFaultDescriptorOptions>(o =>
                 {
-                    o.IncludeFailure = true; // TODO: find a way make FaultDescriptorOptions enough in terms of Exception controlling (e.g., do not rely on AddNewtonsoftJsonFormatters .. -> .. IncludeExceptionDescriptorFailure
+                    o.SensitivityDetails = FaultSensitivityDetails.Failure;
                     o.UseBaseException = useBaseException;
                 });
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters(o => o.IncludeExceptionDescriptorFailure = true);
+                    .AddNewtonsoftJsonFormatters(o => o.SensitivityDetails = FaultSensitivityDetails.Failure);
             }))
             {
                 var client = filter.Host.GetTestClient();
@@ -102,7 +103,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                            .AddNewtonsoftJson()
                            .AddNewtonsoftJsonFormattersOptions(o =>
                            {
-                               o.IncludeExceptionDescriptorFailure = false;
+                               //o.IncludeExceptionDescriptorFailure = false;
                            })
                            .AddNewtonsoftJsonFormatters();
                        services.Configure<UserAgentSentinelOptions>(o => o.RequireUserAgentHeader = true);
@@ -143,7 +144,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                            .AddNewtonsoftJson()
                            .AddNewtonsoftJsonFormattersOptions(o =>
                            {
-                               o.IncludeExceptionDescriptorFailure = false;
+                               //o.IncludeExceptionDescriptorFailure = false;
                            })
                            .AddNewtonsoftJsonFormatters();
                        services.Configure<ThrottlingSentinelOptions>(o =>
@@ -185,7 +186,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                     .AddNewtonsoftJson()
                     .AddNewtonsoftJsonFormattersOptions(o =>
                     {
-                        o.IncludeExceptionDescriptorFailure = false;
+                        //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
             }))
@@ -221,7 +222,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                     .AddNewtonsoftJson()
                     .AddNewtonsoftJsonFormattersOptions(o =>
                     {
-                        o.IncludeExceptionDescriptorFailure = false;
+                        //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
             }))
@@ -257,7 +258,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                     .AddNewtonsoftJson()
                     .AddNewtonsoftJsonFormattersOptions(o =>
                     {
-                        o.IncludeExceptionDescriptorFailure = false;
+                        //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
             }))
@@ -279,7 +280,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 Assert.Equal(HttpStatusDescription.Get(403), result.ReasonPhrase);
             }
         }
-        
+
         [Fact]
         public async Task OnException_ShouldCaptureGone()
         {
@@ -293,7 +294,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                     .AddNewtonsoftJson()
                     .AddNewtonsoftJsonFormattersOptions(o =>
                     {
-                        o.IncludeExceptionDescriptorFailure = false;
+                        //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
             }))
@@ -329,7 +330,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                     .AddNewtonsoftJson()
                     .AddNewtonsoftJsonFormattersOptions(o =>
                     {
-                        o.IncludeExceptionDescriptorFailure = false;
+                        //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
             }))
@@ -363,7 +364,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
             }))
             {
@@ -380,7 +381,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""message"": ""The server is refusing to process a request because the request entity is larger than the server is willing or able to process.""
   }
 }", body);
-                Assert.Equal(StatusCodes.Status413PayloadTooLarge, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status413PayloadTooLarge, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(413), result.ReasonPhrase);
             }
         }
@@ -396,7 +397,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
             }))
             {
@@ -413,7 +414,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""message"": ""The precondition given in one or more of the request-header fields evaluated to false when it was tested on the server.""
   }
 }", body);
-                Assert.Equal(StatusCodes.Status412PreconditionFailed, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status412PreconditionFailed, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(412), result.ReasonPhrase);
             }
         }
@@ -429,7 +430,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
             }))
             {
@@ -446,7 +447,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""message"": ""No conditional request-header fields was supplied to the server.""
   }
 }", body);
-                Assert.Equal(StatusCodes.Status428PreconditionRequired, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status428PreconditionRequired, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(428), result.ReasonPhrase);
             }
         }
@@ -462,7 +463,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
             }))
             {
@@ -479,7 +480,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""message"": ""The allowed number of requests has been exceeded.""
   }
 }", body);
-                Assert.Equal(StatusCodes.Status429TooManyRequests, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status429TooManyRequests, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(429), result.ReasonPhrase);
             }
         }
@@ -495,7 +496,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
             }))
             {
@@ -512,7 +513,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""message"": ""The request requires user authentication.""
   }
 }", body);
-                Assert.Equal(StatusCodes.Status401Unauthorized, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status401Unauthorized, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(401), result.ReasonPhrase);
             }
         }
@@ -528,7 +529,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
             }))
             {
@@ -545,7 +546,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""message"": ""The method specified in the request is not allowed for the resource identified by the request URI.""
   }
 }", body);
-                Assert.Equal(StatusCodes.Status405MethodNotAllowed, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status405MethodNotAllowed, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(405), result.ReasonPhrase);
             }
         }
@@ -561,7 +562,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
             }))
             {
@@ -578,7 +579,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""message"": ""The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.""
   }
 }", body);
-                Assert.Equal(StatusCodes.Status406NotAcceptable, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status406NotAcceptable, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(406), result.ReasonPhrase);
             }
         }
@@ -594,7 +595,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
             }))
             {
@@ -609,7 +610,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""status"": 500,
     ""code"": ""InternalServerError"",
     ""message"": ""An unhandled exception was raised by ", body);
-                Assert.Equal(StatusCodes.Status500InternalServerError, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status500InternalServerError, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(500), result.ReasonPhrase);
             }
         }
@@ -625,7 +626,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
+                    //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
             }))
             {
@@ -642,7 +643,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""message"": ""The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.""
   }
 }", body);
-                Assert.Equal(StatusCodes.Status415UnsupportedMediaType, (int) result.StatusCode);
+                Assert.Equal(StatusCodes.Status415UnsupportedMediaType, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(415), result.ReasonPhrase);
             }
         }

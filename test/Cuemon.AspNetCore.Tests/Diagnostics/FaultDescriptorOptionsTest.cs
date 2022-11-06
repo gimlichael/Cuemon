@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
@@ -78,11 +79,11 @@ namespace Cuemon.AspNetCore.Diagnostics
             Assert.NotNull(sut.ExceptionDescriptorResolver);
             Assert.Null(sut.ExceptionCallback);
             Assert.NotNull(sut.NonMvcResponseHandlers);
-            Assert.Null(sut.RequestBodyParser);
-            Assert.False(sut.IncludeRequest);
-            Assert.False(sut.IncludeFailure);
-            Assert.False(sut.IncludeStackTrace);
-            Assert.False(sut.IncludeEvidence);
+            Assert.NotNull(sut.RequestEvidenceProvider);
+            Assert.False(sut.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence));
+            Assert.False(sut.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure));
+            Assert.False(sut.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data));
+            Assert.False(sut.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace));
         }
     }
 }
