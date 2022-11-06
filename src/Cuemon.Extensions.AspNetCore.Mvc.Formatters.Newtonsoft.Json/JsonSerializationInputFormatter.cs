@@ -1,7 +1,6 @@
 ﻿using Cuemon.AspNetCore.Mvc.Formatters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
-using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
 {
@@ -16,14 +15,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <param name="options">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
         public JsonSerializationInputFormatter(JsonFormatterOptions options) : base(options)
         {
-            options.Settings.Converters.AddHttpExceptionDescriptorConverter(o =>
+            options.Settings.Converters.AddHttpExceptionDescriptorConverter(o => o.SensitivityDetails = options.SensitivityDetails);
+            foreach (var mediaType in options.SupportedMediaTypes)
             {
-                o.IncludeEvidence = options.IncludeExceptionDescriptorEvidence;
-                o.IncludeFailure = options.IncludeExceptionDescriptorFailure;
-                o.IncludeStackTrace = options.IncludeExceptionStackTrace;
-            });
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/json"));
+                SupportedMediaTypes.Add(mediaType.ToString());
+            }
         }
     }
 }
