@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Http.Headers;
-using Cuemon.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -38,12 +36,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// <returns>A task that represents the execution of this middleware.</returns>
         public override async Task InvokeAsync(HttpContext context, IThrottlingCache di)
         {
-            await Decorator.Enclose(context).InvokeThrottlerSentinelAsync(di, Options, async (message, response) =>
-            {
-                response.StatusCode = (int)message.StatusCode;
-                Decorator.Enclose(response.Headers).AddOrUpdateHeaders(message.Headers);
-                await Decorator.Enclose(response.Body).WriteAllAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+            await Decorator.Enclose(context).InvokeThrottlerSentinelAsync(di, Options).ConfigureAwait(false);
             await Next(context).ConfigureAwait(false);
         }
     }

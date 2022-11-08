@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.Collections.Specialized
         /// </exception>
         public static NameValueCollection ToNameValueCollection(this IDictionary<string, string[]> source, Action<DelimitedStringOptions<string>> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             return Decorator.Enclose(source).ToNameValueCollection(setup);
         }
     }

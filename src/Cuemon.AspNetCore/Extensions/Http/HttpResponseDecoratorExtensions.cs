@@ -30,9 +30,9 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static void AddOrUpdateEntityTagHeader(this IDecorator<HttpResponse> decorator, HttpRequest request, ChecksumBuilder builder, bool isWeak = false)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(request, nameof(request));
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(request);
+            Validator.ThrowIfNull(builder);
             builder = Decorator.Enclose(builder).CombineWith(request.Headers[HeaderNames.Accept]);
             if (Decorator.Enclose(decorator.Inner.StatusCode).IsSuccessStatusCode() && Decorator.Enclose(request).IsClientSideResourceCached(builder)) { decorator.Inner.StatusCode = StatusCodes.Status304NotModified; }
             Decorator.Enclose(decorator.Inner.Headers).AddOrUpdate(HeaderNames.ETag, new StringValues(Decorator.Enclose(builder).ToEntityTagHeaderValue(isWeak).ToString()));
@@ -50,8 +50,8 @@ namespace Cuemon.AspNetCore.Http
         /// </exception>
         public static void AddOrUpdateLastModifiedHeader(this IDecorator<HttpResponse> decorator, HttpRequest request, DateTime lastModified)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(request, nameof(request));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(request);
             if (Decorator.Enclose(decorator.Inner.StatusCode).IsSuccessStatusCode() && Decorator.Enclose(request).IsClientSideResourceCached(lastModified)) { decorator.Inner.StatusCode = StatusCodes.Status304NotModified; }
             Decorator.Enclose(decorator.Inner.Headers).AddOrUpdate(HeaderNames.LastModified, new StringValues(lastModified.ToUniversalTime().ToString("R", DateTimeFormatInfo.InvariantInfo)));
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Configuration;
 using Cuemon.Security.Cryptography;
 
 namespace Cuemon.Extensions.Net.Security
@@ -6,7 +7,7 @@ namespace Cuemon.Extensions.Net.Security
     /// <summary>
     /// Configuration options for <see cref="StringExtensions.ToSignedUri"/> and <see cref="UriExtensions.ToSignedUri"/>.
     /// </summary>
-    public class SignedUriOptions
+    public class SignedUriOptions : IParameterObject
     {
         private string _contentMd5Header;
         private Func<string, string> _canonicalRepresentationBuilder;
@@ -77,7 +78,7 @@ namespace Cuemon.Extensions.Net.Security
             get => _canonicalRepresentationBuilder;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _canonicalRepresentationBuilder = value;
             }
         }
@@ -103,7 +104,7 @@ namespace Cuemon.Extensions.Net.Security
             get => _signatureFieldName;
             set
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrWhitespace(value);
                 _signatureFieldName = value;
             }
         }
@@ -123,7 +124,7 @@ namespace Cuemon.Extensions.Net.Security
             get => _startFieldName;
             set
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrWhitespace(value);
                 _startFieldName = value;
             }
         }
@@ -143,7 +144,7 @@ namespace Cuemon.Extensions.Net.Security
             get => _expiryFieldName;
             set
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrWhitespace(value);
                 _expiryFieldName = value;
             }
         }
@@ -174,7 +175,7 @@ namespace Cuemon.Extensions.Net.Security
             get => _contentMd5Header;
             set
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrWhitespace(value);
                 Validator.ThrowIfLowerThan(value.Length, MessageDigest5.BitSize / ByteUnit.BitsPerNibble, nameof(value), FormattableString.Invariant($"The length of the value is lower than 128-bit / 32 byte."));
                 Validator.ThrowIfGreaterThan(value.Length, MessageDigest5.BitSize / ByteUnit.BitsPerNibble, nameof(value), FormattableString.Invariant($"The length of the value is greater than 128-bit / 32 byte."));
                 Validator.ThrowIfNotBase64String(value, nameof(value));

@@ -32,14 +32,14 @@ namespace Cuemon.Data
         /// </exception>
         public DsvDataReader(StreamReader reader, string header = null, char delimiter = ',', char qualifier = '"', Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParserFactory.FromValueType().Parse)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
-            Validator.ThrowIfNull(delimiter, nameof(delimiter));
-            Validator.ThrowIfNull(qualifier, nameof(qualifier));
+            Validator.ThrowIfNull(reader);
+            Validator.ThrowIfNull(delimiter);
+            Validator.ThrowIfNull(qualifier);
 
             if (header == null)
             {
                 header = reader.ReadLine();
-                Validator.ThrowIfNullOrWhitespace(header, nameof(header));
+                Validator.ThrowIfNullOrWhitespace(header);
             }
 
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }

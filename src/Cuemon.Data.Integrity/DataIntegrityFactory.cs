@@ -20,7 +20,7 @@ namespace Cuemon.Data.Integrity
         /// </exception>
         public static IDataIntegrity CreateIntegrity(FileInfo file, Action<FileIntegrityOptions> setup)
         {
-            Validator.ThrowIfNull(file, nameof(file));
+            Validator.ThrowIfNull(file);
             var options = Patterns.Configure(setup);
             if (options.BytesToRead > 0)
             {

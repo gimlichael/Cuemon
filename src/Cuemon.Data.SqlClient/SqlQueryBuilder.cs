@@ -48,7 +48,7 @@ namespace Cuemon.Data.SqlClient
         /// <returns>The result of the builder as a T-SQL query.</returns>
         public override string GetQuery(QueryType queryType, string tableName)
         {
-            tableName = tableName ?? TableName;
+            tableName ??= TableName;
             switch (queryType)
             {
                 case QueryType.Exists:

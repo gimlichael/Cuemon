@@ -13,7 +13,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// <param name="quota">The allowed quota of HTTP requests.</param>
         public ThrottleRequest(ThrottleQuota quota)
         {
-            Validator.ThrowIfNull(quota, nameof(quota));
+            Validator.ThrowIfNull(quota);
             Quota = quota;
             Total = 1;
             Expires = DateTime.UtcNow.Add(quota.Window);

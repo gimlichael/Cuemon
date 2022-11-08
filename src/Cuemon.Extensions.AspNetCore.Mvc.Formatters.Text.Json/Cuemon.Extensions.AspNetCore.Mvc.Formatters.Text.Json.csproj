@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0;net6.0;netcoreapp3.1</TargetFrameworks>
+    <ProjectGuid>a90adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace contains both types and extension methods that complements the Cuemon.Extensions.Text.Json namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides JSON formatters for ASP.NET Core based on System.Text.Json.</Description>
+    <PackageTags>extension-methods extensions json-converters add-json-serialization-formatters add-json-formatter-options</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Text.Json\Cuemon.Extensions.Text.Json.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netcoreapp3.1;netstandard2.0</TargetFrameworks>
     <ProjectGuid>260bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <IncludeSymbols>false</IncludeSymbols>
-    <Description>Provides a convenient set of default API additions for building a .NET application.</Description>
+    <Description>Provides a convenient set of default API additions for building a .NET application that favors Newtonsoft.Json.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -12,7 +12,7 @@ namespace Cuemon
         /// <summary>
         /// A <see cref="DateTime"/> initialized to midnight, January 1st, 1970 in Coordinated Universal Time (UTC).
         /// </summary>
-        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime UnixEpoch = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Gets a <see cref="DateTime"/> initialized to midnight, January 1st, 1970 in Coordinated Universal Time (UTC).
@@ -32,7 +32,7 @@ namespace Cuemon
         /// <remarks>This implementation converts the enclosed <see cref="DateTime"/> of the <paramref name="decorator"/> to an UTC representation ONLY if the <see cref="DateTime.Kind"/> equals <see cref="DateTimeKind.Local"/>.</remarks>
         public static double ToUnixEpochTime(this IDecorator<DateTime> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var value = decorator.Inner.Kind == DateTimeKind.Local ? decorator.Inner.ToUniversalTime() : decorator.Inner;
             return Math.Floor((value - UnixEpoch).TotalSeconds);
         }
@@ -47,7 +47,7 @@ namespace Cuemon
         /// </exception>
         public static DateTime ToUtcKind(this IDecorator<DateTime> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return ToKind(decorator.Inner, DateTimeKind.Utc);
         }
 
@@ -61,7 +61,7 @@ namespace Cuemon
         /// </exception>
         public static DateTime ToLocalKind(this IDecorator<DateTime> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return ToKind(decorator.Inner, DateTimeKind.Local);
         }
 
@@ -75,7 +75,7 @@ namespace Cuemon
         /// </exception>
         public static DateTime ToDefaultKind(this IDecorator<DateTime> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return ToKind(decorator.Inner, DateTimeKind.Unspecified);
         }
 

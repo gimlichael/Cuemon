@@ -23,7 +23,7 @@ namespace Cuemon.Runtime.Caching
         /// </exception>
         public CacheEntry(string key, object value, string ns = NoScope)
         {
-            Validator.ThrowIfNull(key, nameof(key));
+            Validator.ThrowIfNull(key);
             var timestamp = DateTime.UtcNow;
             Key = key;
             Value = value;
@@ -92,7 +92,7 @@ namespace Cuemon.Runtime.Caching
 
         internal CacheEntry SetInvalidation(CacheInvalidation invalidation)
         {
-            Validator.ThrowIfNull(invalidation, nameof(invalidation));
+            Validator.ThrowIfNull(invalidation);
             Invalidation = invalidation;
             return this;
         }

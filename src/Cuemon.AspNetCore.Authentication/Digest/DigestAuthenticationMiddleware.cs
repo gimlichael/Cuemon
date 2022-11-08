@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Cuemon.Collections.Generic;
 using Cuemon.IO;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
@@ -45,21 +47,15 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             _nonceTracker = di;
             if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
-                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, async (message, response) =>
+                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, dc =>
                 {
-                    context.Response.OnStarting(() =>
-                    {
-                        string etag = context.Response.Headers[HeaderNames.ETag];
-                        if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
-                        var opaqueGenerator = Options.OpaqueGenerator;
-                        var nonceSecret = Options.NonceSecret;
-                        var nonceGenerator = Options.NonceGenerator;
-                        var staleNonce = context.Items[DigestFields.Stale] as string ?? "false";
-                        context.Response.Headers.Add(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{ParseAlgorithm(Options.Algorithm)}\""));
-                        return Task.CompletedTask;
-                    });
-                    response.StatusCode = (int)message.StatusCode;
-                    await Decorator.Enclose(response.Body).WriteAllAsync(await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).ConfigureAwait(false);
+                    string etag = dc.Response.Headers[HeaderNames.ETag];
+                    if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
+                    var opaqueGenerator = Options.OpaqueGenerator;
+                    var nonceSecret = Options.NonceSecret;
+                    var nonceGenerator = Options.NonceGenerator;
+                    var staleNonce = dc.Items[DigestFields.Stale] as string ?? "false";
+                    Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{ParseAlgorithm(Options.Algorithm)}\""));
                 }).ConfigureAwait(false);
             }
             await Next.Invoke(context).ConfigureAwait(false);

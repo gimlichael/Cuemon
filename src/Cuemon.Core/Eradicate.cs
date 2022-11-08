@@ -21,20 +21,52 @@ namespace Cuemon
         /// </exception>
         public static byte[] TrailingZeros(byte[] bytes)
         {
-            Validator.ThrowIfNull(bytes, nameof(bytes));
+            return TrailingBytes(bytes, new byte[] { 0 });
+        }
+
+        /// <summary>
+        /// Eradicates trailing byte information (if any) from the specified set of <paramref name="bytes"/>.
+        /// </summary>
+        /// <param name="bytes">The <see cref="T:byte[]"/> to process.</param>
+        /// <param name="trailingBytes">The <see cref="T:byte[]"/> to form the trailing bytes.</param>
+        /// <returns>A <see cref="T:byte[]"/> without <paramref name="trailingBytes"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="bytes"/> cannot be null - or -
+        /// <paramref name="trailingBytes"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="bytes" /> must have a length larger than 1.
+        /// </exception>
+        public static byte[] TrailingBytes(byte[] bytes, byte[] trailingBytes)
+        {
+            Validator.ThrowIfNull(bytes);
+            Validator.ThrowIfNull(trailingBytes);
             Validator.ThrowIfLowerThanOrEqual(bytes.Length, 1, nameof(bytes), "The byte array must have a length larger than 1.");
-            var hasTrailingZeros = false;
+            
+            Array.Reverse(trailingBytes);
+            var hasTrailingBytes = false;
             var marker = bytes.Length - 1;
-            while (marker > 0 && bytes[marker] == 0)
+            var size = trailingBytes.Length - 1;
+            while (marker > size && HasMatch(marker, bytes, trailingBytes))
             {
-                if (!hasTrailingZeros) { hasTrailingZeros = true; }  
-                marker--;
+                if (!hasTrailingBytes) { hasTrailingBytes = true; }  
+                marker -= trailingBytes.Length;
             }
-            if (!hasTrailingZeros) { return bytes; }
+            if (!hasTrailingBytes) { return bytes; }
             marker++;
             var output = new byte[marker];
             Array.Copy(bytes, output, marker);
             return output;
+        }
+
+        private static bool HasMatch(int index, byte[] bytes, byte[] trailingBytes)
+        {
+            var match = true;
+            for (var i = 0; i < trailingBytes.Length; i++)
+            {
+                match &= trailingBytes[i] == bytes[index - i];
+            }
+            return match;
         }
     }
 }

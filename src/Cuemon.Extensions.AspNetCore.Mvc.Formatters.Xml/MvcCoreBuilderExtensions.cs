@@ -25,9 +25,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// <exception cref="ArgumentNullException">
         /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddXmlSerializationFormatters(this IMvcCoreBuilder builder)
+        public static IMvcCoreBuilder AddXmlFormatters(this IMvcCoreBuilder builder)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, XmlSerializationMvcOptionsSetup>());
             return builder;
         }
@@ -42,11 +42,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddXmlSerializationFormatters(this IMvcCoreBuilder builder, Action<XmlFormatterOptions> setup)
+        public static IMvcCoreBuilder AddXmlFormatters(this IMvcCoreBuilder builder, Action<XmlFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
-            AddXmlSerializationFormatters(builder);
-            AddXmlFormatterOptions(builder, setup);
+            Validator.ThrowIfNull(builder);
+            AddXmlFormatters(builder);
+            AddXmlFormattersOptions(builder, setup);
             return builder;
         }
 
@@ -60,11 +60,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddXmlFormatterOptions(this IMvcCoreBuilder builder, Action<XmlFormatterOptions> setup)
+        public static IMvcCoreBuilder AddXmlFormattersOptions(this IMvcCoreBuilder builder, Action<XmlFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
-            Validator.ThrowIfNull(setup, nameof(setup));
-            AddXmlSerializationFormatters(builder);
+            Validator.ThrowIfNull(builder);
+            Validator.ThrowIfNull(setup);
+            AddXmlFormatters(builder);
             builder.Services.Configure(setup);
             return builder;
         }

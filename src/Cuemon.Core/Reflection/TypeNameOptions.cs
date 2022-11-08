@@ -36,7 +36,7 @@ namespace Cuemon.Reflection
         ///         <term><see cref="FriendlyNameStringConverter"/></term>
         ///         <description><code>(type, provider, fullname) =>
         ///{
-        ///    var typeName = fullname ? type.FullName.ToString(provider) : type.Name.ToString(provider);
+        ///    var typeName = fullname ? type.FullName?.ToString(provider) ?? type.Name.ToString(provider) : type.Name.ToString(provider);
         ///    var indexOfGraveAccent = typeName.IndexOf('`');
         ///    return indexOfGraveAccent >= 0 ? typeName.Remove(indexOfGraveAccent) : typeName;
         ///};</code></description>
@@ -50,7 +50,7 @@ namespace Cuemon.Reflection
             FullName = false;
             FriendlyNameStringConverter = (type, provider, fullname) =>
             {
-                var typeName = fullname ? type.FullName.ToString(provider) : type.Name.ToString(provider);
+                var typeName = fullname ? type.FullName?.ToString(provider) ?? type.Name.ToString(provider) : type.Name.ToString(provider);
                 var indexOfGraveAccent = typeName.IndexOf('`');
                 return indexOfGraveAccent >= 0 ? typeName.Remove(indexOfGraveAccent) : typeName;
             };
@@ -80,7 +80,7 @@ namespace Cuemon.Reflection
             get => _friendlyNameStringConverter;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _friendlyNameStringConverter = value;
             }
         }

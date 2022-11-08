@@ -1,27 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netcoreapp3.1</TargetFrameworks>
     <ProjectGuid>210bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+    <SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc</AssemblyTitle>
     <Description>The Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace contains types that provides a uniform way of doing unit testing that depends on ASP.NET Core MVC and used in conjunction with Microsoft Dependency Injection. The namespace relates to the Microsoft.AspNetCore.Mvc.Testing namespace.</Description>
-    <PackageTags>i-mvc-filter-test mvc-filter-test-factory microsoft dependency injection host configuration hosting-environment service-provider configure-services test-server</PackageTags>
+    <PackageTags>i-web-application-test web-application-test-factory microsoft dependency injection host configuration hosting-environment service-provider configure-services test-server</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.4" />
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.16" />
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.11" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.24" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.31" />
   </ItemGroup>
 
   <ItemGroup>

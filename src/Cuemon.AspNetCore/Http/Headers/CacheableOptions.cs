@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cuemon.Configuration;
 using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Http.Headers
@@ -7,7 +8,7 @@ namespace Cuemon.AspNetCore.Http.Headers
     /// <summary>
     /// Configuration options for <see cref="CacheableMiddleware"/>.
     /// </summary>
-    public class CacheableOptions
+    public class CacheableOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheableOptions"/> class.
@@ -67,7 +68,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// Gets the validators that will be invoked one by one in <see cref="CacheableMiddleware.InvokeAsync"/>.
         /// </summary>
         /// <value>The validators that will be invoked by <see cref="CacheableMiddleware"/>.</value>
-        public IList<ICacheableValidator> Validators { get; }
+        public IList<ICacheableValidator> Validators { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance has an assigned <see cref="CacheControl"/> value.
@@ -80,5 +81,17 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// </summary>
         /// <value><c>true</c> if this instance has an <see cref="Expires"/> assigned; otherwise, <c>false</c>.</value>
         public bool UseExpires => Expires != null;
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="Validators"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(Validators == null);
+        }
     }
 }

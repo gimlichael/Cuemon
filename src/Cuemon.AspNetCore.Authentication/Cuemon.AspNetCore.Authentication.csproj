@@ -1,13 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netcoreapp3.1;netstandard2.0</TargetFrameworks>
     <ProjectGuid>a10adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.AspNetCore.Authentication</AssemblyName>
-    <AssemblyTitle>Cuemon.AspNetCore.Authentication</AssemblyTitle>
     <Description>The Cuemon.AspNetCore.Authentication namespace contains types that enable support for authentication using the concept of an Authenticator, AuthorizationHeader and (to tie the knots) an AuthorizationHeaderBuilder. The namespace is an addition to the Microsoft.AspNetCore.Authentication namespace.</Description>
     <PackageTags>basic-authentication basic-authentication-middleware digest-access-authentication digest-authentication-middleware hmac-authentication hmac-authentication-middleware authenticator authorization-header authorization-header-builder nonce-tracker</PackageTags>
   </PropertyGroup>

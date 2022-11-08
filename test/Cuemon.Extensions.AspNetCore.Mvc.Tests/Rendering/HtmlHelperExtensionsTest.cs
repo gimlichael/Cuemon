@@ -22,7 +22,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task EnsureThatBothRazorPagesAndControllerViewAreWorking()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseStaticFiles();
                 app.UseRouting();
@@ -53,7 +53,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task UseWhen_ShouldRenderClassWithActiveKeywordOnRegionsAnchorTag_AsControllerIsRegionAndActionIsRegion()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseStaticFiles();
                 app.UseRouting();
@@ -85,7 +85,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task UseWhen_ShouldRenderClassWithActiveKeywordOnHomeAnchorTag_AsControllerIsHomeAndActionIsIndex()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseStaticFiles();
                 app.UseRouting();
@@ -117,7 +117,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task UseWhen_ShouldRenderClassWithActiveKeywordOnRegionsAnchorTag_AsPerPageStructure()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseStaticFiles();
                 app.UseRouting();
@@ -151,7 +151,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task UseWhen_ShouldRenderClassWithActiveKeywordOnHomeAnchorTag_AsPerPageStructure()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseStaticFiles();
                 app.UseRouting();

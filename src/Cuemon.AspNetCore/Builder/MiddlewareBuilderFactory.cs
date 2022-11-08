@@ -1,5 +1,6 @@
 ﻿using System;
 using Cuemon.AspNetCore.Infrastructure;
+using Cuemon.Configuration;
 using Microsoft.AspNetCore.Builder;
 
 namespace Cuemon.AspNetCore.Builder
@@ -30,7 +31,7 @@ namespace Cuemon.AspNetCore.Builder
         /// <returns>The <see cref="IApplicationBuilder" /> instance.</returns>
         public static IApplicationBuilder UseConfigurableMiddleware<TMiddleware, TOptions>(IApplicationBuilder builder, Action<TOptions> setup = null)
             where TMiddleware : ConfigurableMiddlewareCore<TOptions>
-            where TOptions : class, new()
+            where TOptions : class, IParameterObject, new()
         {
             return setup == null ? builder.UseMiddleware<TMiddleware>() : builder.UseMiddleware<TMiddleware>(setup);
         }

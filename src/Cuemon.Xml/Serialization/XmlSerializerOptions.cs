@@ -45,7 +45,7 @@ namespace Cuemon.Xml.Serialization
         }
         
         /// <summary>
-        /// Gets or sets a <see cref="XmlConverter" /> collection that will be used during serialization.
+        /// Gets a <see cref="XmlConverter" /> collection that will be used during serialization.
         /// </summary>
         /// <value>The converters that will be used during serialization.</value>
         public IList<XmlConverter> Converters { get; }

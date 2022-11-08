@@ -46,6 +46,17 @@ namespace Cuemon.Extensions.AspNetCore.Http.Headers
         }
 
         /// <summary>
+        /// Adds an API key header parser to the <see cref="IApplicationBuilder"/> request execution pipeline.
+        /// </summary>
+        /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
+        /// <param name="setup">The <see cref="ApiKeySentinelOptions"/> middleware which may be configured.</param>
+        /// <returns>An <see cref="IApplicationBuilder"/> that can be used to further configure the request pipeline.</returns>
+        public static IApplicationBuilder UseApiKeySentinel(this IApplicationBuilder builder, Action<ApiKeySentinelOptions> setup = null)
+        {
+            return MiddlewareBuilderFactory.UseConfigurableMiddleware<ApiKeySentinelMiddleware, ApiKeySentinelOptions>(builder, setup);
+        }
+
+        /// <summary>
         /// Adds an HTTP Cache-Control and HTTP Expires header to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>

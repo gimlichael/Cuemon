@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace contains both types and extension methods that complements the Cuemon.Extensions.Xml namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides XML formatters for ASP.NET Core that offers same flexibility as the one provided by the JSON equivalent from Newtonsoft.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Cuemon.Extensions.Xml namespace](https://docs.cuemon.net/api/dotnet/ext/Cuemon.Extensions.Xml.html) 🔗
 

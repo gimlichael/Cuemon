@@ -21,7 +21,7 @@ namespace Cuemon.Xml.Serialization
         /// <returns>An <see cref="IXmlSerializable"/> implementation of <paramref name="source"/>.</returns>
         public static IXmlSerializable Create<T>(T source, Action<XmlWriter, T> writer, Action<XmlReader> reader = null, Func<XmlSchema> schema = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             return new DynamicXmlSerializable<T>(source, writer, reader, schema);
         }
     }

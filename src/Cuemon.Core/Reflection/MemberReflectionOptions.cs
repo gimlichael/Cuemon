@@ -1,9 +1,12 @@
-﻿namespace Cuemon.Reflection
+﻿using Cuemon.Configuration;
+
+namespace Cuemon.Reflection
 {
     /// <summary>
     /// Configuration options for <see cref="MemberReflection"/>.
     /// </summary>
-    public class MemberReflectionOptions
+    /// <seealso cref="IParameterObject"/>
+    public class MemberReflectionOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MemberReflectionOptions"/> class.

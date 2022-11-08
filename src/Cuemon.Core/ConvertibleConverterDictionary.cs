@@ -9,7 +9,7 @@ namespace Cuemon
     /// </summary>
     public class ConvertibleConverterDictionary : IReadOnlyDictionary<Type, Func<IConvertible, byte[]>>
     {
-        private readonly Dictionary<Type, Func<IConvertible, byte[]>> _converters = new Dictionary<Type, Func<IConvertible, byte[]>>();
+        private readonly Dictionary<Type, Func<IConvertible, byte[]>> _converters = new();
 
         /// <summary>
         /// Adds the function delegate that converts an <see cref="IConvertible"/> implementation to its <see cref="T:byte[]"/> equivalent to the specified <typeparamref name="T"/>.

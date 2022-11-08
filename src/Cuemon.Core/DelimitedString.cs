@@ -12,7 +12,7 @@ namespace Cuemon
     /// </summary>
     public static class DelimitedString
     {
-        private static readonly ConcurrentDictionary<string, Regex> CompiledSplitExpressions = new ConcurrentDictionary<string, Regex>();
+        private static readonly ConcurrentDictionary<string, Regex> CompiledSplitExpressions = new();
 
         /// <summary>
         /// Creates a delimited string representation from the specified <paramref name="source"/>.
@@ -25,7 +25,7 @@ namespace Cuemon
         /// </exception>
         public static string Create<T>(IEnumerable<T> source, Action<DelimitedStringOptions<T>> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             var options = Patterns.Configure(setup);
             var delimitedValues = new StringBuilder();
             using (var enumerator = source.GetEnumerator())
@@ -54,7 +54,7 @@ namespace Cuemon
         /// </exception>
         public static string[] Split(string value, Action<DelimitedStringOptions> setup = null)
         {
-            Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+            Validator.ThrowIfNullOrWhitespace(value);
             var options = Patterns.Configure(setup);
             var delimiter = options.Delimiter;
             var qualifier = options.Qualifier;

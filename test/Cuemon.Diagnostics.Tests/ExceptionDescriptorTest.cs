@@ -30,7 +30,7 @@ namespace Cuemon.Diagnostics
             Assert.Equal("UnhandledException", ed.Code);
             Assert.Equal("An unhandled exception occurred.", ed.Message);
             var me = Assert.Single(ed.Evidence).Value as MemberEvidence;
-            Assert.Equal(me.MemberSignature, "Cuemon.Validator.ThrowIfNull(T value, String paramName, String message)");
+            Assert.Equal(me.MemberSignature, "Cuemon.Validator.ThrowIfNull(Object value, String paramName, String message)");
             Assert.Equal(3, me.RuntimeParameters.Count);
             Assert.True(me.RuntimeParameters.ContainsKey("value"));
             Assert.True(me.RuntimeParameters.ContainsKey("paramName"));

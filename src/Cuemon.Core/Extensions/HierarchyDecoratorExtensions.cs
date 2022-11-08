@@ -27,24 +27,9 @@ namespace Cuemon
         /// </exception>
         public static IConvertible UseConvertibleFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var i = decorator.FindSingleInstance(h => ConvertibleTypes.Select(pair => pair.Value).Contains(h.Instance.Name));
             return Decorator.Enclose(i.Value).ChangeType(ConvertibleTypes.Single(pair => pair.Value == i.Name).Key) as IConvertible;
-        }
-
-        /// <summary>
-        /// A formatter implementation that resolves a <see cref="TimeSpan"/>.
-        /// </summary>
-        /// <param name="decorator">The <see cref="T:IDecorator{IHierarchy{DataPair}}"/> to extend.</param>
-        /// <returns>A <see cref="TimeSpan"/> from the enclosed <see cref="T:IHierarchy{DataPair}"/> of the <paramref name="decorator"/>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null.
-        /// </exception>
-        public static TimeSpan UseTimeSpanFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
-        {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            var ticks = decorator.FindSingleInstance(h => h.Instance.Name.Equals("Ticks", StringComparison.OrdinalIgnoreCase));
-            return ticks == null ? decorator.Inner.UseGenericConverter<TimeSpan>() : TimeSpan.FromTicks(Convert.ToInt64(ticks.Value));
         }
 
         /// <summary>
@@ -57,7 +42,7 @@ namespace Cuemon
         /// </exception>
         public static Uri UseUriFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var uri = decorator.FindSingleInstance(h => h.Instance.Name.Equals("OriginalString", StringComparison.OrdinalIgnoreCase));
             return uri == null ? decorator.Inner.UseGenericConverter<Uri>() : Decorator.Enclose(uri.Value.ToString()).ToUri();
         }
@@ -69,7 +54,7 @@ namespace Cuemon
         /// <returns>A <see cref="DateTime"/> from the enclosed <see cref="T:IHierarchy{DataPair}"/> of the <paramref name="decorator"/>.</returns>
         public static DateTime UseDateTimeFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.Instance.Type == typeof(DateTime) ? Decorator.Enclose(decorator.Inner.Instance.Value).ChangeTypeOrDefault<DateTime>() : decorator.Inner.UseGenericConverter<DateTime>();
         }
 
@@ -83,7 +68,7 @@ namespace Cuemon
         /// </exception>
         public static Guid UseGuidFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return UseGenericConverter<Guid>(decorator.Inner);
         }
 
@@ -97,7 +82,7 @@ namespace Cuemon
         /// </exception>
         public static string UseStringFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return UseGenericConverter<string>(decorator.Inner);
         }
 
@@ -111,7 +96,7 @@ namespace Cuemon
         /// </exception>
         public static decimal UseDecimalFormatter(this IDecorator<IHierarchy<DataPair>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return UseGenericConverter<decimal>(decorator.Inner);
         }
 
@@ -126,7 +111,7 @@ namespace Cuemon
         /// </exception>
         public static ICollection UseCollection(this IDecorator<IHierarchy<DataPair>> decorator, Type valueType)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var items = decorator.Inner.GetChildren();
             var list = typeof(List<>).MakeGenericType(valueType);
             var listInstance = Activator.CreateInstance(list);
@@ -149,7 +134,7 @@ namespace Cuemon
         /// </exception>
         public static IDictionary UseDictionary(this IDecorator<IHierarchy<DataPair>> decorator, Type[] valueTypes)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var items = decorator.Inner.GetChildren();
             var dic = typeof(Dictionary<,>).MakeGenericType(valueTypes);
             var dicInstance = Activator.CreateInstance(dic);
@@ -230,8 +215,8 @@ namespace Cuemon
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all nodes that match the conditions defined by the specified predicate, if found.</returns>
         public static IEnumerable<IHierarchy<T>> Find<T>(this IDecorator<IHierarchy<T>> decorator, Func<IHierarchy<T>, bool> match)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(match, nameof(match));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(match);
             return DescendantsAndSelf(decorator).Where(match);
         }
 
@@ -243,8 +228,8 @@ namespace Cuemon
         /// <param name="replacer">The delegate that will replace the wrapped instance of the <paramref name="decorator"/>.</param>
         public static void Replace<T>(this IDecorator<IHierarchy<T>> decorator, Action<IHierarchy<T>, T> replacer)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(replacer, nameof(replacer));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(replacer);
             replacer(decorator.Inner, decorator.Inner.Instance);
         }
 
@@ -256,8 +241,8 @@ namespace Cuemon
         /// <param name="replacer">The delegate that will replace all wrapped instances of the <paramref name="decorator"/>.</param>
         public static void ReplaceAll<T>(this IDecorator<IEnumerable<IHierarchy<T>>> decorator, Action<IHierarchy<T>, T> replacer)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(replacer, nameof(replacer));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(replacer);
             foreach (var node in decorator.Inner)
             {
                 Replace(Decorator.Enclose(node), replacer);
@@ -275,7 +260,7 @@ namespace Cuemon
         /// </exception>
         public static IHierarchy<T> Root<T>(this IDecorator<IHierarchy<T>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.HasParent ? AncestorsAndSelf(decorator).FirstOrDefault() : decorator.Inner;
         }
 
@@ -290,7 +275,7 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<IHierarchy<T>> AncestorsAndSelf<T>(this IDecorator<IHierarchy<T>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             IList<IHierarchy<T>> result = new List<IHierarchy<T>>(Hierarchy.WhileSourceTraversalIsNotNull(decorator.Inner, Hierarchy.AncestorsAndSelf));
             return result.Count > 0 ? result.Reverse() : Arguments.Yield(decorator.Inner);
         }
@@ -306,7 +291,7 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<IHierarchy<T>> DescendantsAndSelf<T>(this IDecorator<IHierarchy<T>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return Hierarchy.WhileSourceTraversalHasElements(decorator.Inner, Hierarchy.DescendantsAndSelf).Reverse();
         }
 
@@ -321,7 +306,7 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<IHierarchy<T>> SiblingsAndSelf<T>(this IDecorator<IHierarchy<T>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return SiblingsAndSelfAt(decorator, decorator.Inner.Depth);
         }
 
@@ -340,7 +325,7 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<IHierarchy<T>> SiblingsAndSelfAt<T>(this IDecorator<IHierarchy<T>> decorator, int depth)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             Validator.ThrowIfLowerThan(depth, 0, nameof(depth));
             var root = AncestorsAndSelf(decorator).FirstOrDefault();
             var descendantsFromRoot = DescendantsAndSelf(Decorator.Enclose(root));
@@ -365,7 +350,7 @@ namespace Cuemon
         /// </exception>
         public static IHierarchy<T> NodeAt<T>(this IDecorator<IHierarchy<T>> decorator, int index)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             Validator.ThrowIfLowerThan(index, 0, nameof(index));
             if (decorator.Inner.Index == index) { return decorator.Inner; }
             var allNodes = FlattenAll(decorator);
@@ -387,7 +372,7 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<IHierarchy<T>> FlattenAll<T>(this IDecorator<IHierarchy<T>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var root = AncestorsAndSelf(decorator).FirstOrDefault();
             return DescendantsAndSelf(Decorator.Enclose(root));
         }
@@ -430,11 +415,6 @@ namespace Cuemon
                 return items.Select(i => Decorator.Enclose(i).UseDateTimeFormatter()).Cast<object>();
             }
 
-            if (valueType == typeof(TimeSpan))
-            {
-                return items.Select(i => Decorator.Enclose(i).UseTimeSpanFormatter()).Cast<object>();
-            }
-
             return new List<object>();
         }
 
@@ -472,11 +452,6 @@ namespace Cuemon
             if (valueType == typeof(DateTime))
             {
                 return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseDateTimeFormatter()));
-            }
-
-            if (valueType == typeof(TimeSpan))
-            {
-                return dicItems.Select(i => new KeyValuePair<object, object>(Decorator.Enclose(i.Key.Instance.Value).ChangeType(valueTypes[0]), Decorator.Enclose(i.Value).UseTimeSpanFormatter()));
             }
 
             return new Dictionary<object, object>();

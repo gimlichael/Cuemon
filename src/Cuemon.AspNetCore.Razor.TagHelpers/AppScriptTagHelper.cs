@@ -12,7 +12,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
     public sealed class AppScriptTagHelper : ScriptTagHelper<AppTagHelperOptions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScriptCdnTagHelper"/> class.
+        /// Initializes a new instance of the <see cref="AppScriptTagHelper"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="CdnTagHelperOptions" /> which need to be configured.</param>
         /// <param name="cacheBusting">An optional object implementing the <see cref="ICacheBusting" /> interface.</param>

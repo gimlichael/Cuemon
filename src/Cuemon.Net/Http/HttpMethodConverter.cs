@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Text;
@@ -16,9 +17,9 @@ namespace Cuemon.Net.Http
         private static IDictionary<string, HttpMethods> InitStringToHttpMethodLookupTable()
         {
             var result = new Dictionary<string, HttpMethods>();
-            foreach (var pair in new EnumReadOnlyDictionary<HttpMethods>())
+            foreach (var pair in new EnumReadOnlyDictionary<HttpMethods>().Select(pair => pair.Value))
             {
-                result.Add(pair.Value, ParserFactory.FromEnum().Parse<HttpMethods>(pair.Value));
+                result.Add(pair, ParserFactory.FromEnum().Parse<HttpMethods>(pair));
             }
             return result;
         }
@@ -33,7 +34,7 @@ namespace Cuemon.Net.Http
         /// </exception>
         public static HttpMethods ToHttpMethod(HttpMethod method)
         {
-            Validator.ThrowIfNull(method, nameof(method));
+            Validator.ThrowIfNull(method);
             if (!StringToHttpMethodLookupTable.TryGetValue(method.Method, out var result))
             {
                 result = HttpMethods.Get;

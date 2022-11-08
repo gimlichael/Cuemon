@@ -26,8 +26,8 @@ namespace Cuemon.Collections.Generic
     {
         internal DynamicEqualityComparer(Func<T, int> hashCalculator, Func<T, T, bool> equalityComparer)
         {
-            Validator.ThrowIfNull(equalityComparer, nameof(equalityComparer));
-            Validator.ThrowIfNull(hashCalculator, nameof(hashCalculator));
+            Validator.ThrowIfNull(equalityComparer);
+            Validator.ThrowIfNull(hashCalculator);
 
             EqualityComparer = equalityComparer;
             HashCalculator = hashCalculator;

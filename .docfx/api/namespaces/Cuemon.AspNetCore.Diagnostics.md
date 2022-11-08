@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.AspNetCore.Diagnostics namespace contains types that provides a way to support the Server-Timing header for communicating metrics about the request-response cycle to an user agent. The namespace is an addition to the Microsoft.AspNetCore.Diagnostics namespace.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Microsoft.AspNetCore.Diagnostics namespace](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.diagnostics?view=aspnetcore-2.0) 🔗
 

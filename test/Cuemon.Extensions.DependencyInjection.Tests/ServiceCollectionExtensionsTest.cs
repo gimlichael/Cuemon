@@ -15,6 +15,182 @@ namespace Cuemon.Extensions.DependencyInjection
         }
 
         [Fact]
+        public void AddWithSetup_ShouldAddServiceToServiceCollectionWithSpecifiedLifetime()
+        {
+            var sut1 = new ServiceCollection();
+            var sut2 = sut1.Add<FakeService, FakeServiceScoped>(o => o.Lifetime = ServiceLifetime.Scoped)
+                .Add<FakeService, FakeServiceSingleton>(o => o.Lifetime = ServiceLifetime.Singleton)
+                .Add<FakeService, FakeServiceTransient>(o => o.Lifetime = ServiceLifetime.Transient);
+            var sut3 = sut2.Single(sd => sd.ImplementationType == typeof(FakeServiceScoped));
+            var sut4 = sut2.Single(sd => sd.ImplementationType == typeof(FakeServiceSingleton));
+            var sut5 = sut2.Single(sd => sd.ImplementationType == typeof(FakeServiceTransient));
+
+            Assert.Equal(3, sut1.Count);
+            Assert.Equal(sut1, sut2);
+            Assert.NotNull(sut3);
+            Assert.NotNull(sut4);
+            Assert.NotNull(sut5);
+            Assert.Equal(ServiceLifetime.Scoped, sut3.Lifetime);
+            Assert.Equal(ServiceLifetime.Singleton, sut4.Lifetime);
+            Assert.Equal(ServiceLifetime.Transient, sut5.Lifetime);
+        }
+
+        [Fact]
+        public void AddWithSetup_ShouldAddServiceToServiceCollectionUsingFactoryWithSpecifiedLifetime()
+        {
+            var sut1 = new ServiceCollection();
+            var sut2 = sut1.Add<FakeService, FakeServiceScoped>(_ => new FakeServiceScoped(default), o => o.Lifetime = ServiceLifetime.Scoped)
+                .Add<FakeService, FakeServiceSingleton>(_ => new FakeServiceSingleton(default), o => o.Lifetime = ServiceLifetime.Singleton)
+                .Add<FakeService, FakeServiceTransient>(_ => new FakeServiceTransient(default), o => o.Lifetime = ServiceLifetime.Transient);
+            var sut3 = sut2.Single(sd => sd.ImplementationFactory?.Method.ReturnType == typeof(FakeServiceScoped));
+            var sut4 = sut2.Single(sd => sd.ImplementationFactory?.Method.ReturnType == typeof(FakeServiceSingleton));
+            var sut5 = sut2.Single(sd => sd.ImplementationFactory?.Method.ReturnType == typeof(FakeServiceTransient));
+
+            Assert.Equal(3, sut1.Count);
+            Assert.Equal(sut1, sut2);
+            Assert.NotNull(sut3);
+            Assert.NotNull(sut4);
+            Assert.NotNull(sut5);
+            Assert.Equal(ServiceLifetime.Scoped, sut3.Lifetime);
+            Assert.Equal(ServiceLifetime.Singleton, sut4.Lifetime);
+            Assert.Equal(ServiceLifetime.Transient, sut5.Lifetime);
+        }
+
+        [Fact]
+        public void TryAddWithSetup_ShouldAddServiceToServiceCollectionWithSpecifiedLifetime()
+        {
+            var sut1 = new ServiceCollection();
+            var sut2 = sut1.TryAdd<FakeService, FakeServiceScoped>(o => o.Lifetime = ServiceLifetime.Scoped)
+                .TryAdd<FakeService, FakeServiceSingleton>(o => o.Lifetime = ServiceLifetime.Singleton)
+                .TryAdd<FakeService, FakeServiceTransient>(o => o.Lifetime = ServiceLifetime.Transient);
+            var sut3 = sut2.SingleOrDefault(sd => sd.ImplementationType == typeof(FakeServiceScoped));
+            var sut4 = sut2.SingleOrDefault(sd => sd.ImplementationType == typeof(FakeServiceSingleton));
+            var sut5 = sut2.SingleOrDefault(sd => sd.ImplementationType == typeof(FakeServiceTransient));
+
+            Assert.Equal(1, sut1.Count);
+            Assert.Equal(sut1, sut2);
+            Assert.NotNull(sut3);
+            Assert.Null(sut4);
+            Assert.Null(sut5);
+            Assert.Equal(ServiceLifetime.Scoped, sut3.Lifetime);
+        }
+
+        [Fact]
+        public void TryAddWithSetup_ShouldAddServiceToServiceCollectionUsingFactoryWithSpecifiedLifetime()
+        {
+            var sut1 = new ServiceCollection();
+            var sut2 = sut1.TryAdd<FakeService, FakeServiceScoped>(_ => new FakeServiceScoped(default), o => o.Lifetime = ServiceLifetime.Scoped)
+                .TryAdd<FakeService, FakeServiceSingleton>(_ => new FakeServiceSingleton(default), o => o.Lifetime = ServiceLifetime.Singleton)
+                .TryAdd<FakeService, FakeServiceTransient>(_ => new FakeServiceTransient(default), o => o.Lifetime = ServiceLifetime.Transient);
+            var sut3 = sut2.SingleOrDefault(sd => sd.ImplementationFactory?.Method.ReturnType == typeof(FakeServiceScoped));
+            var sut4 = sut2.SingleOrDefault(sd => sd.ImplementationFactory?.Method.ReturnType == typeof(FakeServiceSingleton));
+            var sut5 = sut2.SingleOrDefault(sd => sd.ImplementationFactory?.Method.ReturnType == typeof(FakeServiceTransient));
+
+            Assert.Equal(1, sut1.Count);
+            Assert.Equal(sut1, sut2);
+            Assert.NotNull(sut3);
+            Assert.Null(sut4);
+            Assert.Null(sut5);
+            Assert.Equal(ServiceLifetime.Scoped, sut3.Lifetime);
+        }
+
+        [Fact]
+        public void AddWithSetup_ShouldAddServiceToServiceCollectionWithTypeForwarding()
+        {
+            var sut1 = new ServiceCollection()
+                .Add<Foo>(o =>
+                {
+                    o.Lifetime = ServiceLifetime.Scoped;
+                });
+            
+            var provider = sut1.BuildServiceProvider();
+
+            var sut2 = provider.GetRequiredService<Foo>();
+            var sut3 = provider.GetRequiredService<IBar>();
+            var sut4 = provider.GetRequiredService<IFoo>();
+
+            Assert.Same(sut2, sut3); 
+            Assert.Same(sut2, sut4); 
+
+            Assert.Collection(sut1, 
+                sd => Assert.True(sd.ServiceType == typeof(Foo)),
+                sd => Assert.True(sd.ServiceType == typeof(IFoo)),
+                sd => Assert.True(sd.ServiceType == typeof(IBar)));
+        }
+
+        [Fact]
+        public void AddWithSetup_ShouldAddServiceToServiceCollectionWithoutTypeForwarding()
+        {
+            var sut1 = new ServiceCollection()
+                .Add<Foo>(o =>
+                {
+                    o.UseNestedTypeForwarding = false;
+                    o.Lifetime = ServiceLifetime.Scoped;
+                });
+            
+            var provider = sut1.BuildServiceProvider();
+
+            var sut2 = provider.GetService<Foo>();
+            var sut3 = provider.GetService<IBar>();
+            var sut4 = provider.GetService<IFoo>();
+
+            Assert.NotNull(sut2);
+            Assert.Null(sut3);
+            Assert.Null(sut4);
+
+            Assert.Collection(sut1, 
+                sd => Assert.True(sd.ServiceType == typeof(Foo)));
+        }
+
+        [Fact]
+        public void AddWithSetup_ShouldAddServiceToServiceCollectionWithTypeForwardingForMarker()
+        {
+            var sut1 = new ServiceCollection()
+                .Add<DefaultService<FakeService>>(o =>
+                {
+                    o.Lifetime = ServiceLifetime.Scoped;
+                });
+            
+            var provider = sut1.BuildServiceProvider();
+
+            var sut2 = provider.GetRequiredService<DefaultService<FakeService>>();
+            var sut3 = provider.GetRequiredService<IService<FakeService>>();
+            var sut4 = provider.GetRequiredService<IDependencyInjectionMarker<FakeService>>();
+
+            Assert.Same(sut2, sut3); 
+            Assert.Same(sut2, sut4); 
+
+            Assert.Collection(sut1, 
+                sd => Assert.True(sd.ServiceType == typeof(DefaultService<FakeService>)),
+                sd => Assert.True(sd.ServiceType == typeof(IService<FakeService>)),
+                sd => Assert.True(sd.ServiceType == typeof(IDependencyInjectionMarker<FakeService>)));
+        }
+
+        [Fact]
+        public void AddWithSetup_ShouldAddServiceToServiceCollectionWithoutTypeForwardingForMarker()
+        {
+            var sut1 = new ServiceCollection()
+                .Add<DefaultService<FakeService>>(o =>
+                {
+                    o.UseNestedTypeForwarding = false;
+                    o.Lifetime = ServiceLifetime.Scoped;
+                });
+            
+            var provider = sut1.BuildServiceProvider();
+
+            var sut2 = provider.GetService<DefaultService<FakeService>>();
+            var sut3 = provider.GetService<IService<FakeService>>();
+            var sut4 = provider.GetService<IDependencyInjectionMarker<FakeService>>();
+
+            Assert.NotNull(sut2);
+            Assert.Null(sut3); 
+            Assert.Null(sut4); 
+
+            Assert.Collection(sut1, 
+                sd => Assert.True(sd.ServiceType == typeof(DefaultService<FakeService>)));
+        }
+
+        [Fact]
         public void Add_ShouldAddServiceToServiceCollectionWithSpecifiedLifetime()
         {
             var sut1 = new ServiceCollection();
@@ -157,7 +333,7 @@ namespace Cuemon.Extensions.DependencyInjection
             Assert.Null(sut9);
         }
 
-                [Fact]
+        [Fact]
         public void TryAdd_ShouldAddServiceToServiceCollectionUsingFactoryWithSpecifiedLifetime()
         {
             var sut1 = new ServiceCollection();

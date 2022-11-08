@@ -14,10 +14,10 @@ namespace Cuemon.Data.Integrity
     public class CacheValidator : ChecksumBuilder, IEntityInfo
     {
         private const long NullOrZeroLengthChecksum = 23719;
-        private static readonly CacheValidator DefaultCacheValidatorValue = new CacheValidator(new EntityInfo(DateTime.MinValue, DateTime.MinValue), () => Security.HashFactory.CreateFnv128());
+        private static readonly CacheValidator DefaultCacheValidatorValue = new(new EntityInfo(DateTime.MinValue, DateTime.MinValue), () => Security.HashFactory.CreateFnv128());
         private static CacheValidator _referencePointCacheValidator;
         private static Assembly _assemblyValue;
-        private static readonly Lazy<Assembly> LazyAssembly = new Lazy<Assembly>(() => Assembly.GetEntryAssembly() ?? typeof(ChecksumBuilder).GetTypeInfo().Assembly);
+        private static readonly Lazy<Assembly> LazyAssembly = new(() => Assembly.GetEntryAssembly() ?? typeof(ChecksumBuilder).GetTypeInfo().Assembly);
 
         /// <summary>
         /// Gets the most significant <see cref="CacheValidator"/> object from the most significant (largest) value of either <see cref="Created"/> or <see cref="Modified"/> in the specified <paramref name="sequence"/>.
@@ -26,7 +26,7 @@ namespace Cuemon.Data.Integrity
         /// <returns>The most significant <see cref="CacheValidator"/> object from the specified <paramref name="sequence"/>.</returns>
         public static CacheValidator GetMostSignificant(params CacheValidator[] sequence)
         {
-            Validator.ThrowIfNull(sequence, nameof(sequence));
+            Validator.ThrowIfNull(sequence);
             var mostSignificant = Default;
             foreach (var candidate in sequence)
             {
@@ -44,10 +44,10 @@ namespace Cuemon.Data.Integrity
         /// </exception>
         public static Assembly AssemblyReference
         {
-            get => _assemblyValue ?? (_assemblyValue = LazyAssembly.Value);
+            get => _assemblyValue ??= LazyAssembly.Value;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _assemblyValue = value;
                 _referencePointCacheValidator = null;
             }
@@ -67,10 +67,7 @@ namespace Cuemon.Data.Integrity
         {
             get
             {
-                if (_referencePointCacheValidator == null)
-                {
-                    _referencePointCacheValidator = CacheValidatorFactory.CreateValidator(AssemblyReference);
-                }
+                _referencePointCacheValidator ??= CacheValidatorFactory.CreateValidator(AssemblyReference);
                 return _referencePointCacheValidator.Clone();
             }
         }
@@ -88,7 +85,7 @@ namespace Cuemon.Data.Integrity
         /// <exception cref="InvalidEnumArgumentException">method</exception>
         public CacheValidator(EntityInfo entity, Func<Hash> hashFactory, EntityDataIntegrityMethod method = EntityDataIntegrityMethod.Unaltered) : base(entity?.Checksum.GetBytes(), hashFactory)
         {
-            Validator.ThrowIfNull(entity, nameof(entity));
+            Validator.ThrowIfNull(entity);
             
             Created = entity.Created;
             Modified = entity.Modified;

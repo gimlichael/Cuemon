@@ -47,7 +47,7 @@ Extensions for .NET Core API, that is part of Cuemon for .NET, is a toolbelt of 
 
 The Cuemon.Extensions namespace contains extension methods that complements the Cuemon namespace while being an addition to the System namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Core
 
@@ -59,7 +59,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Collections.Generic namespace contains extension methods that complements the Cuemon.Collections.Generic namespace while being an addition to the System.Collections.Generic namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Collections.Generic
 
@@ -71,7 +71,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Collections.Specialized namespace contains extension methods that complements the Cuemon.Collections.Specialized namespace while being an addition to the System.Collections.Specialized namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Collections.Specialized
 
@@ -83,7 +83,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Data namespace contains extension methods that complements the Cuemon.Data namespace while being an addition to the System.Data namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Data
 
@@ -95,7 +95,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Data.Integrity namespace contains extension methods that complements the Cuemon.Data.Integrity namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Data.Integrity
 
@@ -107,7 +107,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.DependencyInjection namespace contains extension methods that complements the Microsoft.Extensions.DependencyInjection namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.DependencyInjection
 
@@ -119,7 +119,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Diagnostics namespace contains extension methods that complements the Cuemon.Diagnostics namespace while being an addition to the System.Diagnostics namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Diagnostics
 
@@ -131,7 +131,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Hosting namespace contains extension methods and features related to the Microsoft.Extensions.Hosting namespace.
 
-Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET Core 3.1, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Hosting
 
@@ -143,7 +143,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.IO namespace contains extension methods that complements the Cuemon.IO namespace while being an addition to the System.IO namespace.
 
-Availability: **.NET Standard 2.0, .NET Standard 2.1, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET Standard 2.1, .NET 6.0**
 
 Assembly: Cuemon.Extensions.IO
 
@@ -155,7 +155,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Net namespace contains both types and extension methods that complements the Cuemon.Net namespace while being an addition to the System.Net namespace. Includes support for both traditional and factory based ways of working with HttpMangager instances while also including a simple and lightweight implementation of the IHttpClientFactory interface named SlimHttpClientFactory (that provides "managed" HttpClient instances).
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Net
 
@@ -167,7 +167,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Reflection namespace contains extension methods that complements the Cuemon.Reflection namespace while being an addition to the System.Reflection namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Reflection
 
@@ -179,7 +179,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Runtime.Caching namespace contains extension methods that complements the Cuemon.Runtime.Caching namespace by adding support for Memoization techniques and GetOrAdd convenience ; both with vast overloads and extended by the ICacheEnumerable{TKey} interface for loose coupling.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Runtime.Caching
 
@@ -191,7 +191,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Text namespace contains extension methods that complements the Cuemon.Text namespace while being an addition to the System namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Text
 
@@ -203,7 +203,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Threading namespace contains extension methods that complements the System.Threading namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Threading
 
@@ -215,7 +215,7 @@ Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/
 
 The Cuemon.Extensions.Xml namespace contains extension methods that complements the Cuemon.Xml namespace while being an addition to the System.Xml namespace.
 
-Availability: **.NET Standard 2.0, .NET 5.0, .NET 6.0**
+Availability: **.NET Standard 2.0, .NET 6.0**
 
 Assembly: Cuemon.Extensions.Xml
 

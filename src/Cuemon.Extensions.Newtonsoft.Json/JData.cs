@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <returns>An <see cref="T:IEnumerable{JDataResult}"/> sequence from the specified <see cref="Stream"/>.</returns>
         public static IEnumerable<JDataResult> ReadAll(Stream json, Action<StreamReaderOptions> setup = null)
         {
-            Validator.ThrowIfNull(json, nameof(json));
+            Validator.ThrowIfNull(json);
             var options = Patterns.Configure(setup);
             using (var sr = new StreamReader(json, options.Encoding, false, options.BufferSize, options.LeaveOpen))
             {
@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <returns>An <see cref="T:IEnumerable{JDataResult}"/> sequence from the specified <see cref="string"/>.</returns>
         public static IEnumerable<JDataResult> ReadAll(string json)
         {
-            Validator.ThrowIfNullOrWhitespace(json, nameof(json));
+            Validator.ThrowIfNullOrWhitespace(json);
             using (var sr = new StringReader(json))
             {
                 using (var jr = new JsonTextReader(sr))
@@ -56,7 +56,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <returns>An <see cref="T:IEnumerable{JDataResult}"/> sequence from the specified <see cref="JsonReader"/>.</returns>
         public static IEnumerable<JDataResult> ReadAll(JsonReader reader)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
+            Validator.ThrowIfNull(reader);
             Validator.ThrowIf.InvalidJsonDocument(ref reader, nameof(reader));
             return new JData(reader).Result.Value;
         }
@@ -145,7 +145,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
 
     internal static class RegexExtensions
     {
-        internal static readonly Lazy<Regex> LazySquareBracketsRemover = new Lazy<Regex>(() => new Regex(@"\[[^]]*\]", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled));
+        internal static readonly Lazy<Regex> LazySquareBracketsRemover = new(() => new Regex(@"\[[^]]*\]", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled));
 
         internal static string RemoveBrackets(this string path)
         {

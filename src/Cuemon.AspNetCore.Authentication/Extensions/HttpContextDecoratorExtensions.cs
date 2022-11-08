@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http;
 using Microsoft.AspNetCore.Http;
@@ -8,13 +7,15 @@ namespace Cuemon.AspNetCore.Authentication
 {
     internal static class HttpContextDecoratorExtensions
     {
-        internal static async Task InvokeAuthenticationAsync<TOptions>(this IDecorator<HttpContext> decorator, TOptions options, Action<HttpResponseMessage, HttpResponse> transformer) where TOptions : AuthenticationOptions
+        internal static async Task InvokeAuthenticationAsync<TOptions>(this IDecorator<HttpContext> decorator, TOptions options, Action<HttpContext> wwwAuthenticateFactory) where TOptions : AuthenticationOptions
         {
+            wwwAuthenticateFactory?.Invoke(decorator.Inner);
             var message = options.ResponseHandler?.Invoke();
             if (message != null)
             {
-                transformer?.Invoke(message, decorator.Inner.Response);
-                throw new UnauthorizedException(await message.Content.ReadAsStringAsync().ConfigureAwait(false));
+                throw Decorator.Enclose(new UnauthorizedException(await message.Content.ReadAsStringAsync().ConfigureAwait(false)))
+                    .AddResponseHeaders(decorator.Inner.Response.Headers)
+                    .AddResponseHeaders(message.Headers).Inner;
             }
         }
     }

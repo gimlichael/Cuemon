@@ -31,7 +31,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static IEnumerable<XmlReader> Chunk(this IDecorator<XmlReader> decorator, int size = 128, Action<XmlWriterSettings> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             Validator.ThrowIfTrue(decorator.Inner.ReadState != ReadState.Initial, nameof(decorator), "The Read method of the XmlReader object has already been called.");
             var reader = decorator.Inner;
             var outerReaders = new List<XmlReader>();
@@ -72,8 +72,8 @@ namespace Cuemon.Xml
 
         private static void ChunkCore(XmlWriter writer, IEnumerable<XmlReader> readers, XmlQualifiedEntity rootElement)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
-            Validator.ThrowIfNull(readers, nameof(readers));
+            Validator.ThrowIfNull(writer);
+            Validator.ThrowIfNull(readers);
             writer.WriteStartElement(rootElement.Prefix, rootElement.LocalName, rootElement.Namespace);
             foreach (var reader in readers)
             {
@@ -102,7 +102,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static bool MoveToFirstElement(this IDecorator<XmlReader> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var reader = decorator.Inner;
             if (reader.ReadState != ReadState.Initial) { throw new ArgumentException("The Read method of the XmlReader object has already been called.", nameof(decorator)); }
             while (reader.Read())
@@ -126,7 +126,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static IHierarchy<DataPair> ToHierarchy(this IDecorator<XmlReader> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var reader = decorator.Inner;
             return BuildHierarchy(reader);
         }

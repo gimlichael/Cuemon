@@ -52,7 +52,7 @@ namespace Cuemon
         /// <value><c>true</c> if this instance has any children; otherwise, <c>false</c>.</value>
         public bool HasChildren => (Children.Count > 0);
 
-        private SortedList<int, IHierarchy<T>> Children => _children ?? (_children = new SortedList<int, IHierarchy<T>>());
+        private SortedList<int, IHierarchy<T>> Children => _children ??= new SortedList<int, IHierarchy<T>>();
 
         private IHierarchy<T> Parent { get; set; }
 
@@ -81,7 +81,7 @@ namespace Cuemon
         /// <param name="instanceType">The type of the new instance.</param>
         public void Replace(T instance, Type instanceType)
         {
-            Validator.ThrowIfNull(instanceType, nameof(instanceType));
+            Validator.ThrowIfNull(instanceType);
             Instance = instance;
             InstanceType = instanceType;
         }
@@ -215,7 +215,7 @@ namespace Cuemon
     }
 
     /// <summary>
-    /// Provides a set of static methods for hierarchy releated operations.
+    /// Provides a set of static methods for hierarchy related operations.
     /// </summary>
     public static class Hierarchy
     {
@@ -231,7 +231,7 @@ namespace Cuemon
         /// <returns>An <see cref="IEnumerable{T}"/> sequence containing all nodes that match the conditions defined by the specified predicate, if found.</returns>
         public static IEnumerable<IHierarchy<T>> Find<T>(IHierarchy<T> hierarchy, Func<IHierarchy<T>, bool> match)
         {
-            Validator.ThrowIfNull(match, nameof(match));
+            Validator.ThrowIfNull(match);
             return DescendantsAndSelf(hierarchy).Where(match);
         }
 
@@ -246,7 +246,7 @@ namespace Cuemon
         /// </exception>
         public static IHierarchy<object> GetObjectHierarchy(object source, Action<ObjectHierarchyOptions> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             var options = Patterns.Configure(setup);
             IDictionary<int, int> referenceSafeguards = new Dictionary<int, int>();
             var stack = new Stack<Wrapper<object>>();
@@ -273,7 +273,7 @@ namespace Cuemon
                     continue;
                 }
 
-                foreach (var property in currentType.GetProperties(new MemberReflection(true, true)))
+                foreach (var property in currentType.GetProperties(options.ReflectionRules))
                 {
                     if (options.SkipProperty(property)) { continue; }
                     if (!property.CanRead) { continue; }
@@ -322,8 +322,8 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<TSource> WhileSourceTraversalIsNotNull<TSource>(TSource source, Func<TSource, TSource> traversal) where TSource : class
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(traversal, nameof(traversal));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(traversal);
 
             return WhileSourceTraversalIsNotNullIterator(source, traversal);
         }

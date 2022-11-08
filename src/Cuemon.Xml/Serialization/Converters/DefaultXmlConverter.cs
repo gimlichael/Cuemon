@@ -54,8 +54,8 @@ namespace Cuemon.Xml.Serialization.Converters
         /// <returns>The generated (deserialized) object.</returns>
         public override object ReadXml(XmlReader reader, Type objectType)
         {
-            Validator.ThrowIfNull(reader, nameof(reader));
-            Validator.ThrowIfNull(objectType, nameof(objectType));
+            Validator.ThrowIfNull(reader);
+            Validator.ThrowIfNull(objectType);
             if (Decorator.Enclose(objectType).HasEnumerableImplementation() && objectType != typeof(string))
             {
                 if (Decorator.Enclose(objectType).HasDictionaryImplementation())
@@ -336,8 +336,7 @@ namespace Cuemon.Xml.Serialization.Converters
         {
             if (Decorator.Enclose(childNode.InstanceType).HasEnumerableImplementation() && childNode.InstanceType != typeof(string) && !Decorator.Enclose(childNode.InstanceType).HasDictionaryImplementation())
             {
-                var i = childNode.Instance as IEnumerable;
-                if (i == null || !i.Cast<object>().Any()) { return true; }
+                if (childNode.Instance is not IEnumerable i || !i.Cast<object>().Any()) { return true; }
             }
             return false;
         }

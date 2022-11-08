@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Text
         /// <remarks>The inspiration for this method was retrieved @ SO: https://stackoverflow.com/a/135473/175073.</remarks>
         public static string ToEncodedString(this string value, Action<FallbackEncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).ToEncodedString(setup);
         }
 
@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.Text
         /// </exception>
         public static string ToAsciiEncodedString(this string value, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).ToAsciiEncodedString(setup);
         }
     }

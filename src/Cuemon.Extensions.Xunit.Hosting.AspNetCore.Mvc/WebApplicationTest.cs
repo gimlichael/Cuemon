@@ -6,18 +6,18 @@ using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 {
-    internal sealed class WebApplicationTest : IMvcFilterTest
+    internal sealed class WebApplicationTest : IWebApplicationTest
     {
         private readonly IMiddlewareTest _middlewareTest;
 
         internal WebApplicationTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
         {
-            _middlewareTest = MiddlewareTestFactory.CreateMiddlewareTest(pipelineConfigurator, serviceConfigurator, hostConfigurator);
+            _middlewareTest = MiddlewareTestFactory.Create(pipelineConfigurator, serviceConfigurator, hostConfigurator);
         }
 
         internal WebApplicationTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
         {
-            _middlewareTest = MiddlewareTestFactory.CreateMiddlewareTest(pipelineConfigurator, serviceConfigurator, hostConfigurator);
+            _middlewareTest = MiddlewareTestFactory.CreateWithHostBuilderContext(pipelineConfigurator, serviceConfigurator, hostConfigurator);
         }
 
         public IServiceProvider ServiceProvider => _middlewareTest.ServiceProvider;

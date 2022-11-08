@@ -1,3 +1,9 @@
+@media (min-width:1200px) {
+    .container {
+        width: 1800px;
+    }
+}
+
 nav .container {
     margin: 5px auto;
 }
@@ -19,7 +25,7 @@ nav .container .navbar-header {
     color: #000;
     position: absolute;
     padding: 0 10px 7px;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .wrap {
@@ -37,9 +43,9 @@ nav .container .navbar-header {
     margin: 5px 0;
 }
 
-    .btn a {
-        color: white;
-    }
+.btn a {
+    color: white;
+}
 
 #wrapper .container.nuget {
     padding-top: 25px;

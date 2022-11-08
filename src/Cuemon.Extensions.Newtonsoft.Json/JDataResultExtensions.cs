@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <returns>An <see cref="IEnumerable{T}"/> sequence of <see cref="JDataResult"/> objects.</returns>
         public static IEnumerable<JDataResult> Flatten(this IEnumerable<JDataResult> source)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             return FlattenCore(source);
         }
 
@@ -34,9 +34,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <param name="extractor">The delegate that will extract values from <paramref name="propertyNames"/>.</param>
         public static void ExtractObjectValues(this IEnumerable<JDataResult> source, string propertyNames, Action<IDictionary<string, JDataResult>> extractor)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNullOrWhitespace(propertyNames, nameof(propertyNames));
-            Validator.ThrowIfNull(extractor, nameof(extractor));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNullOrWhitespace(propertyNames);
+            Validator.ThrowIfNull(extractor);
 
             var names = propertyNames.Split(',').Select(s => s.Trim()).ToList();
             var partial = new List<JDataResult>();
@@ -64,9 +64,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <param name="extractor">The delegate that will extract values from <paramref name="propertyNames"/>.</param>
         public static void ExtractArrayValues(this IEnumerable<JDataResult> source, string propertyNames, Action<IDictionary<string, IEnumerable<JDataResult>>> extractor) 
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNullOrWhitespace(propertyNames, nameof(propertyNames));
-            Validator.ThrowIfNull(extractor, nameof(extractor));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNullOrWhitespace(propertyNames);
+            Validator.ThrowIfNull(extractor);
 
             var names = propertyNames.Split(',').Select(s => s.Trim()).ToList();
             var partial = new List<JDataResult>();

@@ -12,7 +12,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
     public sealed class AppImageTagHelper : ImageTagHelper<AppTagHelperOptions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ImageCdnTagHelper"/> class.
+        /// Initializes a new instance of the <see cref="AppImageTagHelper"/> class.
         /// </summary>
         /// <param name="setup">The <see cref="AppTagHelperOptions" /> which need to be configured.</param>
         /// <param name="cacheBusting">An optional object implementing the <see cref="ICacheBusting" /> interface.</param>

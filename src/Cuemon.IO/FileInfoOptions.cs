@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
+using Cuemon.Configuration;
 
 namespace Cuemon.IO
 {
     /// <summary>
     /// Configuration options for <see cref="FileInfo"/>.
     /// </summary>
-    public class FileInfoOptions
+    public class FileInfoOptions : IParameterObject
     {
         private int _bytesToRead;
 

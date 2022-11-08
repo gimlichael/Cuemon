@@ -13,18 +13,18 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// </summary>
         public HmacAuthenticationOptions()
         {
-            AuthenticationScheme = HmacAuthorizationHeader.Scheme;
-            Algorithm = KeyedCryptoAlgorithm.HmacSha1;
+            AuthenticationScheme = HmacFields.Scheme;
+            Algorithm = KeyedCryptoAlgorithm.HmacSha256;
         }
 
         /// <summary>
-        /// Gets the name of the authentication scheme. Default is <see cref="HmacAuthorizationHeader.Scheme"/>.
+        /// Gets the name of the authentication scheme. Default is <see cref="HmacFields.Scheme"/>.
         /// </summary>
         /// <value>The name of the authentication scheme.</value>
         public string AuthenticationScheme { get; set; }
 
         /// <summary>
-        /// Gets or sets the algorithm of the HMAC Authentication. Default is <see cref="KeyedCryptoAlgorithm.HmacSha1"/>.
+        /// Gets or sets the algorithm of the HMAC Authentication. Default is <see cref="KeyedCryptoAlgorithm.HmacSha256"/>.
         /// </summary>
         /// <value>The algorithm of the HMAC Authentication.</value>
         public KeyedCryptoAlgorithm Algorithm { get; set; }

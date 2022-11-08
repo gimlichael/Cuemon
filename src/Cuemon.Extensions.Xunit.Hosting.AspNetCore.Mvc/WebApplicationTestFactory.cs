@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         /// <param name="serviceSetup">The <see cref="IServiceCollection"/> which may be configured.</param>
         /// <param name="hostSetup">The <see cref="IHostBuilder"/> which may be configured.</param>
         /// <returns>An instance of an <see cref="IWebApplicationTest"/> implementation.</returns>
-        public static IWebApplicationTest CreateWebApplicationTest(Action<IApplicationBuilder> pipelineSetup = null, Action<IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
+        public static IWebApplicationTest Create(Action<IApplicationBuilder> pipelineSetup = null, Action<IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
         {
             return new WebApplicationTest(pipelineSetup, serviceSetup, hostSetup);
         }
@@ -32,7 +32,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         /// <param name="serviceSetup">The <see cref="IServiceCollection"/> which may be configured.</param>
         /// <param name="hostSetup">The <see cref="IHostBuilder"/> which may be configured.</param>
         /// <returns>An instance of an <see cref="IWebApplicationTest"/> implementation.</returns>
-        public static IWebApplicationTest CreateWebApplicationTest(Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
+        public static IWebApplicationTest CreateWithHostBuilderContext(Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
         {
             return new WebApplicationTest(pipelineSetup, serviceSetup, hostSetup);
         }
@@ -44,9 +44,9 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         /// <param name="serviceSetup">The <see cref="IServiceCollection" /> which may be configured.</param>
         /// <param name="hostSetup">The <see cref="IHostBuilder" /> which may be configured.</param>
         /// <returns>A task that represents the execution of the middleware.</returns>
-        public static async Task RunWebApplicationTest(Action<IApplicationBuilder> pipelineSetup = null, Action<IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
+        public static async Task Run(Action<IApplicationBuilder> pipelineSetup = null, Action<IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
         {
-            using (var middleware = CreateWebApplicationTest(pipelineSetup, serviceSetup, hostSetup))
+            using (var middleware = Create(pipelineSetup, serviceSetup, hostSetup))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var pipeline = middleware.Application.Build();
@@ -61,9 +61,9 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         /// <param name="serviceSetup">The <see cref="IServiceCollection" /> which may be configured.</param>
         /// <param name="hostSetup">The <see cref="IHostBuilder" /> which may be configured.</param>
         /// <returns>A task that represents the execution of the middleware.</returns>
-        public static async Task RunWebApplicationTest(Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
+        public static async Task RunWithHostBuilderContext(Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<IHostBuilder> hostSetup = null)
         {
-            using (var middleware = CreateWebApplicationTest(pipelineSetup, serviceSetup, hostSetup))
+            using (var middleware = CreateWithHostBuilderContext(pipelineSetup, serviceSetup, hostSetup))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var pipeline = middleware.Application.Build();

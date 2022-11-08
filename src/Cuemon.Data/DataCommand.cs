@@ -14,7 +14,7 @@ namespace Cuemon.Data
         /// <param name="text">The command text to execute.</param>
         public DataCommand(string text)
         {
-            Validator.ThrowIfNullOrWhitespace(text, nameof(text));
+            Validator.ThrowIfNullOrWhitespace(text);
             Text = text;
         }
 

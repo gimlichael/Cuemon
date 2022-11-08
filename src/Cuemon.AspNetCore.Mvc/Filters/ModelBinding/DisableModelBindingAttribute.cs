@@ -27,7 +27,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.ModelBinding
         /// </exception>
         public DisableModelBindingAttribute(Type valueProviderFactoryType)
         {
-            Validator.ThrowIfNull(valueProviderFactoryType, nameof(valueProviderFactoryType));
+            Validator.ThrowIfNull(valueProviderFactoryType);
             if (!Decorator.Enclose(valueProviderFactoryType).HasInterface(typeof(IValueProviderFactory))) { throw new NotSupportedException("Only a type that implements the IValueProviderFactory interface is supported."); }
             ValueProviderFactoryType = valueProviderFactoryType;
         }

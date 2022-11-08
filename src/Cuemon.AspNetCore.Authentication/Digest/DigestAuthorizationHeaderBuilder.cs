@@ -58,7 +58,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
         public DigestAuthorizationHeaderBuilder AddUserName(string username)
         {
-            Validator.ThrowIfNullOrWhitespace(username, nameof(username));
+            Validator.ThrowIfNullOrWhitespace(username);
             return AddOrUpdate(DigestFields.UserName, username);
         }
 
@@ -69,7 +69,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
         public DigestAuthorizationHeaderBuilder AddUri(string digestUri)
         {
-            Validator.ThrowIfNullOrWhitespace(digestUri, nameof(digestUri));
+            Validator.ThrowIfNullOrWhitespace(digestUri);
             return AddOrUpdate(DigestFields.DigestUri, digestUri);
         }
 
@@ -91,7 +91,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
         public DigestAuthorizationHeaderBuilder AddCnonce(string clientNonce = null)
         {
-            if (clientNonce == null) { clientNonce = Generate.RandomString(32); }
+            clientNonce ??= Generate.RandomString(32);
             return AddOrUpdate(DigestFields.ClientNonce, clientNonce);
         }
 
@@ -120,7 +120,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
         public DigestAuthorizationHeaderBuilder AddFromWwwAuthenticateHeader(IHeaderDictionary headers)
         {
-            Validator.ThrowIfNull(headers, nameof(headers));
+            Validator.ThrowIfNull(headers);
             string header = headers[HeaderNames.WWWAuthenticate];
             Validator.ThrowIfFalse(() => header.StartsWith(AuthenticationScheme), nameof(header), $"Header did not start with {AuthenticationScheme}.");
             var headerWithoutScheme = header.Remove(0, AuthenticationScheme.Length + 1);
@@ -144,7 +144,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
         public DigestAuthorizationHeaderBuilder AddFromDigestAuthorizationHeader(DigestAuthorizationHeader header)
         {
-            Validator.ThrowIfNull(header, nameof(header));
+            Validator.ThrowIfNull(header);
             Algorithm = ParseAlgorithm(header.Algorithm);
             AddUserName(header.UserName);
             AddRealm(header.Realm);
@@ -172,8 +172,8 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
         public DigestAuthorizationHeaderBuilder AddResponse(string password, string method, string entityBody = null)
         {
-            Validator.ThrowIfNullOrWhitespace(password, nameof(password));
-            Validator.ThrowIfNullOrWhitespace(method, nameof(method));
+            Validator.ThrowIfNullOrWhitespace(password);
+            Validator.ThrowIfNullOrWhitespace(method);
             ValidateData(DigestFields.UserName, DigestFields.Realm, DigestFields.QualityOfProtection, DigestFields.DigestUri, DigestFields.Nonce, DigestFields.NonceCount, DigestFields.ClientNonce);
             return AddOrUpdate(DigestFields.Response, ComputeResponse(ComputeHash1(password), ComputeHash2(method, entityBody)));
         }
@@ -185,7 +185,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>A <see cref="string"/> in the format of H(<see cref="DigestFields.UserName"/>:<see cref="DigestFields.Realm"/>:<paramref name="password"/>). H is determined by <see cref="Algorithm"/>.</returns>
         public virtual string ComputeHash1(string password)
         {
-            Validator.ThrowIfNullOrWhitespace(password, nameof(password));
+            Validator.ThrowIfNullOrWhitespace(password);
             ValidateData(DigestFields.UserName, DigestFields.Realm);
             return UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}", Data[DigestFields.UserName], Data[DigestFields.Realm], password), o =>
             {
@@ -201,7 +201,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>A <see cref="string"/> in the format of H(<paramref name="method"/>:<see cref="DigestFields.DigestUri"/>) OR H(<paramref name="method"/>:<see cref="DigestFields.DigestUri"/>:H(<paramref name="entityBody"/>)). H is determined by <see cref="Algorithm"/>.</returns>
         public virtual string ComputeHash2(string method, string entityBody = null)
         {
-            Validator.ThrowIfNullOrWhitespace(method, nameof(method));
+            Validator.ThrowIfNullOrWhitespace(method);
             method = method.ToUpperInvariant();
             ValidateData(DigestFields.QualityOfProtection, DigestFields.DigestUri);
             var qop = Data[DigestFields.QualityOfProtection];
@@ -225,8 +225,8 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <returns>A <see cref="string"/> in the format of H(<paramref name="hash1"/>:<see cref="DigestFields.Nonce"/>:<see cref="DigestFields.NonceCount"/>:<see cref="DigestFields.ClientNonce"/>:<see cref="DigestFields.QualityOfProtection"/>:<paramref name="hash2"/>). H is determined by <see cref="Algorithm"/>.</returns>
         public virtual string ComputeResponse(string hash1, string hash2)
         {
-            Validator.ThrowIfNullOrWhitespace(hash1, nameof(hash1));
-            Validator.ThrowIfNullOrWhitespace(hash2, nameof(hash2));
+            Validator.ThrowIfNullOrWhitespace(hash1);
+            Validator.ThrowIfNullOrWhitespace(hash2);
             ValidateData(DigestFields.Nonce, DigestFields.NonceCount, DigestFields.ClientNonce, DigestFields.QualityOfProtection);
             return UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(FormattableString.Invariant($"{hash1}:{Data[DigestFields.Nonce]}:{Data[DigestFields.NonceCount]}:{Data[DigestFields.ClientNonce]}:{Data[DigestFields.QualityOfProtection]}:{hash2}"), o =>
             {

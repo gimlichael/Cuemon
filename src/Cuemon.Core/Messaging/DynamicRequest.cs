@@ -14,7 +14,7 @@ namespace Cuemon.Messaging
         /// <returns>A dynamic <see cref="IRequest"/> implementation.</returns>
         public static IRequest Create(Func<string> requestIdProvider)
         {
-            Validator.ThrowIfNull(requestIdProvider, nameof(requestIdProvider));
+            Validator.ThrowIfNull(requestIdProvider);
             return new DynamicRequestCore(requestIdProvider.Invoke());
         }
 
@@ -25,7 +25,7 @@ namespace Cuemon.Messaging
         /// <returns>A dynamic <see cref="IRequest"/> implementation.</returns>
         public static IRequest Create(string requestId)
         {
-            Validator.ThrowIfNullOrWhitespace(requestId, nameof(requestId));
+            Validator.ThrowIfNullOrWhitespace(requestId);
             return new DynamicRequestCore(requestId);
         }
     }

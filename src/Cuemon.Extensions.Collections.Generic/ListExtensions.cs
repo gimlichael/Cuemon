@@ -40,7 +40,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// </exception>
         public static bool HasIndex<T>(this IList<T> list, int index)
         {
-            Validator.ThrowIfNull(list, nameof(list));
+            Validator.ThrowIfNull(list);
             return ((list.Count - 1) >= index);
         }
 
@@ -59,7 +59,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <returns>default(TSource) if <paramref name="index"/> is equal or greater than <see cref="ICollection{T}.Count"/>; otherwise the next element of <paramref name="list"/> relative to <paramref name="index"/>.</returns>
         public static T Next<T>(this IList<T> list, int index)
         {
-            Validator.ThrowIfNull(list, nameof(list));
+            Validator.ThrowIfNull(list);
             Validator.ThrowIfLowerThan(index, 0, nameof(index));
             var nextIndex = index + 1;
             if (nextIndex >= list.Count) { return default; }
@@ -81,7 +81,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <returns>default(TSource) if <paramref name="index"/> is equal, greater or lower than <see cref="ICollection{T}.Count"/>; otherwise the previous element of <paramref name="list"/> relative to <paramref name="index"/>.</returns>
         public static T Previous<T>(this IList<T> list, int index)
         {
-            Validator.ThrowIfNull(list, nameof(list));
+            Validator.ThrowIfNull(list);
             Validator.ThrowIfLowerThan(index, 0, nameof(index));
             var previousIndex = index - 1;
             if (previousIndex < 0) { return default; }
@@ -99,7 +99,7 @@ namespace Cuemon.Extensions.Collections.Generic
         /// <remarks>This method will add the specified <paramref name="item"/> to the list if it is not already present.</remarks>
         public static bool TryAdd<T>(this IList<T> list, T item)
         {
-            Validator.ThrowIfNull(list, nameof(list));
+            Validator.ThrowIfNull(list);
             if (!list.Contains(item))
             {
                 list.Add(item);

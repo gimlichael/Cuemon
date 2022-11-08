@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon.Text
 {
@@ -7,7 +8,7 @@ namespace Cuemon.Text
     /// </summary>
     /// <typeparam name="TOptions">The type of the delegate setup.</typeparam>
     /// <seealso cref="IParser" />
-    public interface IConfigurableParser<out TOptions> where TOptions : class, new()
+    public interface IConfigurableParser<out TOptions> where TOptions : class, IParameterObject, new()
     {
         /// <summary>
         /// Converts the specified <paramref name="input"/> to an object of <typeparamref name="T"/>.

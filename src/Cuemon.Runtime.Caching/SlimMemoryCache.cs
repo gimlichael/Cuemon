@@ -15,7 +15,7 @@ namespace Cuemon.Runtime.Caching
     /// <seealso cref="ICacheEnumerable{Int64}" />
     public class SlimMemoryCache : Disposable, ICacheEnumerable<long>
     {
-        private readonly ConcurrentDictionary<long, CacheEntry> _innerCaches = new ConcurrentDictionary<long, CacheEntry>();
+        private readonly ConcurrentDictionary<long, CacheEntry> _innerCaches = new();
         private readonly Timer _expirationTimer;
 
         /// <summary>
@@ -24,11 +24,11 @@ namespace Cuemon.Runtime.Caching
         /// <param name="setup">The <see cref="SlimMemoryCacheOptions"/> which may be configured.</param>
         public SlimMemoryCache(Action<SlimMemoryCacheOptions> setup = null)
         {
-            var options = Patterns.Configure(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
             KeyProvider = options.KeyProvider;
             if (options.EnableCleanup)
             {
-                _expirationTimer = TimerFactory.CreateNonCapturingTimer(state => ((SlimMemoryCache)state).OnAutomatedSweepCleanup(), this, options.FirstSweep, options.SucceedingSweep);
+                _expirationTimer = TimerFactory.CreateNonCapturingTimer(state => ((SlimMemoryCache)state!).OnAutomatedSweepCleanup(), this, options.FirstSweep, options.SucceedingSweep);
             }
         }
 
@@ -139,8 +139,8 @@ namespace Cuemon.Runtime.Caching
         /// </exception>
         public bool Add(CacheEntry entry, CacheInvalidation invalidation)
         {
-            Validator.ThrowIfNull(entry, nameof(entry));
-            Validator.ThrowIfNull(invalidation, nameof(invalidation));
+            Validator.ThrowIfNull(entry);
+            Validator.ThrowIfNull(invalidation);
             var nsKey = KeyProvider(entry.Key, entry.Namespace);
             return _innerCaches.TryAdd(nsKey, entry.SetInvalidation(invalidation).StartDependencies());
         }
@@ -225,7 +225,7 @@ namespace Cuemon.Runtime.Caching
         /// </exception>
         public object Remove(string key, string ns = CacheEntry.NoScope)
         {
-            Validator.ThrowIfNull(key, nameof(key));
+            Validator.ThrowIfNull(key);
             var nsKey = KeyProvider(key, ns);
             if (_innerCaches.TryRemove(nsKey, out var cacheEntry))
             {
@@ -248,7 +248,7 @@ namespace Cuemon.Runtime.Caching
         /// <remarks>The <see cref="Set"/> method always puts a cache value in the cache, regardless whether an entry already exists with the same key. If the specified entry does not exist in the cache, a new cache entry is inserted. If the specified entry exists, its value is updated.</remarks>
         public void Set(string key, object value, CacheInvalidation invalidation, string ns = CacheEntry.NoScope)
         {
-            Validator.ThrowIfNull(key, nameof(key));
+            Validator.ThrowIfNull(key);
             if (TryGetCacheEntry(key, ns, out var cacheEntry))
             {
                 cacheEntry.Value = value;
@@ -283,7 +283,7 @@ namespace Cuemon.Runtime.Caching
         /// </exception>
         public bool TryGetCacheEntry(string key, string ns, out CacheEntry cacheEntry)
         {
-            Validator.ThrowIfNull(key, nameof(key));
+            Validator.ThrowIfNull(key);
             cacheEntry = null;
             var utcNow = DateTime.UtcNow;
             var nsKey = KeyProvider(key, ns);

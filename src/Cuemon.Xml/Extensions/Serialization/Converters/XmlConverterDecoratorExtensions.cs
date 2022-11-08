@@ -9,7 +9,7 @@ using Cuemon.Xml.Linq;
 
 namespace Cuemon.Xml.Serialization.Converters
 {
-/// <summary>
+    /// <summary>
     /// Extension methods for the <see cref="XmlConverter"/> class tailored to adhere the decorator pattern.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
@@ -27,7 +27,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static XmlConverter FirstOrDefaultReaderConverter(this IDecorator<IList<XmlConverter>> decorator, Type objectType)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.FirstOrDefault(c => c.CanConvert(objectType) && c.CanRead);
         }
 
@@ -42,7 +42,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static XmlConverter FirstOrDefaultWriterConverter(this IDecorator<IList<XmlConverter>> decorator, Type objectType)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.FirstOrDefault(c => c.CanConvert(objectType) && c.CanWrite);
         }
 
@@ -61,7 +61,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddXmlConverter<T>(this IDecorator<IList<XmlConverter>> decorator, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity qe = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.Inner.Add(DynamicXmlConverter.Create(writer, reader, canConvertPredicate, qe));
             return decorator;
         }
@@ -82,7 +82,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> InsertXmlConverter<T>(this IDecorator<IList<XmlConverter>> decorator, int index, Action<XmlWriter, T, XmlQualifiedEntity> writer = null, Func<XmlReader, Type, T> reader = null, Func<Type, bool> canConvertPredicate = null, XmlQualifiedEntity qe = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.Inner.Insert(index, DynamicXmlConverter.Create(writer, reader, canConvertPredicate, qe));
             return decorator;
         }
@@ -97,7 +97,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddEnumerableConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter<IEnumerable>((w, o, q) =>
             {
                 if (w.WriteState == WriteState.Start && q == null && !(o is IDictionary || o is IList)) { q = new XmlQualifiedEntity("Enumerable"); }
@@ -164,7 +164,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddExceptionDescriptorConverter(this IDecorator<IList<XmlConverter>> decorator, Action<ExceptionDescriptorOptions> setup)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter<ExceptionDescriptor>((writer, descriptor, _) =>
             {
                 var options = Patterns.Configure(setup);
@@ -173,14 +173,14 @@ namespace Cuemon.Xml.Serialization.Converters
                 writer.WriteElementString("Code", descriptor.Code);
                 writer.WriteElementString("Message", descriptor.Message);
                 if (descriptor.HelpLink != null) { writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString); }
-                if (options.IncludeFailure)
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure))
                 {
                     writer.WriteStartElement("Failure");
-                    WriteException(writer, descriptor.Failure, options.IncludeStackTrace);
+                    new ExceptionConverter(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data)).WriteXml(writer, descriptor.Failure);
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
-                if (options.IncludeEvidence && descriptor.Evidence.Any())
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence) && descriptor.Evidence.Any())
                 {
                     writer.WriteStartElement("Evidence");
                     foreach (var evidence in descriptor.Evidence)
@@ -205,7 +205,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddUriConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter((w, d, q) =>
             {
                 if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(Uri)).ToFriendlyName()); }
@@ -227,7 +227,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddDateTimeConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter((w, d, q) =>
             {
                 if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(DateTime)).ToFriendlyName()); }
@@ -249,7 +249,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddTimeSpanConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter((w, d, q) =>
             {
                 if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(TimeSpan)).ToFriendlyName()); }
@@ -257,7 +257,11 @@ namespace Cuemon.Xml.Serialization.Converters
                 {
                     writer.WriteValue(value.ToString());
                 });
-            }, (reader, _) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseTimeSpanFormatter());
+            }, (reader, _) =>
+            {
+                var decoratorHierarchy = Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy());
+                return decoratorHierarchy.Inner.Instance.Type == typeof(DateTime) ? Decorator.Enclose(decoratorHierarchy.Inner.Instance.Value).ChangeTypeOrDefault<DateTime>().TimeOfDay : TimeSpan.Parse(decoratorHierarchy.Inner.Instance.Value.ToString());
+            });
             return decorator;
         }
 
@@ -271,7 +275,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// </exception>
         public static IDecorator<IList<XmlConverter>> AddStringConverter(this IDecorator<IList<XmlConverter>> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.AddXmlConverter<string>((w, s, q) =>
             {
                 if (string.IsNullOrWhiteSpace(s)) { return; }
@@ -295,100 +299,17 @@ namespace Cuemon.Xml.Serialization.Converters
         /// Adds an <see cref="Exception" /> XML converter to the enclosed <see cref="T:IList{XmlConverter}"/> of the specified <paramref name="decorator"/>.
         /// </summary>
         /// <param name="decorator">The <see cref="T:IDecorator{IList{XmlConverter}}" /> to extend.</param>
-        /// <param name="includeStackTraceFactory">The function delegate that is invoked when it is needed to determine whether the stack of an exception is included in the converted result.</param>
+        /// <param name="includeStackTrace">The value that determine whether the stack of an exception is included in the converted result.</param>
+        /// <param name="includeData">The value that determine whether the data of an exception is included in the converted result.</param>
         /// <returns>A reference to <paramref name="decorator"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null.
         /// </exception>
-        public static IDecorator<IList<XmlConverter>> AddExceptionConverter(this IDecorator<IList<XmlConverter>> decorator, Func<bool> includeStackTraceFactory)
+        public static IDecorator<IList<XmlConverter>> AddExceptionConverter(this IDecorator<IList<XmlConverter>> decorator, bool includeStackTrace, bool includeData)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            decorator.AddXmlConverter<Exception>((writer, exception, _) =>
-            {
-                WriteException(writer, exception, includeStackTraceFactory?.Invoke() ?? false);
-            });
+            Validator.ThrowIfNull(decorator);
+            decorator.Inner.Add(new ExceptionConverter(includeStackTrace, includeData));
             return decorator;
-        }
-
-        private static void WriteException(XmlWriter writer, Exception exception, bool includeStackTrace)
-        {
-            var exceptionType = exception.GetType();
-            writer.WriteStartElement(Decorator.Enclose(exceptionType.Name).SanitizeXmlElementName());
-            if (exceptionType.Namespace != null) { writer.WriteAttributeString("namespace", exceptionType.Namespace); }
-            WriteExceptionCore(writer, exception, includeStackTrace);
-            writer.WriteEndElement();
-        }
-
-        private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace)
-        {
-            if (!string.IsNullOrEmpty(exception.Source))
-            {
-                writer.WriteElementString("Source", exception.Source);
-            }
-
-            if (!string.IsNullOrEmpty(exception.Message))
-            {
-                writer.WriteElementString("Message", exception.Message);
-            }
-
-            if (exception.StackTrace != null && includeStackTrace)
-            {
-                writer.WriteStartElement("Stack");
-                var lines = exception.StackTrace.Split(new[] { Alphanumeric.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var line in lines)
-                {
-                    writer.WriteElementString("Frame", line.Trim());
-                }
-                writer.WriteEndElement();
-            }
-
-            if (exception.Data.Count > 0)
-            {
-                writer.WriteStartElement("Data");
-                foreach (DictionaryEntry entry in exception.Data)
-                {
-                    writer.WriteStartElement(Decorator.Enclose(entry.Key.ToString()).SanitizeXmlElementName());
-                    writer.WriteString(Decorator.Enclose(entry.Value.ToString()).SanitizeXmlElementText());
-                    writer.WriteEndElement();
-                }
-                writer.WriteEndElement();
-            }
-
-            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => !Decorator.Enclose(pi.PropertyType).IsComplex());
-            foreach (var property in properties)
-            {
-                var value = property.GetValue(exception);
-                if (value == null) { continue; }
-                Decorator.Enclose(writer).WriteObject(value, value.GetType(), o => o.Settings.RootName = new XmlQualifiedEntity(property.Name));
-            }
-
-            WriteInnerExceptions(writer, exception, includeStackTrace);
-        }
-
-        private static void WriteInnerExceptions(XmlWriter writer, Exception exception, bool includeStackTrace)
-        {
-            var innerExceptions = new List<Exception>();
-            if (exception is AggregateException aggregated)
-            {
-                innerExceptions.AddRange(aggregated.Flatten().InnerExceptions);
-            }
-            else
-            {
-                if (exception.InnerException != null) { innerExceptions.Add(exception.InnerException); }    
-            }
-            if (innerExceptions.Count > 0)
-            {
-                var endElementsToWrite = 0;
-                foreach (var inner in innerExceptions)
-                {
-                    var exceptionType = inner.GetType();
-                    writer.WriteStartElement(Decorator.Enclose(exceptionType.Name).SanitizeXmlElementName());
-                    if (exceptionType.Namespace != null) { writer.WriteAttributeString("namespace", exceptionType.Namespace); }
-                    WriteExceptionCore(writer, inner, includeStackTrace);
-                    endElementsToWrite++;
-                }
-                for (var i = 0; i < endElementsToWrite; i++) { writer.WriteEndElement(); }
-            }
         }
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Xml.Serialization;
+using Cuemon.Extensions.Assets;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Xml.Serialization;
 using Xunit;
@@ -17,6 +19,17 @@ namespace Cuemon.Extensions
     {
         public TypeExtensionsTest(ITestOutputHelper output) : base(output)
         {
+        }
+
+        [Fact]
+        public void ToFriendlyName_ShouldConvertTypeToHumanFriendlyRepresentation_EventIfFullNameIsNull()
+        {
+            var type = typeof(GenericClass<>).GetGenericArguments().Single();
+            var typeFriendlyString = type.ToFriendlyName();
+            var typeFriendlyFqString = type.ToFriendlyName(o => o.FullName = true);
+
+            Assert.Equal("T", typeFriendlyString);
+            Assert.Equal("T", typeFriendlyFqString); // fullname is null; fallback to name
         }
 
         [Fact]

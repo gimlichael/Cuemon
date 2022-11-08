@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Configuration;
 using Cuemon.Text;
 
 namespace Cuemon.AspNetCore.Razor.TagHelpers
@@ -6,7 +7,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
     /// <summary>
     /// Configuration options for <see cref="CacheBustingTagHelper{TOptions}"/>.
     /// </summary>
-    public abstract class TagHelperOptions
+    public abstract class TagHelperOptions : IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CdnTagHelperOptions"/> class.

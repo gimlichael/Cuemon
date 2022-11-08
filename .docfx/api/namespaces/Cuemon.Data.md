@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Data namespace contains types that provide ways to connect, build and manipulate different data sources. The namespace is an addition to the System.Data namespace.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [System.Data namespace](https://docs.microsoft.com/en-us/dotnet/api/system.Data?view=netstandard-2.0) 🔗
 

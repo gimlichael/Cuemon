@@ -1,11 +1,13 @@
 ﻿using System.Threading;
+using Cuemon.Configuration;
 
 namespace Cuemon.Threading
 {
     /// <summary>
     /// Specifies options that is related to asynchronous operations.
     /// </summary>
-    public class AsyncOptions : IAsyncOptions
+    /// <seealso cref="IParameterObject"/>
+    public class AsyncOptions : IAsyncOptions, IParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncOptions"/> class.

@@ -1,13 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>090bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.Reflection</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Reflection</AssemblyTitle>
     <Description>The Cuemon.Extensions.Reflection namespace contains extension methods that complements the Cuemon.Reflection namespace while being an addition to the System.Reflection namespace.</Description>
     <PackageTags>extension-methods extensions get-assembly-version get-file-version get-product-version is-debug-build has-attributes is-auto-property get-runtime-properties-except-of</PackageTags>
   </PropertyGroup>

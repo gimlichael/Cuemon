@@ -13,7 +13,7 @@ namespace Cuemon
     /// </summary>
     public static class Convertible
     {
-        private static readonly Dictionary<Type, Func<IConvertible, Action<EndianOptions>, byte[]>> EndianSensitiveByteArrayConverters = new Dictionary<Type, Func<IConvertible, Action<EndianOptions>, byte[]>>()
+        private static readonly Dictionary<Type, Func<IConvertible, Action<EndianOptions>, byte[]>> EndianSensitiveByteArrayConverters = new()
         {
             { typeof(bool), (i, o) => i is bool x ? GetBytes(x, o) : null },
             { typeof(byte), (i, o) => i is byte x ? GetBytes(x, o) : null },
@@ -30,7 +30,7 @@ namespace Cuemon
             { typeof(Enum), (i, o) => i is Enum x ? GetBytes(x, o) : null }
         };
 
-        private static readonly Dictionary<Type, Func<IConvertible, byte[]>> ByteArrayConverters =  new Dictionary<Type, Func<IConvertible, byte[]>>()
+        private static readonly Dictionary<Type, Func<IConvertible, byte[]>> ByteArrayConverters =  new()
         {
             { typeof(string), input => input is string x ? GetBytes(x) : null },
             { typeof(DateTime), input => input is DateTime x ? GetBytes(x) : null },
@@ -53,7 +53,7 @@ namespace Cuemon
         /// </exception>
         public static void RegisterConvertible<T>(Func<T, byte[]> converter) where T : IConvertible
         {
-            Validator.ThrowIfNull(converter, nameof(converter));
+            Validator.ThrowIfNull(converter);
             ByteArrayConverters.Add(typeof(T), convertible => converter((T)convertible));
         }
 
@@ -278,7 +278,11 @@ namespace Cuemon
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public static byte[] GetBytes(sbyte input, Action<EndianOptions> setup = null)
         {
+#if NET7_0_OR_GREATER
+            return GetBytesCore(input, x => BitConverter.GetBytes((short)x), setup);
+#else
             return GetBytesCore(input, x => BitConverter.GetBytes(x), setup);
+#endif
         }
 
         /// <summary>
@@ -340,7 +344,7 @@ namespace Cuemon
         /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static byte[] GetBytes(string input, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(input, nameof(input));
+            Validator.ThrowIfNull(input);
             var options = Patterns.Configure(setup);
             byte[] valueInBytes;
             switch (options.Preamble)
@@ -417,7 +421,7 @@ namespace Cuemon
         /// <remarks><see cref="IEncodingOptions"/> will be initialized with <see cref="EncodingOptions.DefaultPreambleSequence"/> and <see cref="EncodingOptions.DefaultEncoding"/>.</remarks>
         public static string ToString(byte[] input, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(input, nameof(input));
+            Validator.ThrowIfNull(input);
             var options = Patterns.Configure(setup);
             if (options.Encoding.Equals(EncodingOptions.DefaultEncoding)) { options.Encoding = ByteOrderMark.DetectEncodingOrDefault(input, options.Encoding); }
             switch (options.Preamble)

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using Cuemon.Configuration;
 
 namespace Cuemon.Security.Cryptography
 {
     /// <summary>
     /// Configuration options for <see cref="AesCryptor.GenerateKey"/>.
     /// </summary>
-    public class AesKeyOptions
+    public class AesKeyOptions : IParameterObject
     {
         private AesSize _size;
         private Func<AesSize, string> _randomStringProvider;
@@ -79,7 +80,7 @@ namespace Cuemon.Security.Cryptography
             get => _randomStringProvider;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _randomStringProvider = value;
             }
         }

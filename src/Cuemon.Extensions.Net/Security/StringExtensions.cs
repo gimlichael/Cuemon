@@ -31,8 +31,8 @@ namespace Cuemon.Extensions.Net.Security
         /// <seealso cref="ValidateSignedUri"/>
         public static Uri ToSignedUri(this string uriString, byte[] secret, DateTime? start = null, DateTime? expiry = null, Action<SignedUriOptions> setup = null)
         {
-            Validator.ThrowIfNullOrWhitespace(uriString, nameof(uriString));
-            Validator.ThrowIfNull(secret, nameof(secret));
+            Validator.ThrowIfNullOrWhitespace(uriString);
+            Validator.ThrowIfNull(secret);
             
             var options = Patterns.Configure(setup);
             var qsc = uriString.ToQueryStringCollection();
@@ -56,8 +56,8 @@ namespace Cuemon.Extensions.Net.Security
         /// <seealso cref="ToSignedUri"/>
         public static void ValidateSignedUri(this string signedUriString, byte[] secret, Action<SignedUriOptions> setup = null)
         {
-            Validator.ThrowIfNullOrWhitespace(signedUriString, nameof(signedUriString));
-            Validator.ThrowIfNull(secret, nameof(secret));
+            Validator.ThrowIfNullOrWhitespace(signedUriString);
+            Validator.ThrowIfNull(secret);
 
             var message = "The specified signature is invalid.";
             var utcNow = DateTime.UtcNow;
@@ -77,20 +77,20 @@ namespace Cuemon.Extensions.Net.Security
 
         private static QueryStringCollection ToQueryStringCollection(this string uriString)
         {
-            Validator.ThrowIfNull(uriString, nameof(uriString));
+            Validator.ThrowIfNull(uriString);
             return new QueryStringCollection(uriString.TakeQueryString());
         }
         
         private static string TakeQueryString(this string uriString)
         {
-            Validator.ThrowIfNull(uriString, nameof(uriString));
+            Validator.ThrowIfNull(uriString);
             var indexOfQueryString = uriString.IndexOf('?');
             return indexOfQueryString > 0 ? uriString.Substring(indexOfQueryString) : "";
         }
 
         private static string SkipQueryString(this string uriString)
         {
-            Validator.ThrowIfNull(uriString, nameof(uriString));
+            Validator.ThrowIfNull(uriString);
             var indexOfQueryString = uriString.IndexOf('?');
             return uriString.Substring(0, indexOfQueryString);
         }

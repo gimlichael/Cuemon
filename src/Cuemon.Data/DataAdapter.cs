@@ -8,7 +8,7 @@ namespace Cuemon.Data
     /// </summary>
     public abstract class DataAdapter
     {
-        private readonly object _padLock = new object();
+        private readonly object _padLock = new();
 
         #region Constructors
         /// <summary>

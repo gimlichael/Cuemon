@@ -1,11 +1,13 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon.Text
 {
     /// <summary>
     /// Configuration options for <see cref="ParserFactory.FromProtocolRelativeUri"/>.
     /// </summary>
-    public class ProtocolRelativeUriStringOptions
+    /// <seealso cref="IParameterObject"/>
+    public class ProtocolRelativeUriStringOptions : IParameterObject
     {
         private string _relativeReference;
 
@@ -56,7 +58,7 @@ namespace Cuemon.Text
             get => _relativeReference;
             set
             {
-                Validator.ThrowIfNullOrWhitespace(value, nameof(value));
+                Validator.ThrowIfNullOrWhitespace(value);
                 _relativeReference = value;
             }
         }

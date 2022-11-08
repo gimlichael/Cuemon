@@ -25,8 +25,8 @@ namespace Cuemon.Reflection
         /// </exception>
         public static bool HasAttribute(this IDecorator<MemberInfo> decorator, params Type[] attributeTypes)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(attributeTypes, nameof(attributeTypes));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(attributeTypes);
             foreach (var attributeType in attributeTypes) { if (decorator.Inner.GetCustomAttributes(attributeType, true).Any()) { return true; } }
             return false;
         }

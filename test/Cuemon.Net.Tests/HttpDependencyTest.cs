@@ -26,7 +26,7 @@ namespace Cuemon.Net
         [Fact]
         public async Task StartAsync_ShouldReceiveTwoSignalsFromHttpWatcher()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -82,7 +82,7 @@ namespace Cuemon.Net
         [Fact]
         public async Task StartAsync_ShouldReceiveTwoSignalsFromHttpWatcher_UsingReadResponse()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -139,7 +139,7 @@ namespace Cuemon.Net
         [Fact]
         public async Task StartAsync_ShouldReceiveOnlyOneSignalFromHttpWatcher()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });

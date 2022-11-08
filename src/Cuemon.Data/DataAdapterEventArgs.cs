@@ -15,6 +15,6 @@ namespace Cuemon.Data
         /// <summary>
         /// Represents an <see cref="DataAdapter"/> event with no event data.
         /// </summary>
-        new public static readonly DataAdapterEventArgs Empty = new DataAdapterEventArgs();
+        public new static readonly DataAdapterEventArgs Empty = new();
     }
 }

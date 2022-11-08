@@ -26,7 +26,7 @@ namespace Cuemon
         /// </remarks>
         public static IEnumerable<Exception> Flatten(this IDecorator<Exception> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             if (decorator.Inner is AggregateException ae) { return ae.Flatten().InnerExceptions; }
             return Hierarchy.WhileSourceTraversalHasElements(decorator.Inner, FlattenCallback).Skip(1);
         }

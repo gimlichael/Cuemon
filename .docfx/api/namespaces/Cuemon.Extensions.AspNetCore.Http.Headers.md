@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.AspNetCore.Http.Headers namespace contains extension methods that complements the Cuemon.AspNetCore.Http.Headers namespace.
 
-Availability: NET Standard 2.0, NET Core 3.1, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, NET Core 3.1, .NET 6.0
 
 Complements: [Cuemon.AspNetCore.Http.Headers namespace](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Http.Headers.html) 🔗
 

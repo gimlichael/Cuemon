@@ -24,7 +24,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static string EscapeXml(this IDecorator<string> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var replacePairs = new List<StringReplacePair>();
             for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
             {
@@ -43,7 +43,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static string UnescapeXml(this IDecorator<string> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var builder = new StringBuilder(decorator.Inner);
             for (byte b = 0; b < EscapeStringPairs[0].Length; b++)
             {
@@ -67,7 +67,7 @@ namespace Cuemon.Xml
         /// </remarks>
         public static string SanitizeXmlElementName(this IDecorator<string> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var value = decorator.Inner;
             if (Decorator.Enclose(value).StartsWith(StringComparison.OrdinalIgnoreCase, Decorator.Enclose(Alphanumeric.Numbers).ToEnumerable().Concat(new[] { "." } )))
             {
@@ -109,7 +109,7 @@ namespace Cuemon.Xml
         /// </remarks>
         public static string SanitizeXmlElementText(this IDecorator<string> decorator, bool cdataSection = false)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var value = decorator.Inner;
             if (string.IsNullOrEmpty(value)) { return value; }
             value = StringReplacePair.RemoveAll(decorator.Inner, '\x0001', '\x0002', '\x0003', '\x0004', '\x0005', '\x0006', '\x0007', '\x0008', '\x0011', '\x0012', '\x0014', '\x0015', '\x0016', '\x0017', '\x0018', '\x0019');

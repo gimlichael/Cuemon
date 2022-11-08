@@ -21,7 +21,7 @@ namespace Cuemon.Data
         /// <paramref name="lazyDatabaseWatcher"/> cannot be null.
         /// </exception>
         /// <remarks>The <see cref="DatabaseWatcher"/> initialization is deferred until <see cref="Dependency.StartAsync"/> is invoked.</remarks>
-        public DatabaseDependency(Lazy<DatabaseWatcher> lazyDatabaseWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyDatabaseWatcher, () => Validator.ThrowIfNull(lazyDatabaseWatcher, nameof(lazyDatabaseWatcher)))), breakTieOnChanged)
+        public DatabaseDependency(Lazy<DatabaseWatcher> lazyDatabaseWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyDatabaseWatcher, () => Validator.ThrowIfNull(lazyDatabaseWatcher))), breakTieOnChanged)
         {
         }
 
@@ -34,12 +34,11 @@ namespace Cuemon.Data
         public DatabaseDependency(IEnumerable<Lazy<DatabaseWatcher>> lazyDatabaseWatchers, bool breakTieOnChanged = false) : base(watcherChanged =>
         {
             var watchers = new List<DatabaseWatcher>();
-            foreach (var lazyDatabaseWatcher in lazyDatabaseWatchers ?? Enumerable.Empty<Lazy<DatabaseWatcher>>())
+            foreach (var lazyDatabaseWatcher in lazyDatabaseWatchers.Select(lazy => lazy.Value))
             {
-                var databaseWatcher = lazyDatabaseWatcher.Value;
-                databaseWatcher.Changed += watcherChanged;
-                databaseWatcher.StartMonitoring();
-                watchers.Add(databaseWatcher);
+                lazyDatabaseWatcher.Changed += watcherChanged;
+                lazyDatabaseWatcher.StartMonitoring();
+                watchers.Add(lazyDatabaseWatcher);
             }
             return watchers;
         }, breakTieOnChanged)

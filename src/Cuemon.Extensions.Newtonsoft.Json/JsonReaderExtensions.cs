@@ -13,7 +13,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         private const string PropertyNameKey = "reader.Value";
 
         /// <summary>
-        /// Converts the XML hierarchy of an <see cref="JsonReader"/> into an <see cref="IHierarchy{T}"/>.
+        /// Converts the JSON hierarchy of an <see cref="JsonReader"/> into an <see cref="IHierarchy{T}"/>.
         /// </summary>
         /// <param name="reader">The reader to convert.</param>
         /// <returns>An <see cref="IHierarchy{T}"/> implementation that uses <see cref="DataPair"/>.</returns>

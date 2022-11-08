@@ -20,7 +20,7 @@ namespace Cuemon.Reflection
         /// </exception>
         public static bool IsOverridden(this IDecorator<MethodInfo> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.GetBaseDefinition().DeclaringType != decorator.Inner.DeclaringType;
         }
     }

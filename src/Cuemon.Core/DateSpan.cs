@@ -39,7 +39,7 @@ namespace Cuemon
         /// <param name="calendar">The <see cref="Calendar"/> that applies to this <see cref="DateSpan"/>.</param>
         public DateSpan(DateTime start, DateTime end, Calendar calendar) : this()
         {
-            Validator.ThrowIfNull(calendar, nameof(calendar));
+            Validator.ThrowIfNull(calendar);
 
             _lower = Arguments.ToEnumerableOf(start, end).Min();
             _upper = Arguments.ToEnumerableOf(start, end).Max();
@@ -188,8 +188,8 @@ namespace Cuemon
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is DateSpan)) { return false; }
-            return Equals((DateSpan)obj);
+            if (obj is not DateSpan span) { return false; }
+            return Equals(span);
         }
 
         /// <summary>

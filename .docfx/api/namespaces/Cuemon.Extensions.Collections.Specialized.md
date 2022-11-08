@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Collections.Specialized namespace contains extension methods that complements the Cuemon.Collections.Specialized namespace while being an addition to the System.Collections.Specialized namespace.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [Cuemon.Collections.Specialized namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Collections.Specialized.html) 🔗
 

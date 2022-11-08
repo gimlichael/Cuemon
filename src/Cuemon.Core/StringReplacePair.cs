@@ -25,8 +25,8 @@ namespace Cuemon
         /// </exception>
         public static string ReplaceAll(string value, string oldValue, string newValue, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(oldValue, nameof(oldValue));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(oldValue);
             return ReplaceAll(value, Arguments.Yield(new StringReplacePair(oldValue, newValue)), comparison);
         }
 
@@ -43,8 +43,8 @@ namespace Cuemon
         /// </exception>
         public static string ReplaceAll(string value, IEnumerable<StringReplacePair> replacePairs, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(replacePairs, nameof(replacePairs));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(replacePairs);
             var replaceEngine = new StringReplaceEngine(value, replacePairs, comparison);
             return replaceEngine.ToString();
         }
@@ -171,8 +171,8 @@ namespace Cuemon
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is StringReplacePair)) { return false; }
-            return Equals((StringReplacePair)obj);
+            if (obj is not StringReplacePair pair) { return false; }
+            return Equals(pair);
         }
 
         /// <summary>

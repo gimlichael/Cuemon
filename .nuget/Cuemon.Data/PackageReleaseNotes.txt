@@ -1,4 +1,17 @@
-﻿Version: 6.3.0
+﻿Version: 7.0.0
+Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
+ 
+# ALM
+- ADDED TFM for .NET 7
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+Version: 6.4.1
+Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+Version: 6.3.0
 Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
  
 # ALM

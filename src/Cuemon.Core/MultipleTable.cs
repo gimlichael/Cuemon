@@ -28,7 +28,7 @@ namespace Cuemon
         /// </exception>
         protected MultipleTable(IPrefixUnit unit)
         {
-            Validator.ThrowIfNull(unit, nameof(unit));
+            Validator.ThrowIfNull(unit);
             Unit = unit;
         }
 

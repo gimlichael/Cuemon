@@ -1,11 +1,13 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon.Resilience
 {
     /// <summary>
     /// Configuration options for <see cref="TransientOperation"/>.
     /// </summary>
-    public class TransientOperationOptions
+    /// <seealso cref="IValidatableParameterObject"/>
+    public class TransientOperationOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransientOperationOptions"/> class.
@@ -87,5 +89,18 @@ namespace Cuemon.Resilience
         /// </summary>
         /// <value>The default amount of retry attempts for transient faults.</value>
         public static byte DefaultRetryAttempts { get; set; } = 5;
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="RetryStrategy"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(RetryStrategy == null);
+            Validator.ThrowIfObjectInDistress(DetectionStrategy == null);
+        }
     }
 }

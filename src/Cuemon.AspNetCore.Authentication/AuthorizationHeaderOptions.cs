@@ -1,9 +1,12 @@
-﻿namespace Cuemon.AspNetCore.Authentication
+﻿using System;
+using Cuemon.Configuration;
+
+namespace Cuemon.AspNetCore.Authentication
 {
     /// <summary>
     /// Configuration options for <see cref="AuthorizationHeader"/>.
     /// </summary>
-    public class AuthorizationHeaderOptions
+    public class AuthorizationHeaderOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorizationHeaderOptions"/> class.
@@ -42,5 +45,19 @@
         /// </summary>
         /// <value>The credentials key value delimiter.</value>
         public string CredentialsKeyValueDelimiter { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <seealso cref="CredentialsDelimiter"/> cannot be null - or -
+        /// <seealso cref="CredentialsKeyValueDelimiter"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(CredentialsDelimiter == null);
+            Validator.ThrowIfObjectInDistress(CredentialsKeyValueDelimiter == null);
+        }
     }
 }

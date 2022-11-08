@@ -54,7 +54,7 @@ namespace Cuemon.Extensions.IO
         /// <returns>A <see cref="TextReader"/> initialized with <paramref name="value"/>.</returns>
         public static TextReader ToTextReader(this string value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return new StringReader(value);
         }
     }

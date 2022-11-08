@@ -43,7 +43,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static void WriteObject(this IDecorator<XmlWriter> decorator, object value, Type objectType, Action<XmlFormatterOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var formatter = new XmlFormatter(setup);
             formatter.SerializeToWriter(decorator.Inner, value, objectType);
         }
@@ -58,7 +58,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static void WriteStartElement(this IDecorator<XmlWriter> decorator, XmlQualifiedEntity elementName)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             decorator.Inner.WriteStartElement(elementName.Prefix, elementName.LocalName, elementName.Namespace);
         }
 
@@ -76,7 +76,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static void WriteEncapsulatingElementIfNotNull<T>(this IDecorator<XmlWriter> decorator, T value, XmlQualifiedEntity elementName, Action<XmlWriter, T> nodeWriter)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var writer = decorator.Inner;
             if (elementName == null)
             {
@@ -101,7 +101,7 @@ namespace Cuemon.Xml
         /// </exception>
         public static void WriteXmlRootElement<T>(this IDecorator<XmlWriter> decorator, T value, Action<XmlWriter, T, XmlQualifiedEntity> treeWriter, XmlQualifiedEntity rootEntity = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             WriteXmlRootElementCore(decorator.Inner, value, (w, o) => treeWriter(w, value, rootEntity), null, rootEntity);
         }
 
@@ -112,7 +112,7 @@ namespace Cuemon.Xml
 
         private static void WriteXmlRootElementCore(XmlWriter writer, object value, Action<XmlWriter, object> treeWriterPublic, Action<XmlWriter, IHierarchy<object>> treeWriterInternal, XmlQualifiedEntity rootEntity = null)
         {
-            Validator.ThrowIfNull(writer, nameof(writer));
+            Validator.ThrowIfNull(writer);
             if (value == null) { return; }
             try
             {

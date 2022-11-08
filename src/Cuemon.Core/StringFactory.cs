@@ -23,7 +23,7 @@ namespace Cuemon
         /// </exception>
         public static string CreateHexadecimal(byte[] value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return BitConverter.ToString(value).Replace("-", "").ToLowerInvariant();
         }
 
@@ -41,7 +41,7 @@ namespace Cuemon
         /// </exception>
         public static string CreateHexadecimal(string value, Action<EncodingOptions> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             var encodedString = Convertible.GetBytes(value, setup);
             return CreateHexadecimal(encodedString);
         }
@@ -56,7 +56,7 @@ namespace Cuemon
         /// </exception>
         public static string CreateBinaryDigits(byte[] value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             return string.Concat(value.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
         }
 
@@ -71,7 +71,7 @@ namespace Cuemon
         /// <remarks>Source: http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-08#appendix-C</remarks>
         public static string CreateUrlEncodedBase64(byte[] value)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             var base64 = Convert.ToBase64String(value);
             base64 = base64.Split('=')[0];
             base64 = base64.Replace('+', '-');
@@ -93,7 +93,7 @@ namespace Cuemon
         /// </exception>
         public static string CreateProtocolRelativeUrl(Uri value, Action<ProtocolRelativeUriStringOptions> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             Validator.ThrowIfFalse(value.IsAbsoluteUri, nameof(value), "Uri must be absolute.");
             var options = Patterns.Configure(setup);
             var schemeLength = value.GetComponents(UriComponents.Scheme | UriComponents.KeepDelimiter, UriFormat.Unescaped).Length;

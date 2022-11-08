@@ -52,14 +52,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                 (Decorator.Enclose(context.HttpContext.Response.StatusCode).IsSuccessStatusCode() || Decorator.Enclose(context.HttpContext.Response.StatusCode).IsNotModifiedStatusCode()))
             {
                 var statusCodeBeforeBodyRead = context.HttpContext.Response.StatusCode;
-                object originalValue = null;
-                if (context.Result is ObjectResult result)
+                if (context.Result is ObjectResult result && result.Value is ICacheableObjectResult cacheableObjectResult)
                 {
-                    if (result.Value is ICacheableObjectResult cacheableObjectResult)
-                    {
-                        originalValue = result.Value;
-                        result.Value = cacheableObjectResult.Value;
-                    }
+                    var originalValue = result.Value;
+                    result.Value = cacheableObjectResult.Value;
                     await InvokeEntityTagResponseParser(context, next, statusCodeBeforeBodyRead).ConfigureAwait(false);
                     result.Value = originalValue;
                 }

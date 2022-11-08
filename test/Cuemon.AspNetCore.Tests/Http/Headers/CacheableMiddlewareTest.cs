@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             var calculatedExpires = utcNow;
             var expiresAsDateTime = utcNow;
 
-            await MiddlewareTestFactory.RunMiddlewareTest(app =>
+            await MiddlewareTestFactory.Run(app =>
             {
                 app.UseCacheControl();
 
@@ -71,7 +71,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             var expiresHeaderValue = string.Empty;
             var etagHeaderValue = string.Empty;
 
-            await MiddlewareTestFactory.RunMiddlewareTest(app =>
+            await MiddlewareTestFactory.Run(app =>
             {
                 app.UseCacheControl(o => o.Expires = null);
 
@@ -109,7 +109,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             var etagHeaderValue = string.Empty;
             var expiresAsDateTime = utcNow;
 
-            await MiddlewareTestFactory.RunMiddlewareTest(app =>
+            await MiddlewareTestFactory.Run(app =>
             {
                 app.UseCacheControl(o => o.CacheControl = null);
 
@@ -146,7 +146,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             var utcExpiresLow = utcNow.AddSeconds(604795);
             var utcExpiresHigh = utcNow.AddSeconds(604805);
 
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseCacheControl(o => o.Validators.Add(new EntityTagCacheableValidator()));
                 app.Run(async context => // simulate route to something writing to the body
@@ -187,7 +187,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             var utcExpiresLow = utcNow.AddSeconds(604795);
             var utcExpiresHigh = utcNow.AddSeconds(604805);
 
-            using (var middleware = MiddlewareTestFactory.CreateMiddlewareTest(app =>
+            using (var middleware = MiddlewareTestFactory.Create(app =>
             {
                 app.UseCacheControl(o => o.Validators.Add(new EntityTagCacheableValidator()));
                 app.Run(async context => // simulate route to something writing to the body

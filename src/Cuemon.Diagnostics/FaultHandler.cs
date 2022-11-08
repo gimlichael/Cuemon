@@ -21,8 +21,8 @@ namespace Cuemon.Diagnostics
         /// </exception>
         protected FaultHandler(Func<Exception, bool> validator, Func<Exception, TDescriptor> descriptor)
         {
-            Validator.ThrowIfNull(validator, nameof(validator));
-            Validator.ThrowIfNull(descriptor, nameof(descriptor));
+            Validator.ThrowIfNull(validator);
+            Validator.ThrowIfNull(descriptor);
             _validatorCallback = validator;
             _descriptorCallback = descriptor;
         }

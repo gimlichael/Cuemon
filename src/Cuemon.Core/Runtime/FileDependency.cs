@@ -20,7 +20,7 @@ namespace Cuemon.Runtime
         /// <paramref name="lazyFileWatcher"/> cannot be null.
         /// </exception>
         /// <remarks>The <see cref="FileWatcher"/> initialization is deferred until <see cref="Dependency.StartAsync"/> is invoked.</remarks>
-        public FileDependency(Lazy<FileWatcher> lazyFileWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyFileWatcher, () => Validator.ThrowIfNull(lazyFileWatcher, nameof(lazyFileWatcher)))), breakTieOnChanged)
+        public FileDependency(Lazy<FileWatcher> lazyFileWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyFileWatcher, () => Validator.ThrowIfNull(lazyFileWatcher))), breakTieOnChanged)
         {
         }
 
@@ -33,9 +33,9 @@ namespace Cuemon.Runtime
         public FileDependency(IEnumerable<Lazy<FileWatcher>> lazyFileWatchers, bool breakTieOnChanged = false) : base(watcherChanged =>
         {
             var watchers = new List<FileWatcher>();
-            foreach (var lazyFileWatcher in lazyFileWatchers ?? Enumerable.Empty<Lazy<FileWatcher>>())
+            foreach (var lazyFileWatcher in lazyFileWatchers.Select(lazy => lazy.Value))
             {
-                var fileWatcher = lazyFileWatcher.Value;
+                var fileWatcher = lazyFileWatcher;
                 fileWatcher.Changed += watcherChanged;
                 fileWatcher.StartMonitoring();
                 watchers.Add(fileWatcher);

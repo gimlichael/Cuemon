@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Reflection;
+using Cuemon.AspNetCore.Diagnostics;
+using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
@@ -15,22 +17,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// </summary>
     /// <seealso cref="IExceptionFilter"/>
     /// <seealso cref="ExceptionDescriptor" />
-    /// <seealso cref="FaultDescriptorOptions"/>
+    /// <seealso cref="MvcFaultDescriptorOptions"/>
     /// <seealso cref="RequestIdentifierMiddleware"/>
     /// <seealso cref="CorrelationIdentifierMiddleware"/>
-    public class FaultDescriptorFilter : Configurable<FaultDescriptorOptions>, IExceptionFilter
+    public class FaultDescriptorFilter : Configurable<MvcFaultDescriptorOptions>, IExceptionFilter
     {
-        /// <summary>
-        /// The key to set or get a copy of a captured request body.
-        /// </summary>
-        public const string HttpContextItemsKeyForCapturedRequestBody = "CuemonAspNetCoreMvcFiltersDiagnostics_HttpContextItemsKeyForCapturedRequestBody";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FaultDescriptorFilter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="FaultDescriptorOptions"/> which need to be configured.</param>
-        public FaultDescriptorFilter(IOptions<FaultDescriptorOptions> setup) : base(setup.Value)
+        /// <param name="setup">The <see cref="MvcFaultDescriptorOptions"/> which need to be configured.</param>
+        public FaultDescriptorFilter(IOptions<MvcFaultDescriptorOptions> setup) : base(setup.Value)
         {
+            Validator.ThrowIfInvalidOptions(setup.Value, nameof(setup));
         }
 
         /// <summary>
@@ -46,12 +44,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 context.HttpContext.Response.StatusCode = exceptionDescriptor.StatusCode;
                 exceptionDescriptor.PostInitializeWith(actionDescriptor.MethodInfo.GetCustomAttributes<ExceptionDescriptorAttribute>());
                 if (Options.HasRootHelpLink && exceptionDescriptor.HelpLink == null) { exceptionDescriptor.HelpLink = Options.RootHelpLink; }
-                if (context.HttpContext.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId)) { exceptionDescriptor.RequestId = requestId.ToString(); }
-                if (context.HttpContext.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId)) { exceptionDescriptor.CorrelationId = correlationId.ToString(); }
-                Options.ExceptionCallback?.Invoke(context.Exception, exceptionDescriptor);
+                if (context.HttpContext.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId) && requestId != null) { exceptionDescriptor.RequestId = requestId.ToString(); }
+                if (context.HttpContext.Items.TryGetValue(CorrelationIdentifierMiddleware.HttpContextItemsKey, out var correlationId) && correlationId != null) { exceptionDescriptor.CorrelationId = correlationId.ToString(); }
+                Options.ExceptionCallback?.Invoke(context.HttpContext, context.Exception, exceptionDescriptor);
                 if (Options.MarkExceptionHandled) { context.ExceptionHandled = true; }
-                if (Options.IncludeRequest) { exceptionDescriptor.AddEvidence("Request", context.HttpContext.Request, request => new HttpRequestEvidence(request, Options.RequestBodyParser)); }
-                Options.ExceptionDescriptorHandler?.Invoke(context, exceptionDescriptor);
+                if (Options.RequestEvidenceProvider != null && Options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence)) { exceptionDescriptor.AddEvidence("Request", context.HttpContext.Request, Options.RequestEvidenceProvider); }
+                if (exceptionDescriptor.Failure is HttpStatusCodeException httpFault)
+                {
+                    Decorator.Enclose(context.HttpContext.Response.Headers).AddRange(httpFault.Headers);
+                }
                 context.Result = new ExceptionDescriptorResult(exceptionDescriptor);
             }
         }

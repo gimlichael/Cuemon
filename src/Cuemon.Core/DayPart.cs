@@ -14,31 +14,31 @@ namespace Cuemon
         /// Gets the day part of a 24-hour period that approximates to Night.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Night.</value>
-        public static DayPart Night => new DayPart("Night", new TimeRange(TimeSpan.FromHours(21), TimeSpan.FromHours(3), () => TimeSpan.FromHours(6)));
+        public static DayPart Night => new("Night", new TimeRange(TimeSpan.FromHours(21), TimeSpan.FromHours(3), () => TimeSpan.FromHours(6)));
 
         /// <summary>
         /// Gets the day part of a 24-hour period that approximates to Morning.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Morning.</value>
-        public static DayPart Morning => new DayPart("Morning", new TimeRange(Night.Range.End, Night.Range.End.Add(TimeSpan.FromHours(6))));
+        public static DayPart Morning => new("Morning", new TimeRange(Night.Range.End, Night.Range.End.Add(TimeSpan.FromHours(6))));
 
         /// <summary>
         /// Gets the day part of a 24-hour period that approximates to Forenoon.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Forenoon.</value>
-        public static DayPart Forenoon => new DayPart("Forenoon", new TimeRange(Morning.Range.End, Morning.Range.End.Add(TimeSpan.FromHours(3))));
+        public static DayPart Forenoon => new("Forenoon", new TimeRange(Morning.Range.End, Morning.Range.End.Add(TimeSpan.FromHours(3))));
 
         /// <summary>
         /// Gets the day part of a 24-hour period that approximates to Afternoon.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Afternoon.</value>
-        public static DayPart Afternoon => new DayPart("Afternoon", new TimeRange(Forenoon.Range.End, Forenoon.Range.End.Add(TimeSpan.FromHours(6))));
+        public static DayPart Afternoon => new("Afternoon", new TimeRange(Forenoon.Range.End, Forenoon.Range.End.Add(TimeSpan.FromHours(6))));
 
         /// <summary>
         /// Gets the day part of a 24-hour period that approximates to Evening.
         /// </summary>
         /// <value>The range of a 24-hour period that approximates to Evening.</value>
-        public static DayPart Evening => new DayPart("Evening", new TimeRange(Afternoon.Range.End, Afternoon.Range.End.Add(TimeSpan.FromHours(3))));
+        public static DayPart Evening => new("Evening", new TimeRange(Afternoon.Range.End, Afternoon.Range.End.Add(TimeSpan.FromHours(3))));
 
         /// <summary>
         /// Gets the day parts of a 24-hour range of period.
@@ -63,7 +63,7 @@ namespace Cuemon
         /// <param name="range">The time range to cover.</param>
         public DayPart(string name, TimeRange range)
         {
-            Validator.ThrowIfNullOrWhitespace(name, nameof(name));
+            Validator.ThrowIfNullOrWhitespace(name);
             Validator.ThrowIfGreaterThan(range.Duration.TotalHours, 24, nameof(range), "A day part cannot exceed a period of 24 hours.");
 
             Name = name;

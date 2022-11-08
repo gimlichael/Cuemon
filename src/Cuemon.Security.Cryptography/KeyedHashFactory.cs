@@ -45,7 +45,7 @@ namespace Cuemon.Security.Cryptography
         /// </exception>
         public static Hash CreateHmacCryptoSha512(byte[] secret, Action<ConvertibleOptions> setup = null)
         {
-            Validator.ThrowIfNull(secret, nameof(secret));
+            Validator.ThrowIfNull(secret);
             return new HmacSecureHashAlgorithm512(secret, setup);
         }
 
@@ -60,7 +60,7 @@ namespace Cuemon.Security.Cryptography
         /// </exception>
         public static Hash CreateHmacCryptoSha384(byte[] secret, Action<ConvertibleOptions> setup = null)
         {
-            Validator.ThrowIfNull(secret, nameof(secret));
+            Validator.ThrowIfNull(secret);
             return new HmacSecureHashAlgorithm384(secret, setup);
         }
 
@@ -75,7 +75,7 @@ namespace Cuemon.Security.Cryptography
         /// </exception>
         public static Hash CreateHmacCryptoSha256(byte[] secret, Action<ConvertibleOptions> setup = null)
         {
-            Validator.ThrowIfNull(secret, nameof(secret));
+            Validator.ThrowIfNull(secret);
             return new HmacSecureHashAlgorithm256(secret, setup);
         }
 
@@ -90,7 +90,7 @@ namespace Cuemon.Security.Cryptography
         /// </exception>
         public static Hash CreateHmacCryptoSha1(byte[] secret, Action<ConvertibleOptions> setup = null)
         {
-            Validator.ThrowIfNull(secret, nameof(secret));
+            Validator.ThrowIfNull(secret);
             return new HmacSecureHashAlgorithm1(secret, setup);
         }
 
@@ -105,7 +105,7 @@ namespace Cuemon.Security.Cryptography
         /// </exception>
         public static Hash CreateHmacCryptoMd5(byte[] secret, Action<ConvertibleOptions> setup = null)
         {
-            Validator.ThrowIfNull(secret, nameof(secret));
+            Validator.ThrowIfNull(secret);
             return new HmacMessageDigest5(secret, setup);
         }
     }

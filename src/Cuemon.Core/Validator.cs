@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using Cuemon.Collections.Generic;
+using Cuemon.Configuration;
+using System.Runtime.CompilerServices;
 
 namespace Cuemon
 {
@@ -12,7 +14,7 @@ namespace Cuemon
     /// </summary>
     public sealed class Validator
     {
-        private static readonly Validator ExtendedValidator = new Validator();
+        private static readonly Validator ExtendedValidator = new();
 
         /// <summary>
         /// Gets the singleton instance of the Validator functionality allowing for extensions methods like: <c>Validator.ThrowIf.InvalidJsonDocument()</c>.
@@ -29,26 +31,97 @@ namespace Cuemon
         /// <returns>The specified <paramref name="value"/> unaltered.</returns>
         public static T CheckParameter<T>(T value, Action validator)
         {
-            ThrowIfNull(validator, nameof(validator));
+            ThrowIfNull(validator);
             validator();
             return value;
         }
 
         /// <summary>
-        /// Provides a convenient way to validate a parameter while returning a value from the specified <paramref name="value"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="setup"/> results in an instance of invalid <paramref name="options"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the object to evaluate.</typeparam>
-        /// <typeparam name="TValue">The type of the value to return.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="value"/> is not valid.</param>
-        /// <param name="valueSelector">The function delegate that is in charge of selecting the value to return.</param>
-        /// <returns>The value provided by <paramref name="valueSelector"/>.</returns>
-        public static TValue CheckParameter<T, TValue>(T value, Action validator, Func<T, TValue> valueSelector) where T : class
+        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameterObject"/> interface.</typeparam>
+        /// <param name="setup">The delegate that will configure the public read-write properties of <paramref name="options"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="options">The default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> failed to configure an instance of <paramref name="options"/> in a valid state.
+        /// </exception>
+        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, out TOptions options) where TOptions : class, IValidatableParameterObject, new()
         {
-            ThrowIfNull(validator, nameof(validator));
-            ThrowIfNull(valueSelector, nameof(valueSelector));
-            validator();
-            return valueSelector(value);
+            ThrowIfInvalidConfigurator(setup, paramName, "Delegate must configure the public read-write properties to be in a valid state.", out options);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="setup"/> results in an instance of invalid <paramref name="options"/>.
+        /// </summary>
+        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameterObject"/> interface.</typeparam>
+        /// <param name="setup">The delegate that will configure the public read-write properties of <paramref name="options"/>.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="options">The default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> failed to configure an instance <paramref name="options"/> in a valid state.
+        /// </exception>
+        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, string message, out TOptions options) where TOptions : class, IValidatableParameterObject, new()
+        {
+            options = Patterns.Configure(setup);
+            ThrowIfInvalidOptions(options, paramName, message);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="options"/> are not in a valid state.
+        /// </summary>
+        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameterObject"/> interface.</typeparam>
+        /// <param name="options">The configured options to validate.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="options"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="options"/> are not in a valid state.
+        /// </exception>
+        /// <remarks><paramref name="message"/> will have the name of the <typeparamref name="TOptions"/> if possible; otherwise Options.</remarks>
+        public static void ThrowIfInvalidOptions<TOptions>(TOptions options, string paramName, string message = "{0} are not in a valid state.") where TOptions : class, IValidatableParameterObject, new()
+        {
+            ThrowIfNull(options, paramName);
+            try
+            {
+                options.ValidateOptions();
+            }
+            catch (Exception e)
+            {
+                if (message?.Equals("{0} are not in a valid state.", StringComparison.InvariantCulture) ?? false) { message = string.Format(message, Patterns.InvokeOrDefault(() => Decorator.Enclose(typeof(TOptions)).ToFriendlyName(), "Options")); }
+                throw ExceptionInsights.Embed(new ArgumentException(message, paramName, e), MethodBase.GetCurrentMethod(), Arguments.ToArray(options, paramName, message));
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="InvalidOperationException" /> if the specified <paramref name="predicate" /> is <c>true</c>.
+        /// </summary>
+        /// <param name="predicate">The value that determines if an <see cref="InvalidOperationException"/> is thrown.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="expression">The <paramref name="predicate"/> expressed as a string.</param>
+        /// <exception cref="InvalidOperationException">
+        /// <paramref name="predicate" /> is <c>true</c>.
+        /// </exception>
+        public static void ThrowIfObjectInDistress(bool predicate, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression("predicate")] string expression = null)
+        {
+            ThrowIfObjectInDistress(() => predicate, message, expression);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="InvalidOperationException" /> if the specified <paramref name="predicate" /> returns <c>true</c>.
+        /// </summary>
+        /// <param name="predicate">The function delegate that determines if an <see cref="InvalidOperationException"/> is thrown.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="expression">The <paramref name="predicate"/> expressed as a string.</param>
+        /// <exception cref="InvalidOperationException">
+        /// <paramref name="predicate" /> returned <c>true</c>.
+        /// </exception>
+        public static void ThrowIfObjectInDistress(Func<bool> predicate, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression("predicate")] string expression = null)
+        {
+            if (predicate?.Invoke() ?? false) { throw new InvalidOperationException($"{message} (Expression '{expression}')"); }
         }
 
         /// <summary>
@@ -66,7 +139,7 @@ namespace Cuemon
         internal static void ThrowWhen(Action<ExceptionCondition<ArgumentException>> condition)
         {
             if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
-            Patterns.Configure(condition);
+            Patterns.CreateInstance(condition);
         }
 
         /// <summary>
@@ -204,6 +277,41 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="decorator"/> is null.
+        /// </summary>
+        /// <typeparam name="T">The type of the inner object denoted by <paramref name="decorator"/>.</typeparam>
+        /// <param name="decorator">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="inner">The inner object of <paramref name="decorator"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null - or -
+        /// <see cref="P:IDecorator.Inner"/> property of <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static void ThrowIfNull<T>(IDecorator<T> decorator, string paramName, out T inner)
+        {
+            ThrowIfNull(decorator, paramName, "Decorator or Inner cannot be null.", out inner);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="decorator"/> is null.
+        /// </summary>
+        /// <typeparam name="T">The type of the inner object denoted by <paramref name="decorator"/>.</typeparam>
+        /// <param name="decorator">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="inner">The inner object of <paramref name="decorator"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null - or -
+        /// <see cref="P:IDecorator.Inner"/> property of <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static void ThrowIfNull<T>(IDecorator<T> decorator, string paramName, string message, out T inner)
+        {
+            ThrowIfNull(decorator, paramName, message);
+            ThrowIfNull(decorator.Inner, nameof(decorator.Inner), message);
+            inner = decorator.Inner;
+        }
+
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="value"/> is null.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
@@ -212,7 +320,7 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(T value, string paramName, string message = "Value cannot be null.")
+        public static void ThrowIfNull(object value, [CallerArgumentExpression("value")] string paramName = null, string message = "Value cannot be null.")
         {
             try
             {
@@ -223,7 +331,7 @@ namespace Cuemon
                 throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
             }
         }
-        
+
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="predicate" /> returns <c>false</c>.
         /// </summary>
@@ -287,7 +395,7 @@ namespace Cuemon
             }
         }
 
-        
+
         /// <summary>
         /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="value" /> is <c>true</c>.
         /// </summary>
@@ -408,7 +516,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be empty.
         /// </exception>
-        public static void ThrowIfNullOrEmpty(string value, string paramName)
+        public static void ThrowIfNullOrEmpty(string value, [CallerArgumentExpression("value")] string paramName = null)
         {
             try
             {
@@ -457,7 +565,7 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> cannot be empty or consist only of white-space characters.
         /// </exception>
-        public static void ThrowIfNullOrWhitespace(string value, string paramName)
+        public static void ThrowIfNullOrWhitespace(string value, [CallerArgumentExpression("value")] string paramName = null)
         {
             try
             {
@@ -1138,8 +1246,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsInterface(Type value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
@@ -1187,7 +1295,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsInterface<T>(string typeParamName, string message, params Type[] types)
         {
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(types);
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
@@ -1235,7 +1343,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsInterface<T>(string typeParamName, string message, params Type[] types)
         {
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(types);
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
@@ -1285,8 +1393,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsInterface(Type value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             try
             {
@@ -1330,8 +1438,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType(object value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value.GetType()).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
@@ -1342,7 +1450,7 @@ namespace Cuemon
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="value">The value to be evaluated.</param>
@@ -1374,8 +1482,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType(Type value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
@@ -1386,7 +1494,7 @@ namespace Cuemon
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
@@ -1416,7 +1524,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfContainsType<T>(string typeParamName, string message, params Type[] types)
         {
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
@@ -1459,8 +1567,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType(Type value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
@@ -1503,8 +1611,8 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType(object value, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value, nameof(value));
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(value);
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value.GetType()).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
@@ -1545,7 +1653,7 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotContainsType<T>(string typeParamName, string message, params Type[] types)
         {
-            ThrowIfNull(types, nameof(types));
+            ThrowIfNull(types);
             try
             {
                 ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());

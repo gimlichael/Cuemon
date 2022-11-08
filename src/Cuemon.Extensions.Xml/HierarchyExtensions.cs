@@ -24,7 +24,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static bool HasXmlIgnoreAttribute(this IHierarchy<object> hierarchy)
         {
-            Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
+            Validator.ThrowIfNull(hierarchy);
             return Decorator.Enclose(hierarchy).HasXmlIgnoreAttribute();
         }
 
@@ -40,7 +40,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static bool IsNodeEnumerable(this IHierarchy<object> hierarchy)
         {
-            Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
+            Validator.ThrowIfNull(hierarchy);
             return Decorator.Enclose(hierarchy).IsNodeEnumerable();
         }
 
@@ -55,7 +55,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static XmlQualifiedEntity GetXmlQualifiedEntity(this IHierarchy<object> hierarchy, XmlQualifiedEntity qualifiedEntity = null)
         {
-            Validator.ThrowIfNull(hierarchy, nameof(hierarchy));
+            Validator.ThrowIfNull(hierarchy);
             return Decorator.Enclose(hierarchy).GetXmlQualifiedEntity(qualifiedEntity);
         }
 
@@ -70,7 +70,7 @@ namespace Cuemon.Extensions.Xml
         /// </exception>
         public static IEnumerable<IHierarchy<T>> OrderByXmlAttributes<T>(this IEnumerable<IHierarchy<T>> hierarchies)
         {
-            Validator.ThrowIfNull(hierarchies, nameof(hierarchies));
+            Validator.ThrowIfNull(hierarchies);
             return Decorator.Enclose(hierarchies).OrderByXmlAttributes();
         }
     }

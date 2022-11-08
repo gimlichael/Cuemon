@@ -151,9 +151,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         }
 
         [Theory]
-        [InlineData(true, true, true)]
-        [InlineData(false, false, false)]
-        public void AddExceptionDescriptorConverter_ShouldAddExceptionDescriptorConverterToConverterCollection_AndMakeUseOfIncludeOptions(bool includeExceptionDescriptorFailure, bool includeExceptionStackTrace, bool includeExceptionDescriptorEvidence)
+        [InlineData(FaultSensitivityDetails.All)]
+        [InlineData(FaultSensitivityDetails.None)]
+        public void AddExceptionDescriptorConverter_ShouldAddExceptionDescriptorConverterToConverterCollection_AndMakeUseOfIncludeOptions(FaultSensitivityDetails sensitivityDetails)
         {
             InsufficientMemoryException ime = null;
             try
@@ -170,16 +170,12 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
 
             var sut2 = new JsonFormatterOptions()
             {
-                IncludeExceptionStackTrace = includeExceptionStackTrace,
-                IncludeExceptionDescriptorFailure = includeExceptionDescriptorFailure,
-                IncludeExceptionDescriptorEvidence = includeExceptionDescriptorEvidence
+                SensitivityDetails = sensitivityDetails
             };
 
-            sut2.Settings.Converters.Remove(sut2.Settings.Converters.Single(jc => jc.CanConvert(typeof(ExceptionDescriptor))));
             sut2.Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
             {
-                o.IncludeEvidence = includeExceptionDescriptorEvidence;
-                o.IncludeFailure = includeExceptionDescriptorFailure;
+                o.SensitivityDetails = sensitivityDetails;
             });
 
             Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(ExceptionDescriptor))), jc =>
@@ -204,7 +200,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 Assert.Contains("\"message\": \"System has exhausted memory.\"", json);
                 Assert.Contains("\"helpLink\": \"https://docs.microsoft.com/en-us/dotnet/api/system.insufficientmemoryexception\"", json);
 
-                Condition.FlipFlop(includeExceptionDescriptorFailure, () =>
+                Condition.FlipFlop(sensitivityDetails.HasFlag(FaultSensitivityDetails.Failure), () =>
                 {
                     Assert.Contains("\"failure\":", json);
                     Assert.Contains("\"type\": \"System.InsufficientMemoryException\"", json);
@@ -218,7 +214,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                     Assert.DoesNotContain("\"message\": \"Insufficient memory to continue the execution of the program.\"", json);
                 });
 
-                Condition.FlipFlop(includeExceptionStackTrace, () =>
+                Condition.FlipFlop(sensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), () =>
                 {
                     Assert.Contains("\"stack\":", json);
                     Assert.Contains("\"at Cuemon.Extensions.Newtonsoft.Json.Converters.JsonConverterCollectionExtensionsTest.AddExceptionDescriptorConverter_ShouldAddExceptionDescriptorConverterToConverterCollection", json);
@@ -228,7 +224,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                     Assert.DoesNotContain("\"at Cuemon.Extensions.Newtonsoft.Json.Converters.JsonConverterCollectionExtensionsTest.AddExceptionDescriptorConverter_ShouldAddExceptionDescriptorConverterToConverterCollection", json);
                 });
 
-                Condition.FlipFlop(includeExceptionDescriptorEvidence, () =>
+                Condition.FlipFlop(sensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence), () =>
                 {
                     Assert.Contains("\"evidence\":", json);
                     Assert.Contains("\"correlationId\": \"00000000000000000000000000000000\"", json);
@@ -237,47 +233,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                     Assert.DoesNotContain("\"evidence\":", json);
                     Assert.DoesNotContain("\"correlationId\": \"00000000000000000000000000000000\"", json);
                 });
-
-                TestOutput.WriteLine(json);
-            });
-        }
-
-        [Fact]
-        public void AddTimeSpanConverter_ShouldAddTimeSpanConverterToConverterCollection()
-        {
-            var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatterOptions();
-
-            sut2.Settings.Converters.Clear();
-            sut2.Settings.Converters.AddTimeSpanConverter();
-
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(TimeSpan))), jc =>
-            {
-                var result = StreamFactory.Create(writer =>
-                {
-                    var js = JsonSerializer.Create(sut2.Settings);
-                    using (var jsonWriter = new JsonTextWriter(writer))
-                    {
-                        jsonWriter.CloseOutput = false;
-                        js.Serialize(jsonWriter, sut1);
-                    }
-                });
-
-                var json = result.ToEncodedString();
-
-                Assert.True(jc.CanWrite);
-                Assert.True(jc.CanRead);
-                Assert.True(jc.CanConvert(typeof(TimeSpan)));
-                Assert.Contains("\"ticks\": 9223372036854775807", json);
-                Assert.Contains("\"days\": 10675199", json);
-                Assert.Contains("\"hours\": 2", json);
-                Assert.Contains("\"minutes\": 48", json);
-                Assert.Contains("\"seconds\": 5", json);
-                Assert.Contains("\"totalDays\": 10675199.116730064", json);
-                Assert.Contains("\"totalHours\": 256204778.80152154", json);
-                Assert.Contains("\"totalMilliseconds\": 922337203685477.0", json);
-                Assert.Contains("\"totalMinutes\": 15372286728.091293", json);
-                Assert.Contains("\"totalSeconds\": 922337203685.4775", json);
 
                 TestOutput.WriteLine(json);
             });

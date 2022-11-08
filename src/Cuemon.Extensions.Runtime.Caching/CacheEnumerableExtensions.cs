@@ -174,10 +174,10 @@ namespace Cuemon.Extensions.Runtime.Caching
         /// <returns>The value for the specified <paramref name="key"/>. This will either be the existing value if the <paramref name="key"/> is already in the cache, or the new value returned by <paramref name="valueFactory"/> if the <paramref name="key"/> was not in the cache.</returns>
         public static TResult GetOrAdd<TKey, TResult>(this ICacheEnumerable<TKey> cache, string key, string ns, CacheInvalidation invalidation, Func<TResult> valueFactory)
         {
-            Validator.ThrowIfNull(cache, nameof(cache));
-            Validator.ThrowIfNull(key, nameof(key));
-            Validator.ThrowIfNull(invalidation, nameof(invalidation));
-            Validator.ThrowIfNull(valueFactory, nameof(valueFactory));
+            Validator.ThrowIfNull(cache);
+            Validator.ThrowIfNull(key);
+            Validator.ThrowIfNull(invalidation);
+            Validator.ThrowIfNull(valueFactory);
 
             if (!cache.TryGet(key, ns, out var value))
             {
@@ -706,7 +706,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             };
         }
 
-        private static readonly object PadLock = new object();
+        private static readonly object PadLock = new();
 
         private static TResult Memoize<TKey, TTuple, TResult>(ICacheEnumerable<TKey> cache, string key, CacheInvalidation invalidation, FuncFactory<TTuple, TResult> valueFactory) where TTuple : Template
         {
@@ -731,8 +731,7 @@ namespace Cuemon.Extensions.Runtime.Caching
             foreach (var arg in args)
             {
                 var current = arg ?? MemoizationNullHashCode;
-                var bytes = current as byte[];
-                result ^= bytes == null
+                result ^= current is not byte[] bytes
                     ? current.GetHashCode()
                     : Generate.HashCode32(bytes.Cast<IConvertible>());
             }

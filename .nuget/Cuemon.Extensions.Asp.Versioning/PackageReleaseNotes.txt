@@ -1,0 +1,10 @@
+﻿Version: 7.0.0
+Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
+ 
+# New Features
+- ADDED RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace that provides programmatic configuration for the ServiceCollectionExtensions.AddRestfulApiVersioning method
+- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IServiceCollection interface: AddRestfulApiVersioning
+- ADDED ApplicationBuilderExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IApplicationBuilder interface: UseRestfulApiVersioning
+- ADDED RestfulApiVersionReader class in the Cuemon.Extensions.Asp.Versioning namespace that represents a RESTful API version reader that reads the value from a filtered list of HTTP Accept headers in the request
+- ADDED RestfulProblemDetailsFactory class in the Cuemon.Extensions.Asp.Versioning namespace that represents a RESTful implementation of the IProblemDetailsFactory which throws variants of HttpStatusCodeException that needs to be translated accordingly
+ 

@@ -12,7 +12,7 @@ namespace Cuemon.Runtime
     {
         private IEnumerable<IWatcher> _watchers;
         private readonly Func<EventHandler<WatcherEventArgs>, IEnumerable<IWatcher>> _watchersHandler;
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Dependency" /> class.
@@ -21,7 +21,7 @@ namespace Cuemon.Runtime
         /// <param name="breakTieOnChanged">if set to <c>true</c> all <see cref="IWatcher"/> instances is disassociated with this dependency after first notification of changed.</param>
         protected Dependency(Func<EventHandler<WatcherEventArgs>, IEnumerable<IWatcher>> watchersHandler, bool breakTieOnChanged)
         {
-            Validator.ThrowIfNull(watchersHandler, nameof(watchersHandler));
+            Validator.ThrowIfNull(watchersHandler);
             BreakTieOnChanged = breakTieOnChanged;
             _watchersHandler = watchersHandler;
         }

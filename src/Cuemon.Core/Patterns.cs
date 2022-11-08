@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.Configuration;
 
 namespace Cuemon
 {
@@ -12,7 +13,7 @@ namespace Cuemon
     /// </summary>
     public sealed class Patterns
     {
-        private static readonly Patterns ExtendedPatterns = new Patterns();
+        private static readonly Patterns ExtendedPatterns = new();
 
         /// <summary>
         /// Gets the singleton instance of the Patterns functionality allowing for extensions methods like: <c>Patterns.Use.SomeIngeniousMethod()</c>.
@@ -30,7 +31,7 @@ namespace Cuemon
         {
             try
             {
-                Validator.ThrowIfNull(method, nameof(method));
+                Validator.ThrowIfNull(method);
                 method();
                 return true;
             }
@@ -62,7 +63,7 @@ namespace Cuemon
         {
             try
             {
-                Validator.ThrowIfNull(method, nameof(method));
+                Validator.ThrowIfNull(method);
                 result = method();
                 return true;
             }
@@ -95,6 +96,20 @@ namespace Cuemon
             return TryInvoke(method, out var result) ? result : fallbackResult;
         }
 
+        
+        /// <summary>
+        /// Provides a generic way to initialize the default, parameterless constructed instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the class having a default constructor.</typeparam>
+        /// <param name="factory">The delegate that will initialize the public write properties of <typeparamref name="T"/>.</param>
+        /// <returns>A default constructed instance of <typeparamref name="T"/> initialized with <paramref name="factory"/>.</returns>
+        public static T CreateInstance<T>(Action<T> factory) where T : class, new()
+        {
+            var options = Activator.CreateInstance<T>();
+            factory?.Invoke(options);
+            return options;
+        }
+
         /// <summary>
         /// Returns the default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.
         /// </summary>
@@ -104,7 +119,7 @@ namespace Cuemon
         /// <param name="validator">The optional delegate that will validate the <typeparamref name="TOptions"/> configured by the <paramref name="setup"/> delegate.</param>
         /// <returns>A default constructed instance of <typeparamref name="TOptions"/> initialized with the options of <paramref name="setup"/>.</returns>
         /// <remarks>Often referred to as part the Options pattern: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options</remarks>
-        public static TOptions Configure<TOptions>(Action<TOptions> setup, Action<TOptions> initializer = null, Action<TOptions> validator = null) where TOptions : class, new()
+        public static TOptions Configure<TOptions>(Action<TOptions> setup, Action<TOptions> initializer = null, Action<TOptions> validator = null) where TOptions : class, IParameterObject, new()
         {
             var options = Activator.CreateInstance<TOptions>();
             initializer?.Invoke(options);
@@ -114,61 +129,78 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Returns the delegate that will configure the public read-write properties of <typeparamref name="TExchangeOptions"/>.
+        /// Returns the delegate that will configure the public read-write properties of <typeparamref name="TResult"/>.
         /// </summary>
-        /// <typeparam name="TOptions">The type of the configuration options class having a default constructor.</typeparam>
-        /// <typeparam name="TExchangeOptions">The type of the configuration options class having a default constructor.</typeparam>
-        /// <param name="setup">The delegate that will configure the public read-write properties of <typeparamref name="TOptions"/>.</param>
-        /// <param name="initializer">The delegate that will exchange the parameter of <paramref name="setup"/> from <typeparamref name="TOptions"/> to <typeparamref name="TExchangeOptions"/>.</param>
+        /// <typeparam name="TSource">The type of the configuration options class having a default constructor.</typeparam>
+        /// <typeparam name="TResult">The type of the configuration options class having a default constructor.</typeparam>
+        /// <param name="setup">The delegate that will configure the public read-write properties of <typeparamref name="TSource"/>.</param>
+        /// <param name="initializer">The delegate that will exchange the parameter of <paramref name="setup"/> from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <returns>An <see cref="Action{TExchangeOptions}"/> otherwise equivalent to <paramref name="setup"/>.</returns>
-        public static Action<TExchangeOptions> ConfigureExchange<TOptions, TExchangeOptions>(Action<TOptions> setup, Action<TOptions, TExchangeOptions> initializer = null)
-            where TOptions : class, new()
-            where TExchangeOptions : class, new()
+        public static Action<TResult> ConfigureExchange<TSource, TResult>(Action<TSource> setup, Action<TSource, TResult> initializer = null)
+            where TSource : class, IParameterObject, new()
+            where TResult : class, new()
         {
             var io = Configure(setup);
-            if (initializer == null)
+            initializer ??= (i, o) =>
             {
-                initializer = (i, o) =>
+                var match = false;
+                var typeOfInput = typeof(TSource);
+                var typeOfOutput = typeof(TResult);
+                var ips = typeOfInput.GetProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                var ops = typeOfOutput.GetProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                foreach (var ip in ips)
                 {
-                    var match = false;
-                    var typeOfInput = typeof(TOptions);
-                    var typeOfOutput = typeof(TExchangeOptions);
-                    var ips = typeOfInput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
-                    var ops = typeOfOutput.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
-                    foreach (var ip in ips)
+                    var op = ops.SingleOrDefault(opi => opi.Name == ip.Name && opi.PropertyType == ip.PropertyType);
+                    if (op != null)
                     {
-                        var op = ops.SingleOrDefault(opi => opi.Name == ip.Name && opi.PropertyType == ip.PropertyType);
-                        if (op != null)
-                        {
-                            op.SetValue(o, ip.GetValue(i));
-                            match = true;
-                        }
+                        op.SetValue(o, ip.GetValue(i));
+                        match = true;
                     }
-                    if (!match)
-                    {
-                        throw new InvalidOperationException(FormattableString.Invariant($"Unable to use default converter for exchange of {nameof(TOptions)} ({DelimitedString.Create(ips)}) with {nameof(TExchangeOptions)} ({DelimitedString.Create(ops)}); no match on public read-write properties."));
-                    }
-                };
-            }
+                }
+
+                if (!match)
+                {
+                    throw new InvalidOperationException(FormattableString.Invariant($"Unable to use default converter for exchange of {nameof(TSource)} ({DelimitedString.Create(ips)}) with {nameof(TResult)} ({DelimitedString.Create(ops)}); no match on public read-write properties."));
+                }
+            };
             return oo => initializer(io, oo);
+        }
+
+        /// <summary>
+        /// Returns a delegate that will be initialized by <paramref name="initializer"/> with the values from <paramref name="options"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the configuration options having a default constructor.</typeparam>
+        /// <typeparam name="TResult">The type of the configuration options having a default constructor.</typeparam>
+        /// <param name="options">The configured options to apply an instance of <typeparamref name="TResult"/>.</param>
+        /// <param name="initializer">The delegate that will initialize a default instance of <typeparamref name="TResult"/> with the values from <paramref name="options"/>.</param>
+        /// <returns>An <see cref="Action{TOptions}"/> with the values from <paramref name="options"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="options"/> cannot be null -or-
+        /// <paramref name="initializer"/> cannot be null.
+        /// </exception>
+        public static Action<TResult> ConfigureRevertExchange<TSource, TResult>(TSource options, Action<TSource, TResult> initializer = null) 
+            where TSource : class, IParameterObject, new()
+            where TResult : class, new()
+        {
+            return ConfigureExchange(ConfigureRevert(options), initializer);
         }
 
         /// <summary>
         /// Returns the delegate that will configure the public read-write properties of <typeparamref name="TOptions"/>.
         /// </summary>
-        /// <typeparam name="TOptions">The type of the configuration options class having a default constructor.</typeparam>
+        /// <typeparam name="TOptions">The type of the configuration options having a default constructor.</typeparam>
         /// <param name="options">An instance of the configured options.</param>
         /// <returns>An <see cref="Action{TOptions}"/> otherwise equivalent to <paramref name="options"/>.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="options"/> cannot be null.
         /// </exception>
-        public static Action<TOptions> ConfigureRevert<TOptions>(TOptions options)
+        public static Action<TOptions> ConfigureRevert<TOptions>(TOptions options) where TOptions : class, new()
         {
-            Validator.ThrowIfNull(options, nameof(options));
+            Validator.ThrowIfNull(options);
             return o =>
             {
                 var to = typeof(TOptions);
-                var tops = to.GetRuntimeProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
+                var tops = to.GetProperties().Where(pi => pi.CanRead && pi.CanWrite).ToList();
                 foreach (var p in tops) { p.SetValue(o, p.GetValue(options)); }
             };
         }
@@ -183,8 +215,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<TResult>(Func<TResult> initializer, Func<TResult, TResult> tester, Action<Exception> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default);
             var f2 = ActionFactory.Create(catcher, default);
             return SafeInvokeCore(f1, initializer, f2);
@@ -202,8 +234,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T, TResult>(Func<TResult> initializer, Func<TResult, T, TResult> tester, T arg, Action<Exception, T> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg);
             var f2 = ActionFactory.Create(catcher, default, arg);
             return SafeInvokeCore(f1, initializer, f2);
@@ -223,8 +255,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T1, T2, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, TResult> tester, T1 arg1, T2 arg2, Action<Exception, T1, T2> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg1, arg2);
             var f2 = ActionFactory.Create(catcher, default, arg1, arg2);
             return SafeInvokeCore(f1, initializer, f2);
@@ -246,8 +278,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T1, T2, T3, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, TResult> tester, T1 arg1, T2 arg2, T3 arg3, Action<Exception, T1, T2, T3> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3);
             var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3);
             return SafeInvokeCore(f1, initializer, f2);
@@ -271,8 +303,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T1, T2, T3, T4, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, TResult> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<Exception, T1, T2, T3, T4> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3, arg4);
             var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4);
             return SafeInvokeCore(f1, initializer, f2);
@@ -298,8 +330,8 @@ namespace Cuemon
         /// <returns>The return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static TResult SafeInvoke<T1, T2, T3, T4, T5, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, T5, TResult> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<Exception, T1, T2, T3, T4, T5> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = FuncFactory.Create(tester, default, arg1, arg2, arg3, arg4, arg5);
             var f2 = ActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4, arg5);
             return SafeInvokeCore(f1, initializer, f2);
@@ -316,8 +348,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<TResult>(Func<TResult> initializer, Func<TResult, CancellationToken, Task<TResult>> tester, CancellationToken ct = default, Func<Exception, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default);
             var f2 = TaskActionFactory.Create(catcher, default);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -336,8 +368,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T, TResult>(Func<TResult> initializer, Func<TResult, T, CancellationToken, Task<TResult>> tester, T arg, CancellationToken ct = default, Func<Exception, T, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg);
             var f2 = TaskActionFactory.Create(catcher, default, arg);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -358,8 +390,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T1, T2, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, CancellationToken, Task<TResult>> tester, T1 arg1, T2 arg2, CancellationToken ct = default, Func<Exception, T1, T2, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2);
             var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -382,8 +414,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T1, T2, T3, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, CancellationToken, Task<TResult>> tester, T1 arg1, T2 arg2, T3 arg3, CancellationToken ct = default, Func<Exception, T1, T2, T3, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2, arg3);
             var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2, arg3);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -408,8 +440,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T1, T2, T3, T4, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, CancellationToken, Task<TResult>> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, CancellationToken ct = default, Func<Exception, T1, T2, T3, T4, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2, arg3, arg4);
             var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);
@@ -436,8 +468,8 @@ namespace Cuemon
         /// <returns>A task that represents the asynchronous operation. The task result contains the return value of the function delegate <paramref name="initializer"/> if the operations succeeded; otherwise null if the operation failed.</returns>
         public static Task<TResult> SafeInvokeAsync<T1, T2, T3, T4, T5, TResult>(Func<TResult> initializer, Func<TResult, T1, T2, T3, T4, T5, CancellationToken, Task<TResult>> tester, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, CancellationToken ct = default, Func<Exception, T1, T2, T3, T4, T5, CancellationToken, Task> catcher = null) where TResult : class, IDisposable
         {
-            Validator.ThrowIfNull(initializer, nameof(initializer));
-            Validator.ThrowIfNull(tester, nameof(tester));
+            Validator.ThrowIfNull(initializer);
+            Validator.ThrowIfNull(tester);
             var f1 = TaskFuncFactory.Create(tester, default, arg1, arg2, arg3, arg4, arg5);
             var f2 = TaskActionFactory.Create(catcher, default, arg1, arg2, arg3, arg4, arg5);
             return SafeInvokeAsyncCore(f1, initializer, f2, ct);

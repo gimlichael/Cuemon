@@ -11,7 +11,7 @@ namespace Cuemon.Runtime
     /// <seealso cref="Watcher" />
     public class FileWatcher : Watcher
     {
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileWatcher"/> class.
@@ -21,7 +21,7 @@ namespace Cuemon.Runtime
         /// <param name="setup">The <see cref="WatcherOptions" /> which may be configured.</param>
         public FileWatcher(string path, bool readFile = false, Action<WatcherOptions> setup = null) : base(setup)
         {
-            Validator.ThrowIfNullOrWhitespace(path, nameof(path));
+            Validator.ThrowIfNullOrWhitespace(path);
             Path = path;
             ReadFile = readFile;
             UtcCreated = DateTime.UtcNow;
@@ -68,7 +68,7 @@ namespace Cuemon.Runtime
                         stream.Position = 0;
                         var currentChecksum = HashFactory.CreateCrc64().ComputeHash(stream).ToHexadecimalString();
 
-                        if (Checksum == null) { Checksum = currentChecksum; }
+                        Checksum ??= currentChecksum;
                         if (!Checksum.Equals(currentChecksum, StringComparison.OrdinalIgnoreCase))
                         {
                             SetUtcLastModified(utcLastModified);

@@ -1,26 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>040bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.DependencyInjection</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.DependencyInjection</AssemblyTitle>
     <Description>The Cuemon.Extensions.DependencyInjection namespace contains extension methods that complements the Microsoft.Extensions.DependencyInjection namespace.</Description>
     <PackageTags>extension-methods extensions add tryadd</PackageTags>
   </PropertyGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
 	</ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net5'))">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
-  </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />

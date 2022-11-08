@@ -25,9 +25,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <exception cref="ArgumentNullException">
         /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddJsonSerializationFormatters(this IMvcCoreBuilder builder)
+        public static IMvcCoreBuilder AddNewtonsoftJsonFormatters(this IMvcCoreBuilder builder)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
+            Validator.ThrowIfNull(builder);
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
             return builder;
         }
@@ -42,11 +42,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddJsonSerializationFormatters(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
+        public static IMvcCoreBuilder AddNewtonsoftJsonFormatters(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
-            AddJsonSerializationFormatters(builder);
-            AddJsonFormatterOptions(builder, setup);
+            Validator.ThrowIfNull(builder);
+            AddNewtonsoftJsonFormatters(builder);
+            AddNewtonsoftJsonFormattersOptions(builder, setup);
             return builder;
         }
 
@@ -60,10 +60,10 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddJsonFormatterOptions(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
+        public static IMvcCoreBuilder AddNewtonsoftJsonFormattersOptions(this IMvcCoreBuilder builder, Action<JsonFormatterOptions> setup)
         {
-            Validator.ThrowIfNull(builder, nameof(builder));
-            Validator.ThrowIfNull(setup, nameof(setup));
+            Validator.ThrowIfNull(builder);
+            Validator.ThrowIfNull(setup);
             builder.Services.Configure(setup);
             return builder;
         }

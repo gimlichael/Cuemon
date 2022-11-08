@@ -10,7 +10,7 @@ namespace Cuemon.Globalization
     /// <seealso cref="Attribute" />
     public abstract class ResourceAttribute : Attribute
     {
-        private readonly ConcurrentDictionary<string, PropertyInfo> _propertyInfos = new ConcurrentDictionary<string, PropertyInfo>();
+        private readonly ConcurrentDictionary<string, PropertyInfo> _propertyInfos = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceAttribute"/> class.
@@ -38,7 +38,7 @@ namespace Cuemon.Globalization
         /// </exception>
         protected string GetString(string name)
         {
-            Validator.ThrowIfNullOrWhitespace(name, nameof(name));
+            Validator.ThrowIfNullOrWhitespace(name);
             if (ResourceType == null) { throw new InvalidOperationException("You must specify a type to perform the actual lookup of localized strings."); }
             var cacheKey = $"{ResourceType.ToString().ToUpperInvariant()}.{name.ToUpperInvariant()}";
             if (!_propertyInfos.TryGetValue(cacheKey, out var property))

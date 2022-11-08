@@ -34,5 +34,28 @@ namespace Cuemon.AspNetCore.Http.Headers
                 Assert.Equal(ex.ToString(), desEx.ToString());
             }
         }
+
+        [Fact]
+        public void ApiKeyException_ShouldBeSerializable()
+        {
+            var ex = new ApiKeyException(400, "Bad Request.");
+
+            TestOutput.WriteLine(ex.ToString());
+
+            var bf = new BinaryFormatter();
+            using (var ms = new MemoryStream())
+            {
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
+                bf.Serialize(ms, ex);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
+                ms.Position = 0;
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
+                var desEx = bf.Deserialize(ms) as ApiKeyException;
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
+                Assert.Equal(ex.StatusCode, desEx.StatusCode);
+                Assert.Equal(ex.Message, desEx.Message);
+                Assert.Equal(ex.ToString(), desEx.ToString());
+            }
+        }
     }
 }

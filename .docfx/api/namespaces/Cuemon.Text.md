@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Text namespace contains types tailored to ease the pain of working with encodings, BOM, parsing, preamble sequences and stems. Also includes way to conform to a uniform way of turning strings into objects of a particular type. The namespace is an addition to the System.Text namespace.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [System.Text namespace](https://docs.microsoft.com/en-us/dotnet/api/system.text?view=netstandard-2.0) 🔗
 

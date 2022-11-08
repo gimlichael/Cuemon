@@ -4,7 +4,7 @@ summary: *content
 ---
 The Cuemon.Extensions.Xml.Serialization.Converters namespace contains extension methods that complements the Cuemon.Xml.Serialization.Converters namespace.
 
-Availability: NET Standard 2.0, .NET 5.0, .NET 6.0
+Availability: NET Standard 2.0, .NET 6.0
 
 Complements: [Cuemon.Xml.Serialization.Converters namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.Serialization.Converters.html) 🔗
 

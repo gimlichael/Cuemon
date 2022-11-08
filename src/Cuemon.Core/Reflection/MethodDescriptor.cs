@@ -35,8 +35,8 @@ namespace Cuemon.Reflection
         /// </exception>
         public MethodDescriptor(Type caller, MethodBase method)
         {
-            Validator.ThrowIfNull(caller, nameof(caller));
-            Validator.ThrowIfNull(method, nameof(method));
+            Validator.ThrowIfNull(caller);
+            Validator.ThrowIfNull(method);
             Caller = caller;
             Method = method;
             Parameters = ParameterSignature.Parse(Method);
@@ -130,7 +130,7 @@ namespace Cuemon.Reflection
         /// <returns>An <see cref="IDictionary{TKey,TValue}"/> containing the merged result of the <paramref name="method"/> parameter signature and <paramref name="runtimeParameterValues"/>.</returns>
         public static IDictionary<string, object> MergeParameters(MethodDescriptor method, params object[] runtimeParameterValues)
         {
-            Validator.ThrowIfNull(method, nameof(method));
+            Validator.ThrowIfNull(method);
             return MergeParameters(method.Parameters, runtimeParameterValues);
         }
 

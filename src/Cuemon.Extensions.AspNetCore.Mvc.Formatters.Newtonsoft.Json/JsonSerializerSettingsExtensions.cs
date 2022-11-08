@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Configuration;
 using Newtonsoft.Json;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
@@ -14,9 +15,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <typeparam name="T">The type of the <see cref="JsonSerializerSettings"/> to use.</typeparam>
         /// <param name="s1">The <see cref="JsonSerializerSettings"/> to extend.</param>
         /// <param name="setup">The <see cref="JsonSerializerSettings"/> which need to be configured.</param>
-        public static void Use<T>(this JsonSerializerSettings s1, Action<T> setup = null) where T : JsonSerializerSettings, new()
+        public static void Use<T>(this JsonSerializerSettings s1, Action<T> setup = null) where T : JsonSerializerSettings, IParameterObject, new()
         {
-            Validator.ThrowIfNull(s1, nameof(s1));
+            Validator.ThrowIfNull(s1);
             var s2 = Patterns.Configure(setup);
             s1.CheckAdditionalContent = s2.CheckAdditionalContent;
             s1.ConstructorHandling = s2.ConstructorHandling;

@@ -15,10 +15,10 @@ namespace Cuemon.Extensions.Net.Http
     /// <remarks>Inspiration taken from https://github.com/dotnet/runtime/blob/master/src/libraries/Microsoft.Extensions.Http/src/DefaultHttpClientFactory.cs</remarks>
     public class SlimHttpClientFactory : IHttpClientFactory, IHttpMessageHandlerFactory
     {
-        private readonly ConcurrentDictionary<string, Lazy<ActiveHandler>> _activeHandlers = new ConcurrentDictionary<string, Lazy<ActiveHandler>>();
-        private readonly ConcurrentQueue<ExpiredHandler> _expiredHandlers = new ConcurrentQueue<ExpiredHandler>();
+        private readonly ConcurrentDictionary<string, Lazy<ActiveHandler>> _activeHandlers = new();
+        private readonly ConcurrentQueue<ExpiredHandler> _expiredHandlers = new();
         private readonly Func<HttpClientHandler> _handlerFactory;
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
         private readonly SlimHttpClientFactoryOptions _options;
         internal static readonly TimeSpan ExpirationTimerDueTime = TimeSpan.FromSeconds(15);
         private Timer _expirationTimer;
@@ -30,7 +30,7 @@ namespace Cuemon.Extensions.Net.Http
         /// <param name="setup">The <see cref="SlimHttpClientFactoryOptions" /> which may be configured.</param>
         public SlimHttpClientFactory(Func<HttpClientHandler> handlerFactory, Action<SlimHttpClientFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(handlerFactory, nameof(handlerFactory));
+            Validator.ThrowIfNull(handlerFactory);
             _handlerFactory = handlerFactory;
             _options = Patterns.Configure(setup);
         }

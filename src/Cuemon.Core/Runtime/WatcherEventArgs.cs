@@ -48,6 +48,6 @@ namespace Cuemon.Runtime
         /// <summary>
         /// Represents an event with no event data.
         /// </summary>
-        public new static readonly WatcherEventArgs Empty = new WatcherEventArgs();
+        public new static readonly WatcherEventArgs Empty = new();
     }
 }

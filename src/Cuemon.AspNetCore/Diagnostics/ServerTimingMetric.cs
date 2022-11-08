@@ -18,7 +18,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// <param name="description">The server-specified metric description.</param>
         public ServerTimingMetric(string name, TimeSpan? duration = null, string description = null)
         {
-            Validator.ThrowIfNullOrWhitespace(name, nameof(name));
+            Validator.ThrowIfNullOrWhitespace(name);
             if (duration.HasValue && duration <= TimeSpan.Zero) { duration = TimeSpan.Zero; }
             
             var metric = name;

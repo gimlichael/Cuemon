@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.Net
         /// <returns>A <see cref="string"/> equivalent to the values in the <paramref name="nvc"/>.</returns>
         public static string ToQueryString(this NameValueCollection nvc, bool urlEncode = false)
         {
-            Validator.ThrowIfNull(nvc, nameof(nvc));
+            Validator.ThrowIfNull(nvc);
             return Decorator.Enclose(nvc).ToString(FieldValueSeparator.Ampersand, urlEncode);
         }
     }

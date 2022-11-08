@@ -17,7 +17,7 @@ namespace Cuemon
     /// <seealso cref="Decorator{T}"/>
     public static class TypeDecoratorExtensions
     {
-        private static ConcurrentDictionary<string, bool> ComplexValueTypeLookup { get; } = new ConcurrentDictionary<string, bool>();
+        private static ConcurrentDictionary<string, bool> ComplexValueTypeLookup { get; } = new();
 
         /// <summary>
         /// Retrieves a collection that represents all the properties defined on the enclosed <see cref="Type"/> of the <paramref name="decorator"/> except those defined on <typeparamref name="T"/>.
@@ -30,7 +30,7 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<PropertyInfo> GetRuntimePropertiesExceptOf<T>(this IDecorator<Type> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var baseProperties = typeof(T).GetRuntimeProperties();
             var typeProperties = decorator.Inner.GetRuntimeProperties();
             return typeProperties.Except(baseProperties, DynamicEqualityComparer.Create<PropertyInfo>(pi => Generate.HashCode32(FormattableString.Invariant($"{pi.Name}-{pi.PropertyType.Name}")), (x, y) => x.Name == y.Name && x.PropertyType.Name == y.PropertyType.Name));
@@ -48,8 +48,8 @@ namespace Cuemon
         /// </exception>
         public static bool HasTypes(this IDecorator<Type> decorator, params Type[] types)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(types, nameof(types));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(types);
             foreach (var tt in types)
             {
                 var st = decorator.Inner;
@@ -77,8 +77,8 @@ namespace Cuemon
         /// </exception>
         public static bool HasAttribute(this IDecorator<Type> decorator, params Type[] attributeTypes)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(attributeTypes, nameof(attributeTypes));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(attributeTypes);
             foreach (var attributeType in attributeTypes) { if (decorator.Inner.GetCustomAttributes(attributeType, true).Any()) { return true; } }
             foreach (var m in decorator.Inner.GetMembers())
             {
@@ -101,8 +101,8 @@ namespace Cuemon
         /// </exception>
         public static bool HasInterface(this IDecorator<Type> decorator, params Type[] interfaceTypes)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
-            Validator.ThrowIfNull(interfaceTypes, nameof(interfaceTypes));
+            Validator.ThrowIfNull(decorator);
+            Validator.ThrowIfNull(interfaceTypes);
             var si = decorator.Inner.IsInterface ? Arguments.Yield(decorator.Inner).Concat(decorator.Inner.GetInterfaces()).ToList() : decorator.Inner.GetInterfaces().ToList();
             foreach (var ti in interfaceTypes.Where(t => t.IsInterface))
             {
@@ -205,7 +205,7 @@ namespace Cuemon
         /// </exception>
         public static bool IsNullable(this IDecorator<Type> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             if (!decorator.Inner.IsValueType) { return false; }
             return Nullable.GetUnderlyingType(decorator.Inner) != null;
         }
@@ -221,7 +221,7 @@ namespace Cuemon
         /// </exception>
         public static bool HasAnonymousCharacteristics(this IDecorator<Type> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.GetCustomAttribute(typeof(CompilerGeneratedAttribute)) != null && decorator.Inner.IsClass && decorator.Inner.IsSealed && decorator.Inner.BaseType == typeof(object);
         }
 
@@ -234,7 +234,7 @@ namespace Cuemon
         /// </exception>
         public static bool HasDefaultConstructor(this IDecorator<Type> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return decorator.Inner.IsValueType || decorator.Inner.GetConstructor(Type.EmptyTypes) != null;
         }
 
@@ -248,7 +248,7 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<Type> GetInheritedTypes(this IDecorator<Type> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var pt = new Stack<Type>();
             var ct = decorator.Inner;
             while (ct != null)
@@ -270,7 +270,7 @@ namespace Cuemon
         /// </exception>
         public static IEnumerable<Type> GetDerivedTypes(this IDecorator<Type> decorator, params Assembly[] assemblies)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var ac = new List<Assembly>(assemblies ?? Enumerable.Empty<Assembly>());
             if (!ac.Contains(decorator.Inner.Assembly)) { ac.Add(decorator.Inner.Assembly); }
             var dt = new List<Type>();
@@ -321,7 +321,7 @@ namespace Cuemon
         /// </exception>
         public static bool IsComplex(this IDecorator<Type> decorator)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             return IsComplex(decorator.Inner);
         }
 
@@ -336,7 +336,7 @@ namespace Cuemon
         /// </exception>
         public static string ToFriendlyName(this IDecorator<Type> decorator, Action<TypeNameOptions> setup = null)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator));
+            Validator.ThrowIfNull(decorator);
             var options = Patterns.Configure(setup);
             var typeName = options.FriendlyNameStringConverter(decorator.Inner, options.FormatProvider, options.FullName);
             if (options.ExcludeGenericArguments || !decorator.Inner.GetTypeInfo().IsGenericType) { return typeName; }
@@ -363,10 +363,10 @@ namespace Cuemon
         /// </exception>
         public static bool HasCircularReference(this IDecorator<Type> decorator, object source, int maxDepth = 2, Func<object, PropertyInfo, object> valueResolver = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
+            Validator.ThrowIfNull(source);
             Validator.ThrowIfLowerThanOrEqual(maxDepth, 0, nameof(maxDepth));
             if (source.GetType() != decorator.Inner) { throw new InvalidOperationException("The specified source has a different type than the underlying type of the extended decorator."); }
-            if (valueResolver == null) { valueResolver = Infrastructure.DefaultPropertyValueResolver; }
+            valueResolver ??= Infrastructure.DefaultPropertyValueResolver;
             var hasCircularReference = false;
             var currentDepth = 0;
             var stack = new Stack<object>();
@@ -407,7 +407,7 @@ namespace Cuemon
         /// </exception>
         public static MethodBase MatchMember(this IDecorator<Type> decorator, string memberName, Action<MethodBaseOptions> setup = null)
         {
-            Validator.ThrowIfNullOrWhitespace(memberName, nameof(memberName));
+            Validator.ThrowIfNullOrWhitespace(memberName);
             var options = Patterns.Configure(setup);
             var methods = decorator.Inner.GetMethods(options.Flags).Where(info => info.Name.Equals(memberName, options.Comparison)).ToList();
             var matchedMethod = Parse(methods, options.Types);

@@ -1,13 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
     <ProjectGuid>0f0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Cuemon.Extensions.Diagnostics</AssemblyName>
-    <AssemblyTitle>Cuemon.Extensions.Diagnostics</AssemblyTitle>
     <Description>The Cuemon.Extensions.Diagnostics namespace contains extension methods that complements the Cuemon.Diagnostics namespace while being an addition to the System.Diagnostics namespace.</Description>
     <PackageTags>extension-methods extensions to-insights-string to-product-version to-file-version</PackageTags>
   </PropertyGroup>

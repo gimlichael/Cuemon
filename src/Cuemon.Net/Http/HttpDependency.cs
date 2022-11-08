@@ -21,7 +21,7 @@ namespace Cuemon.Net.Http
         /// <paramref name="lazyFileWatcher"/> cannot be null.
         /// </exception>
         /// <remarks>The <see cref="HttpWatcher"/> initialization is deferred until <see cref="Dependency.StartAsync"/> is invoked.</remarks>
-        public HttpDependency(Lazy<HttpWatcher> lazyFileWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyFileWatcher, () => Validator.ThrowIfNull(lazyFileWatcher, nameof(lazyFileWatcher)))), breakTieOnChanged)
+        public HttpDependency(Lazy<HttpWatcher> lazyFileWatcher, bool breakTieOnChanged = false) : this(Arguments.Yield(Validator.CheckParameter(lazyFileWatcher, () => Validator.ThrowIfNull(lazyFileWatcher))), breakTieOnChanged)
         {
         }
 
@@ -34,9 +34,9 @@ namespace Cuemon.Net.Http
         public HttpDependency(IEnumerable<Lazy<HttpWatcher>> lazyFileWatchers, bool breakTieOnChanged = false) : base(watcherChanged =>
         {
             var watchers = new List<HttpWatcher>();
-            foreach (var lazyFileWatcher in lazyFileWatchers ?? Enumerable.Empty<Lazy<HttpWatcher>>())
+            foreach (var lazyFileWatcher in lazyFileWatchers.Select(lazy => lazy.Value))
             {
-                var fileWatcher = lazyFileWatcher.Value;
+                var fileWatcher = lazyFileWatcher;
                 fileWatcher.Changed += watcherChanged;
                 fileWatcher.StartMonitoring();
                 watchers.Add(fileWatcher);

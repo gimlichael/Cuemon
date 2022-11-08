@@ -28,6 +28,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features
         /// <param name="state">The state to pass into the callback.</param>
         public override void OnStarting(Func<object, Task> callback, object state)
         {
+            if (_hasStarted) { return; }
             _hasStarted = true;
             callback?.Invoke(state);
         }

@@ -46,7 +46,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public async Task WriteResponseBodyAsync_ShouldReturnOk()
         {
-            using (var filter = MvcFilterTestFactory.CreateMvcFilterTest(app =>
+            using (var filter = WebApplicationTestFactory.Create(app =>
             {
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -54,7 +54,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddJsonSerializationFormatters();
+                    .AddNewtonsoftJsonFormatters();
             }))
             {
                 var client = filter.Host.GetTestClient();

@@ -18,7 +18,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static IEnumerable<string> ToEnumerable(this IEnumerable<char> values)
         {
-            Validator.ThrowIfNull(values, nameof(values));
+            Validator.ThrowIfNull(values);
             return Decorator.Enclose(values).ToEnumerable();
         }
 
@@ -32,7 +32,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static string FromChars(this IEnumerable<char> values)
         {
-            Validator.ThrowIfNull(values, nameof(values));
+            Validator.ThrowIfNull(values);
             return Decorator.Enclose(values).ToStringEquivalent();
         }
     }

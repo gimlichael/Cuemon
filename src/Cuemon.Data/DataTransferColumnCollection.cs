@@ -24,7 +24,7 @@ namespace Cuemon.Data
             }
         }
 
-        private List<string> Names { get; } = new List<string>();
+        private List<string> Names { get; } = new();
 
         /// <summary>
         /// Gets the <see cref="DataTransferColumn"/> from the collection with the specified name.

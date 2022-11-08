@@ -24,7 +24,7 @@ namespace Cuemon.Data.Integrity
         /// <param name="hashFactory">The function delegate that is invoked to produce the <see cref="HashResult"/>.</param>
         public ChecksumBuilder(byte[] checksum, Func<Hash> hashFactory)
         {
-            Validator.ThrowIfNull(hashFactory, nameof(hashFactory));
+            Validator.ThrowIfNull(hashFactory);
             Bytes = checksum == null ? new List<byte>() : new List<byte>(checksum);
             HashFactory = hashFactory;
         }
@@ -45,7 +45,7 @@ namespace Cuemon.Data.Integrity
         /// Gets a <see cref="HashResult"/> containing a computed hash value of the data this instance represents.
         /// </summary>
         /// <value>A <see cref="HashResult"/> containing a computed hash value of the data this instance represents.</value>
-        public HashResult Checksum => ComputedHash ?? (ComputedHash = HashFactory.Invoke().ComputeHash(Bytes.ToArray()));
+        public HashResult Checksum => ComputedHash ??= HashFactory.Invoke().ComputeHash(Bytes.ToArray());
 
         /// <summary>
         /// Gets or sets the computed checksum of <see cref="Bytes"/>.
@@ -81,7 +81,7 @@ namespace Cuemon.Data.Integrity
         /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is ChecksumBuilder builder)) { return false; }
+            if (obj is not ChecksumBuilder builder) { return false; }
             return Equals(builder);
         }
 

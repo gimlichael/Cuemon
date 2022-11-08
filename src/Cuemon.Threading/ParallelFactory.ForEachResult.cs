@@ -18,8 +18,8 @@ namespace Cuemon.Threading
         /// The task result contains an <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as <paramref name="source" />.</returns>
         public static IReadOnlyCollection<TResult> ForEachResult<TSource, TResult>(IEnumerable<TSource> source, Func<TSource, TResult> worker, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(worker);
             return ForEachResultCore(source, FuncFactory.Create(worker, default), setup);
         }
 
@@ -36,8 +36,8 @@ namespace Cuemon.Threading
         /// <returns>An <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as <paramref name="source" />.</returns>
         public static IReadOnlyCollection<TResult> ForEachResult<TSource, T, TResult>(IEnumerable<TSource> source, Func<TSource, T, TResult> worker, T arg, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(worker);
             return ForEachResultCore(source, FuncFactory.Create(worker, default, arg), setup);
         }
 
@@ -56,8 +56,8 @@ namespace Cuemon.Threading
         /// <returns>An <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as <paramref name="source" />.</returns>
         public static IReadOnlyCollection<TResult> ForEachResult<TSource, T1, T2, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, TResult> worker, T1 arg1, T2 arg2, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(worker);
             return ForEachResultCore(source, FuncFactory.Create(worker, default, arg1, arg2), setup);
         }
 
@@ -78,8 +78,8 @@ namespace Cuemon.Threading
         /// <returns>An <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as <paramref name="source" />.</returns>
         public static IReadOnlyCollection<TResult> ForEachResult<TSource, T1, T2, T3, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, TResult> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(worker);
             return ForEachResultCore(source, FuncFactory.Create(worker, default, arg1, arg2, arg3), setup);
         }
 
@@ -102,8 +102,8 @@ namespace Cuemon.Threading
         /// <returns>An <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as <paramref name="source" />.</returns>
         public static IReadOnlyCollection<TResult> ForEachResult<TSource, T1, T2, T3, T4, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, TResult> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(worker);
             return ForEachResultCore(source, FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4), setup);
         }
 
@@ -128,8 +128,8 @@ namespace Cuemon.Threading
         /// <returns>An <see cref="IReadOnlyCollection{TResult}" /> where the return value of the function delegate <paramref name="worker" /> is stored in the same sequential order as <paramref name="source" />.</returns>
         public static IReadOnlyCollection<TResult> ForEachResult<TSource, T1, T2, T3, T4, T5, TResult>(IEnumerable<TSource> source, Func<TSource, T1, T2, T3, T4, T5, TResult> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncTaskFactoryOptions> setup = null)
         {
-            Validator.ThrowIfNull(source, nameof(source));
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfNull(worker);
             return ForEachResultCore(source, FuncFactory.Create(worker, default, arg1, arg2, arg3, arg4, arg5), setup);
         }
 

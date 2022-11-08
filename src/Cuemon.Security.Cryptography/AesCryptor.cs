@@ -38,8 +38,8 @@ namespace Cuemon.Security.Cryptography
         /// </exception>
         public AesCryptor(byte[] key, byte[] initializationVector)
         {
-            Validator.ThrowIfNull(key, nameof(key));
-            Validator.ThrowIfNull(initializationVector, nameof(initializationVector));
+            Validator.ThrowIfNull(key);
+            Validator.ThrowIfNull(initializationVector);
             var keyBits = key.Length * ByteUnit.BitsPerByte;
             var initializationVectorBits = initializationVector.Length * ByteUnit.BitsPerByte;
             if (!(keyBits == 128 || keyBits == 192 || keyBits == 256)) { throw new CryptographicException("The key does not meet the required fixed size of either 128 bits, 192 bits or 256 bits."); }

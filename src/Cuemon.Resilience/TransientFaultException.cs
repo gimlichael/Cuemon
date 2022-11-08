@@ -24,7 +24,7 @@ namespace Cuemon.Resilience
         /// <param name="evidence">The evidence that provide details about the transient fault.</param>
         public TransientFaultException(string message, TransientFaultEvidence evidence) : base(message)
         {
-            Validator.ThrowIfNull(evidence, nameof(evidence));
+            Validator.ThrowIfNull(evidence);
             Evidence = evidence;
         }
 
@@ -36,7 +36,7 @@ namespace Cuemon.Resilience
         /// <param name="evidence">The evidence that provide details about the transient fault.</param>
         public TransientFaultException(string message, Exception innerException, TransientFaultEvidence evidence) : base(message, innerException)
         {
-            Validator.ThrowIfNull(evidence, nameof(evidence));
+            Validator.ThrowIfNull(evidence);
             Evidence = evidence;
         }
         /// <summary>

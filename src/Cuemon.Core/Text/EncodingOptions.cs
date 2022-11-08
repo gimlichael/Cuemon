@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Text;
+using Cuemon.Configuration;
 
 namespace Cuemon.Text
 {
     /// <summary>
     /// Specifies options that is related to the <see cref="System.Text.Encoding"/> class.
     /// </summary>
-    public class EncodingOptions : IEncodingOptions
+    public class EncodingOptions : IEncodingOptions, IParameterObject
     {
         private Encoding _encoding;
 
@@ -68,7 +69,7 @@ namespace Cuemon.Text
             get => _encoding;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _encoding = value;
             }
         }

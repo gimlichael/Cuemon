@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Cuemon.Configuration;
 using Cuemon.Runtime.Serialization;
 
 namespace Cuemon.Reflection
@@ -7,7 +8,8 @@ namespace Cuemon.Reflection
     /// <summary>
     /// Specifies options that is related to <see cref="Hierarchy"/> and <see cref="HierarchySerializer"/> operations.
     /// </summary>
-    public class ObjectHierarchyOptions
+    /// <seealso cref="IParameterObject"/>
+    public class ObjectHierarchyOptions : IParameterObject
     {
         private int _maxDepth;
         private int _maxCircularCalls;
@@ -15,6 +17,7 @@ namespace Cuemon.Reflection
         private Func<PropertyInfo, bool> _skipProperty;
         private Func<object, bool> _hasCircularReference;
         private Func<object, PropertyInfo, object> _valueResolver;
+        private MemberReflection _reflectionRules;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectHierarchyOptions"/> class.
@@ -23,6 +26,7 @@ namespace Cuemon.Reflection
         {
             MaxDepth = 10;
             MaxCircularCalls = 2;
+            ReflectionRules = new MemberReflection(true, true);
             SkipPropertyType = source =>
             {
                 switch (Type.GetTypeCode(source))
@@ -58,6 +62,7 @@ namespace Cuemon.Reflection
                         property.Name.Equals("IsSynchronized", StringComparison.Ordinal) ||
                         property.Name.Equals("Count", StringComparison.Ordinal) ||
                         property.Name.Equals("HResult", StringComparison.Ordinal) ||
+                        property.Name.Equals("Parent", StringComparison.Ordinal) ||
                         property.Name.Equals("TargetSite", StringComparison.Ordinal));
             };
             HasCircularReference = i => Decorator.Enclose(i.GetType()).HasCircularReference(i);
@@ -93,6 +98,23 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
+        /// Gets or sets the binding constraints for reflection based member searching.
+        /// </summary>
+        /// <value>The binding constraints for reflection based member searching.</value>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        public MemberReflection ReflectionRules
+        {
+            get => _reflectionRules;
+            set
+            {
+                Validator.ThrowIfNull(value);
+                _reflectionRules = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the function delegate that is invoked just before public properties is being iterated and whose return <see cref="Type"/> determine if the properties should be skipped or not.
         /// </summary>
         /// <value>A <see cref="Func{TResult}"/> that determines if a given property <see cref="Type"/> should be skipped or not.</value>
@@ -101,7 +123,7 @@ namespace Cuemon.Reflection
             get => _skipPropertyType;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _skipPropertyType = value;
             }
         }
@@ -115,7 +137,7 @@ namespace Cuemon.Reflection
             get => _skipProperty;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _skipProperty = value;
             }
         }
@@ -129,7 +151,7 @@ namespace Cuemon.Reflection
             get => _hasCircularReference;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _hasCircularReference = value;
             }
         }
@@ -143,7 +165,7 @@ namespace Cuemon.Reflection
             get => _valueResolver;
             set
             {
-                Validator.ThrowIfNull(value, nameof(value));
+                Validator.ThrowIfNull(value);
                 _valueResolver = value;
             }
         }

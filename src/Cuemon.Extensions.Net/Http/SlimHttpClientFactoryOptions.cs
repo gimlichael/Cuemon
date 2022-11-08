@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Net.Http;
+using Cuemon.Configuration;
 
 namespace Cuemon.Extensions.Net.Http
 {
     /// <summary>
     /// Configuration options for <see cref="SlimHttpClientFactory"/>.
     /// </summary>
-    public class SlimHttpClientFactoryOptions
+    /// <seealso cref="IParameterObject"/>
+    public class SlimHttpClientFactoryOptions : IParameterObject
     {
         private TimeSpan _handlerLifetime;
 

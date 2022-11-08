@@ -1,11 +1,12 @@
 ﻿using System;
+using Cuemon.Configuration;
 
 namespace Cuemon.Runtime.Caching
 {
     /// <summary>
     /// Configuration options for <see cref="SlimMemoryCache"/>.
     /// </summary>
-    public class SlimMemoryCacheOptions
+    public class SlimMemoryCacheOptions : IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SlimMemoryCacheOptions"/> class.
@@ -66,5 +67,17 @@ namespace Cuemon.Runtime.Caching
         /// </summary>
         /// <value>The function delegate that is responsible for providing a unique identifier for a cache entry.</value>
         public Func<string, string, long> KeyProvider { get; set; }
+
+        /// <summary>
+        /// Determines whether the public read-write properties of this instance are in a valid state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="KeyProvider"/> cannot be null.
+        /// </exception>
+        /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+        public void ValidateOptions()
+        {
+            Validator.ThrowIfObjectInDistress(KeyProvider == null);
+        }
     }
 }

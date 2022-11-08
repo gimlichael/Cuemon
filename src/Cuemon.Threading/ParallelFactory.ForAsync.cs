@@ -16,7 +16,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync(int fromInclusive, int toExclusive, Func<int, CancellationToken, Task> worker, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, setup);
         }
 
@@ -32,7 +32,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T>(int fromInclusive, int toExclusive, Func<int, T, CancellationToken, Task> worker, T arg, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg, setup);
         }
 
@@ -50,7 +50,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2>(int fromInclusive, int toExclusive, Func<int, T1, T2, CancellationToken, Task> worker, T1 arg1, T2 arg2, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg1, arg2, setup);
         }
 
@@ -70,7 +70,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2, T3>(int fromInclusive, int toExclusive, Func<int, T1, T2, T3, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, setup);
         }
 
@@ -92,7 +92,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2, T3, T4>(int fromInclusive, int toExclusive, Func<int, T1, T2, T3, T4, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, arg4, setup);
         }
 
@@ -116,7 +116,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2, T3, T4, T5>(int fromInclusive, int toExclusive, Func<int, T1, T2, T3, T4, T5, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<int>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, arg4, arg5, setup);
         }
 
@@ -130,7 +130,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync(long fromInclusive, long toExclusive, Func<long, CancellationToken, Task> worker, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, setup: setup);
         }
 
@@ -146,7 +146,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T>(long fromInclusive, long toExclusive, Func<long, T, CancellationToken, Task> worker, T arg, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg, setup: setup);
         }
 
@@ -164,7 +164,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2>(long fromInclusive, long toExclusive, Func<long, T1, T2, CancellationToken, Task> worker, T1 arg1, T2 arg2, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg1, arg2, setup: setup);
         }
 
@@ -184,7 +184,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2, T3>(long fromInclusive, long toExclusive, Func<long, T1, T2, T3, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, setup: setup);
         }
 
@@ -206,7 +206,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2, T3, T4>(long fromInclusive, long toExclusive, Func<long, T1, T2, T3, T4, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, arg4, setup: setup);
         }
 
@@ -230,7 +230,7 @@ namespace Cuemon.Threading
         /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task ForAsync<T1, T2, T3, T4, T5>(long fromInclusive, long toExclusive, Func<long, T1, T2, T3, T4, T5, CancellationToken, Task> worker, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, Action<AsyncWorkloadOptions> setup = null)
         {
-            Validator.ThrowIfNull(worker, nameof(worker));
+            Validator.ThrowIfNull(worker);
             return AdvancedParallelFactory.ForAsync(new ForLoopRuleset<long>(fromInclusive, toExclusive, 1), worker, arg1, arg2, arg3, arg4, arg5, setup: setup);
         }
     }

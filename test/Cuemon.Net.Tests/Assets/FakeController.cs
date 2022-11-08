@@ -12,7 +12,7 @@ namespace Cuemon.Net.Assets
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(Guid.NewGuid().ToString("N").MakeCacheable(() => DateTime.UtcNow));
+            return Ok(Guid.NewGuid().ToString("N").WithLastModifiedHeader(o => o.TimestampProvider = _ => DateTime.UtcNow));
         }
     }
 }

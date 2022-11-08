@@ -1,0 +1,12 @@
+﻿Version: 7.0.0
+Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
+ 
+# New Features
+- ADDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddHttpExceptionDescriptorConverter, AddStringValuesConverter
+- ADDED JsonSerializationInputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that handles deserialization of JSON to objects using JsonFormatter class
+- ADDED JsonSerializationMvcOptionsSetup class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that is a ConfigureOptions{TOptions} implementation which will add the JSON serializer formatters to MvcOptions
+- ADDED JsonSerializationOutputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that handles serialization of objects to JSON using JsonFormatter class
+- ADDED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that consist of extension methods for the IMvcBuilder interface: AddJsonFormatters, AddJsonFormattersOptions
+- ADDED MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that consist of extension methods for the IMvcCoreBuilder interface: AddJsonFormatters, AddJsonFormattersOptions
+- ADDED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddJsonResponseHandler
+ 

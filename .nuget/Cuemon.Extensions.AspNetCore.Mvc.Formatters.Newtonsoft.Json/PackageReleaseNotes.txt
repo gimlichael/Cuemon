@@ -1,4 +1,20 @@
-﻿Version: 6.4.1
+﻿Version: 7.0.0
+Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
+ 
+# ALM
+- ADDED TFM for .NET 7
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+# Breaking Changes
+- RENAMED AddJsonSerializationFormatters --> AddNewtonsoftJsonFormatters on the MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+- RENAMED AddJsonFormatterOptions --> AddNewtonsoftJsonFormattersOptions on the MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+- RENAMED AddJsonSerializationFormatters --> AddNewtonsoftJsonFormatters on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+- RENAMED AddJsonFormatterOptions --> AddNewtonsoftJsonFormattersOptions on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+ 
+# New Features
+- ADDED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddNewtonsoftJsonResponseHandler
+ 
+Version: 6.4.1
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
  
 # ALM

@@ -23,7 +23,7 @@ namespace Cuemon.Text
         /// </exception>
         public static Encoding Decode(byte[] bytes)
         {
-            Validator.ThrowIfNull(bytes, nameof(bytes));
+            Validator.ThrowIfNull(bytes);
             if (bytes.Length >= 4)
             {
                 if (BomIsUtf8(bytes)) { return Encoding.GetEncoding("UTF-8"); }
@@ -121,7 +121,7 @@ namespace Cuemon.Text
         /// <returns><c>true</c> if the <paramref name="value"/> parameter was converted successfully; otherwise, <c>false</c>.</returns>
         public static bool TryDetectEncoding(Stream value, out Encoding result)
         {
-            Validator.ThrowIfNull(value, nameof(value));
+            Validator.ThrowIfNull(value);
             if (!value.CanSeek)
             {
                 result = null;
@@ -146,8 +146,8 @@ namespace Cuemon.Text
         /// <returns>A <see cref="Stream"/> without preamble information.</returns>
         public static Stream Remove(Stream value, Encoding encoding, Action<DisposableOptions> setup = null)
         {
-            Validator.ThrowIfNull(value, nameof(value));
-            Validator.ThrowIfNull(encoding, nameof(encoding));
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(encoding);
             
             var option = Patterns.Configure(setup);
             var bytes = Decorator.Enclose(value).InvokeToByteArray(leaveOpen: option.LeaveOpen);
@@ -168,8 +168,8 @@ namespace Cuemon.Text
         /// <returns>A <see cref="byte"/> array without preamble information.</returns>
         public static byte[] Remove(byte[] bytes, Encoding encoding)
         {
-            Validator.ThrowIfNull(bytes, nameof(bytes));
-            Validator.ThrowIfNull(encoding, nameof(encoding));
+            Validator.ThrowIfNull(bytes);
+            Validator.ThrowIfNull(encoding);
             if (bytes.Length <= 1) { return bytes; }
             var preamble = encoding.GetPreamble();
             if (preamble.Length == 0) { return bytes; }

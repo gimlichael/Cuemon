@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.AspNetCore.Configuration
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
         public static IServiceCollection AddCacheBusting<T>(this IServiceCollection services) where T : class, ICacheBusting
         {
-            Validator.ThrowIfNull(services, nameof(services));
+            Validator.ThrowIfNull(services);
             services.AddSingleton<ICacheBusting, T>();
             return services;
         }

@@ -1,5 +1,0 @@
-﻿steps:
-  - task: UseDotNet@2
-    displayName: 'Use .Net SDK 6.0.x'
-    inputs:
-      version: 6.0.x
