@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Reflection;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
@@ -50,24 +49,12 @@ namespace Cuemon.AspNetCore.Diagnostics
         ///         <description><c>null</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="IncludeRequest"/></term>
-        ///         <description><c>false</c></description>
+        ///         <term><see cref="SensitivityDetails"/></term>
+        ///         <description><see cref="FaultSensitivityDetails.None"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="IncludeFailure"/></term>
-        ///         <description><c>false</c></description>
-        ///     </item>
-        ///     <item>
-        ///         <term><see cref="IncludeStackTrace"/></term>
-        ///         <description><c>false</c></description>
-        ///     </item>
-        ///     <item>
-        ///         <term><see cref="IncludeEvidence"/></term>
-        ///         <description><c>false</c></description>
-        ///     </item>
-        ///     <item>
-        ///         <term><see cref="RequestBodyParser"/></term>
-        ///         <description><c>null</c></description>
+        ///         <term><see cref="RequestEvidenceProvider"/></term>
+        ///         <description><c>request => new HttpRequestEvidence(request)</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="NonMvcResponseHandlers"/></term>
@@ -108,6 +95,8 @@ namespace Cuemon.AspNetCore.Diagnostics
                 }
                 return new HttpExceptionDescriptor(e, StatusCodes.Status500InternalServerError, message: FormattableString.Invariant($"An unhandled exception was raised by {Assembly.GetEntryAssembly()?.GetName().Name}."), helpLink: RootHelpLink);
             };
+            RequestEvidenceProvider = request => new HttpRequestEvidence(request);
+            SensitivityDetails = FaultSensitivityDetails.None;
         }
 
         /// <summary>
@@ -153,34 +142,16 @@ namespace Cuemon.AspNetCore.Diagnostics
         public IList<HttpExceptionDescriptorResponseHandler> NonMvcResponseHandlers { get; set; } = new List<HttpExceptionDescriptorResponseHandler>();
 
         /// <summary>
-        /// Gets or sets the function delegate that, when <see cref="IncludeRequest"/> is <c>true</c>, will determines the string result of a HTTP request body.
+        /// Gets or sets the function delegate that, when <see cref="SensitivityDetails"/> includes <see cref="FaultSensitivityDetails.Evidence"/>, provides a default <see cref="HttpRequestEvidence"/> as part of the serialized result.
         /// </summary>
-        /// <value>The function delegate that determines the string result of a HTTP request body.</value>
-        public Func<Stream, string> RequestBodyParser { get; set; }
+        /// <value>The function delegate that provides a default <see cref="HttpRequestEvidence"/> as part of the serialized result.</value>
+        public Func<HttpRequest, HttpRequestEvidence> RequestEvidenceProvider { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the request that caused the exception should be included as evidence.
+        /// Gets or sets a bitwise combination of the enumeration values that specify which sensitive details to include in the serialized result.
         /// </summary>
-        /// <value><c>true</c> if the request that caused the exception should be included as evidence; otherwise, <c>false</c>.</value>
-        public bool IncludeRequest { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result.
-        /// </summary>
-        /// <value><c>true</c> if the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result; otherwise, <c>false</c>.</value>
-        public bool IncludeFailure { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the stack of the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result.
-        /// </summary>
-        /// <value><c>true</c> if the stack of the <see cref="ExceptionDescriptor.Failure"/> property is included in the serialized result; otherwise, <c>false</c>.</value>
-        public bool IncludeStackTrace { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="ExceptionDescriptor.Evidence"/> property is included in the serialized result.
-        /// </summary>
-        /// <value><c>true</c> if the <see cref="ExceptionDescriptor.Evidence"/> property is included in the serialized result; otherwise, <c>false</c>.</value>
-        public bool IncludeEvidence { get; set; }
+        /// <value>The enumeration values that specify which sensitive details to include in the serialized result.</value>
+        public FaultSensitivityDetails SensitivityDetails { get; set; }
 
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.

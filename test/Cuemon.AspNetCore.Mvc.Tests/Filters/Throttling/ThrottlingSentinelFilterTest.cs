@@ -33,14 +33,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
             }, services =>
-            {
-                services.AddControllers(o =>
-                    {
-                        o.Filters.Add<FaultDescriptorFilter>();
-                        o.Filters.Add<ThrottlingSentinelFilter>();
-                    }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters(o => o.IncludeExceptionDescriptorFailure = false);
+                   {
+                       services.AddControllers(o =>
+                           {
+                               o.Filters.Add<FaultDescriptorFilter>();
+                               o.Filters.Add<ThrottlingSentinelFilter>();
+                           }).AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddNewtonsoftJson()
+                           .AddNewtonsoftJsonFormatters();
                 services.Configure<ThrottlingSentinelOptions>(o =>
                 {
                     o.ContextResolver = context => nameof(OnActionExecutionAsync_ShouldCaptureThrottlingException);
@@ -82,13 +82,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
             }, services =>
-            {
-                services.AddControllers(o =>
-                    {
-                        o.Filters.Add<ThrottlingSentinelFilter>();
-                    }).AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJson()
-                    .AddNewtonsoftJsonFormatters(o => o.IncludeExceptionDescriptorFailure = false);
+                   {
+                       services.AddControllers(o =>
+                           {
+                               o.Filters.Add<ThrottlingSentinelFilter>();
+                           }).AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddNewtonsoftJson()
+                           .AddNewtonsoftJsonFormatters();
                 services.Configure<ThrottlingSentinelOptions>(o =>
                 {
                     o.ContextResolver = context => nameof(OnActionExecutionAsync_ShouldCaptureThrottlingException);

@@ -8,7 +8,16 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 The `Cuemon.Extensions.Globalization` namespace contains extension methods that complements the Cuemon.Globalization namespace while being an addition to the System.Globalization namespace.
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/extensions/swagger/Cuemon.Extensions.Swashbuckle.AspNetCore.html).
+More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Globalization.html).
+
+### CSharp Example
+```csharp
+var danishCultureIcu = CultureInfo("da-dk");
+var danishCultureNls = new CultureInfo("da-dk").UseNationalLanguageSupport();
+
+// danishCultureIcu outputs dd.MM.yyyy from danishCultureIcu.DateTimeFormat.ShortDatePattern
+// danishCultureNls outputs dd-MM-yyyy from danishCultureNls.DateTimeFormat.ShortDatePattern
+```
 
 ## Related Packages
 

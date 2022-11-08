@@ -12,7 +12,7 @@ namespace Cuemon.Extensions.Globalization
         public void MergeWithOriginal_ShouldHaveDifferentFormattingAsWindowsVariant()
         {
             var sut1 = World.GetCultures(new RegionInfo("DK")).Single(ci => ci.Name == "da-DK");
-            var sut2 = new CultureInfo("da-dk").MergeWithOriginalFormatting();
+            var sut2 = new CultureInfo("da-dk").UseNationalLanguageSupport();
 
             Assert.NotEqual(sut1.DateTimeFormat, sut2.DateTimeFormat);
             Assert.NotEqual(sut1.NumberFormat, sut2.NumberFormat);

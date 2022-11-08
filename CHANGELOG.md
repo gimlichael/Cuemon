@@ -127,12 +127,14 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - TypeNameOptions class in the Cuemon.Reflection namespace that could throw a NullReferenceException when FullName is null; fallback to Name
 - JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to use DateTimeZoneHandling.RoundtripKind instead of DateTimeZoneHandling.Utc when dealing with DateTimeZoneHandling
 - FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace was renamed to FaultDescriptorOptions
-- ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude Failure, Evidence and StackTrace as default
+- ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude all sensitive details of a failure while refactoring all bool properties into one SensitivityDetails property that uses the FaultSensitivityDetails enum (with FlagsAttribute)
 - HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace was extended with one new overloaded static member: TryParse
 - ServiceCollectionExtensions class in the Cuemon.Extensions.DependencyInjection namespace was extended with twelve new overloaded extension methods for the IServiceCollection interface: Add, TryAdd
 - CacheableObjectResultExtensions in the Cuemon.Extensions.AspNetCore.Mvc namespace to exclude non-generic MakeCacheable methods
 - MakeCacheable{T} --> WithLastModifiedHeader{T}, WithEntityTagHeader{T} and WithCacheableHeaders{T} on the CacheableObjectResultExtensions class in the Cuemon.Extensions.AspNetCore.Mvc namespace
 - Configure{T}, ConfigureExchange{T} and ConfigureRevertExchange{T} on the Patterns class in the Cuemon namespace to have type conditions include IParameterObject
+- FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace so that it matches the recent changes to IExceptionDescriptorOptions from the Cuemon.Diagnostics namespace
+- FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace so that function delegate RequestBodyParser was replaced by RequestEvidenceProvider to accommodate the changes introduced by IExceptionDescriptorOptions refactoring
 
 ### Removed
 
@@ -145,6 +147,8 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - MvcFilterTestFactory class from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 - AddTimeSpanConverter extension method from JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace
 - CheckParameter overloads from the Validator class in the Cuemon namespace
+- ExceptionDescriptorExtensions class from the Cuemon.Extensions.Newtonsoft.Json.Diagnostics namespace
+- ExceptionDescriptorExtensions class from the Cuemon.Extensions.Xml.Serialization.Diagnostics namespace
 
 ### Fixed
 

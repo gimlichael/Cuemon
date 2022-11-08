@@ -71,18 +71,8 @@ namespace Cuemon.Extensions.Asp.Versioning
                 app.UseFaultDescriptorExceptionHandler(o =>
                 {
                     o.NonMvcResponseHandlers
-                        .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions(), (s, r) =>
-                            {
-                                r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                                r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                                r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                            }))
-                        .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions(), (s, r) =>
-                        {
-                            r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                            r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                            r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                        }));
+                        .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions()))
+                        .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions()));
                 });
                 app.UseRestfulApiVersioning();
                 app.UseRouting();
@@ -97,18 +87,6 @@ namespace Cuemon.Extensions.Asp.Versioning
                 services.AddRestfulApiVersioning(o =>
                 {
                     o.ValidAcceptHeaders.Clear();
-                });
-                services.Configure<MvcFaultDescriptorOptions>(o =>
-                {
-                    o.IncludeRequest = true;
-                });
-                services.Configure<XmlFormatterOptions>(o =>
-                {
-                    o.IncludeExceptionStackTrace = true;
-                });
-                services.Configure<JsonFormatterOptions>(o =>
-                {
-                    o.IncludeExceptionStackTrace = true;
                 });
             }))
             {
@@ -133,18 +111,8 @@ namespace Cuemon.Extensions.Asp.Versioning
                        app.UseFaultDescriptorExceptionHandler(o =>
                        {
                            o.NonMvcResponseHandlers
-                               .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions(), (s, r) =>
-                               {
-                                   r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                                   r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                                   r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                               }))
-                               .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions(), (s, r) =>
-                               {
-                                   r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                                   r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                                   r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                               }));
+                               .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions()))
+                               .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions()));
                        });
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -158,18 +126,6 @@ namespace Cuemon.Extensions.Asp.Versioning
                        services.AddRestfulApiVersioning(o =>
                        {
                            o.ValidAcceptHeaders.Clear();
-                       });
-                       services.Configure<MvcFaultDescriptorOptions>(o =>
-                       {
-                           o.IncludeRequest = true;
-                       });
-                       services.Configure<XmlFormatterOptions>(o =>
-                       {
-                           o.IncludeExceptionStackTrace = true;
-                       });
-                       services.Configure<JsonFormatterOptions>(o =>
-                       {
-                           o.IncludeExceptionStackTrace = true;
                        });
                    }))
             {
@@ -199,10 +155,7 @@ namespace Cuemon.Extensions.Asp.Versioning
             {
                 app.UseFaultDescriptorExceptionHandler(o =>
                 {
-                    o.IncludeStackTrace = true;
-                    o.IncludeFailure = true;
-                    o.IncludeRequest = true;
-                    o.IncludeEvidence = true;
+                    o.SensitivityDetails = FaultSensitivityDetails.All;
                 });
                 app.UseRouting();
                 app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -219,15 +172,15 @@ namespace Cuemon.Extensions.Asp.Versioning
                 });
                 services.Configure<MvcFaultDescriptorOptions>(o =>
                 {
-                    o.IncludeRequest = true;
+                    o.SensitivityDetails = FaultSensitivityDetails.Evidence;
                 });
                 services.Configure<XmlFormatterOptions>(o =>
                 {
-                    o.IncludeExceptionStackTrace = true;
+                    o.SensitivityDetails = FaultSensitivityDetails.Failure | FaultSensitivityDetails.StackTrace;
                 });
                 services.Configure<JsonFormatterOptions>(o =>
                 {
-                    o.IncludeExceptionStackTrace = true;
+                    o.SensitivityDetails = FaultSensitivityDetails.Failure | FaultSensitivityDetails.StackTrace;
                 });
             }))
             {

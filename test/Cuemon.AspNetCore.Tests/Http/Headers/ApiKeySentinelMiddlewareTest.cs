@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Http.Headers;
 using Cuemon.Extensions.IO;
@@ -75,7 +76,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         {
             using (var middleware = MiddlewareTestFactory.Create(app =>
             {
-                app.UseFaultDescriptorExceptionHandler();
+                app.UseFaultDescriptorExceptionHandler(o => o.SensitivityDetails = FaultSensitivityDetails.All);
                 app.UseApiKeySentinel();
 
             }, services =>
@@ -93,6 +94,8 @@ namespace Cuemon.AspNetCore.Http.Headers
                 context.Request.Headers.Add(options.Value.HeaderName, "Invalid-Key");
                 
                 await pipeline(context);
+
+                TestOutput.WriteLine(context.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
                 
                 Assert.True(options.Value.AllowedKeys.Any());
                 Assert.Equal(StatusCodes.Status403Forbidden, context.Response.StatusCode);

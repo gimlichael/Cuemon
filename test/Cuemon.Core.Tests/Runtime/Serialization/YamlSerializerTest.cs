@@ -12,7 +12,7 @@ namespace Cuemon.Runtime.Serialization
 {
     public class YamlSerializerTest : Test
     {
-        private readonly CultureInfo _cultureInfo = new CultureInfo("da-DK").MergeWithOriginalFormatting(); // from .NET6+ this is needed for both Windows and Linux; at least from pipeline (worked locally for Windows without Merge ...)
+        private readonly CultureInfo _cultureInfo = new CultureInfo("da-DK").UseNationalLanguageSupport(); // from .NET6+ this is needed for both Windows and Linux; at least from pipeline (worked locally for Windows without Merge ...)
 
         public YamlSerializerTest(ITestOutputHelper output) : base(output)
         {

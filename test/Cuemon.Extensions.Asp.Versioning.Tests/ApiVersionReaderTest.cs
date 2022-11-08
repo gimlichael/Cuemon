@@ -63,7 +63,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         }
 
         [Fact]
-        public async Task GetRequest_ShouldFailWithUnsupportedMediaType_AsWeAreSpecifyingV2_WhenOnlyV1Exists()
+        public async Task GetRequest_ShouldFailWitNotAcceptable_AsWeAreSpecifyingV2_WhenOnlyV1Exists()
         {
             using (var app = WebApplicationTestFactory.Create(app =>
                    {
@@ -75,22 +75,56 @@ namespace Cuemon.Extensions.Asp.Versioning
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
                            .AddJsonFormatters();
-                       services.AddRestfulApiVersioning(o =>
-                       {
-                           o.UseProblemDetailsFactory<DefaultProblemDetailsFactory>();
-                       });
+                       services.AddRestfulApiVersioning();
                    }))
             {
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;v=2.0");
                 var sut = await client.GetAsync("/fake/");
 
-                Assert.Equal(HttpStatusCode.UnsupportedMediaType, sut.StatusCode);
+                var stringResult = await sut.Content.ReadAsStringAsync();
+
+                TestOutput.WriteLine(stringResult);
+
+                Assert.Equal(HttpStatusCode.NotAcceptable, sut.StatusCode);
                 Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
+                Assert.Equal(@"Error: 
+  Status: 406
+  Code: NotAcceptable
+  Message: The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version '2.0'.",stringResult, ignoreLineEndingDifferences: true);
+            }
+        }
+
+        [Fact]
+        public async Task PostRequest_ShouldFailWitUnsupportedMediaType_AsWeAreSpecifyingV2_WhenOnlyV1Exists()
+        {
+            using (var app = WebApplicationTestFactory.Create(app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler();
+                       app.UseRestfulApiVersioning();
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }, services =>
+                   {
+                       services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddJsonFormatters();
+                       services.AddRestfulApiVersioning();
+                   }))
+            {
+                var client = app.Host.GetTestClient();
+                client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;v=2.0");
+                var sut = await client.PostAsync("/fake/", new StringContent(Generate.RandomString(100)));
+
+                var stringResult = await sut.Content.ReadAsStringAsync();
+
+                TestOutput.WriteLine(stringResult);
+
+                Assert.Equal(HttpStatusCode.UnsupportedMediaType, sut.StatusCode);
+                Assert.Equal(HttpMethod.Post, sut.RequestMessage.Method);
                 Assert.Equal(@"Error: 
   Status: 415
   Code: UnsupportedMediaType
-  Message: The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+  Message: The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version '2.0'.", stringResult, ignoreLineEndingDifferences: true);
             }
         }
 
@@ -102,18 +136,8 @@ namespace Cuemon.Extensions.Asp.Versioning
                 app.UseFaultDescriptorExceptionHandler(o =>
                 {
                     o.NonMvcResponseHandlers
-                        .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions(), (s, r) =>
-                        {
-                            r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                            r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                            r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                        }))
-                        .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions(), (s, r) =>
-                        {
-                            r.IncludeStackTrace = s.IncludeExceptionStackTrace;
-                            r.IncludeEvidence = s.IncludeExceptionDescriptorEvidence;
-                            r.IncludeFailure = s.IncludeExceptionDescriptorFailure;
-                        }));
+                        .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions()))
+                        .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions()));
                 });
                 app.UseRestfulApiVersioning();
                 app.UseRouting();
@@ -148,7 +172,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         }
 
         [Fact]
-        public async Task GetRequest_ShouldThrowUnsupportedMediaTypeException_As_2dot0_IsAnUnknownVersion()
+        public async Task GetRequest_ShouldThrowNotAcceptableException_As_2dot0_IsAnUnknownVersion()
         {
             using (var app = WebApplicationTestFactory.Create(app =>
             {
@@ -170,15 +194,17 @@ namespace Cuemon.Extensions.Asp.Versioning
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/xml;v=2.0");
 
-                await Assert.ThrowsAsync<UnsupportedMediaTypeException>(() => client.GetAsync("/fake/"));
+                await Assert.ThrowsAsync<NotAcceptableException>(() => client.GetAsync("/fake/"));
             }
         }
 
         [Fact]
-        public async Task GetRequest_ShouldFailSilentlyAsOriginallyIntendedByApiVersionAuthor()
+        public async Task PostRequest_ShouldThrowUnsupportedMediaTypeException_As_2dot0_IsAnUnknownVersion()
         {
             using (var app = WebApplicationTestFactory.Create(app =>
                    {
+                       app.UseRestfulApiVersioning();
+
                        app.UseRouting();
 
                        app.UseEndpoints(routes =>
@@ -195,13 +221,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/xml;v=2.0");
 
-                var sut = await client.GetAsync("/fake/");
-
-                TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
-
-                Assert.Equal(HttpStatusCode.UnsupportedMediaType, sut.StatusCode);
-                Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
-                Assert.Empty(await sut.Content.ReadAsStringAsync());
+                await Assert.ThrowsAsync<UnsupportedMediaTypeException>(() => client.PostAsync("/fake/", new StringContent(Generate.RandomString(100))));
             }
         }
     }

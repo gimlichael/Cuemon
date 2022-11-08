@@ -16,10 +16,18 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         /// Initializes a new instance of the <see cref="ExceptionConverter"/> class.
         /// </summary>
         /// <param name="includeStackTrace">A value that indicates if the stack of an exception is included in the converted result.</param>
-        public ExceptionConverter(bool includeStackTrace = false)
+        /// <param name="includeData">A value that indicates if the data of an exception is included in the converted result.</param>
+        public ExceptionConverter(bool includeStackTrace = false, bool includeData = false)
         {
             IncludeStackTrace = includeStackTrace;
+            IncludeData = includeData;
         }
+        
+        /// <summary>
+        /// Gets a value indicating whether the data of an exception is included in the converted result.
+        /// </summary>
+        /// <value><c>true</c> if the data of an exception is included in the converted result; otherwise, <c>false</c>.</value>
+        public bool IncludeData { get; }
 
         /// <summary>
         /// Gets a value indicating whether the stack of an exception is included in the converted result.
@@ -35,7 +43,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            WriteException(writer, (Exception)value, IncludeStackTrace, serializer);
+            WriteException(writer, (Exception)value, IncludeStackTrace, IncludeData, serializer);
         }
 
         /// <summary>
@@ -68,17 +76,17 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             return typeof(Exception).IsAssignableFrom(objectType);
         }
 
-        private static void WriteException(JsonWriter writer, Exception exception, bool includeStackTrace, JsonSerializer serializer)
+        private static void WriteException(JsonWriter writer, Exception exception, bool includeStackTrace, bool includeData, JsonSerializer serializer)
         {
             var exceptionType = exception.GetType();
             writer.WriteStartObject();
             writer.WritePropertyName("Type", serializer);
             writer.WriteValue(exceptionType.FullName);
-            WriteExceptionCore(writer, exception, includeStackTrace, serializer);
+            WriteExceptionCore(writer, exception, includeStackTrace, includeData, serializer);
             writer.WriteEndObject();
         }
 
-        private static void WriteExceptionCore(JsonWriter writer, Exception exception, bool includeStackTrace, JsonSerializer serializer)
+        private static void WriteExceptionCore(JsonWriter writer, Exception exception, bool includeStackTrace, bool includeData, JsonSerializer serializer)
         {
             if (!string.IsNullOrWhiteSpace(exception.Source))
             {
@@ -104,7 +112,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteEndArray();
             }
 
-            if (exception.Data.Count > 0)
+            if (includeData && exception.Data.Count > 0)
             {
                 writer.WritePropertyName("Data", serializer);
                 writer.WriteStartObject();
@@ -125,10 +133,10 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteObject(value, serializer);
             }
 
-            WriteInnerExceptions(writer, exception, includeStackTrace, serializer);
+            WriteInnerExceptions(writer, exception, includeStackTrace, includeData, serializer);
         }
 
-        private static void WriteInnerExceptions(JsonWriter writer, Exception exception, bool includeStackTrace, JsonSerializer serializer)
+        private static void WriteInnerExceptions(JsonWriter writer, Exception exception, bool includeStackTrace, bool includeData, JsonSerializer serializer)
         {
             var innerExceptions = new List<Exception>();
             if (exception is AggregateException aggregated)
@@ -149,7 +157,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                     writer.WriteStartObject();
                     writer.WritePropertyName("Type", serializer);
                     writer.WriteValue(exceptionType.FullName);
-                    WriteExceptionCore(writer, inner, includeStackTrace, serializer);
+                    WriteExceptionCore(writer, inner, includeStackTrace, includeData, serializer);
                     endElementsToWrite++;
                 }
 

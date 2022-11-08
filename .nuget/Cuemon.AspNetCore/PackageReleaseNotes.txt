@@ -8,6 +8,8 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 # Breaking Changes
 - CHANGED ThrottlingSentinelOptions class in the Cuemon.AspNetCore.Http.Throttling namespace in the context of renaming the ResponseBroker property to ResponseHandler
 - RENAMED FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace to FaultDescriptorOptions
+- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace so that it matches the recent changes to IExceptionDescriptorOptions from the Cuemon.Diagnostics namespace
+- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace so that function delegate RequestBodyParser was replaced by RequestEvidenceProvider to accommodate the changes introduced by IExceptionDescriptorOptions refactoring
  
 # New Features
 - ADDED FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace that specifies options that is related to ExceptionHandlerMiddleware operations

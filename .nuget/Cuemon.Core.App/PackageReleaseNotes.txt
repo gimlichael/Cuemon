@@ -5,6 +5,37 @@ Availability: .NET Standard 2.0, (.NET Core 3.1), .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
+# References
+ - Cuemon.Core
+ - Cuemon.Data.Integrity
+ - Cuemon.Data.SqlClient
+ - Cuemon.Data
+ - Cuemon.Diagnostics
+ - Cuemon.Extensions.Collections.Generic
+ - Cuemon.Extensions.Collections.Specialized
+ - Cuemon.Extensions.Core
+ - Cuemon.Extensions.Data.Integrity
+ - Cuemon.Extensions.Data
+ - Cuemon.Extensions.DependencyInjection
+ - Cuemon.Extensions.Diagnostics
+ - Cuemon.Extensions.Globalization
+ - Cuemon.Extensions.Hosting
+ - Cuemon.Extensions.IO
+ - Cuemon.Extensions.Net
+ - Cuemon.Extensions.Reflection
+ - Cuemon.Extensions.Runtime.Caching
+ - Cuemon.Extensions.Text
+ - Cuemon.Extensions.Text.Json
+ - Cuemon.Extensions.Threading
+ - Cuemon.Extensions.Xml
+ - Cuemon.IO
+ - Cuemon.Net
+ - Cuemon.Resilience
+ - Cuemon.Runtime.Caching
+ - Cuemon.Security.Cryptography
+ - Cuemon.Threading
+ - Cuemon.Xml
+ 
 Version: 6.4.1
 Availability: .NET Standard 2.0, (.NET Core 3.1), .NET 5.0, .NET 6.0
  

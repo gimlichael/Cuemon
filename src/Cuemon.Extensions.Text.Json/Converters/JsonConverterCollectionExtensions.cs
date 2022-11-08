@@ -91,13 +91,13 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 {
                     writer.WriteString(serializerOptions.SetPropertyName("HelpLink"), descriptor.HelpLink.OriginalString);
                 }
-                if (options.IncludeFailure)
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure))
                 {
                     writer.WritePropertyName(serializerOptions.SetPropertyName("Failure"));
-                    new ExceptionConverter(options.IncludeStackTrace).Write(writer, descriptor.Failure, serializerOptions);
+                    new ExceptionConverter(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data)).Write(writer, descriptor.Failure, serializerOptions);
                 }
                 writer.WriteEndObject();
-                if (options.IncludeEvidence && descriptor.Evidence.Any())
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence) && descriptor.Evidence.Any())
                 {
                     writer.WritePropertyName(serializerOptions.SetPropertyName("Evidence"));
                     writer.WriteStartObject();
@@ -119,10 +119,11 @@ namespace Cuemon.Extensions.Text.Json.Converters
         /// </summary>
         /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
         /// <param name="includeStackTrace">The value that determine whether the stack of an exception is included in the converted result.</param>
+        /// <param name="includeData">The value that determine whether the data of an exception is included in the converted result.</param>
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
-        public static ICollection<JsonConverter> AddExceptionConverter(this ICollection<JsonConverter> converters, bool includeStackTrace)
+        public static ICollection<JsonConverter> AddExceptionConverter(this ICollection<JsonConverter> converters, bool includeStackTrace, bool includeData)
         {
-            converters.Add(new ExceptionConverter(includeStackTrace));
+            converters.Add(new ExceptionConverter(includeStackTrace, includeData));
             return converters;
         }
 

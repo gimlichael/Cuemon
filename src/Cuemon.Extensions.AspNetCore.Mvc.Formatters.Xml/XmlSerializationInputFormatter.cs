@@ -1,7 +1,6 @@
 ﻿using Cuemon.AspNetCore.Mvc.Formatters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters;
 using Cuemon.Xml.Serialization.Formatters;
-using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 {
@@ -16,14 +15,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// <param name="options">The <see cref="XmlFormatterOptions"/> which need to be configured.</param>
         public XmlSerializationInputFormatter(XmlFormatterOptions options) : base(options)
         {
-            options.Settings.Converters.AddHttpExceptionDescriptorConverter(o =>
+            options.Settings.Converters.AddHttpExceptionDescriptorConverter(o => o.SensitivityDetails = options.SensitivityDetails);
+            foreach (var mediaType in options.SupportedMediaTypes)
             {
-                o.IncludeEvidence = options.IncludeExceptionDescriptorEvidence;
-                o.IncludeFailure = options.IncludeExceptionDescriptorFailure;
-                o.IncludeStackTrace = options.IncludeExceptionStackTrace;
-            });
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/xml"));
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/xml"));
+                SupportedMediaTypes.Add(mediaType.ToString());
+            }
         }
     }
 }

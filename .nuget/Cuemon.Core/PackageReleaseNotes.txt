@@ -6,7 +6,6 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
 # Breaking Changes
-- CHANGED ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude Failure, Evidence and StackTrace as default
 - REMOVED CheckParameter overloads from the Validator class in the Cuemon namespace
 - CHANGED ThrowIfNull{T} --> ThrowIfNull on the Validator class in the Cuemon namespace
 - CHANGED Configure{T}, ConfigureExchange{T} and ConfigureRevertExchange{T} on the Patterns class in the Cuemon namespace to have type conditions include IParameterObject

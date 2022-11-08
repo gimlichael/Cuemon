@@ -63,7 +63,7 @@ namespace Cuemon.Xml.Serialization.Formatters
                 e.Data.Add("Cuemon", "XmlFormatterTest");
                 var f = new XmlFormatter(o =>
                 {
-                    o.IncludeExceptionStackTrace = true;
+                    o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTraceAndData;
                     o.Settings.Writer.Indent = true;
                 });
                 var r = f.Serialize(e);
@@ -265,8 +265,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             var sut = new XmlFormatter(o =>
             {
-                o.IncludeExceptionDescriptorFailure = true;
-                o.IncludeExceptionDescriptorEvidence = true;
+                o.SensitivityDetails = FaultSensitivityDetails.Failure | FaultSensitivityDetails.Evidence;
                 o.Settings.Writer.Indent = true;
             });
 
@@ -312,9 +311,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             var sut = new XmlFormatter(o =>
             {
-                o.IncludeExceptionStackTrace = true;
-                o.IncludeExceptionDescriptorFailure = true;
-                o.IncludeExceptionDescriptorEvidence = true;
+                o.SensitivityDetails = FaultSensitivityDetails.All;
                 o.Settings.Writer.Indent = true;
             });
 
@@ -360,7 +357,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             var sut = new XmlFormatter(o =>
             {
-                o.IncludeExceptionDescriptorEvidence = true;
+                o.SensitivityDetails = FaultSensitivityDetails.Evidence;
                 o.Settings.Writer.Indent = true;
             });
 
@@ -406,7 +403,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             var sut = new XmlFormatter(o =>
             {
-                o.IncludeExceptionDescriptorFailure = true;
+                o.SensitivityDetails = FaultSensitivityDetails.Failure;
                 o.Settings.Writer.Indent = true;
             });
 

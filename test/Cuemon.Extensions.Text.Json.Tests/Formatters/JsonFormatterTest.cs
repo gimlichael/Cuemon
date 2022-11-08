@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text.Json;
 using System.Threading;
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Text.Json.Converters;
 using Cuemon.Extensions.Xunit;
-using Microsoft.VisualBasic;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -120,7 +117,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                 var f = new JsonFormatter(o =>
                 {
                     o.Settings.PropertyNamingPolicy = null;
-                    o.IncludeExceptionStackTrace = true;
+                    o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTraceAndData;
                 });
                 var r = f.Serialize(e);
                 

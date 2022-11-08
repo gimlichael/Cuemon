@@ -35,14 +35,14 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
                 writer.WriteElementString("Code", descriptor.Code);
                 writer.WriteElementString("Message", descriptor.Message);
                 if (descriptor.HelpLink != null) { writer.WriteElementString("HelpLink", descriptor.HelpLink.OriginalString); }
-                if (options.IncludeFailure)
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure))
                 {
                     writer.WriteStartElement("Failure");
-                    new ExceptionConverter(options.IncludeStackTrace).WriteXml(writer, descriptor.Failure);
+                    new ExceptionConverter(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data)).WriteXml(writer, descriptor.Failure);
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
-                if (options.IncludeEvidence && descriptor.Evidence.Any())
+                if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence) && descriptor.Evidence.Any())
                 {
                     writer.WriteStartElement("Evidence");
                     foreach (var evidence in descriptor.Evidence)

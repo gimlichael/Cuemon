@@ -26,10 +26,11 @@ namespace Cuemon.Extensions.Globalization
         /// <exception cref="ArgumentNullException">
         /// <paramref name="culture"/> is null.
         /// </exception>
-        public static CultureInfo MergeWithOriginalFormatting(this CultureInfo culture)
+        /// <remarks>Replaces the value on the public writable properties of <see cref="CultureInfo.DateTimeFormat"/> and <see cref="CultureInfo.NumberFormat"/> to favor NLS (https://learn.microsoft.com/en-us/windows/win32/intl/national-language-support) instead of ICU (http://site.icu-project.org/home).</remarks>
+        public static CultureInfo UseNationalLanguageSupport(this CultureInfo culture)
         {
             Validator.ThrowIfNull(culture);
-            return MergeWithOriginalFormatting(Arguments.ToEnumerableOf(culture)).SingleOrDefault();
+            return UseNationalLanguageSupport(Arguments.ToEnumerableOf(culture)).SingleOrDefault();
         }
 
         /// <summary>
@@ -40,7 +41,8 @@ namespace Cuemon.Extensions.Globalization
         /// <exception cref="ArgumentNullException">
         /// <paramref name="cultures"/> is null.
         /// </exception>
-        public static IEnumerable<CultureInfo> MergeWithOriginalFormatting(this IEnumerable<CultureInfo> cultures)
+        /// <remarks>Replaces the value on the public writable properties of <see cref="CultureInfo.DateTimeFormat"/> and <see cref="CultureInfo.NumberFormat"/> to favor NLS (https://learn.microsoft.com/en-us/windows/win32/intl/national-language-support) instead of ICU (http://site.icu-project.org/home).</remarks>
+        public static IEnumerable<CultureInfo> UseNationalLanguageSupport(this IEnumerable<CultureInfo> cultures)
         {
             Validator.ThrowIfNull(cultures);
 

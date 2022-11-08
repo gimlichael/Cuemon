@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Cuemon.Collections.Generic;
 using Cuemon.Diagnostics;
@@ -20,7 +21,10 @@ namespace Cuemon.Extensions.Diagnostics
             InsufficientMemoryException ime = null;
             try
             {
-                throw new InsufficientMemoryException();
+                throw new InsufficientMemoryException()
+                {
+                    Data = { { "Name", "Cuemon" } }
+                };
             }
             catch (InsufficientMemoryException e)
             {
@@ -30,9 +34,7 @@ namespace Cuemon.Extensions.Diagnostics
             var sut1 = ExceptionDescriptor.Extract(ime);
             var sut2 = sut1.ToInsightsString(o =>
             {
-                o.IncludeStackTrace = true;
-                o.IncludeFailure = true;
-                o.IncludeEvidence = true;
+                o.SensitivityDetails = FaultSensitivityDetails.All;
             });
 
             TestOutput.WriteLine(sut2);
@@ -46,6 +48,8 @@ namespace Cuemon.Extensions.Diagnostics
 		Message: Insufficient memory to continue the execution of the program.
 		Stack:
 			at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithAllCaptures)}()", sut2);
+            Assert.Contains(@"Data:
+			Name=Cuemon", sut2);
             Assert.Contains(@$"Evidence
 	Thrower:
 		Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithAllCaptures)}()", sut2);
@@ -61,7 +65,10 @@ namespace Cuemon.Extensions.Diagnostics
             InsufficientMemoryException ime = null;
             try
             {
-                throw new InsufficientMemoryException();
+                throw new InsufficientMemoryException()
+                {
+                    Data = { {"Name", "Cuemon"}, }
+                };
             }
             catch (InsufficientMemoryException e)
             {
@@ -77,7 +84,7 @@ namespace Cuemon.Extensions.Diagnostics
 	Code: UnhandledException
 	Message: An unhandled exception occurred.", sut2);
 
-            Condition.FlipFlop(options.IncludeEvidence, () =>
+            Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence), () =>
             {
                 Assert.Contains(@$"Evidence
 	Thrower:
@@ -89,7 +96,7 @@ namespace Cuemon.Extensions.Diagnostics
 		Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}", sut2);
             });
 
-            Condition.FlipFlop(options.IncludeFailure, () =>
+            Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure), () =>
             {
                 Assert.Contains(@$"Failure
 	System.InsufficientMemoryException
@@ -103,7 +110,7 @@ namespace Cuemon.Extensions.Diagnostics
 		Message: Insufficient memory to continue the execution of the program.", sut2);
             });
 
-            Condition.FlipFlop(options.IncludeFailure && options.IncludeStackTrace, () =>
+            Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.FailureWithStackTrace), () =>
             {
                 Assert.Contains(@$"Stack:
 			at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}", sut2);
@@ -111,6 +118,17 @@ namespace Cuemon.Extensions.Diagnostics
             {
                 Assert.DoesNotContain(@$"Stack:
 			at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}", sut2);
+            });
+
+            
+            Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.FailureWithData), () =>
+            {
+                Assert.Contains(@"Data:
+			Name=Cuemon", sut2);
+            }, () =>
+            {
+                Assert.DoesNotContain(@"Data:
+			Name=Cuemon", sut2);
             });
 
             Condition.FlipFlop(snapshots.HasFlag(SystemSnapshots.CaptureThreadInfo), () => Assert.Contains(@"	Thread:", sut2), () => Assert.DoesNotContain(@"	Thread:", sut2));
@@ -126,9 +144,7 @@ namespace Cuemon.Extensions.Diagnostics
                 {
                     new ExceptionDescriptorOptions()
                     {
-                        IncludeFailure = true,
-                        IncludeEvidence = true,
-                        IncludeStackTrace = true
+                        SensitivityDetails = FaultSensitivityDetails.FailureWithStackTrace | FaultSensitivityDetails.Evidence
                     }, 
                     SystemSnapshots.CaptureAll },
                 new object[]
@@ -140,9 +156,7 @@ namespace Cuemon.Extensions.Diagnostics
                 {
                     new ExceptionDescriptorOptions()
                     {
-                        IncludeFailure = false,
-                        IncludeEvidence = true,
-                        IncludeStackTrace = true
+                        SensitivityDetails = FaultSensitivityDetails.All
                     },
                     SystemSnapshots.CaptureThreadInfo
                 },
@@ -150,9 +164,7 @@ namespace Cuemon.Extensions.Diagnostics
                 {
                     new ExceptionDescriptorOptions()
                     {
-                        IncludeFailure = true,
-                        IncludeEvidence = false,
-                        IncludeStackTrace = true
+                        SensitivityDetails = FaultSensitivityDetails.FailureWithStackTrace
                     },
                     SystemSnapshots.None
                 },
@@ -160,9 +172,7 @@ namespace Cuemon.Extensions.Diagnostics
                 {
                     new ExceptionDescriptorOptions()
                     {
-                        IncludeFailure = true,
-                        IncludeEvidence = true,
-                        IncludeStackTrace = false
+                        SensitivityDetails = FaultSensitivityDetails.Failure | FaultSensitivityDetails.Evidence
                     },
                     SystemSnapshots.CaptureProcessInfo
                 },
@@ -170,9 +180,7 @@ namespace Cuemon.Extensions.Diagnostics
                 {
                     new ExceptionDescriptorOptions()
                     {
-                        IncludeFailure = true,
-                        IncludeEvidence = false,
-                        IncludeStackTrace = false
+                        SensitivityDetails = FaultSensitivityDetails.Failure
                     },
                     SystemSnapshots.None
                 },
@@ -180,19 +188,23 @@ namespace Cuemon.Extensions.Diagnostics
                 {
                     new ExceptionDescriptorOptions()
                     {
-                        IncludeFailure = false,
-                        IncludeEvidence = true,
-                        IncludeStackTrace = false
+                        SensitivityDetails = FaultSensitivityDetails.Evidence
                     },
-                    SystemSnapshots.CaptureEnvironmentInfo
+                    SystemSnapshots.CaptureAll
                 },
                 new object[]
                 {
                     new ExceptionDescriptorOptions()
                     {
-                        IncludeFailure = false,
-                        IncludeEvidence = false,
-                        IncludeStackTrace = true
+                        SensitivityDetails = FaultSensitivityDetails.FailureWithStackTraceAndData
+                    },
+                    SystemSnapshots.None
+                },
+                new object[]
+                {
+                    new ExceptionDescriptorOptions()
+                    {
+                        SensitivityDetails = FaultSensitivityDetails.FailureWithData
                     },
                     SystemSnapshots.None
                 }

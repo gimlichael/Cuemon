@@ -11,10 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Asp.Versioning.Abstractions" Version="6.1.0" />
-    <PackageReference Include="Asp.Versioning.Http" Version="6.1.0" />
-    <PackageReference Include="Asp.Versioning.Mvc" Version="6.1.0" />
-    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="6.1.0" />
+    <PackageReference Include="Asp.Versioning.Abstractions" Version="6.2.0" />
+    <PackageReference Include="Asp.Versioning.Http" Version="6.2.0" />
+    <PackageReference Include="Asp.Versioning.Mvc" Version="6.2.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="6.2.0" />
   </ItemGroup>
 
   <ItemGroup>

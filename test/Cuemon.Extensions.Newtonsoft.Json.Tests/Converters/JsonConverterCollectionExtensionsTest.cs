@@ -151,9 +151,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         }
 
         [Theory]
-        [InlineData(true, true, true)]
-        [InlineData(false, false, false)]
-        public void AddExceptionDescriptorConverter_ShouldAddExceptionDescriptorConverterToConverterCollection_AndMakeUseOfIncludeOptions(bool includeExceptionDescriptorFailure, bool includeExceptionStackTrace, bool includeExceptionDescriptorEvidence)
+        [InlineData(FaultSensitivityDetails.All)]
+        [InlineData(FaultSensitivityDetails.None)]
+        public void AddExceptionDescriptorConverter_ShouldAddExceptionDescriptorConverterToConverterCollection_AndMakeUseOfIncludeOptions(FaultSensitivityDetails sensitivityDetails)
         {
             InsufficientMemoryException ime = null;
             try
@@ -170,16 +170,12 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
 
             var sut2 = new JsonFormatterOptions()
             {
-                IncludeExceptionStackTrace = includeExceptionStackTrace,
-                IncludeExceptionDescriptorFailure = includeExceptionDescriptorFailure,
-                IncludeExceptionDescriptorEvidence = includeExceptionDescriptorEvidence
+                SensitivityDetails = sensitivityDetails
             };
 
             sut2.Settings.Converters.AddExceptionDescriptorConverterOf<ExceptionDescriptor>(o =>
             {
-                o.IncludeEvidence = includeExceptionDescriptorEvidence;
-                o.IncludeFailure = includeExceptionDescriptorFailure;
-                o.IncludeStackTrace = includeExceptionStackTrace;
+                o.SensitivityDetails = sensitivityDetails;
             });
 
             Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(ExceptionDescriptor))), jc =>
@@ -204,7 +200,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 Assert.Contains("\"message\": \"System has exhausted memory.\"", json);
                 Assert.Contains("\"helpLink\": \"https://docs.microsoft.com/en-us/dotnet/api/system.insufficientmemoryexception\"", json);
 
-                Condition.FlipFlop(includeExceptionDescriptorFailure, () =>
+                Condition.FlipFlop(sensitivityDetails.HasFlag(FaultSensitivityDetails.Failure), () =>
                 {
                     Assert.Contains("\"failure\":", json);
                     Assert.Contains("\"type\": \"System.InsufficientMemoryException\"", json);
@@ -218,7 +214,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                     Assert.DoesNotContain("\"message\": \"Insufficient memory to continue the execution of the program.\"", json);
                 });
 
-                Condition.FlipFlop(includeExceptionStackTrace, () =>
+                Condition.FlipFlop(sensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), () =>
                 {
                     Assert.Contains("\"stack\":", json);
                     Assert.Contains("\"at Cuemon.Extensions.Newtonsoft.Json.Converters.JsonConverterCollectionExtensionsTest.AddExceptionDescriptorConverter_ShouldAddExceptionDescriptorConverterToConverterCollection", json);
@@ -228,7 +224,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                     Assert.DoesNotContain("\"at Cuemon.Extensions.Newtonsoft.Json.Converters.JsonConverterCollectionExtensionsTest.AddExceptionDescriptorConverter_ShouldAddExceptionDescriptorConverterToConverterCollection", json);
                 });
 
-                Condition.FlipFlop(includeExceptionDescriptorEvidence, () =>
+                Condition.FlipFlop(sensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence), () =>
                 {
                     Assert.Contains("\"evidence\":", json);
                     Assert.Contains("\"correlationId\": \"00000000000000000000000000000000\"", json);

@@ -17,10 +17,18 @@ namespace Cuemon.Extensions.Text.Json.Converters
         /// Initializes a new instance of the <see cref="ExceptionConverter"/> class.
         /// </summary>
         /// <param name="includeStackTrace">A value that indicates if the stack of an exception is included in the converted result.</param>
-        public ExceptionConverter(bool includeStackTrace = false)
+        /// <param name="includeData">A value that indicates if the data of an exception is included in the converted result.</param>
+        public ExceptionConverter(bool includeStackTrace = false, bool includeData = false)
         {
             IncludeStackTrace = includeStackTrace;
+            IncludeData = includeData;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the data of an exception is included in the converted result.
+        /// </summary>
+        /// <value><c>true</c> if the data of an exception is included in the converted result; otherwise, <c>false</c>.</value>
+        public bool IncludeData { get; }
 
         /// <summary>
         /// Gets a value indicating whether the stack of an exception is included in the converted result.
@@ -62,11 +70,11 @@ namespace Cuemon.Extensions.Text.Json.Converters
             var exceptionType = value.GetType();
             writer.WriteStartObject();
             writer.WriteString(options.SetPropertyName("Type"), exceptionType.FullName);
-            WriteExceptionCore(writer, value, IncludeStackTrace, options);
+            WriteExceptionCore(writer, value, IncludeStackTrace, IncludeData, options);
             writer.WriteEndObject();
         }
 
-        private static void WriteExceptionCore(Utf8JsonWriter writer, Exception exception, bool includeStackTrace, JsonSerializerOptions options)
+        private static void WriteExceptionCore(Utf8JsonWriter writer, Exception exception, bool includeStackTrace, bool includeData, JsonSerializerOptions options)
         {
             if (!string.IsNullOrWhiteSpace(exception.Source))
             {
@@ -90,7 +98,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 writer.WriteEndArray();
             }
 
-            if (exception.Data.Count > 0)
+            if (includeData && exception.Data.Count > 0)
             {
                 writer.WritePropertyName(options.SetPropertyName("Data"));
                 writer.WriteStartObject();
@@ -111,10 +119,10 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 writer.WriteObject(value, options);
             }
 
-            WriteInnerExceptions(writer, exception, includeStackTrace, options);
+            WriteInnerExceptions(writer, exception, includeStackTrace, includeData, options);
         }
 
-        private static void WriteInnerExceptions(Utf8JsonWriter writer, Exception exception, bool includeStackTrace, JsonSerializerOptions options)
+        private static void WriteInnerExceptions(Utf8JsonWriter writer, Exception exception, bool includeStackTrace, bool includeData, JsonSerializerOptions options)
         {
             var innerExceptions = new List<Exception>();
             if (exception is AggregateException aggregated)
@@ -134,7 +142,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
                     var exceptionType = inner.GetType();
                     writer.WriteStartObject();
                     writer.WriteString(options.SetPropertyName("Type"), exceptionType.FullName);
-                    WriteExceptionCore(writer, inner, includeStackTrace, options);
+                    WriteExceptionCore(writer, inner, includeStackTrace, includeData, options);
                     endElementsToWrite++;
                 }
 

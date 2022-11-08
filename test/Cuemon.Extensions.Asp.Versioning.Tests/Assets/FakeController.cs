@@ -22,6 +22,12 @@ namespace Cuemon.Extensions.Asp.Versioning.Assets
             return Ok("Unit Test");
         }
 
+        [HttpPost]
+        public IActionResult Post(string random)
+        {
+            return Ok("Unit Test");
+        }
+
         [HttpGet]
         [Route("throw")]
         public IActionResult GetException()

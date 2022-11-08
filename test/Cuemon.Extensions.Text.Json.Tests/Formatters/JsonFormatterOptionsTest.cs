@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Reflection;
 using Xunit;
@@ -30,14 +31,28 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         }
 
         [Fact]
+        public void JsonFormatterOptions_SupportedMediaTypesIsNull_ShouldThrowInvalidOperationException()
+        {
+            var sut1 = new JsonFormatterOptions()
+            {
+                SupportedMediaTypes = null
+            };
+            var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+
+            Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'SupportedMediaTypes == null')", sut2.Message);
+            Assert.Equal("JsonFormatterOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+            Assert.IsType<InvalidOperationException>(sut3.InnerException);
+        }
+
+        [Fact]
         public void JsonFormatterOptions_ShouldHaveDefaultValues()
         {
             var sut = new JsonFormatterOptions();
 
             Assert.NotNull(sut.Settings);
-            Assert.False(sut.IncludeExceptionStackTrace);
-            Assert.False(sut.IncludeExceptionDescriptorFailure);
-            Assert.False(sut.IncludeExceptionDescriptorEvidence);
+            Assert.NotNull(sut.SupportedMediaTypes);
+            Assert.Equal(FaultSensitivityDetails.None, sut.SensitivityDetails);
         }
 
         [Fact]

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0;netcoreapp3.1</TargetFrameworks>
     <ProjectGuid>200bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+    <SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -11,15 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.0-rc.2.22476.2" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.11" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.30" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.31" />
   </ItemGroup>
 
   <ItemGroup>

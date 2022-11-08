@@ -3,6 +3,7 @@ using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Collections.Generic;
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
@@ -24,9 +25,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
         }
 
         [Theory]
-        [InlineData(true, true, true)]
-        [InlineData(false, false, false)]
-        public void AddHttpExceptionDescriptorConverter_ShouldAddHttpExceptionDescriptorToConverterCollection(bool includeExceptionDescriptorFailure, bool includeExceptionStackTrace, bool includeExceptionDescriptorEvidence)
+        [InlineData(FaultSensitivityDetails.All)]
+        [InlineData(FaultSensitivityDetails.None)]
+        public void AddHttpExceptionDescriptorConverter_ShouldAddHttpExceptionDescriptorToConverterCollection(FaultSensitivityDetails sensitivityDetails)
         {
             OutOfMemoryException oome = null;
             try
@@ -57,18 +58,14 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
 
                 var sut2 = new JsonFormatterOptions()
                 {
-                    IncludeExceptionStackTrace = includeExceptionStackTrace,
-                    IncludeExceptionDescriptorFailure = includeExceptionDescriptorFailure,
-                    IncludeExceptionDescriptorEvidence = includeExceptionDescriptorEvidence
+                    SensitivityDetails = sensitivityDetails
                 };
 
                 var dc = sut2.Settings.Converters.SingleOrDefault(jc => jc.CanConvert(typeof(HttpExceptionDescriptor)));
                 if (dc != null) { sut2.Settings.Converters.Remove(dc); }
                 sut2.Settings.Converters.AddHttpExceptionDescriptorConverter(o =>
                 {
-                    o.IncludeEvidence = includeExceptionDescriptorEvidence;
-                    o.IncludeFailure = includeExceptionDescriptorFailure;
-                    o.IncludeStackTrace = includeExceptionStackTrace;
+                    o.SensitivityDetails = sensitivityDetails;
                 });
 
                 Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(HttpExceptionDescriptor))), jc =>
@@ -98,7 +95,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                     Assert.Contains($"\"correlationId\": \"{correlationId}\"", json);
                     Assert.Contains($"\"requestId\": \"{requestId}\"", json);
 
-                    Condition.FlipFlop(includeExceptionDescriptorFailure, () =>
+                    Condition.FlipFlop(sensitivityDetails.HasFlag(FaultSensitivityDetails.Failure), () =>
                     {
                         Assert.Contains("\"failure\":", json);
                         Assert.Contains("\"type\": \"System.OutOfMemoryException\"", json);
@@ -112,7 +109,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                         Assert.DoesNotContain("\"message\": \"Insufficient memory to continue the execution of the program.\"", json);
                     });
 
-                    Condition.FlipFlop(includeExceptionStackTrace, () =>
+                    Condition.FlipFlop(sensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), () =>
                     {
                         Assert.Contains("\"stack\":", json);
                         Assert.Contains("\"at Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters.JsonConverterCollectionExtensionsTest.AddHttpExceptionDescriptorConverter_ShouldAddHttpExceptionDescriptorToConverterCollection", json);
@@ -122,7 +119,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                         Assert.DoesNotContain("\"at Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters.JsonConverterCollectionExtensionsTest.AddHttpExceptionDescriptorConverter_ShouldAddHttpExceptionDescriptorToConverterCollection", json);
                     });
 
-                    Condition.FlipFlop(includeExceptionDescriptorEvidence, () =>
+                    Condition.FlipFlop(sensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence), () =>
                     {
                         Assert.Contains("\"evidence\":", json);
                         Assert.Contains("\"request\":", json);

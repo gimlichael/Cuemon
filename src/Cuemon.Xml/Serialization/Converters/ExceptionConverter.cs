@@ -16,10 +16,18 @@ namespace Cuemon.Xml.Serialization.Converters
         /// Initializes a new instance of the <see cref="ExceptionConverter"/> class.
         /// </summary>
         /// <param name="includeStackTrace">A value that indicates if the stack of an exception is included in the converted result.</param>
-        public ExceptionConverter(bool includeStackTrace = false)
+        /// <param name="includeData">A value that indicates if the data of an exception is included in the converted result.</param>
+        public ExceptionConverter(bool includeStackTrace = false, bool includeData = false)
         {
             IncludeStackTrace = includeStackTrace;
+            IncludeData = includeData;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the data of an exception is included in the converted result.
+        /// </summary>
+        /// <value><c>true</c> if the data of an exception is included in the converted result; otherwise, <c>false</c>.</value>
+        public bool IncludeData { get; }
 
         /// <summary>
         /// Gets a value indicating whether the stack of an exception is included in the converted result.
@@ -38,7 +46,7 @@ namespace Cuemon.Xml.Serialization.Converters
             var exceptionType = value.GetType();
             writer.WriteStartElement(Decorator.Enclose(exceptionType.Name).SanitizeXmlElementName());
             if (exceptionType.Namespace != null) { writer.WriteAttributeString("namespace", exceptionType.Namespace); }
-            WriteExceptionCore(writer, (Exception)value, IncludeStackTrace);
+            WriteExceptionCore(writer, (Exception)value, IncludeStackTrace, IncludeData);
             writer.WriteEndElement();
         }
 
@@ -60,7 +68,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// <value><c>true</c> if this <seealso cref="XmlConverter" /> can read XML; otherwise, <c>false</c>.</value>
         public override bool CanRead => false;
 
-        private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace)
+        private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace, bool includeData)
         {
             if (!string.IsNullOrEmpty(exception.Source))
             {
@@ -83,7 +91,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 writer.WriteEndElement();
             }
 
-            if (exception.Data.Count > 0)
+            if (includeData && exception.Data.Count > 0)
             {
                 writer.WriteStartElement("Data");
                 foreach (DictionaryEntry entry in exception.Data)
@@ -103,10 +111,10 @@ namespace Cuemon.Xml.Serialization.Converters
                 Decorator.Enclose(writer).WriteObject(value, value.GetType(), o => o.Settings.RootName = new XmlQualifiedEntity(property.Name));
             }
 
-            WriteInnerExceptions(writer, exception, includeStackTrace);
+            WriteInnerExceptions(writer, exception, includeStackTrace, includeData);
         }
 
-        private static void WriteInnerExceptions(XmlWriter writer, Exception exception, bool includeStackTrace)
+        private static void WriteInnerExceptions(XmlWriter writer, Exception exception, bool includeStackTrace, bool includeData)
         {
             var innerExceptions = new List<Exception>();
             if (exception is AggregateException aggregated)
@@ -125,7 +133,7 @@ namespace Cuemon.Xml.Serialization.Converters
                     var exceptionType = inner.GetType();
                     writer.WriteStartElement(Decorator.Enclose(exceptionType.Name).SanitizeXmlElementName());
                     if (exceptionType.Namespace != null) { writer.WriteAttributeString("namespace", exceptionType.Namespace); }
-                    WriteExceptionCore(writer, inner, includeStackTrace);
+                    WriteExceptionCore(writer, inner, includeStackTrace, includeData);
                     endElementsToWrite++;
                 }
                 for (var i = 0; i < endElementsToWrite; i++) { writer.WriteEndElement(); }
