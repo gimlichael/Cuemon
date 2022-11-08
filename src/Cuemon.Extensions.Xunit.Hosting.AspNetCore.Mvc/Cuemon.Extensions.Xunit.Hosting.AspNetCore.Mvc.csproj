@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0;netcoreapp3.1</TargetFrameworks>
     <ProjectGuid>210bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+    <SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
 
   <PropertyGroup>
