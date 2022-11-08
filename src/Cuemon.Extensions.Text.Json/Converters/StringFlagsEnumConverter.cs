@@ -37,12 +37,19 @@ namespace Cuemon.Extensions.Text.Json.Converters
         /// </returns>
         public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
         {
-            return new FlagsEnumConverter();
+            return new FlagsEnumConverter(typeToConvert);
         }
     }
 
     internal class FlagsEnumConverter : JsonConverter<Enum>
     {
+        public FlagsEnumConverter(Type typeToConvert)
+        {
+            TypeToConvert = typeToConvert; // workaround after changes introduced with .NET 7 # MSBUG?
+        }
+
+        private Type TypeToConvert { get; }
+
         public override Enum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var result = 0;
@@ -51,11 +58,19 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 switch (reader.TokenType)
                 {
                     case JsonTokenType.String:
+                        #if NET7_0
+                        result |= (int)Enum.Parse(TypeToConvert, reader.GetString(), true);
+                        #else
                         result |= (int)Enum.Parse(typeToConvert, reader.GetString(), true);
+                        #endif
                         break;
                 }
             }
+            #if NET7_0
+            return Enum.ToObject(TypeToConvert, result) as Enum;
+            #else
             return Enum.ToObject(typeToConvert, result) as Enum;
+            #endif
         }
 
         public override void Write(Utf8JsonWriter writer, Enum value, JsonSerializerOptions options)
