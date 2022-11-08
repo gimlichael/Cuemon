@@ -39,6 +39,7 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
   + Cuemon.Extensions.Diagnostics
 + System.Globalization
   + Cuemon.Globalization
+  + Cuemon.Extensions.Globalization
 + System.IO
   + Cuemon.Extensions.IO
   + Cuemon.IO
@@ -73,6 +74,8 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 + System.Text
   + Cuemon.Extensions.Text
   + Cuemon.Text
++ System.Text.Json
+  + Cuemon.Extensions.Text.Json
 + System.Threading
   + Cuemon.Extensions.Threading
   + Cuemon.Threading

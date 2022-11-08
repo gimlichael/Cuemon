@@ -9,7 +9,7 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 ## State of the Union
 
-Cuemon for .NET (formerly Cuemon .NET Standard) has been completely refactored and updated to support .NET 6 (LTS) and is currently being ported to .NET 7 (STS).
+Cuemon for .NET (formerly Cuemon .NET Standard) has been completely refactored and updated to support .NET 7 (STS) and .NET 6 (LTS).
 
 Support for .NET Core 3.0 and .NET 5 has been deprecated as these are out of [support](https://endoflife.date/dotnet); soon support for **.NET Core 3.1** will be removed accordingly.
 
