@@ -39,24 +39,6 @@ namespace Cuemon.Extensions.Collections.Generic
         }
 
         /// <summary>
-        /// Gets the value associated with the specified <paramref name="key"/> or <c>default(<typeparamref name="TValue"/>)</c> when the key does not exists in the <paramref name="dictionary"/>.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the keys in the <paramref name="dictionary"/>.</typeparam>
-        /// <typeparam name="TValue">The type of the values in the <paramref name="dictionary"/>.</typeparam>
-        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
-        /// <param name="key">The key of the value to get.</param>
-        /// <returns>Either the value associated with the specified <paramref name="key"/> or <c>default(<typeparamref name="TValue"/>)</c> when the key does not exists.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="dictionary"/> cannot be null -or-
-        /// <paramref name="key"/> cannot be null.
-        /// </exception>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
-        {
-            Validator.ThrowIfNull(dictionary);
-            return Decorator.Enclose(dictionary).GetValueOrDefault(key);
-        }
-
-        /// <summary>
         /// Gets the value associated with the specified <paramref name="key"/> or a default value through <paramref name="defaultProvider"/> when the key does not exists in the <paramref name="dictionary"/>.
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the <paramref name="dictionary"/>.</typeparam>
