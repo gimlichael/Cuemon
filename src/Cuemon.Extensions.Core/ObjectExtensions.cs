@@ -47,7 +47,7 @@ namespace Cuemon.Extensions
         /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="T"/>.</returns>
         public static T As<T>(this object value, T fallbackResult = default, Action<ObjectFormattingOptions> setup = null)
         {
-            return Decorator.Enclose(value).ChangeTypeOrDefault(fallbackResult, setup);
+            return Decorator.Enclose(value, false).ChangeTypeOrDefault(fallbackResult, setup);
         }
 
         /// <summary>
@@ -95,6 +95,7 @@ namespace Cuemon.Extensions
         /// <returns>The <paramref name="value"/> in its original or adjusted form.</returns>
         public static T Adjust<T>(this T value, Func<T, T> tweaker)
         {
+            Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).Adjust(tweaker);
         }
 
