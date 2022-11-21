@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -51,6 +53,47 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
+        /// Converts the specified <paramref name="value"/> to a value of <typeparamref name="TResult"/>. 
+        /// </summary>
+        /// <typeparam name="T">The type of the value to convert.</typeparam>
+        /// <typeparam name="TResult">The type of the value to return.</typeparam>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="converter">The function delegate that will perform the conversion.</param>
+        /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="T"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        public static TResult As<T, TResult>(this T value, Func<T, TResult> converter)
+        {
+            Validator.ThrowIfNull(value);
+            return converter(value);
+        }
+
+        /// <summary>
+        /// Attempts to converts the specified <paramref name="value"/> to the given <paramref name="targetType"/>.
+        /// </summary>
+        /// <param name="value">The object to convert the underlying type.</param>
+        /// <param name="targetType">The type of the object to return.</param>
+        /// <param name="setup">The <see cref="ObjectFormattingOptions"/> which may be configured.</param>
+        /// <returns>An <see cref="object"/> of type <paramref name="targetType"/> equivalent to <paramref name="value"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null - or -
+        /// <paramref name="targetType"/> cannot be null.
+        /// </exception>
+        /// <exception cref="AggregateException">
+        /// <paramref name="value"/> could not be converted.
+        /// </exception>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectFormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectFormattingOptions.DescriptorContext"/>.</remarks>
+        /// <seealso cref="Convert.ChangeType(object,Type)"/>
+        /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
+        public static object As(this object value, Type targetType, Action<ObjectFormattingOptions> setup = null)
+        {
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(targetType);
+            return Decorator.Enclose(value, false).ChangeType(targetType, setup);
+        }
+
+        /// <summary>
         /// Computes a suitable hash code from the specified sequence of <paramref name="convertibles"/>.
         /// </summary>
         /// <param name="convertibles">A sequence of objects implementing the <see cref="IConvertible"/> interface.</param>
@@ -87,16 +130,29 @@ namespace Cuemon.Extensions
         }
 
         /// <summary>
-        /// Adjust the specified <paramref name="value"/> with the function delegate <paramref name="tweaker"/>.
+        /// Adjust the specified <paramref name="value"/> with the function delegate <paramref name="converter"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to convert.</typeparam>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="converter">The function delegate that will convert the specified <paramref name="value"/>.</param>
+        /// <returns>The <paramref name="value"/> in its original or converted form.</returns>
+        /// <remarks>This is thought to be a more severe change than the one provided by <see cref="Alter{T}"/> (e.g., potentially convert the entire <paramref name="value"/> to a new instance).</remarks>
+        public static T Adjust<T>(this T value, Func<T, T> converter)
+        {
+            return Tweaker.Adjust(value, converter);
+        }
+
+        /// <summary>
+        /// Adjust the specified <paramref name="value"/> with the <paramref name="modifier"/> delegate.
         /// </summary>
         /// <typeparam name="T">The type of the value to adjust.</typeparam>
         /// <param name="value">The value to adjust.</param>
-        /// <param name="tweaker">The function delegate that will adjust the specified <paramref name="value"/>.</param>
+        /// <param name="modifier">The delegate that will adjust the specified <paramref name="value"/>.</param>
         /// <returns>The <paramref name="value"/> in its original or adjusted form.</returns>
-        public static T Adjust<T>(this T value, Func<T, T> tweaker)
+        /// <remarks>This is thought to be a more relaxed change than the one provided by <see cref="Adjust{T}"/> (e.g., applying changes only to the current <paramref name="value"/>).</remarks>
+        public static T Alter<T>(this T value, Action<T> modifier)
         {
-            Validator.ThrowIfNull(value);
-            return Decorator.Enclose(value).Adjust(tweaker);
+            return Tweaker.Alter(value, modifier);
         }
 
         /// <summary>

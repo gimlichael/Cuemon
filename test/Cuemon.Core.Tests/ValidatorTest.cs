@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Cuemon.Assets;
-using Cuemon.Configuration;
 using Cuemon.Extensions.Xunit;
-using Microsoft.VisualBasic.CompilerServices;
 using Xunit;
 using Xunit.Abstractions;
 
