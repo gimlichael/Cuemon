@@ -66,7 +66,7 @@ namespace Cuemon.Extensions
         public static TResult As<T, TResult>(this T value, Func<T, TResult> converter)
         {
             Validator.ThrowIfNull(value);
-            return converter(value);
+            return Tweaker.Change(value, converter);
         }
 
         /// <summary>

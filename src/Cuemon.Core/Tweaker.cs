@@ -33,5 +33,22 @@ namespace Cuemon
             modifier?.Invoke(value);
             return value;
         }
+        
+        /// <summary>
+        /// Converts the specified <paramref name="value"/> to a value of <typeparamref name="TResult"/>. 
+        /// </summary>
+        /// <typeparam name="T">The type of the value to convert.</typeparam>
+        /// <typeparam name="TResult">The type of the value to return.</typeparam>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="converter">The function delegate that will perform the conversion.</param>
+        /// <returns>The <paramref name="value"/> converted to the specified <typeparamref name="T"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> cannot be null.
+        /// </exception>
+        public static TResult Change<T, TResult>(T value, Func<T, TResult> converter)
+        {
+            Validator.ThrowIfNull(value);
+            return converter == null ? default : converter(value);
+        }
     }
 }
