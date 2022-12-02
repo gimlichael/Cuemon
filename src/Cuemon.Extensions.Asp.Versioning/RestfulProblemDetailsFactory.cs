@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Asp.Versioning;
 using Cuemon.AspNetCore.Http;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +36,7 @@ namespace Cuemon.Extensions.Asp.Versioning
 
             DefaultProblemDetailsFactory.ApplyExtensions(problemDetails);
 
-            var value = problemDetails.Extensions.FirstOrDefault(pair => pair.Key == "Code").Value;
+            var value = problemDetails.Extensions.FirstOrDefault(pair => pair.Key.Equals("Code", StringComparison.OrdinalIgnoreCase)).Value;
             if (value != null && HttpStatusCodeException.TryParse(problemDetails.Status ?? 500, problemDetails.Detail ?? problemDetails.Title ?? value.ToString(), null, out var statusCodeEquivalentException))
             {
                 throw statusCodeEquivalentException;

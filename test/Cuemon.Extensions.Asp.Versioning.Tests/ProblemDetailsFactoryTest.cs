@@ -59,7 +59,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                 Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
                 Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
                 Assert.EndsWith("application/problem+json", sut.Content.Headers.ContentType.ToString());
-                Assert.StartsWith(@"{""type"":""https://docs.api-versioning.org/problems#invalid"",""title"":""Invalid API version"",""status"":400,""detail"":""The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version 'b3'."",""Code"":""InvalidApiVersion""", await sut.Content.ReadAsStringAsync());
+                Assert.StartsWith(@"{""type"":""https://docs.api-versioning.org/problems#invalid"",""title"":""Invalid API version"",""status"":400,""detail"":""The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version 'b3'."",""code"":""InvalidApiVersion""", await sut.Content.ReadAsStringAsync());
             }
         }
 
