@@ -9,15 +9,18 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
     internal sealed class WebApplicationTest : IWebApplicationTest
     {
         private readonly IMiddlewareTest _middlewareTest;
+        private readonly bool _useClassFixture;
 
-        internal WebApplicationTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
+        internal WebApplicationTest(bool useClassFixture, Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
         {
-            _middlewareTest = MiddlewareTestFactory.Create(pipelineConfigurator, serviceConfigurator, hostConfigurator);
+            _useClassFixture = useClassFixture;
+            _middlewareTest = MiddlewareTestFactory.Create(useClassFixture, pipelineConfigurator, serviceConfigurator, hostConfigurator);
         }
 
-        internal WebApplicationTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
+        internal WebApplicationTest(bool useClassFixture, Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator)
         {
-            _middlewareTest = MiddlewareTestFactory.CreateWithHostBuilderContext(pipelineConfigurator, serviceConfigurator, hostConfigurator);
+            _useClassFixture = useClassFixture;
+            _middlewareTest = MiddlewareTestFactory.CreateWithHostBuilderContext(useClassFixture, pipelineConfigurator, serviceConfigurator, hostConfigurator);
         }
 
         public IServiceProvider ServiceProvider => _middlewareTest.ServiceProvider;
@@ -33,7 +36,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
             _middlewareTest.Dispose();
         }
 
-        public IHost Host => ((AspNetCoreHostTest<AspNetCoreHostFixture>)_middlewareTest).Host;
+        public IHost Host => _useClassFixture ? ((AspNetCoreHostTest<AspNetCoreHostFixture>)_middlewareTest).Host : ((AspNetCoreHostTest)_middlewareTest).Host;
 
         public Type CallerType => _middlewareTest.CallerType;
     }

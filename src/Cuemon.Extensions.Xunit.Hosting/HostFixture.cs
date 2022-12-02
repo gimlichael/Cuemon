@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
         {
             var hostTestType = hostTest?.GetType();
             Validator.ThrowIfNull(hostTest);
-            Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from HostTest<T>.", typeof(HostTest<>));
+            Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from HostTest.", typeof(HostTest));
 
             var hb = new HostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())

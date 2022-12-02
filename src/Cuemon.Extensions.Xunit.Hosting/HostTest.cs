@@ -8,13 +8,112 @@ using Xunit.Abstractions;
 namespace Cuemon.Extensions.Xunit.Hosting
 {
     /// <summary>
+    /// Represents the base class from which all implementations of unit testing, that uses Microsoft Dependency Injection, should derive.
+    /// </summary>
+    /// <seealso cref="Test" />
+    public abstract class HostTest : Test
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HostTest"/> class.
+        /// </summary>
+        /// <param name="output">An implementation of the <see cref="ITestOutputHelper" /> interface.</param>
+        /// <param name="callerType">The <see cref="Type"/> of caller that ends up invoking this instance.</param>
+        /// <remarks><paramref name="output" /> is initialized automatically in an xUnit project.</remarks>
+        protected HostTest(ITestOutputHelper output = null, Type callerType = null) : base(output, callerType)
+        {
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.
+        /// </summary>
+        /// <value>The <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.</value>
+        public IHost Host { get; protected set; }
+
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> initialized by the <see cref="IHost"/>.
+        /// </summary>
+        /// <value>The <see cref="IServiceProvider"/> initialized by the <see cref="IHost"/>.</value>
+        public IServiceProvider ServiceProvider { get; protected set; }
+
+        /// <summary>
+        /// Gets the <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.
+        /// </summary>
+        /// <value>The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</value>
+        public IConfiguration Configuration
+        {
+            get;
+            private set;
+        }
+
+#if NETSTANDARD
+        /// <summary>
+        /// Gets the <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.
+        /// </summary>
+        /// <value>The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</value>
+        public IHostingEnvironment HostingEnvironment
+        {
+            get;
+            private set;
+        }
+#else
+        /// <summary>
+        /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
+        /// </summary>
+        /// <value>The <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.</value>
+        public IHostEnvironment HostingEnvironment
+        {
+            get;
+            private set;
+        }
+#endif
+
+#if NETSTANDARD
+        /// <summary>
+        /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
+        /// </summary>
+        /// <param name="configuration">The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</param>
+        /// <param name="environment">The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</param>
+        public virtual void Configure(IConfiguration configuration, IHostingEnvironment environment)
+        {
+            Configuration = configuration;
+            HostingEnvironment = environment;
+        }
+#else
+        /// <summary>
+        /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
+        /// </summary>
+        /// <param name="configuration">The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</param>
+        /// <param name="environment">The <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.</param>
+        public virtual void Configure(IConfiguration configuration, IHostEnvironment environment)
+        {
+            Configuration = configuration;
+            HostingEnvironment = environment;
+        }
+#endif
+
+        /// <summary>
+        /// Provides a way to override the <see cref="IHostBuilder"/> defaults.
+        /// </summary>
+        /// <param name="hb">The <see cref="IHostBuilder"/> that initializes an instance of <see cref="IHost"/>.</param>
+        protected virtual void ConfigureHost(IHostBuilder hb)
+        {
+        }
+
+        /// <summary>
+        /// Adds services to the container.
+        /// </summary>
+        /// <param name="services">The collection of service descriptors.</param>
+        public abstract void ConfigureServices(IServiceCollection services);
+    }
+
+    /// <summary>
     /// Represents a base class from which all implementations of unit testing, that uses Microsoft Dependency Injection, should derive.
     /// </summary>
     /// <typeparam name="T">The type of the object that implements the <see cref="IHostFixture"/> interface.</typeparam>
     /// <seealso cref="Test" />
     /// <seealso cref="IClassFixture{TFixture}" />
     /// <remarks>The class needed to be designed in this rather complex way, as this is the only way that xUnit supports a shared context. The need for shared context is theoretical at best, but it does opt-in for Scoped instances.</remarks>
-    public abstract class HostTest<T> : Test, IClassFixture<T> where T : class, IHostFixture
+    public abstract class HostTest<T> : HostTest, IClassFixture<T> where T : class, IHostFixture
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HostTest{T}"/> class.
@@ -45,87 +144,5 @@ namespace Cuemon.Extensions.Xunit.Hosting
             ServiceProvider = hostFixture.ServiceProvider;
             Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
-
-        /// <summary>
-        /// Gets the <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.
-        /// </summary>
-        /// <value>The <see cref="IHost"/> initialized by the <see cref="IHostFixture"/>.</value>
-        public IHost Host { get; protected set; }
-
-        /// <summary>
-        /// Gets the <see cref="IServiceProvider"/> initialized by the <see cref="IHost"/>.
-        /// </summary>
-        /// <value>The <see cref="IServiceProvider"/> initialized by the <see cref="IHost"/>.</value>
-        public IServiceProvider ServiceProvider { get; protected set; }
-
-        /// <summary>
-        /// Gets the <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.
-        /// </summary>
-        /// <value>The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</value>
-        public IConfiguration Configuration
-        {
-            get;
-            private set;
-        }
-
-        #if NETSTANDARD
-        /// <summary>
-        /// Gets the <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.
-        /// </summary>
-        /// <value>The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</value>
-        public IHostingEnvironment HostingEnvironment
-        {
-            get;
-            private set;
-        }
-        #else
-        /// <summary>
-        /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
-        /// </summary>
-        /// <value>The <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.</value>
-        public IHostEnvironment HostingEnvironment 
-        {
-            get;
-            private set;
-        }
-        #endif
-
-        #if NETSTANDARD
-        /// <summary>
-        /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
-        /// </summary>
-        /// <param name="configuration">The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</param>
-        /// <param name="environment">The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</param>
-        public virtual void Configure(IConfiguration configuration, IHostingEnvironment environment)
-        {
-            Configuration = configuration;
-            HostingEnvironment = environment;
-        }
-        #else
-        /// <summary>
-        /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
-        /// </summary>
-        /// <param name="configuration">The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</param>
-        /// <param name="environment">The <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.</param>
-        public virtual void Configure(IConfiguration configuration, IHostEnvironment environment)
-        {
-            Configuration = configuration;
-            HostingEnvironment = environment;
-        }
-        #endif
-
-        /// <summary>
-        /// Provides a way to override the <see cref="IHostBuilder"/> defaults set up by <typeparamref name="T"/>.
-        /// </summary>
-        /// <param name="hb">The <see cref="IHostBuilder"/> that initializes an instance of <see cref="IHost"/>.</param>
-        protected virtual void ConfigureHost(IHostBuilder hb)
-        {
-        }
-
-        /// <summary>
-        /// Adds services to the container.
-        /// </summary>
-        /// <param name="services">The collection of service descriptors.</param>
-        public abstract void ConfigureServices(IServiceCollection services);
     }
 }

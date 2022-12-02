@@ -6,10 +6,37 @@ using Xunit.Abstractions;
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 {
     /// <summary>
+    /// Represents the base class from which all implementations of unit testing, that uses Microsoft Dependency Injection and depends on ASP.NET Core, should derive.
+    /// </summary>
+    /// <seealso cref="HostTest" />
+    public abstract class AspNetCoreHostTest : HostTest
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HostTest"/> class.
+        /// </summary>
+        /// <param name="output">An implementation of the <see cref="ITestOutputHelper" /> interface.</param>
+        /// <param name="callerType">The <see cref="Type"/> of caller that ends up invoking this instance.</param>
+        protected AspNetCoreHostTest(ITestOutputHelper output = null, Type callerType = null) : base(output, callerType)
+        {
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IApplicationBuilder"/> initialized by the <see cref="IHost"/>.
+        /// </summary>
+        /// <value>The <see cref="IApplicationBuilder"/> initialized by the <see cref="IHost"/>.</value>
+        public IApplicationBuilder Application { get; protected set; }
+
+        /// <summary>
+        /// Configures the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">The type that provides the mechanisms to configure the HTTP request pipeline.</param>
+        public abstract void ConfigureApplication(IApplicationBuilder app);
+    }
+
+    /// <summary>
     /// Represents a base class from which all implementations of unit testing, that uses Microsoft Dependency Injection and depends on ASP.NET Core, should derive.
     /// </summary>
     /// <typeparam name="T">The type of the object that implements the <see cref="IAspNetCoreHostFixture"/> interface.</typeparam>
-    /// <seealso cref="Test" />
     /// <seealso cref="HostTest{T}" />
     public abstract class AspNetCoreHostTest<T> : HostTest<T> where T : class, IAspNetCoreHostFixture
     {
