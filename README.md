@@ -78,8 +78,6 @@ For more information see our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 ## Links to NuGet packages
 
-NuGet links to all projects of Cuemon for .NET:
-
 * [Cuemon.AspNetCore](https://www.nuget.org/packages/Cuemon.AspNetCore/) 📦
 * [Cuemon.AspNetCore.App](https://www.nuget.org/packages/Cuemon.AspNetCore.App/) 🏭
 * [Cuemon.AspNetCore.Authentication](https://www.nuget.org/packages/Cuemon.AspNetCore.Authentication/) 📦
@@ -133,4 +131,4 @@ NuGet links to all projects of Cuemon for .NET:
 * [Cuemon.Threading](https://www.nuget.org/packages/Cuemon.Threading/) 📦
 * [Cuemon.Xml](https://www.nuget.org/packages/Cuemon.Xml/) 📦
 
-🏭) Provides a convenient set of default API additions for building various types of .NET projects.
+🏭) Provides a convenient set of default API additions for building various types of .NET projects
