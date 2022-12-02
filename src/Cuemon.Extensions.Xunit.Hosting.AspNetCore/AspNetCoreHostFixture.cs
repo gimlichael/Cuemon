@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         {
             var hostTestType = hostTest?.GetType();
             Validator.ThrowIfNull(hostTest);
-            Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from AspNetCoreHostTest/AspNetCoreHostTest<T>.", typeof(AspNetCoreHostTest), typeof(AspNetCoreHostTest<>));
+            Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from AspNetCoreHostTest<T>.", typeof(AspNetCoreHostTest<>));
 
             var hb = new HostBuilder()
                 .ConfigureWebHost(webBuilder =>
@@ -77,7 +77,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                                 Application = app;
                             }
                         )
-                        .UseSetting(HostDefaults.ApplicationKey, hostTest!.CallerType.Assembly.GetName().Name);
+                        .UseSetting(HostDefaults.ApplicationKey, hostTest.CallerType.Assembly.GetName().Name);
                 });
 
             ConfigureHostCallback(hb);

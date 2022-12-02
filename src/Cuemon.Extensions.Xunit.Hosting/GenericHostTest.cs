@@ -4,14 +4,14 @@ using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
-    internal sealed class GenericHostTest : HostTest, IGenericHostTest
+    internal sealed class GenericHostTest : HostTest<HostFixture>, IGenericHostTest
     {
         private readonly Action<IServiceCollection> _serviceConfigurator;
         private readonly Action<HostBuilderContext, IServiceCollection> _serviceConfiguratorWithContext;
         private readonly Action<IHostBuilder> _hostConfigurator;
         private HostBuilderContext _hostBuilderContext;
 
-        internal GenericHostTest(Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, HostFixture hostFixture) : base(callerType: serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
+        internal GenericHostTest(Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, HostFixture hostFixture) : base(hostFixture, callerType: serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
             _serviceConfigurator = serviceConfigurator;
             _hostConfigurator = hostConfigurator;
@@ -22,13 +22,12 @@ namespace Cuemon.Extensions.Xunit.Hosting
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureHost(this);
             }
-            HostFixture = hostFixture;
             Host = hostFixture.Host;
             ServiceProvider = hostFixture.Host.Services;
             Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
 
-        internal GenericHostTest(Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, HostFixture hostFixture) : base(callerType: serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
+        internal GenericHostTest(Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, HostFixture hostFixture) : base(hostFixture, callerType: serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
             _serviceConfiguratorWithContext = serviceConfigurator;
             _hostConfigurator = hostConfigurator;
@@ -39,13 +38,14 @@ namespace Cuemon.Extensions.Xunit.Hosting
                 hostFixture.ConfigureServicesCallback = ConfigureServices;
                 hostFixture.ConfigureHost(this);
             }
-            HostFixture = hostFixture;
             Host = hostFixture.Host;
             ServiceProvider = hostFixture.Host.Services;
             Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
 
-        internal HostFixture HostFixture { get; }
+        protected override void InitializeHostFixture(HostFixture hostFixture)
+        {
+        }
 
         protected override void ConfigureHost(IHostBuilder hb)
         {
@@ -62,25 +62,6 @@ namespace Cuemon.Extensions.Xunit.Hosting
                 hbc.HostingEnvironment = HostingEnvironment;
                 return hbc;
             }), services);
-        }
-    }
-
-    internal sealed class GenericHostTestDecorator : HostTest<HostFixture>, IGenericHostTest
-    {
-        private readonly GenericHostTest _genericHost;
-
-        internal GenericHostTestDecorator(GenericHostTest genericHost) : base(genericHost.HostFixture, callerType: genericHost.CallerType)
-        {
-            _genericHost = genericHost;
-        }
-
-        protected override void InitializeHostFixture(HostFixture hostFixture)
-        {
-        }
-
-        public override void ConfigureServices(IServiceCollection services)
-        {
-            _genericHost.ConfigureServices(services);
         }
     }
 }

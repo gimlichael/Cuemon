@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 {
-    internal sealed class MiddlewareTest : AspNetCoreHostTest, IMiddlewareTest
+    internal sealed class MiddlewareTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IMiddlewareTest
     {
         private readonly Action<IApplicationBuilder> _pipelineConfigurator;
         private readonly Action<IServiceCollection> _serviceConfigurator;
@@ -14,7 +14,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         private readonly Action<IHostBuilder> _hostConfigurator;
         private HostBuilderContext _hostBuilderContext;
 
-        internal MiddlewareTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
+        internal MiddlewareTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
             _pipelineConfigurator = pipelineConfigurator;
             _serviceConfigurator = serviceConfigurator;
@@ -27,14 +27,13 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 hostFixture.ConfigureApplicationCallback = ConfigureApplication;
                 hostFixture.ConfigureHost(this);
             }
-            HostFixture = hostFixture;
             Host = hostFixture.Host;
             ServiceProvider = hostFixture.Host.Services;
             Application = hostFixture.Application;
             Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
 
-        internal MiddlewareTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
+        internal MiddlewareTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
             _pipelineConfiguratorWithContext = pipelineConfigurator;
             _serviceConfiguratorWithContext = serviceConfigurator;
@@ -47,14 +46,15 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 hostFixture.ConfigureApplicationCallback = ConfigureApplication;
                 hostFixture.ConfigureHost(this);
             }
-            HostFixture = hostFixture;
             Host = hostFixture.Host;
             ServiceProvider = hostFixture.Host.Services;
             Application = hostFixture.Application;
             Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
 
-        internal AspNetCoreHostFixture HostFixture { get; }
+        protected override void InitializeHostFixture(AspNetCoreHostFixture hostFixture)
+        {
+        }
 
         public override void ConfigureApplication(IApplicationBuilder app)
         {
@@ -83,35 +83,6 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 return hbc;
             }), services);
             services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
-        }
-    }
-
-    internal sealed class MiddlewareTestDecorator : AspNetCoreHostTest<AspNetCoreHostFixture>, IMiddlewareTest
-    {
-        private readonly MiddlewareTest _middleware;
-
-        internal MiddlewareTestDecorator(MiddlewareTest middleware) : base(middleware.HostFixture, callerType: middleware.CallerType)
-        {
-            _middleware = middleware;
-            Application = middleware.Application;
-            Host = middleware.Host;
-            ServiceProvider = middleware.Host.Services;
-            Application = middleware.Application;
-            Configure(middleware.Configuration, middleware.HostingEnvironment);
-        }
-
-        protected override void InitializeHostFixture(AspNetCoreHostFixture hostFixture)
-        {
-        }
-
-        public override void ConfigureApplication(IApplicationBuilder app)
-        {
-            _middleware.ConfigureApplication(app);
-        }
-
-        public override void ConfigureServices(IServiceCollection services)
-        {
-            _middleware.ConfigureServices(services);
         }
     }
 }

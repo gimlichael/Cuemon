@@ -69,21 +69,5 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                     });
                 });
         }
-
-        [Fact]
-        public void Create_ShouldCreateWithClassFixture()
-        {
-            var sut = MiddlewareTestFactory.Create(services => { });
-
-            Assert.True(sut.GetType().Name == "MiddlewareTestDecorator", "sut.GetType().Name == 'MiddlewareTestDecorator'");
-        }
-
-        [Fact]
-        public void CreateGenericHostTest_ShouldCreateWithoutClassFixture()
-        {
-            var sut = MiddlewareTestFactory.Create(false, services => { });
-
-            Assert.True(sut.GetType().Name == "MiddlewareTest", "sut.GetType().Name == 'MiddlewareTest'");
-        }
     }
 }

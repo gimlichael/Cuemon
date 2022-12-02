@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 {
-    public class WebApplicationTestFactoryTest : Test
+    public class MvcFilterTestFactoryTest : Test
     {
-        public WebApplicationTestFactoryTest(ITestOutputHelper output) : base(output)
+        public MvcFilterTestFactoryTest(ITestOutputHelper output) : base(output)
         {
         }
 
         [Fact]
-        public void Create_CallerTypeShouldHaveDeclaringTypeOfMvcFilterTestFactoryTest()
+        public void CreateMvcFilterTest_CallerTypeShouldHaveDeclaringTypeOfMvcFilterTestFactoryTest()
         {
             Type sut1 = GetType();
             string sut2 = null;
@@ -30,7 +29,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         }
 
         [Fact]
-        public Task Run_ShouldHaveApplicationNameEqualToThisAssembly()
+        public Task RunMvcFilterTest_ShouldHaveApplicationNameEqualToThisAssembly()
         {
             return WebApplicationTestFactory.Run(Assert.NotNull, Assert.NotNull, host =>
             {
@@ -43,7 +42,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
         }
 
         [Fact]
-        public Task RunWithHostBuilderContext_ShouldHaveApplicationNameEqualToThisAssembly_WithHostBuilderContext()
+        public Task RunMvcFilterTest_ShouldHaveApplicationNameEqualToThisAssembly_WithHostBuilderContext()
         {
             return WebApplicationTestFactory.RunWithHostBuilderContext((context, app) =>
             {
@@ -67,26 +66,6 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
                     Assert.Equal(GetType().Assembly.GetName().Name, context.HostingEnvironment.ApplicationName);
                 });
             });
-        }
-
-        [Fact]
-        public void Create_ShouldCreateWithClassFixture()
-        {
-            var sut = WebApplicationTestFactory.Create(services => { });
-            var innerType = sut.GetType().GetField("_middlewareTest", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(sut).GetType();
-
-            Assert.NotNull(sut.Host);
-            Assert.True(innerType.Name == "MiddlewareTestDecorator", "sut.GetType().Name == 'MiddlewareTestDecorator'");
-        }
-
-        [Fact]
-        public void CreateGenericHostTest_ShouldCreateWithoutClassFixture()
-        {
-            var sut = WebApplicationTestFactory.Create(false, services => { });
-            var innerType = sut.GetType().GetField("_middlewareTest", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(sut).GetType();
-
-            Assert.NotNull(sut.Host);
-            Assert.True(innerType.Name == "MiddlewareTest", "sut.GetType().Name == 'MiddlewareTest'");
         }
     }
 }
