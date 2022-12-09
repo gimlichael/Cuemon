@@ -79,7 +79,7 @@ namespace Cuemon.Extensions.Asp.Versioning
 
             Assert.NotNull(sut.ValidAcceptHeaders);
             Assert.True(typeof(CurrentImplementationApiVersionSelector) == sut.ApiVersionSelectorType, "typeof(CurrentImplementationApiVersionSelector) == sut.ApiVersionSelectorType");
-            Assert.True(typeof(RestfulProblemDetailsFactory) == sut.ProblemDetailsFactoryType, "typeof(RestfulProblemDetailsFactory) == sut.ProblemDetailsFactoryType");
+            //Assert.True(typeof(RestfulProblemDetailsFactory) == sut.ProblemDetailsFactoryType, "typeof(RestfulProblemDetailsFactory) == sut.ProblemDetailsFactoryType");
             Assert.Equal(ApiVersion.Default, sut.DefaultApiVersion);
             Assert.Equal("v", sut.ParameterName);
             Assert.NotNull(sut.Conventions);

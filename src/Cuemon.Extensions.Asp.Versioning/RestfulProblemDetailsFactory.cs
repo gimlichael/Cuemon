@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET6_0
+using System;
 using System.Linq;
 using Asp.Versioning;
 using Cuemon.AspNetCore.Http;
@@ -46,3 +47,4 @@ namespace Cuemon.Extensions.Asp.Versioning
         }
     }
 }
+#endif

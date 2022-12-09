@@ -42,10 +42,7 @@ namespace Cuemon.Extensions.Asp.Versioning
             {
                 services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
                     .AddJsonFormatters();
-                services.AddRestfulApiVersioning(o =>
-                {
-                    o.UseProblemDetailsFactory<DefaultProblemDetailsFactory>();
-                });
+                services.AddRestfulApiVersioning();
             }))
             {
                 var client = app.Host.GetTestClient();
