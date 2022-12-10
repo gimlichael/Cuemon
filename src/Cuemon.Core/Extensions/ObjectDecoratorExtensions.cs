@@ -89,21 +89,5 @@ namespace Cuemon
                 }
             }
         }
-
-        /// <summary>
-        /// Adjust the enclosed <typeparamref name="T"/> of the <paramref name="decorator"/> with the function delegate <paramref name="tweaker"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the value to adjust.</typeparam>
-        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
-        /// <param name="tweaker">The function delegate that will adjust the enclosed <typeparamref name="T"/> of the <paramref name="decorator"/>.</param>
-        /// <returns>The enclosed <typeparamref name="T"/> of the <paramref name="decorator"/> in its original or adjusted form.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null.
-        /// </exception>
-        public static T Adjust<T>(this IDecorator<T> decorator, Func<T, T> tweaker)
-        {
-            Validator.ThrowIfNull(decorator);
-            return Tweaker.Adjust(decorator.Inner, tweaker);
-        }
     }
 }

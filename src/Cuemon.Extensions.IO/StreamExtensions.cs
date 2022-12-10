@@ -195,7 +195,7 @@ namespace Cuemon.Extensions.IO
             return Decorator.Enclose(value).ToEncodedStringAsync(setup);
         }
 
-        #if NETSTANDARD2_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
+        #if NETSTANDARD2_1 || NET6_0_OR_GREATER
         /// <summary>
         /// Compresses the <paramref name="value"/> using the BROTLI algorithm.
         /// </summary>
@@ -308,7 +308,7 @@ namespace Cuemon.Extensions.IO
             return Decorator.Enclose(value).CompressGZipAsync(setup);
         }
 
-        #if NETSTANDARD2_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
+        #if NETSTANDARD2_1 || NET6_0_OR_GREATER
         /// <summary>
         /// Decompresses the <paramref name="value"/> using the BROTLI data format specification.
         /// </summary>

@@ -24,7 +24,7 @@ namespace Cuemon.Extensions.Hosting
         [Fact]
         public void IsLocalDevelopment_VerifyEnvironmentEqualsLocalDevelopment()
         {
-            #if NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+            #if NET6_0_OR_GREATER
             Assert.True(HostingEnvironment.IsLocalDevelopment());
             Assert.False(HostingEnvironment.IsProduction());
             Assert.False(HostingEnvironment.IsStaging());
@@ -41,7 +41,7 @@ namespace Cuemon.Extensions.Hosting
         [Fact]
         public void IsLocalDevelopment_VerifyEnvironmentIsNonProduction()
         {
-            #if NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+            #if NET6_0_OR_GREATER
             Assert.True(HostingEnvironment.IsNonProduction());
             Assert.False(HostingEnvironment.IsProduction());
             #else

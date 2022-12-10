@@ -20,7 +20,7 @@ namespace Cuemon
         /// Initializes a new instance of the <see cref="ReservedKeywordException"/> class.
         /// </summary>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        public ReservedKeywordException(string paramName) : this(paramName, "Specified argument is a reserved keyword.")
+        public ReservedKeywordException(string paramName) : this(paramName, (string)null)
         {
         }
 
@@ -39,7 +39,7 @@ namespace Cuemon
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="actualValue">The value of the argument that causes this exception.</param>
         /// <param name="message">The message that describes the error.</param>
-        public ReservedKeywordException(string paramName, string actualValue, string message) : base(paramName, actualValue, message)
+        public ReservedKeywordException(string paramName, string actualValue, string message) : base(paramName, actualValue, message ?? "Specified argument is a reserved keyword.")
         {
         }
 

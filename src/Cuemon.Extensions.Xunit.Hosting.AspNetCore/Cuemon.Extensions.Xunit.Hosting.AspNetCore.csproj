@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
     <ProjectGuid>200bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
     <SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
@@ -19,13 +19,10 @@
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.11" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.31" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.DependencyInjection\Cuemon.Extensions.DependencyInjection.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Xunit.Hosting\Cuemon.Extensions.Xunit.Hosting.csproj" />
   </ItemGroup>
+
 </Project>

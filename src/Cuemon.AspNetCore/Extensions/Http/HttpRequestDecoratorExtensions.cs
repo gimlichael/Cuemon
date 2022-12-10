@@ -74,7 +74,7 @@ namespace Cuemon.AspNetCore.Http
             Validator.ThrowIfNull(decorator);
             Validator.ThrowIfNull(lastModified);
             var headers = new RequestHeaders(decorator.Inner.Headers);
-            var adjustedLastModified = Decorator.Enclose(lastModified).Adjust(o => new DateTime(o.Year, o.Month, o.Day, o.Hour, o.Minute, o.Second, DateTimeKind.Utc)); // make sure, that modified has the same format as the if-modified-since header
+            var adjustedLastModified = Tweaker.Adjust(lastModified, o => new DateTime(o.Year, o.Month, o.Day, o.Hour, o.Minute, o.Second, DateTimeKind.Utc)); // make sure, that modified has the same format as the if-modified-since header
             var ifModifiedSince = headers.IfModifiedSince?.UtcDateTime;
             return (adjustedLastModified != DateTime.MinValue) && (ifModifiedSince.HasValue && ifModifiedSince.Value.ToUniversalTime() >= adjustedLastModified);
         }
