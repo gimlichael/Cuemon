@@ -1,8 +1,21 @@
-﻿Version: 7.0.0
+﻿Version: 7.1.0
+Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+# Bug Fixes
+- FIXED ReservedKeywordException class in the Cuemon namespace so the default message is used in case of null value
+ 
+# New Features
+- EXTENDED Tweaker class in the Cuemon namespace with one  new static members: Alter{T}
+ 
+Version: 7.0.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
 - ADDED TFM for .NET 7
+- REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
 # Breaking Changes

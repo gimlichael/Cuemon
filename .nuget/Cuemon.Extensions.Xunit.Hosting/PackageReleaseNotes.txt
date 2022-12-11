@@ -1,8 +1,19 @@
-﻿Version: 7.0.0
+﻿Version: 7.1.0
+Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
+ 
+# ALM
+- REMOVED TFM for .NET Core 3.1
+- CHANGED Dependencies to latest and greatest with respect to TFM
+ 
+# Improvements
+- CHANGED GenericHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting namespace to have non-ambiguous overloads of CreateGenericHostTest -> Create, CreateWithHostBuilderContext (old methods marked with Obsolete attribute)
+ 
+Version: 7.0.0
 Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
  
 # ALM
 - ADDED TFM for .NET 7
+- REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
 Version: 6.4.1

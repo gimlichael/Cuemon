@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [7.1.0]
+
+### Added
+
+- Alter{T}, Change{T, TResult} methods on Tweaker class in the Cuemon namespace
+- As extension method on the ObjectExtensions class on the Cuemon.Extensions namespace
+- As{T, TResult}, Alter{T} extension methods on the ObjectExtensions class in the Cuemon.Extensions namespace
+- UseBuiltInRfc7807 property on the RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace (https://github.com/dotnet/aspnet-api-versioning/commit/0a999316aebc81fb1bf3842a2980901f9539978b)
+
+### Removed
+
+- Support for TFM .NET Core 3.1 (LTS) in all relevant projects
+- GetValueOrDefault{TKey, TValue} overload from the DictionaryExtensions class in the Cuemon.Extensions.Collections.Generic namespace due to naming conflict introduced with .NET 7
+- ProblemDetailsFactoryType and UseProblemDetailsFactory{T} from the RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace when targeting .NET 7 (https://github.com/dotnet/aspnet-api-versioning/releases/tag/v7.0.0)
+
+### Fixed
+
+- As{T} overload on ObjectExtensions class in the Cuemon.Extensions namespace due to wrongfully throw of an ArgumentNullException when argument was null
+- Adjust{T} overload on ObjectExtensions class in the Cuemon.Extensions namespace to fail fast by adding null check on argument
+- ReservedKeywordException class in the Cuemon namespace so the default message is used in case of null value
+- RestfulProblemDetailsFactory class in the Cuemon.Extensions.Asp.Versioning namespace due to changes for 6.3 release of Asp.Versioning (https://github.com/dotnet/aspnet-api-versioning/commit/0a999316aebc81fb1bf3842a2980901f9539978b)
+
+### Changed
+
+- GenericHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting namespace to have non-ambiguous overloads of CreateGenericHostTest -> Create, CreateWithHostBuilderContext (old methods marked with Obsolete attribute)
+- ServiceCollectionExtensions class in the Cuemon.Extensions.Asp.Versioning namespace so that AddRestfulApiVersioning now is backward compatible with recent changes mentioned here https://github.com/dotnet/aspnet-api-versioning/releases/tag/v7.0.0
+
 ## [7.0.0]
 
 ### Added
@@ -138,6 +165,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 
 ### Removed
 
+- Support for TFM .NET 5 (STS) in all relevant projects
 - CdnTagHelper class from the Cuemon.AspNetCore.Razor.TagHelpers namespace
 - CdnUriScheme class from the Cuemon.AspNetCore.Razor.TagHelpers namespace
 - ImageCdnTagHelper class from the Cuemon.AspNetCore.Razor.TagHelpers namespace

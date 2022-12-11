@@ -48,7 +48,7 @@ namespace Cuemon.Extensions.Xunit
         /// <returns>An <see cref="IEnumerable{T}" /> that satisfies the condition.</returns>
         public virtual IEnumerable<T> Query(Func<T, bool> predicate = null)
         {
-            return Condition.TernaryIf(predicate == null, () => _store, () => _store.Where(predicate));
+            return Condition.TernaryIf(predicate == null, () => _store, () => _store.Where(predicate!));
         }
 
         /// <summary>
