@@ -13,7 +13,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - Alter{T}, Change{T, TResult} methods on Tweaker class in the Cuemon namespace
 - As extension method on the ObjectExtensions class on the Cuemon.Extensions namespace
 - As{T, TResult}, Alter{T} extension methods on the ObjectExtensions class in the Cuemon.Extensions namespace
-- UseBuiltInRfc7807 property on the RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace (https://github.com/dotnet/aspnet-api-versioning/commit/0a999316aebc81fb1bf3842a2980901f9539978b)
+- UseBuiltInRfc7807 property on the RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace (https://github.com/dotnet/aspnet-api-versioning/releases/tag/v7.0.0)
 
 ### Removed
 
