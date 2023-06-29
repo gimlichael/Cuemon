@@ -17,11 +17,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
-    <PackageReference Include="System.Text.Json" Version="7.0.0" />
+    <PackageReference Include="System.Text.Json" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="System.Text.Json" Version="6.0.7" />
+    <PackageReference Include="System.Text.Json" Version="6.0.8" />
   </ItemGroup>
 
 </Project>
