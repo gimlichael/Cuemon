@@ -16,7 +16,7 @@
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
     <TargetFrameworks>net7.0;net6.0;netstandard2.0</TargetFrameworks>
-    <Copyright>Copyright © Geekle 2009-2022. All rights reserved.</Copyright>
+    <Copyright>Copyright © Geekle 2009-2023. All rights reserved.</Copyright>
     <Authors>gimlichael</Authors>
     <Company>Geekle</Company>
     <Product>Cuemon for .NET</Product>
@@ -48,7 +48,7 @@
 
   <ItemGroup Condition="'$(IsTestProject)' == 'false'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all"/>
-    <PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="all" />
+    <PackageReference Include="MinVer" Version="4.3.0" PrivateAssets="all" />
     <None Include="..\..\.nuget\icon.png" Pack="true" Visible="false" PackagePath="icon.png" />
     <None Include="..\..\.nuget\$(MSBuildProjectName)\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
@@ -67,17 +67,17 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.msbuild" Version="3.2.0">
+    <PackageReference Include="coverlet.msbuild" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.2.0">
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
