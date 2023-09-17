@@ -1,16 +1,16 @@
 ﻿# escape=`
 
-FROM nginx:1.23.2 AS base
+FROM nginx:1.25.2 AS base
 RUN rm -rf /usr/share/nginx/html/*
 
 FROM mono:6.12.0.182 AS build
-ARG DOCFX_VERSION=v2.59.4
+ARG DOCFX_VERSION=v2.70.3
 
 ENV PATH ${PATH}:/opt/docfx
 ENV DOCFX_SOURCE_BRANCH_NAME="development"
 
 # MONO IMAGE
-RUN curl -sSL --output packages-microsoft-prod.deb https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb
+RUN curl -sSL --output packages-microsoft-prod.deb https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN apt-get update `
 && apt-get install -y powershell zip apt-transport-https dirmngr gnupg ca-certificates git `

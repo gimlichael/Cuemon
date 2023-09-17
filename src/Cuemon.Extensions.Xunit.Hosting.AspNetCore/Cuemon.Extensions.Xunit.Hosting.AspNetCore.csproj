@@ -1,7 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
     <ProjectGuid>200bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
     <SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
@@ -11,12 +10,16 @@
     <PackageTags>asp-net-core-host-test class-fixture asp-net-core-host-fixture middleware-test-factory microsoft dependency injection host configuration hosting-environment service-provider configure-services test-server</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0-rc.1.23421.29" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.11" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.22" />
   </ItemGroup>
 
   <ItemGroup>

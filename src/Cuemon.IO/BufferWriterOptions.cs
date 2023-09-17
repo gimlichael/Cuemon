@@ -1,5 +1,4 @@
-﻿#if NETSTANDARD2_1 || NET6_0_OR_GREATER
-using System.Buffers;
+﻿using System.Buffers;
 using Cuemon.Text;
 
 namespace Cuemon.IO
@@ -47,4 +46,3 @@ namespace Cuemon.IO
         public int BufferSize { get; set; }
     }
 }
-#endif

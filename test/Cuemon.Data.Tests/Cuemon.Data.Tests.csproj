@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Cuemon.Data</RootNamespace>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 
   <ItemGroup>

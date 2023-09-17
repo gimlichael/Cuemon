@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
 
             await pipeline(context);
 
-            Assert.Empty(context.Response.Headers[HeaderNames.ETag]);
+            Assert.Empty(context.Response.Headers[HeaderNames.ETag].ToString());
             Assert.Equal(StatusCodes.Status200OK, context.Response.StatusCode);
         }
 
@@ -77,7 +77,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
 
             await pipeline(context);
 
-            Assert.Empty(context.Response.Headers[HeaderNames.LastModified]);
+            Assert.Empty(context.Response.Headers[HeaderNames.LastModified].ToString());
             Assert.Equal(StatusCodes.Status200OK, context.Response.StatusCode);
         }
 

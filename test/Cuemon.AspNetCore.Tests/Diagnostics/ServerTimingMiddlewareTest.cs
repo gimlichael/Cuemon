@@ -46,7 +46,7 @@ namespace Cuemon.AspNetCore.Diagnostics
 
                 TestOutput.WriteLine(sut1);
 
-                Assert.Empty(sut0);
+                Assert.Empty(sut0.ToString());
                 Assert.Equal("redis", sut1[0].Split(';').First());
                 Assert.Equal("restApi", sut1[1].Split(';').First());
             }
@@ -78,8 +78,8 @@ namespace Cuemon.AspNetCore.Diagnostics
                 await pipeline(context);
                 var sut1 = context.Response.Headers[ServerTiming.HeaderName];
 
-                Assert.Empty(sut0);
-                Assert.Empty(sut1);
+                Assert.Empty(sut0.ToString());
+                Assert.Empty(sut1.ToString());
             }
         }
     }

@@ -9,10 +9,6 @@
     <PackageTags>cacheable-object-factory cacheable-object-result content-based-object-result content-time-based-object-result see-other-result http-cacheable-filter http-entity-tag-header-filter http-last-modified-header-filter fault-descriptor-filter fault-resolver http-request-evidence server-timing-filter user-agent-sentinel-filter throttling-sentinel-filter</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
     <ProjectReference Include="..\Cuemon.Security.Cryptography\Cuemon.Security.Cryptography.csproj" />

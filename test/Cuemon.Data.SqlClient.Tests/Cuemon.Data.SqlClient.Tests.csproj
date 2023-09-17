@@ -3,12 +3,20 @@
   <PropertyGroup>
     <RootNamespace>Cuemon.Data.SqlClient</RootNamespace>
     <UserSecretsId>a3ad04eb-1ef8-4aa4-a20d-cc87b2467342</UserSecretsId>
+    <TargetFrameworks>net8.0</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0-rc.1.23419.4" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Data.SqlClient\Cuemon.Data.SqlClient.csproj" />

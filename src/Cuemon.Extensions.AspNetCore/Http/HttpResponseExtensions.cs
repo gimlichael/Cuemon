@@ -57,11 +57,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             var bodyContent = body?.Invoke();
             if (bodyContent != null)
             {
-                #if NETSTANDARD
-                await response.Body.WriteAsync(bodyContent, 0, bodyContent.Length).ConfigureAwait(false);
-                #else
                 await response.Body.WriteAsync(bodyContent.AsMemory(0, bodyContent.Length)).ConfigureAwait(false);
-                #endif
             }
         }
 

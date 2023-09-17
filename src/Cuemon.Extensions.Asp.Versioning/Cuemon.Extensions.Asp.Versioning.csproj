@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
     <ProjectGuid>ac0adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
@@ -10,11 +9,18 @@
     <PackageTags>extension-methods extensions restful-api-versioning versioning</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
+    <PackageReference Include="Asp.Versioning.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Asp.Versioning.Http" Version="7.0.1" />
+    <PackageReference Include="Asp.Versioning.Mvc" Version="7.0.1" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.1" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
     <PackageReference Include="Asp.Versioning.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Asp.Versioning.Http" Version="7.0.0" />
-    <PackageReference Include="Asp.Versioning.Mvc" Version="7.0.0" />
-    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.0" />
+    <PackageReference Include="Asp.Versioning.Http" Version="7.0.1" />
+    <PackageReference Include="Asp.Versioning.Mvc" Version="7.0.1" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.1" />
   </ItemGroup>
 
 

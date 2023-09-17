@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Cuemon.AspNetCore</RootNamespace>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 
   <ItemGroup>

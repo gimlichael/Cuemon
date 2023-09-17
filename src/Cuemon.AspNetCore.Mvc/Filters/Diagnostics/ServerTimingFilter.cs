@@ -4,6 +4,7 @@ using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Reflection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -21,18 +22,6 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     /// <seealso cref="IActionFilter" />
     public class ServerTimingFilter : ConfigurableActionFilter<ServerTimingOptions>
     {
-        #if NETSTANDARD
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ServerTimingFilter" /> class.
-        /// </summary>
-        /// <param name="setup">The <see cref="TimeMeasureOptions" /> which need to be configured.</param>
-        /// <param name="he">The dependency injected <see cref="IHostingEnvironment"/>.</param>
-        public ServerTimingFilter(IOptions<ServerTimingOptions> setup, IHostingEnvironment he) : base(setup)
-        {
-            Profiler = new TimeMeasureProfiler();
-            Environment = he;
-        }
-        #else
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerTimingFilter" /> class.
         /// </summary>
@@ -43,13 +32,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             Profiler = new TimeMeasureProfiler();
             Environment = he;
         }
-        #endif
 
-        #if NETSTANDARD
-        private IHostingEnvironment Environment { get; }
-        #else
         private IHostEnvironment Environment { get; }
-        #endif
 
         private TimeMeasureProfiler Profiler { get; }
 
@@ -90,7 +74,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             }
             if (!Options.SuppressHeaderPredicate(Environment))
             {
-                context.HttpContext.Response.Headers.Add(ServerTiming.HeaderName, serverTiming.Metrics.Select(metric => metric.ToString()).ToArray());
+                context.HttpContext.Response.Headers.Append(ServerTiming.HeaderName, serverTiming.Metrics.Select(metric => metric.ToString()).ToArray());
             }
         }
 

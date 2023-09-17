@@ -7,18 +7,10 @@ namespace Cuemon.Extensions.Xunit.Hosting
     /// </summary>
     public interface IHostingEnvironmentTest
     {
-        #if NETSTANDARD
-        /// <summary>
-        /// Gets the <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.
-        /// </summary>
-        /// <value>The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</value>
-        IHostingEnvironment HostingEnvironment { get; }
-        #else
         /// <summary>
         /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
         /// </summary>
         /// <value>The <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.</value>
         IHostEnvironment HostingEnvironment { get; }
-        #endif       
     }
 }

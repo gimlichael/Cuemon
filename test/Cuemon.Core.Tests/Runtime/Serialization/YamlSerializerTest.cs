@@ -31,7 +31,7 @@ namespace Cuemon.Runtime.Serialization
 
             TestOutput.WriteLine(sut4);
 
-            Assert.Equal(@"AMDesignator: 
+            var expected = @"AMDesignator: 
 Calendar: 
   MinSupportedDateTime: 01-01-0001 00:00:00
   MaxSupportedDateTime: 31-12-9999 23:59:59
@@ -39,7 +39,7 @@ Calendar:
   CalendarType: Localized
   Eras: 
     - 1
-  TwoDigitYearMax: 2029
+  TwoDigitYearMax: {0}
 DateSeparator: -
 FirstDayOfWeek: Monday
 CalendarWeekRule: FirstFourDayWeek
@@ -135,7 +135,14 @@ MonthGenitiveNames:
   - oktober
   - november
   - december
-  - ".ReplaceLineEndings(), sut4);
+  - ".ReplaceLineEndings();
+
+#if NET8_0
+            expected = string.Format(expected, "2049");
+#else
+            expected = string.Format(expected, "2029");
+#endif
+            Assert.Equal(expected, sut4);
         }
 
         [Fact]
@@ -275,7 +282,7 @@ DateTimeFormat:
     CalendarType: Localized
     Eras: 
       - 1
-    TwoDigitYearMax: 2029
+    TwoDigitYearMax: {0}
   DateSeparator: -
   FirstDayOfWeek: Monday
   CalendarWeekRule: FirstFourDayWeek
@@ -379,7 +386,7 @@ Calendar:
   CalendarType: Localized
   Eras: 
     - 1
-  TwoDigitYearMax: 2029
+  TwoDigitYearMax: {0}
 OptionalCalendars: 
   - 
     MinSupportedDateTime: 01-01-0001 00:00:00
@@ -388,13 +395,18 @@ OptionalCalendars:
     CalendarType: Localized
     Eras: 
       - 1
-    TwoDigitYearMax: 2029
-UseUserOverride: True".ReplaceLineEndings().Split(Environment.NewLine).ToList();
+    TwoDigitYearMax: {0}
+UseUserOverride: True";
 
+#if NET8_0
+            expected = string.Format(expected, "2049");
+#else
+            expected = string.Format(expected, "2029");
+#endif
 
             TestOutput.WriteLines(sut4);
             
-            Assert.Equal(expected, sut4);
+            Assert.Equal(expected.ReplaceLineEndings().Split(Environment.NewLine).ToList(), sut4);
         }
     }
 }

@@ -112,25 +112,6 @@ namespace Cuemon.Extensions.Collections.Generic
             return Decorator.Enclose(dictionary).TryAdd(key, value, condition);
         }
 
-        #if NETSTANDARD
-        /// <summary>
-        /// Attempts to add the specified <paramref name="key"/> and <paramref name="value"/> to the <paramref name="dictionary"/>.
-        /// </summary>
-        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
-        /// <param name="key">The key of the element to add.</param>
-        /// <param name="value">The value of the element to add.</param>
-        /// <returns><c>true</c> if the key/value pair was added to the enclosed <see cref="IDictionary{TKey,TValue}"/> of the <paramref name="dictionary"/> successfully; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="dictionary"/> cannot be null -or-
-        /// <paramref name="key"/> cannot be null.
-        /// </exception>
-        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
-        {
-            Validator.ThrowIfNull(dictionary);
-            return Decorator.Enclose(dictionary).TryAdd(key, value);
-        }
-        #endif
-
         /// <summary>
         /// Attempts to add or update an existing element with the provided <paramref name="key"/> to the <paramref name="dictionary"/> with the specified <paramref name="value"/>.
         /// </summary>
