@@ -2,7 +2,7 @@
 
 services:
   database:
-    image: gimlichael/aw-mssql-server:2019-GA-ubuntu-16.04
+    image: gimlichael/aw-mssql-server:2022-latest
     container_name: "awsql"
     hostname: "awsql"
     ports:

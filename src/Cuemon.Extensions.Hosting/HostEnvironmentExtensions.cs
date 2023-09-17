@@ -1,5 +1,4 @@
-﻿#if NETCOREAPP
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Hosting
 {
@@ -30,4 +29,3 @@ namespace Cuemon.Extensions.Hosting
         }
     }
 }
-#endif

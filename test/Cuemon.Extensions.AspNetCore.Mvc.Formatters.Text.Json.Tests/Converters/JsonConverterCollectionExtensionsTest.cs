@@ -63,7 +63,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters
                     o.SensitivityDetails = sensitivityDetails;
                 });
 
-                Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(HttpExceptionDescriptor))), jc =>
+                Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(HttpExceptionDescriptor))).ToList(), jc =>
                 {
                     var jf = new JsonFormatter(sut2);
 
@@ -137,7 +137,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters
             if (dc != null) { sut2.Settings.Converters.Remove(dc); }
             sut2.Settings.Converters.AddStringValuesConverter();
 
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(StringValues))), jc =>
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(StringValues))).ToList(), jc =>
             {
                 var jf = new JsonFormatter(sut2);
 
@@ -170,7 +170,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters
             if (dc != null) { sut2.Settings.Converters.Remove(dc); }
             sut2.Settings.Converters.AddStringValuesConverter();
 
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(StringValues))), jc =>
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(StringValues))).ToList(), jc =>
             {
                 var jf = new JsonFormatter(sut2);
 

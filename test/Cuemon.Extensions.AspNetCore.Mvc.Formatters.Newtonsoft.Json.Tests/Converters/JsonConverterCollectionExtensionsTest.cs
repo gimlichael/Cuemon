@@ -191,7 +191,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
             if (dc != null) { sut2.Settings.Converters.Remove(dc); }
             sut2.Settings.Converters.AddStringValuesConverter();
 
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(StringValues))), jc =>
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(StringValues))).ToList(), jc =>
             {
                 var jf = new JsonFormatter(sut2);
 

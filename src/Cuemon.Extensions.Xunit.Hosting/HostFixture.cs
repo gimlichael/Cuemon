@@ -61,21 +61,12 @@ namespace Cuemon.Extensions.Xunit.Hosting
             Host = hb.Build();
         }
 
-        #if NETSTANDARD 
-        /// <summary>
-        /// Gets or sets the delegate that initializes the test class.
-        /// </summary>
-        /// <value>The delegate that initializes the test class.</value>
-        /// <remarks>Mimics the Startup convention.</remarks>
-        public Action<IConfiguration, IHostingEnvironment> ConfigureCallback { get; set; }
-        #else
         /// <summary>
         /// Gets or sets the delegate that initializes the test class.
         /// </summary>
         /// <value>The delegate that initializes the test class.</value>
         /// <remarks>Mimics the Startup convention.</remarks>
         public Action<IConfiguration, IHostEnvironment> ConfigureCallback { get; set; }
-        #endif
 
         /// <summary>
         /// Gets or sets the delegate that initializes the host builder.
@@ -107,19 +98,11 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// <value>The <see cref="IConfiguration" /> initialized by this instance.</value>
         public IConfiguration Configuration { get; protected set; }
 
-        #if NETSTANDARD
-        /// <summary>
-        /// Gets the <see cref="IHostingEnvironment"/> initialized by this instance.
-        /// </summary>
-        /// <value>The <see cref="IHostingEnvironment"/> initialized by this instance.</value>
-        public IHostingEnvironment HostingEnvironment { get; protected set; }
-        #else
         /// <summary>
         /// Gets the <see cref="IHostEnvironment"/> initialized by this instance.
         /// </summary>
         /// <value>The <see cref="IHostEnvironment"/> initialized by this instance.</value>
         public IHostEnvironment HostingEnvironment { get; protected set; }
-        #endif
 
         /// <summary>
         /// Called when this object is being disposed by either <see cref="M:Cuemon.Disposable.Dispose" /> or <see cref="M:Cuemon.Disposable.Dispose(System.Boolean)" /> having <c>disposing</c> set to <c>true</c> and <see cref="P:Cuemon.Disposable.Disposed" /> is <c>false</c>.

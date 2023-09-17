@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Cuemon.Reflection;
@@ -44,11 +43,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             var enumConverterFactory = typeof(JsonConverterFactory).Assembly.GetType("System.Text.Json.Serialization.Converters.EnumConverterFactory");
             if (enumConverterOptions != null && enumConverterFactory != null)
             {
-                #if NET6_0_OR_GREATER
-                var createMethod = enumConverterFactory.GetMethod("Create", MemberReflection.Everything, new Type[] { typeof(Type), enumConverterOptions, typeof(JsonNamingPolicy), typeof(JsonSerializerOptions) });
-                #elif NETCOREAPP3_1_OR_GREATER
-                var createMethod = enumConverterFactory.GetMethod("Create", MemberReflection.Everything, null, CallingConventions.Standard, new Type[] { typeof(Type), enumConverterOptions, typeof(JsonNamingPolicy), typeof(JsonSerializerOptions) }, null);
-                #endif
+                var createMethod = enumConverterFactory.GetMethod("Create", MemberReflection.Everything, new[] { typeof(Type), enumConverterOptions, typeof(JsonNamingPolicy), typeof(JsonSerializerOptions) });
                 if (createMethod != null)
                 {
                     return (JsonConverter)createMethod.Invoke(null, new object[] { typeToConvert, 1, options.PropertyNamingPolicy, options });

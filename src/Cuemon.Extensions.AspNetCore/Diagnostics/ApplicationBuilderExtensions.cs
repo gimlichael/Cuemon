@@ -98,11 +98,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         private static async Task WriteResponseAsync(HttpContext context, HttpExceptionDescriptorResponseHandler handler, HttpExceptionDescriptor exceptionDescriptor, CancellationToken ct)
         {
             var message = handler.ToHttpResponseMessage(exceptionDescriptor);
-#if NET6_0_OR_GREATER
             var buffer = await message.Content.ReadAsByteArrayAsync(ct).ConfigureAwait(false);
-#else
-            var buffer = await message.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-#endif
             context.Response.ContentType = message.Content.Headers.ContentType!.ToString();
             context.Response.ContentLength = buffer.Length;
             context.Response.StatusCode = (int)message.StatusCode;

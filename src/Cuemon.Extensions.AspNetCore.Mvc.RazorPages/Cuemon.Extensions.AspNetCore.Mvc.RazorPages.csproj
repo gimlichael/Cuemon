@@ -9,10 +9,6 @@
     <PackageTags>app cdn get-app-url get-cdn-url</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.2.5" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore.Razor.TagHelpers\Cuemon.AspNetCore.Razor.TagHelpers.csproj" />
   </ItemGroup>
