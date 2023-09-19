@@ -1,8 +1,8 @@
 #!/bin/sh
 
 echo "Updating OpenSSL to be backward compatible ..."
-wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb
-sudo dpkg -i libssl1.1_1.1.0g-2ubuntu4_amd64.deb && rm libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
+sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb && rm libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
 sudo sed -i 's/openssl_conf = openssl_init/#openssl_conf = openssl_init/g' /etc/ssl/openssl.cnf
 
 echo "Installing Docker ..."
@@ -45,4 +45,3 @@ echo "Installing .NET  ..."
 
 sudo curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel LTS --install-dir /usr/share/dotnet
 sudo chmod -R 0775 /usr/share/dotnet
-dotnet --info
