@@ -44,6 +44,7 @@ sudo apt-get install -y mono-devel
 echo "Installing .NET  ..."
 
 sudo curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel LTS --install-dir /usr/share/dotnet
-export PATH="$PATH:/usr/share/dotnet"
-export PATH="$PATH:$HOME/.dotnet/tools"
+sudo cat <<EOF > ~/.bashrc
+export PATH=/usr/share/dotnet:$HOME/.dotnet/tools/:$PATH
+EOF
 sudo chmod -R 777 /usr/share/dotnet
