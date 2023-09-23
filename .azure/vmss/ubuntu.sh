@@ -18,20 +18,20 @@ echo "Installing Java Runtime ..."
 
 sudo apt-get  -y install default-jre
 
-echo "Installing PWSH ..."
+# echo "Installing PWSH ..."
 
-# Update the list of packages
-sudo apt-get update
-# Install pre-requisite packages.
-sudo apt-get install -y wget apt-transport-https software-properties-common
-# Download the Microsoft repository GPG keys
-wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
-# Register the Microsoft repository GPG keys
-sudo dpkg -i packages-microsoft-prod.deb
-# Update the list of packages after we added packages.microsoft.com
-sudo apt-get update
-# Install PowerShell
-sudo apt-get install -y powershell
+# # Update the list of packages
+# sudo apt-get update
+# # Install pre-requisite packages.
+# sudo apt-get install -y wget apt-transport-https software-properties-common
+# # Download the Microsoft repository GPG keys
+# wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+# # Register the Microsoft repository GPG keys
+# sudo dpkg -i packages-microsoft-prod.deb
+# # Update the list of packages after we added packages.microsoft.com
+# sudo apt-get update
+# # Install PowerShell
+# sudo apt-get install -y powershell
 
 echo "Installing MONO  ..."
 
@@ -43,8 +43,9 @@ sudo apt-get install -y mono-devel
 
 echo "Installing .NET  ..."
 
-sudo curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel LTS --install-dir /usr/share/dotnet
+sudo curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel STS --install-dir /usr/share/dotnet
 sudo cat <<EOF > ~/.bashrc
 export PATH=/usr/share/dotnet:$HOME/.dotnet/tools/:$PATH
 EOF
 sudo chmod -R 777 /usr/share/dotnet
+sudo dotnet tool install --global PowerShell
