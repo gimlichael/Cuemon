@@ -28,23 +28,8 @@ sudo apt-get install -y mono-devel
 
 echo "Installing .NET  ..."
 
-sudo apt-get install -y dotnet-sdk-7.0
+sudo curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 8.0.100-rc.2.23469.4 --install-dir /usr/share/dotnet
 sudo cat <<EOF > ~/.bashrc
 export PATH=/usr/share/dotnet:$HOME/.dotnet/tools/:$PATH
 EOF
 sudo chmod -R 777 /usr/share/dotnet
-
-echo "Installing PWSH ..."
-
-# Update the list of packages
-sudo apt-get update
-# Install pre-requisite packages.
-sudo apt-get install -y wget apt-transport-https software-properties-common
-# Download the Microsoft repository GPG keys
-wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
-# Register the Microsoft repository GPG keys
-sudo dpkg -i packages-microsoft-prod.deb
-# Update the list of packages after we added packages.microsoft.com
-sudo apt-get update
-# Install PowerShell
-sudo apt-get install -y powershell
