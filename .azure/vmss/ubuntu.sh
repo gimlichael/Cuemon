@@ -25,12 +25,3 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328
 echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
 sudo apt-get update
 sudo apt-get install -y mono-devel
-
-echo "Installing .NET  ..."
-
-sudo curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 8.0.100-rc.2.23469.4 --install-dir /usr/share/dotnet
-sudo cat <<EOF > /etc/bash.bashrc
-export DOTNET_ROOT=/usr/share/dotnet
-export PATH=/usr/share/dotnet:$HOME/.dotnet/tools/:$PATH
-EOF
-sudo chmod -R 777 /usr/share/dotnet
