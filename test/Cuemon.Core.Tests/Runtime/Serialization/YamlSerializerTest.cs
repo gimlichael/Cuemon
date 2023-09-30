@@ -64,13 +64,13 @@ AbbreviatedDayNames:
   - fre
   - lør
 ShortestDayNames: 
-  - S
-  - M
-  - T
-  - O
-  - T
-  - F
-  - L
+  - sø
+  - ma
+  - ti
+  - on
+  - to
+  - fr
+  - lø
 DayNames: 
   - søndag
   - mandag
@@ -307,13 +307,13 @@ DateTimeFormat:
     - fre
     - lør
   ShortestDayNames: 
-    - S
-    - M
-    - T
-    - O
-    - T
-    - F
-    - L
+    - sø
+    - ma
+    - ti
+    - on
+    - to
+    - fr
+    - lø
   DayNames: 
     - søndag
     - mandag
