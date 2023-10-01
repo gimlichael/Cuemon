@@ -1,8 +1,7 @@
 ﻿using System;
-using Cuemon.Extensions.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Cuemon.Net.Assets
+namespace Cuemon.Extensions.AspNetCore.Mvc.Assets
 {
     [ApiController]
     [Route("[controller]")]

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
+using Cuemon.Extensions.AspNetCore.Mvc.Assets;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
-using Cuemon.Net.Assets;
 using Cuemon.Net.Http;
 using Cuemon.Runtime;
 using Microsoft.AspNetCore.Builder;
@@ -15,9 +15,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Net
+namespace Cuemon.Extensions.AspNetCore.Mvc
 {
-    public class HttpDependencyTest : Test
+    public class HttpDependencyTest : Test // non-ideal fit for now; covers HttpDependency from Cuemon.Net (due to ALM and ironing out Netstandard 2.0 from all ASP.NET)
     {
         public HttpDependencyTest(ITestOutputHelper output) : base(output)
         {
