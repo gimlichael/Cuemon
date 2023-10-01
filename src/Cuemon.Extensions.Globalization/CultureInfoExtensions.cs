@@ -83,6 +83,9 @@ namespace Cuemon.Extensions.Globalization
             culture.DateTimeFormat.TimeSeparator = surrogate.DateTimeFormat.TimeSeparator;
             culture.DateTimeFormat.YearMonthPattern = surrogate.DateTimeFormat.YearMonthPattern;
             culture.DateTimeFormat.ShortestDayNames = surrogate.DateTimeFormat.ShortestDayNames;
+            culture.DateTimeFormat.AbbreviatedDayNames = surrogate.DateTimeFormat.AbbreviatedDayNames;
+            culture.DateTimeFormat.AbbreviatedMonthNames = surrogate.DateTimeFormat.AbbreviatedMonthNames;
+            culture.DateTimeFormat.AbbreviatedMonthGenitiveNames = surrogate.DateTimeFormat.AbbreviatedMonthGenitiveNames;
 
             culture.NumberFormat.CurrencyDecimalDigits = surrogate.NumberFormat.CurrencyDecimalDigits;
             culture.NumberFormat.CurrencyDecimalSeparator = surrogate.NumberFormat.CurrencyDecimalSeparator;
