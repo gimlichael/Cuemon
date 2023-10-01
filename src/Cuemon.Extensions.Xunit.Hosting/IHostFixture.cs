@@ -11,11 +11,19 @@ namespace Cuemon.Extensions.Xunit.Hosting
     /// <seealso cref="IDisposable" />
     public interface IHostFixture : IServiceTest, IHostTest, IConfigurationTest, IHostingEnvironmentTest
     {
+#if NETSTANDARD2_0_OR_GREATER
+        /// <summary>
+        /// Gets or sets the delegate that adds configuration and environment information to a <see cref="HostTest{T}"/>.
+        /// </summary>
+        /// <value>The delegate that adds configuration and environment information to a <see cref="HostTest{T}"/>.</value>
+        Action<IConfiguration, IHostingEnvironment> ConfigureCallback { get; set; }
+#else
         /// <summary>
         /// Gets or sets the delegate that adds configuration and environment information to a <see cref="HostTest{T}"/>.
         /// </summary>
         /// <value>The delegate that adds configuration and environment information to a <see cref="HostTest{T}"/>.</value>
         Action<IConfiguration, IHostEnvironment> ConfigureCallback { get; set; }
+#endif
 
         /// <summary>
         /// Gets or sets the delegate that adds services to the container.

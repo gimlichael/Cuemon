@@ -219,6 +219,8 @@ namespace Cuemon.Extensions.IO
             Assert.Equal(636, sut6.Length);
         }
 
+#if NET6_0_OR_GREATER
+
         [Fact]
         public void CompressBrotli_ShouldCompressAndDecompress()
         {
@@ -276,6 +278,8 @@ namespace Cuemon.Extensions.IO
             var sut3 = await Decorator.Enclose(sut2).ToStreamAsync();
             await Assert.ThrowsAsync<OperationCanceledException>(async () => await sut3.CompressBrotliAsync(o => o.CancellationToken = sut1.Token));
         }
+
+#endif
 
         [Fact]
         public void CompressGZip_ShouldCompressAndDecompress()

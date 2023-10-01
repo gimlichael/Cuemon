@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Xml.Serialization;
 using Cuemon.Extensions.Assets;
@@ -88,7 +87,7 @@ namespace Cuemon.Extensions
         [Fact]
         public void HasComparerImplementation()
         {
-            var truetype = typeof(HandleComparer);
+            var truetype = typeof(StringComparer);
             var falseType = typeof(ArgumentException);
             Assert.True(truetype.HasComparerImplementation());
             Assert.False(falseType.HasComparerImplementation());
@@ -190,7 +189,7 @@ namespace Cuemon.Extensions
         [Fact]
         public void HasAttributes_ShouldBeTrueForThoseMembersImplementingTheAttributesAndFalseForRest()
         {
-            Assert.True(typeof(DisplayAttribute).HasAttributes(typeof(AttributeUsageAttribute)));
+            Assert.True(typeof(EventAttribute).HasAttributes(typeof(AttributeUsageAttribute)));
             Assert.True(typeof(XmlWrapper).HasAttributes(typeof(XmlIgnoreAttribute)));
             Assert.True(typeof(StringBuilder).HasAttributes(typeof(SerializableAttribute)));
             Assert.True(typeof(UTF32Encoding).HasAttributes(typeof(CLSCompliantAttribute)));

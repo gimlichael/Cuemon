@@ -12,6 +12,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
 using Cuemon.Assets;
+using Cuemon.Collections.Generic;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
@@ -166,7 +167,7 @@ namespace Cuemon
         {
             Assert.True(Decorator.Enclose(EqualityComparer<int>.Default.GetType()).HasEqualityComparerImplementation());
             Assert.True(Decorator.Enclose(StringComparer.OrdinalIgnoreCase.GetType()).HasEqualityComparerImplementation());
-            Assert.True(Decorator.Enclose(DataRowComparer<DataRow>.Default.GetType()).HasEqualityComparerImplementation());
+            Assert.True(Decorator.Enclose(typeof(Range<int>)).HasEqualityComparerImplementation());
 
             Assert.True(Decorator.Enclose(typeof(IEqualityComparer<>)).HasEqualityComparerImplementation());
             Assert.True(Decorator.Enclose(typeof(IEqualityComparer)).HasEqualityComparerImplementation());

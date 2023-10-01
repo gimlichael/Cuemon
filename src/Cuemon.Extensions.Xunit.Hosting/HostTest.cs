@@ -68,6 +68,17 @@ namespace Cuemon.Extensions.Xunit.Hosting
             private set;
         }
 
+#if NETSTANDARD2_0_OR_GREATER
+        /// <summary>
+        /// Gets the <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.
+        /// </summary>
+        /// <value>The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</value>
+        public IHostingEnvironment HostingEnvironment
+        {
+            get;
+            private set;
+        }
+#else
         /// <summary>
         /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
         /// </summary>
@@ -77,7 +88,20 @@ namespace Cuemon.Extensions.Xunit.Hosting
             get;
             private set;
         }
+#endif
 
+#if NETSTANDARD2_0_OR_GREATER
+        /// <summary>
+        /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
+        /// </summary>
+        /// <param name="configuration">The <see cref="IConfiguration"/> initialized by the <see cref="IHost"/>.</param>
+        /// <param name="environment">The <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.</param>
+        public virtual void Configure(IConfiguration configuration, IHostingEnvironment environment)
+        {
+            Configuration = configuration;
+            HostingEnvironment = environment;
+        }
+#else
         /// <summary>
         /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
         /// </summary>
@@ -88,6 +112,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
             Configuration = configuration;
             HostingEnvironment = environment;
         }
+#endif
 
         /// <summary>
         /// Provides a way to override the <see cref="IHostBuilder"/> defaults set up by <typeparamref name="T"/>.

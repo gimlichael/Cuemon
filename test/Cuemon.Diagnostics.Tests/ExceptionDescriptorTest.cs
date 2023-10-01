@@ -97,7 +97,8 @@ namespace Cuemon.Diagnostics
             var ex = Assert.Throws<ArgumentNullException>(() => sc.StringToArray(null));
             var ed = new ExceptionDescriptor(ex, "Not Null Exception", "Null is not allowed.", hu);
             
-            Assert.Equal(ex.Message, "Null is a no-go! (Parameter 'value')");
+            Assert.StartsWith("Null is a no-go!", ex.Message);
+            Assert.Contains("value", ex.Message);
             Assert.Equal(ex.ToString(), ed.ToString());
             Assert.Equal("NotNullException", ed.Code);
             Assert.Equal("Null is not allowed.", ed.Message);
@@ -130,7 +131,8 @@ namespace Cuemon.Diagnostics
             var ex = Assert.Throws<ArgumentNullException>(() => sc.Shuffle(null));
             var ed = new ExceptionDescriptor(ex, "Not Null Exception", "Null is not allowed.", hu);
             
-            Assert.Equal(ex.Message, "Null is a no-go! (Parameter 'value')");
+            Assert.StartsWith("Null is a no-go!", ex.Message);
+            Assert.Contains("value", ex.Message);
             Assert.Equal(ex.ToString(), ed.ToString());
             Assert.Equal("NotNullException", ed.Code);
             Assert.Equal("Null is not allowed.", ed.Message);
@@ -163,7 +165,8 @@ namespace Cuemon.Diagnostics
             var ex = Assert.Throws<ArgumentNullException>(() => sc.ShuffleNoLoc(null));
             var ed = new ExceptionDescriptor(ex, "Not Null Exception", "Null is not allowed.", hu);
             
-            Assert.Equal(ex.Message, "Null is a no-go! (Parameter 'value')");
+            Assert.StartsWith("Null is a no-go!", ex.Message);
+            Assert.Contains("value", ex.Message);
             Assert.Equal(ex.ToString(), ed.ToString());
             Assert.Equal("NotNullException", ed.Code);
             Assert.Equal("Null is not allowed.", ed.Message);

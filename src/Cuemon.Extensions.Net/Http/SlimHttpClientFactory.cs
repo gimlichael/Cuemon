@@ -13,7 +13,10 @@ namespace Cuemon.Extensions.Net.Http
     /// <seealso cref="IHttpClientFactory" />
     /// <seealso cref="IHttpMessageHandlerFactory" />
     /// <remarks>Inspiration taken from https://github.com/dotnet/runtime/blob/master/src/libraries/Microsoft.Extensions.Http/src/DefaultHttpClientFactory.cs</remarks>
-    public class SlimHttpClientFactory : IHttpClientFactory, IHttpMessageHandlerFactory
+    public class SlimHttpClientFactory : IHttpClientFactory
+#if NET6_0_OR_GREATER
+        , IHttpMessageHandlerFactory 
+#endif
     {
         private readonly ConcurrentDictionary<string, Lazy<ActiveHandler>> _activeHandlers = new();
         private readonly ConcurrentQueue<ExpiredHandler> _expiredHandlers = new();

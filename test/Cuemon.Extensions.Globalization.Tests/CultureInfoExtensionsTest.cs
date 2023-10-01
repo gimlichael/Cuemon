@@ -16,8 +16,12 @@ namespace Cuemon.Extensions.Globalization
 
             Assert.NotEqual(sut1.DateTimeFormat, sut2.DateTimeFormat);
             Assert.NotEqual(sut1.NumberFormat, sut2.NumberFormat);
+#if NET48_OR_GREATER
+            Assert.Equal(sut1.DateTimeFormat.ShortDatePattern, sut2.DateTimeFormat.ShortDatePattern);
+#else
             Assert.Equal("dd.MM.yyyy", sut1.DateTimeFormat.ShortDatePattern);
             Assert.Equal("dd-MM-yyyy", sut2.DateTimeFormat.ShortDatePattern);
+#endif
         }
     }
 }

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Data.Integrity\Cuemon.Data.Integrity.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Assets;
+using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.IO;
 using Xunit;
@@ -52,7 +53,7 @@ namespace Cuemon
             stream = Patterns.SafeInvoke(() => new MemoryStream(), (ms, n1, n2, n3, n4, n5) =>
             {
                 called++;
-                ms.Write(Decorator.Enclose($"{n1}{n2}{n3}{n4}{n5}").ToByteArray());
+                ms.WriteAllAsync(Decorator.Enclose($"{n1}{n2}{n3}{n4}{n5}").ToByteArray()).GetAwaiter().GetResult();
                 ms.Position = 0;
                 return ms;
             }, 1, 2, 3, 4, 5);
@@ -70,7 +71,7 @@ namespace Cuemon
             var stream = await Patterns.SafeInvokeAsync(() => new MemoryStream(), async (ms, ct) =>
             {
                 called++;
-                await ms.WriteAsync(new byte[] { 1 }, ct);
+                await ms.WriteAllAsync(new byte[] { 1 }, ct);
                 ms.Position = 0;
                 return ms;
             });
@@ -105,7 +106,7 @@ namespace Cuemon
                     msRef = ms;
                     Assert.Equal(guid, g);
                     await Task.Delay(TimeSpan.FromSeconds(1));
-                    await ms.WriteAsync(new byte[] {1}, ct);
+                    await ms.WriteAllAsync(new byte[] {1}, ct);
                     ms.Position = 0;
                     return ms;
                 }, guid, ctsShouldFail.Token, (exception, g, ct) =>
@@ -123,7 +124,7 @@ namespace Cuemon
             {
                 called++;
                 var bytes = Decorator.Enclose($"{n1}{n2}{n3}{n4}{n5}").ToByteArray();
-                await ms.WriteAsync(bytes, ct);
+                await ms.WriteAllAsync(bytes, ct);
                 ms.Position = 0;
                 return ms;
             }, 1, 2, 3, 4, 5, default);

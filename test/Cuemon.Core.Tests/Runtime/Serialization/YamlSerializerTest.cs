@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Cuemon.Extensions;
 using Cuemon.Extensions.Globalization;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
@@ -56,13 +57,13 @@ TimeSeparator: :
 UniversalSortableDateTimePattern: yyyy'-'MM'-'dd HH':'mm':'ss'Z'
 YearMonthPattern: MMMM yyyy
 AbbreviatedDayNames: 
-  - søn
-  - man
-  - tir
-  - ons
-  - tor
-  - fre
-  - lør
+  - sø
+  - ma
+  - ti
+  - on
+  - to
+  - fr
+  - lø
 ShortestDayNames: 
   - sø
   - ma
@@ -80,18 +81,18 @@ DayNames:
   - fredag
   - lørdag
 AbbreviatedMonthNames: 
-  - jan.
-  - feb.
-  - mar.
-  - apr.
+  - jan
+  - feb
+  - mar
+  - apr
   - maj
-  - jun.
-  - jul.
-  - aug.
-  - sep.
-  - okt.
-  - nov.
-  - dec.
+  - jun
+  - jul
+  - aug
+  - sep
+  - okt
+  - nov
+  - dec
   - 
 MonthNames: 
   - januar
@@ -109,18 +110,18 @@ MonthNames:
   - 
 NativeCalendarName: gregoriansk kalender
 AbbreviatedMonthGenitiveNames: 
-  - jan.
-  - feb.
-  - mar.
-  - apr.
+  - jan
+  - feb
+  - mar
+  - apr
   - maj
-  - jun.
-  - jul.
-  - aug.
-  - sep.
-  - okt.
-  - nov.
-  - dec.
+  - jun
+  - jul
+  - aug
+  - sep
+  - okt
+  - nov
+  - dec
   - 
 MonthGenitiveNames: 
   - januar
@@ -137,11 +138,16 @@ MonthGenitiveNames:
   - december
   - ".ReplaceLineEndings();
 
-#if NET8_0
+#if NET8_0 || NET48_OR_GREATER
             expected = string.Format(expected, "2049");
 #else
             expected = string.Format(expected, "2029");
 #endif
+
+#if NET48_OR_GREATER
+            expected = expected.ReplaceAll("gregoriansk", "Gregoriansk", StringComparison.Ordinal);
+#endif
+
             Assert.Equal(expected, sut4);
         }
 
@@ -207,7 +213,7 @@ DigitSubstitution: None".ReplaceLineEndings(), sut4);
             })));
             var sut2 = _cultureInfo;
             var sut3 = sut1.Serialize(sut2);
-            var sut4 = sut3.ToEncodedString().ReplaceLineEndings().Split(Environment.NewLine).ToList();
+            var sut4 = sut3.ToEncodedString().ReplaceLineEndings().Split(new []{ Environment.NewLine }, StringSplitOptions.None).ToList();
 
             sut4.RemoveRange(sut4.FindIndex(s => s.StartsWith("CompareInfo")), 6);
             sut4.RemoveRange(sut4.FindIndex(s => s.StartsWith("CultureTypes")), 1);
@@ -299,13 +305,13 @@ DateTimeFormat:
   UniversalSortableDateTimePattern: yyyy'-'MM'-'dd HH':'mm':'ss'Z'
   YearMonthPattern: MMMM yyyy
   AbbreviatedDayNames: 
-    - søn
-    - man
-    - tir
-    - ons
-    - tor
-    - fre
-    - lør
+    - sø
+    - ma
+    - ti
+    - on
+    - to
+    - fr
+    - lø
   ShortestDayNames: 
     - sø
     - ma
@@ -323,18 +329,18 @@ DateTimeFormat:
     - fredag
     - lørdag
   AbbreviatedMonthNames: 
-    - jan.
-    - feb.
-    - mar.
-    - apr.
+    - jan
+    - feb
+    - mar
+    - apr
     - maj
-    - jun.
-    - jul.
-    - aug.
-    - sep.
-    - okt.
-    - nov.
-    - dec.
+    - jun
+    - jul
+    - aug
+    - sep
+    - okt
+    - nov
+    - dec
     - 
   MonthNames: 
     - januar
@@ -352,18 +358,18 @@ DateTimeFormat:
     - 
   NativeCalendarName: gregoriansk kalender
   AbbreviatedMonthGenitiveNames: 
-    - jan.
-    - feb.
-    - mar.
-    - apr.
+    - jan
+    - feb
+    - mar
+    - apr
     - maj
-    - jun.
-    - jul.
-    - aug.
-    - sep.
-    - okt.
-    - nov.
-    - dec.
+    - jun
+    - jul
+    - aug
+    - sep
+    - okt
+    - nov
+    - dec
     - 
   MonthGenitiveNames: 
     - januar
@@ -398,15 +404,19 @@ OptionalCalendars:
     TwoDigitYearMax: {0}
 UseUserOverride: True";
 
-#if NET8_0
+#if NET8_0 || NET48_OR_GREATER
             expected = string.Format(expected, "2049");
 #else
             expected = string.Format(expected, "2029");
 #endif
 
+#if NET48_OR_GREATER
+            expected = expected.ReplaceAll("gregoriansk", "Gregoriansk", StringComparison.Ordinal);
+#endif
+
             TestOutput.WriteLines(sut4);
-            
-            Assert.Equal(expected.ReplaceLineEndings().Split(Environment.NewLine).ToList(), sut4);
+
+            Assert.Equal(expected.ReplaceLineEndings().Split(new []{ Environment.NewLine }, StringSplitOptions.None).ToList(), sut4);
         }
     }
 }

@@ -16,6 +16,8 @@ namespace Cuemon.IO
         {
         }
 
+#if NET6_0_OR_GREATER
+
         [Fact]
         public void CompressBrotli_ShouldCompressAndDecompress()
         {
@@ -73,6 +75,8 @@ namespace Cuemon.IO
             var os = await Decorator.Enclose(fs).ToStreamAsync();
             await Assert.ThrowsAsync<OperationCanceledException>(async () => await Decorator.Enclose(os).CompressBrotliAsync(o => o.CancellationToken = ctsShouldFail.Token));
         }
+
+#endif
 
         [Fact]
         public void CompressGZip_ShouldCompressAndDecompress()

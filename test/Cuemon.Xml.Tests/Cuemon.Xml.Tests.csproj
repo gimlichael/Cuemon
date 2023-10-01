@@ -4,6 +4,10 @@
     <RootNamespace>Cuemon.Xml</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />

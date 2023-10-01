@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Reflection;
@@ -21,19 +22,19 @@ namespace Cuemon
         {
             var comparison = StringComparison.Ordinal;
             var loremIpsumWords = LoremIpsum.Split(' ');
-            var cuemonCountBeforeSut = loremIpsumWords.Count(s => s.Contains("cuemon", comparison));
-            var utCountBeforeSut = loremIpsumWords.Count(s => s.Contains("ut", comparison));
+            var cuemonCountBeforeSut = loremIpsumWords.Count(s => s.ContainsAny("cuemon", comparison));
+            var utCountBeforeSut = loremIpsumWords.Count(s => s.ContainsAny("ut", comparison));
             var sut = StringReplacePair.ReplaceAll(LoremIpsum, "ut", "cuemon", comparison);
             var sutWords = sut.Split(' ');
-            var utCountAfterSut = sutWords.Count(s => s.Contains("ut", comparison));
-            var cuemonCountAfterSut = sutWords.Count(s => s.Contains("cuemon", comparison));
+            var utCountAfterSut = sutWords.Count(s => s.ContainsAny("ut", comparison));
+            var cuemonCountAfterSut = sutWords.Count(s => s.ContainsAny("cuemon", comparison));
             var loremIpsumDifference = sutWords.Except(loremIpsumWords).ToList();
             var sutDifference = loremIpsumWords.Except(sutWords).ToList();
 
 
             Assert.NotEqual(loremIpsumWords, sutWords);
 
-            Assert.Equal(loremIpsumDifference.Select(s => s.Replace("cuemon", "", comparison)), sutDifference.Select(s => s.Replace("ut", "", comparison)));
+            Assert.Equal(loremIpsumDifference.Select(s => s.ReplaceAll("cuemon", "", comparison)), sutDifference.Select(s => s.ReplaceAll("ut", "", comparison)));
             Assert.Equal(loremIpsumDifference.Count, sutDifference.Count);
             Assert.Equal(loremIpsumWords.Length, sutWords.Length);
             Assert.Equal(utCountBeforeSut, cuemonCountAfterSut);
@@ -47,17 +48,17 @@ namespace Cuemon
         {
             var comparison = StringComparison.OrdinalIgnoreCase;
             var loremIpsumWords = LoremIpsum.Split(' ');
-            var cuemonCountBeforeSut = loremIpsumWords.Count(s => s.Contains("cuemon", comparison));
-            var utCountBeforeSut = loremIpsumWords.Count(s => s.Contains("ut", comparison));
+            var cuemonCountBeforeSut = loremIpsumWords.Count(s => s.ContainsAny("cuemon", comparison));
+            var utCountBeforeSut = loremIpsumWords.Count(s => s.ContainsAny("ut", comparison));
             var sut = StringReplacePair.ReplaceAll(LoremIpsum, "ut", "cuemon"); // default is ordinal-ignore-case
             var sutWords = sut.Split(' ');
-            var utCountAfterSut = sutWords.Count(s => s.Contains("ut", comparison));
-            var cuemonCountAfterSut = sutWords.Count(s => s.Contains("cuemon", comparison));
+            var utCountAfterSut = sutWords.Count(s => s.ContainsAny("ut", comparison));
+            var cuemonCountAfterSut = sutWords.Count(s => s.ContainsAny("cuemon", comparison));
             var loremIpsumDifference = sutWords.Except(loremIpsumWords).ToList();
             var sutDifference = loremIpsumWords.Except(sutWords).ToList();
 
             Assert.NotEqual(loremIpsumWords, sutWords);
-            Assert.NotEqual(loremIpsumDifference.Select(s => s.Replace("cuemon", "", comparison)), sutDifference.Select(s => s.Replace("ut", "", comparison)));
+            Assert.NotEqual(loremIpsumDifference.Select(s => s.ReplaceAll("cuemon", "", comparison)), sutDifference.Select(s => s.ReplaceAll("ut", "", comparison)));
             Assert.NotEqual(loremIpsumDifference.Count, sutDifference.Count);
             
             Assert.Equal(loremIpsumWords.Length, sutWords.Length);
@@ -72,12 +73,12 @@ namespace Cuemon
         {
             var comparison = StringComparison.OrdinalIgnoreCase;
             var loremIpsumWords = LoremIpsum.Split(' ');
-            var ametCountBeforeSut = loremIpsumWords.Count(s => s.Contains("amet", comparison));
-            var scelerisqueCountBeforeSut = loremIpsumWords.Count(s => s.Contains("scelerisque", comparison));
+            var ametCountBeforeSut = loremIpsumWords.Count(s => s.ContainsAny("amet", comparison));
+            var scelerisqueCountBeforeSut = loremIpsumWords.Count(s => s.ContainsAny("scelerisque", comparison));
             var sut = StringReplacePair.RemoveAll(LoremIpsum, comparison, "amet", "scelerisque");
             var sutWords = sut.Split(' ');
-            var ametCountAfterSut = sutWords.Count(s => s.Contains("amet", comparison));
-            var scelerisqueCountAfterSut = sutWords.Count(s => s.Contains("scelerisque", comparison));
+            var ametCountAfterSut = sutWords.Count(s => s.ContainsAny("amet", comparison));
+            var scelerisqueCountAfterSut = sutWords.Count(s => s.ContainsAny("scelerisque", comparison));
 
             Assert.NotEqual(loremIpsumWords, sutWords);
 
@@ -96,12 +97,12 @@ namespace Cuemon
         {
             var comparison = StringComparison.Ordinal;
             var loremIpsumWords = LoremIpsum.Split(' ');
-            var ametCountBeforeSut = loremIpsumWords.Count(s => s.Contains("amet", comparison));
-            var scelerisqueCountBeforeSut = loremIpsumWords.Count(s => s.Contains("scelerisque", comparison));
+            var ametCountBeforeSut = loremIpsumWords.Count(s => s.ContainsAny("amet", comparison));
+            var scelerisqueCountBeforeSut = loremIpsumWords.Count(s => s.ContainsAny("scelerisque", comparison));
             var sut = StringReplacePair.RemoveAll(LoremIpsum, "amet", "scelerisque"); // default is ordinal
             var sutWords = sut.Split(' ');
-            var ametCountAfterSut = sutWords.Count(s => s.Contains("amet", comparison));
-            var scelerisqueCountAfterSut = sutWords.Count(s => s.Contains("scelerisque", comparison));
+            var ametCountAfterSut = sutWords.Count(s => s.ContainsAny("amet", comparison));
+            var scelerisqueCountAfterSut = sutWords.Count(s => s.ContainsAny("scelerisque", comparison));
 
             Assert.NotEqual(loremIpsumWords, sutWords);
 
