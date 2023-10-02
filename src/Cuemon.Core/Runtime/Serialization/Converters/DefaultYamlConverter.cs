@@ -100,8 +100,17 @@ namespace Cuemon.Runtime.Serialization.Converters
                     foreach (var node in valueHierarchy.Nodes.GetChildren())
                     {
                         if (node.Instance == null) { continue; }
-                        writer.WritePropertyName(so.SetPropertyName(node.MemberReference.Name));
-                        writer.WriteObject(node.Instance, node.InstanceType, so);
+
+                        try
+                        {
+                            writer.WritePropertyName(so.SetPropertyName(node.MemberReference.Name));
+                            writer.WriteObject(node.Instance, node.InstanceType, so);
+                        }
+                        catch (Exception e)
+                        {
+                            // Intentionally swallow for now ..
+                        }
+      
                     }
 
                     writer.WriteEndObject();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Cuemon.Extensions;
 using Cuemon.Extensions.Globalization;
 using Cuemon.Extensions.IO;
@@ -138,14 +139,21 @@ MonthGenitiveNames:
   - december
   - ".ReplaceLineEndings();
 
-#if NET8_0 || NET48_OR_GREATER
+#if NET8_0
             expected = string.Format(expected, "2049");
-#else
+#elif NET6_0_OR_GREATER
             expected = string.Format(expected, "2029");
-#endif
-
-#if NET48_OR_GREATER
-            expected = expected.ReplaceAll("gregoriansk", "Gregoriansk", StringComparison.Ordinal);
+#elif NET48_OR_GREATER
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                expected = expected.ReplaceAll("gregoriansk kalender", "dansk (Danmark)", StringComparison.Ordinal);
+                expected = string.Format(expected, "2029");
+            }
+            else
+            {
+                expected = expected.ReplaceAll("gregoriansk", "Gregoriansk", StringComparison.Ordinal);
+                expected = string.Format(expected, "2049");
+            }
 #endif
 
             Assert.Equal(expected, sut4);
@@ -211,9 +219,10 @@ DigitSubstitution: None".ReplaceLineEndings(), sut4);
             {
                 writer.WriteLine(dt.ToString(_cultureInfo));
             })));
+
             var sut2 = _cultureInfo;
             var sut3 = sut1.Serialize(sut2);
-            var sut4 = sut3.ToEncodedString().ReplaceLineEndings().Split(new []{ Environment.NewLine }, StringSplitOptions.None).ToList();
+            var sut4 = sut3.ToEncodedString().ReplaceLineEndings().Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
 
             sut4.RemoveRange(sut4.FindIndex(s => s.StartsWith("CompareInfo")), 6);
             sut4.RemoveRange(sut4.FindIndex(s => s.StartsWith("CultureTypes")), 1);
@@ -411,12 +420,198 @@ UseUserOverride: True";
 #endif
 
 #if NET48_OR_GREATER
-            expected = expected.ReplaceAll("gregoriansk", "Gregoriansk", StringComparison.Ordinal);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                expected = @"IetfLanguageTag: da-DK
+KeyboardLayoutId: 1030
+LCID: 1030
+Name: da-DK
+NativeName: dansk (Danmark)
+Calendar: 
+  MinSupportedDateTime: 01-01-0001 00:00:00
+  MaxSupportedDateTime: 31-12-9999 23:59:59
+  AlgorithmType: SolarCalendar
+  CalendarType: Localized
+  Eras: 
+    - 1
+  TwoDigitYearMax: 2029
+OptionalCalendars: 
+  - 
+    MinSupportedDateTime: 01-01-0001 00:00:00
+    MaxSupportedDateTime: 31-12-9999 23:59:59
+    AlgorithmType: SolarCalendar
+    CalendarType: Localized
+    Eras: 
+      - 1
+    TwoDigitYearMax: 2029
+TextInfo: 
+  ANSICodePage: 1252
+  OEMCodePage: 850
+  MacCodePage: 10000
+  EBCDICCodePage: 20277
+  LCID: 1030
+  CultureName: da-DK
+  ListSeparator: ;
+  IsRightToLeft: False
+ThreeLetterISOLanguageName: dan
+ThreeLetterWindowsLanguageName: DAN
+TwoLetterISOLanguageName: da
+UseUserOverride: True
+      - 3
+    NumberGroupSizes: 
+      - 3
+    PercentGroupSizes: 
+      - 3
+    CurrencyGroupSeparator: .
+    CurrencySymbol: kr.
+    NaNSymbol: NaN
+    CurrencyNegativePattern: 8
+    NumberNegativePattern: 1
+    PercentPositivePattern: 0
+    PercentNegativePattern: 0
+    NegativeInfinitySymbol: -∞
+    NegativeSign: -
+    NumberDecimalDigits: 2
+    NumberDecimalSeparator: ,
+    NumberGroupSeparator: .
+    CurrencyPositivePattern: 3
+    PositiveInfinitySymbol: ∞
+    PositiveSign: +
+    PercentDecimalDigits: 2
+    PercentDecimalSeparator: ,
+    PercentGroupSeparator: .
+    PercentSymbol: %
+    PerMilleSymbol: ‰
+    NativeDigits: 
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+    DigitSubstitution: None
+  DateTimeFormat: 
+    AMDesignator: 
+    Calendar: 
+      MinSupportedDateTime: 01-01-0001 00:00:00
+      MaxSupportedDateTime: 31-12-9999 23:59:59
+      AlgorithmType: SolarCalendar
+      CalendarType: Localized
+      Eras: 
+        - 1
+      TwoDigitYearMax: 2029
+    DateSeparator: -
+    FirstDayOfWeek: Monday
+    CalendarWeekRule: FirstFourDayWeek
+    FullDateTimePattern: d. MMMM yyyy HH:mm:ss
+    LongDatePattern: d. MMMM yyyy
+    LongTimePattern: HH:mm:ss
+    MonthDayPattern: d. MMMM
+    PMDesignator: 
+    RFC1123Pattern: ddd, dd MMM yyyy HH':'mm':'ss 'GMT'
+    ShortDatePattern: dd-MM-yyyy
+    ShortTimePattern: HH:mm
+    SortableDateTimePattern: yyyy'-'MM'-'dd'T'HH':'mm':'ss
+    TimeSeparator: :
+    UniversalSortableDateTimePattern: yyyy'-'MM'-'dd HH':'mm':'ss'Z'
+    YearMonthPattern: MMMM yyyy
+    AbbreviatedDayNames: 
+      - sø
+      - ma
+      - ti
+      - on
+      - to
+      - fr
+      - lø
+    ShortestDayNames: 
+      - sø
+      - ma
+      - ti
+      - on
+      - to
+      - fr
+      - lø
+    DayNames: 
+      - søndag
+      - mandag
+      - tirsdag
+      - onsdag
+      - torsdag
+      - fredag
+      - lørdag
+    AbbreviatedMonthNames: 
+      - jan
+      - feb
+      - mar
+      - apr
+      - maj
+      - jun
+      - jul
+      - aug
+      - sep
+      - okt
+      - nov
+      - dec
+      - 
+    MonthNames: 
+      - januar
+      - februar
+      - marts
+      - april
+      - maj
+      - juni
+      - juli
+      - august
+      - september
+      - oktober
+      - november
+      - december
+      - 
+    NativeCalendarName: dansk (Danmark)
+    AbbreviatedMonthGenitiveNames: 
+      - jan
+      - feb
+      - mar
+      - apr
+      - maj
+      - jun
+      - jul
+      - aug
+      - sep
+      - okt
+      - nov
+      - dec
+      - 
+    MonthGenitiveNames: 
+      - januar
+      - februar
+      - marts
+      - april
+      - maj
+      - juni
+      - juli
+      - august
+      - september
+      - oktober
+      - november
+      - december
+      - 
+  DisplayName: Danish (Denmark)
+  EnglishName: Danish (Denmark)";
+            }
+            else
+            {
+                expected = expected.ReplaceAll("gregoriansk", "Gregoriansk", StringComparison.Ordinal);
+            }
 #endif
 
             TestOutput.WriteLines(sut4);
 
-            Assert.Equal(expected.ReplaceLineEndings().Split(new []{ Environment.NewLine }, StringSplitOptions.None).ToList(), sut4);
+            Assert.Equal(expected.ReplaceLineEndings().Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList(), sut4);
         }
     }
 }
