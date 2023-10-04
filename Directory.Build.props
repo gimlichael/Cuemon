@@ -1,6 +1,8 @@
 <Project>
   <PropertyGroup>
     <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
+    <IsLinux>$([MSBuild]::IsOSPlatform('Linux'))</IsLinux>
+    <IsWindows>$([MSBuild]::IsOSPlatform('Windows'))</IsWindows>
     <IsMainAuthor Condition="'$(EMAIL)' == 'michael@geekle.io'">true</IsMainAuthor>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -45,8 +47,15 @@
     <None Include="..\..\.nuget\$(MSBuildProjectName)\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true' AND '$(IsLinux)' == 'true'">
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true' AND '$(IsWindows)' == 'true'">
     <TargetFrameworks>net8.0;net7.0;net6.0;net48</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
     <IsPackable>false</IsPackable>
     <RunAnalyzers>false</RunAnalyzers>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
@@ -60,7 +69,7 @@
 
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
-    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.7.2" Condition="$(TargetFramework.StartsWith('net4')) AND '$(OS)' == 'Unix'" />
+    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.7.2" Condition="$(TargetFramework.StartsWith('net4')) AND '$(IsLinux)' == 'true'" />
     <PackageReference Include="xunit" Version="2.5.1" />
     <PackageReference Include="xunit.runner.console" Version="2.5.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.1">
