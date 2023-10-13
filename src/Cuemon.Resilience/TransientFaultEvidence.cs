@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using Cuemon.Reflection;
 
 namespace Cuemon.Resilience
@@ -7,8 +6,7 @@ namespace Cuemon.Resilience
     /// <summary>
     /// Provides evidence about a faulted <see cref="TransientOperation"/>.
     /// </summary>
-    [Serializable]
-    public class TransientFaultEvidence : IEquatable<TransientFaultEvidence>, ISerializable
+    public class TransientFaultEvidence : IEquatable<TransientFaultEvidence>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransientFaultEvidence"/> class.
@@ -26,20 +24,6 @@ namespace Cuemon.Resilience
             Latency = latency;
             Descriptor = descriptor;
             DescriptorSerializationCapture = descriptor?.ToString();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TransientFaultEvidence"/> class.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        protected TransientFaultEvidence(SerializationInfo info, StreamingContext context)
-        {
-            Attempts = info.GetInt32(nameof(Attempts));
-            RecoveryWaitTime = (TimeSpan)info.GetValue(nameof(RecoveryWaitTime), typeof(TimeSpan));
-            TotalRecoveryWaitTime = (TimeSpan)info.GetValue(nameof(TotalRecoveryWaitTime), typeof(TimeSpan));
-            Latency = (TimeSpan)info.GetValue(nameof(Latency), typeof(TimeSpan));
-            DescriptorSerializationCapture = info.GetString(nameof(DescriptorSerializationCapture));
         }
 
         /// <summary>
@@ -83,22 +67,7 @@ namespace Cuemon.Resilience
             var descriptor = Descriptor?.ToString() ?? DescriptorSerializationCapture;
             return FormattableString.Invariant($"{descriptor} was invoked {Attempts} time(s) over a period of {Latency.Add(TotalRecoveryWaitTime)}. Last recovery wait time was {RecoveryWaitTime}, giving a total recovery wait time of {TotalRecoveryWaitTime}. Latency was {Latency}.");
         }
-
-
-        /// <summary>
-        /// When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with information about the exception.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(Latency), Latency);
-            info.AddValue(nameof(TotalRecoveryWaitTime), TotalRecoveryWaitTime);
-            info.AddValue(nameof(RecoveryWaitTime), RecoveryWaitTime);
-            info.AddValue(nameof(Attempts), Attempts);
-            info.AddValue(nameof(DescriptorSerializationCapture), Descriptor.ToString());
-        }
-
+        
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>

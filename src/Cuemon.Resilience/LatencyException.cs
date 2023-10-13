@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Cuemon.Resilience
 {
     /// <summary>
     /// The exception that is thrown when a latency related operation was taking to long to complete.
     /// </summary>
-    [Serializable]
     public class LatencyException : Exception
     {
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="LatencyException"/> class.
         /// </summary>
@@ -33,15 +30,5 @@ namespace Cuemon.Resilience
         public LatencyException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LatencyException"/> class.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        protected LatencyException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-        #endregion
     }
 }

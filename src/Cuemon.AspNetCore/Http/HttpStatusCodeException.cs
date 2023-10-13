@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
@@ -11,7 +10,6 @@ namespace Cuemon.AspNetCore.Http
     /// Provides a base-class for exceptions based on an HTTP status code.
     /// </summary>
     /// <seealso cref="Exception" />
-    [Serializable]
     public abstract class HttpStatusCodeException : Exception
     {
         /// <summary>
@@ -123,17 +121,6 @@ namespace Cuemon.AspNetCore.Http
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpStatusCodeException"/> class.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        protected HttpStatusCodeException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            StatusCode = info.GetInt32(nameof(StatusCode));
-            ReasonPhrase = info.GetString(nameof(ReasonPhrase));
-        }
-
-        /// <summary>
         /// Gets the collection of HTTP response headers.
         /// </summary>
         /// <value>The collection of HTTP response headers.</value>
@@ -150,18 +137,6 @@ namespace Cuemon.AspNetCore.Http
         /// </summary>
         /// <value>The HTTP reason phrase associated with this exception.</value>
         public string ReasonPhrase { get; }
-
-        /// <summary>
-        /// When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> with information about the exception.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(StatusCode), StatusCode);
-            info.AddValue(nameof(ReasonPhrase), ReasonPhrase);
-            base.GetObjectData(info, context);
-        }
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
