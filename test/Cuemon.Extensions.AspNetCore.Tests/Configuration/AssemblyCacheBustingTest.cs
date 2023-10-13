@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.AspNetCore.Configuration
             Assert.Equal(sut3, sut1.Version);
         }
 
-        private static IEnumerable<object[]> GetAlgorithmOptions()
+        public static IEnumerable<object[]> GetAlgorithmOptions()
         {
             var parameters = new List<object[]>()
             {
@@ -90,7 +90,7 @@ namespace Cuemon.Extensions.AspNetCore.Configuration
             return parameters;
         }
 
-        private static IEnumerable<object[]> GetAlgorithmOptionsWithStrongIntegrityEnabled()
+        public static IEnumerable<object[]> GetAlgorithmOptionsWithStrongIntegrityEnabled()
         {
             var parameters = new List<object[]>()
             {

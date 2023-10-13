@@ -136,7 +136,7 @@ namespace Cuemon.Extensions.Diagnostics
             Condition.FlipFlop(snapshots.HasFlag(SystemSnapshots.CaptureEnvironmentInfo), () => Assert.Contains(@"	Environment:", sut2), () => Assert.DoesNotContain(@"	Environment:", sut2));
         }
 
-        private static IEnumerable<object[]> GetData()
+        public static IEnumerable<object[]> GetData()
         {
             var parameters = new List<object[]>()
             {

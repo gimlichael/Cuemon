@@ -75,7 +75,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             });
         }
 
-        private static IEnumerable<object[]> GetComputedChecksums()
+        public static IEnumerable<object[]> GetComputedChecksums()
         {
             var sut1 = Generate.HashCode64(typeof(HttpRequestExtensionsTest).Assembly.Location);
             var sut2 = HashFactory.CreateFnv64().ComputeHash(Convertible.GetBytes(sut1)).ToHexadecimalString();
