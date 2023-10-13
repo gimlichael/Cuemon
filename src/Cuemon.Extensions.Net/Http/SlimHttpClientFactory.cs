@@ -11,7 +11,9 @@ namespace Cuemon.Extensions.Net.Http
     /// Provides a simple and lightweight implementation of the <see cref="IHttpClientFactory"/> interface.
     /// </summary>
     /// <seealso cref="IHttpClientFactory" />
+#if NET6_0_OR_GREATER
     /// <seealso cref="IHttpMessageHandlerFactory" />
+#endif
     /// <remarks>Inspiration taken from https://github.com/dotnet/runtime/blob/master/src/libraries/Microsoft.Extensions.Http/src/DefaultHttpClientFactory.cs</remarks>
     public class SlimHttpClientFactory : IHttpClientFactory
 #if NET6_0_OR_GREATER
