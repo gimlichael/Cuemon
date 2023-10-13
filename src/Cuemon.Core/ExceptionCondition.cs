@@ -18,7 +18,7 @@ namespace Cuemon
         /// </exception>
         public ExceptionHandler<TException> IsTrue(Func<bool> condition)
         {
-            ArgumentNullException.ThrowIfNull(condition);
+            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             return new ExceptionHandler<TException>(condition, true);
         }
 
@@ -33,7 +33,7 @@ namespace Cuemon
         /// </exception>
         public ExceptionHandler<TException, TResult> IsTrue<TResult>(TesterFunc<TResult, bool> condition)
         {
-            ArgumentNullException.ThrowIfNull(condition);
+            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             return new ExceptionHandler<TException, TResult>(condition, true);
         }
 
@@ -47,7 +47,7 @@ namespace Cuemon
         /// </exception>
         public ExceptionHandler<TException> IsFalse(Func<bool> condition)
         {
-            ArgumentNullException.ThrowIfNull(condition);
+            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             return new ExceptionHandler<TException>(condition, false);
         }
 
@@ -62,7 +62,7 @@ namespace Cuemon
         /// </exception>
         public ExceptionHandler<TException, TResult> IsFalse<TResult>(TesterFunc<TResult, bool> condition)
         {
-            ArgumentNullException.ThrowIfNull(condition);
+            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
             return new ExceptionHandler<TException, TResult>(condition, false);
         }
     }
@@ -93,7 +93,7 @@ namespace Cuemon
         /// </exception>
         public ExceptionInvoker<TException> Create(Func<TException> handler)
         {
-            ArgumentNullException.ThrowIfNull(handler);
+            if (handler == null) { throw new ArgumentNullException(nameof(handler)); }
             return new ExceptionInvoker<TException>(Condition, Expected, handler);
         }
     }
@@ -125,7 +125,7 @@ namespace Cuemon
         /// </exception>
         public ExceptionInvoker<TException, TResult> Create(Func<TResult, TException> handler)
         {
-            ArgumentNullException.ThrowIfNull(handler);
+            if (handler == null) { throw new ArgumentNullException(nameof(handler)); }
             return new ExceptionInvoker<TException, TResult>(TesterCondition, Expected, handler);
         }
     }
