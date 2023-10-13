@@ -33,6 +33,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly Condition="'$(TF_BUILD)' == 'true' OR '$(IsMainAuthor)' == 'true'">true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>Minimum</AnalysisMode>
     <NoWarn>7035</NoWarn>
   </PropertyGroup>
 
