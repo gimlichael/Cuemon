@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Cuemon.Collections.Generic;
 
 namespace Cuemon.Extensions
 {
@@ -46,7 +48,7 @@ namespace Cuemon.Extensions
             }
             catch (ReservedKeywordException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(keyword, reservedKeywords, comparer, paramName, message));
             }
         }
 
@@ -70,7 +72,7 @@ namespace Cuemon.Extensions
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(first, second, paramName, message));
             }
         }
 
@@ -94,7 +96,7 @@ namespace Cuemon.Extensions
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                throw ex;
+                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(first, second, paramName, message));
             }
         }
     }
