@@ -106,7 +106,7 @@ namespace Cuemon.Runtime.Serialization.Converters
                             writer.WritePropertyName(so.SetPropertyName(node.MemberReference.Name));
                             writer.WriteObject(node.Instance, node.InstanceType, so);
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             // Intentionally swallow for now ..
                         }
