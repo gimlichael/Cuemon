@@ -14,6 +14,16 @@ namespace Cuemon.Reflection
         public const BindingFlags Everything = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
 
         /// <summary>
+        /// Creates the binding constraint needed for reflection using the optional <paramref name="setup" /> to reduce the scope. Default is <see cref="Everything" />.
+        /// </summary>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> that may be configured.</param>
+        /// <returns>The binding constraint as defined by the <paramref name="setup" />.</returns>
+        public static BindingFlags CreateFlags(Action<MemberReflectionOptions> setup = null)
+        {
+            return new MemberReflection(setup);
+        }
+
+        /// <summary>
         /// Performs an implicit conversion from <see cref="MemberReflection"/> to <see cref="BindingFlags"/>.
         /// </summary>
         /// <param name="mr">The <see cref="MemberReflection"/> to convert.</param>
