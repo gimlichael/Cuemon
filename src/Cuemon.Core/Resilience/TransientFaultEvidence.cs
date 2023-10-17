@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Cuemon.Reflection;
 
 namespace Cuemon.Resilience
 {
     /// <summary>
-    /// Provides evidence about a faulted <see cref="TransientOperation"/>.
+    /// Provides evidence about a faulted operation.
     /// </summary>
     public class TransientFaultEvidence : IEquatable<TransientFaultEvidence>
     {
@@ -22,8 +23,24 @@ namespace Cuemon.Resilience
             RecoveryWaitTime = recoveryWaitTime;
             TotalRecoveryWaitTime = totalRecoveryWaitTime;
             Latency = latency;
+            Descriptor = new MethodSignature(descriptor.Caller, descriptor.MethodName, descriptor.Parameters?.Select(ps => ps.ParameterName).ToArray(), descriptor.RuntimeArguments?.Select(kvp => kvp.Value).ToArray());
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransientFaultEvidence"/> class.
+        /// </summary>
+        /// <param name="attempts">The number of attempts the <paramref name="descriptor"/> was invoked.</param>
+        /// <param name="recoveryWaitTime">The last wait time attempting recovery of <paramref name="descriptor"/>.</param>
+        /// <param name="totalRecoveryWaitTime">The total wait time attempting recovery of <paramref name="descriptor"/>.</param>
+        /// <param name="latency">The latency experienced with <paramref name="descriptor"/>.</param>
+        /// <param name="descriptor">The information about the method being protected from a transient fault.</param>
+        public TransientFaultEvidence(int attempts, TimeSpan recoveryWaitTime, TimeSpan totalRecoveryWaitTime, TimeSpan latency, MethodSignature descriptor)
+        {
+            Attempts = attempts;
+            RecoveryWaitTime = recoveryWaitTime;
+            TotalRecoveryWaitTime = totalRecoveryWaitTime;
+            Latency = latency;
             Descriptor = descriptor;
-            DescriptorSerializationCapture = descriptor?.ToString();
         }
 
         /// <summary>
@@ -54,9 +71,7 @@ namespace Cuemon.Resilience
         /// Gets the information about the method being protected from a transient fault.
         /// </summary>
         /// <value>The information about the method being protected from a transient fault.</value>
-        public MethodDescriptor Descriptor { get; }
-
-        private string DescriptorSerializationCapture { get; set; }
+        public MethodSignature Descriptor { get; }
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
@@ -64,7 +79,7 @@ namespace Cuemon.Resilience
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            var descriptor = Descriptor?.ToString() ?? DescriptorSerializationCapture;
+            var descriptor = Descriptor.ToString();
             return FormattableString.Invariant($"{descriptor} was invoked {Attempts} time(s) over a period of {Latency.Add(TotalRecoveryWaitTime)}. Last recovery wait time was {RecoveryWaitTime}, giving a total recovery wait time of {TotalRecoveryWaitTime}. Latency was {Latency}.");
         }
         
@@ -77,7 +92,7 @@ namespace Cuemon.Resilience
         {
             if (other is null) { return false; }
             if (ReferenceEquals(this, other)) { return true; }
-            return Attempts == other.Attempts && RecoveryWaitTime.Equals(other.RecoveryWaitTime) && TotalRecoveryWaitTime.Equals(other.TotalRecoveryWaitTime) && Latency.Equals(other.Latency) && DescriptorSerializationCapture.Equals(other.DescriptorSerializationCapture);
+            return Attempts == other.Attempts && RecoveryWaitTime.Equals(other.RecoveryWaitTime) && TotalRecoveryWaitTime.Equals(other.TotalRecoveryWaitTime) && Latency.Equals(other.Latency) && Descriptor.ToString().Equals(other.Descriptor.ToString());
         }
 
         /// <summary>
@@ -100,7 +115,7 @@ namespace Cuemon.Resilience
         public override int GetHashCode()
         {
             // ReSharper disable once NonReadonlyMemberInGetHashCode
-            var descriptor = Descriptor?.ToString() ?? DescriptorSerializationCapture;
+            var descriptor = Descriptor.ToString();
             return Generate.HashCode32(RecoveryWaitTime.Ticks, TotalRecoveryWaitTime.Ticks, Latency.Ticks, descriptor);
         }
     }
