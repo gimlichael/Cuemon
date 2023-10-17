@@ -38,10 +38,10 @@ namespace Cuemon.Resilience
 
         private static void RetryTrackerCallback(TransientFaultEvidence tfe, ConcurrentDictionary<Guid, TransientFaultEvidence> transientFaultTracker)
         {
-            if (tfe.Descriptor.RuntimeArguments.TryGetValue("id", out var oId))
+            var indexOfId = Array.FindIndex(tfe.Descriptor.Parameters, name => name.Equals("id", StringComparison.OrdinalIgnoreCase));
+            if (tfe.Descriptor.Arguments[indexOfId] is Guid oId)
             {
-                var id = Guid.Parse(oId.ToString());
-                transientFaultTracker.TryAdd(id, tfe);
+                transientFaultTracker.TryAdd(oId, tfe);
             }
         }
 

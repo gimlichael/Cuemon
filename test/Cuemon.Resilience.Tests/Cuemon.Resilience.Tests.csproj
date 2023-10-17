@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <RootNamespace>Cuemon.Resilience</RootNamespace>
-    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
@@ -11,6 +10,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Resilience\Cuemon.Resilience.csproj" />
   </ItemGroup>
 
