@@ -63,24 +63,27 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     }
   }
 }", body),
-                    () => Assert.Equal(@"{
-  ""error"": {
-    ""status"": 400,
-    ""code"": ""BadRequest"",
-    ""message"": ""The request could not be understood by the server due to malformed syntax."",
-    ""failure"": {
-      ""type"": ""Cuemon.AspNetCore.Http.BadRequestException"",
-      ""source"": ""Cuemon.AspNetCore.Mvc.Tests"",
-      ""message"": ""The request could not be understood by the server due to malformed syntax."",
-      ""statusCode"": 400,
-      ""reasonPhrase"": ""Bad Request"",
-      ""inner"": {
-        ""type"": ""System.ArgumentNullException"",
-        ""message"": ""Value cannot be null.""
-      }
-    }
-  }
-}", body));
+                    () => Assert.Equal("""
+                                       {
+                                         "error": {
+                                           "status": 400,
+                                           "code": "BadRequest",
+                                           "message": "The request could not be understood by the server due to malformed syntax.",
+                                           "failure": {
+                                             "type": "Cuemon.AspNetCore.Http.BadRequestException",
+                                             "source": "Cuemon.AspNetCore.Mvc.Tests",
+                                             "message": "The request could not be understood by the server due to malformed syntax.",
+                                             "headers": {},
+                                             "statusCode": 400,
+                                             "reasonPhrase": "Bad Request",
+                                             "inner": {
+                                               "type": "System.ArgumentNullException",
+                                               "message": "Value cannot be null."
+                                             }
+                                           }
+                                         }
+                                       }
+                                       """, body));
 
                 Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
             }

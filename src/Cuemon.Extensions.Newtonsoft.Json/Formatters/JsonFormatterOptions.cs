@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using System.Reflection;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Newtonsoft.Json.Converters;
@@ -24,6 +25,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 list.AddDataPairConverter();
                 list.AddStringFlagsEnumConverter();
                 list.AddStringEnumConverter();
+                list.AddTransientFaultExceptionConverter();
             };
         }
 
@@ -72,13 +74,13 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 NullValueHandling = NullValueHandling.Ignore,
                 MissingMemberHandling = MissingMemberHandling.Ignore,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                DateParseHandling = DateParseHandling.DateTimeOffset,
+                DateParseHandling = DateParseHandling.DateTime,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                ContractResolver = DynamicContractResolver.Create(new CamelCasePropertyNamesContractResolver()
                 {
                     IgnoreSerializableInterface = true
-                }
+                }, JsonPropertyHandler)
             };
             DefaultConverters?.Invoke(Settings.Converters);
             SensitivityDetails = FaultSensitivityDetails.None;
@@ -87,6 +89,37 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 new("application/json"),
                 new("text/json")
             };
+        }
+
+        private void JsonPropertyHandler(PropertyInfo pi, JsonProperty jp)
+        {
+            Func<Type, bool> skipPropertyType = source =>
+            {
+                switch (Type.GetTypeCode(source))
+                {
+                    default:
+                        if (Decorator.Enclose(source).HasKeyValuePairImplementation()) { return true; }
+                        if (Decorator.Enclose(source).HasTypes(typeof(MemberInfo)) && source != typeof(Type)) { return true; }
+                        return false;
+                }
+            };
+            Func<PropertyInfo, bool> skipProperty = property =>
+            {
+                return (property.PropertyType.GetTypeInfo().IsMarshalByRef ||
+                        property.PropertyType.GetTypeInfo().IsSubclassOf(typeof(Delegate)) ||
+                        property.Name.Equals("SyncRoot", StringComparison.Ordinal) ||
+                        property.Name.Equals("IsReadOnly", StringComparison.Ordinal) ||
+                        property.Name.Equals("IsFixedSize", StringComparison.Ordinal) ||
+                        property.Name.Equals("IsSynchronized", StringComparison.Ordinal) ||
+                        property.Name.Equals("Count", StringComparison.Ordinal) ||
+                        property.Name.Equals("HResult", StringComparison.Ordinal) ||
+                        property.Name.Equals("Parent", StringComparison.Ordinal) ||
+                        property.Name.Equals("TargetSite", StringComparison.Ordinal));
+            };
+
+            var skipSerialization = skipProperty(pi) || skipPropertyType(pi.PropertyType);
+            jp.ShouldSerialize =  _ => !skipSerialization;
+            jp.ShouldDeserialize = _ => !skipSerialization;
         }
 
         /// <summary>

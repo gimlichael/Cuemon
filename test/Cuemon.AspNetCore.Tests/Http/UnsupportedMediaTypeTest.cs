@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Cuemon.Extensions.IO;
+﻿using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
@@ -14,32 +12,6 @@ namespace Cuemon.AspNetCore.Http
     {
         public UnsupportedMediaTypeTest(ITestOutputHelper output) : base(output)
         {
-        }
-
-        [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf404()
-        {
-            var sut = new UnsupportedMediaTypeException();
-
-            TestOutput.WriteLine(sut.ToString());
-
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                bf.Serialize(ms, sut);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                ms.Position = 0;
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                var desEx = bf.Deserialize(ms) as UnsupportedMediaTypeException;
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                Assert.Equal(sut.StatusCode, desEx.StatusCode);
-                Assert.Equal(sut.ReasonPhrase, desEx.ReasonPhrase);
-                Assert.Equal(sut.Message, desEx.Message);
-                Assert.Equal(sut.ToString(), desEx.ToString());
-            }
-
-            Assert.Equal(StatusCodes.Status415UnsupportedMediaType, sut.StatusCode);
         }
 
         [Fact]
@@ -62,12 +34,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status415UnsupportedMediaType, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"{
-  ""type"": ""Cuemon.AspNetCore.Http.UnsupportedMediaTypeException"",
-  ""message"": ""The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method."",
-  ""statusCode"": 415,
-  ""reasonPhrase"": ""Unsupported Media Type""
-}", sut4);
+            Assert.Equal("""
+                         {
+                           "type": "Cuemon.AspNetCore.Http.UnsupportedMediaTypeException",
+                           "message": "The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.",
+                           "headers": {},
+                           "statusCode": 415,
+                           "reasonPhrase": "Unsupported Media Type"
+                         }
+                         """, sut4);
         }
 
         [Fact]

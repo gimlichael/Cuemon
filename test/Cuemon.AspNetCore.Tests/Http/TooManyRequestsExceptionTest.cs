@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Cuemon.Extensions.IO;
+﻿using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
@@ -14,32 +12,6 @@ namespace Cuemon.AspNetCore.Http
     {
         public TooManyRequestsExceptionTest(ITestOutputHelper output) : base(output)
         {
-        }
-
-        [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf429()
-        {
-            var sut = new TooManyRequestsException();
-
-            TestOutput.WriteLine(sut.ToString());
-
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                bf.Serialize(ms, sut);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                ms.Position = 0;
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                var desEx = bf.Deserialize(ms) as TooManyRequestsException;
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                Assert.Equal(sut.StatusCode, desEx.StatusCode);
-                Assert.Equal(sut.ReasonPhrase, desEx.ReasonPhrase);
-                Assert.Equal(sut.Message, desEx.Message);
-                Assert.Equal(sut.ToString(), desEx.ToString());
-            }
-
-            Assert.Equal(StatusCodes.Status429TooManyRequests, sut.StatusCode);
         }
 
         [Fact]
@@ -62,12 +34,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status429TooManyRequests, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"{
-  ""type"": ""Cuemon.AspNetCore.Http.TooManyRequestsException"",
-  ""message"": ""The allowed number of requests has been exceeded."",
-  ""statusCode"": 429,
-  ""reasonPhrase"": ""Too Many Requests""
-}", sut4);
+            Assert.Equal("""
+                         {
+                           "type": "Cuemon.AspNetCore.Http.TooManyRequestsException",
+                           "message": "The allowed number of requests has been exceeded.",
+                           "headers": {},
+                           "statusCode": 429,
+                           "reasonPhrase": "Too Many Requests"
+                         }
+                         """, sut4);
         }
 
         [Fact]

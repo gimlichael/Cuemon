@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <RootNamespace>Cuemon.Data</RootNamespace>
-    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Data\Cuemon.Data.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>

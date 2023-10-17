@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Cuemon.Extensions.IO;
+﻿using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
@@ -14,32 +12,6 @@ namespace Cuemon.AspNetCore.Http
     {
         public MethodNotAllowedExceptionTest(ITestOutputHelper output) : base(output)
         {
-        }
-
-        [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf405()
-        {
-            var sut = new MethodNotAllowedException();
-
-            TestOutput.WriteLine(sut.ToString());
-
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                bf.Serialize(ms, sut);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                ms.Position = 0;
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                var desEx = bf.Deserialize(ms) as MethodNotAllowedException;
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                Assert.Equal(sut.StatusCode, desEx.StatusCode);
-                Assert.Equal(sut.ReasonPhrase, desEx.ReasonPhrase);
-                Assert.Equal(sut.Message, desEx.Message);
-                Assert.Equal(sut.ToString(), desEx.ToString());
-            }
-
-            Assert.Equal(StatusCodes.Status405MethodNotAllowed, sut.StatusCode);
         }
 
         [Fact]
@@ -62,12 +34,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status405MethodNotAllowed, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"{
-  ""type"": ""Cuemon.AspNetCore.Http.MethodNotAllowedException"",
-  ""message"": ""The method specified in the request is not allowed for the resource identified by the request URI."",
-  ""statusCode"": 405,
-  ""reasonPhrase"": ""Method Not Allowed""
-}", sut4);
+            Assert.Equal("""
+                         {
+                           "type": "Cuemon.AspNetCore.Http.MethodNotAllowedException",
+                           "message": "The method specified in the request is not allowed for the resource identified by the request URI.",
+                           "headers": {},
+                           "statusCode": 405,
+                           "reasonPhrase": "Method Not Allowed"
+                         }
+                         """, sut4);
         }
 
         [Fact]

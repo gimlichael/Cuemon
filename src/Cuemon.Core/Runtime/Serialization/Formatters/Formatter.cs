@@ -3,6 +3,53 @@
 namespace Cuemon.Runtime.Serialization.Formatters
 {
     /// <summary>
+    /// Provides a set of static methods that complements serialization and deserialization of an object.
+    /// </summary>
+    public static class Formatter
+    {
+        /// <summary>
+        /// Gets the <see cref="Type"/> with the specified <paramref name="typeName"/>, performing a case-sensitive search.
+        /// </summary>
+        /// <param name="typeName">The assembly-qualified name of the type to get. See <see cref="Type.AssemblyQualifiedName"/>. If the type is in the currently executing assembly or in mscorlib.dll/System.Private.CoreLib.dll, it is sufficient to supply the type name qualified by its namespace.</param>
+        /// <returns>The type with the specified <paramref name="typeName"/>. If the type is not found, null is returned.</returns>
+        public static Type GetType(string typeName)
+        {
+            if (TryGetType(typeName, out var type))
+            {
+                return type;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Attempts to get the <see cref="Type"/> with the specified <paramref name="typeName"/>, performing a case-sensitive search.
+        /// </summary>
+        /// <param name="typeName">The assembly-qualified name of the type to get. See <see cref="Type.AssemblyQualifiedName"/>. If the type is in the currently executing assembly or in mscorlib.dll/System.Private.CoreLib.dll, it is sufficient to supply the type name qualified by its namespace.</param>
+        /// <param name="type">The type with the specified <paramref name="typeName"/>. If the type is not found, null is returned.</param>
+        /// <returns><c>true</c> if the <see cref="Type"/> was found, <c>false</c> otherwise.</returns>
+        public static bool TryGetType(string typeName, out Type type)
+        {
+            if (typeName == null)
+            {
+                type = null;
+                return false;
+            }
+
+            typeName = typeName.Trim();
+            Patterns.TryInvoke(() => Type.GetType(typeName, false), out type);
+            if (type != null) { return true; }
+
+            foreach (var assemblyType in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                Patterns.TryInvoke(() => assemblyType.GetType(typeName, false), out type);
+                if ( type != null ) { return true; }
+            }
+
+            return false;
+        }
+    }
+
+    /// <summary>
     /// An abstract class that supports serialization and deserialization of an object, in a given format.
     /// </summary>
     /// <typeparam name="TFormat">The type of format which serialization and deserialization is invoked.</typeparam>
