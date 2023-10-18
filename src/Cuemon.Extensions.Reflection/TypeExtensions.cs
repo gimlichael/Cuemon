@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Cuemon.Reflection;
 
@@ -12,6 +13,100 @@ namespace Cuemon.Extensions.Reflection
     /// </summary>
     public static class TypeExtensions
     {
+        private static readonly Action<MemberReflectionOptions> DefaultMemberReflectionSetup = o =>
+        {
+            o.ExcludeStatic = true;
+            o.ExcludeInheritancePath = true;
+        };
+
+        /// <summary>
+        /// Retrieves a collection that represents all properties defined on the specified <paramref name="source"/> and its inheritance chain.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="PropertyInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
+        public static IEnumerable<PropertyInfo> GetAllProperties(this Type source, Action<MemberReflectionOptions> setup = null)
+        {
+            return GetInheritedTypes(source).SelectMany(type => type.GetProperties(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+        }
+
+        /// <summary>
+        /// Gets a sequence of all <see cref="FieldInfo"/> objects of the <paramref name="source"/> entire inheritance chain.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains the <see cref="FieldInfo"/> objects of the <paramref name="source"/> entire inheritance chain.</returns>
+        public static IEnumerable<FieldInfo> GetAllFields(this Type source, Action<MemberReflectionOptions> setup = null)
+        {
+            return GetInheritedTypes(source).SelectMany(type => type.GetFields(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+        }
+
+        /// <summary>
+        /// Gets a sequence of all <see cref="EventInfo"/> objects of the <paramref name="source"/> entire inheritance chain.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains the <see cref="EventInfo"/> objects of the <paramref name="source"/> entire inheritance chain.</returns>
+        public static IEnumerable<EventInfo> GetAllEvents(this Type source, Action<MemberReflectionOptions> setup = null)
+        {
+            return GetInheritedTypes(source).SelectMany(type => type.GetEvents(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+        }
+
+        /// <summary>
+        /// Gets a sequence of all <see cref="MethodInfo"/> objects of the <paramref name="source"/> entire inheritance chain.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains the <see cref="MethodInfo"/> objects of the <paramref name="source"/> entire inheritance chain.</returns>
+        public static IEnumerable<MethodInfo> GetAllMethods(this Type source, Action<MemberReflectionOptions> setup = null)
+        {
+            return GetInheritedTypes(source).SelectMany(type => type.GetMethods(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+        }
+
+        /// <summary>
+        /// Gets a collection (self-to-derived) of derived / descendant types of the <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="assemblies">The assemblies to include in the search of derived types.</param>
+        /// <returns>An <see cref="IEnumerable{Type}"/> that contains the derived types of the <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null.
+        /// </exception>
+        public static IEnumerable<Type> GetDerivedTypes(this Type source, params Assembly[] assemblies)
+        {
+            Validator.ThrowIfNull(source);
+            return Decorator.Enclose(source).GetDerivedTypes(assemblies);
+        }
+
+        /// <summary>
+        /// Gets a collection (inherited-to-self) of inherited / ancestor types of the <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <returns>An <see cref="IEnumerable{Type}"/> that contains the inherited types of the <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null.
+        /// </exception>
+        public static IEnumerable<Type> GetInheritedTypes(this Type source)
+        {
+            Validator.ThrowIfNull(source);
+            return Decorator.Enclose(source).GetInheritedTypes();
+        }
+
+        /// <summary>
+        /// Gets a collection (inherited-to-self-to-derived) of inherited / ancestor and derived / descendant types of the <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="assemblies">The assemblies to include in the search of derived types.</param>
+        /// <returns>An <see cref="IEnumerable{Type}"/> that contains a sorted (base-to-derived) collection of inherited and derived types of the <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null.
+        /// </exception>
+        public static IEnumerable<Type> GetHierarchyTypes(this Type source, params Assembly[] assemblies)
+        {
+            Validator.ThrowIfNull(source);
+            return Decorator.Enclose(source).GetHierarchyTypes(assemblies);
+        }
+
         /// <summary>
         /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <see cref="Type"/> following the <see cref="ManifestResourceMatch"/> ruleset of <paramref name="match"/>.
         /// </summary>
