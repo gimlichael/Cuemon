@@ -36,8 +36,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                 o.ContentFactory = ed =>
                 {
                     var options = setup.Value;
-                    var exceptionDescriptorOptions = Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(options);
-                    options.Settings.Converters.AddHttpExceptionDescriptorConverter(exceptionDescriptorOptions);
+                    options.Settings.Converters.AddHttpExceptionDescriptorConverter(o => o.SensitivityDetails = options.SensitivityDetails);
                     return new StreamContent(XmlFormatter.SerializeObject(ed, Patterns.ConfigureRevert(options)))
                     {
                         Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }

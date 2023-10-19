@@ -129,7 +129,8 @@ namespace Cuemon
         [Fact]
         public void TypeArgumentException_ShouldBeSerializable_Xml()
         {
-            var sut1 = new TypeArgumentException(Generate.RandomString(10));
+            var random = Generate.RandomString(10);
+            var sut1 = new TypeArgumentException(random);
             var sut2 = new XmlFormatter(o => o.Settings.Writer.Indent = true);
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
@@ -144,11 +145,57 @@ namespace Cuemon
             Assert.Equal(sut1.Message, original.Message);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<TypeArgumentException namespace=""Cuemon"">
-	<Message>Value does not fall within the expected range. (Parameter 'mOHiPx8AQh')</Message>
-	<ParamName>mOHiPx8AQh</ParamName>
-</TypeArgumentException>", sut4);
+#if NET48_OR_GREATER
+            Assert.Equal($$"""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <TypeArgumentException namespace="Cuemon">
+                         	<Message>Value does not fall within the expected range.
+                         Parameter name: {{random}}</Message>
+                         	<ParamName>{{random}}</ParamName>
+                         </TypeArgumentException>
+                         """, sut4);
+#else
+            Assert.Equal($$"""
+                           <?xml version="1.0" encoding="utf-8"?>
+                           <TypeArgumentException namespace="Cuemon">
+                           	<Message>Value does not fall within the expected range. (Parameter '{{random}}')</Message>
+                           	<ParamName>{{random}}</ParamName>
+                           </TypeArgumentException>
+                           """, sut4);
+#endif
+        }
+
+        [Fact]
+        public void TypeArgumentException_WithInnerException_ShouldBeSerializable_Xml()
+        {
+            var sut1 = new TypeArgumentException("Should have IE.", new ReservedKeywordException("Test", new AbandonedMutexException(20, null)));
+            var sut2 = new XmlFormatter(o => o.Settings.Writer.Indent = true);
+            var sut3 = sut2.Serialize(sut1);
+            var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
+
+            TestOutput.WriteLine(sut4);
+
+            var original = sut2.Deserialize<TypeArgumentException>(sut3);
+
+            sut3.Dispose();
+
+            Assert.Equal(sut1.ParamName, original.ParamName);
+            Assert.Equal(sut1.Message, original.Message);
+            Assert.Equal(sut1.ToString(), original.ToString());
+
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <TypeArgumentException namespace="Cuemon">
+                         	<Message>Should have IE.</Message>
+                         	<ReservedKeywordException namespace="Cuemon">
+                         		<Message>Test</Message>
+                         		<AbandonedMutexException namespace="System.Threading">
+                         			<Message>The wait completed due to an abandoned mutex.</Message>
+                         			<MutexIndex>20</MutexIndex>
+                         		</AbandonedMutexException>
+                         	</ReservedKeywordException>
+                         </TypeArgumentException>
+                         """, sut4);
         }
     }
 }
