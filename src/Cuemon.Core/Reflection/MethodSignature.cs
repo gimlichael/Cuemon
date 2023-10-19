@@ -14,7 +14,7 @@ namespace Cuemon.Reflection
         /// <param name="methodName">The name of the method to portray.</param>
         /// <param name="parameters">The optional parameters of the method portrayed by <paramref name="methodName"/>.</param>
         /// <param name="arguments">The optional runtime arguments passed to the method portrayed by <paramref name="methodName"/>.</param>
-        public MethodSignature(Type caller, string methodName, string[] parameters, object[] arguments)
+        public MethodSignature(string caller, string methodName, string[] parameters, object[] arguments)
         {
             Caller = caller;
             MethodName = methodName;
@@ -23,10 +23,10 @@ namespace Cuemon.Reflection
         }
 
         /// <summary>
-        /// Gets the <see cref="Type"/> of the class where the method portrayed by <see cref="MethodName"/> is located.
+        /// Gets the caller of the class where the method portrayed by <see cref="MethodName"/> is located.
         /// </summary>
-        /// <value>The <see cref="Type"/> of the class where the method portrayed by <see cref="MethodName"/> is located.</value>
-        public Type Caller { get; }
+        /// <value>The caller of the class where the method portrayed by <see cref="MethodName"/> is located.</value>
+        public string Caller { get; }
 
         /// <summary>
         /// Gets the name of the portrayed method.
@@ -52,8 +52,7 @@ namespace Cuemon.Reflection
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
-            var className = Decorator.Enclose(Caller).ToFriendlyName(o => o.FullName = true);
-            return string.Concat(className, ".", MethodName);
+            return string.Concat(Caller, ".", MethodName);
         }
     }
 }

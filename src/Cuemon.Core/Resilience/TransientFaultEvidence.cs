@@ -23,7 +23,7 @@ namespace Cuemon.Resilience
             RecoveryWaitTime = recoveryWaitTime;
             TotalRecoveryWaitTime = totalRecoveryWaitTime;
             Latency = latency;
-            Descriptor = new MethodSignature(descriptor.Caller, descriptor.MethodName, descriptor.Parameters?.Select(ps => ps.ParameterName).ToArray(), descriptor.RuntimeArguments?.Select(kvp => kvp.Value).ToArray());
+            Descriptor = new MethodSignature(Decorator.Enclose(descriptor.Caller).ToFriendlyName(o => o.FullName = true), descriptor.MethodName, descriptor.Parameters?.Select(ps => ps.ParameterName).ToArray(), descriptor.RuntimeArguments?.Select(kvp => kvp.Value).ToArray());
         }
 
         /// <summary>
