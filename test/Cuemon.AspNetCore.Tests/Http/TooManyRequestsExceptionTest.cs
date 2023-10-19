@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status429TooManyRequests, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<TooManyRequestsException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The allowed number of requests has been exceeded.</Message>
-	<StatusCode>429</StatusCode>
-	<ReasonPhrase>Too Many Requests</ReasonPhrase>
-</TooManyRequestsException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <TooManyRequestsException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The allowed number of requests has been exceeded.</Message>
+                         	<Headers />
+                         	<StatusCode>429</StatusCode>
+                         	<ReasonPhrase>Too Many Requests</ReasonPhrase>
+                         </TooManyRequestsException>
+                         """, sut4);
         }
     }
 }

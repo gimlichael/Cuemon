@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status413PayloadTooLarge, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<PayloadTooLargeException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The server is refusing to process a request because the request entity is larger than the server is willing or able to process.</Message>
-	<StatusCode>413</StatusCode>
-	<ReasonPhrase>Payload Too Large</ReasonPhrase>
-</PayloadTooLargeException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <PayloadTooLargeException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The server is refusing to process a request because the request entity is larger than the server is willing or able to process.</Message>
+                         	<Headers />
+                         	<StatusCode>413</StatusCode>
+                         	<ReasonPhrase>Payload Too Large</ReasonPhrase>
+                         </PayloadTooLargeException>
+                         """, sut4);
         }
     }
 }

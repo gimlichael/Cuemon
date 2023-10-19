@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status409Conflict, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<ConflictException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The request could not be completed due to a conflict with the current state of the resource.</Message>
-	<StatusCode>409</StatusCode>
-	<ReasonPhrase>Conflict</ReasonPhrase>
-</ConflictException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <ConflictException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The request could not be completed due to a conflict with the current state of the resource.</Message>
+                         	<Headers />
+                         	<StatusCode>409</StatusCode>
+                         	<ReasonPhrase>Conflict</ReasonPhrase>
+                         </ConflictException>
+                         """, sut4);
         }
     }
 }

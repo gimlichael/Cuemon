@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status404NotFound, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<NotFoundException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The server has not found anything matching the request URI.</Message>
-	<StatusCode>404</StatusCode>
-	<ReasonPhrase>Not Found</ReasonPhrase>
-</NotFoundException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <NotFoundException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The server has not found anything matching the request URI.</Message>
+                         	<Headers />
+                         	<StatusCode>404</StatusCode>
+                         	<ReasonPhrase>Not Found</ReasonPhrase>
+                         </NotFoundException>
+                         """, sut4);
         }
     }
 }

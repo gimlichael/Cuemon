@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status405MethodNotAllowed, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<MethodNotAllowedException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The method specified in the request is not allowed for the resource identified by the request URI.</Message>
-	<StatusCode>405</StatusCode>
-	<ReasonPhrase>Method Not Allowed</ReasonPhrase>
-</MethodNotAllowedException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <MethodNotAllowedException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The method specified in the request is not allowed for the resource identified by the request URI.</Message>
+                         	<Headers />
+                         	<StatusCode>405</StatusCode>
+                         	<ReasonPhrase>Method Not Allowed</ReasonPhrase>
+                         </MethodNotAllowedException>
+                         """, sut4);
         }
     }
 }

@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status412PreconditionFailed, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<PreconditionFailedException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The precondition given in one or more of the request-header fields evaluated to false when it was tested on the server.</Message>
-	<StatusCode>412</StatusCode>
-	<ReasonPhrase>Precondition Failed</ReasonPhrase>
-</PreconditionFailedException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <PreconditionFailedException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The precondition given in one or more of the request-header fields evaluated to false when it was tested on the server.</Message>
+                         	<Headers />
+                         	<StatusCode>412</StatusCode>
+                         	<ReasonPhrase>Precondition Failed</ReasonPhrase>
+                         </PreconditionFailedException>
+                         """, sut4);
         }
     }
 }

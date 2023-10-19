@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status415UnsupportedMediaType, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<UnsupportedMediaTypeException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.</Message>
-	<StatusCode>415</StatusCode>
-	<ReasonPhrase>Unsupported Media Type</ReasonPhrase>
-</UnsupportedMediaTypeException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <UnsupportedMediaTypeException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.</Message>
+                         	<Headers />
+                         	<StatusCode>415</StatusCode>
+                         	<ReasonPhrase>Unsupported Media Type</ReasonPhrase>
+                         </UnsupportedMediaTypeException>
+                         """, sut4);
         }
     }
 }

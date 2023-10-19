@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status400BadRequest, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
             
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<BadRequestException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The request could not be understood by the server due to malformed syntax.</Message>
-	<StatusCode>400</StatusCode>
-	<ReasonPhrase>Bad Request</ReasonPhrase>
-</BadRequestException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <BadRequestException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The request could not be understood by the server due to malformed syntax.</Message>
+                         	<Headers />
+                         	<StatusCode>400</StatusCode>
+                         	<ReasonPhrase>Bad Request</ReasonPhrase>
+                         </BadRequestException>
+                         """, sut4);
         }
     }
 }

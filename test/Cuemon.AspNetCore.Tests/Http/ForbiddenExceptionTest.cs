@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status403Forbidden, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<ForbiddenException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The server understood the request, but is refusing to fulfill it.</Message>
-	<StatusCode>403</StatusCode>
-	<ReasonPhrase>Forbidden</ReasonPhrase>
-</ForbiddenException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <ForbiddenException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The server understood the request, but is refusing to fulfill it.</Message>
+                         	<Headers />
+                         	<StatusCode>403</StatusCode>
+                         	<ReasonPhrase>Forbidden</ReasonPhrase>
+                         </ForbiddenException>
+                         """, sut4);
         }
     }
 }

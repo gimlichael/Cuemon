@@ -84,6 +84,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                          	<RateLimit>100</RateLimit>
                          	<Delta>01:00:00</Delta>
                          	<Reset>{{reset:O}}</Reset>
+                         	<Headers />
                          	<StatusCode>429</StatusCode>
                          	<ReasonPhrase>Too Many Requests</ReasonPhrase>
                          </ThrottlingException>

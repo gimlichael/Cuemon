@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status401Unauthorized, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<UnauthorizedException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The request requires user authentication.</Message>
-	<StatusCode>401</StatusCode>
-	<ReasonPhrase>Unauthorized</ReasonPhrase>
-</UnauthorizedException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <UnauthorizedException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The request requires user authentication.</Message>
+                         	<Headers />
+                         	<StatusCode>401</StatusCode>
+                         	<ReasonPhrase>Unauthorized</ReasonPhrase>
+                         </UnauthorizedException>
+                         """, sut4);
         }
     }
 }

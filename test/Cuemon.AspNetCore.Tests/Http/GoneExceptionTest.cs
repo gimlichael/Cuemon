@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status410Gone, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<GoneException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The requested resource is no longer available at the server and no forwarding address is known.</Message>
-	<StatusCode>410</StatusCode>
-	<ReasonPhrase>Gone</ReasonPhrase>
-</GoneException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <GoneException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The requested resource is no longer available at the server and no forwarding address is known.</Message>
+                         	<Headers />
+                         	<StatusCode>410</StatusCode>
+                         	<ReasonPhrase>Gone</ReasonPhrase>
+                         </GoneException>
+                         """, sut4);
         }
     }
 }

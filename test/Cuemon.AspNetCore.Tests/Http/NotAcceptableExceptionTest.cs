@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status406NotAcceptable, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<NotAcceptableException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.</Message>
-	<StatusCode>406</StatusCode>
-	<ReasonPhrase>Not Acceptable</ReasonPhrase>
-</NotAcceptableException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <NotAcceptableException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.</Message>
+                         	<Headers />
+                         	<StatusCode>406</StatusCode>
+                         	<ReasonPhrase>Not Acceptable</ReasonPhrase>
+                         </NotAcceptableException>
+                         """, sut4);
         }
     }
 }

@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http.Headers
             Assert.Equal(sut1.Message, original.Message);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<ApiKeyException namespace=""Cuemon.AspNetCore.Http.Headers"">
-	<Message>Bad Request.</Message>
-	<StatusCode>400</StatusCode>
-	<ReasonPhrase>Bad Request</ReasonPhrase>
-</ApiKeyException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <ApiKeyException namespace="Cuemon.AspNetCore.Http.Headers">
+                         	<Message>Bad Request.</Message>
+                         	<Headers />
+                         	<StatusCode>400</StatusCode>
+                         	<ReasonPhrase>Bad Request</ReasonPhrase>
+                         </ApiKeyException>
+                         """, sut4);
         }
     }
 }

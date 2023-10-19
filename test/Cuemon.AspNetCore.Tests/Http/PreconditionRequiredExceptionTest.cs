@@ -65,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status428PreconditionRequired, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<PreconditionRequiredException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>No conditional request-header fields was supplied to the server.</Message>
-	<StatusCode>428</StatusCode>
-	<ReasonPhrase>Precondition Required</ReasonPhrase>
-</PreconditionRequiredException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <PreconditionRequiredException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>No conditional request-header fields was supplied to the server.</Message>
+                         	<Headers />
+                         	<StatusCode>428</StatusCode>
+                         	<ReasonPhrase>Precondition Required</ReasonPhrase>
+                         </PreconditionRequiredException>
+                         """, sut4);
         }
     }
 }
