@@ -25,6 +25,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                 list.AddDataPairConverter();
                 list.AddStringEnumConverter();
                 list.AddStringFlagsEnumConverter();
+                list.AddTransientFaultExceptionConverter();
             };
         }
 

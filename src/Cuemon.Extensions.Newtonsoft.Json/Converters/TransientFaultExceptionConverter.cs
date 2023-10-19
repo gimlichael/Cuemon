@@ -53,7 +53,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 var methodName = evidenceJson["descriptor"]["methodName"].Value<string>();
                 var parameters = evidenceJson["descriptor"]["parameters"].Values<string>().ToArray();
                 var arguments = evidenceJson["descriptor"]["arguments"].Values<object>().ToArray();
-                evidence = new TransientFaultEvidence(attempts, recoveryWaitTime, totalRecoveryWaitTime, latency, new MethodSignature(Formatter.GetType(caller), methodName, parameters, arguments));
+                evidence = new TransientFaultEvidence(attempts, recoveryWaitTime, totalRecoveryWaitTime, latency, new MethodSignature(caller, methodName, parameters, arguments));
             }
 
             if (innerExceptionJson != null)

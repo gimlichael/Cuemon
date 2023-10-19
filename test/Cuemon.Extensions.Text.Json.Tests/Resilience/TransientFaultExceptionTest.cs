@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Cuemon.Extensions.IO;
-using Cuemon.Extensions.Newtonsoft.Json.Formatters;
+using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Reflection;
 using Xunit;

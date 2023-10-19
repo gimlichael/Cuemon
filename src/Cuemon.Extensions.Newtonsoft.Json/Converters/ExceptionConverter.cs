@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Cuemon.Reflection;
 using Cuemon.Runtime.Serialization.Formatters;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Cuemon.Extensions.Newtonsoft.Json.Converters
 {
@@ -292,7 +290,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteEndObject();
             }
 
-            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().ToList();
+            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>();
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);

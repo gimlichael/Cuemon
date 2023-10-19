@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Cuemon.Reflection;
+using Cuemon.Runtime.Serialization.Formatters;
 
 namespace Cuemon.Extensions.Text.Json.Converters
 {
@@ -47,24 +50,192 @@ namespace Cuemon.Extensions.Text.Json.Converters
         }
 
         /// <summary>
-        /// Reads and converts the JSON to an <see cref="Exception"/>.
+        /// Reads and converts the JSON to type <see cref="Exception"/>.
         /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="typeToConvert">The type to convert.</param>
-        /// <param name="options">An object that specifies serialization options to use.</param>
-        /// <returns>The converted value.</returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <param name="reader">The <see cref="Utf8JsonReader"/> to read from.</param>
+        /// <param name="typeToConvert">The <see cref="Type"/> being converted.</param>
+        /// <param name="options">The <see cref="JsonSerializerOptions"/> being used.</param>
+        /// <returns>The value that was converted.</returns>
         public override Exception Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            var stack = new Stack<Dictionary<string, object>>();
+            var properties = new List<PropertyInfo>();
+            var lastDepth = 1;
+            var blueprints = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            while (reader.Read())
+            {
+                if (reader.CurrentDepth != lastDepth && blueprints.Count > 0)
+                {
+                    stack.Push(blueprints);
+                    blueprints = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                }
+
+                switch (reader.TokenType)
+                {
+                    case JsonTokenType.PropertyName:
+                        string memberName = MapOrDefault(reader.GetString());
+                        if (!reader.Read())
+                        {
+                            // throw
+                        }
+                        var property = properties.SingleOrDefault(pi => pi.Name.Equals(memberName, StringComparison.OrdinalIgnoreCase));
+                        if (property != null)
+                        {
+                            if (property.Name == nameof(Exception.InnerException))
+                            {
+                                blueprints.Add(memberName, null);
+                            }
+                            else
+                            {
+                                var propertyValue = JsonSerializer.Deserialize(ref reader, property.PropertyType);
+                                if (propertyValue is JsonElement element)
+                                {
+                                    propertyValue = element.GetRawText();
+                                }
+                                blueprints.Add(memberName, propertyValue);
+                            }
+                        }
+                        else
+                        {
+                            if (memberName.Equals("type", StringComparison.OrdinalIgnoreCase))
+                            {
+                                typeToConvert = Formatter.GetType(reader.GetString());
+                                properties = typeToConvert.GetProperties(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
+                                blueprints.Add(memberName, typeToConvert);
+                            }
+                        }
+                        break;
+                    case JsonTokenType.Comment:
+                        break;
+                    case JsonTokenType.EndObject:
+                        break;
+                    default:
+                        break;
+                        // throw
+                }
+                lastDepth = reader.CurrentDepth;
+            }
+
+            Exception instance = null;
+
+            while (stack.Count > 0)
+            {
+                var blueprint = stack.Pop();
+                var desiredType = blueprint["type"] as Type;
+                blueprint.Remove("type");
+
+                if (typeof(ArgumentException).IsAssignableFrom(typeToConvert) && blueprint.ContainsKey("message"))
+                {
+#if NETSTANDARD2_0_OR_GREATER
+                    blueprint["message"] = ((string)blueprint["message"]).Replace($"{Environment.NewLine}Parameter name: {blueprint["paramName"]}", "");
+#else
+                    blueprint["message"] = ((string)blueprint["message"]).Replace($" (Parameter '{blueprint["paramName"]}')", "");
+#endif
+                }
+
+                if (typeof(ArgumentOutOfRangeException).IsAssignableFrom(typeToConvert) && blueprint.ContainsKey("message"))
+                {
+                    blueprint["message"] = ((string)blueprint["message"]).Replace($"{Environment.NewLine}Actual value was {blueprint["actualValue"]}.", "");
+                }
+
+                if (blueprint.ContainsKey(nameof(Exception.InnerException)))
+                {
+                    blueprint[nameof(Exception.InnerException)] = instance;
+                }
+
+                var exceptionBaseCompatibleCtors = desiredType!.GetConstructors(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).Where(ci => ci.GetParameters().Any(pi => pi.ParameterType.IsAssignableFrom(typeof(Exception)) ||
+                                                                                                                                                   pi.ParameterType.IsAssignableFrom(typeof(string)))).Reverse().ToList();
+
+                var args = new List<object>();
+                foreach (var ctor in exceptionBaseCompatibleCtors) // 1:1 match with constructor
+                {
+                    var ctorArgs = ctor.GetParameters();
+                    var blueprintMatchLength = ctorArgs.Select(info => info.Name).Intersect(blueprint.Select(pair => pair.Key), StringComparer.OrdinalIgnoreCase).Count(); 
+                    if (ctorArgs.Length == blueprintMatchLength)
+                    {
+                        foreach (var arg in ctorArgs)
+                        {
+                            var kvp = blueprint.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase));
+                            args.Add(Decorator.Enclose(arg.ParameterType).IsComplex() 
+                                ? kvp.Value
+                                : Decorator.Enclose(kvp.Value).ChangeType(arg.ParameterType));
+                            blueprint.Remove(arg.Name);
+                        }
+                        break;
+                    }
+                }
+
+                if (args.Count == 0)
+                {
+                    foreach (var ctor in exceptionBaseCompatibleCtors) // partial match with constructor
+                    {
+                        var ctorArgs = ctor.GetParameters();
+                        var blueprintMatchLength = ctorArgs.Select(info => info.Name).Count(ctorArgName => blueprint.Keys.Any(key => ctorArgName.EndsWith(key, StringComparison.OrdinalIgnoreCase)));
+                        if (ctorArgs.Length == blueprintMatchLength)
+                        {
+                            foreach (var arg in ctorArgs)
+                            {
+                                var kvp = blueprint.First(pair => arg.Name.EndsWith(pair.Key, StringComparison.OrdinalIgnoreCase));
+                                args.Add(Decorator.Enclose(kvp.Value).ChangeType(arg.ParameterType));
+                                blueprint.Remove(kvp.Key);
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                instance = Activator.CreateInstance(desiredType, args.ToArray()) as Exception;
+
+                if (blueprint.Count > 0) { PopulateBlueprintToInstance(blueprint, desiredType, instance); }
+            }
+
+            return instance;
+        }
+
+        private static void PopulateBlueprintToInstance(Dictionary<string, object> blueprint, Type desiredType, object instance)
+        {
+            var fields = desiredType.GetFields(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
+            var properties = desiredType.GetProperties(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
+            foreach (var kvp in blueprint)
+            {
+                var property = properties.SingleOrDefault(pi => pi.Name.Equals(kvp.Key, StringComparison.OrdinalIgnoreCase));
+                if (property != null && property.CanWrite)
+                {
+                    property.SetValue(instance, Decorator.Enclose(kvp.Value).ChangeType(property.PropertyType));
+                    blueprint.Remove(kvp.Key);
+                }
+                else // fallback to potential backing field
+                {
+                    var field = fields.SingleOrDefault(fi => fi.Name.EndsWith(kvp.Key, StringComparison.OrdinalIgnoreCase));
+                    if (field != null)
+                    {
+                        field.SetValue(instance, Decorator.Enclose(kvp.Value).ChangeType(field.FieldType));
+                        blueprint.Remove(kvp.Key);
+                    }
+                }
+                if (blueprint.Count == 0) { break; }
+            }
+        }
+
+        private static string MapOrDefault(string memberName)
+        {
+            switch (memberName.ToLowerInvariant())
+            {
+                case "inner":
+                    return nameof(Exception.InnerException);
+                case "stack":
+                    return nameof(Exception.StackTrace);
+                default:
+                    return memberName;
+            }
         }
 
         /// <summary>
-        /// Writes a specified value as JSON.
+        /// Writes the <paramref name="value"/> as JSON.
         /// </summary>
-        /// <param name="writer">The writer to write to.</param>
-        /// <param name="value">The value to convert to JSON.</param>
-        /// <param name="options">An object that specifies serialization options to use.</param>
+        /// <param name="writer">The <see cref="Utf8JsonWriter"/> to write to.</param>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="options">The <see cref="JsonSerializerOptions"/> being used.</param>
         public override void Write(Utf8JsonWriter writer, Exception value, JsonSerializerOptions options)
         {
             var exceptionType = value.GetType();
@@ -110,7 +281,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 writer.WriteEndObject();
             }
 
-            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => !Decorator.Enclose(pi.PropertyType).IsComplex());
+            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>();
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);
