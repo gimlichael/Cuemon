@@ -74,7 +74,13 @@ namespace Cuemon
             {
                 var isEnum = targetType.GetTypeInfo().IsEnum;
                 var isNullable = Decorator.Enclose(targetType).IsNullable();
-                return Convert.ChangeType(isEnum ? Enum.Parse(targetType, decorator.Inner.ToString()) : decorator.Inner, isNullable ? Nullable.GetUnderlyingType(targetType) : targetType, options.FormatProvider);
+                switch (targetType)
+                {
+                    case { } dt when dt == typeof(DateTime) && decorator.Inner is string dtValue && dtValue.EndsWith("Z", StringComparison.OrdinalIgnoreCase):
+                        return DateTime.Parse(dtValue, options.FormatProvider, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
+                    default:
+                        return Convert.ChangeType(isEnum ? Enum.Parse(targetType, decorator.Inner.ToString()!) : decorator.Inner, (isNullable ? Nullable.GetUnderlyingType(targetType) : targetType)!, options.FormatProvider);
+                }
             }
             catch (Exception first)
             {
