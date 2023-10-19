@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Cuemon.Reflection;
 
@@ -13,12 +12,6 @@ namespace Cuemon.Extensions.Reflection
     /// </summary>
     public static class TypeExtensions
     {
-        private static readonly Action<MemberReflectionOptions> DefaultMemberReflectionSetup = o =>
-        {
-            o.ExcludeStatic = true;
-            o.ExcludeInheritancePath = true;
-        };
-
         /// <summary>
         /// Retrieves a collection that represents all properties defined on the specified <paramref name="source"/> and its inheritance chain.
         /// </summary>
@@ -27,40 +20,44 @@ namespace Cuemon.Extensions.Reflection
         /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="PropertyInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
         public static IEnumerable<PropertyInfo> GetAllProperties(this Type source, Action<MemberReflectionOptions> setup = null)
         {
-            return GetInheritedTypes(source).SelectMany(type => type.GetProperties(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+            Validator.ThrowIfNull(source);
+            return Decorator.Enclose(source).GetAllProperties(setup);
         }
 
         /// <summary>
-        /// Gets a sequence of all <see cref="FieldInfo"/> objects of the <paramref name="source"/> entire inheritance chain.
+        /// Retrieves a collection that represents all fields defined on the specified <paramref name="source"/> and its inheritance chain.
         /// </summary>
         /// <param name="source">The <see cref="Type"/> to extend.</param>
         /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> that contains the <see cref="FieldInfo"/> objects of the <paramref name="source"/> entire inheritance chain.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="FieldInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
         public static IEnumerable<FieldInfo> GetAllFields(this Type source, Action<MemberReflectionOptions> setup = null)
         {
-            return GetInheritedTypes(source).SelectMany(type => type.GetFields(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+            Validator.ThrowIfNull(source);
+            return Decorator.Enclose(source).GetAllFields(setup);
         }
 
         /// <summary>
-        /// Gets a sequence of all <see cref="EventInfo"/> objects of the <paramref name="source"/> entire inheritance chain.
+        /// Retrieves a collection that represents all events defined on the specified <paramref name="source"/> and its inheritance chain.
         /// </summary>
         /// <param name="source">The <see cref="Type"/> to extend.</param>
         /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> that contains the <see cref="EventInfo"/> objects of the <paramref name="source"/> entire inheritance chain.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="EventInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
         public static IEnumerable<EventInfo> GetAllEvents(this Type source, Action<MemberReflectionOptions> setup = null)
         {
-            return GetInheritedTypes(source).SelectMany(type => type.GetEvents(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+            Validator.ThrowIfNull(source);
+            return Decorator.Enclose(source).GetAllEvents(setup);
         }
 
         /// <summary>
-        /// Gets a sequence of all <see cref="MethodInfo"/> objects of the <paramref name="source"/> entire inheritance chain.
+        /// Retrieves a collection that represents all methods defined on the specified <paramref name="source"/> and its inheritance chain.
         /// </summary>
         /// <param name="source">The <see cref="Type"/> to extend.</param>
         /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> that contains the <see cref="MethodInfo"/> objects of the <paramref name="source"/> entire inheritance chain.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="MethodInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
         public static IEnumerable<MethodInfo> GetAllMethods(this Type source, Action<MemberReflectionOptions> setup = null)
         {
-            return GetInheritedTypes(source).SelectMany(type => type.GetMethods(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+            Validator.ThrowIfNull(source);
+            return Decorator.Enclose(source).GetAllMethods(setup);
         }
 
         /// <summary>

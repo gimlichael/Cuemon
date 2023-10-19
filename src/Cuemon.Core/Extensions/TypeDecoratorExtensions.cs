@@ -19,6 +19,56 @@ namespace Cuemon
     {
         private static ConcurrentDictionary<string, bool> ComplexValueTypeLookup { get; } = new();
 
+        private static readonly Action<MemberReflectionOptions> DefaultMemberReflectionSetup = o =>
+        {
+            o.ExcludeStatic = true;
+            o.ExcludeInheritancePath = true;
+        };
+
+        /// <summary>
+        /// Retrieves a collection that represents all properties defined on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.
+        /// </summary>
+        /// <param name="decorator">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="PropertyInfo"/> objects on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.</returns>
+        public static IEnumerable<PropertyInfo> GetAllProperties(this IDecorator<Type> decorator, Action<MemberReflectionOptions> setup = null)
+        {
+            return GetInheritedTypes(decorator).SelectMany(type => type.GetProperties(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+        }
+
+        /// <summary>
+        /// Retrieves a collection that represents all fields defined on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.
+        /// </summary>
+        /// <param name="decorator">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="FieldInfo"/> objects on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.</returns>
+        public static IEnumerable<FieldInfo> GetAllFields(this IDecorator<Type> decorator, Action<MemberReflectionOptions> setup = null)
+        {
+            return GetInheritedTypes(decorator).SelectMany(type => type.GetFields(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+        }
+
+        /// <summary>
+        /// Retrieves a collection that represents all events defined on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.
+        /// </summary>
+        /// <param name="decorator">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="EventInfo"/> objects on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.</returns>
+        public static IEnumerable<EventInfo> GetAllEvents(this IDecorator<Type> decorator, Action<MemberReflectionOptions> setup = null)
+        {
+            return GetInheritedTypes(decorator).SelectMany(type => type.GetEvents(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+        }
+
+        /// <summary>
+        /// Retrieves a collection that represents all methods defined on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.
+        /// </summary>
+        /// <param name="decorator">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="MethodInfo"/> objects on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.</returns>
+        public static IEnumerable<MethodInfo> GetAllMethods(this IDecorator<Type> decorator, Action<MemberReflectionOptions> setup = null)
+        {
+            return GetInheritedTypes(decorator).SelectMany(type => type.GetMethods(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+        }
+
         /// <summary>
         /// Retrieves a collection that represents all the properties defined on the enclosed <see cref="Type"/> of the <paramref name="decorator"/> except those defined on <typeparamref name="T"/>.
         /// </summary>
