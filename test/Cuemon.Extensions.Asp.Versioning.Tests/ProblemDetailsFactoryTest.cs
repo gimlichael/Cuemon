@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Asp.Versioning;
 using Cuemon.AspNetCore.Diagnostics;
@@ -83,8 +84,8 @@ namespace Cuemon.Extensions.Asp.Versioning
                 app.UseFaultDescriptorExceptionHandler(o =>
                 {
                     o.NonMvcResponseHandlers
-                        .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions()))
-                        .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions()));
+                        .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>())
+                        .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>());
                 });
                 app.UseRestfulApiVersioning();
                 app.UseRouting();
@@ -123,8 +124,8 @@ namespace Cuemon.Extensions.Asp.Versioning
                        app.UseFaultDescriptorExceptionHandler(o =>
                        {
                            o.NonMvcResponseHandlers
-                               .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions()))
-                               .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions()));
+                               .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>())
+                               .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>());
                        });
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -133,7 +134,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                    {
                        services.AddControllers(o => o.Filters.AddFaultDescriptor())
                            .AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters();
+                           .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
                        services.AddHttpContextAccessor();
                        services.AddRestfulApiVersioning(o =>
                        {
