@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 406,
                            "reasonPhrase": "Not Acceptable"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>406</StatusCode>
                          	<ReasonPhrase>Not Acceptable</ReasonPhrase>
                          </NotAcceptableException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

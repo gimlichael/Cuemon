@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 409,
                            "reasonPhrase": "Conflict"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>409</StatusCode>
                          	<ReasonPhrase>Conflict</ReasonPhrase>
                          </ConflictException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

@@ -35,16 +35,6 @@ namespace Cuemon
             Assert.Equal(sut1.Message, original.Message);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-#if NET48_OR_GREATER
-            Assert.Equal($$"""
-                         {
-                           "type": "Cuemon.TypeArgumentOutOfRangeException",
-                           "message": "{{randomMessage}}\r\nParameter name: {{randomParamName}}\r\nActual value was {{actualValue}}.",
-                           "actualValue": {{actualValue}},
-                           "paramName": "{{randomParamName}}"
-                         }
-                         """, sut4);
-#else
             Assert.Equal($$"""
                          {
                            "type": "Cuemon.TypeArgumentOutOfRangeException",
@@ -52,8 +42,7 @@ namespace Cuemon
                            "actualValue": {{actualValue}},
                            "paramName": "{{randomParamName}}"
                          }
-                         """, sut4, ignoreLineEndingDifferences: true);
-#endif
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

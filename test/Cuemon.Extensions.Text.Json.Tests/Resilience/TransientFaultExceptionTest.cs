@@ -55,7 +55,7 @@ namespace Cuemon.Resilience
                                }
                              }
                            }
-                           """, sut4);
+                           """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace Cuemon.Resilience
                                "message": "Overflow or underflow in the arithmetic operation."
                              }
                            }
-                           """, sut4);
+                           """.ReplaceLineEndings(), sut4);
         }
 
         public static IEnumerable<object[]> GetRandomString()

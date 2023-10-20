@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 401,
                            "reasonPhrase": "Unauthorized"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>401</StatusCode>
                          	<ReasonPhrase>Unauthorized</ReasonPhrase>
                          </UnauthorizedException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

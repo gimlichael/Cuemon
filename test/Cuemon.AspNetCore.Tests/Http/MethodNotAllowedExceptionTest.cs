@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 405,
                            "reasonPhrase": "Method Not Allowed"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>405</StatusCode>
                          	<ReasonPhrase>Method Not Allowed</ReasonPhrase>
                          </MethodNotAllowedException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

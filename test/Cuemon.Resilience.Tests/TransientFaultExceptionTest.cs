@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
@@ -55,7 +56,7 @@ namespace Cuemon.Resilience
                                }
                              }
                            }
-                           """, sut4);
+                           """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -96,7 +97,7 @@ namespace Cuemon.Resilience
                                "message": "Overflow or underflow in the arithmetic operation."
                              }
                            }
-                           """, sut4);
+                           """.ReplaceLineEndings(), sut4);
         }
 
         public static IEnumerable<object[]> GetRandomString()

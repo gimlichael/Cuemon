@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 404,
                            "reasonPhrase": "Not Found"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>404</StatusCode>
                          	<ReasonPhrase>Not Found</ReasonPhrase>
                          </NotFoundException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

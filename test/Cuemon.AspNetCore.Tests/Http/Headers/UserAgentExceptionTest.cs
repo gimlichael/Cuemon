@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                            "statusCode": 400,
                            "reasonPhrase": "Bad Request"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                          	<StatusCode>400</StatusCode>
                          	<ReasonPhrase>Bad Request</ReasonPhrase>
                          </UserAgentException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

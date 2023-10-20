@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 412,
                            "reasonPhrase": "Precondition Failed"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>412</StatusCode>
                          	<ReasonPhrase>Precondition Failed</ReasonPhrase>
                          </PreconditionFailedException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

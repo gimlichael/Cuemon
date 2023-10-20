@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 429,
                            "reasonPhrase": "Too Many Requests"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>429</StatusCode>
                          	<ReasonPhrase>Too Many Requests</ReasonPhrase>
                          </TooManyRequestsException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

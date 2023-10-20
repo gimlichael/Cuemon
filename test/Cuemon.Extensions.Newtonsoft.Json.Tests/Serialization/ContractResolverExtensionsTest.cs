@@ -67,7 +67,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
   ""TotalMilliseconds"": 922337203685477.0,
   ""TotalMinutes"": 15372286728.091293,
   ""TotalSeconds"": 922337203685.47754
-}", json);
+}".ReplaceLineEndings(), json);
 #else
             Assert.Equal(@"{
   ""Ticks"": 9223372036854775807,
@@ -80,7 +80,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
   ""TotalMilliseconds"": 922337203685477.0,
   ""TotalMinutes"": 15372286728.091293,
   ""TotalSeconds"": 922337203685.4775
-}", json);
+}".ReplaceLineEndings(), json);
 #endif
         }
 
@@ -107,7 +107,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
   ""totalMilliseconds"": 922337203685477.0,
   ""totalMinutes"": 15372286728.091293,
   ""totalSeconds"": 922337203685.47754
-}", json);
+}".ReplaceLineEndings(), json);
 #else
             Assert.Equal(@"{
   ""ticks"": 9223372036854775807,
@@ -120,7 +120,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
   ""totalMilliseconds"": 922337203685477.0,
   ""totalMinutes"": 15372286728.091293,
   ""totalSeconds"": 922337203685.4775
-}", json);
+}".ReplaceLineEndings(), json);
 #endif
         }
 
@@ -150,7 +150,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
   ""total_milliseconds"": 922337203685477.0,
   ""total_minutes"": 15372286728.091293,
   ""total_seconds"": 922337203685.47754
-}", json);
+}".ReplaceLineEndings(), json);
 #else
             Assert.Equal(@"{
   ""ticks"": 9223372036854775807,
@@ -163,7 +163,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
   ""total_milliseconds"": 922337203685477.0,
   ""total_minutes"": 15372286728.091293,
   ""total_seconds"": 922337203685.4775
-}", json);
+}".ReplaceLineEndings(), json);
 #endif
         }
 
@@ -193,7 +193,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
   ""total-milliseconds"": 922337203685477.0,
   ""total-minutes"": 15372286728.091293,
   ""total-seconds"": 922337203685.47754
-}", json);
+}".ReplaceLineEndings(), json);
 #else
             Assert.Equal(@"{
   ""ticks"": 9223372036854775807,
@@ -206,7 +206,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
   ""total-milliseconds"": 922337203685477.0,
   ""total-minutes"": 15372286728.091293,
   ""total-seconds"": 922337203685.4775
-}", json);
+}".ReplaceLineEndings(), json);
 #endif
         }
     }

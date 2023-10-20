@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 415,
                            "reasonPhrase": "Unsupported Media Type"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>415</StatusCode>
                          	<ReasonPhrase>Unsupported Media Type</ReasonPhrase>
                          </UnsupportedMediaTypeException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 428,
                            "reasonPhrase": "Precondition Required"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>428</StatusCode>
                          	<ReasonPhrase>Precondition Required</ReasonPhrase>
                          </PreconditionRequiredException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                            "statusCode": 429,
                            "reasonPhrase": "Too Many Requests"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                          	<StatusCode>429</StatusCode>
                          	<ReasonPhrase>Too Many Requests</ReasonPhrase>
                          </ThrottlingException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

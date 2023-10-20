@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
@@ -41,7 +42,7 @@ namespace Cuemon
                            "message": "My fancy message.\r\nParameter name: myArg",
                            "paramName": "myArg"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
 #else
             Assert.Equal("""
                          {
@@ -49,7 +50,7 @@ namespace Cuemon
                            "message": "My fancy message. (Parameter 'myArg')",
                            "paramName": "myArg"
                          }
-                         """, sut4, ignoreLineEndingDifferences: true);
+                         """.ReplaceLineEndings(), sut4);
 #endif
         }
 
@@ -69,8 +70,8 @@ namespace Cuemon
             sut3.Dispose();
 
             Assert.Equal(sut1.ParamName, original.ParamName);
-            Assert.Equal(sut1.Message, original.Message);
-            Assert.Equal(sut1.ToString(), original.ToString());
+            Assert.Equal(sut1.Message.ReplaceLineEndings(), original.Message.ReplaceLineEndings());
+            Assert.Equal(sut1.ToString().ReplaceLineEndings(), original.ToString().ReplaceLineEndings());
 
 #if NET48_OR_GREATER
             Assert.Equal($$"""
@@ -79,7 +80,7 @@ namespace Cuemon
                            "message": "Value does not fall within the expected range.\r\nParameter name: {{random}}",
                            "paramName": "{{random}}"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
 #else
             Assert.Equal($$"""
                          {
@@ -87,7 +88,7 @@ namespace Cuemon
                            "message": "Value does not fall within the expected range. (Parameter '{{random}}')",
                            "paramName": "{{random}}"
                          }
-                         """, sut4, ignoreLineEndingDifferences: true);
+                         """.ReplaceLineEndings(), sut4);
 #endif
         }
 
@@ -123,7 +124,7 @@ namespace Cuemon
       ""mutexIndex"": 20
     }
   }
-}", sut4, ignoreLineEndingDifferences: true);
+}".ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -153,7 +154,7 @@ namespace Cuemon
                          Parameter name: {{random}}</Message>
                          	<ParamName>{{random}}</ParamName>
                          </TypeArgumentException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
 #else
             Assert.Equal($$"""
                            <?xml version="1.0" encoding="utf-8"?>
@@ -161,7 +162,7 @@ namespace Cuemon
                            	<Message>Value does not fall within the expected range. (Parameter '{{random}}')</Message>
                            	<ParamName>{{random}}</ParamName>
                            </TypeArgumentException>
-                           """, sut4);
+                           """.ReplaceLineEndings(), sut4);
 #endif
         }
 
@@ -195,7 +196,7 @@ namespace Cuemon
                          		</AbandonedMutexException>
                          	</ReservedKeywordException>
                          </TypeArgumentException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

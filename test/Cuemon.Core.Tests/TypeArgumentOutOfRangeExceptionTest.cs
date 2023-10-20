@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
@@ -44,16 +45,16 @@ namespace Cuemon
                            "actualValue": {{actualValue}},
                            "paramName": "{{randomParamName}}"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
 #else
             Assert.Equal($$"""
-                         {
-                           "type": "Cuemon.TypeArgumentOutOfRangeException",
-                           "message": "{{randomMessage}} (Parameter '{{randomParamName}}')\r\nActual value was {{actualValue}}.",
-                           "actualValue": {{actualValue}},
-                           "paramName": "{{randomParamName}}"
-                         }
-                         """, sut4, ignoreLineEndingDifferences: true);
+                           {
+                             "type": "Cuemon.TypeArgumentOutOfRangeException",
+                             "message": "{{randomMessage}} (Parameter '{{randomParamName}}')\r\nActual value was {{actualValue}}.",
+                             "actualValue": {{actualValue}},
+                             "paramName": "{{randomParamName}}"
+                           }
+                           """.ReplaceLineEndings(), sut4);
 #endif
         }
 
@@ -96,7 +97,7 @@ namespace Cuemon
                          	<ActualValue>{{actualValue}}</ActualValue>
                          	<ParamName>{{randomParamName}}</ParamName>
                          </TypeArgumentOutOfRangeException>
-                         """, sut4, ignoreLineEndingDifferences: true);
+                         """.ReplaceLineEndings(), sut4);
 #else
             Assert.Equal($$"""
                            <?xml version="1.0" encoding="utf-8"?>
@@ -106,7 +107,7 @@ namespace Cuemon
                            	<ActualValue>{{actualValue}}</ActualValue>
                            	<ParamName>{{randomParamName}}</ParamName>
                            </TypeArgumentOutOfRangeException>
-                           """, sut4, ignoreLineEndingDifferences: true);
+                           """.ReplaceLineEndings(), sut4);
 #endif
         }
     }

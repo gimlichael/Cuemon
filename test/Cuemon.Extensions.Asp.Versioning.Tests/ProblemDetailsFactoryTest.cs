@@ -215,7 +215,7 @@ namespace Cuemon.Extensions.Asp.Versioning
     Source: Cuemon.Extensions.Asp.Versioning
     Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'b3'.
     Stack: 
-", await sut.Content.ReadAsStringAsync());
+".ReplaceLineEndings(), await sut.Content.ReadAsStringAsync());
                 Assert.EndsWith(@"
 Evidence: 
   Request: 
@@ -235,7 +235,7 @@ Evidence:
         - localhost
     Query: []
     Cookies: []
-    Body: ", await sut.Content.ReadAsStringAsync());
+    Body: ".ReplaceLineEndings(), await sut.Content.ReadAsStringAsync());
             }
         }
 

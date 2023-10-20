@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 410,
                            "reasonPhrase": "Gone"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>410</StatusCode>
                          	<ReasonPhrase>Gone</ReasonPhrase>
                          </GoneException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 413,
                            "reasonPhrase": "Payload Too Large"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>413</StatusCode>
                          	<ReasonPhrase>Payload Too Large</ReasonPhrase>
                          </PayloadTooLargeException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Cuemon.Extensions.IO;
+﻿using Cuemon.Extensions;
+using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Xunit;
@@ -35,7 +36,7 @@ namespace Cuemon.Data
                              "type": "Cuemon.Data.DataAdapterException",
                              "message": "{{random}}"
                            }
-                           """, sut4);
+                           """.ReplaceLineEndings(), sut4);
         }
     }
 }

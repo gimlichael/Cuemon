@@ -42,7 +42,7 @@ namespace Cuemon.AspNetCore.Http
                            "statusCode": 403,
                            "reasonPhrase": "Forbidden"
                          }
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Cuemon.AspNetCore.Http
                          	<StatusCode>403</StatusCode>
                          	<ReasonPhrase>Forbidden</ReasonPhrase>
                          </ForbiddenException>
-                         """, sut4);
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }
