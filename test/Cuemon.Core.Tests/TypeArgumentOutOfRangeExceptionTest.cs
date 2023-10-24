@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
@@ -47,10 +48,11 @@ namespace Cuemon
                          }
                          """.ReplaceLineEndings(), sut4);
 #else
+            var newline = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? @"\r\n" : @"\n";
             Assert.Equal($$"""
                            {
                              "type": "Cuemon.TypeArgumentOutOfRangeException",
-                             "message": "{{randomMessage}} (Parameter '{{randomParamName}}')\r\nActual value was {{actualValue}}.",
+                             "message": "{{randomMessage}} (Parameter '{{randomParamName}}'){{newline}}Actual value was {{actualValue}}.",
                              "actualValue": {{actualValue}},
                              "paramName": "{{randomParamName}}"
                            }

@@ -68,10 +68,10 @@ namespace Cuemon.Extensions.Reflection
             var tae = new TypeArgumentOutOfRangeException("typeParameterName", 42, "message");
             var taeType = tae.GetType();
             var members = taeType.GetAllProperties();
-            var expected = 15;
+            var expected = 13;
 
 #if NET48_OR_GREATER
-            expected = 16;
+            expected = 14;
 #endif
 
             TestOutput.WriteLines(members);
@@ -98,10 +98,10 @@ namespace Cuemon.Extensions.Reflection
             var tae = new TypeArgumentOutOfRangeException("typeParameterName", 42, "message");
             var taeType = tae.GetType();
             var methods = taeType.GetAllMethods();
-            var expected = 46;
+            var expected = 40;
 
 #if NET48_OR_GREATER
-            expected = 56;
+            expected = 49;
 #endif
 
             TestOutput.WriteLines(methods);
