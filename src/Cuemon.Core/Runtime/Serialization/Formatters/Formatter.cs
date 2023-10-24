@@ -42,7 +42,7 @@ namespace Cuemon.Runtime.Serialization.Formatters
             foreach (var assemblyType in AppDomain.CurrentDomain.GetAssemblies())
             {
                 Patterns.TryInvoke(() => assemblyType.GetType(typeName, false), out type);
-                if ( type != null ) { return true; }
+                if (type != null) { return true; }
             }
 
             return false;
