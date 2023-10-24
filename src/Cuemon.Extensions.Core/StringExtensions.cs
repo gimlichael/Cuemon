@@ -35,8 +35,14 @@ namespace Cuemon.Extensions
         /// <param name="replacementText">The text to use as replacement.</param>
         /// <returns>A string whose contents match the current string, but with all newline sequences replaced with <paramref name="replacementText"/>.</returns>
         /// <remarks>Shamefully stolen from https://github.com/WebFormsCore/WebFormsCore/blob/main/src/WebFormsCore/Util/StringExtensions.cs to support .NET Standard 2.0.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="input"/> cannot be null -or-
+        /// <paramref name="replacementText"/> cannot be null.
+        /// </exception>
         public static string ReplaceLineEndings(this string input, string replacementText)
         {
+            Validator.ThrowIfNull(input);
+            Validator.ThrowIfNull(replacementText);
             return NewLineRegex.Replace(input, replacementText);
         }
 #endif
