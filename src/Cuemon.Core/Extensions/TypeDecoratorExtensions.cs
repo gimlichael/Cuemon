@@ -33,7 +33,7 @@ namespace Cuemon
         /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="PropertyInfo"/> objects on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.</returns>
         public static IEnumerable<PropertyInfo> GetAllProperties(this IDecorator<Type> decorator, Action<MemberReflectionOptions> setup = null)
         {
-            return GetInheritedTypes(decorator).SelectMany(type => type.GetProperties(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+            return GetInheritedTypes(decorator).SelectMany(type => type.GetProperties(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup))).Distinct(DynamicEqualityComparer.Create<PropertyInfo>(pi => pi.Name.GetHashCode(), (pi1, pi2) => pi1.Name.Equals(pi2.Name, StringComparison.Ordinal)));
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Cuemon
         /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="FieldInfo"/> objects on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.</returns>
         public static IEnumerable<FieldInfo> GetAllFields(this IDecorator<Type> decorator, Action<MemberReflectionOptions> setup = null)
         {
-            return GetInheritedTypes(decorator).SelectMany(type => type.GetFields(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+            return GetInheritedTypes(decorator).SelectMany(type => type.GetFields(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup))).Distinct(DynamicEqualityComparer.Create<FieldInfo>(pi => pi.Name.GetHashCode(), (pi1, pi2) => pi1.Name.Equals(pi2.Name, StringComparison.Ordinal)));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Cuemon
         /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="EventInfo"/> objects on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.</returns>
         public static IEnumerable<EventInfo> GetAllEvents(this IDecorator<Type> decorator, Action<MemberReflectionOptions> setup = null)
         {
-            return GetInheritedTypes(decorator).SelectMany(type => type.GetEvents(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+            return GetInheritedTypes(decorator).SelectMany(type => type.GetEvents(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup))).Distinct(DynamicEqualityComparer.Create<EventInfo>(pi => pi.Name.GetHashCode(), (pi1, pi2) => pi1.Name.Equals(pi2.Name, StringComparison.Ordinal)));
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Cuemon
         /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="MethodInfo"/> objects on the enclosed <see cref="Type"/> of the specified <paramref name="decorator"/> and its inheritance chain.</returns>
         public static IEnumerable<MethodInfo> GetAllMethods(this IDecorator<Type> decorator, Action<MemberReflectionOptions> setup = null)
         {
-            return GetInheritedTypes(decorator).SelectMany(type => type.GetMethods(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup)));
+            return GetInheritedTypes(decorator).SelectMany(type => type.GetMethods(MemberReflection.CreateFlags(setup ?? DefaultMemberReflectionSetup))).Distinct(DynamicEqualityComparer.Create<MethodInfo>(pi => pi.Name.GetHashCode(), (pi1, pi2) => pi1.Name.Equals(pi2.Name, StringComparison.Ordinal)));
         }
 
         /// <summary>
