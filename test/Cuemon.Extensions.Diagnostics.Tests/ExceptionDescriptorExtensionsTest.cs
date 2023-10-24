@@ -124,11 +124,11 @@ namespace Cuemon.Extensions.Diagnostics
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.FailureWithData), () =>
             {
                 Assert.Contains(@"Data:
-			Name=Cuemon", sut2);
+			Name=Cuemon".ReplaceLineEndings(), sut2);
             }, () =>
             {
                 Assert.DoesNotContain(@"Data:
-			Name=Cuemon", sut2);
+			Name=Cuemon".ReplaceLineEndings(), sut2);
             });
 
             Condition.FlipFlop(snapshots.HasFlag(SystemSnapshots.CaptureThreadInfo), () => Assert.Contains(@"	Thread:", sut2), () => Assert.DoesNotContain(@"	Thread:".ReplaceLineEndings(), sut2));
