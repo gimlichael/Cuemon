@@ -59,16 +59,59 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         /// <returns>The object value.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var stack = new Stack<Dictionary<string, object>>();
+            var stack = ParseJsonReader(reader, objectType);
+
+            Exception instance = null;
+
+            while (stack.Count > 0)
+            {
+                var blueprint = stack.Pop();
+                var desiredType = blueprint.Single(ma => ma.Name.Equals("type", StringComparison.OrdinalIgnoreCase)).Value as Type;
+
+                if (Decorator.Enclose(desiredType).HasTypes(typeof(ArgumentException), typeof(ArgumentOutOfRangeException)))
+                {
+                    var message = blueprint.SingleOrDefault(ma => ma.Name.Equals("message", StringComparison.OrdinalIgnoreCase));
+                    if (message != null)
+                    {
+                        if (message.Value is string messageValue) // this hack will only work for default en-US resource-strings .. it saddens me how Microsoft designed both ArgumentException and ArgumentOutOfRangeException (disregarding Framework Design Guidelines)
+                        {
+                            int indexOfMicrosoftParamName;
+#if NETSTANDARD2_0_OR_GREATER
+                            indexOfMicrosoftParamName = messageValue.LastIndexOf(Environment.NewLine + "Parameter name: ");
+#else
+                            indexOfMicrosoftParamName = messageValue.LastIndexOf(" (Parameter '");
+#endif
+                            if (indexOfMicrosoftParamName > 0) { message.Value = messageValue.Remove(indexOfMicrosoftParamName); }
+                        }
+                    }
+                }
+                
+                var innerException = blueprint.SingleOrDefault(ma => ma.Name.Equals(nameof(Exception.InnerException), StringComparison.OrdinalIgnoreCase));
+                if (innerException != null)
+                {
+                    innerException.Value = instance;
+                }
+
+                var parser = new MemberParser(desiredType, blueprint);
+
+                instance = parser.CreateInstance() as Exception;
+            }
+
+            return instance;
+        }
+
+        private Stack<IList<MemberArgument>> ParseJsonReader(JsonReader reader, Type objectType)
+        {
+            var stack = new Stack<IList<MemberArgument>>();
             var properties = new List<PropertyInfo>();
             var lastDepth = 1;
-            var blueprints = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            var blueprints = new List<MemberArgument>();
             while (reader.Read())
             {
                 if (reader.Depth != lastDepth && blueprints.Count > 0)
                 {
                     stack.Push(blueprints);
-                    blueprints = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                    blueprints = new List<MemberArgument>();
                 }
 
                 switch (reader.TokenType)
@@ -84,11 +127,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                         {
                             if (property.Name == nameof(Exception.InnerException))
                             {
-                                blueprints.Add(memberName, null);
+                                blueprints.Add(new MemberArgument(memberName, null));
                             }
                             else
                             {
-                                blueprints.Add(memberName, reader.Value);
+                                blueprints.Add(new MemberArgument(memberName, reader.Value));
                             }
                         }
                         else
@@ -97,7 +140,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                             {
                                 objectType = Formatter.GetType(reader.Value.ToString());
                                 properties = objectType.GetProperties(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
-                                blueprints.Add(memberName, objectType);
+                                blueprints.Add(new MemberArgument(memberName, objectType));
                             }
                         }
                         break;
@@ -105,112 +148,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                         break;
                     case JsonToken.EndObject:
                         break;
-                    default:
-                        break;
-                        // throw
                 }
                 lastDepth = reader.Depth;
             }
 
-            Exception instance = null;
-
-            while (stack.Count > 0)
-            {
-                var blueprint = stack.Pop();
-                var desiredType = blueprint["type"] as Type;
-                blueprint.Remove("type");
-
-                if (typeof(ArgumentException).IsAssignableFrom(objectType) && blueprint.ContainsKey("message"))
-                {
-#if NETSTANDARD2_0_OR_GREATER
-                    blueprint["message"] = ((string)blueprint["message"]).Replace($"{Environment.NewLine}Parameter name: {blueprint["paramName"]}", "");
-#else
-                    blueprint["message"] = ((string)blueprint["message"]).Replace($" (Parameter '{blueprint["paramName"]}')", "");
-#endif
-                }
-
-                if (typeof(ArgumentOutOfRangeException).IsAssignableFrom(objectType) && blueprint.ContainsKey("message"))
-                {
-                    blueprint["message"] = ((string)blueprint["message"]).Replace($"{Environment.NewLine}Actual value was {blueprint["actualValue"]}.", "");
-                }
-
-                if (blueprint.ContainsKey(nameof(Exception.InnerException)))
-                {
-                    blueprint[nameof(Exception.InnerException)] = instance;
-                }
-
-                var exceptionBaseCompatibleCtors = desiredType!.GetConstructors(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).Where(ci => ci.GetParameters().Any(pi => pi.ParameterType.IsAssignableFrom(typeof(Exception)) ||
-                                                                                                                                                   pi.ParameterType.IsAssignableFrom(typeof(string)))).Reverse().ToList();
-
-                var args = new List<object>();
-                foreach (var ctor in exceptionBaseCompatibleCtors) // 1:1 match with constructor
-                {
-                    var ctorArgs = ctor.GetParameters();
-                    var blueprintMatchLength = ctorArgs.Select(info => info.Name).Intersect(blueprint.Select(pair => pair.Key), StringComparer.OrdinalIgnoreCase).Count(); 
-                    if (ctorArgs.Length == blueprintMatchLength)
-                    {
-                        foreach (var arg in ctorArgs)
-                        {
-                            var kvp = blueprint.First(pair => pair.Key.Equals(arg.Name, StringComparison.OrdinalIgnoreCase));
-                            args.Add(Decorator.Enclose(arg.ParameterType).IsComplex() 
-                                ? kvp.Value
-                                : Decorator.Enclose(kvp.Value).ChangeType(arg.ParameterType));
-                            blueprint.Remove(arg.Name);
-                        }
-                        break;
-                    }
-                }
-
-                if (args.Count == 0)
-                {
-                    foreach (var ctor in exceptionBaseCompatibleCtors) // partial match with constructor
-                    {
-                        var ctorArgs = ctor.GetParameters();
-                        var blueprintMatchLength = ctorArgs.Select(info => info.Name).Count(ctorArgName => blueprint.Keys.Any(key => ctorArgName.EndsWith(key, StringComparison.OrdinalIgnoreCase)));
-                        if (ctorArgs.Length == blueprintMatchLength)
-                        {
-                            foreach (var arg in ctorArgs)
-                            {
-                                var kvp = blueprint.First(pair => arg.Name.EndsWith(pair.Key, StringComparison.OrdinalIgnoreCase));
-                                args.Add(Decorator.Enclose(kvp.Value).ChangeType(arg.ParameterType));
-                                blueprint.Remove(kvp.Key);
-                            }
-                            break;
-                        }
-                    }
-                }
-
-                instance = Activator.CreateInstance(desiredType, args.ToArray()) as Exception;
-
-                if (blueprint.Count > 0) { PopulateBlueprintToInstance(blueprint, desiredType, instance); }
-            }
-
-            return instance;
-        }
-
-        private static void PopulateBlueprintToInstance(Dictionary<string, object> blueprint, Type desiredType, object instance)
-        {
-            var fields = desiredType.GetFields(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
-            var properties = desiredType.GetProperties(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
-            foreach (var kvp in blueprint)
-            {
-                var property = properties.SingleOrDefault(pi => pi.Name.Equals(kvp.Key, StringComparison.OrdinalIgnoreCase));
-                if (property != null && property.CanWrite)
-                {
-                    property.SetValue(instance, Decorator.Enclose(kvp.Value).ChangeType(property.PropertyType));
-                    blueprint.Remove(kvp.Key);
-                }
-                else // fallback to potential backing field
-                {
-                    var field = fields.SingleOrDefault(fi => fi.Name.EndsWith(kvp.Key, StringComparison.OrdinalIgnoreCase));
-                    if (field != null)
-                    {
-                        field.SetValue(instance, Decorator.Enclose(kvp.Value).ChangeType(field.FieldType));
-                        blueprint.Remove(kvp.Key);
-                    }
-                }
-                if (blueprint.Count == 0) { break; }
-            }
+            return stack;
         }
 
         private static string MapOrDefault(string memberName)
