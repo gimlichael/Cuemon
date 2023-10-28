@@ -6,7 +6,7 @@ using System.Resources;
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Extension methods for the <see cref="MemberArgument"/> class that is hidden behind the <see cref="IDecorator{T}"/> interface.
+    /// Extension methods for the <see cref="MemberArgument"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

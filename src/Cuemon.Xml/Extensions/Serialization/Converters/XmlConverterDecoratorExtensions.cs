@@ -10,7 +10,7 @@ using Cuemon.Xml.Linq;
 namespace Cuemon.Xml.Serialization.Converters
 {
     /// <summary>
-    /// Extension methods for the <see cref="XmlConverter"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="XmlConverter"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

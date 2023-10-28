@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="object"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="object"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

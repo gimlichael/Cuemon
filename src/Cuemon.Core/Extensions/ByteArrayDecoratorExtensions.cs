@@ -7,7 +7,7 @@ using Cuemon.Text;
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="T:byte[]"/> tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="T:byte[]"/> hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

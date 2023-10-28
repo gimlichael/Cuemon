@@ -5,7 +5,7 @@ using System.Linq;
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="char"/> struct tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="char"/> struct hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

@@ -3,15 +3,21 @@
 namespace Cuemon
 {
     /// <summary>
-    /// Provides a way to dynamically enclose/wrap an object to support the decorator pattern.
+    /// Provides a way to support hiding of non-common extension methods by enclosing/wrapping an object within the <see cref="IDecorator{T}"/> interface.
     /// </summary>
+    /// <remarks>
+    /// <para/>The original idea for this class was due to feedback from developers; often they are overwhelmed by vast numbers of extensions methods for various types of various libraries.
+    /// <para/>To help reduce the cognitive load inferred from this feedback (and to avoid traditional Utility/Helper classes), these interfaces and classes was added, leaving a sub-convenient way (fully backed by IntelliSense) to use non-common extension methods.
+    /// <para/>Pure extension methods should (IMO) be used in the way Microsoft has a paved path to the many NuGet packages complementing the .NET platform and overall follow these guidelines: https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/extension-methods.
+    /// <para/>Non-common extension methods could also include those rare cases were you need to support your product infrastructure cross-assembly.
+    /// </remarks>
     public static class Decorator
     {
         /// <summary>
-        /// Encloses the specified <paramref name="inner"/> so that it can be extended without violating SRP.
+        /// Encloses the specified <paramref name="inner"/> so that it can be extended by non-common extension methods.
         /// </summary>
-        /// <typeparam name="T">The type of the <paramref name="inner"/> to decorate.</typeparam>
-        /// <param name="inner">The type to decorate.</param>
+        /// <typeparam name="T">The type of the <paramref name="inner"/> to wrap for non-common extension methods.</typeparam>
+        /// <param name="inner">The object to extend for non-common extension methods.</param>
         /// <param name="throwIfNull"><c>true</c> to throw an <see cref="ArgumentNullException"/> when <paramref name="inner"/> is null; <c>false</c> to allow <paramref name="inner"/> to be null. Default is <c>true</c>.</param>
         /// <returns>An instance of <see cref="Decorator{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">
@@ -25,7 +31,7 @@ namespace Cuemon
         /// <summary>
         /// Syntactic sugar for the rare cases where retrieving properties exposed as methods is a necessity.
         /// </summary>
-        /// <typeparam name="T">The type to decorate.</typeparam>
+        /// <typeparam name="T">The type to wrap for non-common extension methods.</typeparam>
         /// <returns>An instance of <see cref="Decorator{T}"/> where the <see cref="Decorator{T}.Inner"/> defaults to <typeparamref name="T"/>.</returns>
         public static Decorator<T> Syntactic<T>()
         {
@@ -34,10 +40,9 @@ namespace Cuemon
     }
 
     /// <summary>
-    /// Provides a generic way to support the implementation of the decorator pattern.
-    /// Implements the <see cref="IDecorator{T}" />
+    /// Provides a generic way to support hiding of non-common extension methods by enclosing/wrapping an object within the <see cref="IDecorator{T}"/> interface.
     /// </summary>
-    /// <typeparam name="T">The type of the inner decorated object.</typeparam>
+    /// <typeparam name="T">The type of the inner wrapped object.</typeparam>
     /// <seealso cref="IDecorator{T}" />
     public class Decorator<T> : IDecorator<T>
     {
@@ -49,7 +54,7 @@ namespace Cuemon
         /// <summary>
         /// Initializes a new instance of the <see cref="Decorator{T}"/> class.
         /// </summary>
-        /// <param name="inner">The type to decorate.</param>
+        /// <param name="inner">The object to extend for non-common extension methods.</param>
         /// <param name="throwIfNull"><c>true</c> to throw an <see cref="ArgumentNullException"/> when <paramref name="inner"/> is null; <c>false</c> to allow <paramref name="inner"/> to be null..</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="inner"/> cannot be null.

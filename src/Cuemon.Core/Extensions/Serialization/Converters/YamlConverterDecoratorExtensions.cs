@@ -3,7 +3,7 @@
 namespace Cuemon.Serialization.Converters
 {
     /// <summary>
-    /// Extension methods for the <see cref="YamlNamingPolicy"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="YamlNamingPolicy"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

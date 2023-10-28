@@ -11,7 +11,7 @@ using Cuemon.Reflection;
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="Type"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="Type"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

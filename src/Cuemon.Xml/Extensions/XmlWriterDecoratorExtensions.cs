@@ -10,7 +10,7 @@ using Cuemon.Xml.Serialization.Formatters;
 namespace Cuemon.Xml
 {
 /// <summary>
-    /// Extension methods for the <see cref="XmlWriter"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="XmlWriter"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
