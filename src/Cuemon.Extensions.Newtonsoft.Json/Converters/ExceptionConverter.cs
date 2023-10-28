@@ -60,44 +60,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var stack = ParseJsonReader(reader, objectType);
-
-            Exception instance = null;
-
-            while (stack.Count > 0)
-            {
-                var blueprint = stack.Pop();
-                var desiredType = blueprint.Single(ma => ma.Name.Equals("type", StringComparison.OrdinalIgnoreCase)).Value as Type;
-
-                if (Decorator.Enclose(desiredType).HasTypes(typeof(ArgumentException), typeof(ArgumentOutOfRangeException)))
-                {
-                    var message = blueprint.SingleOrDefault(ma => ma.Name.Equals("message", StringComparison.OrdinalIgnoreCase));
-                    if (message != null)
-                    {
-                        if (message.Value is string messageValue) // this hack will only work for default en-US resource-strings .. it saddens me how Microsoft designed both ArgumentException and ArgumentOutOfRangeException (disregarding Framework Design Guidelines)
-                        {
-                            int indexOfMicrosoftParamName;
-#if NETSTANDARD2_0_OR_GREATER
-                            indexOfMicrosoftParamName = messageValue.LastIndexOf(Environment.NewLine + "Parameter name: ");
-#else
-                            indexOfMicrosoftParamName = messageValue.LastIndexOf(" (Parameter '");
-#endif
-                            if (indexOfMicrosoftParamName > 0) { message.Value = messageValue.Remove(indexOfMicrosoftParamName); }
-                        }
-                    }
-                }
-                
-                var innerException = blueprint.SingleOrDefault(ma => ma.Name.Equals(nameof(Exception.InnerException), StringComparison.OrdinalIgnoreCase));
-                if (innerException != null)
-                {
-                    innerException.Value = instance;
-                }
-
-                var parser = new MemberParser(desiredType, blueprint);
-
-                instance = parser.CreateInstance() as Exception;
-            }
-
-            return instance;
+            return Decorator.Enclose(stack).CreateException();
         }
 
         private Stack<IList<MemberArgument>> ParseJsonReader(JsonReader reader, Type objectType)
@@ -167,12 +130,6 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                     return memberName;
             }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Newtonsoft.Json.JsonConverter" /> can read JSON.
-        /// </summary>
-        /// <value><c>true</c> if this <see cref="T:Newtonsoft.Json.JsonConverter" /> can read JSON; otherwise, <c>false</c>.</value>
-        public override bool CanRead => true;
 
         /// <summary>
         /// Determines whether this instance can convert the specified object type.

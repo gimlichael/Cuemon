@@ -62,44 +62,7 @@ namespace Cuemon.Xml.Serialization.Converters
         public override object ReadXml(XmlReader reader, Type objectType)
         {
             var stack = ParseXmlReader(reader, objectType);
-
-            Exception instance = null;
-
-            while (stack.Count > 0)
-            {
-                var blueprint = stack.Pop();
-                var desiredType = blueprint.Single(ma => ma.Name.Equals("type", StringComparison.OrdinalIgnoreCase)).Value as Type;
-
-                if (Decorator.Enclose(desiredType).HasTypes(typeof(ArgumentException), typeof(ArgumentOutOfRangeException)))
-                {
-                    var message = blueprint.SingleOrDefault(ma => ma.Name.Equals("message", StringComparison.OrdinalIgnoreCase));
-                    if (message != null)
-                    {
-                        if (message.Value is string messageValue) // this hack will only work for default en-US resource-strings .. it saddens me how Microsoft designed both ArgumentException and ArgumentOutOfRangeException (disregarding Framework Design Guidelines)
-                        {
-                            int indexOfMicrosoftParamName;
-#if NETSTANDARD2_0_OR_GREATER
-                            indexOfMicrosoftParamName = messageValue.LastIndexOf("\nParameter name: ");
-#else
-                            indexOfMicrosoftParamName = messageValue.LastIndexOf(" (Parameter '");
-#endif
-                            if (indexOfMicrosoftParamName > 0) { message.Value = messageValue.Remove(indexOfMicrosoftParamName); }
-                        }
-                    }
-                }
-                
-                var innerException = blueprint.SingleOrDefault(ma => ma.Name.Equals(nameof(Exception.InnerException), StringComparison.OrdinalIgnoreCase));
-                if (innerException != null)
-                {
-                    innerException.Value = instance;
-                }
-
-                var parser = new MemberParser(desiredType, blueprint);
-
-                instance = parser.CreateInstance() as Exception;
-            }
-
-            return instance;
+            return Decorator.Enclose(stack).CreateException(true);
         }
 
         private Stack<IList<MemberArgument>> ParseXmlReader(XmlReader reader, Type objectType)
@@ -175,13 +138,7 @@ namespace Cuemon.Xml.Serialization.Converters
                     return memberName;
             }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether this <seealso cref="XmlConverter" /> can read XML.
-        /// </summary>
-        /// <value><c>true</c> if this <seealso cref="XmlConverter" /> can read XML; otherwise, <c>false</c>.</value>
-        public override bool CanRead => true;
-
+        
         private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace, bool includeData)
         {
             if (!string.IsNullOrEmpty(exception.Source))
