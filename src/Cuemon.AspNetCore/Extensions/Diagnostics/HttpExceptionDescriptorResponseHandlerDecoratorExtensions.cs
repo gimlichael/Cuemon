@@ -27,9 +27,9 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// </exception>
         public static ICollection<HttpExceptionDescriptorResponseHandler> AddResponseHandler(this IDecorator<ICollection<HttpExceptionDescriptorResponseHandler>> decorator, Action<HttpExceptionDescriptorResponseHandlerOptions> setup)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator), out var handlers);
+            Validator.ThrowIfNull(decorator, out var handlers);
             Validator.ThrowIfNull(setup);
-            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             handlers.Add(new HttpExceptionDescriptorResponseHandler(options.ContentType, ed => new HttpResponseMessage()
             {
                 Content = options.ContentFactory(ed),

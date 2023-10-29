@@ -111,7 +111,7 @@ namespace Cuemon.Text
                 try
                 {
                     Validator.ThrowIfNullOrWhitespace(input);
-                    Validator.ThrowIfNotBinaryDigits(input, nameof(input));
+                    Validator.ThrowIfNotBinaryDigits(input);
                     var bytes = new List<byte>();
                     for (var i = 0; i < input.Length; i += 8)
                     {
@@ -230,7 +230,7 @@ namespace Cuemon.Text
             return CreateParser(input =>
             {
                 Validator.ThrowIfNull(input);
-                Validator.ThrowIfNotHex(input, nameof(input));
+                Validator.ThrowIfNotHex(input);
                 var converted = new List<byte>();
                 var stringLength = input.Length / 2;
                 using (var reader = new StringReader(input))
@@ -343,7 +343,7 @@ namespace Cuemon.Text
             return CreateConfigurableParser<Uri, UriStringOptions>((input, setup) =>
             {
                 Validator.ThrowIfNullOrWhitespace(input);
-                Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+                Validator.ThrowIfInvalidConfigurator(setup, out var options);
                 var isValid = false;
                 foreach (var scheme in options.Schemes)
                 {
@@ -446,7 +446,7 @@ namespace Cuemon.Text
             {
                 Validator.ThrowIfNullOrWhitespace(input);
                 Validator.ThrowIfNull(targetType);
-                Validator.ThrowIfNotEnumType(targetType, nameof(targetType));
+                Validator.ThrowIfNotEnumType(targetType);
                 var options = Patterns.Configure(setup);
                 var enumType = targetType;
                 var hasFlags = enumType.GetTypeInfo().IsDefined(typeof(FlagsAttribute), false);

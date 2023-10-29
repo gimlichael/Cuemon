@@ -22,7 +22,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// <seealso cref="HttpCacheableFilter"/>
         public static ICacheableObjectResult CreateHttpLastModified<T>(T instance, Action<TimeBasedObjectResultOptions<T>> setup)
         {
-            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             return new TimeBasedObjectResult<T>(instance, options.TimestampProvider.Invoke(instance), options.ChangedTimestampProvider?.Invoke(instance));
         }
 
@@ -39,7 +39,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// <seealso cref="HttpCacheableFilter"/>
         public static ICacheableObjectResult CreateHttpEntityTag<T>(T instance, Action<ContentBasedObjectResultOptions<T>> setup)
         {
-            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             return new ContentBasedObjectResult<T>(instance, options.ChecksumProvider.Invoke(instance), options.WeakChecksumProvider?.Invoke(instance) ?? false);
         }
 

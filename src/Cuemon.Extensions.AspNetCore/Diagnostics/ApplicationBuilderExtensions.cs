@@ -45,7 +45,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// </exception>
         public static IApplicationBuilder UseFaultDescriptorExceptionHandler(this IApplicationBuilder builder, Action<FaultDescriptorOptions> setup = null)
         {
-            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             var handlerOptions = new ExceptionHandlerOptions()
             {
                 ExceptionHandler = async context =>

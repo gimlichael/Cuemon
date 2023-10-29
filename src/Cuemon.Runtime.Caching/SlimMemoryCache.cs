@@ -24,7 +24,7 @@ namespace Cuemon.Runtime.Caching
         /// <param name="setup">The <see cref="SlimMemoryCacheOptions"/> which may be configured.</param>
         public SlimMemoryCache(Action<SlimMemoryCacheOptions> setup = null)
         {
-            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             KeyProvider = options.KeyProvider;
             if (options.EnableCleanup)
             {
