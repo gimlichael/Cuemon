@@ -22,17 +22,37 @@ namespace Cuemon
         public static Validator ThrowIf { get; } = ExtendedValidator;
 
         /// <summary>
-        /// Provides a convenient way to validate a parameter while returning the specified <paramref name="argument"/> unaltered.
+        /// Provides a convenient way to verify a desired state from the provided <paramref name="validator"/> while returning the specified <paramref name="argument"/> unaltered.
         /// </summary>
         /// <typeparam name="T">The type of the object to evaluate.</typeparam>
         /// <param name="argument">The value to be evaluated.</param>
         /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="argument"/> is not valid.</param>
         /// <returns>The specified <paramref name="argument"/> unaltered.</returns>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="validator"/> cannot be null.
+        /// </exception>
+        /// <remarks>Typically used when nesting calls from a constructor perspective.</remarks>
         public static T CheckParameter<T>(T argument, Action validator)
         {
             ThrowIfNull(validator);
             validator();
             return argument;
+        }
+
+        /// <summary>
+        /// Provides a convenient way to verify a desired state from the provided <paramref name="validator"/> while returning a result that reflects this.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the object to return.</typeparam>
+        /// <param name="validator">The function delegate that must throw an <see cref="Exception"/> if a desired state for <typeparamref name="TResult"/> cannot be achieved.</param>
+        /// <returns>The result of function delegate <paramref name="validator"/>.</returns>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="validator"/> cannot be null.
+        /// </exception>
+        /// <remarks>Typically used when nesting calls from a constructor perspective.</remarks>
+        public static TResult CheckParameter<TResult>(Func<TResult> validator)
+        {
+            ThrowIfNull(validator);
+            return validator();
         }
 
         /// <summary>
