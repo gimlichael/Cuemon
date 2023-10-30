@@ -13,5 +13,11 @@
         /// </summary>
         /// <value>The inner object of this decorator.</value>
         T Inner { get; }
+
+        /// <summary>
+        /// Gets the name of the argument from which this decorator originated.
+        /// </summary>
+        /// <value>The name of the argument from which this decorator originated.</value>
+        string ArgumentName { get; }
     }
 }

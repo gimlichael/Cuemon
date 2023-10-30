@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Cuemon
 {
@@ -29,6 +30,23 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Encloses the specified <paramref name="inner"/> so that it can be extended by both common and non-common extension methods.
+        /// </summary>
+        /// <typeparam name="T">The type of the <paramref name="inner"/> to wrap for non-common extension methods.</typeparam>
+        /// <param name="inner">The object to extend for non-common extension methods.</param>
+        /// <param name="throwIfNull"><c>true</c> to throw an <see cref="ArgumentNullException"/> when <paramref name="inner"/> is null; <c>false</c> to allow <paramref name="inner"/> to be null. Default is <c>true</c>.</param>
+        /// <param name="argumentName">The name of the argument from which <paramref name="inner"/> parameter was provided.</param>
+        /// <returns>An instance of <see cref="Decorator{T}"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="inner"/> cannot be null.
+        /// </exception>
+        /// <remarks>This should be used to re-use non-common extension methods from native extension methods without double-validating arguments.</remarks>
+        public static Decorator<T> EncloseToExpose<T>(T inner, bool throwIfNull = true, [CallerArgumentExpression(nameof(inner))] string argumentName = null)
+        {
+            return new Decorator<T>(inner, throwIfNull, argumentName);
+        }
+
+        /// <summary>
         /// Syntactic sugar for the rare cases where retrieving properties exposed as methods is a necessity.
         /// </summary>
         /// <typeparam name="T">The type to wrap for non-common extension methods.</typeparam>
@@ -55,14 +73,16 @@ namespace Cuemon
         /// Initializes a new instance of the <see cref="Decorator{T}"/> class.
         /// </summary>
         /// <param name="inner">The object to extend for non-common extension methods.</param>
-        /// <param name="throwIfNull"><c>true</c> to throw an <see cref="ArgumentNullException"/> when <paramref name="inner"/> is null; <c>false</c> to allow <paramref name="inner"/> to be null..</param>
+        /// <param name="throwIfNull"><c>true</c> to throw an <see cref="ArgumentNullException"/> when <paramref name="inner"/> is null; <c>false</c> to allow <paramref name="inner"/> to be null.</param>
+        /// <param name="argumentName">The name of the argument from which <paramref name="inner"/> parameter was provided.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="inner"/> cannot be null.
         /// </exception>
-        internal Decorator(T inner, bool throwIfNull)
+        internal Decorator(T inner, bool throwIfNull, string argumentName = null)
         {
             if (throwIfNull) { Validator.ThrowIfNull(inner); }
             Inner = inner;
+            ArgumentName = argumentName;
         }
 
         /// <summary>
@@ -70,5 +90,11 @@ namespace Cuemon
         /// </summary>
         /// <value>The inner object of this decorator.</value>
         public T Inner { get; }
+
+        /// <summary>
+        /// Gets the name of the argument from which this decorator originates.
+        /// </summary>
+        /// <value>The name of the argument from which this decorator originates.</value>
+        public string ArgumentName { get; }
     }
 }
