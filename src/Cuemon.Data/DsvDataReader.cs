@@ -45,13 +45,15 @@ namespace Cuemon.Data
             if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
             
             Reader = reader;
-            Header = DelimitedString.Split(header, o =>
+            var headerFields = DelimitedString.Split(header, o =>
             {
                 o.Delimiter = delimiter.ToString(CultureInfo.InvariantCulture);
                 o.Qualifier = qualifier.ToString(CultureInfo.InvariantCulture);
             });
+            Header = headerFields;
             Delimiter = delimiter;
             Qualifier = qualifier;
+            SetFields(headerFields);
         }
 
         private StreamReader Reader { get; }
@@ -96,21 +98,26 @@ namespace Cuemon.Data
             if (columns != NullRead)
             {
                 if (columns.Length != Header.Length) { throw new InvalidOperationException(FormattableString.Invariant($"Line {RowCount + 1} does not match the expected numbers of columns. Actual columns: {columns.Length}. Expected: {Header.Length}.")); }
-                var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
-                for (var i = 0; i < columns.Length; i++)
-                {
-                    if (fields.Contains(Header[i]))
-                    {
-                        fields[Header[i]] = StringParser(columns[i], null);
-                    }
-                    else
-                    {
-                        fields.Add(Header[i], StringParser(columns[i], null));
-                    }
-                }
-                SetFields(fields);
+                SetFields(columns);
             }
             return columns;
+        }
+
+        private void SetFields(string[] columns)
+        {
+            var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
+            for (var i = 0; i < columns.Length; i++)
+            {
+                if (fields.Contains(Header[i]))
+                {
+                    fields[Header[i]] = StringParser(columns[i], null);
+                }
+                else
+                {
+                    fields.Add(Header[i], StringParser(columns[i], null));
+                }
+            }
+            SetFields(fields);
         }
 
         /// <summary>
