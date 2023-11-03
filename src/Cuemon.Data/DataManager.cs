@@ -1,173 +1,29 @@
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
-using System.IO;
-using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Cuemon.Configuration;
 
 namespace Cuemon.Data
 {
     /// <summary>
     /// The DataManager is an abstract class in the <see cref="Data"/> namespace that can be used to implement execute commands of different database providers.
     /// </summary>
-    public abstract class DataManager
+    public abstract class DataManager : Configurable<DataManagerOptions>
     {
-        #region Constructors
-
-        #endregion
-
-        #region Properties
         /// <summary>
-        /// Gets the string used to open the connection.
+        /// Initializes a new instance of the <see cref="DataManager"/> class.
         /// </summary>
-        /// <value>The connection string used to establish the initial connection. The exact contents of the connection string depend on the specific data source for this connection.</value>
-        public abstract string ConnectionString { get; }
-
-        /// <summary>
-        /// Gets or sets the default connection string.
-        /// </summary>
-        /// <value>The default connection string.</value>
-        public static string DefaultConnectionString { get; set; }
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Parses and returns a <see cref="Type"/> equivalent of <paramref name="dbType"/>.
-        /// </summary>
-        /// <param name="dbType">The <see cref="DbType"/> to parse.</param>
-        /// <returns>A <see cref="Type"/> equivalent of <paramref name="dbType"/>.</returns>
-        public static Type ParseDbType(DbType dbType)
+        /// <param name="setup">The <see cref="DataManagerOptions"/> which need to be configured.</param>
+        protected DataManager(Action<DataManagerOptions> setup) : base(Validator.CheckParameter(() =>
         {
-            switch (dbType)
-            {
-                case DbType.Byte:
-                case DbType.SByte:
-                    return typeof(byte);
-                case DbType.Binary:
-                    return typeof(byte[]);
-                case DbType.Boolean:
-                    return typeof(bool);
-                case DbType.Currency:
-                case DbType.Double:
-                    return typeof(double);
-                case DbType.Date:
-                case DbType.DateTime:
-                case DbType.Time:
-                case DbType.DateTimeOffset:
-                case DbType.DateTime2:
-                    return typeof(DateTime);
-                case DbType.Guid:
-                    return typeof(Guid);
-                case DbType.Int64:
-                    return typeof(long);
-                case DbType.Int32:
-                    return typeof(int);
-                case DbType.Int16:
-                    return typeof(short);
-                case DbType.Object:
-                    return typeof(object);
-                case DbType.AnsiString:
-                case DbType.AnsiStringFixedLength:
-                case DbType.StringFixedLength:
-                case DbType.String:
-                    return typeof(string);
-                case DbType.Single:
-                    return typeof(float);
-                case DbType.UInt64:
-                    return typeof(ulong);
-                case DbType.UInt32:
-                    return typeof(uint);
-                case DbType.UInt16:
-                    return typeof(ushort);
-                case DbType.Decimal:
-                case DbType.VarNumeric:
-                    return typeof(decimal);
-                case DbType.Xml:
-                    return typeof(string);
-            }
-            throw new ArgumentOutOfRangeException(nameof(dbType), string.Format(CultureInfo.InvariantCulture, "Type, '{0}', is unsupported.", dbType));
-        }
-
-        /// <summary>
-        /// Creates and returns a <see cref="KeyValuePair{TKey,TValue}"/> sequence of column names and values resolved from the specified <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">The reader to resolve column names and values from.</param>
-        /// <returns>A <see cref="KeyValuePair{TKey,TValue}"/> sequence of column names and values resolved from the specified <paramref name="reader"/>.</returns>
-        public static IEnumerable<KeyValuePair<string, object>> GetReaderColumns(DbDataReader reader)
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
+            return options;
+        }))
         {
-            if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
-            if (reader.IsClosed) { throw new ArgumentException("Reader is closed.", nameof(reader)); }
-            return GetReaderColumnsIterator(reader);
-        }
-
-        private static IEnumerable<KeyValuePair<string, object>> GetReaderColumnsIterator(DbDataReader reader)
-        {
-            for (var f = 0; f < reader.FieldCount; f++)
-            {
-                yield return new KeyValuePair<string, object>(reader.GetName(f), reader.GetValue(f));
-            }
-        }
-
-        /// <summary>
-        /// Converts the given <see cref="DbDataReader"/> compatible object to a stream.
-        /// Note: DbDataReader must return only one field (for instance, a XML field), otherwise an exception is thrown!
-        /// </summary>
-        /// <param name="value">The <see cref="DbDataReader"/> to build a stream from.</param>
-        /// <returns>A <b><see cref="Stream"/></b> object.</returns>
-        public static Stream ReaderToStream(DbDataReader value)
-        {
-            if (value == null) { throw new ArgumentNullException(nameof(value)); }
-            Stream stream;
-            Stream tempStream = null;
-            try
-            {
-                if (value.FieldCount > 1)
-                {
-                    throw new InvalidDataException(string.Format(CultureInfo.InvariantCulture,
-                        "The executed command statement appears to contain invalid fields. Expected field count is 1. Actually field count was {0}.",
-                        value.FieldCount));
-                }
-
-                tempStream = new MemoryStream();
-                while (value.Read())
-                {
-                    var bytes = Convertible.GetBytes(value.GetString(0));
-                    tempStream.Write(bytes, 0, bytes.Length);
-                }
-                tempStream.Position = 0;
-                stream = tempStream;
-                tempStream = null;
-            }
-            finally
-            {
-                tempStream?.Dispose();
-            }
-            return stream;
-        }
-
-
-        /// <summary>
-        /// Converts the given <see cref="DbDataReader"/> compatible object to a string.
-        /// Note: DbDataReader must return only one field, otherwise an exception is thrown!
-        /// </summary>
-        /// <param name="value">The <see cref="DbDataReader"/> to build a string from.</param>
-        /// <returns>A <b><see cref="string"/></b> object.</returns>
-        public static string ReaderToString(DbDataReader value)
-        {
-            if (value == null) { throw new ArgumentNullException(nameof(value)); }
-            if (value.FieldCount > 1)
-            {
-                throw new InvalidDataException(string.Format(CultureInfo.InvariantCulture,
-                    "The executed command statement appears to contain invalid fields. Expected field count is 1. Actually field count was {0}.",
-                    value.FieldCount));
-            }
-            var stringBuilder = new StringBuilder();
-            while (value.Read())
-            {
-                stringBuilder.Append(value.GetString(0));
-            }
-            return stringBuilder.ToString();
         }
 
         /// <summary>
@@ -181,92 +37,136 @@ namespace Cuemon.Data
         /// <summary>
         /// Executes the command statement and returns the number of rows affected.
         /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
+        /// <param name="statement">The command statement to execute.</param>
         /// <returns>
         /// A <b><see cref="int"/></b> value.
         /// </returns>
-        public int Execute(IDataCommand dataCommand, params IDbDataParameter[] parameters)
+        public int Execute(DataStatement statement)
         {
-            return ExecuteCore(dataCommand, parameters, dbCommand =>
+            return ExecuteCommand(statement, command =>
             {
                 try
                 {
-                    return dbCommand.ExecuteNonQuery();
+                    return command.ExecuteNonQuery();
                 }
                 finally
                 {
-                    if (dbCommand.Connection.State != ConnectionState.Closed) { dbCommand.Connection.Close(); }
+                    if (!Options.LeaveConnectionOpen && command.Connection != null && command.Connection.State != ConnectionState.Closed)
+                    {
+                        command.Connection.Close();
+                    }
                 }
             });
         }
 
         /// <summary>
+        /// Asynchronously executes the command statement and returns the number of rows affected.
+        /// </summary>
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="ct">A token to cancel the asynchronous operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the number of rows affected.</returns>
+        public Task<int> ExecuteAsync(DataStatement statement, CancellationToken ct = default)
+        {
+            return ExecuteCommandAsync(statement, async command =>
+            {
+                try
+                {
+                    return await command.ExecuteNonQueryAsync(ct).ConfigureAwait(false);
+                }
+                finally
+                {
+                    if (!Options.LeaveConnectionOpen && command.Connection != null && command.Connection.State != ConnectionState.Closed)
+                    {
+                        
+#if NETSTANDARD2_0_OR_GREATER
+                        command.Connection.Close();
+#else
+                        await command.Connection.CloseAsync().ConfigureAwait(false);
+#endif
+                        
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// Executes the command statement and returns an object supporting the IDataReader interface.
+        /// </summary>
+        /// <param name="statement">The command statement to execute.</param>
+        /// <returns>
+        /// An object supporting the <b><see cref="IDataReader"/></b> interface.
+        /// </returns>
+        public IDataReader ExecuteReader(DataStatement statement)
+        {
+            return ExecuteCommand(statement, dbCommand => dbCommand.ExecuteReader(Options.PreferredReaderBehavior));
+        }
+
+        /// <summary>
+        /// Asynchronously executes the command statement and returns a <see cref="DbDataReader"/>.
+        /// </summary>
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="ct">A token to cancel the asynchronous operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains an instance of <see cref="DbDataReader"/>.</returns>
+        public Task<DbDataReader> ExecuteReaderAsync(DataStatement statement, CancellationToken ct = default)
+        {
+            return ExecuteCommandAsync(statement, command => command.ExecuteReaderAsync(Options.PreferredReaderBehavior, ct));
+        }
+
+        /// <summary>
+        /// Executes the command statement and returns a <see cref="string"/>.
+        /// </summary>
+        /// <param name="statement">The command statement to execute.</param>
+        /// <returns>
+        /// A <see cref="string"/> object.
+        /// </returns>
+        public virtual string ExecuteString(DataStatement statement)
+        {
+            using (var reader = ExecuteReader(statement))
+            {
+                return Decorator.Enclose(reader).ToEncodedString();
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously executes the command statement and returns a <see cref="string"/>.
+        /// </summary>
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="ct">A token to cancel the asynchronous operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="string"/>.</returns>
+        public virtual async Task<string> ExecuteStringAsync(DataStatement statement, CancellationToken ct = default)
+        {
+            using (var reader = await ExecuteReaderAsync(statement, ct).ConfigureAwait(false))
+            {
+                return await Decorator.Enclose(reader).ToEncodedStringAsync().ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
         /// Executes the command statement and returns <c>true</c> if one or more records exists; otherwise <c>false</c>.
         /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
+        /// <param name="statement">The command statement to execute.</param>
         /// <returns>
         /// A <b><see cref="bool"/></b> value.
         /// </returns>
-        public bool ExecuteExists(IDataCommand dataCommand, params IDbDataParameter[] parameters)
+        public bool ExecuteExists(DataStatement statement)
         {
-            using (var reader = ExecuteReader(dataCommand, parameters))
+            using (var reader = ExecuteReader(statement))
             {
                 return reader.Read();
             }
         }
 
         /// <summary>
-        /// Executes the command statement and returns an identity value as int.
+        /// Asynchronously executes the command statement and returns <c>true</c> if one or more records exists; otherwise <c>false</c>.
         /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns><see cref="int"/></returns>
-        public abstract int ExecuteIdentityInt32(IDataCommand dataCommand, params IDbDataParameter[] parameters);
-
-        /// <summary>
-        /// Executes the command statement and returns an identity value as long.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns><see cref="long"/></returns>
-        public abstract long ExecuteIdentityInt64(IDataCommand dataCommand, params IDbDataParameter[] parameters);
-
-        /// <summary>
-        /// Executes the command statement and returns an identity value as decimal.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns><see cref="decimal"/></returns>
-        public abstract decimal ExecuteIdentityDecimal(IDataCommand dataCommand, params IDbDataParameter[] parameters);
-
-        /// <summary>
-        /// Executes the command statement and returns an object supporting the DbDataReader interface.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>
-        /// An object supporting the <b><see cref="DbDataReader"/></b> interface.
-        /// </returns>
-        public DbDataReader ExecuteReader(IDataCommand dataCommand, params IDbDataParameter[] parameters)
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="ct">A token to cancel the asynchronous operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="bool"/>.</returns>
+        public async Task<bool> ExecuteExistsAsync(DataStatement statement, CancellationToken ct = default)
         {
-            return ExecuteCore(dataCommand, parameters, dbCommand => dbCommand.ExecuteReader(CommandBehavior.CloseConnection));
-        }
-
-        /// <summary>
-        /// Executes the command statement and returns a string object with the retrieved XML.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>
-        /// An <b><see cref="string"/></b> object.
-        /// </returns>
-        public virtual string ExecuteXmlString(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            using (var reader = ExecuteReader(dataCommand, parameters))
+            using (var reader = await ExecuteReaderAsync(statement, ct).ConfigureAwait(false))
             {
-                return ReaderToString(reader);
+                return await reader.ReadAsync(ct).ConfigureAwait(false);
             }
         }
 
@@ -274,319 +174,205 @@ namespace Cuemon.Data
         /// Executes the command statement, and returns the value from the first column of the first row in the result set.
         /// Additional columns or rows are ignored.
         /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand"/>.</returns>
-        public object ExecuteScalar(IDataCommand dataCommand, params IDbDataParameter[] parameters)
+        /// <param name="statement">The command statement to execute.</param>
+        /// <returns>The first column of the first row in the result from <paramref name="statement"/>.</returns>
+        public object ExecuteScalar(DataStatement statement)
         {
-            return ExecuteCore(dataCommand, parameters, dbCommand =>
+            return ExecuteCommand(statement, command =>
             {
                 try
                 {
-                    return dbCommand.ExecuteScalar();
+                    return command.ExecuteScalar();
                 }
                 finally
                 {
-                    if (dbCommand.Connection.State != ConnectionState.Closed) { dbCommand.Connection.Close(); }
+                    if (!Options.LeaveConnectionOpen && command.Connection != null && command.Connection.State != ConnectionState.Closed)
+                    {
+                        command.Connection.Close();
+                    }
                 }
             });
         }
 
         /// <summary>
-        /// Executes the command statement, and returns the value as the specified <paramref name="returnType"/> from the first column of the first row in the result set.
+        /// Asynchronously executes the command statement, and returns the value from the first column of the first row in the result set.
         /// Additional columns or rows are ignored.
         /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="returnType">The type to return the first column value as.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand"/> as the specified <paramref name="returnType"/>.</returns>
-        /// <remarks>This method uses <see cref="CultureInfo.InvariantCulture"/> when casting the first column of the first row in the result from <paramref name="dataCommand"/>.</remarks>
-        public object ExecuteScalarAsType(IDataCommand dataCommand, Type returnType, params IDbDataParameter[] parameters)
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="ct">A token to cancel the asynchronous operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the first column of the first row in the result from <paramref name="statement"/>.</returns>
+        public Task<object> ExecuteScalarAsync(DataStatement statement, CancellationToken ct = default)
         {
-            return ExecuteScalarAsType(dataCommand, returnType, CultureInfo.InvariantCulture, parameters);
+            return ExecuteCommandAsync(statement, async command =>
+            {
+                try
+                {
+                    return await command.ExecuteScalarAsync(ct).ConfigureAwait(false);
+                }
+                finally
+                {
+                    if (!Options.LeaveConnectionOpen && command.Connection != null && command.Connection.State != ConnectionState.Closed)
+                    {
+
+#if NETSTANDARD2_0_OR_GREATER
+                        command.Connection.Close();
+#else
+                        await command.Connection.CloseAsync().ConfigureAwait(false);
+#endif
+
+                    }
+                }
+            });
         }
 
         /// <summary>
-        /// Executes the command statement, and returns the value as the specified <paramref name="returnType"/> from the first column of the first row in the result set.
+        /// Executes the command statement, and attempts to convert the first column of the first row in the result set to the specified <paramref name="returnType"/>.
         /// Additional columns or rows are ignored.
         /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
+        /// <param name="statement">The command statement to execute.</param>
         /// <param name="returnType">The type to return the first column value as.</param>
-        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand"/> as the specified <paramref name="returnType"/>.</returns>
-        public object ExecuteScalarAsType(IDataCommand dataCommand, Type returnType, IFormatProvider provider, params IDbDataParameter[] parameters)
+        /// <param name="setup">The <see cref="ObjectFormattingOptions"/> which needs to be configured.</param>
+        /// <returns>The first column of the first row in the result from <paramref name="statement"/> as the specified <paramref name="returnType"/>.</returns>
+        public virtual object ExecuteScalarAsType(DataStatement statement, Type returnType, Action<ObjectFormattingOptions> setup = null)
         {
-            return Decorator.Enclose(ExecuteScalar(dataCommand, parameters)).ChangeType(returnType, o => o.FormatProvider = provider);
+            return Decorator.Enclose(ExecuteScalar(statement)).ChangeType(returnType, setup);
         }
 
         /// <summary>
-        /// Executes the command statement, and returns the value as <typeparamref name="TResult" /> from the first column of the first row in the result set.
+        /// Asynchronously executes the command statement, and attempts to convert the first column of the first row in the result set to the specified <paramref name="returnType"/>.
+        /// Additional columns or rows are ignored.
+        /// </summary>
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="returnType">The type to return the first column value as.</param>
+        /// <param name="setup">The <see cref="ObjectFormattingOptions"/> which may be configured.</param>
+        /// <param name="ct">A token to cancel the asynchronous operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the first column of the first column of the first row in the result from <paramref name="statement"/> as the specified <paramref name="returnType"/>.</returns>
+        public virtual async Task<object> ExecuteScalarAsTypeAsync(DataStatement statement, Type returnType, Action<ObjectFormattingOptions> setup = null, CancellationToken ct = default)
+        {
+            return Decorator.Enclose(await ExecuteScalarAsync(statement, ct).ConfigureAwait(false)).ChangeType(returnType, setup);
+        }
+
+        /// <summary>
+        /// Executes the command statement, and attempts to convert the first column of the first row in the result set to the specified <typeparamref name="TResult"/>.
         /// Additional columns or rows are ignored.
         /// </summary>
         /// <typeparam name="TResult">The type of the return value.</typeparam>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <typeparamref name="TResult"/>.</returns>
-        /// <remarks>This method uses <see cref="CultureInfo.InvariantCulture"/> when casting the first column of the first row in the result from <paramref name="dataCommand"/>.</remarks>
-        public TResult ExecuteScalarAs<TResult>(IDataCommand dataCommand, params IDbDataParameter[] parameters)
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="setup">The <see cref="ObjectFormattingOptions"/> which may be configured.</param>
+        /// <returns>The first column of the first row in the result from <paramref name="statement" /> as <typeparamref name="TResult"/>.</returns>
+        /// <remarks>This method uses <see cref="CultureInfo.InvariantCulture"/> when casting the first column of the first row in the result from <paramref name="statement"/>.</remarks>
+        /// <exception cref="AggregateException">
+        /// The first column of the first row in the result set could not be converted.
+        /// </exception>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectFormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectFormattingOptions.DescriptorContext"/>.</remarks>
+        /// <seealso cref="Convert.ChangeType(object,Type)"/>
+        /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
+        public virtual TResult ExecuteScalarAs<TResult>(DataStatement statement, Action<ObjectFormattingOptions> setup = null)
         {
-            return (TResult)ExecuteScalarAsType(dataCommand, typeof(TResult), parameters);
+            return (TResult)ExecuteScalarAsType(statement, typeof(TResult), setup);
         }
 
         /// <summary>
-        /// Executes the command statement, and returns the value as <typeparamref name="TResult" /> from the first column of the first row in the result set.
+        /// Asynchronously executes the command statement, and attempts to convert the first column of the first row in the result set to the specified <typeparamref name="TResult"/>.
         /// Additional columns or rows are ignored.
         /// </summary>
         /// <typeparam name="TResult">The type of the return value.</typeparam>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <typeparamref name="TResult"/>.</returns>
-        public TResult ExecuteScalarAs<TResult>(IDataCommand dataCommand, IFormatProvider provider, params IDbDataParameter[] parameters)
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="setup">The <see cref="ObjectFormattingOptions"/> which may be configured.</param>
+        /// <param name="ct">A token to cancel the asynchronous operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the first column of the first column of the first row in the result from <paramref name="statement" /> as <typeparamref name="TResult"/>.</returns>
+        /// <remarks>This method uses <see cref="CultureInfo.InvariantCulture"/> when casting the first column of the first row in the result from <paramref name="statement"/>.</remarks>
+        /// <exception cref="AggregateException">
+        /// The first column of the first row in the result set could not be converted.
+        /// </exception>
+        /// <remarks>What differs from the <see cref="Convert.ChangeType(object,Type)"/> is, that this converter supports generics and enums. Fallback uses <see cref="TypeDescriptor"/> and checks if the underlying <see cref="IFormatProvider"/> of <see cref="ObjectFormattingOptions.FormatProvider"/> is a <see cref="CultureInfo"/>, then this will be used in the conversion together with <see cref="ObjectFormattingOptions.DescriptorContext"/>.</remarks>
+        /// <seealso cref="Convert.ChangeType(object,Type)"/>
+        /// <seealso cref="TypeDescriptor.GetConverter(Type)"/>
+        public virtual async Task<TResult> ExecuteScalarAsAsync<TResult>(DataStatement statement, Action<ObjectFormattingOptions> setup = null, CancellationToken ct = default)
         {
-            return (TResult)ExecuteScalarAsType(dataCommand, typeof(TResult), provider, parameters);
+            return (TResult)await ExecuteScalarAsTypeAsync(statement, typeof(TResult), setup, ct).ConfigureAwait(false);
         }
-
+        
         /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="bool"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="bool"/>.</returns>
-        public bool ExecuteScalarAsBoolean(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<bool>(dataCommand, parameters);
-        }
-
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="DateTime"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="DateTime"/>.</returns>
-        public DateTime ExecuteScalarAsDateTime(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<DateTime>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="short"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="short"/>.</returns>
-        public short ExecuteScalarAsInt16(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<short>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="int"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="int"/>.</returns>
-        public int ExecuteScalarAsInt32(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<int>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="long"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="long"/>.</returns>
-        public long ExecuteScalarAsInt64(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<long>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="byte"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="byte"/>.</returns>
-        public byte ExecuteScalarAsByte(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<byte>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="sbyte"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="sbyte"/>.</returns>
-        public sbyte ExecuteScalarAsSByte(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<sbyte>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="decimal"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="decimal"/>.</returns>
-        public decimal ExecuteScalarAsDecimal(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<decimal>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="double"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="double"/>.</returns>
-        public double ExecuteScalarAsDouble(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<double>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="ushort"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="ushort"/>.</returns>
-        public ushort ExecuteScalarAsUInt16(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<ushort>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="uint"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="uint"/>.</returns>
-        public uint ExecuteScalarAsUInt32(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<uint>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="ulong"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="ulong"/>.</returns>
-        public ulong ExecuteScalarAsUInt64(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<ulong>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="string"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="string"/>.</returns>
-        public string ExecuteScalarAsString(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<string>(dataCommand, parameters);
-        }
-
-
-        /// <summary>
-        /// Executes the command statement, and returns the value as <see cref="Guid"/> from the first column of the first row in the result set.
-        /// Additional columns or rows are ignored.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>The first column of the first row in the result from <paramref name="dataCommand" /> as <see cref="Guid"/>.</returns>
-        public Guid ExecuteScalarAsGuid(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            return ExecuteScalarAs<Guid>(dataCommand, parameters);
-        }
-
-        /// <summary>
-        /// Core method for executing methods on the <see cref="DbCommand"/> object resolved from the virtual <see cref="ExecuteCommandCore"/> method.
+        /// Core method for executing methods on the <see cref="IDbCommand"/> interface resolved from the abstract <see cref="GetDbCommand"/> method.
         /// </summary>
         /// <typeparam name="T">The type to return.</typeparam>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <param name="commandInvoker">The function delegate that will invoke a method on the resolved <see cref="DbCommand"/> from the virtual <see cref="ExecuteCommandCore"/> method.</param>
-        /// <returns>A value of <typeparamref name="T"/> that is equal to the invoked method of the <see cref="DbCommand"/> object.</returns>
-        protected virtual T ExecuteCore<T>(IDataCommand dataCommand, IDbDataParameter[] parameters, Func<DbCommand, T> commandInvoker)
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="executeSelector">The function delegate that will invoke a method on the resolved <see cref="IDbCommand"/> from the abstract <see cref="GetDbCommand"/> method.</param>
+        /// <returns>A value of <typeparamref name="T"/> that is equal to the invoked method of the <see cref="IDbCommand"/> implementation.</returns>
+        protected virtual T ExecuteCommand<T>(DataStatement statement, Func<IDbCommand, T> executeSelector)
         {
-            return InvokeCommandCore(dataCommand, parameters, commandInvoker);
-        }
-
-        private T InvokeCommandCore<T>(IDataCommand dataCommand, IDbDataParameter[] parameters, Func<DbCommand, T> sqlInvoker)
-        {
+            Validator.ThrowIfNull(statement);
+            Validator.ThrowIfNull(executeSelector);
             T result;
-            DbCommand command = null;
+            IDbCommand command = null;
             try
             {
-                using (command = ExecuteCommandCore(dataCommand, parameters))
-                {
-                    result = sqlInvoker(command);
-                }
-            }
-            finally
-            {
-                command?.Parameters.Clear();
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Core method for executing all commands.
-        /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>System.Data.Common.DbCommand</returns>
-        protected virtual DbCommand ExecuteCommandCore(IDataCommand dataCommand, params IDbDataParameter[] parameters)
-        {
-            if (dataCommand == null) throw new ArgumentNullException(nameof(dataCommand));
-            DbCommand command = null;
-            try
-            {
-                command = GetCommandCore(dataCommand, parameters);
-                command.CommandTimeout = (int)dataCommand.Timeout.TotalSeconds;
+                command = GetDbCommand(statement);
                 OpenConnection(command);
+                result = executeSelector(command);
             }
             catch (Exception)
             {
                 command?.Parameters.Clear();
                 throw;
             }
-            return command;
+            finally
+            {
+                if (!Options.LeaveCommandOpen)
+                {
+                    command?.Dispose();
+                }
+            }
+            return result;
         }
 
-        private static void OpenConnection(DbCommand command)
+        /// <summary>
+        /// Asynchronous core method for executing methods on the <see cref="DbCommand"/> resolved from the abstract <see cref="GetDbCommand"/> method.
+        /// </summary>
+        /// <typeparam name="T">The type to return.</typeparam>
+        /// <param name="statement">The command statement to execute.</param>
+        /// <param name="executeSelector">The function delegate that will invoke a method on the resolved <see cref="DbCommand"/> from the abstract <see cref="GetDbCommand"/> method.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a value of <typeparamref name="T"/> that is equal to the invoked method of <see cref="DbCommand"/>.</returns>
+        protected virtual async Task<T> ExecuteCommandAsync<T>(DataStatement statement, Func<DbCommand, Task<T>> executeSelector)
+        {
+            Validator.ThrowIfNull(statement);
+            Validator.ThrowIfNull(executeSelector);
+            T result;
+            DbCommand command = null;
+            try
+            {
+                command = GetDbCommand(statement) as DbCommand;
+                OpenConnection(command);
+                result = await executeSelector(command).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                command?.Parameters.Clear();
+                throw;
+            }
+            finally
+            {
+                if (!Options.LeaveCommandOpen)
+                {
+                    command?.Dispose();
+                }
+            }
+            return result;
+        }
+
+        private static void OpenConnection(IDbCommand command)
         {
             Validator.ThrowIfNull(command);
             Validator.ThrowIfNull(command.Connection, nameof(command), $"The connection of the {nameof(command)} was not set.");
-            if (command.Connection.State != ConnectionState.Open) { command.Connection.Open(); }
+            if (command.Connection?.State != ConnectionState.Open) { command.Connection?.Open(); }
         }
 
         /// <summary>
         /// Gets the command object to be used by all execute related methods.
         /// </summary>
-        /// <param name="dataCommand">The data command to execute.</param>
-        /// <param name="parameters">The parameters to use in the command.</param>
-        /// <returns>An instance of a <see cref="DbCommand"/> implementation.</returns>
-        protected abstract DbCommand GetCommandCore(IDataCommand dataCommand, params IDbDataParameter[] parameters);
-        #endregion
+        /// <param name="statement">The command statement to execute.</param>
+        /// <returns>An instance of a <see cref="IDbCommand"/> implementation.</returns>
+        protected abstract IDbCommand GetDbCommand(DataStatement statement);
     }
 }

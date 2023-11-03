@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.Collections.Generic;
 using Cuemon.Data.SqlClient.Assets;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting;
@@ -52,11 +53,11 @@ namespace Cuemon.Data.SqlClient
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            new SqlDataManager(_connection.ConnectionString).Execute(new DataCommand(@"INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)"), new SqlParameter("@name", $"Fleet Admiral - {Generate.RandomString(5)}")); // should trigger last modified
+            new SqlDataManager(o => o.ConnectionString =_connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Fleet Admiral - {Generate.RandomString(5)}")))); // should trigger last modified
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            new SqlDataManager(_connection.ConnectionString).Execute(new DataCommand(@"INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)"), new SqlParameter("@name", $"Lieutenant Commander - {Generate.RandomString(5)}")); // should trigger last modified
+            new SqlDataManager(o => o.ConnectionString = _connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Lieutenant Commander - {Generate.RandomString(5)}")))); // should trigger last modified
 
             var signaled = ce.Wait(TimeSpan.FromSeconds(15));
 
@@ -100,11 +101,11 @@ namespace Cuemon.Data.SqlClient
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            new SqlDataManager(_connection.ConnectionString).Execute(new DataCommand(@"INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)"), new SqlParameter("@name", $"Fleet Admiral - {Generate.RandomString(5)}")); // should trigger last modified
+            new SqlDataManager(o => o.ConnectionString =_connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Fleet Admiral - {Generate.RandomString(5)}")))); // should trigger last modified
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            new SqlDataManager(_connection.ConnectionString).Execute(new DataCommand(@"INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)"), new SqlParameter("@name", $"Lieutenant Commander - {Generate.RandomString(5)}")); // should trigger last modified
+            new SqlDataManager(o => o.ConnectionString =_connection.ConnectionString).Execute(new DataStatement("INSERT INTO [Person].[ContactType] ([Name]) VALUES (@name)", o => o.Parameters = Arguments.ToArrayOf(new SqlParameter("@name", $"Lieutenant Commander - {Generate.RandomString(5)}")))); // should trigger last modified
 
             var signaled = are.WaitOne(TimeSpan.FromSeconds(15));
 

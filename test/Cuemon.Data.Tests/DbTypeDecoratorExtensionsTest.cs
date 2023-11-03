@@ -15,35 +15,35 @@ namespace Cuemon.Data
         [Fact]
         public void ToEquivalentType_ShouldMapDbTypeToBuiltInDotNetType()
         {
-            Assert.Equal(typeof(byte), Decorator.Enclose(DbType.Byte).ToTypeEquivalent());
-            Assert.Equal(typeof(sbyte), Decorator.Enclose(DbType.SByte).ToTypeEquivalent());
-            Assert.Equal(typeof(byte[]), Decorator.Enclose(DbType.Binary).ToTypeEquivalent());
-            Assert.Equal(typeof(bool), Decorator.Enclose(DbType.Boolean).ToTypeEquivalent());
-            Assert.Equal(typeof(double), Decorator.Enclose(DbType.Currency).ToTypeEquivalent());
-            Assert.Equal(typeof(double), Decorator.Enclose(DbType.Double).ToTypeEquivalent());
-            Assert.Equal(typeof(DateTime), Decorator.Enclose(DbType.Date).ToTypeEquivalent());
-            Assert.Equal(typeof(DateTime), Decorator.Enclose(DbType.DateTime).ToTypeEquivalent());
-            Assert.Equal(typeof(DateTime), Decorator.Enclose(DbType.DateTime2).ToTypeEquivalent());
-            Assert.Equal(typeof(DateTime), Decorator.Enclose(DbType.Time).ToTypeEquivalent());
-            Assert.Equal(typeof(DateTimeOffset), Decorator.Enclose(DbType.DateTimeOffset).ToTypeEquivalent());
-            Assert.Equal(typeof(Guid), Decorator.Enclose(DbType.Guid).ToTypeEquivalent());
-            Assert.Equal(typeof(long), Decorator.Enclose(DbType.Int64).ToTypeEquivalent());
-            Assert.Equal(typeof(int), Decorator.Enclose(DbType.Int32).ToTypeEquivalent());
-            Assert.Equal(typeof(short), Decorator.Enclose(DbType.Int16).ToTypeEquivalent());
-            Assert.Equal(typeof(object), Decorator.Enclose(DbType.Object).ToTypeEquivalent());
-            Assert.Equal(typeof(float), Decorator.Enclose(DbType.Single).ToTypeEquivalent());
-            Assert.Equal(typeof(ulong), Decorator.Enclose(DbType.UInt64).ToTypeEquivalent());
-            Assert.Equal(typeof(uint), Decorator.Enclose(DbType.UInt32).ToTypeEquivalent());
-            Assert.Equal(typeof(ushort), Decorator.Enclose(DbType.UInt16).ToTypeEquivalent());
-            Assert.Equal(typeof(decimal), Decorator.Enclose(DbType.Decimal).ToTypeEquivalent());
-            Assert.Equal(typeof(decimal), Decorator.Enclose(DbType.VarNumeric).ToTypeEquivalent());
-            Assert.Equal(typeof(string), Decorator.Enclose(DbType.AnsiString).ToTypeEquivalent());
-            Assert.Equal(typeof(string), Decorator.Enclose(DbType.AnsiStringFixedLength).ToTypeEquivalent());
-            Assert.Equal(typeof(string), Decorator.Enclose(DbType.StringFixedLength).ToTypeEquivalent());
-            Assert.Equal(typeof(string), Decorator.Enclose(DbType.String).ToTypeEquivalent());
-            Assert.Equal(typeof(string), Decorator.Enclose(DbType.Xml).ToTypeEquivalent());
+            Assert.Equal(typeof(byte), Decorator.Enclose(DbType.Byte).ToType());
+            Assert.Equal(typeof(sbyte), Decorator.Enclose(DbType.SByte).ToType());
+            Assert.Equal(typeof(byte[]), Decorator.Enclose(DbType.Binary).ToType());
+            Assert.Equal(typeof(bool), Decorator.Enclose(DbType.Boolean).ToType());
+            Assert.Equal(typeof(double), Decorator.Enclose(DbType.Currency).ToType());
+            Assert.Equal(typeof(double), Decorator.Enclose(DbType.Double).ToType());
+            Assert.Equal(typeof(DateTime), Decorator.Enclose(DbType.Date).ToType());
+            Assert.Equal(typeof(DateTime), Decorator.Enclose(DbType.DateTime).ToType());
+            Assert.Equal(typeof(DateTime), Decorator.Enclose(DbType.DateTime2).ToType());
+            Assert.Equal(typeof(DateTime), Decorator.Enclose(DbType.Time).ToType());
+            Assert.Equal(typeof(DateTimeOffset), Decorator.Enclose(DbType.DateTimeOffset).ToType());
+            Assert.Equal(typeof(Guid), Decorator.Enclose(DbType.Guid).ToType());
+            Assert.Equal(typeof(long), Decorator.Enclose(DbType.Int64).ToType());
+            Assert.Equal(typeof(int), Decorator.Enclose(DbType.Int32).ToType());
+            Assert.Equal(typeof(short), Decorator.Enclose(DbType.Int16).ToType());
+            Assert.Equal(typeof(object), Decorator.Enclose(DbType.Object).ToType());
+            Assert.Equal(typeof(float), Decorator.Enclose(DbType.Single).ToType());
+            Assert.Equal(typeof(ulong), Decorator.Enclose(DbType.UInt64).ToType());
+            Assert.Equal(typeof(uint), Decorator.Enclose(DbType.UInt32).ToType());
+            Assert.Equal(typeof(ushort), Decorator.Enclose(DbType.UInt16).ToType());
+            Assert.Equal(typeof(decimal), Decorator.Enclose(DbType.Decimal).ToType());
+            Assert.Equal(typeof(decimal), Decorator.Enclose(DbType.VarNumeric).ToType());
+            Assert.Equal(typeof(string), Decorator.Enclose(DbType.AnsiString).ToType());
+            Assert.Equal(typeof(string), Decorator.Enclose(DbType.AnsiStringFixedLength).ToType());
+            Assert.Equal(typeof(string), Decorator.Enclose(DbType.StringFixedLength).ToType());
+            Assert.Equal(typeof(string), Decorator.Enclose(DbType.String).ToType());
+            Assert.Equal(typeof(string), Decorator.Enclose(DbType.Xml).ToType());
 
-            var sut = Assert.Throws<ArgumentOutOfRangeException>(() => Decorator.Enclose((DbType)42).ToTypeEquivalent());
+            var sut = Assert.Throws<ArgumentOutOfRangeException>(() => Decorator.Enclose((DbType)42).ToType());
             Assert.Equal("decorator", sut.ParamName);
             Assert.StartsWith("DbType, '42', is not supported.", sut.Message);
         }

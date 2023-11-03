@@ -40,7 +40,7 @@ namespace Cuemon.Data.SqlClient
             Assert.Contains("WITH(NOLOCK)", sql);
             Assert.Contains("TOP 10", sql);
 
-            using (var reader = _manager.ExecuteReader(new DataCommand(sql)))
+            using (var reader = _manager.ExecuteReader(new DataStatement(sql)))
             {
                 var rows = reader.ToRows();
                 Assert.Equal(10, rows.Count);
@@ -53,7 +53,7 @@ namespace Cuemon.Data.SqlClient
         public override void ConfigureServices(IServiceCollection services)
         {
             var cnn = Configuration.GetConnectionString("AdventureWorks");
-            services.AddSingleton(new SqlDataManager(cnn));
+            services.AddSingleton(new SqlDataManager(o => o.ConnectionString = cnn));
         }
     }
 }

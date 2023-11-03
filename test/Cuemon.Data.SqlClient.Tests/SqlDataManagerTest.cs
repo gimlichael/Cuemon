@@ -1,6 +1,8 @@
 using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using Cuemon.Collections.Generic;
 using Cuemon.Data.SqlClient.Assets;
 using Cuemon.Extensions;
 using Cuemon.Extensions.Data;
@@ -24,7 +26,7 @@ namespace Cuemon.Data.SqlClient
         [Fact]
         public void ExecuteReader_ShouldReadAllProducts()
         {
-            using (var reader = _manager.ExecuteReader(new DataCommand("SELECT * FROM [Production].[Product]")))
+            using (var reader = _manager.ExecuteReader(new DataStatement("SELECT * FROM [Production].[Product]")))
             {
                 var rows = reader.ToRows();
                 var columns = rows.ColumnNames.ToList();
@@ -37,9 +39,9 @@ namespace Cuemon.Data.SqlClient
         [Fact]
         public void ExecuteScalarAsInt32_ShouldInsertNewRow()
         {
-            var existsBefore = _manager.ExecuteExists(new DataCommand("SELECT * FROM [ErrorLog]"));
-            var current = _manager.ExecuteScalarAsInt32(new DataCommand("SELECT COUNT(*) FROM [ErrorLog]"));
-            var affected = _manager.Execute(new DataCommand(@"INSERT INTO [ErrorLog] ([ErrorTime]
+            var existsBefore = _manager.ExecuteExists(new DataStatement("SELECT * FROM [ErrorLog]"));
+            var current = _manager.ExecuteScalarAs<int>(new DataStatement("SELECT COUNT(*) FROM [ErrorLog]"));
+            var affected = _manager.Execute(new DataStatement(@"INSERT INTO [ErrorLog] ([ErrorTime]
 ,[UserName]
 ,[ErrorNumber]
 ,[ErrorSeverity]
@@ -56,7 +58,7 @@ VALUES
 @errProcedure,
 @errorLine,
 @errorMessage
-)"),
+)", o => o.Parameters = Arguments.ToArrayOf(
                 new SqlParameter("@utcNow", DateTime.UtcNow),
                 new SqlParameter("@userName", "MMORT"),
                 new SqlParameter("@errNo", 42),
@@ -64,9 +66,9 @@ VALUES
                 new SqlParameter("@errState", 5),
                 new SqlParameter("@errProcedure", "Do not try this at home."),
                 new SqlParameter("@errorLine", 215),
-                new SqlParameter("@errorMessage", "Catastrophic failure."));
-            var after = _manager.ExecuteScalarAsInt32(new DataCommand("SELECT COUNT(*) FROM [ErrorLog]"));
-            var existsAfter = _manager.ExecuteExists(new DataCommand("SELECT * FROM [ErrorLog]"));
+                new SqlParameter("@errorMessage", "Catastrophic failure."))));
+            var after = _manager.ExecuteScalarAs<int>(new DataStatement("SELECT COUNT(*) FROM [ErrorLog]"));
+            var existsAfter = _manager.ExecuteExists(new DataStatement("SELECT * FROM [ErrorLog]"));
 
             Assert.False(existsBefore);
             Assert.Equal(0, current);
@@ -80,15 +82,15 @@ VALUES
         public void Execute_ShouldUpdateRows()
         {
             DataTransferRowCollection before;
-            using (var reader = _manager.ExecuteReader(new DataCommand("SELECT * FROM [HumanResources].[Department]")))
+            using (var reader = _manager.ExecuteReader(new DataStatement("SELECT * FROM [HumanResources].[Department]")))
             {
                 before = reader.ToRows();
             }
 
-            var affected = _manager.Execute(new DataCommand("UPDATE [HumanResources].[Department] SET [Name] = [Name] + ' XXX'"));
+            var affected = _manager.Execute(new DataStatement("UPDATE [HumanResources].[Department] SET [Name] = [Name] + ' XXX'"));
 
             DataTransferRowCollection after;
-            using (var reader = _manager.ExecuteReader(new DataCommand("SELECT * FROM [HumanResources].[Department]")))
+            using (var reader = _manager.ExecuteReader(new DataStatement("SELECT * FROM [HumanResources].[Department]")))
             {
                 after = reader.ToRows();
             }
@@ -108,9 +110,9 @@ VALUES
         [Fact]
         public void Execute_ShouldDeleteRows()
         {
-            var before = _manager.ExecuteScalarAsInt32(new DataCommand("SELECT COUNT(*) FROM [HumanResources].[EmployeeDepartmentHistory]"));
-            var affected = _manager.Execute(new DataCommand("DELETE [HumanResources].[EmployeeDepartmentHistory] WHERE BusinessEntityID >= 270"));
-            var after = _manager.ExecuteScalarAsInt32(new DataCommand("SELECT COUNT(*) FROM [HumanResources].[EmployeeDepartmentHistory]"));
+            var before = _manager.ExecuteScalarAs<int>(new DataStatement("SELECT COUNT(*) FROM [HumanResources].[EmployeeDepartmentHistory]"));
+            var affected = _manager.Execute(new DataStatement("DELETE [HumanResources].[EmployeeDepartmentHistory] WHERE BusinessEntityID >= 270"));
+            var after = _manager.ExecuteScalarAs<int>(new DataStatement("SELECT COUNT(*) FROM [HumanResources].[EmployeeDepartmentHistory]"));
             Assert.Equal(296, before);
             Assert.Equal(21, affected);
             Assert.Equal(275, after);
@@ -119,7 +121,7 @@ VALUES
         public override void ConfigureServices(IServiceCollection services)
         {
             var cnn = Configuration.GetConnectionString("AdventureWorks");
-            services.AddSingleton(new SqlDataManager(cnn));
+            services.AddSingleton(new SqlDataManager(o => o.ConnectionString = cnn));
         }
     }
 }
