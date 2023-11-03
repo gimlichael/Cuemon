@@ -57,7 +57,7 @@ namespace Cuemon
                 Assert.Null(options);
             });
 
-            Assert.StartsWith("Decorator or Inner cannot be null", result.Message);
+            Assert.StartsWith("Value cannot be null", result.Message);
             Assert.Contains("paramName", result.Message);
             Assert.DoesNotContain("sut", result.Message);
 
