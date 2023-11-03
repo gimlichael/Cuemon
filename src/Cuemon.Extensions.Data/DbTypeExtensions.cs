@@ -17,9 +17,9 @@ namespace Cuemon.Extensions.Data
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="dbType"/> value is not valid.
         /// </exception>
-        public static Type ToTypeEquivalent(this DbType dbType)
+        public static Type ToType(this DbType dbType)
         {
-            return Decorator.EncloseToExpose(dbType).ToTypeEquivalent();
+            return Decorator.EncloseToExpose(dbType).ToType();
         }
     }
 }

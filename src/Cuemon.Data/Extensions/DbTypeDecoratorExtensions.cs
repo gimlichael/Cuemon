@@ -21,7 +21,7 @@ namespace Cuemon.Data
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="decorator"/> underlying value is not valid.
         /// </exception>
-        public static Type ToTypeEquivalent(this IDecorator<DbType> decorator)
+        public static Type ToType(this IDecorator<DbType> decorator)
         {
             Validator.ThrowIfNull(decorator, out var dbType);
             switch (dbType)
