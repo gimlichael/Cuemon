@@ -30,7 +30,7 @@ namespace Cuemon.Data
             using var reader = new DsvDataReader(new StreamReader(file), delimiter: ';');
             var sut2 = Assert.Throws<ArgumentException>(() => Decorator.Enclose(reader).ToEncodedString());
             Assert.Equal("reader", sut2.ParamName);
-            Assert.StartsWith("The executed command statement appears to contain invalid fields. Expected field count is 1. Actually field count was 24. (Expression 'reader.FieldCount > 1')", sut2.Message);
+            Assert.StartsWith("The executed command statement appears to contain invalid fields. Expected field count is 1. Actually field count was 25. (Expression 'reader.FieldCount > 1')", sut2.Message);
         }
     }
 }
