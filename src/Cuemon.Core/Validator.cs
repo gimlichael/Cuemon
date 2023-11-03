@@ -185,7 +185,7 @@ namespace Cuemon
         /// <paramref name="argument"/> cannot be null - or -
         /// <see cref="P:IDecorator.Inner"/> property of <paramref name="argument"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull<T>(IDecorator<T> argument, out T inner, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Decorator or Inner cannot be null.")
+        public static void ThrowIfNull<T>(IDecorator<T> argument, out T inner, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value cannot be null.")
         {
             ThrowIfNull(argument, paramName, message);
             ThrowIfNull(argument.Inner, paramName, message);
