@@ -365,7 +365,7 @@ namespace Cuemon.Data
         {
             Validator.ThrowIfNull(command);
             Validator.ThrowIfNull(command.Connection, nameof(command), $"The connection of the {nameof(command)} was not set.");
-            if (command.Connection?.State != ConnectionState.Open) { command.Connection?.Open(); }
+            if (command.Connection!.State != ConnectionState.Open) { command.Connection.Open(); }
         }
 
         /// <summary>

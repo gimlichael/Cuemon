@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using Cuemon.Collections.Generic;
@@ -8,6 +9,8 @@ namespace Cuemon.Data.Assets
 {
     internal class FakeDataManager(Action<DataManagerOptions> setup) : DataManager(setup)
     {
+        private IDbCommand _command = null;
+
         public override DataManager Clone()
         {
             return new FakeDataManager(Patterns.ConfigureRevert(Options));
@@ -17,6 +20,7 @@ namespace Cuemon.Data.Assets
         {
             return Patterns.SafeInvoke(() => new SqliteCommand(statement.Text, new SqliteConnection(Options.ConnectionString)), sc =>
             {
+                if (_command == null) { _command = sc; } // we do this in order to always have at least one connection open for the in-mem db (https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/in-memory-databases#shareable-in-memory-databases)
                 foreach (var parameter in statement.Parameters)
                 {
                     sc.Parameters.Add(parameter);

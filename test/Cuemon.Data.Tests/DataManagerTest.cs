@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
 using Cuemon.Data.Assets;
@@ -393,8 +395,8 @@ namespace Cuemon.Data
                 o.LeaveCommandOpen = true; // do not release our command as it will trigger errors from data readers (for normal dbs - always leave false)
                 o.ConnectionString = "Data Source=InMemory;Mode=Memory;Cache=Shared";
             });
-            services.AddSingleton(manager);
             InitSqliteDatabase(manager);
+            services.AddSingleton(manager);
         }
 
         private void InitSqliteDatabase(DataManager manager)
@@ -428,11 +430,11 @@ namespace Cuemon.Data
                                             	ModifiedDate TEXT NOT NULL);
                                             """));
 
-            var file = Decorator.Enclose(typeof(DsvDataReaderTest).Assembly).GetManifestResources("AdventureWorks2022_Product.csv", ManifestResourceMatch.ContainsName).Values.Single();
+            using var file = Decorator.Enclose(typeof(DsvDataReaderTest).Assembly).GetManifestResources("AdventureWorks2022_Product.csv", ManifestResourceMatch.ContainsName).Values.Single();
             using var reader = new DsvDataReader(new StreamReader(file), delimiter: ';');
             while (reader.Read())
             {
-                var command = new DataStatement($$"""
+                var statement = new DataStatement($$"""
                                                     INSERT INTO Product
                                                     ([ProductID]
                                                     ,[Name]
@@ -489,15 +491,14 @@ namespace Cuemon.Data
 
                 try
                 {
-                    manager.Execute(command);
+                    manager.Execute(statement);
                 }
                 catch (Exception e)
                 {
-                    TestOutput.WriteLine(command.Text);
+                    TestOutput.WriteLine(statement.Text);
                     throw;
                 }
             }
-
         }
 
         private static string StringOrNull(string value)
