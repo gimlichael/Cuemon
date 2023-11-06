@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Cuemon.Reflection
@@ -27,7 +26,7 @@ namespace Cuemon.Reflection
         {
             Validator.ThrowIfNull(decorator);
             Validator.ThrowIfNull(attributeTypes);
-            foreach (var attributeType in attributeTypes) { if (decorator.Inner.GetCustomAttributes(attributeType, true).Any()) { return true; } }
+            foreach (var attributeType in attributeTypes) { if (decorator.Inner.GetCustomAttributes(attributeType, true).Length != 0) { return true; } }
             return false;
         }
     }

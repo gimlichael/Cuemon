@@ -130,7 +130,7 @@ namespace Cuemon
         {
             Validator.ThrowIfNull(decorator);
             Validator.ThrowIfNull(attributeTypes);
-            foreach (var attributeType in attributeTypes) { if (decorator.Inner.GetCustomAttributes(attributeType, true).Any()) { return true; } }
+            foreach (var attributeType in attributeTypes) { if (decorator.Inner.GetCustomAttributes(attributeType, true).Length != 0) { return true; } }
             foreach (var m in decorator.Inner.GetMembers())
             {
                 if (Decorator.Enclose(m).HasAttribute(attributeTypes)) { return true; }
