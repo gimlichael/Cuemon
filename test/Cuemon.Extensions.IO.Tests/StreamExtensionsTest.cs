@@ -276,7 +276,11 @@ namespace Cuemon.Extensions.IO
             var size = 1024 * 1024;
             var sut2 = Generate.RandomString(size);
             var sut3 = await Decorator.Enclose(sut2).ToStreamAsync();
-            await Assert.ThrowsAsync<OperationCanceledException>(async () => await sut3.CompressBrotliAsync(o => o.CancellationToken = sut1.Token));
+            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(5), sut1.Token);
+                await sut3.CompressBrotliAsync(o => o.CancellationToken = sut1.Token);
+            });
         }
 
 #endif
@@ -336,7 +340,11 @@ namespace Cuemon.Extensions.IO
             var size = 1024 * 1024;
             var sut2 = Generate.RandomString(size);
             var sut3 = await Decorator.Enclose(sut2).ToStreamAsync();
-            await Assert.ThrowsAsync<OperationCanceledException>(async () => await sut3.CompressGZipAsync(o => o.CancellationToken = sut1.Token));
+            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(5), sut1.Token);
+                await sut3.CompressGZipAsync(o => o.CancellationToken = sut1.Token);
+            });
         }
 
         [Fact]
@@ -394,7 +402,11 @@ namespace Cuemon.Extensions.IO
             var size = 1024 * 1024;
             var sut2 = Generate.RandomString(size);
             var sut3 = await Decorator.Enclose(sut2).ToStreamAsync();
-            await Assert.ThrowsAsync<OperationCanceledException>(async () => await sut3.CompressDeflateAsync(o => o.CancellationToken = sut1.Token));
+            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(5), sut1.Token);
+                await sut3.CompressDeflateAsync(o => o.CancellationToken = sut1.Token);
+            });
         }
     }
 }
