@@ -52,7 +52,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                             },
                             In = ParameterLocation.Header
                         },
-                        new string[] {}
+                        Array.Empty<string>()
                 }
             };
 
@@ -89,7 +89,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                         },
                         In = ParameterLocation.Header
                     },
-                    new string[] {}
+                    Array.Empty<string>()
                 }
             };
 
