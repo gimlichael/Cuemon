@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Http;
@@ -114,8 +115,8 @@ namespace Cuemon.AspNetCore.Http
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         protected HttpStatusCodeException(int statusCode, string reasonPhrase, string message, Exception innerException = null) : base(message, innerException)
         {
-            Validator.ThrowIfLowerThan(statusCode, StatusCodes.Status100Continue, nameof(statusCode), FormattableString.Invariant($"{nameof(statusCode)} cannot be less than {StatusCodes.Status100Continue}."));
-            Validator.ThrowIfGreaterThan(statusCode, StatusCodes.Status511NetworkAuthenticationRequired, nameof(statusCode), FormattableString.Invariant($"{nameof(statusCode)} cannot be greater than {StatusCodes.Status511NetworkAuthenticationRequired}."));
+            Validator.ThrowIfLowerThan(statusCode, StatusCodes.Status100Continue, nameof(statusCode), string.Create(CultureInfo.InvariantCulture, $"{nameof(statusCode)} cannot be less than {StatusCodes.Status100Continue}."));
+            Validator.ThrowIfGreaterThan(statusCode, StatusCodes.Status511NetworkAuthenticationRequired, nameof(statusCode), string.Create(CultureInfo.InvariantCulture, $"{nameof(statusCode)} cannot be greater than {StatusCodes.Status511NetworkAuthenticationRequired}."));
             StatusCode = statusCode;
             ReasonPhrase = reasonPhrase;
         }

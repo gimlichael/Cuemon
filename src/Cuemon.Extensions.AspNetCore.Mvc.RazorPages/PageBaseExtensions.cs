@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Cuemon.AspNetCore.Configuration;
 using Cuemon.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,7 +23,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         {
             var options = pageModel.HttpContext.RequestServices.GetRequiredService<IOptions<AppTagHelperOptions>>();
             var cb = pageModel.HttpContext.RequestServices.GetService<ICacheBusting>();
-            return string.Concat(options.Value.GetFormattedBaseUrl(), cb != null ? FormattableString.Invariant($"{src}?v={cb.Version}") : src);
+            return string.Concat(options.Value.GetFormattedBaseUrl(), cb != null ? string.Create(CultureInfo.InvariantCulture, $"{src}?v={cb.Version}") : src);
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         {
             var options = pageModel.HttpContext.RequestServices.GetRequiredService<IOptions<CdnTagHelperOptions>>();
             var cb = pageModel.HttpContext.RequestServices.GetService<ICacheBusting>();
-            return string.Concat(options.Value.GetFormattedBaseUrl(), cb != null ? FormattableString.Invariant($"{src}?v={cb.Version}") : src);
+            return string.Concat(options.Value.GetFormattedBaseUrl(), cb != null ? string.Create(CultureInfo.InvariantCulture, $"{src}?v={cb.Version}") : src);
         }
     }
 }

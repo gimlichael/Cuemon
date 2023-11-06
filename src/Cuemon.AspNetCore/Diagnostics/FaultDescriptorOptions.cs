@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Reflection;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
@@ -93,7 +94,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                         if (resolver.TryResolveFault(e, out var descriptor)) { return descriptor; }
                     }
                 }
-                return new HttpExceptionDescriptor(e, StatusCodes.Status500InternalServerError, message: FormattableString.Invariant($"An unhandled exception was raised by {Assembly.GetEntryAssembly()?.GetName().Name}."), helpLink: RootHelpLink);
+                return new HttpExceptionDescriptor(e, StatusCodes.Status500InternalServerError, message: string.Create(CultureInfo.InvariantCulture, $"An unhandled exception was raised by {Assembly.GetEntryAssembly()?.GetName().Name}."), helpLink: RootHelpLink);
             };
             RequestEvidenceProvider = request => new HttpRequestEvidence(request);
             SensitivityDetails = FaultSensitivityDetails.None;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Cuemon.Configuration;
 using Cuemon.Text;
 
@@ -57,13 +58,13 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
             switch (Scheme)
             {
                 case ProtocolUriScheme.None:
-                    return baseUrlIsNullOrEmpty ? "" : FormattableString.Invariant($"{baseUrlWithForwardingSlash}");
+                    return baseUrlIsNullOrEmpty ? "" : string.Create(CultureInfo.InvariantCulture, $"{baseUrlWithForwardingSlash}");
                 case ProtocolUriScheme.Http:
-                    return baseUrlIsNullOrEmpty ? "" : FormattableString.Invariant($"{nameof(UriScheme.Http).ToLowerInvariant()}://{baseUrlWithForwardingSlash}");
+                    return baseUrlIsNullOrEmpty ? "" : string.Create(CultureInfo.InvariantCulture, $"{nameof(UriScheme.Http).ToLowerInvariant()}://{baseUrlWithForwardingSlash}");
                 case ProtocolUriScheme.Https:
-                    return baseUrlIsNullOrEmpty ? "" : FormattableString.Invariant($"{nameof(UriScheme.Https).ToLowerInvariant()}://{baseUrlWithForwardingSlash}");
+                    return baseUrlIsNullOrEmpty ? "" : string.Create(CultureInfo.InvariantCulture, $"{nameof(UriScheme.Https).ToLowerInvariant()}://{baseUrlWithForwardingSlash}");
                 case ProtocolUriScheme.Relative:
-                    return baseUrlIsNullOrEmpty ? "" : FormattableString.Invariant($"//{baseUrlWithForwardingSlash}");
+                    return baseUrlIsNullOrEmpty ? "" : string.Create(CultureInfo.InvariantCulture, $"//{baseUrlWithForwardingSlash}");
                 default:
                     return "";
             }

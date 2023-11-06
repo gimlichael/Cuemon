@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
@@ -42,14 +43,14 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         {
             if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
             {
-                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, dc => Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{BasicAuthorizationHeader.Scheme} realm=\"{Options.Realm}\""))).ConfigureAwait(false);
+                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, dc => Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{BasicAuthorizationHeader.Scheme} realm=\"{Options.Realm}\""))).ConfigureAwait(false);
             }
             await Next(context).ConfigureAwait(false);
         }
 
         private bool TryAuthenticate(HttpContext context, BasicAuthorizationHeader header, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException(FormattableString.Invariant($"The {nameof(Options.Authenticator)} cannot be null.")); }
+            if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} cannot be null.")); }
             result = Options.Authenticator(header.UserName, header.Password);
             return Condition.IsNotNull(result);
         }
