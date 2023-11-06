@@ -111,21 +111,35 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfObjectInDistress(bool condition, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression(nameof(condition))] string expression = null)
         {
-            ThrowIfObjectInDistress(() => condition, message, expression);
+            if (condition) { throw new InvalidOperationException($"{message} (Expression '{expression}')"); }
+        }
+        
+        /// <summary>
+        /// Validates and throws an <see cref="ObjectDisposedException" /> if the specified <paramref name="condition" /> is <c>true</c>.
+        /// </summary>
+        /// <param name="condition">The condition to evaluate.</param>
+        /// <param name="instance">The object whose type's full name should be included in any resulting <see cref="ObjectDisposedException" />.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ObjectDisposedException">
+        /// The <paramref name="condition" /> is <c>true</c>.
+        /// </exception>
+        public static void ThrowIfObjectDisposed(bool condition, object instance, string message = "Cannot access a disposed object.")
+        {
+            ThrowIfObjectDisposed(condition, instance?.GetType(), message);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="InvalidOperationException" /> if the specified <paramref name="predicate" /> returns <c>true</c>.
+        /// Validates and throws an <see cref="ObjectDisposedException" /> if the specified <paramref name="condition" /> is <c>true</c>.
         /// </summary>
-        /// <param name="predicate">The function delegate that determines if an <see cref="InvalidOperationException"/> is thrown.</param>
+        /// <param name="condition">The condition to evaluate.</param>
+        /// <param name="type">The type whose full name should be included in any resulting <see cref="ObjectDisposedException" />.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="expression">The <paramref name="predicate"/> expressed as a string.</param>
-        /// <exception cref="InvalidOperationException">
-        /// <paramref name="predicate" /> returned <c>true</c>.
+        /// <exception cref="ObjectDisposedException">
+        /// The <paramref name="condition" /> is <c>true</c>.
         /// </exception>
-        public static void ThrowIfObjectInDistress(Func<bool> predicate, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression(nameof(predicate))] string expression = null)
+        public static void ThrowIfObjectDisposed(bool condition, Type type, string message = "Cannot access a disposed object.")
         {
-            if (Condition.IsTrue(predicate?.Invoke() ?? false)) { throw new InvalidOperationException($"{message} (Expression '{expression}')"); }
+            if (condition) { throw new ObjectDisposedException(type == null ? null : Decorator.Enclose(type, false).ToFriendlyName(o => o.FullName = true), message); }
         }
 
         /// <summary>
