@@ -21,7 +21,7 @@ namespace Cuemon
         /// </exception>
         public static string ParseInstance<T>(IWrapper<T> wrapper)
         {
-            if (wrapper == null) { throw new ArgumentNullException(nameof(wrapper)); }
+            Validator.ThrowIfNull(wrapper);
             switch (Type.GetTypeCode(wrapper.InstanceType))
             {
                 case TypeCode.Boolean:
