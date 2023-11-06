@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Cuemon.Assets;
+#if NET48_OR_GREATER
 using Cuemon.Extensions;
+#endif
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
@@ -16,6 +18,80 @@ namespace Cuemon
         }
 
         [Fact]
+        public void ThrowIfObjectDisposed_ByTypeShouldThrowObjectDisposedException()
+        {
+            var sut = Assert.Throws<ObjectDisposedException>(() =>
+            {
+                Validator.ThrowIfObjectDisposed(true, GetType());
+            });
+            
+            Assert.Equal("""
+                         Cannot access a disposed object.
+                         Object name: 'Cuemon.ValidatorTest'.
+                         """.ReplaceLineEndings(), sut.Message);
+
+            sut = Assert.Throws<ObjectDisposedException>(() =>
+            {
+                Validator.ThrowIfObjectDisposed(true, null);
+            });
+            
+            Assert.Equal("""
+                         Cannot access a disposed object.
+                         """, sut.Message);
+
+            var dic = new Dictionary<string, object>();
+
+            sut = Assert.Throws<ObjectDisposedException>(() =>
+            {
+                Validator.ThrowIfObjectDisposed(true, dic.GetType());
+            });
+            
+            Assert.Equal("""
+                         Cannot access a disposed object.
+                         Object name: 'System.Collections.Generic.Dictionary<System.String,System.Object>'.
+                         """.ReplaceLineEndings(), sut.Message);
+
+            Validator.ThrowIfObjectDisposed(false, GetType());
+        }
+
+        [Fact]
+        public void ThrowIfObjectDisposed_ByObjectShouldThrowObjectDisposedException()
+        {
+            var sut = Assert.Throws<ObjectDisposedException>(() =>
+            {
+                Validator.ThrowIfObjectDisposed(true, this);
+            });
+
+            Assert.Equal("""
+                         Cannot access a disposed object.
+                         Object name: 'Cuemon.ValidatorTest'.
+                         """.ReplaceLineEndings(), sut.Message);
+
+            sut = Assert.Throws<ObjectDisposedException>(() =>
+            {
+                Validator.ThrowIfObjectDisposed(true, null);
+            });
+
+            Assert.Equal("""
+                         Cannot access a disposed object.
+                         """, sut.Message);
+
+            var dic = new Dictionary<string, object>();
+
+            sut = Assert.Throws<ObjectDisposedException>(() =>
+            {
+                Validator.ThrowIfObjectDisposed(true, dic);
+            });
+            
+            Assert.Equal("""
+                         Cannot access a disposed object.
+                         Object name: 'System.Collections.Generic.Dictionary<System.String,System.Object>'.
+                         """.ReplaceLineEndings(), sut.Message);
+
+            Validator.ThrowIfObjectDisposed(false, this);
+        }
+
+        [Fact]
         public void ThrowIfObjectInDistress_ShouldThrowInvalidOperationException()
         {
             var sut = Assert.Throws<InvalidOperationException>(() =>
@@ -24,17 +100,6 @@ namespace Cuemon
             });
             
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression '1 == 1')", sut.Message);
-        }
-
-        [Fact]
-        public void ThrowIfObjectInDistress_PredicateShouldThrowInvalidOperationException()
-        {
-            var sut = Assert.Throws<InvalidOperationException>(() =>
-            {
-                Validator.ThrowIfObjectInDistress(() => 1 != 2);
-            });
-
-            Assert.Equal("Operation is not valid due to the current state of the object. (Expression '() => 1 != 2')", sut.Message);
         }
 
         [Fact]
