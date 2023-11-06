@@ -16,7 +16,7 @@ sudo apt-get  -y install docker-compose
 
 echo "Installing Java Runtime ..."
 
-sudo apt-get  -y install default-jre
+sudo apt-get -y install openjdk-17-jdk 
 
 echo "Installing PWSH ..."
 
