@@ -22,7 +22,7 @@ namespace Cuemon.Runtime.Serialization
         /// </exception>
         public YamlSerializer(Action<YamlSerializerOptions> setup = null)
         {
-            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             _options = options;
         }
 

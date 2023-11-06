@@ -17,7 +17,7 @@ namespace Cuemon.Data
             var fieldCount = record?.FieldCount ?? -1;
             for (var i = 0; i < fieldCount; i++)
             {
-                var columnName = record.GetName(i);
+                var columnName = record!.GetName(i);
                 var columnType = record.GetFieldType(i);
                 Add(new DataTransferColumn(i, columnName, columnType));
                 Names.Add(columnName);

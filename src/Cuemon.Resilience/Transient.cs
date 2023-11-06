@@ -10,7 +10,7 @@ namespace Cuemon.Resilience
     {
         protected Transient(MethodInfo delegateInfo, object[] runtimeArguments, Action<TOptions> setup)
         {
-            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             DelegateInfo = delegateInfo;
             RuntimeArguments = runtimeArguments;
             Options = options;

@@ -4,7 +4,7 @@ using System.Reflection;
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="IPrefixMultiple"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="IPrefixMultiple"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

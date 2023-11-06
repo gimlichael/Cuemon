@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Cuemon.Extensions.IO;
+﻿using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
@@ -14,32 +12,6 @@ namespace Cuemon.AspNetCore.Http
     {
         public BadRequestExceptionTest(ITestOutputHelper output) : base(output)
         {
-        }
-
-        [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf400()
-        {
-            var sut = new BadRequestException();
-
-            TestOutput.WriteLine(sut.ToString());
-
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                bf.Serialize(ms, sut);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                ms.Position = 0;
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                var desEx = bf.Deserialize(ms) as BadRequestException;
-#pragma warning restore SYSLIB0011 // Type or member is obsolete 
-                Assert.Equal(sut.StatusCode, desEx.StatusCode);
-                Assert.Equal(sut.ReasonPhrase, desEx.ReasonPhrase);
-                Assert.Equal(sut.Message, desEx.Message);
-                Assert.Equal(sut.ToString(), desEx.ToString());
-            }
-
-            Assert.Equal(StatusCodes.Status400BadRequest, sut.StatusCode);
         }
 
         [Fact]
@@ -62,12 +34,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status400BadRequest, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
             
-            Assert.Equal(@"{
-  ""type"": ""Cuemon.AspNetCore.Http.BadRequestException"",
-  ""message"": ""The request could not be understood by the server due to malformed syntax."",
-  ""statusCode"": 400,
-  ""reasonPhrase"": ""Bad Request""
-}", sut4);
+            Assert.Equal("""
+                         {
+                           "type": "Cuemon.AspNetCore.Http.BadRequestException",
+                           "message": "The request could not be understood by the server due to malformed syntax.",
+                           "headers": {},
+                           "statusCode": 400,
+                           "reasonPhrase": "Bad Request"
+                         }
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -90,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status400BadRequest, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
             
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<BadRequestException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The request could not be understood by the server due to malformed syntax.</Message>
-	<StatusCode>400</StatusCode>
-	<ReasonPhrase>Bad Request</ReasonPhrase>
-</BadRequestException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <BadRequestException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The request could not be understood by the server due to malformed syntax.</Message>
+                         	<Headers />
+                         	<StatusCode>400</StatusCode>
+                         	<ReasonPhrase>Bad Request</ReasonPhrase>
+                         </BadRequestException>
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

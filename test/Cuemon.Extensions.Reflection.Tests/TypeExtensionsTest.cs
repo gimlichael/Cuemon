@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Cuemon.Extensions.IO;
@@ -14,6 +15,121 @@ namespace Cuemon.Extensions.Reflection
     {
         public TypeExtensionsTest(ITestOutputHelper output) : base(output)
         {
+        }
+
+        [Fact]
+        public void GetDerivedTypes_ShouldHaveSelfToDerivedTypes()
+        {
+            var msType = typeof(Stream);
+            var selfToDerived = msType.GetDerivedTypes();
+            TestOutput.WriteLines(selfToDerived.Where(t => t.IsPublic));
+
+            Assert.DoesNotContain(selfToDerived, t => t == typeof(object));
+            Assert.DoesNotContain(selfToDerived, t => t == typeof(MarshalByRefObject));
+            Assert.Contains(selfToDerived, t => t == typeof(Stream));
+            Assert.Contains(selfToDerived, t => t == typeof(FileStream));
+            Assert.Contains(selfToDerived, t => t == typeof(MemoryStream));
+            Assert.Contains(selfToDerived, t => t == typeof(UnmanagedMemoryStream));
+        }
+
+        [Fact]
+        public void GetInheritedTypes_ShouldHaveInheritedToSelfTypes()
+        {
+            var msType = typeof(Stream);
+            var inheritedToSelf = msType.GetInheritedTypes();
+            TestOutput.WriteLines(inheritedToSelf.Where(t => t.IsPublic));
+
+            Assert.Contains(inheritedToSelf, t => t == typeof(object));
+            Assert.Contains(inheritedToSelf, t => t == typeof(MarshalByRefObject));
+            Assert.Contains(inheritedToSelf, t => t == typeof(Stream));
+            Assert.DoesNotContain(inheritedToSelf, t => t == typeof(FileStream));
+            Assert.DoesNotContain(inheritedToSelf, t => t == typeof(MemoryStream));
+            Assert.DoesNotContain(inheritedToSelf, t => t == typeof(UnmanagedMemoryStream));
+        }
+
+        [Fact]
+        public void GetHierarchyTypes_ShouldHaveInheritedToSelfToDerivedTypes()
+        {
+            var msType = typeof(Stream);
+            var hierarchy = msType.GetHierarchyTypes();
+            TestOutput.WriteLines(hierarchy.Where(t => t.IsPublic));
+
+            Assert.Contains(hierarchy, t => t == typeof(object));
+            Assert.Contains(hierarchy, t => t == typeof(MarshalByRefObject));
+            Assert.Contains(hierarchy, t => t == typeof(Stream));
+            Assert.Contains(hierarchy, t => t == typeof(FileStream));
+            Assert.Contains(hierarchy, t => t == typeof(MemoryStream));
+            Assert.Contains(hierarchy, t => t == typeof(UnmanagedMemoryStream));
+        }
+
+        [Fact]
+        public void GetAllProperties_ShouldIncludeFullInheritanceChainOfProperties()
+        {
+            var tae = new TypeArgumentOutOfRangeException("typeParameterName", 42, "message");
+            var taeType = tae.GetType();
+            var members = taeType.GetAllProperties();
+            var expected = 13;
+
+#if NET48_OR_GREATER
+            expected = 14;
+#endif
+
+            TestOutput.WriteLines(members);
+
+            Assert.Equal(expected, members.Count());
+        }
+
+        [Fact]
+        public void GetAllEvents_ShouldIncludeFullInheritanceChainOfEvents()
+        {
+            var tae = new TypeArgumentOutOfRangeException("typeParameterName", 42, "message");
+            var taeType = tae.GetType();
+            var members = taeType.GetAllEvents();
+            var expected = 1;
+
+            TestOutput.WriteLines(members);
+
+            Assert.Equal(expected, members.Count());
+        }
+
+        [Fact]
+        public void GetAllMethods_ShouldIncludeFullInheritanceChainOfMethods()
+        {
+            var tae = new TypeArgumentOutOfRangeException("typeParameterName", 42, "message");
+            var taeType = tae.GetType();
+            var methods = taeType.GetAllMethods();
+            var expected = 40;
+
+#if NET48_OR_GREATER
+            expected = 49;
+#endif
+
+            TestOutput.WriteLines(methods);
+
+            Assert.Equal(expected, methods.Count());
+        }
+
+        [Fact]
+        public void GetAllFields_ShouldIncludeFullInheritanceChainOfFields()
+        {
+            var tae = new TypeArgumentOutOfRangeException("typeParameterName", 42, "message");
+            var taeType = tae.GetType();
+            var members = taeType.GetAllFields();
+            var actualValueName = "_actualValue";
+            var expected = 17;
+
+#if NET48_OR_GREATER
+            expected = 21;
+            actualValueName = "m_actualValue";
+#endif
+
+            TestOutput.WriteLines(members);
+
+            var actualValue = members.SingleOrDefault(fi => fi.Name == actualValueName);
+            actualValue.SetValue(tae, 45);
+
+            Assert.Equal(expected, members.Count());
+            Assert.Equal(45, tae.ActualValue);
         }
 
         [Fact]
@@ -65,6 +181,42 @@ namespace Cuemon.Extensions.Reflection
 
             TestOutput.WriteLine(" --- ");
 
+#if NET48_OR_GREATER
+            Assert.True(sut2.Count == 3, "sut2.Count == 3"); // with .net framework things are even worse; microsoft - CONSISTENCY IS KEY
+            Assert.True(sut3.Count == 2, "sut2.Count == 2");
+            Assert.Equal(15, sut4.Count);
+
+            foreach (var pi in sut4)
+            {
+                TestOutput.WriteLine(pi.Name);
+            }
+
+            Assert.Collection(sut2,
+                pi => Assert.Equal("Code", pi.Name),
+                pi => Assert.Equal("CodePhrase", pi.Name),
+                pi => Assert.Equal("InnerExceptions", pi.Name));
+
+            Assert.Collection(sut3,
+                pi => Assert.Equal("Code", pi.Name),
+                pi => Assert.Equal("CodePhrase", pi.Name));
+
+            Assert.Collection(sut4,
+                pi => Assert.Equal("Code", pi.Name),
+                pi => Assert.Equal("CodePhrase", pi.Name),
+                pi => Assert.Equal("InnerExceptions", pi.Name),
+                pi => Assert.Equal("Message", pi.Name),
+                pi => Assert.Equal("Data", pi.Name),
+                pi => Assert.Equal("InnerException", pi.Name),
+                pi => Assert.Equal("TargetSite", pi.Name),
+                pi => Assert.Equal("StackTrace", pi.Name),
+                pi => Assert.Equal("HelpLink", pi.Name),
+                pi => Assert.Equal("Source", pi.Name),
+                pi => Assert.Equal("IPForWatsonBuckets", pi.Name),
+                pi => Assert.Equal("WatsonBuckets", pi.Name),
+                pi => Assert.Equal("RemoteStackTrace", pi.Name),
+                pi => Assert.Equal("HResult", pi.Name),
+                pi => Assert.Equal("IsTransient", pi.Name));
+#else
             Assert.True(sut2.Count == 5, "sut2.Count == 5"); // with .net 6 ms decided to add two extra internals; InnerExceptionCount and InternalInnerExceptions (yup; ugly)
             Assert.True(sut3.Count == 2, "sut2.Count == 2");
             Assert.Equal(13, sut4.Count);
@@ -99,6 +251,8 @@ namespace Cuemon.Extensions.Reflection
                 pi => Assert.Equal("Source", pi.Name),
                 pi => Assert.Equal("HResult", pi.Name),
                 pi => Assert.Equal("StackTrace", pi.Name));
+#endif
+
         }
 
         [Fact]

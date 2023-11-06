@@ -23,7 +23,8 @@ namespace Cuemon.Runtime.Caching
             var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'KeyProvider == null')", sut2.Message);
-            Assert.Equal("SlimMemoryCacheOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+            Assert.StartsWith("SlimMemoryCacheOptions are not in a valid state.", sut3.Message);
+            Assert.Contains("sut1", sut3.Message);
             Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
 

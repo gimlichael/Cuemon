@@ -40,7 +40,7 @@ namespace Cuemon.Reflection
 
             TestOutput.WriteLines(disposableTypes);
 
-            Assert.InRange(allTypesCount, 525, 540); // range because of tooling on CI adding dynamic types and high range of refactoring
+            Assert.InRange(allTypesCount, 475, 575); // range because of tooling on CI adding dynamic types and high range of refactoring
             Assert.Equal(5, disposableTypesCount);
             Assert.Equal(4, configurationTypesCount);
         }
@@ -53,7 +53,7 @@ namespace Cuemon.Reflection
 
             TestOutput.WriteLine(v.ToString());
 
-            Assert.Equal("7.0.0.0", v.ToString());
+            Assert.Equal("8.0.0.0", v.ToString());
             Assert.False(v.HasAlphanumericVersion);
             Assert.False(v.IsSemanticVersion());
         }

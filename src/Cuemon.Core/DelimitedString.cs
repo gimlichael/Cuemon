@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -61,7 +60,7 @@ namespace Cuemon
             var key = string.Concat(delimiter, "<-dq->", qualifier);
             if (!CompiledSplitExpressions.TryGetValue(key, out var compiledSplit))
             {
-                compiledSplit = new Regex(string.Format(CultureInfo.InvariantCulture, "{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", delimiter, qualifier), RegexOptions.IgnoreCase | RegexOptions.Compiled, TimeSpan.FromSeconds(2));
+                compiledSplit = new Regex(string.Format(options.FormatProvider, "{0}(?=(?:[^{1}]*{1}[^{1}]*{1})*(?![^{1}]*{1}))", delimiter, qualifier), RegexOptions.IgnoreCase | RegexOptions.Compiled, TimeSpan.FromSeconds(2));
                 CompiledSplitExpressions.TryAdd(key, compiledSplit);
             }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Cuemon.AspNetCore.Authentication.Hmac
 {
@@ -123,7 +122,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
             
             if (!string.IsNullOrWhiteSpace(clientId) &&
                 credentialScope != null &&
-                signedHeaders != null && signedHeaders.Any() &&
+                !string.IsNullOrEmpty(signedHeaders) &&
                 !string.IsNullOrWhiteSpace(signature))
             {
                 return new HmacAuthorizationHeader(clientId, credentialScope, signedHeaders, signature, AuthenticationScheme);

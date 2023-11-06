@@ -24,7 +24,7 @@ namespace Cuemon.Data.SqlClient
         {
             var io = new SqlInOperator<string>();
             var sr = io.ToSafeResult(Arguments.ToEnumerableOf("A", "B", "C"));
-            using (var reader = _manager.ExecuteReader(new DataCommand($"SELECT * FROM [Production].[ProductInventory] WHERE Shelf IN ({sr})"), sr.ToParametersArray()))
+            using (var reader = _manager.ExecuteReader(new DataStatement($"SELECT * FROM [Production].[ProductInventory] WHERE Shelf IN ({sr})", o => o.Parameters = sr.ToParametersArray())))
             {
                 var rows = reader.ToRows();
                 Assert.Equal(172, rows.Count);
@@ -35,7 +35,7 @@ namespace Cuemon.Data.SqlClient
         public override void ConfigureServices(IServiceCollection services)
         {
             var cnn = Configuration.GetConnectionString("AdventureWorks");
-            services.AddSingleton(new SqlDataManager(cnn));
+            services.AddSingleton(new SqlDataManager(o => o.ConnectionString = cnn));
         }
     }
 }

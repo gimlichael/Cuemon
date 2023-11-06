@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Cuemon.Reflection;
+using Cuemon.Runtime.Serialization.Formatters;
 using Newtonsoft.Json;
 
 namespace Cuemon.Extensions.Newtonsoft.Json.Converters
@@ -22,7 +25,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             IncludeStackTrace = includeStackTrace;
             IncludeData = includeData;
         }
-        
+
         /// <summary>
         /// Gets a value indicating whether the data of an exception is included in the converted result.
         /// </summary>
@@ -54,17 +57,79 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         /// <param name="existingValue">The existing value of object being read.</param>
         /// <param name="serializer">The calling serializer.</param>
         /// <returns>The object value.</returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            var stack = ParseJsonReader(reader, objectType);
+            return Decorator.Enclose(stack).CreateException();
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Newtonsoft.Json.JsonConverter" /> can read JSON.
-        /// </summary>
-        /// <value><c>true</c> if this <see cref="T:Newtonsoft.Json.JsonConverter" /> can read JSON; otherwise, <c>false</c>.</value>
-        public override bool CanRead => false;
+        private static Stack<IList<MemberArgument>> ParseJsonReader(JsonReader reader, Type objectType)
+        {
+            var stack = new Stack<IList<MemberArgument>>();
+            var properties = new List<PropertyInfo>();
+            var lastDepth = 1;
+            var blueprints = new List<MemberArgument>();
+            while (reader.Read())
+            {
+                if (reader.Depth != lastDepth && blueprints.Count > 0)
+                {
+                    stack.Push(blueprints);
+                    blueprints = new List<MemberArgument>();
+                }
+
+                switch (reader.TokenType)
+                {
+                    case JsonToken.PropertyName:
+                        string memberName = MapOrDefault(reader.Value!.ToString()!);
+                        if (!reader.Read())
+                        {
+                            // throw
+                        }
+                        var property = properties.SingleOrDefault(pi => pi.Name.Equals(memberName, StringComparison.OrdinalIgnoreCase));
+                        if (property != null)
+                        {
+                            if (property.Name == nameof(Exception.InnerException))
+                            {
+                                blueprints.Add(new MemberArgument(memberName, null));
+                            }
+                            else
+                            {
+                                blueprints.Add(new MemberArgument(memberName, reader.Value));
+                            }
+                        }
+                        else
+                        {
+                            if (memberName.Equals("type", StringComparison.OrdinalIgnoreCase))
+                            {
+                                objectType = Formatter.GetType(reader.Value.ToString());
+                                properties = objectType.GetProperties(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
+                                blueprints.Add(new MemberArgument(memberName, objectType));
+                            }
+                        }
+                        break;
+                    case JsonToken.Comment:
+                        break;
+                    case JsonToken.EndObject:
+                        break;
+                }
+                lastDepth = reader.Depth;
+            }
+
+            return stack;
+        }
+
+        private static string MapOrDefault(string memberName)
+        {
+            switch (memberName.ToLowerInvariant())
+            {
+                case "inner":
+                    return nameof(Exception.InnerException);
+                case "stack":
+                    return nameof(Exception.StackTrace);
+                default:
+                    return memberName;
+            }
+        }
 
         /// <summary>
         /// Determines whether this instance can convert the specified object type.
@@ -124,7 +189,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
                 writer.WriteEndObject();
             }
 
-            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => !Decorator.Enclose(pi.PropertyType).IsComplex());
+            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>();
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);

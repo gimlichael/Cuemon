@@ -120,7 +120,7 @@ namespace Cuemon.Reflection
         private static TInstance CreateInstanceCore<TTuple, TInstance>(FuncFactory<TTuple, TInstance> factory, Action<ActivatorOptions> setup = null) where TTuple : Template
         {
             var options = Patterns.Configure(setup);
-            return (TInstance)Activator.CreateInstance(typeof(TInstance), options.Flags, options.Binder, factory.GenericArguments.ToArray(), options.FormatProvider);
+            return (TInstance)Activator.CreateInstance(typeof(TInstance), options.Flags, options.Binder, factory.GenericArguments.ToArray(), options.FormatProvider as CultureInfo);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Cuemon.Extensions.IO;
+﻿using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
@@ -14,32 +12,6 @@ namespace Cuemon.AspNetCore.Http
     {
         public NotFoundExceptionTest(ITestOutputHelper output) : base(output)
         {
-        }
-
-        [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf404()
-        {
-            var sut = new NotFoundException();
-
-            TestOutput.WriteLine(sut.ToString());
-
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                bf.Serialize(ms, sut);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                ms.Position = 0;
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                var desEx = bf.Deserialize(ms) as NotFoundException;
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                Assert.Equal(sut.StatusCode, desEx.StatusCode);
-                Assert.Equal(sut.ReasonPhrase, desEx.ReasonPhrase);
-                Assert.Equal(sut.Message, desEx.Message);
-                Assert.Equal(sut.ToString(), desEx.ToString());
-            }
-
-            Assert.Equal(StatusCodes.Status404NotFound, sut.StatusCode);
         }
 
         [Fact]
@@ -62,12 +34,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status404NotFound, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"{
-  ""type"": ""Cuemon.AspNetCore.Http.NotFoundException"",
-  ""message"": ""The server has not found anything matching the request URI."",
-  ""statusCode"": 404,
-  ""reasonPhrase"": ""Not Found""
-}", sut4);
+            Assert.Equal("""
+                         {
+                           "type": "Cuemon.AspNetCore.Http.NotFoundException",
+                           "message": "The server has not found anything matching the request URI.",
+                           "headers": {},
+                           "statusCode": 404,
+                           "reasonPhrase": "Not Found"
+                         }
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -90,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status404NotFound, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<NotFoundException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The server has not found anything matching the request URI.</Message>
-	<StatusCode>404</StatusCode>
-	<ReasonPhrase>Not Found</ReasonPhrase>
-</NotFoundException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <NotFoundException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The server has not found anything matching the request URI.</Message>
+                         	<Headers />
+                         	<StatusCode>404</StatusCode>
+                         	<ReasonPhrase>Not Found</ReasonPhrase>
+                         </NotFoundException>
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using Cuemon.Collections.Generic;
 using Cuemon.Configuration;
 using System.Runtime.CompilerServices;
 
@@ -23,105 +22,124 @@ namespace Cuemon
         public static Validator ThrowIf { get; } = ExtendedValidator;
 
         /// <summary>
-        /// Provides a convenient way to validate a parameter while returning the specified <paramref name="value"/> unaltered.
+        /// Provides a convenient way to verify a desired state from the provided <paramref name="validator"/> while returning the specified <paramref name="argument"/> unaltered.
         /// </summary>
         /// <typeparam name="T">The type of the object to evaluate.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="value"/> is not valid.</param>
-        /// <returns>The specified <paramref name="value"/> unaltered.</returns>
-        public static T CheckParameter<T>(T value, Action validator)
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="validator">The delegate that must throw an <see cref="Exception"/> if the specified <paramref name="argument"/> is not valid.</param>
+        /// <returns>The specified <paramref name="argument"/> unaltered.</returns>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="validator"/> cannot be null.
+        /// </exception>
+        /// <remarks>Typically used when nesting calls from a constructor perspective.</remarks>
+        public static T CheckParameter<T>(T argument, Action validator)
         {
             ThrowIfNull(validator);
             validator();
-            return value;
+            return argument;
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="setup"/> results in an instance of invalid <paramref name="options"/>.
+        /// Provides a convenient way to verify a desired state from the provided <paramref name="validator"/> while returning a result that reflects this.
         /// </summary>
-        /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameterObject"/> interface.</typeparam>
-        /// <param name="setup">The delegate that will configure the public read-write properties of <paramref name="options"/>.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="options">The default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.</param>
+        /// <typeparam name="TResult">The type of the object to return.</typeparam>
+        /// <param name="validator">The function delegate that must throw an <see cref="Exception"/> if a desired state for <typeparamref name="TResult"/> cannot be achieved.</param>
+        /// <returns>The result of function delegate <paramref name="validator"/>.</returns>
         /// <exception cref="ArgumentException">
-        /// <paramref name="setup"/> failed to configure an instance of <paramref name="options"/> in a valid state.
+        /// <paramref name="validator"/> cannot be null.
         /// </exception>
-        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, out TOptions options) where TOptions : class, IValidatableParameterObject, new()
+        /// <remarks>Typically used when nesting calls from a constructor perspective.</remarks>
+        public static TResult CheckParameter<TResult>(Func<TResult> validator)
         {
-            ThrowIfInvalidConfigurator(setup, paramName, "Delegate must configure the public read-write properties to be in a valid state.", out options);
+            ThrowIfNull(validator);
+            return validator();
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="setup"/> results in an instance of invalid <paramref name="options"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> results in an instance of invalid <paramref name="options"/>.
         /// </summary>
         /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameterObject"/> interface.</typeparam>
-        /// <param name="setup">The delegate that will configure the public read-write properties of <paramref name="options"/>.</param>
+        /// <param name="argument">The delegate that will configure the public read-write properties of <paramref name="options"/>.</param>
+        /// <param name="options">The default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="argument"/> delegate.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="options">The default parameter-less constructed instance of <typeparamref name="TOptions"/> configured with <paramref name="setup"/> delegate.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="setup"/> failed to configure an instance <paramref name="options"/> in a valid state.
+        /// <paramref name="argument"/> failed to configure an instance <paramref name="options"/> in a valid state.
         /// </exception>
-        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> setup, string paramName, string message, out TOptions options) where TOptions : class, IValidatableParameterObject, new()
+        public static void ThrowIfInvalidConfigurator<TOptions>(Action<TOptions> argument, out TOptions options, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Delegate must configure the public read-write properties to be in a valid state.") where TOptions : class, IValidatableParameterObject, new()
         {
-            options = Patterns.Configure(setup);
+            options = Patterns.Configure(argument);
             ThrowIfInvalidOptions(options, paramName, message);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="options"/> are not in a valid state.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> are not in a valid state.
         /// </summary>
         /// <typeparam name="TOptions">The type of the object implementing the <seealso cref="IValidatableParameterObject"/> interface.</typeparam>
-        /// <param name="options">The configured options to validate.</param>
+        /// <param name="argument">The configured options to validate.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="options"/> cannot be null.
+        /// <paramref name="argument"/> cannot be null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// <paramref name="options"/> are not in a valid state.
+        /// <paramref name="argument"/> are not in a valid state.
         /// </exception>
         /// <remarks><paramref name="message"/> will have the name of the <typeparamref name="TOptions"/> if possible; otherwise Options.</remarks>
-        public static void ThrowIfInvalidOptions<TOptions>(TOptions options, string paramName, string message = "{0} are not in a valid state.") where TOptions : class, IValidatableParameterObject, new()
+        public static void ThrowIfInvalidOptions<TOptions>(TOptions argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "{0} are not in a valid state.") where TOptions : class, IValidatableParameterObject, new()
         {
-            ThrowIfNull(options, paramName);
+            ThrowIfNull(argument, paramName);
             try
             {
-                options.ValidateOptions();
+                argument.ValidateOptions();
             }
             catch (Exception e)
             {
                 if (message?.Equals("{0} are not in a valid state.", StringComparison.InvariantCulture) ?? false) { message = string.Format(message, Patterns.InvokeOrDefault(() => Decorator.Enclose(typeof(TOptions)).ToFriendlyName(), "Options")); }
-                throw ExceptionInsights.Embed(new ArgumentException(message, paramName, e), MethodBase.GetCurrentMethod(), Arguments.ToArray(options, paramName, message));
+                throw new ArgumentException(message, paramName, e);
             }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="InvalidOperationException" /> if the specified <paramref name="predicate" /> is <c>true</c>.
+        /// Validates and throws an <see cref="InvalidOperationException" /> if the specified <paramref name="condition" /> is <c>true</c>.
         /// </summary>
-        /// <param name="predicate">The value that determines if an <see cref="InvalidOperationException"/> is thrown.</param>
+        /// <param name="condition">The value that determines if an <see cref="InvalidOperationException"/> is thrown.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="expression">The <paramref name="predicate"/> expressed as a string.</param>
+        /// <param name="expression">The <paramref name="condition"/> expressed as a string.</param>
         /// <exception cref="InvalidOperationException">
-        /// <paramref name="predicate" /> is <c>true</c>.
+        /// <paramref name="condition" /> is <c>true</c>.
         /// </exception>
-        public static void ThrowIfObjectInDistress(bool predicate, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression("predicate")] string expression = null)
+        public static void ThrowIfObjectInDistress(bool condition, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression(nameof(condition))] string expression = null)
         {
-            ThrowIfObjectInDistress(() => predicate, message, expression);
+            if (condition) { throw new InvalidOperationException($"{message} (Expression '{expression}')"); }
+        }
+        
+        /// <summary>
+        /// Validates and throws an <see cref="ObjectDisposedException" /> if the specified <paramref name="condition" /> is <c>true</c>.
+        /// </summary>
+        /// <param name="condition">The condition to evaluate.</param>
+        /// <param name="instance">The object whose type's full name should be included in any resulting <see cref="ObjectDisposedException" />.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ObjectDisposedException">
+        /// The <paramref name="condition" /> is <c>true</c>.
+        /// </exception>
+        public static void ThrowIfObjectDisposed(bool condition, object instance, string message = "Cannot access a disposed object.")
+        {
+            ThrowIfObjectDisposed(condition, instance?.GetType(), message);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="InvalidOperationException" /> if the specified <paramref name="predicate" /> returns <c>true</c>.
+        /// Validates and throws an <see cref="ObjectDisposedException" /> if the specified <paramref name="condition" /> is <c>true</c>.
         /// </summary>
-        /// <param name="predicate">The function delegate that determines if an <see cref="InvalidOperationException"/> is thrown.</param>
+        /// <param name="condition">The condition to evaluate.</param>
+        /// <param name="type">The type whose full name should be included in any resulting <see cref="ObjectDisposedException" />.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="expression">The <paramref name="predicate"/> expressed as a string.</param>
-        /// <exception cref="InvalidOperationException">
-        /// <paramref name="predicate" /> returned <c>true</c>.
+        /// <exception cref="ObjectDisposedException">
+        /// The <paramref name="condition" /> is <c>true</c>.
         /// </exception>
-        public static void ThrowIfObjectInDistress(Func<bool> predicate, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression("predicate")] string expression = null)
+        public static void ThrowIfObjectDisposed(bool condition, Type type, string message = "Cannot access a disposed object.")
         {
-            if (predicate?.Invoke() ?? false) { throw new InvalidOperationException($"{message} (Expression '{expression}')"); }
+            if (condition) { throw new ObjectDisposedException(type == null ? null : Decorator.Enclose(type, false).ToFriendlyName(o => o.FullName = true), message); }
         }
 
         /// <summary>
@@ -131,205 +149,90 @@ namespace Cuemon
         /// <exception cref="ArgumentNullException">
         /// <paramref name="condition"/> is null.
         /// </exception>
-        public void ThrowWhenCondition(Action<ExceptionCondition<ArgumentException>> condition)
+        public static void ThrowWhen(Action<ExceptionCondition<ArgumentException>> condition)
         {
-            ThrowWhen(condition);
-        }
-
-        internal static void ThrowWhen(Action<ExceptionCondition<ArgumentException>> condition)
-        {
-            if (condition == null) { throw new ArgumentNullException(nameof(condition)); }
+            ThrowIfNull(condition);
             Patterns.CreateInstance(condition);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is a number.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is a number.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
+        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="argument"/>.</param>
+        /// <param name="provider">An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about <paramref name="argument"/>.</param>
+        /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a number.
+        /// <paramref name="argument"/> cannot be a number.
         /// </exception>
-        public static void ThrowIfNumber(string value, string paramName, NumberStyles styles = NumberStyles.Number)
+        public static void ThrowIfNumber(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, NumberStyles styles = NumberStyles.Number, IFormatProvider provider = null, string message = "Value cannot be a number.")
         {
-            ThrowIfNumber(value, paramName, styles, CultureInfo.InvariantCulture);
+            if (Condition.IsNumeric(argument, styles, provider ?? CultureInfo.InvariantCulture)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is a number.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is not a number.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
-        /// <param name="provider">An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a number.
-        /// </exception>
-        public static void ThrowIfNumber(string value, string paramName, NumberStyles styles, IFormatProvider provider)
-        {
-            ThrowIfNumber(value, paramName, "Value cannot be a number.", styles, provider);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
+        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="argument"/>.</param>
+        /// <param name="provider">An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a number.
+        /// <paramref name="argument"/> must be a number.
         /// </exception>
-        public static void ThrowIfNumber(string value, string paramName, string message, NumberStyles styles = NumberStyles.Number)
+        public static void ThrowIfNotNumber(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, NumberStyles styles = NumberStyles.Number, IFormatProvider provider = null, string message = "Value must be a number.")
         {
-            ThrowIfNumber(value, paramName, message, styles, CultureInfo.InvariantCulture);
+            if (!Condition.IsNumeric(argument, styles, provider ?? CultureInfo.InvariantCulture)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is a number.
+        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="argument"/> is null.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
-        /// <param name="provider">An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a number.
-        /// </exception>
-        public static void ThrowIfNumber(string value, string paramName, string message, NumberStyles styles, IFormatProvider provider)
-        {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsNumeric(value, styles, provider)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, styles, provider));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a number.
-        /// </exception>
-        public static void ThrowIfNotNumber(string value, string paramName, NumberStyles styles = NumberStyles.Number)
-        {
-            ThrowIfNotNumber(value, paramName, styles, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
-        /// <param name="provider">An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a number.
-        /// </exception>
-        public static void ThrowIfNotNumber(string value, string paramName, NumberStyles styles, IFormatProvider provider)
-        {
-            ThrowIfNotNumber(value, paramName, "Value must be a number.", styles, provider);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a number.
-        /// </exception>
-        public static void ThrowIfNotNumber(string value, string paramName, string message, NumberStyles styles = NumberStyles.Number)
-        {
-            ThrowIfNotNumber(value, paramName, message, styles, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not a number.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <param name="styles">A bitwise combination of <see cref="NumberStyles"/> values that indicates the permitted format of <paramref name="value"/>.</param>
-        /// <param name="provider">An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a number.
-        /// </exception>
-        public static void ThrowIfNotNumber(string value, string paramName, string message, NumberStyles styles, IFormatProvider provider)
-        {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Condition.IsNumeric(value, styles, provider)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, styles, provider));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="decorator"/> is null.
-        /// </summary>
-        /// <typeparam name="T">The type of the inner object denoted by <paramref name="decorator"/>.</typeparam>
-        /// <param name="decorator">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="inner">The inner object of <paramref name="decorator"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null - or -
-        /// <see cref="P:IDecorator.Inner"/> property of <paramref name="decorator"/> cannot be null.
-        /// </exception>
-        public static void ThrowIfNull<T>(IDecorator<T> decorator, string paramName, out T inner)
-        {
-            ThrowIfNull(decorator, paramName, "Decorator or Inner cannot be null.", out inner);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="decorator"/> is null.
-        /// </summary>
-        /// <typeparam name="T">The type of the inner object denoted by <paramref name="decorator"/>.</typeparam>
-        /// <param name="decorator">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <param name="inner">The inner object of <paramref name="decorator"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="decorator"/> cannot be null - or -
-        /// <see cref="P:IDecorator.Inner"/> property of <paramref name="decorator"/> cannot be null.
-        /// </exception>
-        public static void ThrowIfNull<T>(IDecorator<T> decorator, string paramName, string message, out T inner)
-        {
-            ThrowIfNull(decorator, paramName, message);
-            ThrowIfNull(decorator.Inner, nameof(decorator.Inner), message);
-            inner = decorator.Inner;
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="value"/> is null.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <typeparam name="T">The type of the inner object denoted by <paramref name="argument"/>.</typeparam>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="inner">The inner object of <paramref name="argument"/>.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
+        /// <paramref name="argument"/> cannot be null - or -
+        /// <see cref="P:IDecorator.Inner"/> property of <paramref name="argument"/> cannot be null.
         /// </exception>
-        public static void ThrowIfNull(object value, [CallerArgumentExpression("value")] string paramName = null, string message = "Value cannot be null.")
+        public static void ThrowIfNull<T>(IDecorator<T> argument, out T inner, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value cannot be null.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsNull(value)).Create(() => new ArgumentNullException(paramName, message)).TryThrow());
-            }
-            catch (ArgumentNullException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            ThrowIfNull(argument, paramName, message);
+            ThrowIfNull(argument.Inner, paramName, message);
+            inner = argument.Inner;
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentNullException"/> if the specified <paramref name="argument"/> is null.
+        /// </summary>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="argument"/> cannot be null.
+        /// </exception>
+        public static void ThrowIfNull(object argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value cannot be null.")
+        {
+            if (argument is null) { throw new ArgumentNullException(paramName, message); }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="condition" /> is <c>false</c>.
+        /// </summary>
+        /// <param name="condition">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="expression">The <paramref name="condition"/> expressed as a string.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="condition" /> is <c>false</c>.
+        /// </exception>
+        public static void ThrowIfFalse(bool condition, string paramName, string message = "Value is not in a valid state.", [CallerArgumentExpression(nameof(condition))] string expression = null)
+        {
+            if (Condition.IsFalse(condition)) { throw new ArgumentException($"{message} (Expression '{expression}')", paramName); }
         }
 
         /// <summary>
@@ -338,40 +241,28 @@ namespace Cuemon
         /// <param name="predicate">The function delegate that determines if an <see cref="ArgumentException"/> is thrown.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
+        /// <param name="expression">The <paramref name="predicate"/> expressed as a string.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="predicate" /> returned <c>false</c>.
         /// </exception>
-        public static void ThrowIfFalse(Func<bool> predicate, string paramName, string message)
+        public static void ThrowIfFalse(Func<bool> predicate, string paramName, string message = "Value is not in a valid state.", [CallerArgumentExpression(nameof(predicate))] string expression = null)
         {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(predicate).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(predicate, paramName, message));
-            }
+            if (Condition.IsFalse(predicate?.Invoke() ?? true)) { throw new ArgumentException($"{message} (Expression '{expression}')", paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="value" /> is <c>false</c>.
+        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="condition" /> is <c>true</c>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="condition">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
+        /// <param name="expression">The <paramref name="condition"/> expressed as a string.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value" /> must be <c>true</c>.
+        /// <paramref name="condition" /> is <c>true</c>.
         /// </exception>
-        public static void ThrowIfFalse(bool value, string paramName, string message = "Value must be true.")
+        public static void ThrowIfTrue(bool condition, string paramName, string message = "Value is not in a valid state.", [CallerArgumentExpression(nameof(condition))] string expression = null)
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsFalse(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (Condition.IsTrue(condition)) { throw new ArgumentException($"{message} (Expression '{expression}')", paramName); }
         }
 
         /// <summary>
@@ -380,244 +271,148 @@ namespace Cuemon
         /// <param name="predicate">The function delegate that determines if an <see cref="ArgumentException"/> is thrown.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
+        /// <param name="expression">The <paramref name="predicate"/> expressed as a string.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="predicate" /> returned <c>true</c>.
         /// </exception>
-        public static void ThrowIfTrue(Func<bool> predicate, string paramName, string message)
+        public static void ThrowIfTrue(Func<bool> predicate, string paramName, string message = "Value is not in a valid state.", [CallerArgumentExpression(nameof(predicate))] string expression = null)
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(predicate).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(predicate, paramName, message));
-            }
+            if (Condition.IsTrue(predicate?.Invoke() ?? false)) { throw new ArgumentException($"{message} (Expression '{expression}')", paramName); }
         }
 
-
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException" /> if the specified <paramref name="value" /> is <c>true</c>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> has no elements.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value" /> must be <c>false</c>.
+        /// <paramref name="argument"/> contains no elements.
         /// </exception>
-        public static void ThrowIfTrue(bool value, string paramName, string message = "Value must be false.")
+        /// <remarks>This method will not throw an exception if <paramref name="argument"/> is null.</remarks>
+        public static void ThrowIfSequenceEmpty<T>(IEnumerable<T> argument, string paramName, string message = "Value contains no elements.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsTrue(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (Condition.IsFalse(argument?.Any() ?? true)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has no elements.
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is respectively null or has no elements.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> contains no elements.
-        /// </exception>
-        public static void ThrowIfSequenceEmpty<T>(IEnumerable<T> value, string paramName, string message = "Value contains no elements.")
-        {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(value.Any).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null or has no elements.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
+        /// <paramref name="argument"/> cannot be null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> contains no elements.
+        /// <paramref name="argument"/> contains no elements.
         /// </exception>
-        public static void ThrowIfSequenceNullOrEmpty<T>(IEnumerable<T> value, string paramName, string message = "Value is either null or contains no elements.")
+        public static void ThrowIfSequenceNullOrEmpty<T>(IEnumerable<T> argument, string paramName, string message = "Value is either null or contains no elements.")
         {
-            try
-            {
-                ThrowIfNull(value, paramName, message);
-                ThrowIfSequenceEmpty(value, paramName, message);
-            }
-            catch (Exception ex) when (ex is ArgumentException)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            ThrowIfNull(argument, paramName, message);
+            ThrowIfSequenceEmpty(argument, paramName, message);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is empty.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is empty.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty.
+        /// <paramref name="argument"/> cannot be empty.
         /// </exception>
-        public static void ThrowIfEmpty(string value, string paramName, string message = "Value cannot be empty.")
+        /// <remarks>This method will not throw an exception if <paramref name="argument"/> is null.</remarks>
+        public static void ThrowIfEmpty(string argument, string paramName, string message = "Value cannot be empty.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsEmpty(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (Condition.IsEmpty(argument)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> consist only of white-space characters.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> consist only of white-space characters.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot consist only of white-space characters.
+        /// <paramref name="argument"/> cannot consist only of white-space characters.
         /// </exception>
-        public static void ThrowIfWhiteSpace(string value, string paramName, string message = "Value cannot consist only of white-space characters.")
+        /// <remarks>This method will not throw an exception if <paramref name="argument"/> is null.</remarks>
+        public static void ThrowIfWhiteSpace(string argument, string paramName, string message = "Value cannot consist only of white-space characters.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsWhiteSpace(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (Condition.IsWhiteSpace(argument)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null or empty.
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is respectively null or empty.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
+        /// <paramref name="argument"/> cannot be null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty.
+        /// <paramref name="argument"/> cannot be empty.
         /// </exception>
-        public static void ThrowIfNullOrEmpty(string value, [CallerArgumentExpression("value")] string paramName = null)
+        public static void ThrowIfNullOrEmpty(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null)
         {
-            try
-            {
-                ThrowIfNull(value, paramName);
-                ThrowIfEmpty(value, paramName);
-            }
-            catch (Exception ex) when (ex is ArgumentException)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName));
-            }
+            ThrowIfNull(argument, paramName);
+            ThrowIfEmpty(argument, paramName);
         }
 
         /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null or empty.
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is respectively null or empty.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error to your liking.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="argument"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="argument"/> cannot be empty.
+        /// </exception>
+        public static void ThrowIfNullOrEmpty(string argument, string paramName, string message)
+        {
+            ThrowIfNull(argument, paramName, message);
+            ThrowIfEmpty(argument, paramName, message);
+        }
+
+        /// <summary>
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is respectively null, empty or consist only of white-space characters.
+        /// </summary>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="argument"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="argument"/> cannot be empty or consist only of white-space characters.
+        /// </exception>
+        public static void ThrowIfNullOrWhitespace(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        {
+            ThrowIfNull(argument, paramName);
+            ThrowIfEmpty(argument, paramName);
+            ThrowIfWhiteSpace(argument, paramName);
+        }
+
+        /// <summary>
+        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is respectively null, empty or consist only of white-space characters.
+        /// </summary>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
+        /// <paramref name="argument"/> cannot be null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty.
+        /// <paramref name="argument"/> cannot be empty or consist only of white-space characters.
         /// </exception>
-        public static void ThrowIfNullOrEmpty(string value, string paramName, string message)
+        public static void ThrowIfNullOrWhitespace(string argument, string paramName, string message)
         {
-            try
-            {
-                ThrowIfNull(value, paramName, message);
-                ThrowIfEmpty(value, paramName, message);
-            }
-            catch (Exception ex) when (ex is ArgumentException)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null, empty or consist only of white-space characters.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty or consist only of white-space characters.
-        /// </exception>
-        public static void ThrowIfNullOrWhitespace(string value, [CallerArgumentExpression("value")] string paramName = null)
-        {
-            try
-            {
-                ThrowIfNull(value, paramName);
-                ThrowIfEmpty(value, paramName);
-                ThrowIfWhiteSpace(value, paramName);
-            }
-            catch (Exception ex) when (ex is ArgumentException)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="value"/> is respectively null, empty or consist only of white-space characters.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty or consist only of white-space characters.
-        /// </exception>
-        public static void ThrowIfNullOrWhitespace(string value, string paramName, string message)
-        {
-            try
-            {
-                ThrowIfNull(value, paramName, message);
-                ThrowIfEmpty(value, paramName, message);
-                ThrowIfWhiteSpace(value, paramName, message);
-            }
-            catch (Exception ex) when (ex is ArgumentException)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> object are of the same instance as the <paramref name="y" /> object.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are of the same instance.
-        /// </exception>
-        public static void ThrowIfSame<T>(T x, T y, string paramName)
-        {
-            ThrowIfSame(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are of the same instance."));
+            ThrowIfNull(argument, paramName, message);
+            ThrowIfEmpty(argument, paramName, message);
+            ThrowIfWhiteSpace(argument, paramName, message);
         }
 
         /// <summary>
@@ -631,31 +426,9 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="x" /> and <paramref name="y"/> are of the same instance.
         /// </exception>
-        public static void ThrowIfSame<T>(T x, T y, string paramName, string message)
+        public static void ThrowIfSame<T>(T x, T y, string paramName, string message = null)
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.AreSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} <==> {y}"), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> object are not of the same instance as the <paramref name="y" /> object.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are not of the same instance.
-        /// </exception>
-        public static void ThrowIfNotSame<T>(T x, T y, string paramName)
-        {
-            ThrowIfNotSame(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are not of the same instance."));
+            if (Condition.AreSame(x, y)) { throw new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} <==> {y}"), message ?? FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are of the same instance.")); }
         }
 
         /// <summary>
@@ -669,16 +442,9 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="x" /> and <paramref name="y"/> are not of the same instance.
         /// </exception>
-        public static void ThrowIfNotSame<T>(T x, T y, string paramName, string message)
+        public static void ThrowIfNotSame<T>(T x, T y, string paramName, string message = null)
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.AreNotSame(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} <!=> {y}"), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
-            }
+            if (Condition.AreNotSame(x, y)) { throw new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} <!=> {y}"), message ?? FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are not of the same instance.")); }
         }
 
         /// <summary>
@@ -688,116 +454,14 @@ namespace Cuemon
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are equal to one another.
-        /// </exception>
-        public static void ThrowIfEqual<T>(T x, T y, string paramName)
-        {
-            ThrowIfEqual(x, y, EqualityComparer<T>.Default, paramName);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> object are equal to the <paramref name="y" /> object.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing <paramref name="x"/> and <paramref name="y"/>.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are equal to one another.
-        /// </exception>
-        public static void ThrowIfEqual<T>(T x, T y, IEqualityComparer<T> comparer, string paramName)
-        {
-            ThrowIfEqual(x, y, comparer, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are equal to one another."));
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> object are equal to the <paramref name="y" /> object.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="x" /> and <paramref name="y"/> are equal to one another.
         /// </exception>
-        public static void ThrowIfEqual<T>(T x, T y, string paramName, string message)
+        public static void ThrowIfEqual<T>(T x, T y, string paramName, IEqualityComparer<T> comparer = null, string message = null)
         {
-            ThrowIfEqual(x, y, EqualityComparer<T>.Default, paramName, message);
-        }
-
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> object are equal to the <paramref name="y" /> object.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing <paramref name="x"/> and <paramref name="y"/>.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are equal to one another.
-        /// </exception>
-        public static void ThrowIfEqual<T>(T x, T y, IEqualityComparer<T> comparer, string paramName, string message)
-        {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.AreEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} == {y}"), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, comparer, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> object are not equal to the <paramref name="y" /> object.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are not equal to one another.
-        /// </exception>
-        public static void ThrowIfNotEqual<T>(T x, T y, string paramName)
-        {
-            ThrowIfNotEqual(x, y, EqualityComparer<T>.Default, paramName);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> object are not equal to the <paramref name="y" /> object.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> implementation to use when comparing <paramref name="x"/> and <paramref name="y"/>.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are not equal to one another.
-        /// </exception>
-        public static void ThrowIfNotEqual<T>(T x, T y, IEqualityComparer<T> comparer, string paramName)
-        {
-            ThrowIfNotEqual(x, y, comparer, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are not equal to one another."));
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> object are not equal to the <paramref name="y" /> object.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> and <paramref name="y"/> are not equal to one another.
-        /// </exception>
-        public static void ThrowIfNotEqual<T>(T x, T y, string paramName, string message)
-        {
-            ThrowIfNotEqual(x, y, EqualityComparer<T>.Default, paramName, message);
+            if (Condition.AreEqual(x, y, comparer ?? EqualityComparer<T>.Default)) { throw new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} == {y}"), message ?? FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are equal to one another.")); }
         }
 
         /// <summary>
@@ -812,31 +476,9 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="x" /> and <paramref name="y"/> are not equal to one another.
         /// </exception>
-        public static void ThrowIfNotEqual<T>(T x, T y, IEqualityComparer<T> comparer, string paramName, string message)
+        public static void ThrowIfNotEqual<T>(T x, T y, string paramName, IEqualityComparer<T> comparer = null, string message = null)
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.AreNotEqual(x, y, comparer)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} != {y}"), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, comparer, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> is greater than <paramref name="y" />.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> is greater than <paramref name="y"/>.
-        /// </exception>
-        public static void ThrowIfGreaterThan<T>(T x, T y, string paramName) where T : struct, IConvertible
-        {
-            ThrowIfGreaterThan(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} is greater than {nameof(y)}."));
+            if (Condition.AreNotEqual(x, y, comparer ?? EqualityComparer<T>.Default)) { throw new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} != {y}"), message ?? FormattableString.Invariant($"Specified arguments {nameof(x)} and {nameof(y)} are not equal to one another.")); }
         }
 
         /// <summary>
@@ -850,31 +492,9 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="x" /> is greater than <paramref name="y"/>.
         /// </exception>
-        public static void ThrowIfGreaterThan<T>(T x, T y, string paramName, string message) where T : struct, IConvertible
+        public static void ThrowIfGreaterThan<T>(T x, T y, string paramName, string message = null) where T : struct, IConvertible
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsGreaterThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} > {y}"), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> is greater than or equal to <paramref name="y" />.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> is greater than or equal to <paramref name="y"/>.
-        /// </exception>
-        public static void ThrowIfGreaterThanOrEqual<T>(T x, T y, string paramName) where T : struct, IConvertible
-        {
-            ThrowIfGreaterThanOrEqual(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} is greater than or equal to {nameof(y)}."));
+            if (Condition.IsGreaterThan(x, y)) { throw new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} > {y}"), message ?? FormattableString.Invariant($"Specified arguments {nameof(x)} is greater than {nameof(y)}.")); }
         }
 
         /// <summary>
@@ -888,31 +508,9 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="x" /> is greater than or equal to <paramref name="y"/>.
         /// </exception>
-        public static void ThrowIfGreaterThanOrEqual<T>(T x, T y, string paramName, string message) where T : struct, IConvertible
+        public static void ThrowIfGreaterThanOrEqual<T>(T x, T y, string paramName, string message = null) where T : struct, IConvertible
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsGreaterThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} >= {y}"), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> is lower than <paramref name="y" />.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> is lower than <paramref name="y"/>.
-        /// </exception>
-        public static void ThrowIfLowerThan<T>(T x, T y, string paramName) where T : struct, IConvertible
-        {
-            ThrowIfLowerThan(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} is lower than {nameof(y)}."));
+            if (Condition.IsGreaterThanOrEqual(x, y)) { throw new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} >= {y}"), message ?? FormattableString.Invariant($"Specified arguments {nameof(x)} is greater than or equal to {nameof(y)}.")); }
         }
 
         /// <summary>
@@ -926,31 +524,9 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="x" /> is lower than <paramref name="y"/>.
         /// </exception>
-        public static void ThrowIfLowerThan<T>(T x, T y, string paramName, string message) where T : struct, IConvertible
+        public static void ThrowIfLowerThan<T>(T x, T y, string paramName, string message = null) where T : struct, IConvertible
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsLowerThan(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} < {y}"), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException" /> if the specified <paramref name="x" /> is lower than or equal to <paramref name="y" />.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="x" /> is lower than or equal to <paramref name="y"/>.
-        /// </exception>
-        public static void ThrowIfLowerThanOrEqual<T>(T x, T y, string paramName) where T : struct, IConvertible
-        {
-            ThrowIfLowerThanOrEqual(x, y, paramName, FormattableString.Invariant($"Specified arguments {nameof(x)} is lower than or equal to {nameof(y)}."));
+            if (Condition.IsLowerThan(x, y)) { throw new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} < {y}"), message ?? FormattableString.Invariant($"Specified arguments {nameof(x)} is lower than {nameof(y)}.")); }
         }
 
         /// <summary>
@@ -964,303 +540,174 @@ namespace Cuemon
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="x" /> is lower than or equal to <paramref name="y"/>.
         /// </exception>
-        public static void ThrowIfLowerThanOrEqual<T>(T x, T y, string paramName, string message) where T : struct, IConvertible
+        public static void ThrowIfLowerThanOrEqual<T>(T x, T y, string paramName, string message = null) where T : struct, IConvertible
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsLowerThanOrEqual(x, y)).Create(() => new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} <= {y}"), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(x, y, paramName, message));
-            }
+            if (Condition.IsLowerThanOrEqual(x, y)) { throw new ArgumentOutOfRangeException(paramName, FormattableString.Invariant($"{x} <= {y}"), message ?? FormattableString.Invariant($"Specified arguments {nameof(x)} is lower than or equal to {nameof(y)}.")); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is hexadecimal.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is hexadecimal.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be hexadecimal.
+        /// <paramref name="argument"/> cannot be hexadecimal.
         /// </exception>
-        public static void ThrowIfHex(string value, string paramName, string message = "Specified argument cannot be hexadecimal.")
+        public static void ThrowIfHex(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Specified argument cannot be hexadecimal.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsHex(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (Condition.IsHex(argument)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> is not hexadecimal.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is not hexadecimal.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be hexadecimal.
+        /// <paramref name="argument"/> must be hexadecimal.
         /// </exception>
-        public static void ThrowIfNotHex(string value, string paramName, string message = "Value must be hexadecimal.")
+        public static void ThrowIfNotHex(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value must be hexadecimal.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Condition.IsHex(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (!Condition.IsHex(argument)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of an email address.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> has the format of an email address.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be an email address.
+        /// <paramref name="argument"/> cannot be an email address.
         /// </exception>
-        public static void ThrowIfEmailAddress(string value, string paramName, string message = "Value cannot be an email address.")
+        public static void ThrowIfEmailAddress(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value cannot be an email address.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsEmailAddress(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (Condition.IsEmailAddress(argument)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of an email address.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> does not have the format of an email address.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be an email address.
+        /// <paramref name="argument"/> must be an email address.
         /// </exception>
-        public static void ThrowIfNotEmailAddress(string value, string paramName, string message = "Value must be an email address.")
+        public static void ThrowIfNotEmailAddress(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value must be an email address.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Condition.IsEmailAddress(value)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (!Condition.IsEmailAddress(argument)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of a <see cref="Guid"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> has the format of a <see cref="Guid"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
+        /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a <see cref="Guid"/>.
+        /// <paramref name="argument"/> cannot be a <see cref="Guid"/>.
         /// </exception>
-        /// <remarks>
-        /// This implementation only evaluates for GUID formats of: <see cref="GuidFormats.D"/> | <see cref="GuidFormats.B"/> | <see cref="GuidFormats.P"/>, eg. 32 digits separated by hyphens; 32 digits separated by hyphens, enclosed in brackets and 32 digits separated by hyphens, enclosed in parentheses.<br/>
-        /// The reason not to include <see cref="GuidFormats.N"/>, eg. 32 digits is the possible unintended GUID result of a MD5 string representation.
-        /// </remarks>
-        public static void ThrowIfGuid(string value, string paramName)
+        public static void ThrowIfGuid(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, GuidFormats format = GuidFormats.B | GuidFormats.D | GuidFormats.P, string message = "Value cannot be a Guid.")
         {
-            ThrowIfGuid(value, GuidFormats.B | GuidFormats.D | GuidFormats.P, paramName);
+            if (Condition.IsGuid(argument, format)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of a <see cref="Guid"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> does not have the format of a <see cref="Guid"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a <see cref="Guid"/>.
+        /// <paramref name="argument"/> must be a <see cref="Guid"/>.
         /// </exception>
-        public static void ThrowIfGuid(string value, GuidFormats format, string paramName, string message = "Value cannot be a Guid.")
+        public static void ThrowIfNotGuid(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, GuidFormats format = GuidFormats.B | GuidFormats.D | GuidFormats.P, string message = "Value must be a Guid.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsGuid(value, format)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, format, paramName, message));
-            }
+            if (!Condition.IsGuid(argument, format)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of a <see cref="Guid"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> has the format of a <see cref="Uri"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a <see cref="Guid"/>.
-        /// </exception>
-        /// <remarks>
-        /// This implementation only evaluates for GUID formats of: <see cref="GuidFormats.D"/> | <see cref="GuidFormats.B"/> | <see cref="GuidFormats.P"/>, eg. 32 digits separated by hyphens; 32 digits separated by hyphens, enclosed in brackets and 32 digits separated by hyphens, enclosed in parentheses.<br/>
-        /// The reason not to include <see cref="GuidFormats.N"/>, eg. 32 digits is the possible unintended GUID result of a MD5 string representation.
-        /// </remarks>
-        public static void ThrowIfNotGuid(string value, string paramName)
-        {
-            ThrowIfNotGuid(value, GuidFormats.B | GuidFormats.D | GuidFormats.P, paramName);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of a <see cref="Guid"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="format">A bitmask comprised of one or more <see cref="GuidFormats"/> that specify how the GUID parsing is conducted.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a <see cref="Guid"/>.
-        /// </exception>
-        public static void ThrowIfNotGuid(string value, GuidFormats format, string paramName, string message = "Value must be a Guid.")
-        {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Condition.IsGuid(value, format)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, format, paramName, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of a <see cref="Uri"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a <see cref="Uri"/>.
-        /// </exception>
-        public static void ThrowIfUri(string value, string paramName)
-        {
-            ThrowIfUri(value, UriKind.Absolute, paramName);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> has the format of a <see cref="Uri"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
         /// <param name="uriKind">The type of the URI.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be a <see cref="Uri"/>.
+        /// <paramref name="argument"/> cannot be a <see cref="Uri"/>.
         /// </exception>
-        public static void ThrowIfUri(string value, UriKind uriKind, string paramName, string message = "Value cannot be a URI.")
+        public static void ThrowIfUri(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, UriKind uriKind = UriKind.Absolute, string message = "Value cannot be a URI.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsUri(value, o => o.Kind = uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, uriKind, paramName, message));
-            }
+            if (Condition.IsUri(argument, o => o.Kind = uriKind)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of a <see cref="Uri"/>.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> does not have the format of a <see cref="Uri"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a <see cref="Uri"/>.
-        /// </exception>
-        public static void ThrowIfNotUri(string value, string paramName)
-        {
-            ThrowIfNotUri(value, UriKind.Absolute, paramName);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not have the format of a <see cref="Uri"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
         /// <param name="uriKind">The type of the URI.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> must be a <see cref="Uri"/>.
+        /// <paramref name="argument"/> must be a <see cref="Uri"/>.
         /// </exception>
-        public static void ThrowIfNotUri(string value, UriKind uriKind, string paramName, string message = "Value must be a URI.")
+        public static void ThrowIfNotUri(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, UriKind uriKind = UriKind.Absolute, string message = "Value must be a URI.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Condition.IsUri(value, o => o.Kind = uriKind)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, uriKind, paramName, message));
-            }
+            if (!Condition.IsUri(argument, o => o.Kind = uriKind)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// <paramref name="types"/> does not satisfy the condition of being an interface.
         /// </exception>
-        public static void ThrowIfContainsInterface(Type value, string paramName, params Type[] types)
+        public static void ThrowIfContainsInterface(Type argument, string paramName, params Type[] types)
         {
-            ThrowIfContainsInterface(value, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
+            ThrowIfContainsInterface(argument, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null -or-
+        /// <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// <paramref name="types"/> does not satisfy the condition of being an interface.
         /// </exception>
-        public static void ThrowIfContainsInterface(Type value, string paramName, string message, params Type[] types)
+        public static void ThrowIfContainsInterface(Type argument, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value);
+            ThrowIfNull(argument);
             ThrowIfNull(types);
-            ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value).HasInterface(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
-            }
+            ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
+            if (Decorator.Enclose(argument).HasInterface(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws a <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <typeparamref name="T"/>.</param>
@@ -1296,19 +743,56 @@ namespace Cuemon
         public static void ThrowIfContainsInterface<T>(string typeParamName, string message, params Type[] types)
         {
             ThrowIfNull(types);
-            ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(typeof(T)).HasInterface(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (TypeArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
-            }
+            ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
+            if (Decorator.Enclose(typeof(T)).HasInterface(types)) { throw new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="argument"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfNotContainsInterface(Type argument, string paramName, params Type[] types)
+        {
+            ThrowIfNotContainsInterface(argument, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="argument"/>.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        public static void ThrowIfNotContainsInterface(Type argument, string paramName, string message, params Type[] types)
+        {
+            ThrowIfNull(argument);
+            ThrowIfNull(types);
+            ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
+            if (!Decorator.Enclose(argument).HasInterface(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
+        }
+
+        /// <summary>
+        /// Validates and throws a <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <typeparamref name="T"/>.</param>
@@ -1327,7 +811,7 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws a <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
@@ -1344,158 +828,86 @@ namespace Cuemon
         public static void ThrowIfNotContainsInterface<T>(string typeParamName, string message, params Type[] types)
         {
             ThrowIfNull(types);
-            ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(typeof(T)).HasInterface(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (TypeArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
-            }
+            ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
+            if (!Decorator.Enclose(typeof(T)).HasInterface(types)) { throw new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="types"/> does not satisfy the condition of being an interface.
-        /// </exception>
-        public static void ThrowIfNotContainsInterface(Type value, string paramName, params Type[] types)
+        public static void ThrowIfContainsType(object argument, string paramName, params Type[] types)
         {
-            ThrowIfNotContainsInterface(value, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
+            ThrowIfContainsType(argument, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments (that must be an interface) to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="types"/> does not satisfy the condition of being an interface.
-        /// </exception>
-        public static void ThrowIfNotContainsInterface(Type value, string paramName, string message, params Type[] types)
+        public static void ThrowIfContainsType(object argument, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value);
+            ThrowIfNull(argument);
             ThrowIfNull(types);
-            ThrowIfFalse(types.All(it => it.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value).HasInterface(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
-            }
+            if (Decorator.Enclose(argument.GetType()).HasTypes(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        public static void ThrowIfContainsType(object value, string paramName, params Type[] types)
+        public static void ThrowIfContainsType(Type argument, string paramName, params Type[] types)
         {
-            ThrowIfContainsType(value, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
+            ThrowIfContainsType(argument, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        public static void ThrowIfContainsType(object value, string paramName, string message, params Type[] types)
+        public static void ThrowIfContainsType(Type argument, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value);
+            ThrowIfNull(argument);
             ThrowIfNull(types);
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value.GetType()).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
-            }
+            if (Decorator.Enclose(argument).HasTypes(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </exception>
-        public static void ThrowIfContainsType(Type value, string paramName, params Type[] types)
-        {
-            ThrowIfContainsType(value, paramName, FormattableString.Invariant($"Specified argument is contained within at least one of {nameof(types)}."), types);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </exception>
-        public static void ThrowIfContainsType(Type value, string paramName, string message, params Type[] types)
-        {
-            ThrowIfNull(value);
-            ThrowIfNull(types);
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
-            }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws a <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <typeparamref name="T"/>.</param>
@@ -1511,7 +923,7 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws a <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
@@ -1525,106 +937,85 @@ namespace Cuemon
         public static void ThrowIfContainsType<T>(string typeParamName, string message, params Type[] types)
         {
             ThrowIfNull(types);
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (TypeArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
-            }
+            if (Decorator.Enclose(typeof(T)).HasTypes(types)) { throw new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        public static void ThrowIfNotContainsType(Type value, string paramName, params Type[] types)
+        public static void ThrowIfNotContainsType(Type argument, string paramName, params Type[] types)
         {
-            ThrowIfNotContainsType(value, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
+            ThrowIfNotContainsType(argument, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        public static void ThrowIfNotContainsType(Type value, string paramName, string message, params Type[] types)
+        public static void ThrowIfNotContainsType(Type argument, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value);
+            ThrowIfNull(argument);
             ThrowIfNull(types);
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
-            }
+            if (!Decorator.Enclose(argument).HasTypes(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        public static void ThrowIfNotContainsType(object value, string paramName, params Type[] types)
+        public static void ThrowIfNotContainsType(object argument, string paramName, params Type[] types)
         {
-            ThrowIfNotContainsType(value, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
+            ThrowIfNotContainsType(argument, paramName, FormattableString.Invariant($"Specified argument is not contained within at least one of {nameof(types)}."), types);
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
-        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="value"/>.</param>
+        /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <paramref name="argument"/>.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null - or - <paramref name="types"/> is null.
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </exception>
-        public static void ThrowIfNotContainsType(object value, string paramName, string message, params Type[] types)
+        public static void ThrowIfNotContainsType(object argument, string paramName, string message, params Type[] types)
         {
-            ThrowIfNull(value);
+            ThrowIfNull(argument);
             ThrowIfNull(types);
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(value.GetType()).HasTypes(types)).Create(() => new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message, types));
-            }
+            if (!Decorator.Enclose(argument.GetType()).HasTypes(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws a <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="types">A variable number of <see cref="Type"/> arguments to match with the type of <typeparamref name="T"/>.</param>
@@ -1640,7 +1031,7 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// Validates and throws a <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
@@ -1654,113 +1045,58 @@ namespace Cuemon
         public static void ThrowIfNotContainsType<T>(string typeParamName, string message, params Type[] types)
         {
             ThrowIfNull(types);
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Decorator.Enclose(typeof(T)).HasTypes(types)).Create(() => new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message)).TryThrow());
-            }
-            catch (TypeArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message, types));
-            }
+            if (!Decorator.Enclose(typeof(T)).HasTypes(types)) { throw new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> represents an enumeration.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> represents an enumeration.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> represents an enumeration.
-        /// </exception>
-        public static void ThrowIfEnum<TEnum>(string value, string paramName) where TEnum : struct, IConvertible
-        {
-            ThrowIfEnum<TEnum>(value, true, paramName);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> represents an enumeration.
-        /// </summary>
-        /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
         /// <param name="ignoreCase"><c>true</c> to ignore case; <c>false</c> to regard case.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> represents an enumeration.
+        /// <paramref name="argument"/> represents an enumeration.
         /// </exception>
-        public static void ThrowIfEnum<TEnum>(string value, bool ignoreCase, string paramName, string message = "Value represents an enumeration.") where TEnum : struct, IConvertible
+        public static void ThrowIfEnum<TEnum>(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, bool ignoreCase = true, string message = "Value represents an enumeration.") where TEnum : struct, IConvertible
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => Condition.IsEnum<TEnum>(value, o => o.IgnoreCase = ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, ignoreCase, paramName, message));
-            }
+            if (Condition.IsEnum<TEnum>(argument, o => o.IgnoreCase = ignoreCase)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not represents an enumeration.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> does not represents an enumeration.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> does not represents an enumeration.
-        /// </exception>
-        public static void ThrowIfNotEnum<TEnum>(string value, string paramName) where TEnum : struct, IConvertible
-        {
-            ThrowIfNotEnum<TEnum>(value, true, paramName);
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not represents an enumeration.
-        /// </summary>
-        /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
-        /// <param name="value">The value to be evaluated.</param>
         /// <param name="ignoreCase"><c>true</c> to ignore case; <c>false</c> to regard case.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> does not represents an enumeration.
+        /// <paramref name="argument"/> does not represents an enumeration.
         /// </exception>
-        public static void ThrowIfNotEnum<TEnum>(string value, bool ignoreCase, string paramName, string message = "Value does not represents an enumeration.") where TEnum : struct, IConvertible
+        public static void ThrowIfNotEnum<TEnum>(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, bool ignoreCase = true, string message = "Value does not represents an enumeration.") where TEnum : struct, IConvertible
         {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Condition.IsEnum<TEnum>(value, o => o.IgnoreCase = ignoreCase)).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, ignoreCase, paramName, message));
-            }
+            if (!Condition.IsEnum<TEnum>(argument, o => o.IgnoreCase = ignoreCase)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> represents an enumeration.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> represents an enumeration.
         /// </summary>
-        /// <param name="value">The type to check is an enumeration.</param>
+        /// <param name="argument">The type to check is an enumeration.</param>
         /// <param name="paramName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> represents an enumeration.
+        /// <paramref name="argument"/> represents an enumeration.
         /// </exception>
-        public static void ThrowIfEnumType(Type value, string paramName, string message = "Value represents an enumeration.")
+        /// <remarks>This method will not throw an exception if <paramref name="argument"/> is null.</remarks>
+        public static void ThrowIfEnumType(Type argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value represents an enumeration.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => value.GetTypeInfo().IsEnum).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (Condition.IsTrue(argument?.GetTypeInfo().IsEnum ?? false)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentException"/> if the specified <typeparamref name="TEnum"/> represents an enumeration.
+        /// Validates and throws a <see cref="TypeArgumentException"/> if the specified <typeparamref name="TEnum"/> represents an enumeration.
         /// </summary>
         /// <typeparam name="TEnum">The type to check is an enumeration.</typeparam>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
@@ -1770,18 +1106,11 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfEnumType<TEnum>(string typeParamName, string message = "Value represents an enumeration.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsTrue(() => typeof(TEnum).GetTypeInfo().IsEnum).Create(() => new TypeArgumentException(typeParamName, message)).TryThrow());
-            }
-            catch (TypeArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message));
-            }
+            if (typeof(TEnum).GetTypeInfo().IsEnum) { throw new TypeArgumentException(typeParamName, message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="TypeArgumentException"/> if the specified <typeparamref name="TEnum"/> does not represents an enumeration.
+        /// Validates and throws a <see cref="TypeArgumentException"/> if the specified <typeparamref name="TEnum"/> does not represents an enumeration.
         /// </summary>
         /// <typeparam name="TEnum">The type to check is not an enumeration.</typeparam>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
@@ -1791,77 +1120,49 @@ namespace Cuemon
         /// </exception>
         public static void ThrowIfNotEnumType<TEnum>(string typeParamName, string message = "Value does not represents an enumeration.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => typeof(TEnum).GetTypeInfo().IsEnum).Create(() => new TypeArgumentException(typeParamName, message)).TryThrow());
-            }
-            catch (TypeArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(typeParamName, message));
-            }
+            if (!typeof(TEnum).GetTypeInfo().IsEnum) { throw new TypeArgumentException(typeParamName, message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="value"/> does not represents an enumeration.
+        /// Validates and throws an <see cref="ArgumentException"/> if the specified <paramref name="argument"/> does not represents an enumeration.
         /// </summary>
-        /// <param name="value">The type to check is not an enumeration.</param>
+        /// <param name="argument">The type to check is not an enumeration.</param>
         /// <param name="paramName">The name of the type parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> does not represents an enumeration.
+        /// <paramref name="argument"/> does not represents an enumeration.
         /// </exception>
-        public static void ThrowIfNotEnumType(Type value, string paramName, string message = "Value does not represents an enumeration.")
+        public static void ThrowIfNotEnumType(Type argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value does not represents an enumeration.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => value.GetTypeInfo().IsEnum).Create(() => new ArgumentException(message, paramName)).TryThrow());
-            }
-            catch (ArgumentException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (Condition.IsFalse(argument?.GetTypeInfo().IsEnum ?? true)) { throw new ArgumentException(message, paramName); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> consist of anything besides binary digits.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> consist of anything besides binary digits.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> must consist only of binary digits.
+        /// <paramref name="argument"/> must consist only of binary digits.
         /// </exception>
-        public static void ThrowIfNotBinaryDigits(string value, string paramName, string message = "Value must consist only of binary digits.")
+        public static void ThrowIfNotBinaryDigits(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value must consist only of binary digits.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Condition.IsBinaryDigits(value)).Create(() => new ArgumentOutOfRangeException(paramName, value, message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (!Condition.IsBinaryDigits(argument)) { throw new ArgumentOutOfRangeException(paramName, argument, message); }
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="value"/> consist of anything besides a base-64 structure.
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> consist of anything besides a base-64 structure.
         /// </summary>
-        /// <param name="value">The value to be evaluated.</param>
+        /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> must consist only of base-64 digits.
+        /// <paramref name="argument"/> must consist only of base-64 digits.
         /// </exception>
-        public static void ThrowIfNotBase64String(string value, string paramName, string message = "Value must consist only of base-64 digits.")
+        public static void ThrowIfNotBase64String(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = "Value must consist only of base-64 digits.")
         {
-            try
-            {
-                ThrowWhen(c => c.IsFalse(() => Condition.IsBase64(value)).Create(() => new ArgumentOutOfRangeException(paramName, value, message)).TryThrow());
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ExceptionInsights.Embed(ex, MethodBase.GetCurrentMethod(), Arguments.ToArray(value, paramName, message));
-            }
+            if (!Condition.IsBase64(argument)) { throw new ArgumentOutOfRangeException(paramName, argument, message); }
         }
     }
 }

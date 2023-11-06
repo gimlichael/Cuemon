@@ -13,7 +13,7 @@ using Microsoft.Net.Http.Headers;
 namespace Cuemon.AspNetCore.Http
 {
     /// <summary>
-    /// Extension methods for the <see cref="HttpContext"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="HttpContext"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// This API supports the product infrastructure and is not intended to be used directly from your code.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>

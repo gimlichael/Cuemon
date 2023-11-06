@@ -41,18 +41,18 @@ namespace Cuemon.Extensions.Diagnostics
 
             Assert.Contains(@"Error
 	Code: UnhandledException
-	Message: An unhandled exception occurred.", sut2);
+	Message: An unhandled exception occurred.".ReplaceLineEndings(), sut2);
             Assert.Contains(@$"Failure
 	System.InsufficientMemoryException
 		Source: Cuemon.Extensions.Diagnostics.Tests
 		Message: Insufficient memory to continue the execution of the program.
 		Stack:
-			at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithAllCaptures)}()", sut2);
+			at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithAllCaptures)}()".ReplaceLineEndings(), sut2);
             Assert.Contains(@"Data:
-			Name=Cuemon", sut2);
+			Name=Cuemon".ReplaceLineEndings(), sut2);
             Assert.Contains(@$"Evidence
 	Thrower:
-		Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithAllCaptures)}()", sut2);
+		Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithAllCaptures)}()".ReplaceLineEndings(), sut2);
             Assert.Contains(@"	Thread:", sut2);
             Assert.Contains(@"	Process:", sut2);
             Assert.Contains(@"	Environment:", sut2);
@@ -82,18 +82,18 @@ namespace Cuemon.Extensions.Diagnostics
 
             Assert.Contains(@"Error
 	Code: UnhandledException
-	Message: An unhandled exception occurred.", sut2);
+	Message: An unhandled exception occurred.".ReplaceLineEndings(), sut2);
 
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence), () =>
             {
                 Assert.Contains(@$"Evidence
 	Thrower:
-		Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}", sut2);
+		Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}".ReplaceLineEndings(), sut2);
             }, () =>
             {
                 Assert.DoesNotContain(@$"Evidence
 	Thrower:
-		Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}", sut2);
+		Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}".ReplaceLineEndings(), sut2);
             });
 
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure), () =>
@@ -101,42 +101,42 @@ namespace Cuemon.Extensions.Diagnostics
                 Assert.Contains(@$"Failure
 	System.InsufficientMemoryException
 		Source: Cuemon.Extensions.Diagnostics.Tests
-		Message: Insufficient memory to continue the execution of the program.", sut2);
+		Message: Insufficient memory to continue the execution of the program.".ReplaceLineEndings(), sut2);
             }, () =>
             {
                 Assert.DoesNotContain(@$"Failure
 	System.InsufficientMemoryException
 		Source: Cuemon.Extensions.Diagnostics.Tests
-		Message: Insufficient memory to continue the execution of the program.", sut2);
+		Message: Insufficient memory to continue the execution of the program.".ReplaceLineEndings(), sut2);
             });
 
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.FailureWithStackTrace), () =>
             {
                 Assert.Contains(@$"Stack:
-			at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}", sut2);
+			at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}".ReplaceLineEndings(), sut2);
             }, () =>
             {
                 Assert.DoesNotContain(@$"Stack:
-			at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}", sut2);
+			at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.{nameof(ToInsightsString_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions)}".ReplaceLineEndings(), sut2);
             });
 
             
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.FailureWithData), () =>
             {
                 Assert.Contains(@"Data:
-			Name=Cuemon", sut2);
+			Name=Cuemon".ReplaceLineEndings(), sut2);
             }, () =>
             {
                 Assert.DoesNotContain(@"Data:
-			Name=Cuemon", sut2);
+			Name=Cuemon".ReplaceLineEndings(), sut2);
             });
 
-            Condition.FlipFlop(snapshots.HasFlag(SystemSnapshots.CaptureThreadInfo), () => Assert.Contains(@"	Thread:", sut2), () => Assert.DoesNotContain(@"	Thread:", sut2));
-            Condition.FlipFlop(snapshots.HasFlag(SystemSnapshots.CaptureProcessInfo), () => Assert.Contains(@"	Process:", sut2), () => Assert.DoesNotContain(@"	Process:", sut2));
-            Condition.FlipFlop(snapshots.HasFlag(SystemSnapshots.CaptureEnvironmentInfo), () => Assert.Contains(@"	Environment:", sut2), () => Assert.DoesNotContain(@"	Environment:", sut2));
+            Condition.FlipFlop(snapshots.HasFlag(SystemSnapshots.CaptureThreadInfo), () => Assert.Contains(@"	Thread:", sut2), () => Assert.DoesNotContain(@"	Thread:".ReplaceLineEndings(), sut2));
+            Condition.FlipFlop(snapshots.HasFlag(SystemSnapshots.CaptureProcessInfo), () => Assert.Contains(@"	Process:", sut2), () => Assert.DoesNotContain(@"	Process:".ReplaceLineEndings(), sut2));
+            Condition.FlipFlop(snapshots.HasFlag(SystemSnapshots.CaptureEnvironmentInfo), () => Assert.Contains(@"	Environment:", sut2), () => Assert.DoesNotContain(@"	Environment:".ReplaceLineEndings(), sut2));
         }
 
-        private static IEnumerable<object[]> GetData()
+        public static IEnumerable<object[]> GetData()
         {
             var parameters = new List<object[]>()
             {

@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
     <ProjectGuid>200bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
     <SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
@@ -11,18 +11,26 @@
     <PackageTags>asp-net-core-host-test class-fixture asp-net-core-host-fixture middleware-test-factory microsoft dependency injection host configuration hosting-environment service-provider configure-services test-server</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0-rc.2.23480.2" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.13" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.24" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.DependencyInjection\Cuemon.Extensions.DependencyInjection.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Xunit.Hosting\Cuemon.Extensions.Xunit.Hosting.csproj" />
+    <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>
 
 </Project>

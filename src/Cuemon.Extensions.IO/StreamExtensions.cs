@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.IO;
 using Cuemon.Text;
@@ -126,6 +127,7 @@ namespace Cuemon.Extensions.IO
         /// </summary>
         /// <param name="stream">The <see cref="Stream"/> to extend.</param>
         /// <param name="buffer">The buffer to write data from.</param>
+        /// <param name="ct">The token to monitor for cancellation requests.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="stream"/> is null -or-
@@ -140,10 +142,10 @@ namespace Cuemon.Extensions.IO
         /// <exception cref="InvalidOperationException">
         /// The stream is currently in use by a previous write operation.
         /// </exception>
-        public static Task WriteAllAsync(this Stream stream, byte[] buffer)
+        public static Task WriteAllAsync(this Stream stream, byte[] buffer, CancellationToken ct = default)
         {
             Validator.ThrowIfNull(stream);
-            return Decorator.Enclose(stream).WriteAllAsync(buffer);
+            return Decorator.Enclose(stream).WriteAllAsync(buffer, ct);
         }
 
         /// <summary>
@@ -195,7 +197,8 @@ namespace Cuemon.Extensions.IO
             return Decorator.Enclose(value).ToEncodedStringAsync(setup);
         }
 
-        #if NETSTANDARD2_1 || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+
         /// <summary>
         /// Compresses the <paramref name="value"/> using the BROTLI algorithm.
         /// </summary>
@@ -232,7 +235,8 @@ namespace Cuemon.Extensions.IO
             Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).CompressBrotliAsync(setup);
         }
-        #endif
+
+#endif
 
         /// <summary>
         /// Compresses the <paramref name="value"/> using the DEFLATE algorithm.
@@ -308,7 +312,8 @@ namespace Cuemon.Extensions.IO
             return Decorator.Enclose(value).CompressGZipAsync(setup);
         }
 
-        #if NETSTANDARD2_1 || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+
         /// <summary>
         /// Decompresses the <paramref name="value"/> using the BROTLI data format specification.
         /// </summary>
@@ -351,7 +356,8 @@ namespace Cuemon.Extensions.IO
             Validator.ThrowIfNull(value);
             return Decorator.Enclose(value).DecompressBrotliAsync(setup);
         }
-        #endif
+
+#endif
 
         /// <summary>
         /// Decompresses the <paramref name="value"/> using the DEFLATE data format specification.

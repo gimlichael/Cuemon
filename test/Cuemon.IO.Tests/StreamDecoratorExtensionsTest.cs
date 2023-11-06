@@ -16,6 +16,8 @@ namespace Cuemon.IO
         {
         }
 
+#if NET6_0_OR_GREATER
+
         [Fact]
         public void CompressBrotli_ShouldCompressAndDecompress()
         {
@@ -71,8 +73,14 @@ namespace Cuemon.IO
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
             var os = await Decorator.Enclose(fs).ToStreamAsync();
-            await Assert.ThrowsAsync<OperationCanceledException>(async () => await Decorator.Enclose(os).CompressBrotliAsync(o => o.CancellationToken = ctsShouldFail.Token));
+            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(10), ctsShouldFail.Token);
+                await Decorator.Enclose(os).CompressBrotliAsync(o => o.CancellationToken = ctsShouldFail.Token);
+            });
         }
+
+#endif
 
         [Fact]
         public void CompressGZip_ShouldCompressAndDecompress()
@@ -129,7 +137,11 @@ namespace Cuemon.IO
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
             var os = await Decorator.Enclose(fs).ToStreamAsync();
-            await Assert.ThrowsAsync<OperationCanceledException>(async () => await Decorator.Enclose(os).CompressGZipAsync(o => o.CancellationToken = ctsShouldFail.Token));
+            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(10), ctsShouldFail.Token);
+                await Decorator.Enclose(os).CompressGZipAsync(o => o.CancellationToken = ctsShouldFail.Token);
+            });
         }
 
         [Fact]
@@ -187,7 +199,11 @@ namespace Cuemon.IO
             var size = 1024 * 1024;
             var fs = Generate.RandomString(size);
             var os = await Decorator.Enclose(fs).ToStreamAsync();
-            await Assert.ThrowsAsync<OperationCanceledException>(async () => await Decorator.Enclose(os).CompressDeflateAsync(o => o.CancellationToken = ctsShouldFail.Token));
+            await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(10), ctsShouldFail.Token);
+                await Decorator.Enclose(os).CompressDeflateAsync(o => o.CancellationToken = ctsShouldFail.Token);
+            });
         }
 
         [Fact]

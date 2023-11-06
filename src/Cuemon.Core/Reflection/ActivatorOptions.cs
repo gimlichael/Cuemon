@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Reflection;
 
 namespace Cuemon.Reflection
@@ -7,7 +6,7 @@ namespace Cuemon.Reflection
     /// <summary>
     /// Configuration options for <see cref="ActivatorFactory"/>.
     /// </summary>
-    public class ActivatorOptions : FormattingOptions<CultureInfo>
+    public class ActivatorOptions : FormattingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivatorOptions"/> class.
@@ -21,7 +20,7 @@ namespace Cuemon.Reflection
         ///     </listheader>
         ///     <item>
         ///         <term><see cref="Flags"/></term>
-        ///         <description><c>BindingFlags.Instance | BindingFlags.Public</c></description>
+        ///         <description><c>BindingFlags.Instance | BindingFlags.Public | BindingFlags.CreateInstance</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="Binder"/></term>

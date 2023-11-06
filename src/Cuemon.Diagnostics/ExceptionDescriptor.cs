@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Cuemon.Collections.Generic;
 using Cuemon.Text;
 
@@ -40,8 +39,6 @@ namespace Cuemon.Diagnostics
                 var insights = base64Segments.Split('.');
                 if (insights.Length == 5)
                 {
-                    var builder = new StringBuilder();
-                    builder.AppendLine(exception.ToString());
                     var memberSignature = Convertible.ToString(Convert.FromBase64String(insights[IndexOfThrower]));
                     var runtimeParameters = Convertible.ToString(Convert.FromBase64String(insights[IndexOfRuntimeParameters]));
                     ed.AddEvidence("Thrower", new MemberEvidence(memberSignature, string.IsNullOrWhiteSpace(runtimeParameters) ? null : runtimeParameters.Split(Alphanumeric.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToDictionary(k => k.Substring(0, k.IndexOf('=')), v =>

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Cuemon
 {
     /// <summary>
     /// The exception that is thrown when one of the type arguments provided to a method is not valid.
     /// </summary>
-    [Serializable]
     public class TypeArgumentException : ArgumentException
     {
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeArgumentException"/> class.
         /// </summary>
@@ -42,15 +39,5 @@ namespace Cuemon
         public TypeArgumentException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TypeArgumentException"/> class.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        protected TypeArgumentException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-        #endregion
     }
 }

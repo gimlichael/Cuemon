@@ -10,7 +10,7 @@ namespace Cuemon.Data
     /// </summary>
     public class InOperatorResult
     {
-        internal InOperatorResult(IEnumerable<string> arguments, IEnumerable<IDbDataParameter> parameters, Func<IEnumerable<string>, string> argumentsStringConverter)
+        internal InOperatorResult(IEnumerable<string> arguments, IEnumerable<IDataParameter> parameters, Func<IEnumerable<string>, string> argumentsStringConverter)
         {
             Arguments = arguments;
             Parameters = parameters;
@@ -30,13 +30,13 @@ namespace Cuemon.Data
         /// Gets the parameters for the IN operator.
         /// </summary>
         /// <value>The parameters for the IN operator.</value>
-        public IEnumerable<IDbDataParameter> Parameters { get; }
+        public IEnumerable<IDataParameter> Parameters { get; }
 
         /// <summary>
         /// Converts the parameters for the IN operator to an <see cref="T:IDbDataParameter[]"/>.
         /// </summary>
         /// <returns>An array of <see cref="IDbDataParameter"/>.</returns>
-        public IDbDataParameter[] ToParametersArray()
+        public IDataParameter[] ToParametersArray()
         {
             return Parameters.ToArray();
         }

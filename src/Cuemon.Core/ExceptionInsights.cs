@@ -41,10 +41,10 @@ namespace Cuemon
         /// <typeparam name="T">The type of the <paramref name="exception"/>.</typeparam>
         /// <param name="exception">The exception to enrich.</param>
         /// <param name="thrower">The method that threw the <paramref name="exception"/>.</param>
-        /// <param name="runtimeParameters">The runtime parameters of the <paramref name="thrower"/>.</param>
+        /// <param name="runtimeParameters">The optional runtime parameters of the <paramref name="thrower"/>.</param>
         /// <param name="snapshots">A bitwise combination of the enumeration values that specify which areas of a system to capture.</param>
         /// <returns>The provided <paramref name="exception"/> enriched with an embedded entry of insights.</returns>
-        public static T Embed<T>(T exception, MethodBase thrower, object[] runtimeParameters, SystemSnapshots snapshots = SystemSnapshots.None) where T : Exception
+        public static T Embed<T>(T exception, MethodBase thrower, object[] runtimeParameters = null, SystemSnapshots snapshots = SystemSnapshots.None) where T : Exception
         {
             Validator.ThrowIfNull(exception);
             var builder = new StringBuilder();
@@ -54,7 +54,7 @@ namespace Cuemon
                 var descriptor = new MethodDescriptor(thrower ?? exception.TargetSite);
                 builder.Append(Convert.ToBase64String(Convertible.GetBytes(FormattableString.Invariant($"{descriptor.ToString()}"))));
                 builder.Append('.');
-                if (runtimeParameters != null && runtimeParameters.Any())
+                if (runtimeParameters != null && runtimeParameters.Length != 0)
                 {
                     var rp = DelimitedString.Create(MethodDescriptor.MergeParameters(descriptor, runtimeParameters), o =>
                     {

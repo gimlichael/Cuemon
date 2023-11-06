@@ -17,14 +17,8 @@ namespace Cuemon.Data
         /// <summary>
         /// Initializes a new instance of the <see cref="DataReader{TRead}"/> class.
         /// </summary>
-        /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="parser"/> is null.
-        /// </exception>
-        protected DataReader(Func<string, Action<FormattingOptions<CultureInfo>>, object> parser)
+        protected DataReader()
         {
-            Validator.ThrowIfNull(parser);
-            StringParser = parser;
             Fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
         }
 
@@ -53,12 +47,6 @@ namespace Cuemon.Data
         public object this[int i] => Fields[i];
 
         private IOrderedDictionary Fields { get; set; }
-
-        /// <summary>
-        /// Gets a reference to the function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value.
-        /// </summary>
-        /// <value>A reference to the function delegate that this instance was constructed with.</value>
-        protected Func<string, Action<FormattingOptions<CultureInfo>>, object> StringParser { get; private set; }
 
         /// <summary>
         /// Gets the currently processed row count of this instance.

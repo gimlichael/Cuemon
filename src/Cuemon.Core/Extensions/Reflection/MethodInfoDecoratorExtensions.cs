@@ -4,7 +4,7 @@ using System.Reflection;
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Extension methods for the <see cref="MethodInfo"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="MethodInfo"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

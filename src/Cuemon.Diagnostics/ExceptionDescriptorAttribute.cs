@@ -63,7 +63,7 @@ namespace Cuemon.Diagnostics
             get => _helpLink;
             set
             {
-                if (value != null) { Validator.ThrowIfNotUri(value, nameof(value)); }
+                if (value != null) { Validator.ThrowIfNotUri(value); }
                 _helpLink = value;
             }
         }

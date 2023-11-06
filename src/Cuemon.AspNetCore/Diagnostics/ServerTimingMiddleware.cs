@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 var serverTiming = context.RequestServices.GetService<IServerTiming>();
                 if (serverTiming != null)
                 {
-                    context.Response.Headers.Add(ServerTiming.HeaderName, serverTiming.Metrics.Select(metric => metric.ToString()).ToArray());
+                    context.Response.Headers.Append(ServerTiming.HeaderName, serverTiming.Metrics.Select(metric => metric.ToString()).ToArray());
                 }
                 return Task.CompletedTask;
             });

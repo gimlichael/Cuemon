@@ -25,8 +25,14 @@ namespace Cuemon.Extensions.IO
             var sut5 = await sut3.ToEncodedStringAsync();
 
             sut2.Dispose();
+
+#if NET6_0_OR_GREATER
             await sut3.DisposeAsync();
             await sut4.DisposeAsync();
+#else
+            sut3.Dispose();
+            sut4.Dispose();
+#endif
 
             Assert.Equal(sut1, sut5);
         }

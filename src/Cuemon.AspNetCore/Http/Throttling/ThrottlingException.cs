@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Cuemon.AspNetCore.Http.Throttling
 {
@@ -7,7 +6,6 @@ namespace Cuemon.AspNetCore.Http.Throttling
     /// The exception that is thrown when a given request threshold has been reached and then throttled.
     /// </summary>
     /// <seealso cref="TooManyRequestsException" />
-    [Serializable]
     public class ThrottlingException : TooManyRequestsException
     {
         /// <summary>
@@ -22,18 +20,6 @@ namespace Cuemon.AspNetCore.Http.Throttling
             RateLimit = rateLimit;
             Delta = delta;
             Reset = reset;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ThrottlingException"/> class.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        protected ThrottlingException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            Delta = (TimeSpan)info.GetValue(nameof(Delta), typeof(TimeSpan));
-            RateLimit = info.GetInt32(nameof(RateLimit));
-            Reset = info.GetDateTime(nameof(Reset));
         }
 
         /// <summary>
@@ -53,18 +39,5 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// </summary>
         /// <value>The date and time when a window is being reset.</value>
         public DateTime Reset { get; }
-
-        /// <summary>
-        /// When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> with information about the exception.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(RateLimit), RateLimit);
-            info.AddValue(nameof(Reset), Reset);
-            info.AddValue(nameof(Delta), Delta);
-            base.GetObjectData(info, context);
-        }
     }
 }

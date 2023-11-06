@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
@@ -55,7 +56,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                     var nonceSecret = Options.NonceSecret;
                     var nonceGenerator = Options.NonceGenerator;
                     var staleNonce = dc.Items[DigestFields.Stale] as string ?? "false";
-                    Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, FormattableString.Invariant($"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{ParseAlgorithm(Options.Algorithm)}\""));
+                    Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{ParseAlgorithm(Options.Algorithm)}\""));
                 }).ConfigureAwait(false);
             }
             await Next.Invoke(context).ConfigureAwait(false);
@@ -63,7 +64,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
         private bool TryAuthenticate(HttpContext context, DigestAuthorizationHeader header, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException(FormattableString.Invariant($"The {nameof(Options.Authenticator)} delegate cannot be null.")); }
+            if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} delegate cannot be null.")); }
 
             if (header == null)
             {

@@ -7,50 +7,6 @@ using Microsoft.Extensions.Options;
 
 namespace Cuemon.AspNetCore.Hosting
 {
-    #if NETSTANDARD
-    /// <summary>
-    /// Provides a hosting environment middleware implementation for ASP.NET Core.
-    /// </summary>
-    public class HostingEnvironmentMiddleware : ConfigurableMiddleware<IHostingEnvironment, HostingEnvironmentOptions>
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HostingEnvironmentMiddleware"/> class.
-        /// </summary>
-        /// <param name="next">The delegate of the request pipeline to invoke.</param>
-        /// <param name="setup">The <see cref="HostingEnvironmentOptions" /> which need to be configured.</param>
-        public HostingEnvironmentMiddleware(RequestDelegate next, IOptions<HostingEnvironmentOptions> setup) : base(next, setup)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HostingEnvironmentMiddleware"/> class.
-        /// </summary>
-        /// <param name="next">The delegate of the request pipeline to invoke.</param>
-        /// <param name="setup">The <see cref="HostingEnvironmentOptions" /> which need to be configured.</param>
-        public HostingEnvironmentMiddleware(RequestDelegate next, Action<HostingEnvironmentOptions> setup) : base(next, setup)
-        {
-        }
-
-        /// <summary>
-        /// Executes the <see cref="HostingEnvironmentMiddleware" />.
-        /// </summary>
-        /// <param name="context">The context of the current request.</param>
-        /// <param name="di">The dependency injected <see cref="IHostingEnvironment"/> of <see cref="InvokeAsync"/>.</param>
-        /// <returns>A task that represents the execution of this middleware.</returns>
-        public override Task InvokeAsync(HttpContext context, IHostingEnvironment di)
-        {
-            context.Response.OnStarting(() =>
-            {
-                if (!Options.SuppressHeaderPredicate(di))
-                {
-                    Decorator.Enclose(context.Response.Headers).TryAdd(Options.HeaderName, di.EnvironmentName);
-                }
-                return Task.CompletedTask;
-            });
-            return Next(context);
-        }
-    }
-    #else
     /// <summary>
     /// Provides a hosting environment middleware implementation for ASP.NET Core.
     /// </summary>
@@ -93,5 +49,4 @@ namespace Cuemon.AspNetCore.Hosting
             return Next(context);
         }
     }
-    #endif
 }

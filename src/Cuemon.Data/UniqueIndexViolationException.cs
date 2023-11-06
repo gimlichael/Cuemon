@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Cuemon.Data
 {
 	/// <summary>
 	/// The exception that is thrown when a unique index violation occurs from a data source.
 	/// </summary>
-    [Serializable]
 	public class UniqueIndexViolationException : Exception
 	{
-		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UniqueIndexViolationException"/> class.
 		/// </summary>
@@ -33,15 +30,5 @@ namespace Cuemon.Data
         public UniqueIndexViolationException(string message, Exception innerException) : base(message, innerException)
 		{
 		}
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UniqueIndexViolationException"/> class.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        protected UniqueIndexViolationException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-		#endregion
     }
 }

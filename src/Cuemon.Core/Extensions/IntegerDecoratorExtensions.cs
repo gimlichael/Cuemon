@@ -3,7 +3,7 @@
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="short"/>, <see cref="int"/> and <see cref="long"/> structs tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="short"/>, <see cref="int"/> and <see cref="long"/> structs hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

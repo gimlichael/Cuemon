@@ -46,17 +46,17 @@ namespace Cuemon.Runtime
 
             sut3.DependencyChanged += sut6;
 
-            await File.WriteAllTextAsync(sut1, "Unit Test is key to ensure high code quality.");
+            File.WriteAllText(sut1, "Unit Test is key to ensure high code quality.");
             
             await sut3.StartAsync();
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            await File.WriteAllTextAsync(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
+            File.WriteAllText(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            await File.WriteAllTextAsync(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
+            File.WriteAllText(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
 
             var signaled = ce.Wait(TimeSpan.FromSeconds(15));
             
@@ -89,17 +89,17 @@ namespace Cuemon.Runtime
 
             sut3.DependencyChanged += sut6;
 
-            await File.WriteAllTextAsync(sut1, "Unit Test is key to ensure high code quality.");
+            File.WriteAllText(sut1, "Unit Test is key to ensure high code quality.");
             
             await sut3.StartAsync();
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            await File.WriteAllTextAsync(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
+            File.WriteAllText(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            await File.WriteAllTextAsync(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
+            File.WriteAllText(sut1, "Unit Test is key to ensure high code quality."); // should trigger last modified
 
             var signaled = are.WaitOne(TimeSpan.FromSeconds(15));
             

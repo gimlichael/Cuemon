@@ -209,8 +209,8 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             if (hasIntegrityProtection && entityBody == null) { throw new ArgumentNullException(nameof(entityBody), "The entity body cannot be null when qop is set to auth-int."); }
 
             var hashFields = !hasIntegrityProtection
-                ? FormattableString.Invariant($"{method}:{Data[DigestFields.DigestUri]}")
-                : FormattableString.Invariant($"{method}:{Data[DigestFields.DigestUri]}:{UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(entityBody, o => o.Encoding = Encoding.UTF8).ToHexadecimalString()}");
+                ? string.Create(CultureInfo.InvariantCulture, $"{method}:{Data[DigestFields.DigestUri]}")
+                : string.Create(CultureInfo.InvariantCulture, $"{method}:{Data[DigestFields.DigestUri]}:{UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(entityBody, o => o.Encoding = Encoding.UTF8).ToHexadecimalString()}");
             return UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(hashFields, o =>
             {
                 o.Encoding = Encoding.UTF8;
@@ -228,7 +228,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             Validator.ThrowIfNullOrWhitespace(hash1);
             Validator.ThrowIfNullOrWhitespace(hash2);
             ValidateData(DigestFields.Nonce, DigestFields.NonceCount, DigestFields.ClientNonce, DigestFields.QualityOfProtection);
-            return UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(FormattableString.Invariant($"{hash1}:{Data[DigestFields.Nonce]}:{Data[DigestFields.NonceCount]}:{Data[DigestFields.ClientNonce]}:{Data[DigestFields.QualityOfProtection]}:{hash2}"), o =>
+            return UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(string.Create(CultureInfo.InvariantCulture, $"{hash1}:{Data[DigestFields.Nonce]}:{Data[DigestFields.NonceCount]}:{Data[DigestFields.ClientNonce]}:{Data[DigestFields.QualityOfProtection]}:{hash2}"), o =>
             {
                 o.Encoding = Encoding.UTF8;
             }).ToHexadecimalString();

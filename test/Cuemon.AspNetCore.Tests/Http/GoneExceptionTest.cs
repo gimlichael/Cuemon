@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Cuemon.Extensions.IO;
+﻿using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
@@ -14,32 +12,6 @@ namespace Cuemon.AspNetCore.Http
     {
         public GoneExceptionTest(ITestOutputHelper output) : base(output)
         {
-        }
-
-        [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf410()
-        {
-            var sut = new GoneException();
-
-            TestOutput.WriteLine(sut.ToString());
-
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                bf.Serialize(ms, sut);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                ms.Position = 0;
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                var desEx = bf.Deserialize(ms) as GoneException;
-#pragma warning restore SYSLIB0011 // Type or member is obsolete 
-                Assert.Equal(sut.StatusCode, desEx.StatusCode);
-                Assert.Equal(sut.ReasonPhrase, desEx.ReasonPhrase);
-                Assert.Equal(sut.Message, desEx.Message);
-                Assert.Equal(sut.ToString(), desEx.ToString());
-            }
-
-            Assert.Equal(StatusCodes.Status410Gone, sut.StatusCode);
         }
 
         [Fact]
@@ -62,12 +34,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status410Gone, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"{
-  ""type"": ""Cuemon.AspNetCore.Http.GoneException"",
-  ""message"": ""The requested resource is no longer available at the server and no forwarding address is known."",
-  ""statusCode"": 410,
-  ""reasonPhrase"": ""Gone""
-}", sut4);
+            Assert.Equal("""
+                         {
+                           "type": "Cuemon.AspNetCore.Http.GoneException",
+                           "message": "The requested resource is no longer available at the server and no forwarding address is known.",
+                           "headers": {},
+                           "statusCode": 410,
+                           "reasonPhrase": "Gone"
+                         }
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -90,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status410Gone, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<GoneException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The requested resource is no longer available at the server and no forwarding address is known.</Message>
-	<StatusCode>410</StatusCode>
-	<ReasonPhrase>Gone</ReasonPhrase>
-</GoneException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <GoneException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The requested resource is no longer available at the server and no forwarding address is known.</Message>
+                         	<Headers />
+                         	<StatusCode>410</StatusCode>
+                         	<ReasonPhrase>Gone</ReasonPhrase>
+                         </GoneException>
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

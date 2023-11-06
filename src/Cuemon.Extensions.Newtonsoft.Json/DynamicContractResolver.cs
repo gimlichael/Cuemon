@@ -18,7 +18,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         /// <param name="resolver">The instance of an <see cref="IContractResolver"/> implementation.</param>
         /// <param name="jsonPropertyHandlers">The array of delegates that will handle custom rules of a <see cref="JsonProperty"/>.</param>
         /// <returns>An <see cref="IContractResolver"/> implementation of <typeparamref name="T"/>.</returns>
-        public static IContractResolver Create<T>(T resolver, params Action<JsonProperty>[] jsonPropertyHandlers) where T : IContractResolver
+        public static IContractResolver Create<T>(T resolver, params Action<PropertyInfo, JsonProperty>[] jsonPropertyHandlers) where T : IContractResolver
         {
             switch (typeof(T).Name)
             {
@@ -32,19 +32,19 @@ namespace Cuemon.Extensions.Newtonsoft.Json
 
     internal class DynamicDefaultContractResolver : DefaultContractResolver
     {
-        internal DynamicDefaultContractResolver(IEnumerable<Action<JsonProperty>> jsonPropertyHandlers)
+        internal DynamicDefaultContractResolver(IEnumerable<Action<PropertyInfo, JsonProperty>> jsonPropertyHandlers)
         {
             JsonPropertyHandlers = jsonPropertyHandlers;
         }
 
-        private IEnumerable<Action<JsonProperty>> JsonPropertyHandlers { get; set; }
+        private IEnumerable<Action<PropertyInfo, JsonProperty>> JsonPropertyHandlers { get; set; }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
             foreach (var handler in JsonPropertyHandlers)
             {
-                handler(property);
+                handler(member as PropertyInfo, property);
             }
             return property;
         }
@@ -52,19 +52,19 @@ namespace Cuemon.Extensions.Newtonsoft.Json
 
     internal class DynamicCamelCasePropertyNamesContractResolver : CamelCasePropertyNamesContractResolver
     {
-        internal DynamicCamelCasePropertyNamesContractResolver(IEnumerable<Action<JsonProperty>> jsonPropertyHandlers)
+        internal DynamicCamelCasePropertyNamesContractResolver(IEnumerable<Action<PropertyInfo, JsonProperty>> jsonPropertyHandlers)
         {
             JsonPropertyHandlers = jsonPropertyHandlers;
         }
 
-        private IEnumerable<Action<JsonProperty>> JsonPropertyHandlers { get; set; }
+        private IEnumerable<Action<PropertyInfo, JsonProperty>> JsonPropertyHandlers { get; set; }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
             foreach (var handler in JsonPropertyHandlers)
             {
-                handler(property);
+                handler(member as PropertyInfo, property);
             }
             return property;
         }

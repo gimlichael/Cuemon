@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Cuemon.Extensions
+﻿namespace Cuemon.Extensions
 {
     /// <summary>
     /// Extension methods for the <see cref="Condition"/> class.
@@ -20,7 +18,7 @@ namespace Cuemon.Extensions
         public static bool HasDifference(this Condition _, string first, string second, out string difference)
         {
             difference = first.Difference(second);
-            return difference.Any();
+            return difference.Length != 0;
         }
     }
 }

@@ -80,5 +80,17 @@ namespace Cuemon
             Assert.Contains("Value cannot be null.", ex.Message);
             Assert.Equal("inner", ex.ParamName);
         }
+
+        [Fact]
+        public void EncloseToExpose_ShouldThrowArgumentNullException_WhenSourceIsNull()
+        {
+            Notifier notifier = null;
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                Decorator.EncloseToExpose(notifier).Send();
+            });
+            Assert.Contains("Value cannot be null.", ex.Message);
+            Assert.Equal(nameof(notifier), ex.ParamName);
+        }
     }
 }

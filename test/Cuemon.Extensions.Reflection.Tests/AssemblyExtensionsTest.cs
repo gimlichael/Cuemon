@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Reflection
 
             TestOutput.WriteLine(sut2.ToString());
 
-            Assert.Equal("7.0.0.0", sut2.ToString());
+            Assert.Equal("8.0.0.0", sut2.ToString());
             Assert.False(sut2.HasAlphanumericVersion);
             Assert.False(sut2.IsSemanticVersion());
         }

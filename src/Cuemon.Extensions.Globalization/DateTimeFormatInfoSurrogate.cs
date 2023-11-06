@@ -25,6 +25,10 @@ namespace Cuemon.Extensions.Globalization
             ShortTimePattern = dateTimeFormatInfo.ShortTimePattern;
             TimeSeparator = dateTimeFormatInfo.TimeSeparator;
             YearMonthPattern = dateTimeFormatInfo.YearMonthPattern;
+            ShortestDayNames = dateTimeFormatInfo.ShortestDayNames;
+            AbbreviatedDayNames = dateTimeFormatInfo.AbbreviatedDayNames;
+            AbbreviatedMonthNames = dateTimeFormatInfo.AbbreviatedMonthNames;
+            AbbreviatedMonthGenitiveNames = dateTimeFormatInfo.AbbreviatedMonthGenitiveNames;
         }
 
         public string AMDesignator { get; set; }
@@ -52,5 +56,13 @@ namespace Cuemon.Extensions.Globalization
         public string TimeSeparator { get; set; }
         
         public string YearMonthPattern { get; set; }
+        
+        public string[] ShortestDayNames { get; set; }
+
+        public string[] AbbreviatedDayNames { get; set; }
+
+        public string[] AbbreviatedMonthNames { get; set; }
+
+        public string[] AbbreviatedMonthGenitiveNames { get; set; }
     }
 }

@@ -50,11 +50,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <returns>An instance of the executable filter.</returns>
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            #if NETSTANDARD
-            var he = serviceProvider.GetRequiredService<IHostingEnvironment>();
-            #else
             var he = serviceProvider.GetRequiredService<IHostEnvironment>();
-            #endif
             var filter = new ServerTimingFilter(Options.Create(new ServerTimingOptions()
             {
                 TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit)

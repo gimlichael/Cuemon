@@ -40,11 +40,7 @@ namespace Cuemon.AspNetCore.Mvc.Formatters
         {
             Validator.ThrowIfNull(context);
             var requestBody = new MemoryStream();
-            #if NETSTANDARD
-            await context.HttpContext.Request.Body.CopyToAsync(requestBody).ConfigureAwait(false);
-            #else
             await context.HttpContext.Request.BodyReader.CopyToAsync(requestBody).ConfigureAwait(false);
-            #endif
             requestBody.Position = 0;
             var formatter = ActivatorFactory.CreateInstance<TOptions, TFormatter>(Options);
             var deserializedObject = formatter.Deserialize(requestBody, context.ModelType);
