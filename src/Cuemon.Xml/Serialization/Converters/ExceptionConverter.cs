@@ -65,7 +65,7 @@ namespace Cuemon.Xml.Serialization.Converters
             return Decorator.Enclose(stack).CreateException(true);
         }
 
-        private Stack<IList<MemberArgument>> ParseXmlReader(XmlReader reader, Type objectType)
+        private static Stack<IList<MemberArgument>> ParseXmlReader(XmlReader reader, Type objectType)
         {
             var stack = new Stack<IList<MemberArgument>>();
             var properties = new List<PropertyInfo>();

@@ -62,7 +62,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             return Decorator.Enclose(stack).CreateException();
         }
 
-        private Stack<IList<MemberArgument>> ParseJsonReader(ref Utf8JsonReader reader, Type typeToConvert)
+        private static Stack<IList<MemberArgument>> ParseJsonReader(ref Utf8JsonReader reader, Type typeToConvert)
         {
             var stack = new Stack<IList<MemberArgument>>();
             var properties = new List<PropertyInfo>();
