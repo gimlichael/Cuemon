@@ -102,7 +102,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
             context.Response.ContentType = message.Content.Headers.ContentType!.ToString();
             context.Response.ContentLength = buffer.Length;
             context.Response.StatusCode = (int)message.StatusCode;
-            await context.Response.Body.WriteAsync(buffer, 0, buffer.Length, ct).ConfigureAwait(false);
+            await context.Response.Body.WriteAsync(buffer, ct).ConfigureAwait(false);
         }
     }
 }
