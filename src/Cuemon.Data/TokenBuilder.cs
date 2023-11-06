@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace Cuemon.Data
@@ -8,6 +9,20 @@ namespace Cuemon.Data
     /// </summary>
     public sealed class TokenBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TokenBuilder"/> class.
+        /// </summary>
+        /// <param name="delimiter">The delimiter used to separate tokens of this instance.</param>
+        /// <param name="qualifier">The qualifier that surrounds a token.</param>
+        /// <param name="tokens">The total number of tokens.</param>
+        /// <exception cref="FormatException">
+        /// The length of <paramref name="delimiter"/> is not 1 -or-
+        /// The length of <paramref name="qualifier"/> is not 1.
+        /// </exception>
+        public TokenBuilder(string delimiter, string qualifier, int tokens) : this(char.Parse(delimiter), char.Parse(qualifier), tokens)
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenBuilder"/> class.
         /// </summary>

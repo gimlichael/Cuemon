@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -387,12 +388,12 @@ namespace Cuemon
         public static string ToFriendlyName(this IDecorator<Type> decorator, Action<TypeNameOptions> setup = null)
         {
             Validator.ThrowIfNull(decorator);
-            var options = Patterns.Configure(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             var typeName = options.FriendlyNameStringConverter(decorator.Inner, options.FormatProvider, options.FullName);
             if (options.ExcludeGenericArguments || !decorator.Inner.GetTypeInfo().IsGenericType) { return typeName; }
             return string.Format(options.FormatProvider, "{0}<{1}>", typeName, DelimitedString.Create(decorator.Inner.GetGenericArguments(), o =>
             {
-                o.Delimiter = options.FormatProvider.TextInfo.ListSeparator;
+                o.Delimiter = options.FormatProvider is CultureInfo ci ? ci.TextInfo.ListSeparator : ",";
                 o.StringConverter = type => options.FriendlyNameStringConverter(type, options.FormatProvider, options.FullName);
             }));
         }

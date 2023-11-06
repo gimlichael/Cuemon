@@ -6,10 +6,8 @@ namespace Cuemon.Reflection
     /// <summary>
     /// Configuration options for <see cref="TypeDecoratorExtensions.ToFriendlyName" />.
     /// </summary>
-    public sealed class TypeNameOptions : FormattingOptions<CultureInfo>
+    public sealed class TypeNameOptions : FormattingOptions
     {
-        private Func<Type, IFormatProvider, bool, string> _friendlyNameStringConverter;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeNameOptions"/> class.
         /// </summary>
@@ -29,7 +27,7 @@ namespace Cuemon.Reflection
         ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="FormattingOptions{T}.FormatProvider"/></term>
+        ///         <term><see cref="FormattingOptions.FormatProvider"/></term>
         ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
         ///     </item>
         ///     <item>
@@ -46,7 +44,6 @@ namespace Cuemon.Reflection
         public TypeNameOptions()
         {
             ExcludeGenericArguments = false;
-            FormatProvider = CultureInfo.InvariantCulture;
             FullName = false;
             FriendlyNameStringConverter = (type, provider, fullname) =>
             {
@@ -75,14 +72,13 @@ namespace Cuemon.Reflection
         /// <exception cref="ArgumentNullException">
         /// <paramref name="value"/> cannot be null.
         /// </exception>
-        public Func<Type, IFormatProvider, bool, string> FriendlyNameStringConverter
+        public Func<Type, IFormatProvider, bool, string> FriendlyNameStringConverter { get; set; }
+
+        /// <inheritdoc />
+        public override void ValidateOptions()
         {
-            get => _friendlyNameStringConverter;
-            set
-            {
-                Validator.ThrowIfNull(value);
-                _friendlyNameStringConverter = value;
-            }
+            Validator.ThrowIfObjectInDistress(FriendlyNameStringConverter == null);
+            base.ValidateOptions();
         }
     }
 }

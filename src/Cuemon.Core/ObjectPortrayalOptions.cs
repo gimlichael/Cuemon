@@ -7,15 +7,9 @@ namespace Cuemon
     /// <summary>
     /// Configuration options for <see cref="Generate.ObjectPortrayal" />.
     /// </summary>
-    /// <seealso cref="FormattingOptions{T}"/>
-    public sealed class ObjectPortrayalOptions : FormattingOptions<CultureInfo>
+    /// <seealso cref="FormattingOptions"/>
+    public sealed class ObjectPortrayalOptions : FormattingOptions
     {
-        private string _nullValue;
-        private string _noGetterValue;
-        private string _delimiter;
-        private Func<PropertyInfo, bool> _propertiesPredicate;
-        private Func<PropertyInfo, object, IFormatProvider, string> _propertyConverter;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPortrayalOptions"/> class.
         /// </summary>
@@ -39,7 +33,7 @@ namespace Cuemon
         ///         <description><c>&lt;no getter&gt;</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="FormattingOptions{T}.FormatProvider"/></term>
+        ///         <term><see cref="FormattingOptions.FormatProvider"/></term>
         ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
         ///     </item>
         ///     <item>
@@ -75,7 +69,6 @@ namespace Cuemon
             BypassOverrideCheck = false;
             NullValue = "<null>";
             NoGetterValue = "<no getter>";
-            FormatProvider = CultureInfo.InvariantCulture;
             Delimiter = ",";
             PropertyConverter = (property, instance, provider) =>
             {
@@ -97,41 +90,13 @@ namespace Cuemon
         /// Gets or sets the string representation of a <c>null</c> value.
         /// </summary>
         /// <value>The string representation of a <c>null</c> value.</value>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty.
-        /// </exception>
-        public string NullValue
-        {
-            get => _nullValue;
-            set
-            {
-                Validator.ThrowIfNullOrEmpty(value);
-                _nullValue = value;
-            }
-        }
+        public string NullValue { get; set; }
 
         /// <summary>
         /// Gets or sets the string representation of a missing <c>getter</c> method of a property.
         /// </summary>
         /// <value>The string representation of a missing <c>getter</c> method of a property.</value>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty.
-        /// </exception>
-        public string NoGetterValue
-        {
-            get => _noGetterValue;
-            set
-            {
-                Validator.ThrowIfNullOrEmpty(value);
-                _noGetterValue = value;
-            }
-        }
+        public string NoGetterValue { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether an overriden method will return without further processing.
@@ -144,54 +109,29 @@ namespace Cuemon
         /// Gets or sets the delimiter specification that is used together with <see cref="PropertyConverter"/>.
         /// </summary>
         /// <value>The delimiter specification that is used together with <see cref="PropertyConverter"/>.</value>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty.
-        /// </exception>
-        public string Delimiter
-        {
-            get => _delimiter;
-            set
-            {
-                Validator.ThrowIfNullOrEmpty(value);
-                _delimiter = value;
-            }
-        }
+        public string Delimiter { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate that convert a <see cref="PropertyInfo"/> object into a human-readable string.
         /// </summary>
         /// <value>The function delegate that convert a <see cref="PropertyInfo"/> object into a human-readable string.</value>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
-        public Func<PropertyInfo, object, IFormatProvider, string> PropertyConverter
-        {
-            get => _propertyConverter;
-            set
-            {
-                Validator.ThrowIfNull(value);
-                _propertyConverter = value;
-            }
-        }
+        public Func<PropertyInfo, object, IFormatProvider, string> PropertyConverter { get; set; }
 
         /// <summary>
         /// Gets or sets the function delegate that defines a set of criteria and determines whether the specified <see cref="PropertyInfo"/> meets those criteria.
         /// </summary>
         /// <value>The function delegate that defines a set of criteria and determines whether the specified <see cref="PropertyInfo"/> meets those criteria.</value>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> cannot be null.
-        /// </exception>
-        public Func<PropertyInfo, bool> PropertiesPredicate
+        public Func<PropertyInfo, bool> PropertiesPredicate { get; set; }
+
+        /// <inheritdoc />
+        public override void ValidateOptions()
         {
-            get => _propertiesPredicate;
-            set
-            {
-                Validator.ThrowIfNull(value);
-                _propertiesPredicate = value;
-            }
+            Validator.ThrowIfObjectInDistress(PropertiesPredicate == null);
+            Validator.ThrowIfObjectInDistress(PropertyConverter == null);
+            Validator.ThrowIfObjectInDistress(string.IsNullOrEmpty(Delimiter));
+            Validator.ThrowIfObjectInDistress(string.IsNullOrEmpty(NoGetterValue));
+            Validator.ThrowIfObjectInDistress(string.IsNullOrEmpty(NullValue));
+            base.ValidateOptions();
         }
     }
 }

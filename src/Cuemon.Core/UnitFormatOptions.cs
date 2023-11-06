@@ -4,14 +4,14 @@ namespace Cuemon
 {
     /// <summary>
     /// Configuration options for <see cref="BitUnit" /> and <see cref="ByteUnit" />.
-    /// Implements the <see cref="FormattingOptions{CultureInfo}" />
+    /// Implements the <see cref="FormattingOptions" />
     /// </summary>
-    /// <seealso cref="FormattingOptions{CultureInfo}" />
+    /// <seealso cref="FormattingOptions" />
     /// <seealso cref="IPrefixMultiple"/>
     /// <seealso cref="BinaryPrefix"/>
     /// <seealso cref="DecimalPrefix"/>
     /// <seealso cref="NamingStyle"/>
-    public sealed class UnitFormatOptions : FormattingOptions<CultureInfo>
+    public sealed class UnitFormatOptions : FormattingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitFormatOptions"/> class.
@@ -32,7 +32,7 @@ namespace Cuemon
         ///         <description><c>#,##0.##</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="FormattingOptions{T}.FormatProvider"/></term>
+        ///         <term><see cref="FormattingOptions.FormatProvider"/></term>
         ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
         ///     </item>
         /// </list>
@@ -41,7 +41,6 @@ namespace Cuemon
         {
             Style = NamingStyle.Symbol;
             NumberFormat = "#,##0.##";
-            FormatProvider = CultureInfo.InvariantCulture;
         }
 
         /// <summary>

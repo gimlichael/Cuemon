@@ -2,7 +2,6 @@
 using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Cuemon.Text;
 
@@ -18,23 +17,19 @@ namespace Cuemon.Data
         /// </summary>
         /// <param name="reader">The <see cref="StreamReader"/> object that contains the DSV data.</param>
         /// <param name="header">The header defining the columns of the DSV data. Default is reading the first line of the <paramref name="reader"/>.</param>
-        /// <param name="delimiter">The delimiter specification. Default is comma (,).</param>
-        /// <param name="qualifier">The qualifier specification. Default is double-quote (").</param>
         /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="ParserFactory.FromValueType"/>.</param>
+        /// <param name="setup">The <see cref="FormattingOptions"/> which may be configured.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="header"/> cannot be empty or consist only of white-space characters -or-
-        /// <paramref name="header"/> does not contain the specified <paramref name="delimiter"/>.
+        /// <paramref name="header"/> does not contain the <see cref="DelimitedStringOptions.Delimiter"/> specified in <paramref name="setup"/>.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="reader"/> is null -or-
-        /// <paramref name="delimiter"/> is null -or-
-        /// <paramref name="qualifier"/> is null.
+        /// <paramref name="reader"/> is null.
         /// </exception>
-        public DsvDataReader(StreamReader reader, string header = null, char delimiter = ',', char qualifier = '"', Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParserFactory.FromValueType().Parse)
+        public DsvDataReader(StreamReader reader, string header = null, Func<string, object> parser = null, Action<DelimitedStringOptions> setup = null)
         {
             Validator.ThrowIfNull(reader);
-            Validator.ThrowIfNull(delimiter);
-            Validator.ThrowIfNull(qualifier);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
 
             if (header == null)
             {
@@ -42,19 +37,18 @@ namespace Cuemon.Data
                 Validator.ThrowIfNullOrWhitespace(header);
             }
 
-            if (!header.Contains(delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
+            if (!header!.Contains(options.Delimiter)) { throw new ArgumentException("Header does not contain the specified delimiter."); }
             
             Reader = reader;
-            var headerFields = DelimitedString.Split(header, o =>
-            {
-                o.Delimiter = delimiter.ToString(CultureInfo.InvariantCulture);
-                o.Qualifier = qualifier.ToString(CultureInfo.InvariantCulture);
-            });
+            var headerFields = DelimitedString.Split(header, setup);
             Header = headerFields;
-            Delimiter = delimiter;
-            Qualifier = qualifier;
+            Delimiter = options.Delimiter;
+            Qualifier = options.Qualifier;
+            Parser = parser ?? (s => ParserFactory.FromValueType().Parse(s, o => o.FormatProvider = options.FormatProvider));
             SetFields(headerFields);
         }
+
+        private Func<string, object> Parser { get; set; }
 
         private StreamReader Reader { get; }
 
@@ -62,7 +56,7 @@ namespace Cuemon.Data
         /// Gets the delimiter used to separate fields of this instance.
         /// </summary>
         /// <value>The delimiter used to separate fields of this instance.</value>
-        public char Delimiter { get; }
+        public string Delimiter { get; }
 
         /// <summary>
         /// Gets the header that defines the field names of this instance.
@@ -74,7 +68,7 @@ namespace Cuemon.Data
         /// Gets the qualifier that surrounds a field.
         /// </summary>
         /// <value>The qualifier that surrounds a field.</value>
-        public char Qualifier { get;  }
+        public string Qualifier { get;  }
 
         /// <summary>
         /// Gets the currently processed row count of this instance.
@@ -110,11 +104,11 @@ namespace Cuemon.Data
             {
                 if (fields.Contains(Header[i]))
                 {
-                    fields[Header[i]] = StringParser(columns[i], null);
+                    fields[Header[i]] = Parser(columns[i]);
                 }
                 else
                 {
-                    fields.Add(Header[i], StringParser(columns[i], null));
+                    fields.Add(Header[i], Parser(columns[i]));
                 }
             }
             SetFields(fields);
