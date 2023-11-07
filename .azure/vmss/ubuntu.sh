@@ -40,3 +40,10 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328
 echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
 sudo apt-get update
 sudo apt-get install -y mono-devel
+
+echo "Installing NuGet  ..."
+
+# Download the latest stable `nuget.exe` to `/usr/local/bin`
+sudo curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+# Create as alias for nuget
+alias nuget="mono /usr/local/bin/nuget.exe"
