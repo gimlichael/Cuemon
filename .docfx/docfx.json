@@ -181,6 +181,7 @@
         "files": [
           "api/**/*.yml",
           "api/**/*.md",
+          "packages/**/*.md",
           "toc.yml",
           "*.md"
         ],
@@ -203,21 +204,23 @@
       "_appLogoPath": "images/50x50.png",
       "_appFaviconPath": "images/favicon.ico",
       "_googleAnalyticsTagId": "UA-126254455-1",
-      "_enableSearch": false,
+      "_disableBreadcrumb": true,
+      "_enableSearch": true,
       "_disableContribution": false,
       "_gitContribute": {
         "repo": "https://github.com/gimlichael/Cuemon",
         "branch": "development"
       },
       "_gitUrlPattern": "github",
-      "lang": "en"
+      "_lang": "en"
     },
     "dest": "wwwroot",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
       "default",
-      "modern"
+      "modern",
+      "templates/cuemon"
     ],
     "overwrite": [
       {

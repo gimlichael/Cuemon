@@ -6,8 +6,11 @@ title: Extensions for AWS Signature API
 
 Cuemon for .NET provides a fluent way to use [AWS Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/reference-for-signature-version-4.html) in your code.
 
-+ AWS Signature Version 4
-  + [Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4](#cuemonextensionsaspnetcoreauthenticationawssignature4)
+## Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4
+
+The Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace complements the Cuemon.AspNetCore.Authentication namespace while providing a way making and signing HTTP requests in the context of specific AWS services using Signature Version 4.
+
+[!INCLUDE [availability-modern](../../../includes/availability-modern.md)]
 
 ### CSharp Example
 ```csharp
@@ -34,15 +37,3 @@ var header = headerBuilder.Build().ToString(); // <-- send this AWS
 ```powershell
 curl --location --request GET 'https://cuemon.s3.amazonaws.com/?list-type=2' --header 'Authorization: AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/20220710/eu-west-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=feeb4c8ba41733fadc73cba6631ddfc9a729f371206bbaa77f216a69dd5299c5' --header 'x-amz-date: 20220710T145042Z' --header 'x-amz-content-sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
 ```
-
-## Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4
-
-The Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace complements the Cuemon.AspNetCore.Authentication namespace while providing a way making and signing HTTP requests in the context of specific AWS services using Signature Version 4.
-
-Availability: **.NET Core 3.1, .NET 6.0**
-
-Assembly: Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4
-
-NuGet packages: [Focus](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4)
-
-Github: [Development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4) | [Release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4) | [Master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4)
