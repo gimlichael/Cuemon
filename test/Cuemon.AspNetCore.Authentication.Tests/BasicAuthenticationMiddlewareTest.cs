@@ -28,17 +28,17 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldThrowUnauthorizedException_InvalidCredentials()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseBasicAuthentication();
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<BasicAuthenticationOptions>(o =>
                 {
                     o.Authenticator = (username, password) => null;
                     o.RequireSecureConnection = false;
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseBasicAuthentication();
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<BasicAuthenticationOptions>>();
@@ -69,17 +69,17 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldCaptureUnauthorizedException_InvalidCredentials()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-                   {
-                       app.UseFaultDescriptorExceptionHandler();
-                       app.UseBasicAuthentication();
-                   }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
                    {
                        services.Configure<BasicAuthenticationOptions>(o =>
                        {
                            o.Authenticator = (username, password) => null;
                            o.RequireSecureConnection = false;
                        });
+                   }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler();
+                       app.UseBasicAuthentication();
                    }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -108,15 +108,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldAuthenticateWhenApplyingAuthorizationHeader()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseBasicAuthentication();
-                app.Run(context =>
-                {
-                    context.Response.StatusCode = 200;
-                    return Task.CompletedTask;
-                });
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<BasicAuthenticationOptions>(o =>
                 {
@@ -132,7 +124,15 @@ namespace Cuemon.AspNetCore.Authentication
                     };
                     o.RequireSecureConnection = false;
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseBasicAuthentication();
+                       app.Run(context =>
+                       {
+                           context.Response.StatusCode = 200;
+                           return Task.CompletedTask;
+                       });
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<BasicAuthenticationOptions>>();

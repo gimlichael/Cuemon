@@ -26,11 +26,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldCaptureApiKeyException_BadRequest()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers(o =>
                        {
@@ -39,6 +35,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                        }).AddApplicationPart(typeof(FakeController).Assembly)
                            .AddNewtonsoftJson()
                            .AddNewtonsoftJsonFormatters();
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
@@ -54,11 +54,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldCaptureApiKeyException_Forbidden()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
                    {
                        services.Configure<ApiKeySentinelOptions>(o =>
                        {
@@ -71,6 +67,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                            }).AddApplicationPart(typeof(FakeController).Assembly)
                            .AddNewtonsoftJson()
                            .AddNewtonsoftJsonFormatters();
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
@@ -89,14 +89,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowApiKeyException_BadRequest()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -115,18 +115,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowApiKeyException_Forbidden()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<ApiKeySentinelOptions>(o =>
                 {
                     o.AllowedKeys.Add("Cuemon-Key");
                 });
                 services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -148,11 +148,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowApiKeyException_BadRequest_BecauseOfUseGenericResponse()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<ApiKeySentinelOptions>(o =>
                 {
@@ -160,7 +156,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                     o.AllowedKeys.Add("Cuemon-Key");
                 });
                 services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -182,18 +182,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldAllowRequestAfterBeingValidated()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<ApiKeySentinelOptions>(o =>
                 {
                     o.AllowedKeys.Add("Cuemon-Key");
                 });
                 services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<ApiKeySentinelOptions>>();
                 var client = filter.Host.GetTestClient();

@@ -21,11 +21,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         [Fact]
         public async Task Page_RenderUrlForAppRole()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddRazorPages();
                 services.Configure<CdnTagHelperOptions>(o =>
@@ -38,7 +34,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
                     o.Scheme = ProtocolUriScheme.Relative;
                     o.BaseUrl = "static.cuemon.net";
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/AppUrl");
@@ -53,11 +53,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         [Fact]
         public async Task Page_RenderUrlForAppRole_WithCacheBusting()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddCacheBusting<FakeCacheBusting>();
                 services.AddRazorPages();
@@ -71,7 +67,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
                     o.Scheme = ProtocolUriScheme.Relative;
                     o.BaseUrl = "static.cuemon.net";
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/AppUrl");
@@ -86,11 +86,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         [Fact]
         public async Task Page_RenderUrlForCdnRole()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddRazorPages();
                 services.Configure<CdnTagHelperOptions>(o =>
@@ -103,7 +99,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
                     o.Scheme = ProtocolUriScheme.Relative;
                     o.BaseUrl = "static.cuemon.net";
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/CdnUrl");
@@ -118,11 +118,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
         [Fact]
         public async Task Page_RenderUrlForCdnRole_WithCacheBusting()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddCacheBusting<FakeCacheBusting>();
                 services.AddRazorPages();
@@ -136,7 +132,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.RazorPages
                     o.Scheme = ProtocolUriScheme.Relative;
                     o.BaseUrl = "static.cuemon.net";
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/CdnUrl");

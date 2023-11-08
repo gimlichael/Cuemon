@@ -26,11 +26,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         [Fact]
         public async Task StartAsync_ShouldReceiveTwoSignalsFromHttpWatcher()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<HttpCacheableOptions>(o =>
                 {
@@ -38,7 +34,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
                     o.Filters.AddLastModifiedHeader();
                 });
                 services.AddControllers(o => o.Filters.Add<HttpCacheableFilter>()).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var ce = new CountdownEvent(2);
 
@@ -82,11 +82,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         [Fact]
         public async Task StartAsync_ShouldReceiveTwoSignalsFromHttpWatcher_UsingReadResponse()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<HttpCacheableOptions>(o =>
                 {
@@ -94,7 +90,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
                     o.Filters.AddLastModifiedHeader();
                 });
                 services.AddControllers(o => o.Filters.Add<HttpCacheableFilter>()).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var ce = new CountdownEvent(2);
 
@@ -139,11 +139,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
         [Fact]
         public async Task StartAsync_ShouldReceiveOnlyOneSignalFromHttpWatcher()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<HttpCacheableOptions>(o =>
                 {
@@ -151,7 +147,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc
                     o.Filters.AddLastModifiedHeader();
                 });
                 services.AddControllers(o => o.Filters.Add<HttpCacheableFilter>()).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var are = new AutoResetEvent(false);
 

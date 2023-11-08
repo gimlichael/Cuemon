@@ -37,16 +37,16 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldReturnOkay_AsWeAreFilteringAwayInvalidAcceptHeaders()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
                     .AddJsonFormatters();
                 services.AddRestfulApiVersioning();
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;v=1.0");
@@ -65,17 +65,17 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldFailWitNotAcceptable_AsWeAreSpecifyingV2_WhenOnlyV1Exists()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
+            using (var app = WebApplicationTestFactory.Create(services =>
+                   {
+                       services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddJsonFormatters();
+                       services.AddRestfulApiVersioning();
+                   }, app =>
                    {
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseRestfulApiVersioning();
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
-                   {
-                       services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters();
-                       services.AddRestfulApiVersioning();
                    }))
             {
                 var client = app.Host.GetTestClient();
@@ -98,17 +98,17 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task PostRequest_ShouldFailWitUnsupportedMediaType_AsWeAreSpecifyingV2_WhenOnlyV1Exists()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
+            using (var app = WebApplicationTestFactory.Create(services =>
+                   {
+                       services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddJsonFormatters();
+                       services.AddRestfulApiVersioning();
+                   }, app =>
                    {
                        app.UseFaultDescriptorExceptionHandler();
                        app.UseRestfulApiVersioning();
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
-                   {
-                       services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters();
-                       services.AddRestfulApiVersioning();
                    }))
             {
                 var client = app.Host.GetTestClient();
@@ -131,26 +131,26 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequestFormattedAsJsonResponse_As_d3_IsAnUnknownVersion_CorreclySetOnApplicationJsonAccept()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-                   { 
-                app.UseFaultDescriptorExceptionHandler(o =>
-                {
-                    o.NonMvcResponseHandlers
-                        .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>())
-                        .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>());
-                });
-                app.UseRestfulApiVersioning();
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-
-            }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => o.Filters.AddFaultDescriptor())
                     .AddApplicationPart(typeof(FakeController).Assembly)
                     .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
                 services.AddHttpContextAccessor();
                 services.AddRestfulApiVersioning();
-            }))
+            }, app =>
+                   { 
+                       app.UseFaultDescriptorExceptionHandler(o =>
+                       {
+                           o.NonMvcResponseHandlers
+                               .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>())
+                               .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>());
+                       });
+                       app.UseRestfulApiVersioning();
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+
+                   }))
             {
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;q=10.0;v=d3");
@@ -174,22 +174,22 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldThrowNotAcceptableException_As_2dot0_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRestfulApiVersioning();
-
-                app.UseRouting();
-
-                app.UseEndpoints(routes =>
-                {
-                    routes.MapControllers();
-                });
-            }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers()
                     .AddApplicationPart(typeof(FakeController).Assembly);
                 services.AddRestfulApiVersioning();
-            }))
+            }, app =>
+                   {
+                       app.UseRestfulApiVersioning();
+
+                       app.UseRouting();
+
+                       app.UseEndpoints(routes =>
+                       {
+                           routes.MapControllers();
+                       });
+                   }))
             {
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/xml;v=2.0");
@@ -201,7 +201,12 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task PostRequest_ShouldThrowUnsupportedMediaTypeException_As_2dot0_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
+            using (var app = WebApplicationTestFactory.Create(services =>
+                   {
+                       services.AddControllers()
+                           .AddApplicationPart(typeof(FakeController).Assembly);
+                       services.AddRestfulApiVersioning();
+                   }, app =>
                    {
                        app.UseRestfulApiVersioning();
 
@@ -211,11 +216,6 @@ namespace Cuemon.Extensions.Asp.Versioning
                        {
                            routes.MapControllers();
                        });
-                   }, services =>
-                   {
-                       services.AddControllers()
-                           .AddApplicationPart(typeof(FakeController).Assembly);
-                       services.AddRestfulApiVersioning();
                    }))
             {
                 var client = app.Host.GetTestClient();

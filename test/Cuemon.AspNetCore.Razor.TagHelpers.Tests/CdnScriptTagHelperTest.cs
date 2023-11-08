@@ -20,11 +20,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
         [Fact]
         public async Task Page_RenderScriptTagForCdnRole()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddRazorPages();
                 services.Configure<CdnTagHelperOptions>(o =>
@@ -37,7 +33,11 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
                     o.Scheme = ProtocolUriScheme.Relative;
                     o.BaseUrl = "static.cuemon.net";
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/CdnScriptTagHelper");
@@ -52,11 +52,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
         [Fact]
         public async Task Page_RenderScriptTagForCdnRole_WithCacheBusting()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddCacheBusting<FakeCacheBusting>();
                 services.AddRazorPages();
@@ -70,7 +66,11 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
                     o.Scheme = ProtocolUriScheme.Relative;
                     o.BaseUrl = "static.cuemon.net";
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/CdnScriptTagHelper");

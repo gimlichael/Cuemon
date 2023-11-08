@@ -22,13 +22,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         [Fact]
         public async Task AddUserAgent_ShouldIncludeUserAgentDefaults()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
                     .AddJsonFormatters();
@@ -42,7 +36,13 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                 {
                     o.AddUserAgent();
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                       app.UseSwagger();
+                       app.UseSwaggerUI();
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetStringAsync("/swagger/v1/swagger.json");
@@ -94,13 +94,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         [Fact]
         public async Task AddJwtBearerSecurity_ShouldIncludeJwtBearerSecurityDefaults()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                       app.UseSwagger();
-                       app.UseSwaggerUI();
-                   }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
                            .AddJsonFormatters();
@@ -114,6 +108,12 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                        {
                            o.AddJwtBearerSecurity();
                        });
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                       app.UseSwagger();
+                       app.UseSwaggerUI();
                    }))
             {
                 var client = filter.Host.GetTestClient();

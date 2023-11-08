@@ -23,10 +23,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         [Fact]
         public async Task InvokeAsync_ShouldThrowThrottlingException_TooManyRequests()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseThrottlingSentinel();
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<ThrottlingSentinelOptions>(o =>
                 {
@@ -35,7 +32,10 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddMemoryThrottlingCache();
-            }))
+            }, app =>
+                   {
+                       app.UseThrottlingSentinel();
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
@@ -63,11 +63,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         [Fact]
         public async Task InvokeAsync_ShouldCaptureThrottlingException_TooManyRequests()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseFaultDescriptorExceptionHandler();
-                app.UseThrottlingSentinel();
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<ThrottlingSentinelOptions>(o =>
                 {
@@ -76,7 +72,11 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddMemoryThrottlingCache();
-            }))
+            }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler();
+                       app.UseThrottlingSentinel();
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();
@@ -106,15 +106,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         public async Task InvokeAsync_ShouldRehydrate()
         {
             var window = TimeSpan.FromSeconds(5);
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseThrottlingSentinel();
-                app.Run(context =>
-                {
-                    context.Response.StatusCode = 200;
-                    return Task.CompletedTask;
-                });
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<ThrottlingSentinelOptions>(o =>
                 {
@@ -123,7 +115,15 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddMemoryThrottlingCache();
-            }))
+            }, app =>
+                   {
+                       app.UseThrottlingSentinel();
+                       app.Run(context =>
+                       {
+                           context.Response.StatusCode = 200;
+                           return Task.CompletedTask;
+                       });
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<ThrottlingSentinelOptions>>();

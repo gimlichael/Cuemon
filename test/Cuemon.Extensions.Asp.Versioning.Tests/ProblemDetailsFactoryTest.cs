@@ -36,11 +36,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequest_FormattedAsRfc7807_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
                            .AddJsonFormatters();
@@ -49,6 +45,10 @@ namespace Cuemon.Extensions.Asp.Versioning
 	                       o.UseBuiltInRfc7807 = true;
                            o.ValidAcceptHeaders.Clear();
                        });
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var client = app.Host.GetTestClient();
@@ -79,19 +79,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequestFormattedAsXmlResponse_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseFaultDescriptorExceptionHandler(o =>
-                {
-                    o.NonMvcResponseHandlers
-                        .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>())
-                        .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>());
-                });
-                app.UseRestfulApiVersioning();
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-
-            }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => o.Filters.AddFaultDescriptor())
                     .AddApplicationPart(typeof(FakeController).Assembly)
@@ -101,7 +89,19 @@ namespace Cuemon.Extensions.Asp.Versioning
                 {
                     o.ValidAcceptHeaders.Clear();
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler(o =>
+                       {
+                           o.NonMvcResponseHandlers
+                               .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>())
+                               .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>());
+                       });
+                       app.UseRestfulApiVersioning();
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+
+                   }))
             {
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/xml;q=0.9");
@@ -119,7 +119,17 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequestFormattedAsJsonResponse_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
+            using (var app = WebApplicationTestFactory.Create(services =>
+                   {
+                       services.AddControllers(o => o.Filters.AddFaultDescriptor())
+                           .AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
+                       services.AddHttpContextAccessor();
+                       services.AddRestfulApiVersioning(o =>
+                       {
+                           o.ValidAcceptHeaders.Clear();
+                       });
+                   }, app =>
                    {
                        app.UseFaultDescriptorExceptionHandler(o =>
                        {
@@ -130,16 +140,6 @@ namespace Cuemon.Extensions.Asp.Versioning
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
 
-                   }, services =>
-                   {
-                       services.AddControllers(o => o.Filters.AddFaultDescriptor())
-                           .AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
-                       services.AddHttpContextAccessor();
-                       services.AddRestfulApiVersioning(o =>
-                       {
-                           o.ValidAcceptHeaders.Clear();
-                       });
                    }))
             {
                 var client = app.Host.GetTestClient();
@@ -164,16 +164,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequestFormattedAsPlainResponse_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseFaultDescriptorExceptionHandler(o =>
-                {
-                    o.SensitivityDetails = FaultSensitivityDetails.All;
-                });
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-
-            }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => o.Filters.AddFaultDescriptor())
                     .AddApplicationPart(typeof(FakeController).Assembly)
@@ -195,7 +186,16 @@ namespace Cuemon.Extensions.Asp.Versioning
                 {
                     o.SensitivityDetails = FaultSensitivityDetails.Failure | FaultSensitivityDetails.StackTrace;
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler(o =>
+                       {
+                           o.SensitivityDetails = FaultSensitivityDetails.All;
+                       });
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+
+                   }))
             {
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;q=10.0");
@@ -242,17 +242,17 @@ Evidence:
         [Fact]
         public async Task GetRequest_ShouldThrowABadRequestException_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
                        services.AddRestfulApiVersioning(o =>
                        {
                            o.ValidAcceptHeaders.Clear();
                        });
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var client = app.Host.GetTestClient();

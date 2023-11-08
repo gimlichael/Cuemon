@@ -50,16 +50,16 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
         [Fact]
         public async Task ReadRequestBodyAsync_ShouldReturnCreated()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
                     .AddJsonFormatters(o => o.Settings.Converters.AddDateTimeConverter());
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var wf = new WeatherForecast();
                 var formatter = new JsonFormatter(o =>

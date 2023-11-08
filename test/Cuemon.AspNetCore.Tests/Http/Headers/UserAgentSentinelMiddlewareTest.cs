@@ -26,14 +26,14 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldThrowUserAgentException_BadRequest()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseUserAgentSentinel();
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
-            }))
+            }, app =>
+                   {
+                       app.UseUserAgentSentinel();
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -52,10 +52,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldThrowUserAgentException_Forbidden()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-                   {
-                       app.UseUserAgentSentinel();
-                   }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
                    {
                        services.Configure<UserAgentSentinelOptions>(o =>
                        {
@@ -64,6 +61,9 @@ namespace Cuemon.AspNetCore.Http.Headers
                            o.AllowedUserAgents.Add("Cuemon-Agent");
                        });
                        services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
+                   }, app =>
+                   {
+                       app.UseUserAgentSentinel();
                    }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -85,12 +85,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldCaptureUserAgentException_Forbidden()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseFaultDescriptorExceptionHandler();
-                app.UseUserAgentSentinel();
-
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o =>
                 {
@@ -99,7 +94,12 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
-            }))
+            }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler();
+                       app.UseUserAgentSentinel();
+
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -120,18 +120,18 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldCaptureUserAgentException_BadRequest()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-                   {
-                       app.UseFaultDescriptorExceptionHandler();
-                       app.UseUserAgentSentinel();
-
-                   }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
                    {
                        services.Configure<UserAgentSentinelOptions>(o =>
                        {
                            o.RequireUserAgentHeader = true;
                        });
                        services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
+                   }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler();
+                       app.UseUserAgentSentinel();
+
                    }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -151,10 +151,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldThrowUserAgentException_BadRequest_BecauseOfUseGenericResponse()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseUserAgentSentinel();
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o =>
                 {
@@ -164,7 +161,10 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
-            }))
+            }, app =>
+                   {
+                       app.UseUserAgentSentinel();
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -187,7 +187,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldAllowRequestUnconditional()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
+            using (var middleware = MiddlewareTestFactory.Create(pipelineSetup: app =>
             {
                 app.UseUserAgentSentinel();
                 app.Run(context =>
@@ -211,15 +211,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         [Fact]
         public async Task InvokeAsync_ShouldAllowRequestAfterBeingValidated()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseUserAgentSentinel();
-                app.Run(context =>
-                {
-                    context.Response.StatusCode = 200;
-                    return Task.CompletedTask;
-                });
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o =>
                 {
@@ -228,7 +220,15 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
-            }))
+            }, app =>
+                   {
+                       app.UseUserAgentSentinel();
+                       app.Run(context =>
+                       {
+                           context.Response.StatusCode = 200;
+                           return Task.CompletedTask;
+                       });
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();

@@ -21,22 +21,22 @@ namespace Cuemon.AspNetCore.Diagnostics
         [Fact]
         public async Task InvokeAsync_ShouldProviderServerTimingHeaderWithMetrics()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.Use(async (context, next) =>
-                {
-                    var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
-
-                    serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
-                    serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
-
-                    await next();
-                });
-                app.UseServerTiming();
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.AddServerTiming();
-            }))
+            }, app =>
+                   {
+                       app.Use(async (context, next) =>
+                       {
+                           var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
+
+                           serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
+                           serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
+
+                           await next();
+                       });
+                       app.UseServerTiming();
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var pipeline = middleware.Application.Build();
@@ -55,22 +55,22 @@ namespace Cuemon.AspNetCore.Diagnostics
         [Fact]
         public async Task InvokeAsync_ShouldNotProviderServerTimingHeaderWithMetrics()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.Use(async (context, next) =>
-                {
-                    var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
-
-                    serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
-                    serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
-
-                    await next();
-                });
-                //app.UseServerTiming(); intentionally removed
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.AddServerTiming();
-            }))
+            }, app =>
+                   {
+                       app.Use(async (context, next) =>
+                       {
+                           var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
+
+                           serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
+                           serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
+
+                           await next();
+                       });
+                       //app.UseServerTiming(); intentionally removed
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var pipeline = middleware.Application.Build();
