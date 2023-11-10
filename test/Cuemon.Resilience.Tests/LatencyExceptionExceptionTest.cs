@@ -18,7 +18,7 @@ namespace Cuemon.Resilience
         {
             var random = Generate.RandomString(10);
             var sut1 =new LatencyException(random);
-            var sut2 = new JsonFormatter();
+            var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

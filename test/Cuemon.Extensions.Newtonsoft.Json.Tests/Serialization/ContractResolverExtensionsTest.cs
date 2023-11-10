@@ -45,7 +45,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
         public void ResolveNamingStrategyOrDefault_ShouldResolveDefaultNamingStrategy()
         {
             var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatter(o =>
+            var sut2 = new NewtonsoftJsonFormatter(o =>
             {
                 o.Settings.Converters.Add(_tsConverter);
                 o.Settings.ContractResolver = new DefaultContractResolver();
@@ -88,7 +88,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
         public void ResolveNamingStrategyOrDefault_ShouldResolveCamelCaseNamingStrategy()
         {
             var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatter(o => o.Settings.Converters.Add(_tsConverter));
+            var sut2 = new NewtonsoftJsonFormatter(o => o.Settings.Converters.Add(_tsConverter));
             var json = sut2.Serialize(sut1).ToEncodedString();
 
             TestOutput.WriteLine(json);
@@ -128,7 +128,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
         public void ResolveNamingStrategyOrDefault_ShouldResolveSnakeCaseNamingStrategy()
         {
             var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatter(o =>
+            var sut2 = new NewtonsoftJsonFormatter(o =>
             {
                 o.Settings.Converters.Add(_tsConverter);
                 o.Settings.ContractResolver = new DefaultContractResolver() { NamingStrategy = new SnakeCaseNamingStrategy() };
@@ -171,7 +171,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Serialization
         public void ResolveNamingStrategyOrDefault_ShouldResolveKebabCaseNamingStrategy()
         {
             var sut1 = TimeSpan.MaxValue;
-            var sut2 = new JsonFormatter(o =>
+            var sut2 = new NewtonsoftJsonFormatter(o =>
             {
                 o.Settings.Converters.Add(_tsConverter);
                 o.Settings.ContractResolver = new DefaultContractResolver() { NamingStrategy = new KebabCaseNamingStrategy() };

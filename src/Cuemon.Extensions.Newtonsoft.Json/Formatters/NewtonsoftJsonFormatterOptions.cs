@@ -11,14 +11,14 @@ using Newtonsoft.Json.Serialization;
 namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
 {
     /// <summary>
-    /// Specifies options that is related to <see cref="JsonFormatter"/> operations.
+    /// Specifies options that is related to <see cref="NewtonsoftJsonFormatter"/> operations.
     /// </summary>
-    public class JsonFormatterOptions : IValidatableParameterObject
+    public class NewtonsoftJsonFormatterOptions : IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;
 
-        static JsonFormatterOptions()
+        static NewtonsoftJsonFormatterOptions()
         {
             DefaultConverters = list =>
             {
@@ -30,10 +30,10 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonFormatterOptions"/> class.
+        /// Initializes a new instance of the <see cref="NewtonsoftJsonFormatterOptions"/> class.
         /// </summary>
         /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="JsonFormatterOptions"/>.
+        /// The following table shows the initial property values for an instance of <see cref="NewtonsoftJsonFormatterOptions"/>.
         /// <list type="table">
         ///     <listheader>
         ///         <term>Property</term>
@@ -65,7 +65,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         ///     </item>
         /// </list>
         /// </remarks>
-        public JsonFormatterOptions()
+        public NewtonsoftJsonFormatterOptions()
         {
             Settings = new JsonSerializerSettings()
             {
@@ -123,9 +123,9 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         }
 
         /// <summary>
-        /// Gets or sets a delegate that  is invoked when <see cref="JsonFormatterOptions"/> is initialized and propagates registered <see cref="JsonConverter"/> implementations.
+        /// Gets or sets a delegate that  is invoked when <see cref="NewtonsoftJsonFormatterOptions"/> is initialized and propagates registered <see cref="JsonConverter"/> implementations.
         /// </summary>
-        /// <value>The delegate which propagates registered <see cref="JsonConverter"/> implementations when <see cref="JsonFormatterOptions"/> is initialized.</value>
+        /// <value>The delegate which propagates registered <see cref="JsonConverter"/> implementations when <see cref="NewtonsoftJsonFormatterOptions"/> is initialized.</value>
         public static Action<IList<JsonConverter>> DefaultConverters { get; set; }
 
         /// <summary>
@@ -141,15 +141,15 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         public bool SynchronizeWithJsonConvert { get; set; }
 
         /// <summary>
-        /// Gets or sets the settings to support the <see cref="JsonFormatter"/>.
+        /// Gets or sets the settings to support the <see cref="NewtonsoftJsonFormatter"/>.
         /// </summary>
-        /// <returns>A <see cref="JsonSerializerSettings"/> instance that specifies a set of features to support the <see cref="JsonFormatter"/> object.</returns>
+        /// <returns>A <see cref="JsonSerializerSettings"/> instance that specifies a set of features to support the <see cref="NewtonsoftJsonFormatter"/> object.</returns>
         public JsonSerializerSettings Settings { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="JsonFormatter"/>.
+        /// Gets or sets the collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="NewtonsoftJsonFormatter"/>.
         /// </summary>
-        /// <returns>A collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="JsonFormatter"/>.</returns>
+        /// <returns>A collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="NewtonsoftJsonFormatter"/>.</returns>
         public IList<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
 
         internal JsonSerializerSettings RefreshWithConverterDependencies()

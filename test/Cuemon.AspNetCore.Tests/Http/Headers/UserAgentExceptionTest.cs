@@ -18,7 +18,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         public void UserAgentException_ShouldBeSerializable_Json()
         {
             var sut1 = new UserAgentException(400, "Bad Request.");
-            var sut2 = new JsonFormatter();
+            var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

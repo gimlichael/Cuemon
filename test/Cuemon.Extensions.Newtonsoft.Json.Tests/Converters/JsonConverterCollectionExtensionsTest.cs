@@ -22,7 +22,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         public void AddStringEnumConverter_ShouldAddStringEnumConverterToConverterCollection_WithPascalCase()
         {
             var sut1 = HorizontalDirection.Left;
-            var sut2 = new JsonFormatterOptions();
+            var sut2 = new NewtonsoftJsonFormatterOptions();
             sut2.Settings.ContractResolver = new DefaultContractResolver();
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddStringEnumConverter(new DefaultNamingStrategy());
@@ -54,7 +54,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         public void AddStringFlagsEnumConverter_ShouldAddStringFlagsEnumConverterToConverterCollection_WithPascalCase()
         {
             var sut1 = GuidFormats.N | GuidFormats.X;
-            var sut2 = new JsonFormatterOptions();
+            var sut2 = new NewtonsoftJsonFormatterOptions();
             sut2.Settings.ContractResolver = new DefaultContractResolver();
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddStringFlagsEnumConverter(new DefaultNamingStrategy());
@@ -89,7 +89,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         public void AddStringEnumConverter_ShouldAddStringEnumConverterToConverterCollection()
         {
             var sut1 = HorizontalDirection.Left;
-            var sut2 = new JsonFormatterOptions();
+            var sut2 = new NewtonsoftJsonFormatterOptions();
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddStringEnumConverter();
 
@@ -120,7 +120,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         public void AddStringFlagsEnumConverter_ShouldAddStringFlagsEnumConverterToConverterCollection()
         {
             var sut1 = GuidFormats.N | GuidFormats.X;
-            var sut2 = new JsonFormatterOptions();
+            var sut2 = new NewtonsoftJsonFormatterOptions();
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddStringFlagsEnumConverter();
 
@@ -168,7 +168,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
             var sut1 = new ExceptionDescriptor(ime, "NoMemory", "System has exhausted memory.", new Uri("https://docs.microsoft.com/en-us/dotnet/api/system.insufficientmemoryexception"));
             sut1.AddEvidence("CorrelationId", Guid.Empty, correlationId => correlationId.ToString("N"));
 
-            var sut2 = new JsonFormatterOptions()
+            var sut2 = new NewtonsoftJsonFormatterOptions()
             {
                 SensitivityDetails = sensitivityDetails
             };
@@ -242,7 +242,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         public void AddDataPairConverter_ShouldAddDataPairConverterToConverterCollection()
         {
             var sut1 = new DataPair<int>("AnswerToEverything", 42);
-            var sut2 = new JsonFormatterOptions();
+            var sut2 = new NewtonsoftJsonFormatterOptions();
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddDataPairConverter();
 

@@ -12,9 +12,9 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
 {
-    public class JsonFormatterTest : Test
+    public class NewtonsoftJsonFormatterTest : Test
     {
-        public JsonFormatterTest(ITestOutputHelper output) : base(output)
+        public NewtonsoftJsonFormatterTest(ITestOutputHelper output) : base(output)
         {
         }
 
@@ -25,11 +25,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
 
             TestOutput.WriteLine(sut1.ToString());
 
-            var json = JsonFormatter.SerializeObject(sut1);
+            var json = NewtonsoftJsonFormatter.SerializeObject(sut1);
 
             TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
 
-            var sut2 = JsonFormatter.DeserializeObject<BindingFlags>(json);
+            var sut2 = NewtonsoftJsonFormatter.DeserializeObject<BindingFlags>(json);
 
             Assert.Equal(sut1, sut2);
         }
@@ -41,11 +41,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
 
             TestOutput.WriteLine(sut1.ToString());
 
-            var json = JsonFormatter.SerializeObject(sut1);
+            var json = NewtonsoftJsonFormatter.SerializeObject(sut1);
 
             TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
 
-            var sut2 = JsonFormatter.DeserializeObject<UriScheme>(json);
+            var sut2 = NewtonsoftJsonFormatter.DeserializeObject<UriScheme>(json);
 
             Assert.Equal(sut1, sut2);
         }
@@ -57,11 +57,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
 
             TestOutput.WriteLine(sut1.ToString());
 
-            var json = JsonFormatter.SerializeObject(sut1);
+            var json = NewtonsoftJsonFormatter.SerializeObject(sut1);
 
             TestOutput.WriteLine(json.ToEncodedString(o => o.LeaveOpen = true));
 
-            var sut2 = JsonFormatter.DeserializeObject<TimeSpan>(json);
+            var sut2 = NewtonsoftJsonFormatter.DeserializeObject<TimeSpan>(json);
 
             Assert.Equal(sut1, sut2);
         }
@@ -73,11 +73,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
 
             TestOutput.WriteLine(sut1);
 
-            var timeSpan = JsonFormatter.DeserializeObject<TimeSpan>(sut1.ToStream());
+            var timeSpan = NewtonsoftJsonFormatter.DeserializeObject<TimeSpan>(sut1.ToStream());
 
             TestOutput.WriteLine(timeSpan.ToString());
 
-            var sut2 = JsonFormatter.SerializeObject(timeSpan);
+            var sut2 = NewtonsoftJsonFormatter.SerializeObject(timeSpan);
 
             Assert.Equal(sut1, sut2.ToEncodedString());
         }
@@ -88,7 +88,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             var sut = DateTime.Parse("2022-06-26T22:39:14.3512950Z").ToUniversalTime();
             TestOutput.WriteLine(sut.ToString("O"));
 
-            var formatter = new JsonFormatter(o => o.Settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK");
+            var formatter = new NewtonsoftJsonFormatter(o => o.Settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK");
             var serializedStream = formatter.Serialize(sut);
 
             var sutAsIso8601String = serializedStream.ToEncodedString(o => o.LeaveOpen = true);
@@ -113,7 +113,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             catch (Exception e)
             {
                 e.Data.Add("Cuemon", "XmlFormatterTest");
-                var f = new JsonFormatter(o =>
+                var f = new NewtonsoftJsonFormatter(o =>
                 {
                     o.Settings.ContractResolver = new DefaultContractResolver();
                     o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTraceAndData;
@@ -130,7 +130,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 Assert.Contains("\"Source\": \"Cuemon.Extensions.Newtonsoft.Json.Tests\"", x[2]);
                 Assert.Contains("\"Message\": \"First\"", x[3]);
                 Assert.Contains("\"Stack\": [", x[4]);
-                Assert.Contains("at Cuemon.Extensions.Newtonsoft.Json.Formatters.JsonFormatterTest", x[5]);
+                Assert.Contains("at Cuemon.Extensions.Newtonsoft.Json.Formatters.NewtonsoftJsonFormatterTest", x[5]);
                 Assert.Contains("\"Data\": {", x[7]);
                 Assert.Contains("\"Cuemon\": \"XmlFormatterTest\"", x[8]);
                 Assert.Contains("},", x[9]);

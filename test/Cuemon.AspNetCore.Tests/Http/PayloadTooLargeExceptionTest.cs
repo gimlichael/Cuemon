@@ -18,7 +18,7 @@ namespace Cuemon.AspNetCore.Http
         public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf413_Json()
         {
             var sut1 = new PayloadTooLargeException();
-            var sut2 = new JsonFormatter();
+            var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

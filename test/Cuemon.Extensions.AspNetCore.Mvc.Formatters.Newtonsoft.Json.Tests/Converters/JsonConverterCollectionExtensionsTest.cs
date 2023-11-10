@@ -56,7 +56,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
                 
                 // TODO: look into IncludeException* and Include equivalents
 
-                var sut2 = new JsonFormatterOptions()
+                var sut2 = new NewtonsoftJsonFormatterOptions()
                 {
                     SensitivityDetails = sensitivityDetails
                 };
@@ -144,7 +144,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
         {
             var sut1 = new StringValues(Arguments.ToArrayOf("This", "is", "a", "test", "!"));
 
-            var sut2 = new JsonFormatterOptions();
+            var sut2 = new NewtonsoftJsonFormatterOptions();
 
             var dc = sut2.Settings.Converters.SingleOrDefault(jc => jc.CanConvert(typeof(StringValues)));
             if (dc != null) { sut2.Settings.Converters.Remove(dc); }
@@ -185,7 +185,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
         {
             var sut1 = new StringValues(Arguments.ToArrayOf("This"));
 
-            var sut2 = new JsonFormatterOptions();
+            var sut2 = new NewtonsoftJsonFormatterOptions();
 
             var dc = sut2.Settings.Converters.SingleOrDefault(jc => jc.CanConvert(typeof(StringValues)));
             if (dc != null) { sut2.Settings.Converters.Remove(dc); }
@@ -193,7 +193,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
 
             Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(StringValues))).ToList(), jc =>
             {
-                var jf = new JsonFormatter(sut2);
+                var jf = new NewtonsoftJsonFormatter(sut2);
 
                 var result = jf.Serialize(sut1);
 

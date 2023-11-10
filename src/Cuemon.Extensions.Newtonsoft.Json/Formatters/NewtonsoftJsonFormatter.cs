@@ -11,28 +11,28 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     /// </summary>
     /// <seealso cref="StreamFormatter{TOptions}" />.
     /// <seealso cref="JsonConverter"/>.
-    public class JsonFormatter : StreamFormatter<JsonFormatterOptions>
+    public class NewtonsoftJsonFormatter : StreamFormatter<NewtonsoftJsonFormatterOptions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
+        /// Initializes a new instance of the <see cref="NewtonsoftJsonFormatter"/> class.
         /// </summary>
-        public JsonFormatter() : this((Action<JsonFormatterOptions>) null)
+        public NewtonsoftJsonFormatter() : this((Action<NewtonsoftJsonFormatterOptions>) null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
+        /// Initializes a new instance of the <see cref="NewtonsoftJsonFormatter"/> class.
         /// </summary>
-        /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
-        public JsonFormatter(Action<JsonFormatterOptions> setup) : this(Patterns.Configure(setup))
+        /// <param name="setup">The <see cref="NewtonsoftJsonFormatterOptions"/> which need to be configured.</param>
+        public NewtonsoftJsonFormatter(Action<NewtonsoftJsonFormatterOptions> setup) : this(Patterns.Configure(setup))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
+        /// Initializes a new instance of the <see cref="NewtonsoftJsonFormatter"/> class.
         /// </summary>
-        /// <param name="options">The configured <see cref="JsonFormatterOptions"/>.</param>
-        public JsonFormatter(JsonFormatterOptions options) : base(options)
+        /// <param name="options">The configured <see cref="NewtonsoftJsonFormatterOptions"/>.</param>
+        public NewtonsoftJsonFormatter(NewtonsoftJsonFormatterOptions options) : base(options)
         {
             if (options.SynchronizeWithJsonConvert) { options.RefreshWithConverterDependencies().ApplyToDefaultSettings(); }
         }

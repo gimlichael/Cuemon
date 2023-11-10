@@ -28,7 +28,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public void Ctor_VerifyThatUtf8AndUtf16_WasAdded_ToSupportedEncodings()
         {
-            var sut = new JsonSerializationInputFormatter(new JsonFormatterOptions());
+            var sut = new JsonSerializationInputFormatter(new NewtonsoftJsonFormatterOptions());
 
             Assert.Equal(2, sut.SupportedEncodings.Count);
             Assert.Collection(sut.SupportedEncodings, 
@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public void Ctor_VerifyThatApplicationJsonAndTextJson_WasAdded_ToSupportedMediaTypes()
         {
-            var sut = new JsonSerializationInputFormatter(new JsonFormatterOptions());
+            var sut = new JsonSerializationInputFormatter(new NewtonsoftJsonFormatterOptions());
 
             Assert.Equal(2, sut.SupportedMediaTypes.Count);
             Assert.Collection(sut.SupportedMediaTypes, 
@@ -62,7 +62,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
                    }))
             {
                 var wf = new WeatherForecast();
-                var formatter = new JsonFormatter(o =>
+                var formatter = new NewtonsoftJsonFormatter(o =>
                 {
                     o.Settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK"; // default ISO8601 (ToString("O")
                     o.Settings.Formatting = Formatting.Indented;

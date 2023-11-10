@@ -23,7 +23,7 @@ namespace Cuemon
             var actualValue = 42;
             var randomMessage = Generate.RandomString(50);
             var sut1 = new TypeArgumentOutOfRangeException(randomParamName, 42, randomMessage);
-            var sut2 = new JsonFormatter();
+            var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

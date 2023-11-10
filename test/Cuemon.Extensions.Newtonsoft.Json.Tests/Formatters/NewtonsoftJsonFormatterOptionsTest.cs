@@ -9,16 +9,16 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
 {
-    public class JsonFormatterOptionsTest : Test
+    public class NewtonsoftJsonFormatterOptionsTest : Test
     {
-        public JsonFormatterOptionsTest(ITestOutputHelper output) : base(output)
+        public NewtonsoftJsonFormatterOptionsTest(ITestOutputHelper output) : base(output)
         {
         }
 
         [Fact]
         public void JsonFormatterOptions_SettingsIsNull_ShouldThrowInvalidOperationException()
         {
-            var sut1 = new JsonFormatterOptions()
+            var sut1 = new NewtonsoftJsonFormatterOptions()
             {
                 Settings = null
             };
@@ -26,7 +26,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Settings == null')", sut2.Message);
-            Assert.StartsWith("JsonFormatterOptions are not in a valid state.", sut3.Message);
+            Assert.StartsWith($"{nameof(NewtonsoftJsonFormatterOptions)} are not in a valid state.", sut3.Message);
             Assert.Contains("sut1", sut3.Message);
             Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
@@ -34,7 +34,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         [Fact]
         public void JsonFormatterOptions_SupportedMediaTypesIsNull_ShouldThrowInvalidOperationException()
         {
-            var sut1 = new JsonFormatterOptions()
+            var sut1 = new NewtonsoftJsonFormatterOptions()
             {
                 SupportedMediaTypes = null
             };
@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'SupportedMediaTypes == null')", sut2.Message);
-            Assert.StartsWith("JsonFormatterOptions are not in a valid state.", sut3.Message);
+            Assert.StartsWith($"{nameof(NewtonsoftJsonFormatterOptions)} are not in a valid state.", sut3.Message);
             Assert.Contains("sut1", sut3.Message);
             Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         [Fact]
         public void JsonFormatterOptions_ShouldHaveDefaultValues()
         {
-            var sut = new JsonFormatterOptions();
+            var sut = new NewtonsoftJsonFormatterOptions();
 
             Assert.NotNull(sut.Settings);
             Assert.NotNull(sut.SupportedMediaTypes);
@@ -62,11 +62,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         public void DefaultConverters_ShouldHaveSameAmountOfDefaultConverters()
         {
             var defaultConverters = new List<JsonConverter>();
-            JsonFormatterOptions.DefaultConverters(defaultConverters);
+            NewtonsoftJsonFormatterOptions.DefaultConverters(defaultConverters);
 
-            var x = new JsonFormatterOptions();
-            var y = new JsonFormatterOptions();
-            var bootstrapInvocationList = JsonFormatterOptions.DefaultConverters.GetInvocationList().Length;
+            var x = new NewtonsoftJsonFormatterOptions();
+            var y = new NewtonsoftJsonFormatterOptions();
+            var bootstrapInvocationList = NewtonsoftJsonFormatterOptions.DefaultConverters.GetInvocationList().Length;
 
             x.GetType().GetMethod("RefreshWithConverterDependencies", MemberReflection.Everything).Invoke(x, new object[] { });
             y.GetType().GetMethod("RefreshWithConverterDependencies", MemberReflection.Everything).Invoke(y, new object[] { });

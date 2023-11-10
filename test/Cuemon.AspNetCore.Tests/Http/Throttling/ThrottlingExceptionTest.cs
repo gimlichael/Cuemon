@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
         {
             var reset = DateTime.Today.AddDays(1);
             var sut1 = new ThrottlingException("Throttling rate limit quota violation. Quota limit exceeded.", 100, TimeSpan.FromHours(1), reset);
-            var sut2 = new JsonFormatter();
+            var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 

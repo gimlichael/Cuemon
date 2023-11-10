@@ -21,7 +21,7 @@ namespace Cuemon
         public void ArgumentException_ShouldBeSerializable_Json()
         {
             var sut1 = new ArgumentException("My fancy message.", "myArg");
-            var sut2 = new JsonFormatter();
+            var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
@@ -59,7 +59,7 @@ namespace Cuemon
         {
             var random = Generate.RandomString(10);
             var sut1 = new TypeArgumentException(random);
-            var sut2 = new JsonFormatter();
+            var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
@@ -96,7 +96,7 @@ namespace Cuemon
         public void TypeArgumentException_WithInnerException_ShouldBeSerializable_Json()
         {
             var sut1 = new TypeArgumentException("Should have IE.", new ReservedKeywordException("Test", new AbandonedMutexException(20, null)));
-            var sut2 = new JsonFormatter();
+            var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
