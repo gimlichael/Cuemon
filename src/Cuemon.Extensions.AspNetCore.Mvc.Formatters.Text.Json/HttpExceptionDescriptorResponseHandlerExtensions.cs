@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Cuemon.AspNetCore.Diagnostics;
-using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters;
 using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Net.Http;
@@ -36,7 +35,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
                 o.ContentFactory = ed =>
                 {
                     var options = setup.Value;
-                    options.Settings.Converters.AddHttpExceptionDescriptorConverter(o => o.SensitivityDetails = options.SensitivityDetails);
+                    options.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = options.SensitivityDetails);
                     return new StreamContent(JsonFormatter.SerializeObject(ed, Patterns.ConfigureRevert(options)))
                     {
                         Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }

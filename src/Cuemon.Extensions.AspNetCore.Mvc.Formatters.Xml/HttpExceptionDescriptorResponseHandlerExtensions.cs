@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Cuemon.AspNetCore.Diagnostics;
-using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters;
 using Cuemon.Net.Http;
 using Cuemon.Xml.Serialization;
@@ -22,7 +21,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the list of <paramref name="handlers"/> that uses <see cref="XmlSerializer"/> as engine of serialization.
         /// </summary>
         /// <param name="handlers">The sequence of <see cref="HttpExceptionDescriptorResponseHandler"/> to extend.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which need to be configured.</param>
         /// <returns>A reference to <paramref name="handlers" /> so that additional calls can be chained.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="handlers"/> cannot be null.
@@ -36,7 +35,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                 o.ContentFactory = ed =>
                 {
                     var options = setup.Value;
-                    options.Settings.Converters.AddHttpExceptionDescriptorConverter(o => o.SensitivityDetails = options.SensitivityDetails);
+                    options.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = options.SensitivityDetails);
                     return new StreamContent(XmlFormatter.SerializeObject(ed, Patterns.ConfigureRevert(options)))
                     {
                         Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }
