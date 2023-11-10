@@ -12,10 +12,10 @@ namespace Cuemon.AspNetCore.Diagnostics
     public static class HttpExceptionDescriptorResponseHandlerDecoratorExtensions
     {
         /// <summary>
-        /// Adds the response handler.
+        /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the underlying list of <see cref="HttpExceptionDescriptorResponseHandler"/> from the specified the <paramref name="decorator"/>.
         /// </summary>
-        /// <param name="decorator">The decorator.</param>
-        /// <param name="setup">The setup.</param>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="setup">The <see cref="HttpExceptionDescriptorResponseHandlerOptions"/> that needs to be configured.</param>
         /// <returns>A reference to <see cref="P:IDecorator.Inner"/> of <paramref name="decorator" /> so that additional calls can be chained.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null - or -
