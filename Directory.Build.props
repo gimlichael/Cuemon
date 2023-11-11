@@ -71,8 +71,8 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
-    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.7.2" Condition="$(TargetFramework.StartsWith('net4')) AND '$(IsLinux)' == 'true'" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.8.0" Condition="$(TargetFramework.StartsWith('net4')) AND '$(IsLinux)' == 'true'" />
     <PackageReference Include="xunit" Version="2.6.1" />
     <PackageReference Include="xunit.runner.console" Version="2.6.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
