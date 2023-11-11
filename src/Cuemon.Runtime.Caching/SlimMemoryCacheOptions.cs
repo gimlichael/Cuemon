@@ -77,7 +77,7 @@ namespace Cuemon.Runtime.Caching
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(KeyProvider == null);
+            Validator.ThrowIfObjectStateInvalid(KeyProvider == null);
         }
     }
 }

@@ -109,7 +109,7 @@ namespace Cuemon
         /// <exception cref="InvalidOperationException">
         /// <paramref name="condition" /> is <c>true</c>.
         /// </exception>
-        public static void ThrowIfObjectInDistress(bool condition, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression(nameof(condition))] string expression = null)
+        public static void ThrowIfObjectStateInvalid(bool condition, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression(nameof(condition))] string expression = null)
         {
             if (condition) { throw new InvalidOperationException($"{message} (Expression '{expression}')"); }
         }

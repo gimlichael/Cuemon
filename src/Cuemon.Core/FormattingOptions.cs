@@ -27,7 +27,7 @@ namespace Cuemon
         /// <inheritdoc />
         public virtual void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(FormatProvider == null);
+            Validator.ThrowIfObjectStateInvalid(FormatProvider == null);
         }
     }
 }

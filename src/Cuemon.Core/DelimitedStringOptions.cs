@@ -54,8 +54,8 @@ namespace Cuemon
         /// <inheritdoc/>
         public override void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(string.IsNullOrEmpty(Qualifier));
-            Validator.ThrowIfObjectInDistress(string.IsNullOrEmpty(Delimiter));
+            Validator.ThrowIfObjectStateInvalid(string.IsNullOrEmpty(Qualifier));
+            Validator.ThrowIfObjectStateInvalid(string.IsNullOrEmpty(Delimiter));
             base.ValidateOptions();
         }
     }

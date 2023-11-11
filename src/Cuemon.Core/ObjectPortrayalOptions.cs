@@ -126,11 +126,11 @@ namespace Cuemon
         /// <inheritdoc />
         public override void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(PropertiesPredicate == null);
-            Validator.ThrowIfObjectInDistress(PropertyConverter == null);
-            Validator.ThrowIfObjectInDistress(string.IsNullOrEmpty(Delimiter));
-            Validator.ThrowIfObjectInDistress(string.IsNullOrEmpty(NoGetterValue));
-            Validator.ThrowIfObjectInDistress(string.IsNullOrEmpty(NullValue));
+            Validator.ThrowIfObjectStateInvalid(PropertiesPredicate == null);
+            Validator.ThrowIfObjectStateInvalid(PropertyConverter == null);
+            Validator.ThrowIfObjectStateInvalid(string.IsNullOrEmpty(Delimiter));
+            Validator.ThrowIfObjectStateInvalid(string.IsNullOrEmpty(NoGetterValue));
+            Validator.ThrowIfObjectStateInvalid(string.IsNullOrEmpty(NullValue));
             base.ValidateOptions();
         }
     }

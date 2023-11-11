@@ -130,8 +130,8 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(Settings == null);
-            Validator.ThrowIfObjectInDistress(SupportedMediaTypes == null);
+            Validator.ThrowIfObjectStateInvalid(Settings == null);
+            Validator.ThrowIfObjectStateInvalid(SupportedMediaTypes == null);
         }
     }
 }

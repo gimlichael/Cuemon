@@ -96,7 +96,7 @@ namespace Cuemon
         {
             var sut = Assert.Throws<InvalidOperationException>(() =>
             {
-                Validator.ThrowIfObjectInDistress(1 == 1);
+                Validator.ThrowIfObjectStateInvalid(1 == 1);
             });
             
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression '1 == 1')", sut.Message);

@@ -89,8 +89,8 @@ namespace Cuemon.Net.Http
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(HandlerFactory == null);
-            Validator.ThrowIfObjectInDistress(DefaultRequestHeaders == null);
+            Validator.ThrowIfObjectStateInvalid(HandlerFactory == null);
+            Validator.ThrowIfObjectStateInvalid(DefaultRequestHeaders == null);
         }
     }
 }

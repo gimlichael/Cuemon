@@ -69,7 +69,7 @@ namespace Cuemon.Data
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(string.IsNullOrWhiteSpace(ConnectionString));
+            Validator.ThrowIfObjectStateInvalid(string.IsNullOrWhiteSpace(ConnectionString));
         }
     }
 }

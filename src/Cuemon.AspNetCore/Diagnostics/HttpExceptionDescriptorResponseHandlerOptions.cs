@@ -72,9 +72,9 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(ContentFactory == null);
-            Validator.ThrowIfObjectInDistress(ContentType == null);
-            Validator.ThrowIfObjectInDistress(StatusCodeFactory == null);
+            Validator.ThrowIfObjectStateInvalid(ContentFactory == null);
+            Validator.ThrowIfObjectStateInvalid(ContentType == null);
+            Validator.ThrowIfObjectStateInvalid(StatusCodeFactory == null);
         }
     }
 }

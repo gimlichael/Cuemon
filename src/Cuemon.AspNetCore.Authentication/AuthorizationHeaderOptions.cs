@@ -56,8 +56,8 @@ namespace Cuemon.AspNetCore.Authentication
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(CredentialsDelimiter == null);
-            Validator.ThrowIfObjectInDistress(CredentialsKeyValueDelimiter == null);
+            Validator.ThrowIfObjectStateInvalid(CredentialsDelimiter == null);
+            Validator.ThrowIfObjectStateInvalid(CredentialsKeyValueDelimiter == null);
         }
     }
 }
