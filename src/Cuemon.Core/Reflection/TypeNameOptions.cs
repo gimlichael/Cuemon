@@ -77,7 +77,7 @@ namespace Cuemon.Reflection
         /// <inheritdoc />
         public override void ValidateOptions()
         {
-            Validator.ThrowIfObjectStateInvalid(FriendlyNameStringConverter == null);
+            Validator.ThrowIfInvalidState(FriendlyNameStringConverter == null);
             base.ValidateOptions();
         }
     }

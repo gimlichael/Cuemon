@@ -200,8 +200,8 @@ namespace Cuemon.Extensions.Asp.Versioning
 		/// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
 		public void ValidateOptions()
 		{
-			Validator.ThrowIfObjectStateInvalid(Condition.IsNull(ParameterName) || Condition.IsEmpty(ParameterName) || Condition.IsWhiteSpace(ParameterName));
-			Validator.ThrowIfObjectStateInvalid(ValidAcceptHeaders == null);
+			Validator.ThrowIfInvalidState(Condition.IsNull(ParameterName) || Condition.IsEmpty(ParameterName) || Condition.IsWhiteSpace(ParameterName));
+			Validator.ThrowIfInvalidState(ValidAcceptHeaders == null);
 		}
 	}
 }

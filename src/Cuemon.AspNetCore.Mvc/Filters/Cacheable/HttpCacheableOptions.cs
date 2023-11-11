@@ -63,7 +63,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectStateInvalid(Filters == null);
+            Validator.ThrowIfInvalidState(Filters == null);
         }
     }
 }

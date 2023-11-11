@@ -75,9 +75,9 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectStateInvalid(OpenApiInfo == null);
-            Validator.ThrowIfObjectStateInvalid(XmlDocumentations == null);
-            Validator.ThrowIfObjectStateInvalid(Settings == null);
+            Validator.ThrowIfInvalidState(OpenApiInfo == null);
+            Validator.ThrowIfInvalidState(XmlDocumentations == null);
+            Validator.ThrowIfInvalidState(Settings == null);
         }
     }
 }

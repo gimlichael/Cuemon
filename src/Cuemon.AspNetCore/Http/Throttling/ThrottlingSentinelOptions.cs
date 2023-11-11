@@ -168,11 +168,11 @@ namespace Cuemon.AspNetCore.Http.Throttling
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectStateInvalid(Condition.IsNull(RateLimitHeaderName) || Condition.IsEmpty(RateLimitHeaderName) || Condition.IsWhiteSpace(RateLimitHeaderName));
-            Validator.ThrowIfObjectStateInvalid(Condition.IsNull(RateLimitRemainingHeaderName) || Condition.IsEmpty(RateLimitRemainingHeaderName) || Condition.IsWhiteSpace(RateLimitRemainingHeaderName));
-            Validator.ThrowIfObjectStateInvalid(Condition.IsNull(RateLimitResetHeaderName) || Condition.IsEmpty(RateLimitResetHeaderName) || Condition.IsWhiteSpace(RateLimitResetHeaderName));
-            Validator.ThrowIfObjectStateInvalid(ResponseHandler == null);
-            Validator.ThrowIfObjectStateInvalid(ContextResolver != null && Quota == null);
+            Validator.ThrowIfInvalidState(Condition.IsNull(RateLimitHeaderName) || Condition.IsEmpty(RateLimitHeaderName) || Condition.IsWhiteSpace(RateLimitHeaderName));
+            Validator.ThrowIfInvalidState(Condition.IsNull(RateLimitRemainingHeaderName) || Condition.IsEmpty(RateLimitRemainingHeaderName) || Condition.IsWhiteSpace(RateLimitRemainingHeaderName));
+            Validator.ThrowIfInvalidState(Condition.IsNull(RateLimitResetHeaderName) || Condition.IsEmpty(RateLimitResetHeaderName) || Condition.IsWhiteSpace(RateLimitResetHeaderName));
+            Validator.ThrowIfInvalidState(ResponseHandler == null);
+            Validator.ThrowIfInvalidState(ContextResolver != null && Quota == null);
         }
     }
 }

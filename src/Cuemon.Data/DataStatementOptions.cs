@@ -51,7 +51,7 @@ namespace Cuemon.Data
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectStateInvalid(Parameters == null);
+            Validator.ThrowIfInvalidState(Parameters == null);
         }
     }
 }

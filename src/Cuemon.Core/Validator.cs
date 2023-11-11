@@ -109,7 +109,8 @@ namespace Cuemon
         /// <exception cref="InvalidOperationException">
         /// <paramref name="condition" /> is <c>true</c>.
         /// </exception>
-        public static void ThrowIfObjectStateInvalid(bool condition, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression(nameof(condition))] string expression = null)
+        /// <remarks>This guard should be called when validating the state of an object - not when validating arguments passed to a member.</remarks>
+        public static void ThrowIfInvalidState(bool condition, string message = "Operation is not valid due to the current state of the object.", [CallerArgumentExpression(nameof(condition))] string expression = null)
         {
             if (condition) { throw new InvalidOperationException($"{message} (Expression '{expression}')"); }
         }
@@ -123,9 +124,10 @@ namespace Cuemon
         /// <exception cref="ObjectDisposedException">
         /// The <paramref name="condition" /> is <c>true</c>.
         /// </exception>
-        public static void ThrowIfObjectDisposed(bool condition, object instance, string message = "Cannot access a disposed object.")
+        /// <remarks>This guard should be called when performing an operation on a disposed object - not when validating arguments passed to a member.</remarks>
+        public static void ThrowIfDisposed(bool condition, object instance, string message = "Cannot access a disposed object.")
         {
-            ThrowIfObjectDisposed(condition, instance?.GetType(), message);
+            ThrowIfDisposed(condition, instance?.GetType(), message);
         }
 
         /// <summary>
@@ -137,7 +139,8 @@ namespace Cuemon
         /// <exception cref="ObjectDisposedException">
         /// The <paramref name="condition" /> is <c>true</c>.
         /// </exception>
-        public static void ThrowIfObjectDisposed(bool condition, Type type, string message = "Cannot access a disposed object.")
+        /// <remarks>This guard should be called when performing an operation on a disposed object - not when validating arguments passed to a member.</remarks>
+        public static void ThrowIfDisposed(bool condition, Type type, string message = "Cannot access a disposed object.")
         {
             if (condition) { throw new ObjectDisposedException(type == null ? null : Decorator.Enclose(type, false).ToFriendlyName(o => o.FullName = true), message); }
         }

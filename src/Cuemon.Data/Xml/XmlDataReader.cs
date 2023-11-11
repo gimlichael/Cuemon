@@ -61,7 +61,7 @@ namespace Cuemon.Data.Xml
         /// </exception>
         public override bool Read()
         {
-            Validator.ThrowIfObjectDisposed(Disposed, GetType());
+            Validator.ThrowIfDisposed(Disposed, GetType());
             return ReadNext(default);
         }
 
@@ -74,7 +74,7 @@ namespace Cuemon.Data.Xml
         /// </exception>
         protected override bool ReadNext(bool columns)
         {
-            Validator.ThrowIfObjectDisposed(Disposed, GetType());
+            Validator.ThrowIfDisposed(Disposed, GetType());
             var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
             var skipIterateForward = false;
             string elementName = null;

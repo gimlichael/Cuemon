@@ -129,7 +129,7 @@ namespace Cuemon.Data.SqlClient
         public decimal ExecuteIdentityDecimal(DataStatement statement)
         {
             Validator.ThrowIfNull(statement);
-            Validator.ThrowIfObjectStateInvalid(statement.Type != CommandType.Text);
+            Validator.ThrowIfInvalidState(statement.Type != CommandType.Text);
             if (statement.Type != CommandType.Text) { throw new ArgumentException("This method only supports CommandType.Text specifications.", nameof(statement)); }
             return ExecuteScalarAs<decimal>(new DataStatement(FormattableString.Invariant($"{statement.Text} SELECT CONVERT(NUMERIC, SCOPE_IDENTITY())"), o =>
             {

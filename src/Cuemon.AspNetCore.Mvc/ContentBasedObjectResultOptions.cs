@@ -38,7 +38,7 @@ namespace Cuemon.AspNetCore.Mvc
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectStateInvalid(ChecksumProvider == null);
+            Validator.ThrowIfInvalidState(ChecksumProvider == null);
         }
     }
 }

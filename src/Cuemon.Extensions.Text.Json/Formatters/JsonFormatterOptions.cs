@@ -129,8 +129,8 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectStateInvalid(Settings == null);
-            Validator.ThrowIfObjectStateInvalid(SupportedMediaTypes == null);
+            Validator.ThrowIfInvalidState(Settings == null);
+            Validator.ThrowIfInvalidState(SupportedMediaTypes == null);
         }
     }
 }

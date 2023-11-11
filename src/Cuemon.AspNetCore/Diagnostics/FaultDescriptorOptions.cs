@@ -160,8 +160,8 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectStateInvalid(HttpFaultResolvers == null);
-            Validator.ThrowIfObjectStateInvalid(NonMvcResponseHandlers == null);
+            Validator.ThrowIfInvalidState(HttpFaultResolvers == null);
+            Validator.ThrowIfInvalidState(NonMvcResponseHandlers == null);
         }
     }
 }

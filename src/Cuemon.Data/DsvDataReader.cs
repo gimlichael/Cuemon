@@ -140,7 +140,7 @@ namespace Cuemon.Data
 
         private async Task<bool> ReadAllLinesAsync(Func<Task<string>> readLineAsyncCallback)
         {
-            Validator.ThrowIfObjectDisposed(Disposed, GetType());
+            Validator.ThrowIfDisposed(Disposed, GetType());
             var line = await readLineAsyncCallback();
             if (line != null)
             {

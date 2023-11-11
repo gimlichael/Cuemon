@@ -57,8 +57,8 @@ namespace Cuemon.AspNetCore.Hosting
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectStateInvalid(Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName));
-            Validator.ThrowIfObjectStateInvalid(SuppressHeaderPredicate == null);
+            Validator.ThrowIfInvalidState(Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName));
+            Validator.ThrowIfInvalidState(SuppressHeaderPredicate == null);
         }
     }
 }

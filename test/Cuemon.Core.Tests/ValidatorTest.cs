@@ -22,7 +22,7 @@ namespace Cuemon
         {
             var sut = Assert.Throws<ObjectDisposedException>(() =>
             {
-                Validator.ThrowIfObjectDisposed(true, GetType());
+                Validator.ThrowIfDisposed(true, GetType());
             });
             
             Assert.Equal("""
@@ -32,7 +32,7 @@ namespace Cuemon
 
             sut = Assert.Throws<ObjectDisposedException>(() =>
             {
-                Validator.ThrowIfObjectDisposed(true, null);
+                Validator.ThrowIfDisposed(true, null);
             });
             
             Assert.Equal("""
@@ -43,7 +43,7 @@ namespace Cuemon
 
             sut = Assert.Throws<ObjectDisposedException>(() =>
             {
-                Validator.ThrowIfObjectDisposed(true, dic.GetType());
+                Validator.ThrowIfDisposed(true, dic.GetType());
             });
             
             Assert.Equal("""
@@ -51,7 +51,7 @@ namespace Cuemon
                          Object name: 'System.Collections.Generic.Dictionary<System.String,System.Object>'.
                          """.ReplaceLineEndings(), sut.Message);
 
-            Validator.ThrowIfObjectDisposed(false, GetType());
+            Validator.ThrowIfDisposed(false, GetType());
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace Cuemon
         {
             var sut = Assert.Throws<ObjectDisposedException>(() =>
             {
-                Validator.ThrowIfObjectDisposed(true, this);
+                Validator.ThrowIfDisposed(true, this);
             });
 
             Assert.Equal("""
@@ -69,7 +69,7 @@ namespace Cuemon
 
             sut = Assert.Throws<ObjectDisposedException>(() =>
             {
-                Validator.ThrowIfObjectDisposed(true, null);
+                Validator.ThrowIfDisposed(true, null);
             });
 
             Assert.Equal("""
@@ -80,7 +80,7 @@ namespace Cuemon
 
             sut = Assert.Throws<ObjectDisposedException>(() =>
             {
-                Validator.ThrowIfObjectDisposed(true, dic);
+                Validator.ThrowIfDisposed(true, dic);
             });
             
             Assert.Equal("""
@@ -88,7 +88,7 @@ namespace Cuemon
                          Object name: 'System.Collections.Generic.Dictionary<System.String,System.Object>'.
                          """.ReplaceLineEndings(), sut.Message);
 
-            Validator.ThrowIfObjectDisposed(false, this);
+            Validator.ThrowIfDisposed(false, this);
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace Cuemon
         {
             var sut = Assert.Throws<InvalidOperationException>(() =>
             {
-                Validator.ThrowIfObjectStateInvalid(1 == 1);
+                Validator.ThrowIfInvalidState(1 == 1);
             });
             
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression '1 == 1')", sut.Message);
