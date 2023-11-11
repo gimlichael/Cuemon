@@ -1,16 +1,18 @@
-﻿---
-uid: extensions-aws-signature-md
-title: Extensions for AWS Signature API
 ---
-# Extensions for AWS Signature API
+uid: Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4
+summary: *content
+---
+The `Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4` namespace complements the `Cuemon.AspNetCore.Authentication` namespace while providing a way making and signing HTTP requests in the context of specific AWS services using Signature Version 4.
 
-Cuemon for .NET provides a fluent way to use [AWS Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/reference-for-signature-version-4.html) in your code.
+[!INCLUDE [availability-modern](../../includes/availability-modern.md)]
 
-## Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4
+Complements: [AWS Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/reference-for-signature-version-4.html) 🔗
 
-The Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace complements the Cuemon.AspNetCore.Authentication namespace while providing a way making and signing HTTP requests in the context of specific AWS services using Signature Version 4.
+### Extension Methods
 
-[!INCLUDE [availability-modern](../../../includes/availability-modern.md)]
+|Type|Ext|Methods|
+|--:|:-:|---|
+|DateTime|⬇️|`ToAwsDateString`, `ToAwsDateTimeString`|
 
 ### CSharp Example
 ```csharp
