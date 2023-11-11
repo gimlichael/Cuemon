@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides a Correlation ID (also known as a Request ID) that is a unique identifier which is attached to requests and messages that allow reference to a particular transaction or event chain.
     /// </summary>
-    public interface ICorrelation
+    public interface ICorrelationToken
     {
         /// <summary>
         /// Gets the unique correlation identifier.

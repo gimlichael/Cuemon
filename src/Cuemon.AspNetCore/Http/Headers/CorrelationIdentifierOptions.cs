@@ -25,15 +25,15 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///         <description><see cref="HttpHeaderNames.XCorrelationId"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="CorrelationProvider"/></term>
-        ///         <description><c>DynamicCorrelation.Create(Guid.NewGuid().ToString("N")</c></description>
+        ///         <term><see cref="Token"/></term>
+        ///         <description><c>new CollerationToken();</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public CorrelationIdentifierOptions()
         {
             HeaderName = HttpHeaderNames.XCorrelationId;
-            CorrelationProvider = () => DynamicCorrelation.Create(Guid.NewGuid().ToString("N"));
+            Token = new CorrelationToken();
         }
 
         /// <summary>
@@ -43,23 +43,23 @@ namespace Cuemon.AspNetCore.Http.Headers
         public string HeaderName { get; set; }
 
         /// <summary>
-        /// Gets or sets the function delegate that provides the correlation implementation.
+        /// Gets or sets the <see cref="ICorrelationToken"/> that provides a Correlation ID implementation.
         /// </summary>
-        /// <value>The function delegate that provides the correlation implementation.</value>
-        public Func<ICorrelation> CorrelationProvider { get; set; }
+        /// <value>The <see cref="ICorrelationToken"/> that provides a Correlation ID implementation.</value>
+        public ICorrelationToken Token { get; set; }
 
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>
         /// <exception cref="InvalidOperationException">
         /// <see cref="HeaderName"/> cannot be null, empty or consist only of white-space characters - or -
-        /// <see cref="CorrelationProvider"/> cannot be null.
+        /// <see cref="Token"/> cannot be null.
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
             Validator.ThrowIfInvalidState(Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName));
-            Validator.ThrowIfInvalidState(CorrelationProvider == null);
+            Validator.ThrowIfInvalidState(Token == null);
         }
     }
 }

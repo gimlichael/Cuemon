@@ -14,12 +14,12 @@ namespace Cuemon.Extensions.Xunit.Hosting
     [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
     public class HostTestTest : HostTest<HostFixture>
     {
-        private readonly Func<IList<ICorrelation>> _correlationsFactory;
-        private static readonly ConcurrentBag<ICorrelation> ScopedCorrelations = new ConcurrentBag<ICorrelation>();
+        private readonly Func<IList<ICorrelationToken>> _correlationsFactory;
+        private static readonly ConcurrentBag<ICorrelationToken> ScopedCorrelations = new ConcurrentBag<ICorrelationToken>();
 
         public HostTestTest(HostFixture hostFixture, ITestOutputHelper output) : base(hostFixture, output)
         {
-            _correlationsFactory = () => hostFixture.ServiceProvider.GetServices<ICorrelation>().ToList();
+            _correlationsFactory = () => hostFixture.ServiceProvider.GetServices<ICorrelationToken>().ToList();
         }
 
         [Fact, Priority(1)]
@@ -72,9 +72,9 @@ namespace Cuemon.Extensions.Xunit.Hosting
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ICorrelation, SingletonCorrelation>();
-            services.AddTransient<ICorrelation, TransientCorrelation>();
-            services.AddScoped<ICorrelation, ScopedCorrelation>();
+            services.AddSingleton<ICorrelationToken, SingletonCorrelation>();
+            services.AddTransient<ICorrelationToken, TransientCorrelation>();
+            services.AddScoped<ICorrelationToken, ScopedCorrelation>();
         }
     }
 }
