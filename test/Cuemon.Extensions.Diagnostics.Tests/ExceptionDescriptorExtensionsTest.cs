@@ -38,7 +38,7 @@ namespace Cuemon.Extensions.Diagnostics
 
             TestOutput.WriteLine(sut2);
 
-            Assert.Contains(@"Error: 
+            Assert.StartsWith(@"Error: 
   Code: UnhandledException
   Message: An unhandled exception occurred.
   Failure: 
@@ -46,8 +46,9 @@ namespace Cuemon.Extensions.Diagnostics
     Source: Cuemon.Extensions.Diagnostics.Tests
     Message: Insufficient memory to continue the execution of the program.
     Stack: 
-      at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithAllCaptures() in C:\Source\Github\Cuemon\test\Cuemon.Extensions.Diagnostics.Tests\ExceptionDescriptorExtensionsTest.cs:line 23
-    Data: 
+      at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithAllCaptures()".ReplaceLineEndings(), sut2);
+
+            Assert.Contains(@"    Data: 
       Name: Cuemon".ReplaceLineEndings(), sut2);
 
             Assert.Contains("""
