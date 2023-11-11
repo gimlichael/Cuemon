@@ -26,7 +26,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///     </item>
         ///     <item>
         ///         <term><see cref="Token"/></term>
-        ///         <description><c>new CollerationToken();</c></description>
+        ///         <description><c>new CorrelationToken();</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
