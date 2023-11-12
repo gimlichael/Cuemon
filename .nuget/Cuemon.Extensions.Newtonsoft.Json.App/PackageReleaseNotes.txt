@@ -21,15 +21,3 @@ Availability: .NET Standard 2.0, (.NET Core 3.1), .NET 6.0, .NET 7.0
 - REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
-Version: 6.4.1
-Availability: .NET Standard 2.0, (.NET Core 3.1), .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, (.NET Core 3.1), .NET 5.0, .NET 6.0
- 
-# References
-- Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
-- Cuemon.Extensions.Newtonsoft.Json

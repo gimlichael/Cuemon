@@ -6,7 +6,7 @@ The `Cuemon.Extensions.Globalization` namespace contains extension methods that 
 
 [!INCLUDE [availability-default](../../includes/availability-default.md)]
 
-Complements: [Cuemon.Globalization namespace](/api/dotnet/Cuemon.Diagnostics.html) 📘
+Complements: [Cuemon.Globalization namespace](/api/dotnet/Cuemon.Globalization.html) 📘
 
 ### Extension Methods
 
