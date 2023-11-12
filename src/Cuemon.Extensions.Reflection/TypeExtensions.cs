@@ -20,8 +20,7 @@ namespace Cuemon.Extensions.Reflection
         /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="PropertyInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
         public static IEnumerable<PropertyInfo> GetAllProperties(this Type source, Action<MemberReflectionOptions> setup = null)
         {
-            Validator.ThrowIfNull(source);
-            return Decorator.Enclose(source).GetAllProperties(setup);
+            return Decorator.EncloseToExpose(source).GetAllProperties(setup);
         }
 
         /// <summary>
@@ -32,8 +31,7 @@ namespace Cuemon.Extensions.Reflection
         /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="FieldInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
         public static IEnumerable<FieldInfo> GetAllFields(this Type source, Action<MemberReflectionOptions> setup = null)
         {
-            Validator.ThrowIfNull(source);
-            return Decorator.Enclose(source).GetAllFields(setup);
+            return Decorator.EncloseToExpose(source).GetAllFields(setup);
         }
 
         /// <summary>
@@ -44,8 +42,7 @@ namespace Cuemon.Extensions.Reflection
         /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="EventInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
         public static IEnumerable<EventInfo> GetAllEvents(this Type source, Action<MemberReflectionOptions> setup = null)
         {
-            Validator.ThrowIfNull(source);
-            return Decorator.Enclose(source).GetAllEvents(setup);
+            return Decorator.EncloseToExpose(source).GetAllEvents(setup);
         }
 
         /// <summary>
@@ -56,8 +53,7 @@ namespace Cuemon.Extensions.Reflection
         /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="MethodInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
         public static IEnumerable<MethodInfo> GetAllMethods(this Type source, Action<MemberReflectionOptions> setup = null)
         {
-            Validator.ThrowIfNull(source);
-            return Decorator.Enclose(source).GetAllMethods(setup);
+            return Decorator.EncloseToExpose(source).GetAllMethods(setup);
         }
 
         /// <summary>
@@ -71,8 +67,7 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static IEnumerable<Type> GetDerivedTypes(this Type source, params Assembly[] assemblies)
         {
-            Validator.ThrowIfNull(source);
-            return Decorator.Enclose(source).GetDerivedTypes(assemblies);
+            return Decorator.EncloseToExpose(source).GetDerivedTypes(assemblies);
         }
 
         /// <summary>
@@ -85,8 +80,7 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static IEnumerable<Type> GetInheritedTypes(this Type source)
         {
-            Validator.ThrowIfNull(source);
-            return Decorator.Enclose(source).GetInheritedTypes();
+            return Decorator.EncloseToExpose(source).GetInheritedTypes();
         }
 
         /// <summary>
@@ -100,8 +94,7 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static IEnumerable<Type> GetHierarchyTypes(this Type source, params Assembly[] assemblies)
         {
-            Validator.ThrowIfNull(source);
-            return Decorator.Enclose(source).GetHierarchyTypes(assemblies);
+            return Decorator.EncloseToExpose(source).GetHierarchyTypes(assemblies);
         }
 
         /// <summary>
@@ -138,8 +131,7 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static IEnumerable<PropertyInfo> GetRuntimePropertiesExceptOf<T>(this Type type)
         {
-            Validator.ThrowIfNull(type);
-            return Decorator.Enclose(type).GetRuntimePropertiesExceptOf<T>();
+            return Decorator.EncloseToExpose(type).GetRuntimePropertiesExceptOf<T>();
         }
 
         /// <summary>

@@ -63,6 +63,17 @@ namespace Cuemon.Extensions.Reflection
         }
 
         [Fact]
+        public void GetAllProperties_ShouldThrowArgumentNullException()
+        {
+            Type type = null;
+            var sut = Assert.Throws<ArgumentNullException>(() => type.GetAllProperties());
+            
+            TestOutput.WriteLine(sut.ToString());
+
+            Assert.Equal("source", sut.ParamName);
+        }
+
+        [Fact]
         public void GetAllProperties_ShouldIncludeFullInheritanceChainOfProperties()
         {
             var tae = new TypeArgumentOutOfRangeException("typeParameterName", 42, "message");
@@ -80,6 +91,17 @@ namespace Cuemon.Extensions.Reflection
         }
 
         [Fact]
+        public void GetAllEvents_ShouldThrowArgumentNullException()
+        {
+            Type type = null;
+            var sut = Assert.Throws<ArgumentNullException>(() => type.GetAllEvents());
+            
+            TestOutput.WriteLine(sut.ToString());
+
+            Assert.Equal("source", sut.ParamName);
+        }
+
+        [Fact]
         public void GetAllEvents_ShouldIncludeFullInheritanceChainOfEvents()
         {
             var tae = new TypeArgumentOutOfRangeException("typeParameterName", 42, "message");
@@ -90,6 +112,17 @@ namespace Cuemon.Extensions.Reflection
             TestOutput.WriteLines(members);
 
             Assert.Equal(expected, members.Count());
+        }
+
+        [Fact]
+        public void GetAllMethods_ShouldThrowArgumentNullException()
+        {
+            Type type = null;
+            var sut = Assert.Throws<ArgumentNullException>(() => type.GetAllMethods());
+            
+            TestOutput.WriteLine(sut.ToString());
+
+            Assert.Equal("source", sut.ParamName);
         }
 
         [Fact]
@@ -107,6 +140,17 @@ namespace Cuemon.Extensions.Reflection
             TestOutput.WriteLines(methods);
 
             Assert.Equal(expected, methods.Count());
+        }
+
+        [Fact]
+        public void GetAllFields_ShouldThrowArgumentNullException()
+        {
+            Type type = null;
+            var sut = Assert.Throws<ArgumentNullException>(() => type.GetAllFields());
+            
+            TestOutput.WriteLine(sut.ToString());
+
+            Assert.Equal("source", sut.ParamName);
         }
 
         [Fact]
