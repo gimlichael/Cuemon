@@ -1,6 +1,7 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 7, .NET 6, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
@@ -8,7 +9,16 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 The `Cuemon.AspNetCore.Mvc` namespace contains types that specializes in cache expiration and validation models while providing an abundant range of ready-to-use filters in the ASP.NET Core MVC pipeline. The namespace is an addition to the `Microsoft.AspNetCore.Mvc` namespace.
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.html).
+More documentation available at our documentation site:
+
+- [Cuemon.AspNetCore.Mvc](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.Cacheable](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.Cacheable.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.Diagnostics](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.Diagnostics.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.Headers](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.Headers.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.ModelBinding](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.ModelBinding.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.Throttling](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.Throttling.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Formatters](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Formatters.html) 🔗
 
 ## Related Packages
 

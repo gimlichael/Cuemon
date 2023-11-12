@@ -1,6 +1,7 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 7, .NET 6, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
@@ -8,7 +9,16 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 The `Cuemon.AspNetCore` namespace contains types focusing on providing means for easier plumber coding in the ASP.NET Core pipeline while serving some nice, of the shell, concrete implementation as well. The namespace is an addition to the `Microsoft.AspNetCore` namespace.
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.html).
+More documentation available at our documentation site:
+
+- [Cuemon.AspNetCore](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.html) 🔗
+- [Cuemon.AspNetCore.Builder](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Builder.html) 🔗
+- [Cuemon.AspNetCore.Configuration](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Configuration.html) 🔗
+- [Cuemon.AspNetCore.Diagnostics](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Diagnostics.html) 🔗
+- [Cuemon.AspNetCore.Hosting](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Hosting.html) 🔗
+- [Cuemon.AspNetCore.Http](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Http.html) 🔗
+- [Cuemon.AspNetCore.Http.Headers](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Http.Headers.html) 🔗
+- [Cuemon.AspNetCore.Http.Throttling](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Http.Throttling.html) 🔗
 
 ## Related Packages
 

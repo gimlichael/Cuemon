@@ -1,6 +1,7 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 7, .NET 6, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
@@ -8,7 +9,12 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 The `Cuemon.Net` namespace contains types that provides a simple programming interface for HTTP and SMTP protocols. The namespace is an addition to the `System.Net` namespace.
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/dotnet/Cuemon.Net.html).
+More documentation available at our documentation site:
+
+- [Cuemon.Net](https://docs.cuemon.net/api/dotnet/Cuemon.Net.html) 🔗
+- [Cuemon.Net.Collections.Specialized](https://docs.cuemon.net/api/dotnet/Cuemon.Net.Collections.Specialized.html) 🔗
+- [Cuemon.Net.Http](https://docs.cuemon.net/api/dotnet/Cuemon.Net.Http.html) 🔗
+- [Cuemon.Net.Mail](https://docs.cuemon.net/api/dotnet/Cuemon.Net.Mail.html) 🔗
 
 ## Related Packages
 

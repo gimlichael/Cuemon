@@ -1,6 +1,7 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 7, .NET 6, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
@@ -8,7 +9,9 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 The `Cuemon.Data.Integrity` namespace contains types that provide ways for developers to determine and maintain integrity of data that is normally associated with an entity/resource.
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/dotnet/Cuemon.Data.Integrity.html).
+More documentation available at our documentation site:
+
+- [Cuemon.Data.Integrity](https://docs.cuemon.net/api/dotnet/Cuemon.Data.Integrity.html) 🔗
 
 ## Related Packages
 

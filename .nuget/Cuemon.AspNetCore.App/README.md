@@ -1,65 +1,55 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 7, .NET 6, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
 ## **Cuemon.AspNetCore.App** for .NET
 
-`Cuemon.AspNetCore.App`, aka `ASP.NET Core API` / `Extensions for ASP.NET Core API`, is a toolbelt of assemblies designed to be intuitive and follow the same namespace declarations as defined by [ASP.NET Core API Reference](https://docs.microsoft.com/en-us/dotnet/api/?view=aspnetcore-6.0) from Microsoft.
+`Cuemon.AspNetCore.App`, aka `ASP.NET Core API` / `Extensions for ASP.NET Core API`, is a toolbelt of assemblies designed to be intuitive and follow the same namespace declarations as defined by [ASP.NET Core API Reference](https://docs.microsoft.com/en-us/dotnet/api/?view=aspnetcore-8.0) from Microsoft.
 
-+ Microsoft.AspNetCore
-  + Cuemon.AspNetCore
-  + Cuemon.AspNetCore.Configuration
-  + Cuemon.Extensions.AspNetCore
-  + Cuemon.Extensions.AspNetCore.Configuration
-  + Cuemon.Extensions.AspNetCore.Data.Integrity
-  + Cuemon.Extensions.AspNetCore.Diagnostics
-  + Cuemon.Extensions.AspNetCore.Hosting
-  + Cuemon.Extensions.AspNetCore.Http
-  + Cuemon.Extensions.AspNetCore.Http.Headers
-  + Cuemon.Extensions.AspNetCore.Http.Throttling
-+ Microsoft.AspNetCore.Authentication
-  + Cuemon.AspNetCore.Authentication
-  + Cuemon.AspNetCore.Authentication.Basic
-  + Cuemon.AspNetCore.Authentication.Digest
-  + Cuemon.AspNetCore.Authentication.Hmac
-  + Cuemon.Extensions.AspNetCore.Authentication
-+ Microsoft.AspNetCore.Builder
-  + Cuemon.AspNetCore.Builder
-+ Microsoft.AspNetCore.Diagnostics
-  + Cuemon.AspNetCore.Diagnostics
-+ Microsoft.AspNetCore.Hosting
-  + Cuemon.AspNetCore.Hosting
-+ Microsoft.AspNetCore.Http
-  + Cuemon.AspNetCore.Http
-  + Cuemon.AspNetCore.Http.Throttling
-+ Microsoft.AspNetCore.Http.Headers
-  + Cuemon.AspNetCore.Http.Headers
-+ Microsoft.AspNetCore.Mvc
-  + Cuemon.AspNetCore.Mvc
-  + Cuemon.Extensions.AspNetCore.Mvc
-  + Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable
-  + Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
-  + Cuemon.Extensions.AspNetCore.Mvc.Rendering
-+ Microsoft.AspNetCore.Mvc.Filters
-  + Cuemon.AspNetCore.Mvc.Filters
-  + Cuemon.AspNetCore.Mvc.Filters.Cacheable
-  + Cuemon.AspNetCore.Mvc.Filters.Diagnostics
-  + Cuemon.AspNetCore.Mvc.Filters.Headers
-  + Cuemon.AspNetCore.Mvc.Filters.Throttling
-+ Microsoft.AspNetCore.Mvc.Filters.ModelBinding
-  + Cuemon.AspNetCore.Mvc.Filters.ModelBinding
-+ Microsoft.AspNetCore.Mvc.Formatters
-  + Cuemon.AspNetCore.Mvc.Formatters
-  + Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
-  + Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
-+ Microsoft.AspNetCore.Mvc.RazorPages
-  + Cuemon.Extensions.AspNetCore.Mvc.RazorPages
-+ Microsoft.AspNetCore.Razor.TagHelpers
-  + Cuemon.AspNetCore.Razor.TagHelpers
+More documentation available at our documentation site:
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/aspnet/index.html).
+- [Cuemon.AspNetCore](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.html) 🔗
+- [Cuemon.AspNetCore.Authentication](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Authentication.html) 🔗
+- [Cuemon.AspNetCore.Authentication.Basic](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Authentication.Basic.html) 🔗
+- [Cuemon.AspNetCore.Authentication.Digest](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Authentication.Digest.html) 🔗
+- [Cuemon.AspNetCore.Authentication.Hmac](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Authentication.Hmac.html) 🔗
+- [Cuemon.AspNetCore.Builder](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Builder.html) 🔗
+- [Cuemon.AspNetCore.Configuration](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Configuration.html) 🔗
+- [Cuemon.AspNetCore.Diagnostics](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Diagnostics.html) 🔗
+- [Cuemon.AspNetCore.Hosting](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Hosting.html) 🔗
+- [Cuemon.AspNetCore.Http](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Http.html) 🔗
+- [Cuemon.AspNetCore.Http.Headers](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Http.Headers.html) 🔗
+- [Cuemon.AspNetCore.Http.Throttling](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Http.Throttling.html) 🔗
+- [Cuemon.AspNetCore.Mvc](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.Cacheable](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.Cacheable.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.Diagnostics](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.Diagnostics.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.Headers](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.Headers.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.ModelBinding](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.ModelBinding.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Filters.Throttling](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Filters.Throttling.html) 🔗
+- [Cuemon.AspNetCore.Mvc.Formatters](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Mvc.Formatters.html) 🔗
+- [Cuemon.AspNetCore.Razor.TagHelpers](https://docs.cuemon.net/api/aspnet/Cuemon.AspNetCore.Razor.TagHelpers.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Authentication](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Authentication.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Configuration](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Configuration.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Data.Integrity](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Data.Integrity.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Diagnostics](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Diagnostics.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Hosting](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Hosting.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Http](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Http.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Http.Headers](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Http.Headers.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Http.Throttling](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Http.Throttling.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.Filters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Filters.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.RazorPages](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.RazorPages.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Text.Yaml.Converters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Text.Yaml.Converters.html) 🔗
 
 ## Related Packages
 
