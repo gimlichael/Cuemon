@@ -24,6 +24,10 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - An overload of `CheckParameter` to the Validator class in the Cuemon namespace that satisfies validating when doing constructor nesting
 - DataManagerOptions in the Cuemon.Data namespace that provides configuration options for the DataManager class
 - DataStatementOptions in the Cuemon.Data namespace that provides configuration options for the DataStatement class
+- ThrowIfDisposed to the Validator class in the Cuemon namespace
+- `ToYaml` extension method on the ExceptionDescriptorExtensions class in the Cuemon.Extensions.Diagnostics namespace
+- CorrelationToken class in the Cuemon.Messaging namespace that represents a default implementation of the ICorrelationToken interface
+- RequestToken class in the Cuemon.Messaging namespace that represents a default implementation of the IRequestToken interface
 
 ### Removed
 
@@ -39,7 +43,10 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - IDataCommand interface in the Cuemon.Data namespace
 - IDataConnection interface in the Cuemon.Data namespace
 - QueryInsertAction enum in the Cuemon.Data namespace
-- 
+- GenericHostTestFactory had two obsolete methods removed; CreateGenericHostTest{..}
+- ToInsightsString extension method on the ExceptionDescriptorExtensions class in the Cuemon.Extensions.Diagnostics namespace
+- DynamicCorrelation class in the Cuemon.Messaging namespace
+- DynamicRequest class in the Cuemon.Messaging namespace
 
 ### Changed
 
@@ -56,8 +63,19 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - Best effort to have consistency between System.Text.Json and Newtonsoft.Json serialization/deserialization
 - Changed the description of the Decorator class in the Cuemon namespace to add clarity to usage
 - Renamed DataCommand class in the Cuemon.Data namespace to DataStatement and increased the scope of responsibility
-- Refactored DataManager class in the Cuemon.Data namespace to be more lean and consistent with other classes
+- DataManager class in the Cuemon.Data namespace to be more lean and consistent with other classes and fully embracing the configurable DataManagerOptions
   - Including support for Async operations
+- Simplified the FormattingOptions class in the Cuemon namespace away from a somewhat confusing generic variant to a straight to the point implementation
+- DataReader class in the Cuemon.Data namespace to rely only on a default constructor
+- DsvDataReader class in the Cuemon.Data namespace to be more consistent with other classes fully embracing the configurable DelimitedStringOptions
+- XmlDataReader class in the Cuemon.Data.Xml namespace to be more consistent with other classes fully embracing the configurable FormattingOptions
+- Renamed ThrowIfObjectInDistress method on the Validator class in the Cuemon namespace to ThrowIfInvalidState
+- MiddlewareTestFactory received a long overdue change of signature from Action{IApplicationBuilder} pipelineSetup, Action{IServiceCollection} serviceSetup --> Action{IServiceCollection} serviceSetup, Action{IApplicationBuilder} pipelineSetup as this is more logical, intuitive and in consistency with GenericHostTestFactory
+- WebApplicationTestFactory received a long overdue change of signature from Action{IApplicationBuilder} pipelineSetup, Action{IServiceCollection} serviceSetup --> Action{IServiceCollection} serviceSetup, Action{IApplicationBuilder} pipelineSetup as this is more logical, intuitive and in consistency with GenericHostTestFactory
+- JsonFormatter class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace was renamed to NewtonsoftJsonFormatter
+- JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace was renamed to NewtonsoftJsonFormatterOptions
+- ICorrelation interface in the Cuemon.Messaging namespace was renamed to ICorrelationToken
+- IRequest interface in the Cuemon.Messaging namespace was renamed to IRequestToken
 
 ### Fixed
 
@@ -67,6 +85,9 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - AddJsonResponseHandler extension method to properly propagate options to the JsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace
 - AddXmlResponseHandler extension method to properly propagate options to the XmlFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace
 - Header is now populated on first read in the DsvDataReader class located in the Cuemon.Data namespace
+- Columns are now populated before first read in the IDataReader implementation passed to the DataTransferRowCollection class in the Cuemon.Data namespace
+- Added null conditional operator to the ServiceProvider property on the HostFixture class in the Cuemon.Extensions.Xunit.Hosting namespace
+- WriteObject to skip serializing the object when it is null on the YamlTextWriter class in the Cuemon.Runtime.Serialization namespace
 
 ## [7.1.0] 2022-12-11
 
