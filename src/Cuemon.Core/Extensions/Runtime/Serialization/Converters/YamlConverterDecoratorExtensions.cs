@@ -1,6 +1,6 @@
 ﻿using Cuemon.Text.Yaml;
 
-namespace Cuemon.Serialization.Converters
+namespace Cuemon.Runtime.Serialization.Converters
 {
     /// <summary>
     /// Extension methods for the <see cref="YamlNamingPolicy"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
