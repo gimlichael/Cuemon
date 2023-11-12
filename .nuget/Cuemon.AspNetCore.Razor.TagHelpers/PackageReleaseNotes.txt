@@ -1,4 +1,18 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Quality Analysis Actions
+- CHANGED ImageTagHelper class in the Cuemon.AspNetCore.Razor.TagHelpers namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+- CHANGED LinkTagHelper class in the Cuemon.AspNetCore.Razor.TagHelpers namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+- CHANGED ScriptTagHelper class in the Cuemon.AspNetCore.Razor.TagHelpers namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+- CHANGED TagHelperOptions class in the Cuemon.AspNetCore.Razor.TagHelpers namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM

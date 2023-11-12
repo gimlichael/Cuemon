@@ -1,4 +1,19 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED MethodDescriptorExtensions class in the Cuemon.Extensions namespace that consist of one extension method for the MethodDescriptor class: HasParameters
+- EXTENDED TypeExtensions class in the Cuemon.Extensions namespace with several new extension methods for the Type class: GetAllProperties, GetAllFields, GetAllEvents, GetAllMethods, GetDerivedTypes, GetInheritedTypes and GetHierarchyTypes
+- EXTENDED StringExtensions class in the Cuemon.Extensions namespace with one new extension method (TFM netstandard2.0) for the String class: ReplaceLineEndings
+ 
+# Improvements
+- CHANGED ChangeType (hidden) extension method to always convert DateTime values ending with Z to an UTC DateTime kind on the ObjectDecoratorExtensions class in the Cuemon namespace
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM

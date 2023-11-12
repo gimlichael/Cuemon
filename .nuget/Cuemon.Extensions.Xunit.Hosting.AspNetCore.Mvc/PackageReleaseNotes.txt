@@ -1,4 +1,15 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- CHANGED WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace received a long overdue change of signature from Action{IApplicationBuilder} pipelineSetup, Action{IServiceCollection} serviceSetup --> Action{IServiceCollection} serviceSetup, Action{IApplicationBuilder} pipelineSetup as this is more logical, intuitive and in consistency with GenericHostTestFactory
+ 
+Version: 7.1.0
 Availability: .NET 6.0, .NET 7.0
  
 # ALM

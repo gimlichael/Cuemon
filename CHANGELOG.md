@@ -57,12 +57,14 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - Validator class in the Cuemon namespace was modernized and greatly improved for both consistency and changes introduced by Microsoft for both C# 10 and recent .NET versions. All excessive fats was removed and earlier brain-farts has been eradicated
 - DateParseHandling from `DateTimeOffset` to `DateTime` (as majority of Cuemon is the latter) on the JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace
 - ContractResolver to use custom rules as Newtonsoft relies heavily on the now deprecated ISerializable and SerializableAttribute
-- ChangeType (hidden) extension method to always convert DateTime values ending with Z to a UTC DateTime kind on the ObjectDecoratorExtensions class in the Cuemon namespace
+- ChangeType (hidden) extension method to always convert DateTime values ending with Z to an UTC DateTime kind on the ObjectDecoratorExtensions class in the Cuemon namespace
 - JsonFormatterOptions class in the Cuemon.Extensions.Text.Json.Formatters namespace to, consciously, use `JavaScriptEncoder.UnsafeRelaxedJsonEscaping` as the default Encoder on the JsonSerializerOptions instance
   - Sometime you have to balance security and usability/developer experience; if you need to expose a highly secured API you can simply change this settings as part of your application startup
+- XmlFormatter class in the Cuemon.Xml.Serialization.Formatters namespace now inherits from StreamFormatter{XmlFormatterOptions} and is consistent with similar classes
 - Best effort to have consistency between System.Text.Json and Newtonsoft.Json serialization/deserialization
 - Changed the description of the Decorator class in the Cuemon namespace to add clarity to usage
 - Renamed DataCommand class in the Cuemon.Data namespace to DataStatement and increased the scope of responsibility
+- SqlDataManager class in the Cuemon.Data.SqlClient namespace to be more lean and consistent with other classes and fully embracing the configurable DataManagerOptions
 - DataManager class in the Cuemon.Data namespace to be more lean and consistent with other classes and fully embracing the configurable DataManagerOptions
   - Including support for Async operations
 - Simplified the FormattingOptions class in the Cuemon namespace away from a somewhat confusing generic variant to a straight to the point implementation
@@ -80,10 +82,11 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 ### Fixed
 
 - National Language Support (NLS) surrogates was updated in the Cuemon.Extensions.Globalization assembly
+- World class in the Cuemon.Globalization namespace so that it no longer throws an ArgumentException when adding a duplicate culture (on Linux)
 - The default DateTimeConverter for serializing XML no longer converts a DateTime value to UTC
-- AddJsonResponseHandler extension method to properly propagate options to the NewtonsoftJsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
-- AddJsonResponseHandler extension method to properly propagate options to the JsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace
-- AddXmlResponseHandler extension method to properly propagate options to the XmlFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace
+- AddNewtonsoftJsonResponseHandler extension method to properly propagate options to NewtonsoftJsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+- AddJsonResponseHandler extension method to properly propagate options to JsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace
+- AddXmlResponseHandler extension method to properly propagate options to XmlFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace
 - Header is now populated on first read in the DsvDataReader class located in the Cuemon.Data namespace
 - Columns are now populated before first read in the IDataReader implementation passed to the DataTransferRowCollection class in the Cuemon.Data namespace
 - Added null conditional operator to the ServiceProvider property on the HostFixture class in the Cuemon.Extensions.Xunit.Hosting namespace

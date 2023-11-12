@@ -1,4 +1,54 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- REMOVED SerializableAttribute and ISerializable implementations due to Microsoft decision on deprecating most of the legacy serialization infrastructure https://github.com/dotnet/docs/issues/34893
+- REMOVED HasParameters property from MemberReflection class in the Cuemon.Reflection namespace
+- CHANGED IsProperty property visibility from public to private in the MemberReflection class in the Cuemon.Reflection namespace
+- CHANGED FormattingOptions class in the Cuemon namespace to not have generic parameter T (of IFormatProvider) and implement IValidatableParameterObject
+- RENAMED ThrowIfObjectInDistress method on the Validator class in the Cuemon namespace to ThrowIfInvalidState
+- RENAMED ICorrelation interface in the Cuemon.Messaging namespace to ICorrelationToken
+- RENAMED IRequest interface in the Cuemon.Messaging namespace to IRequestToken
+- REMOVED DynamicCorrelation class from the Cuemon.Messaging namespace
+- REMOVED DynamicRequest class from the Cuemon.Messaging namespace
+ 
+# Bug Fixes
+- FIXED World class in the Cuemon.Globalization namespace so that it no longer throws an ArgumentException when adding a duplicate culture (on Linux)
+- FIXED YamlTextWriter class in the Cuemon.Runtime.Serialization namespace so that it skip serializing the object when WriteObject is called with a null value
+ 
+# Improvements
+- EXTENDED MemberReflection class in the Cuemon.Reflection namespace with an additional new static member: CreateFlags
+- CHANGED Validator class in the Cuemon namespace was modernized and greatly improved for both consistency and changes introduced by Microsoft for both C# 10 and recent .NET versions
+- ADDED Static method EncloseToExpose together with a new property, ArgumentName, to the Decorator class in the Cuemon namespace that can be used to re-use non-common extension methods from native extension methods without double-validating arguments
+- ADDED An overload of CheckParameter to the Validator class in the Cuemon namespace that satisfies validating when doing constructor nesting
+- DelimitedStringOptions class in the Cuemon namespace inherits from FormattingOptions
+- ObjectFormattingOptions class in the Cuemon namespace inherits from FormattingOptions
+- ObjectPortrayalOptions class in the Cuemon namespace inherits from FormattingOptions
+- ActivatorOptions class in the Cuemon.Reflection namespace inherits from FormattingOptions
+- TypeNameOptions class in the Cuemon.Reflection namespace inherits from FormattingOptions
+- StorageCapacityOptions class in the Cuemon namespace inherits from FormattingOptions
+- UnitFormatOptions class in the Cuemon namespace inherits from FormattingOptions
+- EXTENDED Validator class in the Cuemon namespace to have new static methods: ThrowIfDisposed
+ 
+# New Features
+- ADDED MethodSignature class in the Cuemon.Reflection namespace to represent a lightweight signature of a method when serializing and deserializing
+- ADDED TransientFaultEvidence class in the Cuemon.Resilience namespace that provides evidence about a faulted TransientOperation
+- ADDED TransientFaultException class in the Cuemon.Resilience namespace that represents the exception that is thrown when a transient fault handling was unsuccessful
+- ADDED Formatter class in the Cuemon.Runtime.Serialization.Formatters namespace that complements serialization and deserialization of an object
+- ADDED MemberArgument class in the Cuemon.Reflection namespace to represent an argument given to a member in the context of reflection
+- ADDED MemberParser class in the Cuemon.Reflection namespace to provide a generic way to rehydrate serialized objects
+- ADDED MemberArgumentDecoratorExtensions class in the Cuemon.Reflection namespace that provides (hidden) extensions to the MemberArgument class
+- ADDED CorrelationToken class in the Cuemon.Messaging namespace that represents a default implementation of the ICorrelationToken interface
+- ADDED RequestToken class in the Cuemon.Messaging namespace that represents a default implementation of the IRequestToken interface
+ 
+# Quality Analysis Actions
+- CHANGED HierarchySerializer class in the Cuemon.Runtime.Serialization namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM

@@ -13,3 +13,12 @@ Complements: [Cuemon.Globalization namespace](/api/dotnet/Cuemon.Diagnostics.htm
 |Type|Ext|Methods|
 |--:|:-:|---|
 |CultureInfo|⬇️|`UseNationalLanguageSupport`|
+
+### CSharp Example
+```csharp
+var danishCultureIcu = CultureInfo("da-dk");
+var danishCultureNls = new CultureInfo("da-dk").UseNationalLanguageSupport();
+
+// danishCultureIcu outputs dd.MM.yyyy from danishCultureIcu.DateTimeFormat.ShortDatePattern
+// danishCultureNls outputs dd-MM-yyyy from danishCultureNls.DateTimeFormat.ShortDatePattern
+```

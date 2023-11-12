@@ -1,4 +1,19 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Bug Fixes
+- FIXED DateTimeConverter for serializing XML no longer converts a DateTime value to UTC
+ 
+# Improvements
+- CHANGED XmlFormatter class in the Cuemon.Xml.Serialization.Formatters namespace now inherits from StreamFormatter{XmlFormatterOptions} and is consistent with similar classes
+ 
+# Quality Analysis Actions
+- CHANGED ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM

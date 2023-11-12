@@ -1,4 +1,19 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Quality Analysis Actions
+- CHANGED HmacAuthorizationHeader class in the Cuemon.AspNetCore.Authentication.Hmac namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1860
+- CHANGED BasicAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Basic namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+- CHANGED DigestAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Digest namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+- CHANGED DigestAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+- CHANGED HmacAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Hmac namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM

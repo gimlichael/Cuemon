@@ -1,17 +1,23 @@
-﻿Version: 7.1.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
+Availability: .NET 6.0, .NET 7.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
  
 Version: 7.0.0
-Availability: .NET Standard 2.0, (.NET Core 3.1), .NET 6.0, .NET 7.0
+Availability: .NET 6.0, .NET 7.0
  
 # ALM
 - ADDED TFM for .NET 7
-- REMOVED TFM for .NET 5
-- CHANGED Dependencies to latest and greatest with respect to TFM
+- REMOVED TFMs for .net5.0 and netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
  
 # References
  - Cuemon.Core

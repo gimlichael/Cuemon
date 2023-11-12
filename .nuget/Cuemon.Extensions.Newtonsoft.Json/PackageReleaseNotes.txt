@@ -1,4 +1,27 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- CHANGED Create{T} method signature on DynamicContractResolver in the Cuemon.Extensions.Newtonsoft.Json namespace to support an additional argument (PropertyInfo) in the params Action{PropertyInfo, JsonProperty} array
+- RENAMED JsonFormatter class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to NewtonsoftJsonFormatter
+- RENAMED JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to NewtonsoftJsonFormatterOptions
+ 
+# New Features
+- ADDED TransientFaultExceptionConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters to convert TransientFaultException to and from JSON
+- EXTENDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace with a new extension method for the JsonConverter class: AddTransientFaultExceptionConverter
+- EXTENDED JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to include a new default converter: AddTransientFaultExceptionConverter
+ 
+# Improvements
+- CHANGED ExceptionConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to support deserialization of Exception types
+ 
+# Quality Analysis Actions
+- CHANGED ExceptionConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
