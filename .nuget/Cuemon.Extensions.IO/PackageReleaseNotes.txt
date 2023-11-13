@@ -1,5 +1,5 @@
 ﻿Version: 8.0.0
-Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+Availability: .NET 8, .NET 7, .NET 6 .NET Standard 2.1 and .NET Standard 2.0
  
 # ALM
 - ADDED TFM for net8.0
