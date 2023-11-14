@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Extension methods for the <see cref="MemberInfo"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="MemberInfo"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
@@ -27,7 +26,7 @@ namespace Cuemon.Reflection
         {
             Validator.ThrowIfNull(decorator);
             Validator.ThrowIfNull(attributeTypes);
-            foreach (var attributeType in attributeTypes) { if (decorator.Inner.GetCustomAttributes(attributeType, true).Any()) { return true; } }
+            foreach (var attributeType in attributeTypes) { if (decorator.Inner.GetCustomAttributes(attributeType, true).Length != 0) { return true; } }
             return false;
         }
     }

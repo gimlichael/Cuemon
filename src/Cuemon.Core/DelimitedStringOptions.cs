@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Cuemon.Configuration;
 
 namespace Cuemon
@@ -6,11 +7,8 @@ namespace Cuemon
     /// <summary>
     /// Configuration options for <see cref="DelimitedString.Split"/>.
     /// </summary>
-    public class DelimitedStringOptions : IParameterObject
+    public class DelimitedStringOptions : FormattingOptions
     {
-        private string _delimiter;
-        private string _qualifier;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedStringOptions"/> class.
         /// </summary>
@@ -29,6 +27,10 @@ namespace Cuemon
         ///         <term><see cref="Qualifier"/></term>
         ///         <description>"</description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="FormattingOptions.FormatProvider"/></term>
+        ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
+        ///     </item>
         /// </list>
         /// </remarks>
         public DelimitedStringOptions()
@@ -41,40 +43,20 @@ namespace Cuemon
         /// Gets or sets the delimiter that separates the fields. Default is comma (,).
         /// </summary>
         /// <value>The delimiter that separates the fields.</value>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty.
-        /// </exception>
-        public string Delimiter
-        {
-            get => _delimiter;
-            set
-            {
-                Validator.ThrowIfNullOrEmpty(value);
-                _delimiter = value;
-            }
-        }
+        public string Delimiter { get; set; }
 
         /// <summary>
         /// Gets or sets the qualifier placed around each field to signify that it is the same field. Default is quotation mark (").
         /// </summary>
         /// <value>The qualifier placed around each field to signify that it is the same field.</value>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="value"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> cannot be empty.
-        /// </exception>
-        public string Qualifier
+        public string Qualifier { get; set; }
+
+        /// <inheritdoc/>
+        public override void ValidateOptions()
         {
-            get => _qualifier;
-            set
-            {
-                Validator.ThrowIfNullOrEmpty(value);
-                _qualifier = value;
-            }
+            Validator.ThrowIfInvalidState(string.IsNullOrEmpty(Qualifier));
+            Validator.ThrowIfInvalidState(string.IsNullOrEmpty(Delimiter));
+            base.ValidateOptions();
         }
     }
 

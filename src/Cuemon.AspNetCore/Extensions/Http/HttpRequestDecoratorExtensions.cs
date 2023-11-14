@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http.Headers;
 namespace Cuemon.AspNetCore.Http
 {
     /// <summary>
-    /// Extension methods for the <see cref="HttpRequest"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="HttpRequest"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

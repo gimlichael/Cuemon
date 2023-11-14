@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.Extensions;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
@@ -23,7 +24,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction(() => Thread.Sleep(expected));
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.False(profiler.Member.HasParameters);
+            Assert.False(profiler.Member.HasParameters());
             Assert.Empty(profiler.Data);
 
             TestOutput.WriteLine(profiler.Elapsed.ToString());
@@ -37,7 +38,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction(a1 => Thread.Sleep(expected), 1);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Contains(profiler.Data.Values, o => o is int i && i == 1);
 
@@ -52,7 +53,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction((a1, a2) => Thread.Sleep(expected), 1, 2);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values, i => Assert.Equal(1, i), i => Assert.Equal(2, i));
 
@@ -67,7 +68,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction((a1, a2, a3) => Thread.Sleep(expected), 1, 2, 3);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 o1 => Assert.Equal(1, o1),
@@ -85,7 +86,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction((a1, a2, a3, a4) => Thread.Sleep(expected), 1, 2, 3, 4);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -104,7 +105,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction((a1, a2, a3, a4, a5) => Thread.Sleep(expected), 1, 2, 3, 4, 5);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -124,7 +125,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction((a1, a2, a3, a4, a5, a6) => Thread.Sleep(expected), 1, 2, 3, 4, 5, 6);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -145,7 +146,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction((a1, a2, a3, a4, a5, a6, a7) => Thread.Sleep(expected), 1, 2, 3, 4, 5, 6, 7);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -167,7 +168,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction((a1, a2, a3, a4, a5, a6, a7, a8) => Thread.Sleep(expected), 1, 2, 3, 4, 5, 6, 7, 8);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -190,7 +191,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction((a1, a2, a3, a4, a5, a6, a7, a8, a9) => Thread.Sleep(expected), 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -214,7 +215,7 @@ namespace Cuemon.Diagnostics
             var profiler = TimeMeasure.WithAction((a1, a2, a3, a4, a5, a6, a7, a8, a9, a10) => Thread.Sleep(expected), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -245,7 +246,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.False(profiler.Member.HasParameters);
+            Assert.False(profiler.Member.HasParameters());
             Assert.Empty(profiler.Data);
 
             TestOutput.WriteLine(profiler.Elapsed.ToString());
@@ -265,7 +266,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i));
@@ -287,7 +288,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -310,7 +311,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -334,7 +335,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -359,7 +360,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -385,7 +386,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -412,7 +413,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -440,7 +441,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -469,7 +470,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -498,7 +499,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
                 i => Assert.Equal(1, i),
@@ -530,7 +531,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync(token => Task.Delay(expected, token), o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.Empty(profiler.Data);
 
@@ -552,7 +553,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a, token) => Task.Delay(expected, token), 1, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -576,7 +577,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a1, a2, token) => Task.Delay(expected, token), 1, 2, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -601,7 +602,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, token) => Task.Delay(expected, token), 1, 2, 3, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -627,7 +628,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, token) => Task.Delay(expected, token), 1, 2, 3, 4, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -654,7 +655,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -682,7 +683,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -711,7 +712,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -741,7 +742,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -772,7 +773,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -804,7 +805,7 @@ namespace Cuemon.Diagnostics
 
             var profiler = await TimeMeasure.WithActionAsync((a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, token) => Task.Delay(expected, token), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, o => o.CancellationToken = ctsShouldPass.Token);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -847,7 +848,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.Empty(profiler.Data);
 
@@ -879,7 +880,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -913,7 +914,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -948,7 +949,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -984,7 +985,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -1021,7 +1022,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -1059,7 +1060,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -1098,7 +1099,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -1138,7 +1139,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -1179,7 +1180,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,
@@ -1221,7 +1222,7 @@ namespace Cuemon.Diagnostics
 
             Assert.Equal(42, profiler.Result);
             Assert.InRange(profiler.Elapsed, expected.Subtract(Jitter), expected.Add(Jitter));
-            Assert.True(profiler.Member.HasParameters);
+            Assert.True(profiler.Member.HasParameters());
             Assert.Contains(profiler.Member.Parameters, item => item.ParameterName == "token" && item.ParameterType == typeof(CancellationToken));
             Assert.NotEmpty(profiler.Data);
             Assert.Collection(profiler.Data.Values,

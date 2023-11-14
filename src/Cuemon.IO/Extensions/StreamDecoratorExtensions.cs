@@ -9,7 +9,7 @@ using Cuemon.Text;
 namespace Cuemon.IO
 {
     /// <summary>
-    /// Extension methods for the <see cref="Stream"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="Stream"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
@@ -202,7 +202,8 @@ namespace Cuemon.IO
             });
         }
 
-        #if NETSTANDARD2_1 || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+
         /// <summary>
         /// Compress the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> using the <c>Brotli</c> algorithm.
         /// </summary>
@@ -280,7 +281,8 @@ namespace Cuemon.IO
             Validator.ThrowIfNull(decorator);
             return DecompressAsync(decorator, Patterns.Configure(setup), (stream, mode, leaveOpen) => new BrotliStream(stream, mode, leaveOpen));
         }
-        #endif
+
+#endif
 
         /// <summary>
         /// Compress the enclosed <see cref="Stream"/> of the specified <paramref name="decorator"/> using the <c>GZip</c> algorithm.
@@ -457,17 +459,17 @@ namespace Cuemon.IO
         {
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
-                #if NETSTANDARD2_1 || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
                 await using (var compressed = decompressor(target, options.Level, true))
                 {
                     await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, ct: ct).ConfigureAwait(false);
                 }
-                #else
+#else
                 using (var compressed = decompressor(target, options.Level, true))
                 {
                     await Decorator.Enclose(decorator.Inner).CopyStreamAsync(compressed, options.BufferSize, ct: ct).ConfigureAwait(false);
                 }
-                #endif
+#endif
                 await target.FlushAsync(ct).ConfigureAwait(false);
                 target.Position = 0;
                 return target;
@@ -493,17 +495,17 @@ namespace Cuemon.IO
         {
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (target, ct) =>
             {
-                #if NETSTANDARD2_1 || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
                 await using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
                 {
                     await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, ct: ct).ConfigureAwait(false);
                 }
-                #else
+#else
                 using (var uncompressed = compressor(decorator.Inner, CompressionMode.Decompress, true))
                 {
                     await Decorator.Enclose(uncompressed).CopyStreamAsync(target, options.BufferSize, ct: ct).ConfigureAwait(false);
                 }
-                #endif
+#endif
                 await target.FlushAsync(ct).ConfigureAwait(false);
                 target.Position = 0;
                 return target;
@@ -515,6 +517,7 @@ namespace Cuemon.IO
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
         /// <param name="buffer">The buffer to write data from.</param>
+        /// <param name="ct">The token to monitor for cancellation requests.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> is null -or-
@@ -529,10 +532,10 @@ namespace Cuemon.IO
         /// <exception cref="InvalidOperationException">
         /// The enclosed <see cref="Stream"/> of <paramref name="decorator"/> is currently in use by a previous write operation.
         /// </exception>
-        public static Task WriteAllAsync(this IDecorator<Stream> decorator, byte[] buffer)
+        public static Task WriteAllAsync(this IDecorator<Stream> decorator, byte[] buffer, CancellationToken ct = default)
         {
             Validator.ThrowIfNull(decorator);
-            return decorator.Inner.WriteAsync(buffer, 0, buffer.Length);
+            return decorator.Inner.WriteAsync(buffer, 0, buffer.Length, ct);
         }
     }
 }

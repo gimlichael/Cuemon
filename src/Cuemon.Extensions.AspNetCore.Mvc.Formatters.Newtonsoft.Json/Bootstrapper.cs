@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
                     if (!_initialized)
                     {
                         _initialized = true;
-                        JsonFormatterOptions.DefaultConverters += list =>
+                        NewtonsoftJsonFormatterOptions.DefaultConverters += list =>
                         {
                             list.AddStringValuesConverter();
                         };

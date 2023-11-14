@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Text.Json.Formatters;
+using Cuemon.Resilience;
 
 namespace Cuemon.Extensions.Text.Json.Converters
 {
@@ -14,6 +15,17 @@ namespace Cuemon.Extensions.Text.Json.Converters
     /// </summary>
     public static class JsonConverterCollectionExtensions
     {
+        /// <summary>
+        /// Adds a <see cref="TransientFaultException"/> JSON converter to the list.
+        /// </summary>
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters" /> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddTransientFaultExceptionConverter(this ICollection<JsonConverter> converters)
+        {
+            converters.Add(new TransientFaultExceptionConverter());
+            return converters;
+        }
+
         /// <summary>
         /// Adds a configurable <see cref="DateTime" /> JSON converter to the list.
         /// </summary>

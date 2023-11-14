@@ -1,6 +1,8 @@
-﻿namespace Cuemon.Extensions.Xunit.Hosting.Assets
+﻿using Cuemon.Messaging;
+
+namespace Cuemon.Extensions.Xunit.Hosting.Assets
 {
-    public sealed class TransientCorrelation : Correlation
+    public sealed record TransientCorrelation : CorrelationToken
     {
     }
 }

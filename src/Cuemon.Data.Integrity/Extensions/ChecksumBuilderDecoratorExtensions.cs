@@ -3,7 +3,7 @@
 namespace Cuemon.Data.Integrity
 {
     /// <summary>
-    /// Extension methods for the <see cref="ChecksumBuilder"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="ChecksumBuilder"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

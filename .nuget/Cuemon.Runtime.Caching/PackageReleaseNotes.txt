@@ -1,4 +1,11 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -12,34 +19,3 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# Upgrade Steps
-- Some features (such as Memoization techniques and GetOrAdd convenience) was moved to the Cuemon.Extensions.Runtime.Caching namespace as extension methods (to keep the ICacheEnumerable{TKey} slim)
-- The extent of refactoring applied to this project resulted in so many breaking changes that a git diff is advisable
- 
-# Breaking Changes
-- CHANGED CachingManager class to return a singleton of SlimMemoryCache with default options (kept for legacy and convenience)
-- REPLACED Cache class in the Cuemon.Runtime.Caching namespace with CacheEntry and split the cache invalidation part into its own class; CacheInvalidation
-- REPLACED CacheCollection class in the Cuemon.Runtime.Caching namespace with SlimMemoryCache
- 
-# New Features
-- ADDED CacheEntry class in the Cuemon.Runtime.Caching namespace that represents an individual cache entry in the cache
-- ADDED CacheInvalidation class in the Cuemon.Runtime.Caching namespace that represents a set of eviction and expiration details for a specific cache entry
-- ADDED ICacheEnumerable{TKey} interface in the Cuemon.Runtime.Caching namespace that is used to provide cache implementations for an application
-- ADDED SlimMemoryCache class in the Cuemon.Runtime.Caching namespace that represents the type that implements an in-memory cache for an application
-- ADDED SlimMemoryCacheOptions class in the Cuemon.Runtime.Caching namespace that specifies options related to SlimMemoryCache

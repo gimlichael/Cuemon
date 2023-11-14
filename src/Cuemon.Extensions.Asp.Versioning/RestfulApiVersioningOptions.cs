@@ -125,7 +125,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         }
 #endif
 
-#if NET7_0
+#if NET7_0_OR_GREATER
 		/// <summary>
 		/// Gets or sets a value indicating whether responses will be based on the built in support for RFC 7807.
 		/// </summary>
@@ -200,8 +200,8 @@ namespace Cuemon.Extensions.Asp.Versioning
 		/// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
 		public void ValidateOptions()
 		{
-			Validator.ThrowIfObjectInDistress(Condition.IsNull(ParameterName) || Condition.IsEmpty(ParameterName) || Condition.IsWhiteSpace(ParameterName));
-			Validator.ThrowIfObjectInDistress(ValidAcceptHeaders == null);
+			Validator.ThrowIfInvalidState(Condition.IsNull(ParameterName) || Condition.IsEmpty(ParameterName) || Condition.IsWhiteSpace(ParameterName));
+			Validator.ThrowIfInvalidState(ValidAcceptHeaders == null);
 		}
 	}
 }

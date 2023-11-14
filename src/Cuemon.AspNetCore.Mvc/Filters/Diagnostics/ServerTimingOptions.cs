@@ -40,11 +40,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// Gets or sets the predicate that can suppress the Server-Timing HTTP header(s).
         /// </summary>
         /// <value>The function delegate that can determine if the Server-Timing HTTP header(s) should be suppressed.</value>
-        #if NETSTANDARD
-        public Func<IHostingEnvironment, bool> SuppressHeaderPredicate { get; set; }
-        #else
         public Func<IHostEnvironment, bool> SuppressHeaderPredicate { get; set; }
-        #endif
 
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
@@ -55,7 +51,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(SuppressHeaderPredicate == null);
+            Validator.ThrowIfInvalidState(SuppressHeaderPredicate == null);
         }
     }
 }

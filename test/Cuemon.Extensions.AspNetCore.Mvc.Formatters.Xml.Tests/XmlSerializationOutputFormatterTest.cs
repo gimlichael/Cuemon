@@ -46,16 +46,16 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         [Fact]
         public async Task WriteResponseBodyAsync_ShouldReturnOk()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
                     .AddXmlFormatters();
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
 

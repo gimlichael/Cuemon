@@ -30,11 +30,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldNotBeAuthenticated()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseExceptionMiddleware();
-                app.UseDigestAccessAuthentication();
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<DigestAuthenticationOptions>(o =>
                 {
@@ -55,7 +51,11 @@ namespace Cuemon.AspNetCore.Authentication
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddInMemoryDigestAuthenticationNonceTracker();
-            }))
+            }, app =>
+                   {
+                       app.UseExceptionMiddleware();
+                       app.UseDigestAccessAuthentication();
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
@@ -75,15 +75,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldAuthenticateWhenApplyingAuthorizationHeader()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseDigestAccessAuthentication();
-                app.Run(context =>
-                {
-                    context.Response.StatusCode = 200;
-                    return Task.CompletedTask;
-                });
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<DigestAuthenticationOptions>(o =>
                 {
@@ -104,7 +96,15 @@ namespace Cuemon.AspNetCore.Authentication
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddInMemoryDigestAuthenticationNonceTracker();
-            }))
+            }, app =>
+                   {
+                       app.UseDigestAccessAuthentication();
+                       app.Run(context =>
+                       {
+                           context.Response.StatusCode = 200;
+                           return Task.CompletedTask;
+                       });
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
@@ -151,15 +151,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldAuthenticateWhenApplyingAuthorizationHeaderNoPlainTextPassword()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseDigestAccessAuthentication();
-                app.Run(context =>
-                {
-                    context.Response.StatusCode = 200;
-                    return Task.CompletedTask;
-                });
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<DigestAuthenticationOptions>(o =>
                 {
@@ -180,7 +172,15 @@ namespace Cuemon.AspNetCore.Authentication
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddInMemoryDigestAuthenticationNonceTracker();
-            }))
+            }, app =>
+                   {
+                       app.UseDigestAccessAuthentication();
+                       app.Run(context =>
+                       {
+                           context.Response.StatusCode = 200;
+                           return Task.CompletedTask;
+                       });
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();
@@ -226,15 +226,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldAuthenticateWhenApplyingAuthorizationHeaderWithQopIntegrity()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseDigestAccessAuthentication();
-                app.Run(context =>
-                {
-                    context.Response.StatusCode = 200;
-                    return Task.CompletedTask;
-                });
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<DigestAuthenticationOptions>(o =>
                 {
@@ -255,7 +247,15 @@ namespace Cuemon.AspNetCore.Authentication
                 });
                 services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
                 services.AddInMemoryDigestAuthenticationNonceTracker();
-            }))
+            }, app =>
+                   {
+                       app.UseDigestAccessAuthentication();
+                       app.Run(context =>
+                       {
+                           context.Response.StatusCode = 200;
+                           return Task.CompletedTask;
+                       });
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<DigestAuthenticationOptions>>();

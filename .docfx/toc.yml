@@ -1,30 +1,34 @@
 - name: Concept Reference
-  href: api
-  topicHref: api/index.md
-- name: Core API
-  href: api/dotnet
-  topicHref: api/dotnet/index.md
-- name: ASP.NET Core API
-  href: api/aspnet
-  topicHref: api/aspnet/index.md
-- name: Ext. Core API
-  href: api/extensions/dotnet
-  topicHref: api/extensions/dotnet/index.md
-- name: Ext. ASP.NET Core API
-  href: api/extensions/aspnet
-  topicHref: api/extensions/aspnet/index.md
-- name: Ext. xUnit API
-  href: api/extensions/xunit
-  topicHref: api/extensions/xunit/index.md
-- name: Ext. Json.NET API
-  href: api/extensions/jsonnet
-  topicHref: api/extensions/jsonnet/index.md
-- name: Ext. Asp.Versioning API
-  href: api/extensions/aspversioning
-  topicHref: api/extensions/aspversioning/index.md
-- name: Ext. Swashbuckle.AspNetCore API
-  href: api/extensions/swagger
-  topicHref: api/extensions/swagger/index.md
-- name: Ext. AWS Signature API
-  href: api/extensions/awssignature4
-  topicHref: api/extensions/awssignature4/index.md
+  href: index.md
+- name: Microsoft .NET
+  href: dotnet.md
+  expanded: true
+  items:
+  - name: .NET API
+    href: api/dotnet/Cuemon.html
+  - name: .NET API Extensions
+    href: api/extensions/dotnet/Cuemon.Extensions.html
+- name: Microsoft ASP.NET Core
+  href: aspnetcore.md
+  expanded: true
+  items:
+  - name: ASP.NET Core API
+    href: api/aspnet/Cuemon.AspNetCore.html
+  - name: ASP.NET Core API Extensions
+    href: api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Configuration.html
+- name: Other Projects
+  href: api/extensions
+  expanded: true
+  items:
+  - name: xUnit API
+    href: api/extensions/xunit/Cuemon.Extensions.Xunit.html
+  - name: Json.NET API
+    href: api/extensions/jsonnet/Cuemon.Extensions.Newtonsoft.Json.html
+  - name: Asp.Versioning API
+    href: api/extensions/aspversioning/Cuemon.Extensions.Asp.Versioning.html
+  - name: Swashbuckle.AspNetCore API
+    href: api/extensions/swagger/Cuemon.Extensions.Swashbuckle.AspNetCore.html
+  - name: AWS Signature API
+    href: api/extensions/awssignature4/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.html
+- name: NuGet
+  href: packages

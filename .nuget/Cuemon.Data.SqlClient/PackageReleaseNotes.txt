@@ -1,4 +1,14 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- CHANGED SqlDataManager class in the Cuemon.Data.SqlClient namespace to be more lean and consistent with other classes while fully embracing the configurable DataManagerOptions
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -12,22 +22,3 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# Breaking Changes
-- CHANGED SqlDataManager class in the Cuemon.Data.SqlClient namespace to be less dependant on base class and applied quality gate actions
-- CHANGED SqlInOperator class in the Cuemon.Data.SqlClient namespace to adapt the changes made to the base class

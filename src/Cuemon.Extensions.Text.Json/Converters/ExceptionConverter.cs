@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Cuemon.Reflection;
+using Cuemon.Runtime.Serialization.Formatters;
 
 namespace Cuemon.Extensions.Text.Json.Converters
 {
@@ -47,24 +50,100 @@ namespace Cuemon.Extensions.Text.Json.Converters
         }
 
         /// <summary>
-        /// Reads and converts the JSON to an <see cref="Exception"/>.
+        /// Reads and converts the JSON to type <see cref="Exception"/>.
         /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="typeToConvert">The type to convert.</param>
-        /// <param name="options">An object that specifies serialization options to use.</param>
-        /// <returns>The converted value.</returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <param name="reader">The <see cref="Utf8JsonReader"/> to read from.</param>
+        /// <param name="typeToConvert">The <see cref="Type"/> being converted.</param>
+        /// <param name="options">The <see cref="JsonSerializerOptions"/> being used.</param>
+        /// <returns>The value that was converted.</returns>
         public override Exception Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            var stack = ParseJsonReader(ref reader, typeToConvert);
+            return Decorator.Enclose(stack).CreateException();
+        }
+
+        private static Stack<IList<MemberArgument>> ParseJsonReader(ref Utf8JsonReader reader, Type typeToConvert)
+        {
+            var stack = new Stack<IList<MemberArgument>>();
+            var properties = new List<PropertyInfo>();
+            var lastDepth = 1;
+            var blueprints = new List<MemberArgument>();
+            while (reader.Read())
+            {
+                if (reader.CurrentDepth != lastDepth && blueprints.Count > 0)
+                {
+                    stack.Push(blueprints);
+                    blueprints = new List<MemberArgument>();
+                }
+
+                switch (reader.TokenType)
+                {
+                    case JsonTokenType.PropertyName:
+                        string memberName = MapOrDefault(reader.GetString());
+                        if (!reader.Read())
+                        {
+                            // throw
+                        }
+                        var property = properties.SingleOrDefault(pi => pi.Name.Equals(memberName, StringComparison.OrdinalIgnoreCase));
+                        if (property != null)
+                        {
+                            if (property.Name == nameof(Exception.InnerException))
+                            {
+                                blueprints.Add(new MemberArgument(memberName, null));
+                            }
+                            else
+                            {
+                                var propertyValue = JsonSerializer.Deserialize(ref reader, property.PropertyType);
+                                if (propertyValue is JsonElement element)
+                                {
+                                    propertyValue = element.GetRawText();
+                                }
+                                blueprints.Add(new MemberArgument(memberName, propertyValue));
+                            }
+                        }
+                        else
+                        {
+                            if (memberName.Equals("type", StringComparison.OrdinalIgnoreCase))
+                            {
+                                typeToConvert = Formatter.GetType(reader.GetString());
+                                properties = typeToConvert.GetProperties(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
+                                blueprints.Add(new MemberArgument(memberName, typeToConvert));
+                            }
+                        }
+                        break;
+                    case JsonTokenType.Comment:
+                        break;
+                    case JsonTokenType.EndObject:
+                        break;
+                    default:
+                        break;
+                        // throw
+                }
+                lastDepth = reader.CurrentDepth;
+            }
+
+            return stack;
+        }
+
+        private static string MapOrDefault(string memberName)
+        {
+            switch (memberName.ToLowerInvariant())
+            {
+                case "inner":
+                    return nameof(Exception.InnerException);
+                case "stack":
+                    return nameof(Exception.StackTrace);
+                default:
+                    return memberName;
+            }
         }
 
         /// <summary>
-        /// Writes a specified value as JSON.
+        /// Writes the <paramref name="value"/> as JSON.
         /// </summary>
-        /// <param name="writer">The writer to write to.</param>
-        /// <param name="value">The value to convert to JSON.</param>
-        /// <param name="options">An object that specifies serialization options to use.</param>
+        /// <param name="writer">The <see cref="Utf8JsonWriter"/> to write to.</param>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="options">The <see cref="JsonSerializerOptions"/> being used.</param>
         public override void Write(Utf8JsonWriter writer, Exception value, JsonSerializerOptions options)
         {
             var exceptionType = value.GetType();
@@ -110,7 +189,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 writer.WriteEndObject();
             }
 
-            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => !Decorator.Enclose(pi.PropertyType).IsComplex());
+            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>();
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);

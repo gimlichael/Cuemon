@@ -7,7 +7,7 @@ namespace Cuemon
     /// </summary>
     /// <seealso cref="BitStorageCapacity"/>
     /// <seealso cref="ByteStorageCapacity"/>
-    public sealed class StorageCapacityOptions : FormattingOptions<CultureInfo>
+    public sealed class StorageCapacityOptions : FormattingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StorageCapacityOptions"/> class.
@@ -28,7 +28,7 @@ namespace Cuemon
         ///         <description><c>#,##0.##</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="FormattingOptions{T}.FormatProvider"/></term>
+        ///         <term><see cref="FormattingOptions.FormatProvider"/></term>
         ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
         ///     </item>
         ///     <item>
@@ -41,7 +41,6 @@ namespace Cuemon
         {
             Style = NamingStyle.Symbol;
             NumberFormat = "#,##0.##";
-            FormatProvider = CultureInfo.InvariantCulture;
             Prefix = UnitPrefix.Binary;
         }
 

@@ -1,12 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
     <RootNamespace>Cuemon.Extensions.Xunit.Hosting.AspNetCore</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
   </ItemGroup>
 
 </Project>

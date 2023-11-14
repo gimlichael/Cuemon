@@ -13,6 +13,91 @@ namespace Cuemon.Extensions.Reflection
     public static class TypeExtensions
     {
         /// <summary>
+        /// Retrieves a collection that represents all properties defined on the specified <paramref name="source"/> and its inheritance chain.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="PropertyInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
+        public static IEnumerable<PropertyInfo> GetAllProperties(this Type source, Action<MemberReflectionOptions> setup = null)
+        {
+            return Decorator.EncloseToExpose(source).GetAllProperties(setup);
+        }
+
+        /// <summary>
+        /// Retrieves a collection that represents all fields defined on the specified <paramref name="source"/> and its inheritance chain.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="FieldInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
+        public static IEnumerable<FieldInfo> GetAllFields(this Type source, Action<MemberReflectionOptions> setup = null)
+        {
+            return Decorator.EncloseToExpose(source).GetAllFields(setup);
+        }
+
+        /// <summary>
+        /// Retrieves a collection that represents all events defined on the specified <paramref name="source"/> and its inheritance chain.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="EventInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
+        public static IEnumerable<EventInfo> GetAllEvents(this Type source, Action<MemberReflectionOptions> setup = null)
+        {
+            return Decorator.EncloseToExpose(source).GetAllEvents(setup);
+        }
+
+        /// <summary>
+        /// Retrieves a collection that represents all methods defined on the specified <paramref name="source"/> and its inheritance chain.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="setup">The <see cref="MemberReflectionOptions" /> which may be configured.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains all <see cref="MethodInfo"/> objects of the specified <paramref name="source"/> and its inheritance chain.</returns>
+        public static IEnumerable<MethodInfo> GetAllMethods(this Type source, Action<MemberReflectionOptions> setup = null)
+        {
+            return Decorator.EncloseToExpose(source).GetAllMethods(setup);
+        }
+
+        /// <summary>
+        /// Gets a collection (self-to-derived) of derived / descendant types of the <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="assemblies">The assemblies to include in the search of derived types.</param>
+        /// <returns>An <see cref="IEnumerable{Type}"/> that contains the derived types of the <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null.
+        /// </exception>
+        public static IEnumerable<Type> GetDerivedTypes(this Type source, params Assembly[] assemblies)
+        {
+            return Decorator.EncloseToExpose(source).GetDerivedTypes(assemblies);
+        }
+
+        /// <summary>
+        /// Gets a collection (inherited-to-self) of inherited / ancestor types of the <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <returns>An <see cref="IEnumerable{Type}"/> that contains the inherited types of the <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null.
+        /// </exception>
+        public static IEnumerable<Type> GetInheritedTypes(this Type source)
+        {
+            return Decorator.EncloseToExpose(source).GetInheritedTypes();
+        }
+
+        /// <summary>
+        /// Gets a collection (inherited-to-self-to-derived) of inherited / ancestor and derived / descendant types of the <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="Type"/> to extend.</param>
+        /// <param name="assemblies">The assemblies to include in the search of derived types.</param>
+        /// <returns>An <see cref="IEnumerable{Type}"/> that contains a sorted (base-to-derived) collection of inherited and derived types of the <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="source"/> cannot be null.
+        /// </exception>
+        public static IEnumerable<Type> GetHierarchyTypes(this Type source, params Assembly[] assemblies)
+        {
+            return Decorator.EncloseToExpose(source).GetHierarchyTypes(assemblies);
+        }
+
+        /// <summary>
         /// Loads the embedded resources from the associated <see cref="Assembly"/> of the specified <see cref="Type"/> following the <see cref="ManifestResourceMatch"/> ruleset of <paramref name="match"/>.
         /// </summary>
         /// <param name="source">The source type to load the resource from.</param>
@@ -46,8 +131,7 @@ namespace Cuemon.Extensions.Reflection
         /// </exception>
         public static IEnumerable<PropertyInfo> GetRuntimePropertiesExceptOf<T>(this Type type)
         {
-            Validator.ThrowIfNull(type);
-            return Decorator.Enclose(type).GetRuntimePropertiesExceptOf<T>();
+            return Decorator.EncloseToExpose(type).GetRuntimePropertiesExceptOf<T>();
         }
 
         /// <summary>

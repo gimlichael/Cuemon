@@ -3,7 +3,7 @@
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="DateTime"/> struct tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="DateTime"/> struct hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

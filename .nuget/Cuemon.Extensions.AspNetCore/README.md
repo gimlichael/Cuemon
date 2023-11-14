@@ -1,6 +1,7 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 7, .NET 6, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
@@ -8,7 +9,16 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 The `Cuemon.Extensions.AspNetCore` namespace contains both types and extension methods that complements the `Cuemon.AspNetCore` namespace while being an addition to the `Microsoft.AspNetCore` namespace. Provides an in-memory implementation of a throttling cache for ASP.NET Core.
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Configuration.html).
+More documentation available at our documentation site:
+
+- [Cuemon.Extensions.AspNetCore.Configuration](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Configuration.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Data.Integrity](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Data.Integrity.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Diagnostics](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Diagnostics.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Hosting](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Hosting.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Http](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Http.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Http.Headers](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Http.Headers.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Http.Throttling](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Http.Throttling.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Text.Yaml.Converters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Text.Yaml.Converters.html) 🔗
 
 ## Related Packages
 

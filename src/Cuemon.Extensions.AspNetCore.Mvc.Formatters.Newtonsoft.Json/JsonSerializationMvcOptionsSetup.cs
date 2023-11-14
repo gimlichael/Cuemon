@@ -12,7 +12,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <summary>
         /// Creates a new <see cref="JsonSerializationMvcOptionsSetup"/>.
         /// </summary>
-        public JsonSerializationMvcOptionsSetup(IOptions<JsonFormatterOptions> formatterOptions) : base(mo =>
+        public JsonSerializationMvcOptionsSetup(IOptions<NewtonsoftJsonFormatterOptions> formatterOptions) : base(mo =>
         {
             mo.OutputFormatters.Insert(0, new JsonSerializationOutputFormatter(formatterOptions?.Value));
             mo.InputFormatters.Insert(0, new JsonSerializationInputFormatter(formatterOptions?.Value));

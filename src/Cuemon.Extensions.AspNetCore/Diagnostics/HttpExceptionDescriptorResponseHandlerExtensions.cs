@@ -18,7 +18,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
     public static class HttpExceptionDescriptorResponseHandlerExtensions
     {
         /// <summary>
-        /// Adds the response handler.
+        /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the list of <paramref name="handlers"/>.
         /// </summary>
         /// <param name="handlers">The sequence of <see cref="HttpExceptionDescriptorResponseHandler"/> to extend.</param>
         /// <param name="setup">The <see cref="HttpExceptionDescriptorResponseHandlerOptions"/> that needs to be configured.</param>

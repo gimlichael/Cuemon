@@ -158,7 +158,7 @@ namespace Cuemon
         {
             Validator.ThrowIfSequenceNullOrEmpty(values, nameof(values));
             var result = new ConcurrentBag<char>();
-            Parallel.For(0, length, i =>
+            Parallel.For(0, length, _ =>
             {
                 var index = RandomNumber(values.Length);
                 var indexLength = values[index].Length;

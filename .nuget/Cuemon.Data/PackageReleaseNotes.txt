@@ -1,4 +1,40 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- REMOVED DataAdapter class from the Cuemon.Data namespace
+- REMOVED DataAdapterEventArgs class from the Cuemon.Data namespace
+- REMOVED DataAdapterException class in the Cuemon.Data namespace
+- REMOVED DataConnection class in the Cuemon.Data namespace
+- REMOVED DbColumn class in the Cuemon.Data namespace
+- REMOVED DbParameterEqualityComparer class in the Cuemon.Data namespace
+- REMOVED IDataCommand interface in the Cuemon.Data namespace
+- REMOVED IDataConnection interface in the Cuemon.Data namespace
+- REMOVED QueryInsertAction enum in the Cuemon.Data namespace
+- RENAMED DataCommand class in the Cuemon.Data namespace to DataStatement and added increased scope of responsibility
+- CHANGED DataManager class in the Cuemon.Data namespace to be more lean and consistent with other classes while fully embracing the configurable DataManagerOptions
+- CHANGED DataReader class in the Cuemon.Data namespace to rely only on a default constructor
+- CHANGED DsvDataReader class in the Cuemon.Data namespace to be more consistent with other classes fully embracing the configurable DelimitedStringOptions
+- CHANGED XmlDataReader class in the Cuemon.Data.Xml namespace to be more consistent with other classes fully embracing the configurable FormattingOptions
+ 
+# Bug Fixes
+- FIXED DsvDataReader class located in the Cuemon.Data namespace to ensure that Header is populated on first read from constructor initialization
+- FIXED DataTransferRowCollection class in the Cuemon.Data namespace to ensure that Columns are populated before first read from the IDataReader implementation
+ 
+# Improvements
+- EXTENDED DataManager class in the Cuemon.Data namespace to include support for Async operations
+- CHANGED InOperatorResult class in the Cuemon.Data namespace to accept less specific IDataParameter instead of IDbDataParameter
+- EXTENDED TokenBuilder class in the Cuemon.Data namespace to have an additional constructor that accepts string for delimiter and qualifier
+ 
+# New Features
+- ADDED DataManagerOptions class in the Cuemon.Data namespace that specifies options related to DataManager
+- ADDED DataStatementOptions class in the Cuemon.Data namespace that specifies options related to DataStatement
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -11,54 +47,4 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# Upgrade Steps
-- The Cuemon.Data.XmlClient assembly and namespace was removed with this version
-- Types found in the Cuemon.Data.XmlClient namespace was merged into the Cuemon.Data.Xml namespace
-- To use the earlier built-in support for Microsoft SQL Server, please refer to the Cuemon.Data.SqlClient namespace, as it has been merged and refactored out of this assembly
-- Any former extension methods of the Cuemon.Data namespace was merged into the Cuemon.Extensions.Data namespace
- 
-# Breaking Changes
-- REFACTORED XmlDataReader class in the Cuemon.Data.Xml namespace to match and inherit from DataReader
-- REFACTORED DataManager class in the Cuemon.Data namespace to have a higher cohesion and lower coupling
-- RENAMED StringDataReader class in the Cuemon.Data namespace to DataReader{T} (including major refactoring of the underlying code)
-- RENAMED DataParameterEqualityComparer class in the Cuemon.Data namespace to DbParameterEqualityComparer
-- REMOVED DataTransferSorter class from the Cuemon.Data namespace
-- REMOVED CsvDataReader class from the Cuemon.Data.CsvClient namespace (including the namespace)
-- MERGED Cuemon.Data.SqlClient namespace to its own assembly
-- REFACTORED InOperator class in the Cuemon.Data namespace to be less complex and make usage of InOperatorResult
-- REMOVED QueryUtility class from the Cuemon.Data namespace
-- REMOVED legacy-leftover, IsReadOnly property, from DataTransferRowCollection in the Cuemon.Data namespace
-- REMOVED GetPagedRows from the DataTransfer class in the Cuemon.Data namespace
-- REMOVED DataWatcher class from the Cuemon.Data namespace
-- REMOVED DataDependency class from the Cuemon.Data namespace
- 
-# New Features
-- ADDED DsvDataReader class in the Cuemon.Data namespace that provides a way of reading a forward-only stream of rows from a DSV (Delimiter Separated Values) based data source
-- ADDED InOperatorResult class in the Cuemon.Data namespace that provides the result of an InOperator{T} operation
-- ADDED TokenBuilder class in the Cuemon.Data namespace that represents a mutable string of characters optimized for tokens
-- ADDED DatabaseDependency class in the Cuemon.Data namespace that provides a way to monitor any changes occurred to one or more relational data sources while notifying subscribing objects
-- ADDED DatabaseWatcher class in the Cuemon.Data namespace that provides a watcher implementation designed to monitor and signal changes applied to a relational database by raising the Changed event
- 
-# Quality Analysis Actions
-- CHANGED DataTransferRowCollection class in the Cuemon.Data namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3358
-- CHANGED DsvDataReader class in the Cuemon.Data namespace to have 0 duplicated blocks of lines of code by removing ConcurrentDsvDataReader class and merge ReadAsync to DsvDataReader
-- CHANGED XmlDataReader class in the Cuemon.Data.Xml namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-3776
-- CHANGED DataManager class in the Cuemon.Data namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
  

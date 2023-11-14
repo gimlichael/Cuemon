@@ -3,7 +3,7 @@
 namespace Cuemon.Xml.Serialization
 {
     /// <summary>
-    /// Extension methods for the <see cref="XmlSerializerOptions"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="XmlSerializerOptions"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

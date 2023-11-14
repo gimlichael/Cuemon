@@ -14,10 +14,10 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         private readonly Action<IHostBuilder> _hostConfigurator;
         private HostBuilderContext _hostBuilderContext;
 
-        internal MiddlewareTest(Action<IApplicationBuilder> pipelineConfigurator, Action<IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
+        internal MiddlewareTest(Action<IServiceCollection> serviceConfigurator, Action<IApplicationBuilder> pipelineConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
-            _pipelineConfigurator = pipelineConfigurator;
             _serviceConfigurator = serviceConfigurator;
+            _pipelineConfigurator = pipelineConfigurator;
             _hostConfigurator = hostConfigurator;
             if (!hostFixture.HasValidState())
             {
@@ -33,10 +33,10 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
             Configure(hostFixture.Configuration, hostFixture.HostingEnvironment);
         }
 
-        internal MiddlewareTest(Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
+        internal MiddlewareTest(Action<HostBuilderContext, IServiceCollection> serviceConfigurator, Action<HostBuilderContext, IApplicationBuilder> pipelineConfigurator, Action<IHostBuilder> hostConfigurator, AspNetCoreHostFixture hostFixture) : base(hostFixture, callerType: pipelineConfigurator?.Target?.GetType() ?? serviceConfigurator?.Target?.GetType() ?? hostConfigurator?.Target?.GetType())
         {
-            _pipelineConfiguratorWithContext = pipelineConfigurator;
             _serviceConfiguratorWithContext = serviceConfigurator;
+            _pipelineConfiguratorWithContext = pipelineConfigurator;
             _hostConfigurator = hostConfigurator;
             if (!hostFixture.HasValidState())
             {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Cuemon.IO
 {
     /// <summary>
-    /// Extension methods for the <see cref="TextReader"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="TextReader"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

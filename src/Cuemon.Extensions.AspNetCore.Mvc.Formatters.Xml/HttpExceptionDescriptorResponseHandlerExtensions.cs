@@ -4,11 +4,11 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Cuemon.AspNetCore.Diagnostics;
-using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters;
 using Cuemon.Net.Http;
 using Cuemon.Xml.Serialization;
 using Cuemon.Xml.Serialization.Formatters;
+using Microsoft.Extensions.Options;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 {
@@ -21,12 +21,12 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the list of <paramref name="handlers"/> that uses <see cref="XmlSerializer"/> as engine of serialization.
         /// </summary>
         /// <param name="handlers">The sequence of <see cref="HttpExceptionDescriptorResponseHandler"/> to extend.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="XmlFormatterOptions"/> which need to be configured.</param>
         /// <returns>A reference to <paramref name="handlers" /> so that additional calls can be chained.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="handlers"/> cannot be null.
         /// </exception>
-        public static ICollection<HttpExceptionDescriptorResponseHandler> AddXmlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, Action<ExceptionDescriptorOptions> setup = null)
+        public static ICollection<HttpExceptionDescriptorResponseHandler> AddXmlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, IOptions<XmlFormatterOptions> setup)
         {
             Validator.ThrowIfNull(handlers);
             Decorator.Enclose(handlers).AddResponseHandler(o =>
@@ -34,10 +34,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
                 o.ContentType = MediaTypeHeaderValue.Parse("application/xml");
                 o.ContentFactory = ed =>
                 {
-                    return new StreamContent(XmlFormatter.SerializeObject(ed, setup: xfo =>
-                    {
-                        xfo.Settings.Converters.AddHttpExceptionDescriptorConverter(setup);
-                    }))
+                    var options = setup.Value;
+                    options.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = options.SensitivityDetails);
+                    return new StreamContent(XmlFormatter.SerializeObject(ed, Patterns.ConfigureRevert(options)))
                     {
                         Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }
                     };

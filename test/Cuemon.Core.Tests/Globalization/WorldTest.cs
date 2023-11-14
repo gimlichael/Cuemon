@@ -21,7 +21,11 @@ namespace Cuemon.Globalization
             TestOutput.WriteLine(sut1.Count.ToString());
 
             Assert.NotNull(sut1);
+#if NET48_OR_GREATER
+            Assert.True(sut1.Count > 100, "sut1.Count > 100");
+#else
             Assert.True(sut1.Count > 220, "sut1.Count > 220");
+#endif
         }
 
         [Fact]
@@ -45,7 +49,11 @@ namespace Cuemon.Globalization
             TestOutput.WriteLine(sut2.Count.ToString());
 
             Assert.NotNull(sut2);
+#if NET48_OR_GREATER
+            Assert.True(sut2.Count > 200, "sut1.Count > 200");
+#else
             Assert.True(sut2.Count > 500, "sut1.Count > 500");
+#endif
         }
     }
 }

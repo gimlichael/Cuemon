@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Asp.Versioning;
 using Cuemon.AspNetCore.Diagnostics;
@@ -31,14 +32,11 @@ namespace Cuemon.Extensions.Asp.Versioning
         {
         }
 
+#if NET7_0_OR_GREATER
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequest_FormattedAsRfc7807_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
                            .AddJsonFormatters();
@@ -47,6 +45,10 @@ namespace Cuemon.Extensions.Asp.Versioning
 	                       o.UseBuiltInRfc7807 = true;
                            o.ValidAcceptHeaders.Clear();
                        });
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var client = app.Host.GetTestClient();
@@ -60,27 +62,24 @@ namespace Cuemon.Extensions.Asp.Versioning
                 Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
                 Assert.EndsWith("application/problem+json", sut.Content.Headers.ContentType.ToString());
 
+
+#if NET7_0
+                var expected = @"{""type"":""https://docs.api-versioning.org/problems#invalid"",""title"":""Invalid API version"",""status"":400,""detail"":""The HTTP resource that matches the request URI \u0027http://localhost/fake/\u0027 does not support the API version \u0027b3\u0027.""}";
+                Assert.Equal(expected, await sut.Content.ReadAsStringAsync());
+#elif NET8_0
+                var expected = @"{""type"":""https://docs.api-versioning.org/problems#invalid"",""title"":""Invalid API version"",""status"":400,""detail"":""The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version 'b3'.""}";
+                Assert.Equal(expected, await sut.Content.ReadAsStringAsync());
+#endif
+                
                 // sadly Microsoft does not use the formatter we feed into the pipeline .. they use their own horrid WriteJsonAsync implementation .. 
-                Assert.StartsWith(@"{""type"":""https://docs.api-versioning.org/problems#invalid"",""title"":""Invalid API version"",""status"":400,""detail"":""The HTTP resource that matches the request URI \u0027http://localhost/fake/\u0027 does not support the API version \u0027b3\u0027.""}", await sut.Content.ReadAsStringAsync());
             }
         }
+#endif
 
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequestFormattedAsXmlResponse_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseFaultDescriptorExceptionHandler(o =>
-                {
-                    o.NonMvcResponseHandlers
-                        .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions()))
-                        .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions()));
-                });
-                app.UseRestfulApiVersioning();
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-
-            }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => o.Filters.AddFaultDescriptor())
                     .AddApplicationPart(typeof(FakeController).Assembly)
@@ -90,7 +89,19 @@ namespace Cuemon.Extensions.Asp.Versioning
                 {
                     o.ValidAcceptHeaders.Clear();
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler(o =>
+                       {
+                           o.NonMvcResponseHandlers
+                               .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>())
+                               .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>());
+                       });
+                       app.UseRestfulApiVersioning();
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+
+                   }))
             {
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/xml;q=0.9");
@@ -108,27 +119,27 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequestFormattedAsJsonResponse_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseFaultDescriptorExceptionHandler(o =>
-                       {
-                           o.NonMvcResponseHandlers
-                               .AddJsonResponseHandler(Patterns.ConfigureRevertExchange<JsonFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<JsonFormatterOptions>>()?.Value ?? new JsonFormatterOptions()))
-                               .AddXmlResponseHandler(Patterns.ConfigureRevertExchange<XmlFormatterOptions, ExceptionDescriptorOptions>(app.ApplicationServices.GetService<IOptions<XmlFormatterOptions>>()?.Value ?? new XmlFormatterOptions()));
-                       });
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-
-                   }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers(o => o.Filters.AddFaultDescriptor())
                            .AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters();
+                           .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
                        services.AddHttpContextAccessor();
                        services.AddRestfulApiVersioning(o =>
                        {
                            o.ValidAcceptHeaders.Clear();
                        });
+                   }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler(o =>
+                       {
+                           o.NonMvcResponseHandlers
+                               .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>())
+                               .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>());
+                       });
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+
                    }))
             {
                 var client = app.Host.GetTestClient();
@@ -153,16 +164,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequestFormattedAsPlainResponse_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseFaultDescriptorExceptionHandler(o =>
-                {
-                    o.SensitivityDetails = FaultSensitivityDetails.All;
-                });
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-
-            }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => o.Filters.AddFaultDescriptor())
                     .AddApplicationPart(typeof(FakeController).Assembly)
@@ -184,7 +186,16 @@ namespace Cuemon.Extensions.Asp.Versioning
                 {
                     o.SensitivityDetails = FaultSensitivityDetails.Failure | FaultSensitivityDetails.StackTrace;
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler(o =>
+                       {
+                           o.SensitivityDetails = FaultSensitivityDetails.All;
+                       });
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+
+                   }))
             {
                 var client = app.Host.GetTestClient();
                 client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;q=10.0");
@@ -204,7 +215,7 @@ namespace Cuemon.Extensions.Asp.Versioning
     Source: Cuemon.Extensions.Asp.Versioning
     Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'b3'.
     Stack: 
-", await sut.Content.ReadAsStringAsync());
+".ReplaceLineEndings(), await sut.Content.ReadAsStringAsync());
                 Assert.EndsWith(@"
 Evidence: 
   Request: 
@@ -224,24 +235,24 @@ Evidence:
         - localhost
     Query: []
     Cookies: []
-    Body: ", await sut.Content.ReadAsStringAsync());
+    Body: ".ReplaceLineEndings(), await sut.Content.ReadAsStringAsync());
             }
         }
 
         [Fact]
         public async Task GetRequest_ShouldThrowABadRequestException_As_b3_IsAnUnknownVersion()
         {
-            using (var app = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
+            using (var app = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
                        services.AddRestfulApiVersioning(o =>
                        {
                            o.ValidAcceptHeaders.Clear();
                        });
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var client = app.Host.GetTestClient();

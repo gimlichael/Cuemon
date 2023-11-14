@@ -41,7 +41,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <returns>A task that represents the execution of this middleware.</returns>
         public override Task InvokeAsync(HttpContext context)
         {
-            var requestId = Options.RequestProvider().RequestId;
+            var requestId = Options.Token.RequestId;
             Decorator.Enclose(context.Items).TryAdd(HttpContextItemsKey, requestId);
             context.Response.OnStarting(() =>
             {

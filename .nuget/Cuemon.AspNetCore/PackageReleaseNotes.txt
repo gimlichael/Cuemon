@@ -1,4 +1,20 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- REMOVED SerializableAttribute and ISerializable implementations due to Microsoft decision on deprecating most of the legacy serialization infrastructure https://github.com/dotnet/docs/issues/34893
+ 
+# Quality Analysis Actions
+- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+- CHANGED ServerTimingMetric class in the Cuemon.AspNetCore.Diagnostics namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+- CHANGED HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -34,74 +50,4 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
  
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFM and removed these dependencies for .NET Standard 2.0: Microsoft.AspNetCore.Hosting.Abstractions, Microsoft.AspNetCore.WebUtilities, Microsoft.AspNetCore.Http.Extensions, Microsoft.Extensions.Options and System.Collections.Immutable
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.2.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# New Features
-- ADDED CacheableMiddleware class in the Cuemon.AspNetCore.Http.Headers namespace that provides a Cache-Control middleware implementation for ASP.NET Core
-- ADDED CacheableOptions class in the Cuemon.AspNetCore.Http.Headers namespace that specifies options related to CacheableMiddleware
-- ADDED ExpiresHeaderValue class in the Cuemon.AspNetCore.Http.Headers namespace that represents a HTTP Expires header that contains the date/time after which the response is considered stale
-- ADDED ICacheableValidator interface in the Cuemon.AspNetCore.Http.Headers namespace that represents an HTTP validator tailored for cacheable flows, that asynchronously surrounds execution of the intercepted response body
- 
-Version: 6.0.1
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# New Features
-- ADDED ServerTimingMiddleware class in the Cuemon.AspNetCore.Diagnostics namespace that provides a Server-Timing middleware implementation for ASP.NET Core
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# Upgrade Steps
-- Any former extension methods of the Cuemon.AspNetCore namespace was merged into the Cuemon.Extensions.AspNetCore namespace
- 
-# Breaking Changes
-- MOVED HttpExceptionDescriptor class from the Cuemon.AspNetCore.Http namespace to Cuemon.AspNetCore.Diagnostics namespace
-- REMOVED ThrottlingRetryAfterHeader enum from the Cuemon.AspNetCore.Http.Throttling namespace
-- CHANGED ThrottlingSentinelOptions class in the Cuemon.AspNetCore.Http.Throttling namespace to be more compliant with industry standards
-- RENAMED ApplicationBuilderFactory class in the Cuemon.AspNetCore.Builder namespace to MiddlewareBuilderFactory
- 
-# New Features
-- ADDED IServerTiming interface in the Cuemon.AspNetCore.Diagnostics namespace that represents the Server Timing as per W3C Working Draft 28 July 2020 (https://www.w3.org/TR/2020/WD-server-timing-20200728/)
-- ADDED ServerTiming class in the Cuemon.AspNetCore.Diagnostics namespace that provides a default implementation of the IServerTiming interface
-- ADDED ServerTimingMetric class in the Cuemon.AspNetCore.Diagnostics namespace that represents a HTTP Server-Timing header field entry to communicate one metric and description for the given request-response cycle
-- ADDED RetryConditionScope enum in the Cuemon.AspNetCore.Http.Headers namespace that specifies a set of values defining what value to use with a given HTTP header in regards to a retry condition
-- ADDED CacheBusting class in the Cuemon.AspNetCore.Configuration namespace that represents a way to provide cache-busting capabilities
-- ADDED CacheBustingOptions class in the Cuemon.AspNetCore.Configuration namespace that specifies options related to CacheBusting
-- ADDED DynamicCacheBusting class in the Cuemon.AspNetCore.Configuration namespace that provides cache-busting capabilities on a duration based interval
-- ADDED DynamicCacheBustingOptions class in the Cuemon.AspNetCore.Configuration namespace that specifies options related to DynamicCacheBusting
-- ADDED ICacheBusting interface in the Cuemon.AspNetCore.Configuration namespace that is an interface to provide cache-busting capabilities
-- ADDED BadRequestException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the server could not understand the request due to invalid syntax
-- ADDED ConflictException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when a request conflicts with the current state of the server
-- ADDED ForbiddenException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the client does not have access rights to the content; that is, it is unauthorized, so the server is refusing to give the requested resource. Unlike 401, the client's identity is known to the server
-- ADDED GoneException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the requested content has been permanently deleted from server, with no forwarding address
-- ADDED NotFoundException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the server can not find the requested resource
-- ADDED PayloadTooLargeException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the request entity is larger than limits defined by server
-- ADDED PreconditionFailedException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the client has indicated preconditions in its headers which the server does not meet
-- ADDED PreconditionRequiredException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the origin server requires the request to be conditional
-- ADDED TooManyRequestsException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the user has sent too many requests in a given amount of time ("rate limiting")
-- ADDED UnauthorizedException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the requirements of an HTTP WWW-Authenticate header is not meet
-- ADDED MethodNotAllowedException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the request method is known by the server but has been disabled and cannot be used
-- ADDED NotAcceptableException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the web server, after performing server-driven content negotiation, does not find any content that conforms to the criteria given by the user agent
- 
-# Improvements
-- EXTENDED HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace with a new property; ReasonPhrase and added new constructor as well as better ToString representation of the object
- 
-# Quality Analysis Actions
-- FIXED HostingEnvironmentMiddleware class in the Cuemon.AspNetCore.Hosting namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-927
  

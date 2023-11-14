@@ -26,3 +26,9 @@ dotnet_diagnostic.IDE0071.severity = none
 # S3267: Loops should be simplified with "LINQ" expressions
 # https://rules.sonarsource.com/csharp/RSPEC-3267
 dotnet_diagnostic.S3267.severity = none
+
+# CA1859: Use concrete types when possible for improved performance
+# This is a violation of Framework Design Guidelines.
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1859
+[*.{cs,vb}]
+dotnet_diagnostic.CA1859.severity = none

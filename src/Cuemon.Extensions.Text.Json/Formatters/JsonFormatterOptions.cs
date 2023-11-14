@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Cuemon.Configuration;
@@ -24,6 +25,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                 list.AddDataPairConverter();
                 list.AddStringEnumConverter();
                 list.AddStringFlagsEnumConverter();
+                list.AddTransientFaultExceptionConverter();
             };
         }
 
@@ -68,7 +70,8 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                 DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 ReferenceHandler = ReferenceHandler.IgnoreCycles,
-                ReadCommentHandling = JsonCommentHandling.Skip
+                ReadCommentHandling = JsonCommentHandling.Skip,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
             DefaultConverters?.Invoke(Settings.Converters);
             SensitivityDetails = FaultSensitivityDetails.None;
@@ -126,8 +129,8 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(Settings == null);
-            Validator.ThrowIfObjectInDistress(SupportedMediaTypes == null);
+            Validator.ThrowIfInvalidState(Settings == null);
+            Validator.ThrowIfInvalidState(SupportedMediaTypes == null);
         }
     }
 }

@@ -1,4 +1,11 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -19,37 +26,4 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED ExceptionDescriptorConverter class in the Cuemon.Diagnostics.Text.Yaml namespace that converts an ExceptionDescriptor to or from YAML
 - ADDED IExceptionDescriptorOptions interface in the Cuemon.Diagnostics namespace that defines options that is related to ExceptionDescriptor operations
 - ADDED FaultSensitivityDetails enum in the Cuemon.Diagnostics namespace that specifies the level of sensitive details to include when serializing an ExceptionDescriptor
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# Breaking Changes
-- REMOVED EventLogEntryType enum from the Cuemon.Diagnostics namespace as it is now (finally) part of .NET Platform Extensions and .NET Core
-- CHANGED ExceptionDescriptorAttribute class in the Cuemon.Diagnostics namespace to have a more simple and streamlined design
-- CHANGED TimeMeasure class in the Cuemon.Diagnostics namespace to fully support the Task-based Asynchronous Pattern (TAP) with cancellation 
- 
-# New Features
-- ADDED ExceptionDescriptorOptions class into Cuemon.Diagnostics namespace that specifies configuration options for serializer implementations
-- ADDED AsyncTimeMeasureOptions class into Cuemon.Diagnostics namespace that specifies configuration options for TimeMeasure class
-- ADDED FaultHandler class into Cuemon.Diagnostics namespace that provides a generic way to implement a fault resolver that evaluate an exception and provide details about it in a developer friendly way
-- ADDED FaultResolver class into Cuemon.Diagnostics namespace that a way to evaluate an exception and provide details about it in a developer friendly way
- 
-# Improvements
-- EXTENDED ExceptionDescriptor class in the Cuemon.Diagnostics namespace with a new static method: Extract
- 
-# Quality Analysis Actions
-- CHANGED TimeMeasure class in the Cuemon.Diagnostics namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1068
  

@@ -7,13 +7,24 @@ using Cuemon.Threading;
 
 namespace Cuemon.Extensions.Net.Http
 {
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Provides a simple and lightweight implementation of the <see cref="IHttpClientFactory"/> interface.
     /// </summary>
     /// <seealso cref="IHttpClientFactory" />
     /// <seealso cref="IHttpMessageHandlerFactory" />
     /// <remarks>Inspiration taken from https://github.com/dotnet/runtime/blob/master/src/libraries/Microsoft.Extensions.Http/src/DefaultHttpClientFactory.cs</remarks>
-    public class SlimHttpClientFactory : IHttpClientFactory, IHttpMessageHandlerFactory
+#else
+    /// <summary>
+    /// Provides a simple and lightweight implementation of the <see cref="IHttpClientFactory"/> interface.
+    /// </summary>
+    /// <seealso cref="IHttpClientFactory" />
+    /// <remarks>Inspiration taken from https://github.com/dotnet/runtime/blob/master/src/libraries/Microsoft.Extensions.Http/src/DefaultHttpClientFactory.cs</remarks>
+#endif
+    public class SlimHttpClientFactory : IHttpClientFactory
+#if NET6_0_OR_GREATER
+        , IHttpMessageHandlerFactory 
+#endif
     {
         private readonly ConcurrentDictionary<string, Lazy<ActiveHandler>> _activeHandlers = new();
         private readonly ConcurrentQueue<ExpiredHandler> _expiredHandlers = new();

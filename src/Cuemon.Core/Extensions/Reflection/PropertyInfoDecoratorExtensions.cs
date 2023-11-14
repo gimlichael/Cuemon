@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace Cuemon.Reflection
 {
     /// <summary>
-    /// Extension methods for the <see cref="PropertyInfo"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="PropertyInfo"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

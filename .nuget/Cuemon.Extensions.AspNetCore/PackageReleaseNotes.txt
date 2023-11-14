@@ -1,4 +1,15 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Quality Analysis Actions
+- CHANGED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1835
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -16,57 +27,4 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 # New Features
 - EXTENDED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace with one new extension method for the IApplicationBuilder interface: UseFaultDescriptorExceptionHandler
 - ADDED YamlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters namespace that consist of extension methods for the YamlConverter class: AddExceptionDescriptorConverter, AddHttpExceptionDescriptorConverter
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.2.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# New Features
-- EXTENDED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Http.Headers namespace with one new extension method for the IApplicationBuilder interface: UseCacheControl
-- ADDED EntityTagCacheableValidator class in the Cuemon.Extensions.AspNetCore.Http.Headers namespace that provides an HTTP validator that conforms to the ETag response header
- 
-Version: 6.0.1
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# New Features
-- ADDED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace that consist of extension methods for the IApplicationBuilder interface: UseServerTiming
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# Upgrade Steps
-- HttpResponseMessageExtensions class was not merged to this assembly
- 
-# Breaking Changes
-- RENAMED UseHostingEnvironmentHeader --> UseHostingEnvironment on the ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Builder namespace
-- RENAMED UseCorrelationIdentifierHeader --> UseCorrelationIdentifier on the ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Builder namespace
-- RENAMED UseRequestIdentifierHeader --> UseRequestIdentifier on the ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Builder namespace
-- RENAMED UseCustomThrottlingSentinel --> UseThrottlingSentinel on the ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Builder namespace
-- RENAMED ToEntityTag --> ToEntityTagHeaderValue on the ChecksumBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Data.Integrity namespace
-- RENAMED AddMemoryThrottling --> AddMemoryThrottlingCache on the ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Http.Throttling namespace
-- RENAMED SetEntityTagHeaderInformation --> AddOrUpdateEntityTagHeader on the HttpResponseExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace
-- RENAMED SetLastModifiedHeaderInformation --> AddOrUpdateLastModifiedHeader on the HttpResponseExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace
-- REMOVED IsSuccessStatusCode from the HttpResponseExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace
-- REMOVED IsNotModifiedStatusCode from the HttpResponseExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace
- 
-# New Features
-- EXTENDED ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Http.Throttling namespace with one new extension method for the IServiceCollection interface: AddThrottlingCache{T}
-- EXTENDED HttpResponseExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace with one new extension method for the HttpResponse class: OnStartingInvokeTransformer
-- ADDED Int32Extensions class in the Cuemon.Extensions.AspNetCore.Http namespace that consist of extension methods for the Int32 struct: IsInformationStatusCode, IsSuccessStatusCode, IsRedirectionStatusCode, IsNotModifiedStatusCode, IsClientErrorStatusCode, IsServerErrorStatusCode
- 
-# Quality Analysis Actions
-- CHANGED HttpResponseExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1835
  

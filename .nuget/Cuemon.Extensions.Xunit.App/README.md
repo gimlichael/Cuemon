@@ -1,6 +1,7 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 7, .NET 6, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
@@ -8,16 +9,14 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 `Cuemon.Extensions.Xunit.App`, aka `Extensions for xUnit API`, is a toolbelt of assemblies designed to extend upon [xUnit.net](https://xunit.net/) for more advanced unit test scenarios while also being the preferred unit test platform of Cuemon for .NET.
 
-+ Xunit
-  + Cuemon.Extensions.Xunit.Hosting
-  + Cuemon.Extensions.Xunit.Hosting.AspNetCore
-  + Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http
-  + Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features
-  + Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
-+ Xunit.Abstractions
-  + Cuemon.Extensions.Xunit
+More documentation available at our documentation site:
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/extensions/xunit/index.html).
+- [Cuemon.Extensions.Xunit](https://docs.cuemon.net/api/extensions/xunit/Cuemon.Extensions.Xunit.html) 🔗
+- [Cuemon.Extensions.Xunit.Hosting](https://docs.cuemon.net/api/extensions/xunit/Cuemon.Extensions.Xunit.Hosting.html) 🔗
+- [Cuemon.Extensions.Xunit.Hosting.AspNetCore](https://docs.cuemon.net/api/extensions/xunit/Cuemon.Extensions.Xunit.Hosting.AspNetCore.html) 🔗
+- [Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http](https://docs.cuemon.net/api/extensions/xunit/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.html) 🔗
+- [Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features](https://docs.cuemon.net/api/extensions/xunit/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features.html) 🔗
+- [Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc](https://docs.cuemon.net/api/extensions/xunit/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.html) 🔗
 
 ## Related Packages
 

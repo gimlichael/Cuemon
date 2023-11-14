@@ -111,7 +111,7 @@ namespace Cuemon.Text
                 try
                 {
                     Validator.ThrowIfNullOrWhitespace(input);
-                    Validator.ThrowIfNotBinaryDigits(input, nameof(input));
+                    Validator.ThrowIfNotBinaryDigits(input);
                     var bytes = new List<byte>();
                     for (var i = 0; i < input.Length; i += 8)
                     {
@@ -230,7 +230,7 @@ namespace Cuemon.Text
             return CreateParser(input =>
             {
                 Validator.ThrowIfNull(input);
-                Validator.ThrowIfNotHex(input, nameof(input));
+                Validator.ThrowIfNotHex(input);
                 var converted = new List<byte>();
                 var stringLength = input.Length / 2;
                 using (var reader = new StringReader(input))
@@ -309,10 +309,10 @@ namespace Cuemon.Text
         /// <summary>
         /// Creates a parser that converts a <see cref="string"/>, represented as a simple input type, to its equivalent <see cref="bool"/>, <see cref="byte"/>, <see cref="int"/>, <see cref="long"/>, <see cref="double"/>, <see cref="float"/>, <see cref="DateTime"/> or <see cref="Guid"/>.
         /// </summary>
-        /// <returns>An <see cref="T:IConfigurableParser{object,FormattingOptions{CultureInfo}}"/> implementation.</returns>
-        public static IConfigurableParser<object, FormattingOptions<CultureInfo>> FromValueType()
+        /// <returns>An <see cref="T:IConfigurableParser{object,FormattingOptions}"/> implementation.</returns>
+        public static IConfigurableParser<object, FormattingOptions> FromValueType()
         {
-            return CreateConfigurableParser<object, FormattingOptions<CultureInfo>>((input, setup) =>
+            return CreateConfigurableParser<object, FormattingOptions>((input, setup) =>
             {
                 if (input == null) { return null; }
                 var options = Patterns.Configure(setup);
@@ -320,9 +320,8 @@ namespace Cuemon.Text
                 if (byte.TryParse(input, NumberStyles.None, options.FormatProvider, out var byteinput)) { return byteinput; }
                 if (int.TryParse(input, NumberStyles.None, options.FormatProvider, out var intinput)) { return intinput; }
                 if (long.TryParse(input, NumberStyles.None, options.FormatProvider, out var longinput)) { return longinput; }
-                if (double.TryParse(input, NumberStyles.Number & ~NumberStyles.AllowThousands, options.FormatProvider, out var doubleinput)) { return doubleinput; }
-                if (float.TryParse(input, NumberStyles.Float, options.FormatProvider, out var floatinput)) { return floatinput; }
-                if (input.Length > 6 && DateTime.TryParse(input, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out var dateTimeinput)) { return dateTimeinput; }
+                if (double.TryParse(input, NumberStyles.Any & ~NumberStyles.AllowHexSpecifier & ~NumberStyles.HexNumber, options.FormatProvider, out var doubleinput)) { return doubleinput; }
+                if (input.Length > 6 && DateTime.TryParse(input, options.FormatProvider, DateTimeStyles.AdjustToUniversal, out var dateTimeinput)) { return dateTimeinput; }
                 if (input.Length > 31 && input.Length < 69 && Guid.TryParse(input, out var guidinput)) { return guidinput; }
                 return input;
             });
@@ -343,7 +342,7 @@ namespace Cuemon.Text
             return CreateConfigurableParser<Uri, UriStringOptions>((input, setup) =>
             {
                 Validator.ThrowIfNullOrWhitespace(input);
-                Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+                Validator.ThrowIfInvalidConfigurator(setup, out var options);
                 var isValid = false;
                 foreach (var scheme in options.Schemes)
                 {
@@ -446,7 +445,7 @@ namespace Cuemon.Text
             {
                 Validator.ThrowIfNullOrWhitespace(input);
                 Validator.ThrowIfNull(targetType);
-                Validator.ThrowIfNotEnumType(targetType, nameof(targetType));
+                Validator.ThrowIfNotEnumType(targetType);
                 var options = Patterns.Configure(setup);
                 var enumType = targetType;
                 var hasFlags = enumType.GetTypeInfo().IsDefined(typeof(FlagsAttribute), false);

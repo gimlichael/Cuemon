@@ -1,4 +1,12 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -16,33 +24,4 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 # Breaking Changes
 - CHANGED CacheableObjectResultExtensions in the Cuemon.Extensions.AspNetCore.Mvc namespace to exclude non-generic MakeCacheable methods
 - RENAMED MakeCacheable{T} --> WithLastModifiedHeader{T}, WithEntityTagHeader{T} and WithCacheableHeaders{T} on the CacheableObjectResultExtensions class in the Cuemon.Extensions.AspNetCore.Mvc namespace
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# Breaking Changes
-- RENAMED ToCacheableObjectResult{T} --> MakeCacheable{T} on the CacheableObjectResultExtensions class in the Cuemon.Extensions.AspNetCore.Mvc namespace (also included a non-generic variant: MakeCacheable)
-- RENAMED Add{T} --> AddHttpFaultResolver{T} on the (Http)FaultResolverExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics namespace
-- RENAMED UseWhen{T} --> UseWhenView{T} on the HtmlHelperExtensions class in the Cuemon.Extensions.AspNetCore.Mvc namespace
-- REMOVED ApplicationBuilderExtensions class from the Cuemon.Extensions.AspNetCore.Mvc namespace
- 
-# New Features
-- EXTENDED HtmlHelperExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Rendering namespace with one new extension method for the IHtmlHelper interface: UseWhenPage{T}
- 
-# Quality Analysis Actions
-- CHANGED HtmlHelperExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Rendering namespace to have 0 duplicated blocks of lines of code
  

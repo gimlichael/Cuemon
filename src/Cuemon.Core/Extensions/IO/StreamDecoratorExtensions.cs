@@ -4,7 +4,7 @@ using System.IO;
 namespace Cuemon.IO
 {
     /// <summary>
-    /// Extension methods for the <see cref="Stream"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="Stream"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// This API supports the product infrastructure and is not intended to be used directly from your code.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>

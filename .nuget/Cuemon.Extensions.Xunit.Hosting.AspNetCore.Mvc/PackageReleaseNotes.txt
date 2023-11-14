@@ -1,4 +1,15 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- CHANGED WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace received a long overdue change of signature from Action{IApplicationBuilder} pipelineSetup, Action{IServiceCollection} serviceSetup --> Action{IServiceCollection} serviceSetup, Action{IApplicationBuilder} pipelineSetup as this is more logical, intuitive and in consistency with GenericHostTestFactory
+ 
+Version: 7.1.0
 Availability: .NET 6.0, .NET 7.0
  
 # ALM
@@ -17,37 +28,4 @@ Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
 - REMOVED IMvcFilterTest interface from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 - REMOVED MvcFilterTestFactory class from the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc
 - CHANGED WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace to have non-ambiguous overloads of CreateWebApplicationTest -> Create, CreateWithHostBuilderContext and RunWebApplicationTest -> Run, RunWithHostBuilderContext
- 
-Version: 6.4.1
-Availability: .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.4.0
-Availability: .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.1.0
-Availability: .NET Core 3.1, .NET 5.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# New Features
-- ADDED IWebApplicationTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that the members needed for ASP.NET Core MVC, Razor and related testing
-- ADDED WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that provides a set of static methods for ASP.NET Core MVC, Razor and related unit testing
- 
-Version: 6.0.0
-Availability: .NET Core 3.1, .NET 5.0
- 
-# New Features
-- ADDED IMvcFilterTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that represents the members needed for ASP.NET Core MVC filter testing
-- ADDED MvcFilterTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace that provides a set of static methods for ASP.NET Core MVC filter unit testing
- 
-# Quality Analysis Actions
-- CHANGED MvcFilterAspNetCoreHostTest class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace to have 0 duplicated blocks of lines of code
  

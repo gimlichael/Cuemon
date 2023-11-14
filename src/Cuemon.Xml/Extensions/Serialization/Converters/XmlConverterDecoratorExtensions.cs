@@ -10,7 +10,7 @@ using Cuemon.Xml.Linq;
 namespace Cuemon.Xml.Serialization.Converters
 {
     /// <summary>
-    /// Extension methods for the <see cref="XmlConverter"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="XmlConverter"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
@@ -233,7 +233,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 if (w.WriteState == WriteState.Start && q == null) { q = new XmlQualifiedEntity(Decorator.Enclose(typeof(DateTime)).ToFriendlyName()); }
                 Decorator.Enclose(w).WriteEncapsulatingElementIfNotNull(d, q, (writer, value) =>
                 {
-                    writer.WriteValue(value.ToUniversalTime().ToString("O", CultureInfo.InvariantCulture));
+                    writer.WriteValue(value.ToString("O", CultureInfo.InvariantCulture));
                 });
             }, (reader, _) => Decorator.Enclose(Decorator.Enclose(reader).ToHierarchy()).UseDateTimeFormatter());
             return decorator;

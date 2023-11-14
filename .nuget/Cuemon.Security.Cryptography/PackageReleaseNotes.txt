@@ -1,4 +1,11 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -11,64 +18,4 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# Upgrade Steps
-- The Cuemon.Security assembly was removed with this version
-- Any types found in the former Cuemon.Security namespace was merged either into this namespace (Cuemon.Security.Cryptography) or the Cuemon.Security namespace (Cuemon.Core assembly)
-- Any former extension methods of the Cuemon.Security namespace was removed completely due to the new intuitive static factory classes (HashFactory, KeyedHashFactory and UnkeyedHashFactory)
-- The extent of refactoring applied to this project resulted in so many breaking changes that a git diff is advisable
- 
-# Breaking Changes
-- REPLACED AdvancedEncryptionStandardKeySize enum in the Cuemon.Security.Cryptography namespace with AesSize
-- REMOVED AdvancedEncryptionStandardUtility class from the Cuemon.Security.Cryptography namespace
-- MOVED CyclicRedundancyCheck class to the Cuemon.Security namespace
-- MOVED CyclicRedundancyCheck32 class to the Cuemon.Security namespace
-- REPLACED HashAlgorithmType enum in the Cuemon.Security.Cryptography namespace with UnkeyedCryptoAlgorithm
-- REMOVED HashOptions class from the Cuemon.Security.Cryptography namespace
-- MOVED HashResult class to the Cuemon.Security namespace
-- REPLACED HashUtility class in the Cuemon.Security.Cryptography namespace with UnkeyedHashFactory
-- REMOVED HashUtilityExtensions class from the Cuemon.Security.Cryptography namespace
-- REPLACED HmacAlgorithmType enum in the Cuemon.Security.Cryptography namespace with KeyedCryptoAlgorithm
-- REPLACED HmacUtility class in the Cuemon.Security.Cryptography namespace with KeyedHashFactory
-- REMOVED HmacUtilityExtensions class from the Cuemon.Security.Cryptography namespace
-- REMOVED KeyedHashOptions class from the Cuemon.Security.Cryptography namespace
-- REMOVED PolynomialRepresentation enum from the Cuemon.Security.Cryptography namespace
-- REMOVED StreamHashOptions class from the Cuemon.Security.Cryptography namespace
-- REMOVED StreamKeyedHashOptions class from the Cuemon.Security.Cryptography namespace
-- REMOVED StringHashOptions class from the Cuemon.Security.Cryptography namespace
-- REMOVED StringKeyedHashOptions class from the Cuemon.Security.Cryptography namespace
-- REMOVED StrongNumberUtility class from the Cuemon.Security.Cryptography namespace (replaced with Generate.RandomNumber in the Cuemon namespace)
- 
-# New Features
-- ADDED AesCryptor class in the Cuemon.Security.Cryptography namespace that provides an implementation of the Advanced Encryption Standard (AES) symmetric algorithm
-- ADDED AesCryptorOptions class in the Cuemon.Security.Cryptography namespace that specifies options related to AesCryptor
-- ADDED AesKeyOptions class in the Cuemon.Security.Cryptography namespace that specifies options related to AesCryptor.GenerateKey
-- ADDED HmacMessageDigest5 class in the Cuemon.Security.Cryptography namespace that provides a Hash-based Message Authentication Code (HMAC) using the MD5 hash function
-- ADDED HmacSecureHashAlgorithm1 class in the Cuemon.Security.Cryptography namespace that provides a Hash-based Message Authentication Code (HMAC) using the SHA1 hash function
-- ADDED HmacSecureHashAlgorithm256 class in the Cuemon.Security.Cryptography namespace that provides a Hash-based Message Authentication Code (HMAC) using the SHA256 hash function
-- ADDED HmacSecureHashAlgorithm384 class in the Cuemon.Security.Cryptography namespace that provides a Hash-based Message Authentication Code (HMAC) using the SHA384 hash function
-- ADDED HmacSecureHashAlgorithm512 class in the Cuemon.Security.Cryptography namespace that provides a Hash-based Message Authentication Code (HMAC) using the SHA512 hash function
-- ADDED KeyedCryptoHash class in the Cuemon.Security.Cryptography namespace that represents the base class from which all implementations of Hash-based Message Authentication Code (HMAC) should derive
-- ADDED MessageDigest5 class in the Cuemon.Security.Cryptography namespace that provides a MD5 implementation of the MD (Message Digest) cryptographic hashing algorithm for 128-bit hash values
-- ADDED SecureHashAlgorithm1 class in the Cuemon.Security.Cryptography namespace that provides a SHA-1 implementation of the SHA (Secure Hash Algorithm) cryptographic hashing algorithm for 160-bit hash values
-- ADDED SecureHashAlgorithm256 class in the Cuemon.Security.Cryptography namespace that provides a SHA-256 implementation of the SHA (Secure Hash Algorithm) cryptographic hashing algorithm for 256-bit hash values
-- ADDED SecureHashAlgorithm384 class in the Cuemon.Security.Cryptography namespace that provides a SHA-384 implementation of the SHA (Secure Hash Algorithm) cryptographic hashing algorithm for 384-bit hash values
-- ADDED SecureHashAlgorithm512 class in the Cuemon.Security.Cryptography namespace that provides a SHA-512 implementation of the SHA (Secure Hash Algorithm) cryptographic hashing algorithm for 512-bit hash values
-- ADDED UnkeyedCryptoHash class in the Cuemon.Security.Cryptography namespace that represents the base class from which all implementations of cryptographic hashing algorithm should derive
  

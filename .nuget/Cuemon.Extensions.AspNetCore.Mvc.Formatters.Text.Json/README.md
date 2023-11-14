@@ -1,14 +1,18 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 7, .NET 6, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
 ## **Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json** for .NET
 
-The `Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json` namespace contains both types and extension methods that complements the `Cuemon.Extensions.Text.Json` namespace while being an addition to the `Microsoft.AspNetCore.Mvc` namespace. Provides JSON formatters for ASP.NET Core based on System.Text.Json.
+The `Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json` namespace contains both types and extension methods that complements the `Cuemon.Extensions.Text.Json` namespace while being an addition to the `Microsoft.AspNetCore.Mvc` namespace. Provides JSON formatters for ASP.NET Core based on `System.Text.Json`.
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/extensions/jsonnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.html).
+More documentation available at our documentation site:
+
+- [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters.html) 🔗
 
 ## Related Packages
 

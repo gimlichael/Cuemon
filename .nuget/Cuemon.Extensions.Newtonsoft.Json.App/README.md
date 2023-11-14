@@ -1,6 +1,7 @@
 ## About
 
-An open-source family of assemblies (MIT license) that targets and complements the Microsoft .NET platform (.NET 7, .NET 6, .NET Standard 2, Universal Windows Platform and .NET Framework 4.6.1 and newer) by providing vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+An open-source project (MIT license) that targets and complements the Microsoft .NET platform. It provides vast ways of possibilities for all breeds of coders, programmers, developers and the likes thereof.
+Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framework 4.6.2 and newer.
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
@@ -8,17 +9,10 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 `Cuemon.Extensions.Newtonsoft.Json.App`, aka `Extensions for Json.NET API`, is a toolbelt of assemblies designed to support, extend and utilize the flexible architecture that [Json.NET](https://www.newtonsoft.com/json) (written by [James Newton-King](https://github.com/JamesNK)) provides, as the natural companion for Cuemon for .NET.
 
-+ Newtonsoft.Json
-  + Cuemon.Extensions.Newtonsoft.Json
-  + Cuemon.Extensions.Newtonsoft.Json.Diagnostics
-  + Cuemon.Extensions.Newtonsoft.Json.Formatters
-  + Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
-+ Newtonsoft.Json.Converters
-  + Cuemon.Extensions.Newtonsoft.Json.Converters
-+ Newtonsoft.Json.Serialization
-  + Cuemon.Extensions.Newtonsoft.Json.Serialization
+More documentation available at our documentation site:
 
-More documentation available at [Cuemon for .NET documentation](https://docs.cuemon.net/api/extensions/jsonnet/index.html).
+- [Cuemon.Extensions.Newtonsoft.Json](https://docs.cuemon.net/api/extensions/jsonnet/index.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json](https://docs.cuemon.net/api/extensions/jsonnet/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.html) 🔗
 
 ## Related Packages
 

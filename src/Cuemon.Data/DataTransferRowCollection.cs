@@ -23,10 +23,11 @@ namespace Cuemon.Data
             Validator.ThrowIfNull(reader);
             Validator.ThrowIfTrue(reader.IsClosed, nameof(reader), "Reader was closed.");
 
+            Columns = new DataTransferColumnCollection(reader);
+            
             var rowNumber = 1;
             while (reader.Read())
             {
-                Columns ??= new DataTransferColumnCollection(reader);
                 DataTransferRows.Add(new DataTransferRow(this, rowNumber));
                 var fieldCount = reader.FieldCount;
                 var values = new object[fieldCount];

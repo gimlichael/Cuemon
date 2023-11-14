@@ -5,17 +5,17 @@ using System;
 namespace Cuemon.AspNetCore.Diagnostics
 {
     /// <summary>
-    /// Extension methods for the <see cref="HttpExceptionDescriptorResponseHandler"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="HttpExceptionDescriptorResponseHandler"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
     public static class HttpExceptionDescriptorResponseHandlerDecoratorExtensions
     {
         /// <summary>
-        /// Adds the response handler.
+        /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the underlying list of <see cref="HttpExceptionDescriptorResponseHandler"/> from the specified the <paramref name="decorator"/>.
         /// </summary>
-        /// <param name="decorator">The decorator.</param>
-        /// <param name="setup">The setup.</param>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="setup">The <see cref="HttpExceptionDescriptorResponseHandlerOptions"/> that needs to be configured.</param>
         /// <returns>A reference to <see cref="P:IDecorator.Inner"/> of <paramref name="decorator" /> so that additional calls can be chained.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="decorator"/> cannot be null - or -
@@ -27,9 +27,9 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// </exception>
         public static ICollection<HttpExceptionDescriptorResponseHandler> AddResponseHandler(this IDecorator<ICollection<HttpExceptionDescriptorResponseHandler>> decorator, Action<HttpExceptionDescriptorResponseHandlerOptions> setup)
         {
-            Validator.ThrowIfNull(decorator, nameof(decorator), out var handlers);
+            Validator.ThrowIfNull(decorator, out var handlers);
             Validator.ThrowIfNull(setup);
-            Validator.ThrowIfInvalidConfigurator(setup, nameof(setup), out var options);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             handlers.Add(new HttpExceptionDescriptorResponseHandler(options.ContentType, ed => new HttpResponseMessage()
             {
                 Content = options.ContentFactory(ed),

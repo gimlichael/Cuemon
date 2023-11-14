@@ -33,7 +33,7 @@ namespace Cuemon.Extensions.Xml
             Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <InvalidOperationException namespace=""System"">
   <Message>Operation is not valid due to the current state of the object.</Message>
-</InvalidOperationException>", sut3);
+</InvalidOperationException>".ReplaceLineEndings(), sut3);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Cuemon.Extensions.Xml
             Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <InvalidOperationException namespace=""System"">
   <Message>Operation is not valid due to the current state of the object.</Message>
-</InvalidOperationException>", sut3);
+</InvalidOperationException>".ReplaceLineEndings(), sut3);
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace Cuemon.Extensions.Xml
             TestOutput.WriteLine(sut2);
 
             Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<Cuemon />", sut2);
+<Cuemon />".ReplaceLineEndings(), sut2);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Cuemon.Extensions.Xml
   <ArgumentNullException namespace=""System"">
     <Message>Value cannot be null.</Message>
   </ArgumentNullException>
-</MyWrappedElement>", sut2);
+</MyWrappedElement>".ReplaceLineEndings(), sut2);
         }
 
         [Fact]
@@ -121,7 +121,7 @@ namespace Cuemon.Extensions.Xml
   <InvalidOperationException namespace=""System"">
     <Message>Operation is not valid due to the current state of the object.</Message>
   </InvalidOperationException>
-</Root>", sut2);
+</Root>".ReplaceLineEndings(), sut2);
         }
     }
 }

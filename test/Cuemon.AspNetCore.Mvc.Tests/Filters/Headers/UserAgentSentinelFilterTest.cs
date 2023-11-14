@@ -26,11 +26,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldCaptureUserAgentException_BadRequest()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers(o =>
                        {
@@ -40,6 +36,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                            .AddNewtonsoftJson()
                            .AddNewtonsoftJsonFormatters();
                        services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -57,11 +57,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldCaptureUserAgentException_Forbidden()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
                    {
                        services.Configure<UserAgentSentinelOptions>(o =>
                        {
@@ -76,6 +72,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                            }).AddApplicationPart(typeof(FakeController).Assembly)
                            .AddNewtonsoftJson()
                            .AddNewtonsoftJsonFormatters();
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
@@ -96,15 +96,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
                 services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -125,11 +125,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_Forbidden()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o =>
                 {
@@ -138,7 +134,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
                 services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -162,11 +162,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowUserAgentException_BadRequest_BecauseOfUseGenericResponse()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o =>
                 {
@@ -176,7 +172,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
                 services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();
@@ -200,11 +200,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldAllowRequestUnconditional()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services => services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)))
+            using (var filter = WebApplicationTestFactory.Create(services => services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly), app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
 
@@ -219,11 +219,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         [Fact]
         public async Task OnActionExecutionAsync_ShouldAllowRequestAfterBeingValidated()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o =>
                 {
@@ -232,7 +228,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
                 services.AddControllers(o => { o.Filters.Add<UserAgentSentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<UserAgentSentinelOptions>>();
                 var client = filter.Host.GetTestClient();

@@ -40,7 +40,6 @@ namespace Cuemon.Reflection
             Caller = caller;
             Method = method;
             Parameters = ParameterSignature.Parse(Method);
-            HasParameters = Parameters.Any();
         }
         #endregion
 
@@ -64,22 +63,16 @@ namespace Cuemon.Reflection
         public string MethodName => string.IsNullOrEmpty(Method.Name) ? "NotAvailable" : Method.Name;
 
         /// <summary>
-        /// Gets the parameter of the method.
+        /// Gets the parameters of the method.
         /// </summary>
         /// <value>A sequence of type <see cref="ParameterSignature"/> containing information that matches the signature of the method.</value>
         public IEnumerable<ParameterSignature> Parameters { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the method has parameters.
-        /// </summary>
-        /// <value><c>true</c> if the method has parameters; otherwise, <c>false</c>.</value>
-        public bool HasParameters { get; }
-
-        /// <summary>
         /// Gets a value indicating whether the method is a property.
         /// </summary>
         /// <value><c>true</c> if the method is a property; otherwise, <c>false</c>.</value>
-        public bool IsProperty => MethodName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) || MethodName.StartsWith("set_", StringComparison.OrdinalIgnoreCase);
+        private bool IsProperty => MethodName.StartsWith("get_", StringComparison.OrdinalIgnoreCase) || MethodName.StartsWith("set_", StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
         /// Gets the runtime arguments, if any, that was associated with this instance.

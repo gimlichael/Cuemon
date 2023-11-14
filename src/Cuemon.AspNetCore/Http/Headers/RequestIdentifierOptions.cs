@@ -25,7 +25,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///         <description><see cref="HttpHeaderNames.XRequestId"/></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="RequestProvider"/></term>
+        ///         <term><see cref="Token"/></term>
         ///         <description><c>DynamicRequest.Create(Guid.NewGuid().ToString("N")</c></description>
         ///     </item>
         /// </list>
@@ -33,7 +33,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         public RequestIdentifierOptions()
         {
             HeaderName = HttpHeaderNames.XRequestId;
-            RequestProvider = () => DynamicRequest.Create(Guid.NewGuid().ToString("N"));
+            Token = new RequestToken();
         }
 
         /// <summary>
@@ -43,23 +43,23 @@ namespace Cuemon.AspNetCore.Http.Headers
         public string HeaderName { get; set; }
 
         /// <summary>
-        /// Gets or sets the function delegate that provides the correlation implementation.
+        /// Gets or sets the <see cref="IRequestToken"/> that provides a Request ID implementation.
         /// </summary>
-        /// <value>The function delegate that provides the correlation implementation.</value>
-        public Func<IRequest> RequestProvider { get; set; }
+        /// <value>The <see cref="IRequestToken"/> that provides a Request ID implementation.</value>
+        public IRequestToken Token { get; set; }
 
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>
         /// <exception cref="InvalidOperationException">
         /// <see cref="HeaderName"/> cannot be null, empty or consist only of white-space characters - or -
-        /// <see cref="RequestProvider"/> cannot be null.
+        /// <see cref="Token"/> cannot be null.
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName));
-            Validator.ThrowIfObjectInDistress(RequestProvider == null);
+            Validator.ThrowIfInvalidState(Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName));
+            Validator.ThrowIfInvalidState(Token == null);
         }
     }
 }

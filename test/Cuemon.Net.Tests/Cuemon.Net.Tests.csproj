@@ -2,12 +2,19 @@
 
   <PropertyGroup>
     <RootNamespace>Cuemon.Net</RootNamespace>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc\Cuemon.Extensions.AspNetCore.Mvc.csproj" />
-    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Net\Cuemon.Net.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\" />
   </ItemGroup>
 
 </Project>

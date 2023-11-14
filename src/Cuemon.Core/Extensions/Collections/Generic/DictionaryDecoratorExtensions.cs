@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Cuemon.Collections.Generic
 {
     /// <summary>
-    /// Extension methods for the <see cref="IDictionary{TKey,TValue}"/> interface tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="IDictionary{TKey,TValue}"/> interface hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

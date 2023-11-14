@@ -1,4 +1,12 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -22,48 +30,6 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 - Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
 - Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 - Cuemon.Extensions.AspNetCore.Mvc.RazorPages
-- Cuemon.Extensions.AspNetCore.Mvc
-- Cuemon.Extensions.AspNetCore
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.1.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# References
-- Cuemon.AspNetCore.Authentication
-- Cuemon.AspNetCore.Mvc
-- Cuemon.AspNetCore.Razor.TagHelpers
-- Cuemon.AspNetCore
-- Cuemon.Extensions.AspNetCore.Authentication
-- Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
-- Cuemon.Extensions.AspNetCore.Mvc.RazorPages
-- Cuemon.Extensions.AspNetCore.Mvc
-- Cuemon.Extensions.AspNetCore
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# References
-- Cuemon.AspNetCore.Authentication
-- Cuemon.AspNetCore.Mvc
-- Cuemon.AspNetCore.Razor.TagHelpers
-- Cuemon.AspNetCore
-- Cuemon.Extensions.AspNetCore.Authentication
-- Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
-- Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
 - Cuemon.Extensions.AspNetCore.Mvc
 - Cuemon.Extensions.AspNetCore
  

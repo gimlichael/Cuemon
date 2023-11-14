@@ -16,7 +16,7 @@ namespace Cuemon.Globalization
             var specificCultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
             foreach (var c in specificCultures.Where(ci => ci.LCID != 127))
             {
-                cultures.Add(c.DisplayName, c);
+                if (!cultures.ContainsKey(c.DisplayName)) { cultures.Add(c.DisplayName, c); }
             }
             return cultures.Values;
         });

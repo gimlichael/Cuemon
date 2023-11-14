@@ -1,4 +1,19 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Bug Fixes
+- FIXED DateTimeConverter for serializing XML no longer converts a DateTime value to UTC
+ 
+# Improvements
+- CHANGED XmlFormatter class in the Cuemon.Xml.Serialization.Formatters namespace now inherits from StreamFormatter{XmlFormatterOptions} and is consistent with similar classes
+ 
+# Quality Analysis Actions
+- CHANGED ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -18,73 +33,4 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # Breaking Changes
 - CHANGED AddTimeSpanConverter extension method on XmlConverterDecoratorExtensions class in the Cuemon.Xml.Serialization.Converters namespace to be aligned with the JSON equivalents
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# Upgrade Steps
-- The Cuemon.Serialization.Xml assembly and namespace was removed with this version
-- Any XML serialization found in the Cuemon.Serialization.Xml namespace was merged into the Cuemon.Xml.Serialization namespace
-- Any former extension methods of the Cuemon.Xml namespace was merged into the Cuemon.Extensions.Xml namespace
-- The extent of refactoring applied to this project resulted in so many breaking changes that a git diff is advisable
- 
-# Breaking Changes
-- REMOVED XElementExtensions class from the Cuemon.Xml.Serialization.Linq namespace
-- REMOVED SerializableOrder class from the Cuemon.Xml.Serialization namespace
-- REMOVED XmlJsonInstance class from the Cuemon.Xml.Serialization namespace
-- RENAMED XPathNavigableConverter class in the Cuemon.Xml.XPath namespace to XPathDocumentFactory (including rename of remaining members)
-- REMOVED JsonStreamConverter class from the Cuemon.Xml namespace
-- REMOVED SecureXmlObfuscator class from the Cuemon.Xml namespace
-- REMOVED XmlConvertExtensions class from the Cuemon.Xml namespace
-- REMOVED XmlCopyOptions class from the Cuemon.Xml namespace
-- RENAMED XmlDocumentConverter class in the Cuemon.Xml namespace to XmlDocumentFactory (including rename of remaining members)
-- REMOVED XmlEncodingUtility class from the Cuemon.Xml namespace
-- REMOVED XmlObfuscator class from the Cuemon.Xml namespace
-- REMOVED XmlReaderConverter class from the Cuemon.Xml namespace
-- REMOVED XmlReaderUtility class from the Cuemon.Xml namespace
-- REMOVED XmlReaderUtilityExtensions class from the Cuemon.Xml namespace
-- RENAMED XmlStreamConverter class in the Cuemon.Xml namespace to XmlStreamFactory (including rename of remaining members)
-- REMOVED XmlUtility class from the Cuemon.Xml namespace
-- REMOVED XmlUtilityExtensions class from the Cuemon.Xml namespace
-- REMOVED XmlWriterUtility class from Cuemon.Xml namespace
-- REMOVED XmlWriterUtilityExtensions class from the Cuemon.Xml namespace
- 
-# New Features
-- MERGED DefaultXmlConverter class into Cuemon.Xml.Serialization.Converters namespace that provides a default way to convert objects to and from XML
-- MERGED XmlConverter class into Cuemon.Xml.Serialization.Converters namespace that converts an object to and from XML
-- MERGED XmlFormatter class into Cuemon.Xml.Serialization.Formatters namespace that serializes and deserializes an object in XML format
-- MERGED XmlFormatterOptions class into Cuemon.Xml.Serialization.Formatters namespace that specifies configuration options for XmlFormatter
-- MERGED DynamicXmlConverter class into Cuemon.Xml.Serialization namespace that provides a factory based way to create and wrap an XmlConverter implementation
-- MERGED DynamicXmlSerializable class into Cuemon.Xml.Serialization namespace that provides a factory based way to create and wrap an IXmlSerializable implementation
-- MERGED XmlConvert class into Cuemon.Xml.Serialization namespace that provides methods for converting between .NET types and XML types
-- MERGED XmlSerializer class into Cuemon.Xml.Serialization namespace that serializes and deserializes objects into and from the XML format
-- MERGED XmlSerializerSettings class into Cuemon.Xml.Serialization namespace that specifies configuration options for XmlSerializer
- 
-# Improvements
-- EXTENDED XmlSerializer class in the Cuemon.Xml.Serialization namespace with a new overloaded method: Serialize
-- RENAMED XmlSerializerSettings class in the Cuemon.Xml.Serialization namespace to XmlSerializerOptions
-- CHANGED XmlConverterDecoratorExtensions class in the Cuemon.Xml.Serialization.Converters namespace to always express a DateTime value as an ISO8601 string with roundtrip to UTC
- 
-# Bug Fixes
-- FIXED bug that in some cases could throw a SerializationException when serializable type consisted of only a default contructor (Cuemon.Xml.Serialization.Converters.DefaultXmlConverter.ParseReadXmlDefault)
-- FIXED bug that would trigger a redundant entry of InnerException on AggregateException when serializing exceptions (Cuemon.Xml.Serialization.Converters.XmlConverterDecoratorExtensions.WriteInnerExceptions)
-- FIXED bug that could trigger a NullReferenceException when serializing namespace information on an Exception class (Cuemon.Xml.Serialization.Converters.XmlConverterDecoratorExtensions.WriteException)
-- FIXED assignment of default converters with multicast delegate (Cuemon.Xml.Serialization.Formatters.XmlFormatterOptions.ctor)
- 
-# Quality Analysis Actions
-- CHANGED DefaultXmlConverter class in the Cuemon.Xml.Serialization.Converters namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
-- CHANGED XmlReaderDecoratorExtensions class in the Cuemon.Xml namespace to have 0 duplicated blocks of lines of code
  

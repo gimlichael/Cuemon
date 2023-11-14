@@ -178,7 +178,7 @@ namespace Cuemon.Extensions.Net.Security
                 Validator.ThrowIfNullOrWhitespace(value);
                 Validator.ThrowIfLowerThan(value.Length, MessageDigest5.BitSize / ByteUnit.BitsPerNibble, nameof(value), FormattableString.Invariant($"The length of the value is lower than 128-bit / 32 byte."));
                 Validator.ThrowIfGreaterThan(value.Length, MessageDigest5.BitSize / ByteUnit.BitsPerNibble, nameof(value), FormattableString.Invariant($"The length of the value is greater than 128-bit / 32 byte."));
-                Validator.ThrowIfNotBase64String(value, nameof(value));
+                Validator.ThrowIfNotBase64String(value);
                 _contentMd5Header = value;
             }
         }

@@ -38,7 +38,7 @@ namespace Cuemon.Runtime.Serialization
             return sb.ToString();
         }
 
-        private void ToString(StringBuilder sb, IHierarchy<object> node)
+        private static void ToString(StringBuilder sb, IHierarchy<object> node)
         {
             foreach (var child in node.GetChildren())
             {

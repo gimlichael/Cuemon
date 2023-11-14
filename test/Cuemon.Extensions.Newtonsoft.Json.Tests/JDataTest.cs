@@ -23,7 +23,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
 
             foreach (var p in primitives)
             {
-                var f = new JsonFormatter();
+                var f = new NewtonsoftJsonFormatter();
                 var r = f.Serialize(p);
 
                 var x0 = JData.ReadAll(r, o => o.LeaveOpen = true);
@@ -37,7 +37,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         public void ReadAll_ShouldReadSimpleObject()
         {
             var e = new ArgumentException("The amazing message of this exception.", "fakeArg");
-            var f = new JsonFormatter();
+            var f = new NewtonsoftJsonFormatter();
             var r = f.Serialize(e);
             var x0 = JData.ReadAll(r, o => o.LeaveOpen = true);
             
@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         public void ReadAll_ShouldReadSimpleArray()
         {
             var a = Generate.RangeOf(50, i => i);
-            var f = new JsonFormatter();
+            var f = new NewtonsoftJsonFormatter();
             var r = f.Serialize(a);
             var x0 = JData.ReadAll(r, o => o.LeaveOpen = true).ToList();
 
@@ -66,7 +66,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json
         public void ReadAll_ShouldHaveOuterAndNestedExceptionsBothHierarchyAndFlattened_WithPascalCase()
         {
             var e = new OutOfMemoryException("First", new AggregateException(new AccessViolationException("I1"), new AbandonedMutexException("I2"), new ArithmeticException("I3")));
-            var f = new JsonFormatter(o =>
+            var f = new NewtonsoftJsonFormatter(o =>
             {
                 o.Settings.ContractResolver = new DefaultContractResolver();
             });
@@ -91,7 +91,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json
             Assert.Equal("System.OutOfMemoryException", x0.Single(result => result.PropertyName == "Type").Value);
             Assert.Equal("First", x0.Single(result => result.PropertyName == "Message").Value);
             Assert.Equal("System.AggregateException", x1.Single(result => result.PropertyName == "Type").Value);
+#if NET48_OR_GREATER
+            Assert.Equal("One or more errors occurred.", x1.Single(result => result.PropertyName == "Message").Value);
+#else
             Assert.Equal("One or more errors occurred. (I1) (I2) (I3)", x1.Single(result => result.PropertyName == "Message").Value);
+#endif
             Assert.Equal("System.AccessViolationException", x2.Single(result => result.PropertyName == "Type").Value);
             Assert.Equal("I1", x2.Single(result => result.PropertyName == "Message").Value);
             Assert.Equal("System.Threading.AbandonedMutexException", x3.Single(result => result.PropertyName == "Type").Value);
@@ -104,7 +108,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json
             Assert.Equal("System.OutOfMemoryException", xFlat[0].Value);
             Assert.Equal("First", xFlat[1].Value);
             Assert.Equal("System.AggregateException", xFlat[3].Value);
+#if NET48_OR_GREATER
+            Assert.Equal("One or more errors occurred.", xFlat[4].Value);
+#else
             Assert.Equal("One or more errors occurred. (I1) (I2) (I3)", xFlat[4].Value);
+#endif
             Assert.Equal("System.AccessViolationException", xFlat[6].Value);
             Assert.Equal("I1", xFlat[7].Value);
             Assert.Equal("System.Threading.AbandonedMutexException", xFlat[9].Value);

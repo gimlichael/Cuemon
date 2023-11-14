@@ -29,7 +29,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
         public async Task IsGetOrHeadMethod_ShouldRecognizeGetOrHeadMethod(string method)
         {
             bool sut = false;
-            await MiddlewareTestFactory.Run(app =>
+            await MiddlewareTestFactory.Run(pipelineSetup: app =>
             {
                 app.Run(context =>
                 {
@@ -48,7 +48,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             var sut = CacheValidatorFactory.CreateValidator(typeof(HttpRequestExtensionsTest).Assembly);
             bool isClientSideResourceCached = false;
             int statusCdoe = 100;
-            await MiddlewareTestFactory.Run(app =>
+            await MiddlewareTestFactory.Run(pipelineSetup: app =>
             {
                 app.Use(async (context, next) =>
                 {
@@ -75,7 +75,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             });
         }
 
-        private static IEnumerable<object[]> GetComputedChecksums()
+        public static IEnumerable<object[]> GetComputedChecksums()
         {
             var sut1 = Generate.HashCode64(typeof(HttpRequestExtensionsTest).Assembly.Location);
             var sut2 = HashFactory.CreateFnv64().ComputeHash(Convertible.GetBytes(sut1)).ToHexadecimalString();
@@ -102,7 +102,7 @@ namespace Cuemon.Extensions.AspNetCore.Http
             var sut = DateTime.Parse("Mon, 29 Mar 2021 00:00:00 GMT").AddDays(-1);
             bool isClientSideResourceCached = false;
             int statusCdoe = 100;
-            await MiddlewareTestFactory.Run(app =>
+            await MiddlewareTestFactory.Run(pipelineSetup: app =>
             {
                 app.Use(async (context, next) =>
                 {

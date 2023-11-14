@@ -1,5 +1,5 @@
 ﻿using System;
-#if NETSTANDARD2_1 || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 using System.Buffers;
 #endif
 using System.Collections.Generic;
@@ -115,7 +115,8 @@ namespace Cuemon.IO
             return CreateStreamCore(factory, setup);
         }
 
-        #if NETSTANDARD2_1 || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+
         /// <summary>
         /// Creates and returns a <see cref="Stream"/> by the specified delegate <paramref name="writer"/>.
         /// </summary>
@@ -248,7 +249,8 @@ namespace Cuemon.IO
                 throw ExceptionInsights.Embed(new InvalidOperationException("There is an error in the Stream being written.", ex), f.DelegateInfo, parameters.ToArray());
             });
         }
-        #endif
+
+#endif
 
         private static Stream CreateStreamCore<TTuple>(ActionFactory<TTuple> factory, Action<StreamWriterOptions> setup = null) where TTuple : Template<StreamWriter>
         {

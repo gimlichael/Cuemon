@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
     <ProjectGuid>a30adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
   </PropertyGroup>
 
@@ -8,10 +9,6 @@
     <Description>The Cuemon.AspNetCore.Razor.TagHelpers namespace contains types that are tailored for tag helper implementations. The namespace is an addition to the Microsoft.AspNetCore.Razor.TagHelpers namespace.</Description>
     <PackageTags>app cdn img link script app-img cdn-img app-link cdn-link app-script cdn-script</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
-    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />

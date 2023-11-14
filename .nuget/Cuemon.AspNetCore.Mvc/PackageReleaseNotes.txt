@@ -1,4 +1,12 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -40,55 +48,3 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 - FIXED StreamOutputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace so that only non-nullable objects are being serialized
 - FIXED HttpEntityTagHeaderFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace that was triggered when UseEntityTagResponseParser was set to true and no cacheable object was returned
  
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.1
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# Bug Fixes
-- FIXED misguided dependency to TimeMeasureProfiler on the ServerTimingFilter class located in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# Upgrade Steps
-- Any former extension methods of the Cuemon.AspNetCore.Mvc namespace was merged either into the Cuemon.Extensions.AspNetCore.Mvc namespace or Cuemon.Extensions.AspNetCore namespace
- 
-# Breaking Changes
-- MOVED ICacheBusting interface (and related) from the Cuemon.AspNetCore.Mvc.Configuration namespace to Cuemon.AspNetCore.Configuration namespace
-- MOVED AssemblyCacheBusting class (and related) from the Cuemon.AspNetCore.Mvc.Configuration namespace to Cuemon.Extensions.AspNetCore.Configuration namespace
-- MOVED ICacheableObjectResult interface (and related) from the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace to Cuemon.AspNetCore.Mvc namespace
-- RENAMED HttpEntityTagHeader class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace to HttpEntityTagHeaderFilter
-- RENAMED HttpLastModifiedHeader class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace to HttpLastModifiedHeaderFilter
-- RENAMED TimeMeasureAttribute class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to ServerTimingAttribute (including refactoring)
-- RENAMED TimeMeasuringFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to ServerTimingFilter (including refactoring)
-- RENAMED TimeMeasuringOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to ServerTimingOptions (including refactoring)
-- RENAMED Add{T} --> AddHttpFaultResolver{T} on the (Http)FaultResolverDecoratorExtensions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace
-- RENAMED FaultResolver class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to HttpFaultResolver
- 
-# New Features
-- ADDED TooManyRequestsObjectResult class in the Cuemon.AspNetCore.Mvc namespace that is an ObjectResult that when executed will produce a Too Many Requests (429) response
-- ADDED TooManyRequestsResult class in the Cuemon.AspNetCore.Mvc namespace that is an ActionResult that returns a TooManyRequests (429) response
-- ADDED CacheableObjectFactory class in the Cuemon.AspNetCore.Mvc namespace that provides access to factory methods for creating and configuring objects implementing the ICacheableObjectResult interface
-- ADDED ConfigurableInputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace that provides an alternate way to read an object from a request body with a text format
-- ADDED StreamInputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace that provides a way to read an object from a request body with a text format with the constraint that TFormatter must be assignable from Formatter{Stream}
-- ADDED ConfigurableOutputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace that provides an alternate way to write an object in a given text format to the output stream
-- ADDED StreamOutputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace that provides a way to write an object in a given text format to the output stream with the constraint that TFormatter must be assignable from Formatter{Stream}
- 
-# Improvements
-- COMPATIBLE with the changes applied to NET Core 3 in regards to only allowing asynchronous I/O
- 
-# Quality Analysis Actions
-- CHANGED ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825

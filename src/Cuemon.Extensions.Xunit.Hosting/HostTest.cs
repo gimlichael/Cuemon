@@ -68,7 +68,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
             private set;
         }
 
-        #if NETSTANDARD
+#if NETSTANDARD2_0_OR_GREATER
         /// <summary>
         /// Gets the <see cref="IHostingEnvironment"/> initialized by the <see cref="IHost"/>.
         /// </summary>
@@ -78,7 +78,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
             get;
             private set;
         }
-        #else
+#else
         /// <summary>
         /// Gets the <see cref="IHostEnvironment"/> initialized by the <see cref="IHost"/>.
         /// </summary>
@@ -88,9 +88,9 @@ namespace Cuemon.Extensions.Xunit.Hosting
             get;
             private set;
         }
-        #endif
+#endif
 
-        #if NETSTANDARD
+#if NETSTANDARD2_0_OR_GREATER
         /// <summary>
         /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
         /// </summary>
@@ -101,7 +101,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
             Configuration = configuration;
             HostingEnvironment = environment;
         }
-        #else
+#else
         /// <summary>
         /// Adds <see cref="Configuration"/> and <see cref="HostingEnvironment"/> to this instance.
         /// </summary>
@@ -112,7 +112,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
             Configuration = configuration;
             HostingEnvironment = environment;
         }
-        #endif
+#endif
 
         /// <summary>
         /// Provides a way to override the <see cref="IHostBuilder"/> defaults set up by <typeparamref name="T"/>.

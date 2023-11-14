@@ -134,7 +134,7 @@ namespace Cuemon
         /// </exception>
         public IHierarchy<T> Add(T instance, Type instanceType, MemberInfo member)
         {
-            if (instanceType == null) { throw new ArgumentNullException(nameof(instanceType)); }
+            Validator.ThrowIfNull(instanceType);
             if (IsNew)
             {
                 Depth = 0;

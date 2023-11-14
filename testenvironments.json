@@ -5,6 +5,11 @@
             "name": "WSL-Ubuntu",
             "type": "wsl",
             "wslDistribution": "Ubuntu-22.04"
+        },
+        {
+            "name": "Docker-Ubuntu",
+            "type": "docker",
+            "dockerImage": "gimlichael/ubuntu-testrunner:net6.0.416-net7.0.403-net8.0.100-rc2"
         }
     ]
 }

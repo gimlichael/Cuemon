@@ -21,18 +21,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         [Fact]
         public async Task GetEtag_ShouldReturnOkWithEtagAndSubsequentlyNotModified()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<HttpCacheableOptions>(o =>
                 {
                     o.Filters.Add(new HttpEntityTagHeaderFilter());
                 });
                 services.AddControllers(o => { o.Filters.Add<HttpCacheableFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/fake/getCacheByEtag");
@@ -51,18 +51,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         [Fact]
         public async Task GetLastModified_ShouldReturnOkWithLastModifiedAndSubsequentlyNotModified()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.Configure<HttpCacheableOptions>(o =>
                 {
                     o.Filters.Add(new HttpLastModifiedHeaderFilter());
                 });
                 services.AddControllers(o => { o.Filters.Add<HttpCacheableFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/fake/getCacheByLastModified");

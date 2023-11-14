@@ -5,21 +5,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\AdventureWorks2022_Product.csv" />
     <None Remove="Assets\DsvDataReaderTest_100000_SalesRecords.csv" />
     <None Remove="Assets\DsvDataReaderTest_Wiki.csv" />
     <None Remove="Assets\Professional.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Assets\AdventureWorks2022_Product.csv" />
     <EmbeddedResource Include="Assets\DsvDataReaderTest_100000_SalesRecords.csv" />
     <EmbeddedResource Include="Assets\DsvDataReaderTest_Wiki.csv" />
     <EmbeddedResource Include="Assets\Professional.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Data\Cuemon.Data.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Data\Cuemon.Extensions.Data.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Reflection\Cuemon.Extensions.Reflection.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting\Cuemon.Extensions.Xunit.Hosting.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Resilience\Cuemon.Resilience.csproj" />
   </ItemGroup>
 
 </Project>

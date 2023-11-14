@@ -1,4 +1,19 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED MethodDescriptorExtensions class in the Cuemon.Extensions namespace that consist of one extension method for the MethodDescriptor class: HasParameters
+- EXTENDED TypeExtensions class in the Cuemon.Extensions namespace with several new extension methods for the Type class: GetAllProperties, GetAllFields, GetAllEvents, GetAllMethods, GetDerivedTypes, GetInheritedTypes and GetHierarchyTypes
+- EXTENDED StringExtensions class in the Cuemon.Extensions namespace with one new extension method (TFM netstandard2.0) for the String class: ReplaceLineEndings
+ 
+# Improvements
+- CHANGED ChangeType (hidden) extension method to always convert DateTime values ending with Z to an UTC DateTime kind on the ObjectDecoratorExtensions class in the Cuemon namespace
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -19,40 +34,4 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# New Features
-- ADDED ActionExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Action delegate: Configure{TOptions}, CreateInstance{T}
-- ADDED ByteExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Byte struct: ToEncodedString, ToHexadecimalString, ToBinaryString, ToUrlEncodedBase64String, ToBase64String, TryDetectUnicodeEncoding
-- ADDED CharExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Char struct: ToEnumerable, FromChars
-- ADDED ConditionExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Condition class: HasDifference
-- ADDED DateTimeExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the DateTime struct: ToUnixEpochTime, ToUtcKind, ToLocalKind, ToDefaultKind, IsWithinRange, IsTimeOfDayNight, IsTimeOfDayMorning, IsTimeOfDayForenoon, IsTimeOfDayAfternoon, IsTimeOfDayEvening, Floor, Ceiling, Round
-- ADDED DoubleExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Double struct: FromUnixEpochTime, ToTimeSpan, Factorial, RoundOff
-- ADDED ExceptionExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Exception class: Flatten
-- ADDED IntegerExtensions class in the Cuemon.Extensions namespace that consist of extension methods for signed integers: Min, Max, IsPrime, IsCountableSequence, IsEven, IsOdd
-- ADDED MappingExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Mapping class: Add
-- ADDED ObjectExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Object class: UseWrapper{T}, As{T}, GetHashCode32{T}, GetHashCode64{T}, ToDelimitedString{T}, Adjust{T}, IsNullable{T}
-- ADDED StringExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the String class: Difference, ToByteArray, FromUrlEncodedBase64, ToGuid, FromBinaryDigits, FromBase64, ToCasing, ToUri, IsNullOrEmpty, IsNullOrWhiteSpace, IsEmailAddress, IsGuid, IsHex, IsNumeric, IsBase64, IsCountableSequence, SplitDelimited, Count, RemoveAll, ReplaceAll, JsEscape, JsUnescape, ContainsAny, ContainsAll, EqualsAny, StartsWith, TrimAll, IsSequenceOf{T}, FromHexadecimal, ToHexadecimal, ToEnum{TEnum}, ToTimeSpan, SubstringBefore, Chunk, SuffixWith, SuffixWithForwardingSlash, PrefixWith
-- ADDED TimeSpanExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the TimeSpan struct: GetTotalNanoseconds, GetTotalMicroseconds, Floor, Ceiling, Round
-- ADDED TypeExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Type class: ToFriendlyName, ToTypeCode, HasEqualityComparerImplementation, HasComparableImplementation, HasComparerImplementation, HasEnumerableImplementation, HasDictionaryImplementation, HasKeyValuePairImplementation, IsNullable, HasAnonymousCharacteristics, IsComplex, IsSimple, GetDefaultValue, HasTypes, HasInterfaces, HasAttributes
-- ADDED ValidatorExtensions class in the Cuemon.Extensions namespace that consist of extension methods for the Validator class: HasDifference, NoDifference
- 
-# Quality Analysis Actions
-- JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2200 on ValidatorExtensions class in the Cuemon.Extensions namespace
-- JUSTIFIED https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2249 on StringExtensions class in the Cuemon.Extensions namespace
  

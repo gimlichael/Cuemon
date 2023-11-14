@@ -247,7 +247,7 @@ namespace Cuemon
         {
             if (string.IsNullOrWhiteSpace(value)) { return false; }
             if (value.Length == 1) { return false; }
-            if (characters == null) { return false; }
+            if (characters is null) { return false; }
             foreach (var sc in characters)
             {
                 if (HasConsecutiveCharacters(value, sc, length)) { return true; }
@@ -309,7 +309,7 @@ namespace Cuemon
         /// <returns><c>true</c> if the specified <paramref name="source"/> is a sequence of countable integrals (hence, integrals being either incremented or decremented with the same cardinality through out the sequence); otherwise, <c>false</c>.</returns>
         public static bool IsCountableSequence(IEnumerable<long> source)
         {
-            if (source == null) { return false; }
+            if (source is null) { return false; }
             var numbers = new List<long>(source);
 
             var x = numbers[0];
@@ -369,7 +369,7 @@ namespace Cuemon
         /// <returns><c>true</c> if the specified <paramref name="value"/> is empty; otherwise, <c>false</c>.</returns>
         public static bool IsEmpty(string value)
         {
-            if (value == null) { return false; }
+            if (value is null) { return false; }
             return (value.Length == 0);
         }
 
@@ -566,7 +566,7 @@ namespace Cuemon
         /// <returns><c>true</c> if the specified <paramref name="value"/> is null; otherwise, <c>false</c>.</returns>
         public static bool IsNull<T>(T value)
         {
-            return (value == null);
+            return (value is null);
         }
 
         /// <summary>
@@ -663,7 +663,7 @@ namespace Cuemon
         /// <returns><c>true</c> if the specified <paramref name="value"/> consist only of white-space characters; otherwise, <c>false</c>.</returns>
         public static bool IsWhiteSpace(string value)
         {
-            if (value == null) { return false; }
+            if (value is null) { return false; }
             return value.All(char.IsWhiteSpace);
         }
         /// <summary>

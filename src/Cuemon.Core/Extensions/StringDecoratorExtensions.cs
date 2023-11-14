@@ -10,7 +10,7 @@ using Cuemon.Text;
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="string"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="string"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
@@ -168,11 +168,11 @@ namespace Cuemon
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(), async (ms, token) =>
             {
                 var bytes = Convertible.GetBytes(decorator.Inner, Patterns.ConfigureExchange<AsyncEncodingOptions, EncodingOptions>(setup));
-                #if NETSTANDARD
+#if NETSTANDARD
                 await ms.WriteAsync(bytes, 0, bytes.Length, token).ConfigureAwait(false);
-                #else
+#else
                 await ms.WriteAsync(bytes.AsMemory(0, bytes.Length), token).ConfigureAwait(false);
-                #endif
+#endif
                 ms.Position = 0;
                 return ms;
             }, options.CancellationToken);

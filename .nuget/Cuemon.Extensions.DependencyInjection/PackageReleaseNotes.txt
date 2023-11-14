@@ -1,4 +1,11 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -16,33 +23,4 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED ServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection
 - ADDED TypeForwardServiceOptions class in the Cuemon.Extensions.DependencyInjection namespace that specifies options related to Microsoft Dependency Injection that support nested type forwarding
 - EXTENDED ServiceCollectionExtensions class in the Cuemon.Extensions.DependencyInjection namespace with twelve new extension methods for the IServiceCollection interface: Add, TryAdd
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.4.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# New Features
-- ADDED IDependencyInjectionMarker interface in the Cuemon.Extensions.DependencyInjection namespace that defines a generic way to support multiple implementations of a given service for Microsoft Dependency Injection
-- ADDED TypeExtensions class in the Cuemon.Extensions.DependencyInjection namespace that consist of extension methods for the Type class: TryGetDependencyInjectionMarker
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# New Features
-- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.DependencyInjection namespace that consist of extension methods for the IServiceCollection interface: Add, Add{TOptions}, Add{TService, TImplementation}, Add{TService, TImplementation, TOptions}, TryAdd, TryAdd{TOptions}, TryAdd{TService, TImplementation}, TryAdd{TService, TImplementation, TOptions}
- 
-# Quality Analysis Actions
-- CHANGED ServiceCollectionExtensions class in the Cuemon.Extensions.DependencyInjection namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-4136
  

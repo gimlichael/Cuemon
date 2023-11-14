@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Configuration;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -63,7 +64,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
             output.TagName = "img";
             if (!string.IsNullOrWhiteSpace(Id)) { output.Attributes.Add("id", Id); }
             if (!string.IsNullOrWhiteSpace(Class)) { output.Attributes.Add("class", Class); }
-            output.Attributes.Add("src", string.Concat(Options.GetFormattedBaseUrl(), UseCacheBusting ? FormattableString.Invariant($"{Src}?v={CacheBusting.Version}") : Src));
+            output.Attributes.Add("src", string.Concat(Options.GetFormattedBaseUrl(), UseCacheBusting ? string.Create(CultureInfo.InvariantCulture, $"{Src}?v={CacheBusting.Version}") : Src));
             if (!string.IsNullOrWhiteSpace(Alt)) { output.Attributes.Add("alt", Alt); }
             if (!string.IsNullOrWhiteSpace(Title)) { output.Attributes.Add("title", Title); }
             return Task.CompletedTask;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cuemon.Configuration;
+using Cuemon.Runtime.Serialization.Converters;
 using Cuemon.Reflection;
-using Cuemon.Serialization.Converters;
 using Cuemon.Text;
 using Cuemon.Text.Yaml;
 using Cuemon.Text.Yaml.Converters;
@@ -91,8 +91,8 @@ namespace Cuemon.Runtime.Serialization
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
-            Validator.ThrowIfObjectInDistress(Converters == null);
-            Validator.ThrowIfObjectInDistress(ReflectionRules == null);
+            Validator.ThrowIfInvalidState(Converters == null);
+            Validator.ThrowIfInvalidState(ReflectionRules == null);
         }
     }
 }

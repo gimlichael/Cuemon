@@ -1,4 +1,11 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 .NET Standard 2.1 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET Standard 2.1, .NET 6.0, .NET 7.0
  
 # ALM
@@ -17,52 +24,4 @@ Availability: .NET Standard 2.0, .NET Standard 2.1, .NET 6.0, .NET 7.0
  
 # Improvements
 - CHANGED StreamFactory class in the Cuemon.IO namespace to include five new overloaded methods that accept an IBufferWriter{byte} as the first argument
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET Standard 2.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET Standard 2.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET Standard 2.1, .NET 5.0
- 
-# Upgrade Steps
-- The Cuemon.IO.Compression namespace was removed with this version
-- Any former extension methods of the Cuemon.IO namespace was merged into the Cuemon.Extensions.IO namespace
- 
-# Breaking Changes
-- REMOVED CompressionType enum from the Cuemon.IO.Compression namespace
-- REMOVED CompressionUtility class from the Cuemon.IO.Compression namespace
-- REMOVED CompressionUtilityExtensions class from the Cuemon.IO.Compression namespace
-- REMOVED FileInfoConverter class from the Cuemon.IO namespace
-- REMOVED StreamConverter class from the Cuemon.IO namespace
-- REMOVED StreamConverterExtensions class from the Cuemon.IO namespace
-- REPLACED StreamWriterUtility class in the Cuemon.IO namespace with StreamFactory (and reduced overloads to max. 5 generic parameters)
-- REMOVED TextReaderConverter class from Cuemon.IO namespace
-- REMOVED TextReaderConverterExtensions class from the Cuemon.IO namespace
- 
-# New Features
-- ADDED AsyncDisposableOptions class in the Cuemon.IO namespace that specifies options related to a cancelable IDisposable implementation
-- ADDED AsyncStreamCompressionOptions class in the Cuemon.IO namespace that specifies options related to a cancelable Stream compression
-- ADDED AsyncStreamCopyOptions class in the Cuemon.IO namespace that specifies options related to a cancelable Stream copy operation
-- ADDED AsyncStreamEncodingOptions class in the Cuemon.IO namespace that specifies options related to a cancelable Stream encoding
-- ADDED AsyncStreamReaderOptions class in the Cuemon.IO namespace that specifies options related to a cancelable StreamReader operation
-- ADDED FileInfoOptions class in the Cuemon.IO namespace that specifies options related to FileInfo
-- ADDED StreamCompressionOptions class in the Cuemon.IO namespace that specifies options related to a Stream compression
-- ADDED StreamCopyOptions class in the Cuemon.IO namespace that specifies options related to a Stream copy operation
-- ADDED StreamEncodingOptions class in the Cuemon.IO namespace that specifies options related to a Stream encoding
-- ADDED StreamReaderOptions class in the Cuemon.IO namespace that specifies options related to a StreamReader operation
-- ADDED StreamWriterOptions class in the Cuemon.IO namespace that specifies options related to a StreamWriter operation
- 
-# Quality Analysis Actions
-- JUSTIFIED https://rules.sonarsource.com/csharp/RSPEC-2436 on StreamFactory class in the Cuemon.IO namespace
-- CHANGED StreamDecoratorExtensions class in the Cuemon.IO namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1068
  

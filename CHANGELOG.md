@@ -2,18 +2,104 @@
 
 All notable changes to this project, from version 6.0.0 and forward, will be documented in this file, aggregated.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
-## [7.1.0]
+## [8.0.0] - 2023-11-14
+
+### Added
+
+- TFM net8.0 for all projects
+- Tool for extracting NLS surrogates `tooling/gse` (Globalization Surrogates Extractor); this was done to mitigate the original design decision that was most [unfortunate](https://github.com/gimlichael/Cuemon/commit/71ff4f9ecb95897170aab1e6ba894c320ae095bd)
+- Static method `CreateFlags` to the MemberReflection class in the Cuemon.Reflection namespace
+- MethodSignature class in the Cuemon.Reflection namespace to represent a lightweight signature of a method when serializing and deserializing
+- Formatter class in the Cuemon.Runtime.Serialization.Formatters namespace that complements serialization and deserialization of an object
+- `GetAllProperties`, `GetAllFields`, `GetAllEvents`, `GetAllMethods`, `GetDerivedTypes`, `GetInheritedTypes` and `GetHierarchyTypes` extension methods on the TypeExtensions class in the Cuemon.Extensions.Reflection namespace
+- ReplaceLineEndings extension method on the StringExtensions class in the Cuemon.Extensions namespace specifically for TFM netstandard2.0
+- MemberArgument class in the Cuemon.Reflection namespace to represent an argument given to a member in the context of reflection
+- MemberParser class in the Cuemon.Reflection namespace to provide a generic way to rehydrate serialized objects
+- Docker-Ubuntu profile to `testenvironments.json` for further local testing in a Linux environment
+- Static method `EncloseToExpose` together with a new property, `ArgumentName`, to the Decorator class in the Cuemon namespace that can be used to re-use non-common extension methods from native extension methods without double-validating arguments
+- An overload of `CheckParameter` to the Validator class in the Cuemon namespace that satisfies validating when doing constructor nesting
+- DataManagerOptions in the Cuemon.Data namespace that provides configuration options for the DataManager class
+- DataStatementOptions in the Cuemon.Data namespace that provides configuration options for the DataStatement class
+- ThrowIfDisposed to the Validator class in the Cuemon namespace
+- `ToYaml` extension method on the ExceptionDescriptorExtensions class in the Cuemon.Extensions.Diagnostics namespace
+- CorrelationToken class in the Cuemon.Messaging namespace that represents a default implementation of the ICorrelationToken interface
+- RequestToken class in the Cuemon.Messaging namespace that represents a default implementation of the IRequestToken interface
+
+### Removed
+
+- TFM netstandard2.0 for all ASP.NET Core related projects
+- Due to [Legacy serialization infrastructure APIs marked obsolete](https://github.com/dotnet/docs/issues/34893) all `SerializableAttribute` and `ISerializable` implementations was decided removed for all TFMs
+- MethodDescriptor in the Cuemon.Reflection namespace was slightly refactored in regards to members exposed
+- DataAdapter class from the Cuemon.Data namespace
+- DataAdapterEventArgs class from the Cuemon.Data namespace
+- DataAdapterException class in the Cuemon.Data namespace
+- DataConnection class in the Cuemon.Data namespace
+- DbColumn class in the Cuemon.Data namespace
+- DbParameterEqualityComparer class in the Cuemon.Data namespace
+- IDataCommand interface in the Cuemon.Data namespace
+- IDataConnection interface in the Cuemon.Data namespace
+- QueryInsertAction enum in the Cuemon.Data namespace
+- GenericHostTestFactory had two obsolete methods removed; CreateGenericHostTest{..}
+- ToInsightsString extension method on the ExceptionDescriptorExtensions class in the Cuemon.Extensions.Diagnostics namespace
+- DynamicCorrelation class in the Cuemon.Messaging namespace
+- DynamicRequest class in the Cuemon.Messaging namespace
+
+### Changed
+
+- Extended unit-test to include TFM net8.0, net7.0, net6.0 and net48 for Windows
+  - Had to include Microsoft.TestPlatform.ObjectModel for xUnit when testing on legacy .NET Framework
+- Extended unit-test to include TFM net8.0, net7.0 and net6.0 for Linux
+- Many unit-test had to be tweaked with preprocessor directives due to the addition of TFM net48
+- Validator class in the Cuemon namespace was modernized and greatly improved for both consistency and changes introduced by Microsoft for both C# 10 and recent .NET versions. All excessive fats was removed and earlier brain-farts has been eradicated
+- DateParseHandling from `DateTimeOffset` to `DateTime` (as majority of Cuemon is the latter) on the JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace
+- ContractResolver to use custom rules as Newtonsoft relies heavily on the now deprecated ISerializable and SerializableAttribute
+- ChangeType (hidden) extension method to always convert DateTime values ending with Z to an UTC DateTime kind on the ObjectDecoratorExtensions class in the Cuemon namespace
+- JsonFormatterOptions class in the Cuemon.Extensions.Text.Json.Formatters namespace to, consciously, use `JavaScriptEncoder.UnsafeRelaxedJsonEscaping` as the default Encoder on the JsonSerializerOptions instance
+  - Sometime you have to balance security and usability/developer experience; if you need to expose a highly secured API you can simply change this settings as part of your application startup
+- XmlFormatter class in the Cuemon.Xml.Serialization.Formatters namespace now inherits from StreamFormatter{XmlFormatterOptions} and is consistent with similar classes
+- Best effort to have consistency between System.Text.Json and Newtonsoft.Json serialization/deserialization
+- Changed the description of the Decorator class in the Cuemon namespace to add clarity to usage
+- Renamed DataCommand class in the Cuemon.Data namespace to DataStatement and increased the scope of responsibility
+- SqlDataManager class in the Cuemon.Data.SqlClient namespace to be more lean and consistent with other classes and fully embracing the configurable DataManagerOptions
+- DataManager class in the Cuemon.Data namespace to be more lean and consistent with other classes and fully embracing the configurable DataManagerOptions
+  - Including support for Async operations
+- Simplified the FormattingOptions class in the Cuemon namespace away from a somewhat confusing generic variant to a straight to the point implementation
+- DataReader class in the Cuemon.Data namespace to rely only on a default constructor
+- DsvDataReader class in the Cuemon.Data namespace to be more consistent with other classes fully embracing the configurable DelimitedStringOptions
+- XmlDataReader class in the Cuemon.Data.Xml namespace to be more consistent with other classes fully embracing the configurable FormattingOptions
+- Renamed ThrowIfObjectInDistress method on the Validator class in the Cuemon namespace to ThrowIfInvalidState
+- MiddlewareTestFactory received a long overdue change of signature from Action{IApplicationBuilder} pipelineSetup, Action{IServiceCollection} serviceSetup --> Action{IServiceCollection} serviceSetup, Action{IApplicationBuilder} pipelineSetup as this is more logical, intuitive and in consistency with GenericHostTestFactory
+- WebApplicationTestFactory received a long overdue change of signature from Action{IApplicationBuilder} pipelineSetup, Action{IServiceCollection} serviceSetup --> Action{IServiceCollection} serviceSetup, Action{IApplicationBuilder} pipelineSetup as this is more logical, intuitive and in consistency with GenericHostTestFactory
+- JsonFormatter class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace was renamed to NewtonsoftJsonFormatter
+- JsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace was renamed to NewtonsoftJsonFormatterOptions
+- ICorrelation interface in the Cuemon.Messaging namespace was renamed to ICorrelationToken
+- IRequest interface in the Cuemon.Messaging namespace was renamed to IRequestToken
+
+### Fixed
+
+- National Language Support (NLS) surrogates was updated in the Cuemon.Extensions.Globalization assembly
+- World class in the Cuemon.Globalization namespace so that it no longer throws an ArgumentException when adding a duplicate culture (on Linux)
+- The default DateTimeConverter for serializing XML no longer converts a DateTime value to UTC
+- AddNewtonsoftJsonResponseHandler extension method to properly propagate options to NewtonsoftJsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+- AddJsonResponseHandler extension method to properly propagate options to JsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace
+- AddXmlResponseHandler extension method to properly propagate options to XmlFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace
+- Header is now populated on first read in the DsvDataReader class located in the Cuemon.Data namespace
+- Columns are now populated before first read in the IDataReader implementation passed to the DataTransferRowCollection class in the Cuemon.Data namespace
+- Added null conditional operator to the ServiceProvider property on the HostFixture class in the Cuemon.Extensions.Xunit.Hosting namespace
+- WriteObject to skip serializing the object when it is null on the YamlTextWriter class in the Cuemon.Runtime.Serialization namespace
+
+## [7.1.0] 2022-12-11
 
 ### Added
 
 - Alter{T}, Change{T, TResult} methods on Tweaker class in the Cuemon namespace
 - As extension method on the ObjectExtensions class on the Cuemon.Extensions namespace
 - As{T, TResult}, Alter{T} extension methods on the ObjectExtensions class in the Cuemon.Extensions namespace
-- UseBuiltInRfc7807 property on the RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace (https://github.com/dotnet/aspnet-api-versioning/commit/0a999316aebc81fb1bf3842a2980901f9539978b)
+- UseBuiltInRfc7807 property on the RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace (https://github.com/dotnet/aspnet-api-versioning/releases/tag/v7.0.0)
 
 ### Removed
 
@@ -33,7 +119,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - GenericHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting namespace to have non-ambiguous overloads of CreateGenericHostTest -> Create, CreateWithHostBuilderContext (old methods marked with Obsolete attribute)
 - ServiceCollectionExtensions class in the Cuemon.Extensions.Asp.Versioning namespace so that AddRestfulApiVersioning now is backward compatible with recent changes mentioned here https://github.com/dotnet/aspnet-api-versioning/releases/tag/v7.0.0
 
-## [7.0.0]
+## [7.0.0] 2022-11-09
 
 ### Added
 
@@ -188,7 +274,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - World class in the Cuemon.Globalization namespace to exclude CultureInfo with LCID value of 127 (triggered exception on Alpine OS)
 - HttpEntityTagHeaderFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace that was triggered when UseEntityTagResponseParser was set to true and no cacheable object was returned
 
-## [6.4.1] - 2022-08-05
+## [6.4.1] - 2022-05-08
 
 ### Changed
 

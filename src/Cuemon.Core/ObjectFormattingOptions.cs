@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
 using Cuemon.Text;
 
@@ -8,7 +7,7 @@ namespace Cuemon
     /// <summary>
     /// Configuration options for <see cref="ParserFactory.FromObject"/> and methods of <see cref="ObjectDecoratorExtensions"/>.
     /// </summary>
-    public class ObjectFormattingOptions : FormattingOptions<IFormatProvider>
+    public class ObjectFormattingOptions : FormattingOptions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectFormattingOptions"/> class.
@@ -21,7 +20,7 @@ namespace Cuemon
         ///         <description>Initial Value</description>
         ///     </listheader>
         ///     <item>
-        ///         <term><see cref="FormatProvider"/></term>
+        ///         <term><see cref="FormattingOptions.FormatProvider"/></term>
         ///         <description><see cref="CultureInfo.InvariantCulture"/></description>
         ///     </item>
         ///     <item>
@@ -32,7 +31,6 @@ namespace Cuemon
         /// </remarks>
         public ObjectFormattingOptions()
         {
-            FormatProvider = CultureInfo.InvariantCulture;
         }
 
         /// <summary>
@@ -40,11 +38,5 @@ namespace Cuemon
         /// </summary>
         /// <value>The type specific format context.</value>
         public ITypeDescriptorContext DescriptorContext { get; set; }
-
-        /// <summary>
-        /// Gets or sets the culture specific formatting information.
-        /// </summary>
-        /// <value>The culture specific formatting information.</value>
-        public sealed override IFormatProvider FormatProvider { get; set; }
     }
 }

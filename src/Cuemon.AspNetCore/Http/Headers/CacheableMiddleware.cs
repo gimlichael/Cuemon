@@ -46,11 +46,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var bodyStream = new MemoryStream())
             {
                 var body = context.Response.Body;
-                #if NETSTANDARD
-                context.Response.Body = bodyStream;
-                #else 
                 context.Features.Set<IHttpResponseBodyFeature>(new StreamResponseBodyFeature(bodyStream));                
-                #endif
 
                 var serverTiming = context.RequestServices.GetService(typeof(IServerTiming)) as IServerTiming;
                 await Condition.FlipFlopAsync(serverTiming == null, () => Next(context), async () =>

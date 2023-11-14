@@ -24,7 +24,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddStringEnumConverter();
 
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(sut1.GetType())), jc =>
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(sut1.GetType())).ToList(), jc =>
             {
                 var jf = new JsonFormatter(sut2);
 
@@ -48,7 +48,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             sut2.Settings.Converters.AddStringFlagsEnumConverter();
             sut2.Settings.PropertyNamingPolicy = null;
 
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(sut1.GetType())), jc =>
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(sut1.GetType())).ToList(), jc =>
             {
                 var jf = new JsonFormatter(sut2);
 
@@ -78,7 +78,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddStringEnumConverter();
 
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(sut1.GetType())), jc =>
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(sut1.GetType())).ToList(), jc =>
             {
                 var jf = new JsonFormatter(sut2);
 
@@ -101,7 +101,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddStringFlagsEnumConverter();
 
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(sut1.GetType())), jc =>
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(sut1.GetType())).ToList(), jc =>
             {
                 var jf = new JsonFormatter(sut2);
 
@@ -151,7 +151,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
                 o.SensitivityDetails = sensitivityDetails;
             });
 
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(ExceptionDescriptor))), jc =>
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(ExceptionDescriptor))).ToList(), jc =>
             {
                 var jf = new JsonFormatter(sut2);
 
@@ -211,7 +211,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             sut2.Settings.Converters.Clear();
             sut2.Settings.Converters.AddDataPairConverter();
 
-            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(DataPair))), jc =>
+            Assert.Collection(sut2.Settings.Converters.Where(jc => jc.CanConvert(typeof(DataPair))).ToList(), jc =>
             {
                 var jf = new JsonFormatter(sut2);
 

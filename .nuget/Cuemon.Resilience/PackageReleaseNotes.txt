@@ -1,4 +1,18 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- REMOVED SerializableAttribute and ISerializable implementations due to Microsoft decision on deprecating most of the legacy serialization infrastructure https://github.com/dotnet/docs/issues/34893
+ 
+# Improvements
+- MOVED TransientFaultEvidence class to Cuemon.Core assembly keeping the same namespace
+- MOVED TransientFaultException class to Cuemon.Core assembly keeping the same namespace
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -11,31 +25,4 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# New Features
-- ADDED LatencyException class in the Cuemon.Resilience namespace that represents the exception that is thrown when a latency related operation was taking to long to complete
-- ADDED TransientFaultEvidence class in the Cuemon.Resilience namespace that provides evidence about a faulted TransientOperation
-- ADDED TransientFaultException class in the Cuemon.Resilience namespace that represents the exception that is thrown when a transient fault handling was unsuccessful
-- ADDED TransientOperation class in the Cuemon.Resilience namespace that provides a set of static methods that enable developers to make their applications more resilient by adding robust transient fault handling logic ideal for temporary condition such as network connectivity issues or service unavailability
-- ADDED TransientOperationOptions class in the Cuemon.Resilience namespace that specifies options related to TransientOperation class
-- ADDED AsyncTransientOperationOptions class in the Cuemon.Resilience namespace that specifies options related to TransientOperation class
- 
-# Quality Analysis Actions
-- CHANGED TransientOperation class in the Cuemon.Resilience namespace to be compliant with https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1068
  

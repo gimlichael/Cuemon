@@ -24,13 +24,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         [Fact]
         public async Task AddRestfulSwagger_ShouldInclude_RestfulApiVersioning_and_AddRestfulSwagger_Defaults()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                       app.UseSwagger();
-                       app.UseSwaggerUI();
-                   }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
                            .AddJsonFormatters();
@@ -42,6 +36,12 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                        });
                        services.AddRestfulSwagger();
                        services.AddSwaggerGen();
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                       app.UseSwagger();
+                       app.UseSwaggerUI();
                    }))
             {
                 var client = filter.Host.GetTestClient();
@@ -105,13 +105,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         [Fact]
         public async Task AddRestfulSwagger_ShouldInclude_RestfulApiVersioning_and_AddRestfulSwagger_Configured()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                       app.UseSwagger();
-                       app.UseSwaggerUI();
-                   }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
                            .AddJsonFormatters();
@@ -141,6 +135,12 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                            o.XmlDocumentations.AddByType(typeof(ServiceCollectionExtensionsTest));
                        });
                        services.AddSwaggerGen();
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                       app.UseSwagger();
+                       app.UseSwaggerUI();
                    }))
             {
                 var client = filter.Host.GetTestClient();

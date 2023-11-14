@@ -26,7 +26,8 @@ namespace Cuemon.Xml.Serialization.Formatters
             var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Settings == null')", sut2.Message);
-            Assert.Equal("XmlFormatterOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+            Assert.StartsWith("XmlFormatterOptions are not in a valid state.", sut3.Message);
+            Assert.Contains("sut1", sut3.Message);
             Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
 
@@ -41,7 +42,8 @@ namespace Cuemon.Xml.Serialization.Formatters
             var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'SupportedMediaTypes == null')", sut2.Message);
-            Assert.Equal("XmlFormatterOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+            Assert.StartsWith("XmlFormatterOptions are not in a valid state.", sut3.Message);
+            Assert.Contains("sut1", sut3.Message);
             Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
 

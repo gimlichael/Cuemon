@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Cuemon.Extensions.IO;
+﻿using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Xml.Serialization.Formatters;
@@ -17,36 +15,10 @@ namespace Cuemon.AspNetCore.Http
         }
 
         [Fact]
-        public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf409()
-        {
-            var sut = new ConflictException();
-
-            TestOutput.WriteLine(sut.ToString());
-
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                bf.Serialize(ms, sut);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                ms.Position = 0;
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                var desEx = bf.Deserialize(ms) as ConflictException;
-#pragma warning restore SYSLIB0011 // Type or member is obsolete 
-                Assert.Equal(sut.StatusCode, desEx.StatusCode);
-                Assert.Equal(sut.ReasonPhrase, desEx.ReasonPhrase);
-                Assert.Equal(sut.Message, desEx.Message);
-                Assert.Equal(sut.ToString(), desEx.ToString());
-            }
-
-            Assert.Equal(StatusCodes.Status409Conflict, sut.StatusCode);
-        }
-
-        [Fact]
         public void Ctor_ShouldBeSerializableAndHaveCorrectStatusCodeOf409_Json()
         {
             var sut1 = new ConflictException();
-            var sut2 = new JsonFormatter();
+            var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
 
@@ -62,12 +34,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status409Conflict, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"{
-  ""type"": ""Cuemon.AspNetCore.Http.ConflictException"",
-  ""message"": ""The request could not be completed due to a conflict with the current state of the resource."",
-  ""statusCode"": 409,
-  ""reasonPhrase"": ""Conflict""
-}", sut4);
+            Assert.Equal("""
+                         {
+                           "type": "Cuemon.AspNetCore.Http.ConflictException",
+                           "message": "The request could not be completed due to a conflict with the current state of the resource.",
+                           "headers": {},
+                           "statusCode": 409,
+                           "reasonPhrase": "Conflict"
+                         }
+                         """.ReplaceLineEndings(), sut4);
         }
 
         [Fact]
@@ -90,12 +65,15 @@ namespace Cuemon.AspNetCore.Http
             Assert.Equal(StatusCodes.Status409Conflict, sut1.StatusCode);
             Assert.Equal(sut1.ToString(), original.ToString());
 
-            Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<ConflictException namespace=""Cuemon.AspNetCore.Http"">
-	<Message>The request could not be completed due to a conflict with the current state of the resource.</Message>
-	<StatusCode>409</StatusCode>
-	<ReasonPhrase>Conflict</ReasonPhrase>
-</ConflictException>", sut4);
+            Assert.Equal("""
+                         <?xml version="1.0" encoding="utf-8"?>
+                         <ConflictException namespace="Cuemon.AspNetCore.Http">
+                         	<Message>The request could not be completed due to a conflict with the current state of the resource.</Message>
+                         	<Headers />
+                         	<StatusCode>409</StatusCode>
+                         	<ReasonPhrase>Conflict</ReasonPhrase>
+                         </ConflictException>
+                         """.ReplaceLineEndings(), sut4);
         }
     }
 }

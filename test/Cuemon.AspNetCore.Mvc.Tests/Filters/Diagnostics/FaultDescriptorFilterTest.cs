@@ -29,11 +29,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [InlineData(false)]
         public async Task OnException_ShouldIncludeFailure_DifferentiateOnUseBaseException(bool useBaseException)
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.Configure<MvcFaultDescriptorOptions>(o =>
                 {
@@ -43,7 +39,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     .AddNewtonsoftJsonFormatters(o => o.SensitivityDetails = FaultSensitivityDetails.Failure);
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/400");
@@ -62,25 +62,28 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
       ""message"": ""Value cannot be null.""
     }
   }
-}", body),
-                    () => Assert.Equal(@"{
-  ""error"": {
-    ""status"": 400,
-    ""code"": ""BadRequest"",
-    ""message"": ""The request could not be understood by the server due to malformed syntax."",
-    ""failure"": {
-      ""type"": ""Cuemon.AspNetCore.Http.BadRequestException"",
-      ""source"": ""Cuemon.AspNetCore.Mvc.Tests"",
-      ""message"": ""The request could not be understood by the server due to malformed syntax."",
-      ""statusCode"": 400,
-      ""reasonPhrase"": ""Bad Request"",
-      ""inner"": {
-        ""type"": ""System.ArgumentNullException"",
-        ""message"": ""Value cannot be null.""
-      }
-    }
-  }
-}", body));
+}".ReplaceLineEndings(), body),
+                    () => Assert.Equal("""
+                                       {
+                                         "error": {
+                                           "status": 400,
+                                           "code": "BadRequest",
+                                           "message": "The request could not be understood by the server due to malformed syntax.",
+                                           "failure": {
+                                             "type": "Cuemon.AspNetCore.Http.BadRequestException",
+                                             "source": "Cuemon.AspNetCore.Mvc.Tests",
+                                             "message": "The request could not be understood by the server due to malformed syntax.",
+                                             "headers": {},
+                                             "statusCode": 400,
+                                             "reasonPhrase": "Bad Request",
+                                             "inner": {
+                                               "type": "System.ArgumentNullException",
+                                               "message": "Value cannot be null."
+                                             }
+                                           }
+                                         }
+                                       }
+                                       """.ReplaceLineEndings(), body.ReplaceLineEndings()));
 
                 Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
             }
@@ -89,11 +92,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUserAgentException_BadRequestMessage()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
                    {
                        services.AddControllers(o =>
                            {
@@ -107,6 +106,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                            })
                            .AddNewtonsoftJsonFormatters();
                        services.Configure<UserAgentSentinelOptions>(o => o.RequireUserAgentHeader = true);
+                   }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var client = filter.Host.GetTestClient();
@@ -121,7 +124,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""BadRequest"",
     ""message"": ""The requirements of the request was not met.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(400), result.ReasonPhrase);
             }
@@ -130,11 +133,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureThrottlingException_TooManyRequests()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
                    {
                        services.AddControllers(o =>
                            {
@@ -153,6 +152,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                            o.Quota = new ThrottleQuota(0, TimeSpan.Zero);
                        });
                        services.AddMemoryThrottlingCache();
+                   }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
                    }))
             {
                 var client = filter.Host.GetTestClient();
@@ -167,7 +170,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""TooManyRequests"",
     ""message"": ""Throttling rate limit quota violation. Quota limit exceeded.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status429TooManyRequests, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(429), result.ReasonPhrase);
             }
@@ -176,11 +179,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureBadRequest()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
@@ -189,7 +188,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                         //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/400");
@@ -203,7 +206,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""BadRequest"",
     ""message"": ""The request could not be understood by the server due to malformed syntax.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status400BadRequest, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(400), result.ReasonPhrase);
             }
@@ -212,11 +215,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureConflict()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
@@ -225,7 +224,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                         //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/409");
@@ -239,7 +242,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""Conflict"",
     ""message"": ""The request could not be completed due to a conflict with the current state of the resource.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status409Conflict, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(409), result.ReasonPhrase);
             }
@@ -248,11 +251,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureForbidden()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
@@ -261,7 +260,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                         //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/403");
@@ -275,7 +278,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""Forbidden"",
     ""message"": ""The server understood the request, but is refusing to fulfill it.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status403Forbidden, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(403), result.ReasonPhrase);
             }
@@ -284,11 +287,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureGone()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
@@ -297,7 +296,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                         //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/410");
@@ -311,7 +314,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""Gone"",
     ""message"": ""The requested resource is no longer available at the server and no forwarding address is known.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status410Gone, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(410), result.ReasonPhrase);
             }
@@ -320,11 +323,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureNotFound()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
@@ -333,7 +332,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                         //o.IncludeExceptionDescriptorFailure = false;
                     })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/404");
@@ -347,7 +350,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""NotFound"",
     ""message"": ""The server has not found anything matching the request URI.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status404NotFound, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(404), result.ReasonPhrase);
             }
@@ -356,17 +359,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePayloadTooLarge()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/413");
@@ -380,7 +383,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""PayloadTooLarge"",
     ""message"": ""The server is refusing to process a request because the request entity is larger than the server is willing or able to process.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status413PayloadTooLarge, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(413), result.ReasonPhrase);
             }
@@ -389,17 +392,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePreconditionFailed()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/412");
@@ -413,7 +416,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""PreconditionFailed"",
     ""message"": ""The precondition given in one or more of the request-header fields evaluated to false when it was tested on the server.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status412PreconditionFailed, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(412), result.ReasonPhrase);
             }
@@ -422,17 +425,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCapturePreconditionRequired()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/428");
@@ -446,7 +449,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""PreconditionRequired"",
     ""message"": ""No conditional request-header fields was supplied to the server.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status428PreconditionRequired, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(428), result.ReasonPhrase);
             }
@@ -455,17 +458,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureTooManyRequests()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/429");
@@ -479,7 +482,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""TooManyRequests"",
     ""message"": ""The allowed number of requests has been exceeded.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status429TooManyRequests, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(429), result.ReasonPhrase);
             }
@@ -488,17 +491,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUnauthorized()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/401");
@@ -512,7 +515,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""Unauthorized"",
     ""message"": ""The request requires user authentication.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status401Unauthorized, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(401), result.ReasonPhrase);
             }
@@ -521,17 +524,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureMethodNotAllowed()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/405");
@@ -545,7 +548,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""MethodNotAllowed"",
     ""message"": ""The method specified in the request is not allowed for the resource identified by the request URI.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status405MethodNotAllowed, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(405), result.ReasonPhrase);
             }
@@ -554,17 +557,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureNotAcceptable()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/406");
@@ -578,7 +581,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""NotAcceptable"",
     ""message"": ""The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status406NotAcceptable, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(406), result.ReasonPhrase);
             }
@@ -587,17 +590,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureGeneric()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/XXX");
@@ -609,7 +612,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
   ""error"": {
     ""status"": 500,
     ""code"": ""InternalServerError"",
-    ""message"": ""An unhandled exception was raised by ", body);
+    ""message"": ""An unhandled exception was raised by ".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status500InternalServerError, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(500), result.ReasonPhrase);
             }
@@ -618,17 +621,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnException_ShouldCaptureUnsupportedMediaType()
         {
-            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, app) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, (context, services) =>
+            using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJson()
                     //.AddNewtonsoftJsonFormattersOptions(o => { o.IncludeExceptionDescriptorFailure = false; })
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, (context, app) =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var result = await client.GetAsync("/statuscodes/415");
@@ -642,7 +645,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
     ""code"": ""UnsupportedMediaType"",
     ""message"": ""The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.""
   }
-}", body);
+}".ReplaceLineEndings(), body);
                 Assert.Equal(StatusCodes.Status415UnsupportedMediaType, (int)result.StatusCode);
                 Assert.Equal(HttpStatusDescription.Get(415), result.ReasonPhrase);
             }

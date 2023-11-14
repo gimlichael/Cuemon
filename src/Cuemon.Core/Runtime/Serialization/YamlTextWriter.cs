@@ -43,6 +43,7 @@ namespace Cuemon.Runtime.Serialization
         /// <param name="so">The <see cref="YamlSerializerOptions"/> to use.</param>
         public void WriteObject(object value, YamlSerializerOptions so)
         {
+            if (value == null) { return; }
             WriteObject(value, value.GetType(), so);
         }
 

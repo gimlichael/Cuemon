@@ -100,6 +100,17 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Converters
         }
 
         /// <summary>
+        /// Adds an <see cref="Exception" /> JSON converter to the list.
+        /// </summary>
+        /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
+        public static ICollection<JsonConverter> AddTransientFaultExceptionConverter(this ICollection<JsonConverter> converters)
+        {
+            converters.Add(new TransientFaultExceptionConverter());
+            return converters;
+        }
+
+        /// <summary>
         /// Adds an <see cref="DataPair" /> JSON converter to the list.
         /// </summary>
         /// <param name="converters">The <see cref="T:ICollection{JsonConverter}" /> to extend.</param>

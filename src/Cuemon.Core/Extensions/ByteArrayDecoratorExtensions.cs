@@ -7,7 +7,7 @@ using Cuemon.Text;
 namespace Cuemon
 {
     /// <summary>
-    /// Extension methods for the <see cref="T:byte[]"/> tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="T:byte[]"/> hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
@@ -59,11 +59,11 @@ namespace Cuemon
             Validator.ThrowIfNull(decorator);
             return Patterns.SafeInvokeAsync<Stream>(() => new MemoryStream(decorator.Inner.Length), async (ms, cti) =>
             {
-                #if NETSTANDARD
+#if NETSTANDARD
                 await ms.WriteAsync(decorator.Inner, 0, decorator.Inner.Length, cti).ConfigureAwait(false);
-                #else
+#else
                 await ms.WriteAsync(decorator.Inner.AsMemory(0, decorator.Inner.Length), cti).ConfigureAwait(false);
-                #endif
+#endif
                 ms.Position = 0;
                 return ms;
             }, ct);

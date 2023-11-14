@@ -27,15 +27,7 @@ namespace Cuemon.AspNetCore.Authentication
         [Fact]
         public async Task InvokeAsync_ShouldAuthenticateWhenApplyingAuthorizationHeader()
         {
-            using (var middleware = MiddlewareTestFactory.Create(app =>
-            {
-                app.UseHmacAuthentication();
-                app.Run(context =>
-                {
-                    context.Response.StatusCode = 200;
-                    return Task.CompletedTask;
-                });
-            }, services =>
+            using (var middleware = MiddlewareTestFactory.Create(services =>
             {
                 services.Configure<HmacAuthenticationOptions>(o =>
                 {
@@ -53,7 +45,15 @@ namespace Cuemon.AspNetCore.Authentication
                     };
                     o.RequireSecureConnection = false;
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseHmacAuthentication();
+                       app.Run(context =>
+                       {
+                           context.Response.StatusCode = 200;
+                           return Task.CompletedTask;
+                       });
+                   }))
             {
                 var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
                 var options = middleware.ServiceProvider.GetRequiredService<IOptions<HmacAuthenticationOptions>>();

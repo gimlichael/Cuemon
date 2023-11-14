@@ -28,11 +28,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         [Fact]
         public async Task OnActionExecutionAsync_ShouldCaptureThrottlingException()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers(o =>
                            {
@@ -47,7 +43,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                     o.Quota = new ThrottleQuota(10, 5, TimeUnit.Seconds);
                 });
                 services.AddMemoryThrottlingCache();
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
 
@@ -77,11 +77,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
         [Fact]
         public async Task OnActionExecutionAsync_ShouldThrowThrottlingException()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
                    {
                        services.AddControllers(o =>
                            {
@@ -95,7 +91,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
                     o.Quota = new ThrottleQuota(10, 5, TimeUnit.Seconds);
                 });
                 services.AddMemoryThrottlingCache();
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
 

@@ -25,27 +25,27 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnActionExecutionAsync_ShouldTimeMeasureFakeControllerAndFictiveMeasurements()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.Use(async (context, next) => 
-                {
-                    var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
-
-                    await Task.Delay(22);
-                    serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
-
-                    await Task.Delay(1700);
-                    serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
-                    
-                    await next();
-                });
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddServerTiming();
                 services.AddControllers(o => { o.Filters.Add<ServerTimingFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.Use(async (context, next) => 
+                       {
+                           var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
+
+                           await Task.Delay(22);
+                           serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
+
+                           await Task.Delay(1700);
+                           serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
+                    
+                           await next();
+                       });
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecond");
@@ -64,15 +64,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task OnActionExecutionAsync_ShouldTimeMeasureFakeController()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddServerTiming();
                 services.AddControllers(o => { o.Filters.Add<ServerTimingFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecond");
@@ -88,15 +88,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task ServerTimingAttribute_ShouldTimeMeasureFakeController_GetAfter1SecondDecorated()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddServerTiming();
                 services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttribute");
@@ -112,16 +112,16 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         [Fact]
         public async Task ServerTimingAttribute_ShouldSuppressTimeMeasureFakeController_GetAfter1SecondDecorated()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddServerTiming();
                 services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
                 services.Configure<ServerTimingOptions>(o => o.SuppressHeaderPredicate = _ => true);
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var options = filter.ServiceProvider.GetRequiredService<IOptions<ServerTimingOptions>>();
                 var client = filter.Host.GetTestClient();

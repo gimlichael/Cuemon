@@ -62,12 +62,12 @@ namespace Cuemon.AspNetCore.Http.Headers
         {
             var sut1 = new CorrelationIdentifierOptions()
             {
-                CorrelationProvider = null
+                Token = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
             var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
-            Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'CorrelationProvider == null')", sut2.Message);
+            Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Token == null')", sut2.Message);
             Assert.Equal("CorrelationIdentifierOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
             Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
@@ -77,7 +77,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         {
             var sut = new CorrelationIdentifierOptions();
 
-            Assert.NotNull(sut.CorrelationProvider);
+            Assert.NotNull(sut.Token);
             Assert.Equal(HttpHeaderNames.XCorrelationId, sut.HeaderName);
         }
     }

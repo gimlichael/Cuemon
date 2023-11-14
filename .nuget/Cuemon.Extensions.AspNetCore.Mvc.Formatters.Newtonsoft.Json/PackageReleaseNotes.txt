@@ -1,4 +1,15 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Bug Fixes
+- FIXED AddNewtonsoftJsonResponseHandler extension method to properly propagate options to NewtonsoftJsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -21,36 +32,4 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
  
 # New Features
 - ADDED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddNewtonsoftJsonResponseHandler
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# Upgrade Steps
-- The Cuemon.AspNetCore.Mvc.Formatters.Json namespace was removed with this version
-- Any types found in the Cuemon.AspNetCore.Mvc.Formatters.Json namespace was merged into the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
- 
-# Breaking Changes
-- REMOVED DefaultJsonSerializerSettings class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace as the default settings is given by JsonFormatterOptions
- 
-# Improvements
-- COMPATIBLE with the changes applied to NET Core 3 in regards to only allowing asynchronous I/O
- 
-# Quality Analysis Actions
-- CHANGED JsonSerializationInputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace to have 0 duplicated blocks of lines of code
-- CHANGED JsonSerializationOutputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace to have 0 duplicated blocks of lines of code
-- CHANGED JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters namespace to have 0 duplicated blocks of lines of code
  

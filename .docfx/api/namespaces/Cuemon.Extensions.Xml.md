@@ -2,30 +2,11 @@
 uid: Cuemon.Extensions.Xml
 summary: *content
 ---
-The Cuemon.Extensions.Xml namespace contains extension methods that complements the Cuemon.Xml namespace while being an addition to the System.Xml namespace.
+The `Cuemon.Extensions.Xml` namespace contains extension methods that complements the `Cuemon.Xml` namespace while being an addition to the `System.Xml` namespace.
 
-Availability: NET Standard 2.0, .NET 6.0
+[!INCLUDE [availability-default](../../includes/availability-default.md)]
 
-Complements: [Cuemon.Xml namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xml.html) 🔗
-
-## Github branches 🖇️
-
-[development](https://github.com/gimlichael/Cuemon/tree/development/src/Cuemon.Extensions.Xml) 🧪\
-[release](https://github.com/gimlichael/Cuemon/tree/release/src/Cuemon.Extensions.Xml) 🎬\
-[master](https://github.com/gimlichael/Cuemon/tree/master/src/Cuemon.Extensions.Xml) 🛡️
-
-## NuGet packages
-
-📦 Focus Pack\
-[Cuemon.Extensions.Xml (CI)](https://nuget.cuemon.net/packages/Cuemon.Extensions.Xml)\
-[Cuemon.Extensions.Xml (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Extensions.Xml)\
-![NuGet Version](https://img.shields.io/nuget/v/Cuemon.Extensions.Xml?logo=nuget) ![NuGet Preview Version](https://img.shields.io/nuget/vpre/Cuemon.Extensions.Xml?logo=nuget) ![NuGet Downloads](https://img.shields.io/nuget/dt/Cuemon.Extensions.Xml?color=blueviolet&logo=nuget)
-\
-\
-🏭 Productivity Pack\
-[Cuemon.App (CI)](https://nuget.cuemon.net/packages/Cuemon.Core.App)\
-[Cuemon.App (Stable and Preview)](https://www.nuget.org/packages/Cuemon.Core.App)\
-![NuGet Version](https://img.shields.io/nuget/v/Cuemon.Core.App?logo=nuget) ![NuGet Preview Version](https://img.shields.io/nuget/vpre/Cuemon.Core.App?logo=nuget) ![NuGet Downloads](https://img.shields.io/nuget/dt/Cuemon.Core.App?color=blueviolet&logo=nuget)
+Complements: [Cuemon.Xml namespace](/api/dotnet/Cuemon.Xml.html) 📘
 
 ### Extension Methods
 
@@ -33,7 +14,7 @@ Complements: [Cuemon.Xml namespace](https://docs.cuemon.net/api/dotnet/Cuemon.Xm
 |--:|:-:|---|
 |byte[]|⬇️|`ToXmlReader`|
 |DateTime|⬇️|`ToString`|
-|IHierarchy{T}|⬇️|`HasXmlIgnoreAttribute`, `IsNodeEnumerable`, `GetXmlRootOrElement`, `OrderByXmlAttributes`|
+|IHierarchy{T}|⬇️|`HasXmlIgnoreAttribute`, `IsNodeEnumerable`, `GetXmlQualifiedEntity`, `OrderByXmlAttributes`|
 |Stream|⬇️|`ToXmlReader`, `CopyXmlStream`, `TryDetectXmlEncoding`, `RemoveXmlNamespaceDeclarations`|
 |String|⬇️|`EscapeXml`, `UnescapeXml`, `SanitizeXmlElementName`, `SanitizeXmlElementText`|
 |Uri|⬇️|`ToXmlReader`|

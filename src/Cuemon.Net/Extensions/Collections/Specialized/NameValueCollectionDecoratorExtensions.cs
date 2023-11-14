@@ -6,7 +6,7 @@ using System.Text;
 namespace Cuemon.Net.Collections.Specialized
 {
     /// <summary>
-    /// Extension methods for the <see cref="NameValueCollection"/> class tailored to adhere the decorator pattern.
+    /// Extension methods for the <see cref="NameValueCollection"/> class hidden behind the <see cref="IDecorator{T}"/> interface.
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>

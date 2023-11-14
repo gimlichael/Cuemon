@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.Xml;
 using Cuemon.Text;
 
@@ -16,14 +15,19 @@ namespace Cuemon.Data.Xml
         /// </summary>
         /// <param name="reader">The <see cref="XmlReader"/> object that contains the XML data.</param>
         /// <param name="parser">The function delegate that returns a primitive object whose value is equivalent to the provided <see cref="string"/> value. Default is <see cref="ParserFactory.FromValueType"/>.</param>
+        /// <param name="setup">The <see cref="FormattingOptions"/> which may be configured.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="reader"/> is null.
         /// </exception>
-        public XmlDataReader(XmlReader reader, Func<string, Action<FormattingOptions<CultureInfo>>, object> parser = null) : base(parser ?? ParserFactory.FromValueType().Parse)
+        public XmlDataReader(XmlReader reader, Func<string, object> parser = null, Action<FormattingOptions> setup = null)
         {
             Validator.ThrowIfNull(reader);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             Reader = reader;
+            Parser = parser ?? (s => ParserFactory.FromValueType().Parse(s, o => o.FormatProvider = options.FormatProvider));
         }
+
+        private Func<string, object> Parser { get; set; }
 
         private XmlReader Reader { get; }
 
@@ -57,7 +61,7 @@ namespace Cuemon.Data.Xml
         /// </exception>
         public override bool Read()
         {
-            if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
+            Validator.ThrowIfDisposed(Disposed, GetType());
             return ReadNext(default);
         }
 
@@ -70,8 +74,7 @@ namespace Cuemon.Data.Xml
         /// </exception>
         protected override bool ReadNext(bool columns)
         {
-            if (Disposed) { throw new ObjectDisposedException(GetType().FullName); }
-            
+            Validator.ThrowIfDisposed(Disposed, GetType());
             var fields = new OrderedDictionary(StringComparer.OrdinalIgnoreCase);
             var skipIterateForward = false;
             string elementName = null;
@@ -130,11 +133,11 @@ namespace Cuemon.Data.Xml
         {
             if (fields.Contains(localName))
             {
-                fields[localName] = StringParser(Reader.Value, null);
+                fields[localName] = Parser(Reader.Value);
             }
             else
             {
-                fields.Add(localName, StringParser(Reader.Value, null));
+                fields.Add(localName, Parser(Reader.Value));
             }
         }
 

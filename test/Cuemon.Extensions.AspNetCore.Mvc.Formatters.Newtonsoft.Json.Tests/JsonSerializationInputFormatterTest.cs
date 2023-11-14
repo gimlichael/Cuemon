@@ -28,7 +28,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public void Ctor_VerifyThatUtf8AndUtf16_WasAdded_ToSupportedEncodings()
         {
-            var sut = new JsonSerializationInputFormatter(new JsonFormatterOptions());
+            var sut = new JsonSerializationInputFormatter(new NewtonsoftJsonFormatterOptions());
 
             Assert.Equal(2, sut.SupportedEncodings.Count);
             Assert.Collection(sut.SupportedEncodings, 
@@ -39,7 +39,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public void Ctor_VerifyThatApplicationJsonAndTextJson_WasAdded_ToSupportedMediaTypes()
         {
-            var sut = new JsonSerializationInputFormatter(new JsonFormatterOptions());
+            var sut = new JsonSerializationInputFormatter(new NewtonsoftJsonFormatterOptions());
 
             Assert.Equal(2, sut.SupportedMediaTypes.Count);
             Assert.Collection(sut.SupportedMediaTypes, 
@@ -50,19 +50,19 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public async Task ReadRequestBodyAsync_ShouldReturnCreated()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJsonFormatters(o => o.Settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK"); // default ISO8601 (ToString("O")
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var wf = new WeatherForecast();
-                var formatter = new JsonFormatter(o =>
+                var formatter = new NewtonsoftJsonFormatter(o =>
                 {
                     o.Settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK"; // default ISO8601 (ToString("O")
                     o.Settings.Formatting = Formatting.Indented;

@@ -22,24 +22,24 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task EnsureThatBothRazorPagesAndControllerViewAreWorking()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseStaticFiles();
-                app.UseRouting();
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapRazorPages();
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}");
-                });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
                 services.AddControllersWithViews();
                 services.AddRazorPages(o => o.Conventions.AddPageRoute("/", "/"));
-            }))
+            }, app =>
+                   {
+                       app.UseStaticFiles();
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints =>
+                       {
+                           endpoints.MapRazorPages();
+                           endpoints.MapControllerRoute(
+                               name: "default",
+                               pattern: "{controller=Home}/{action=Index}");
+                       });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var page = await client.GetAsync("/regions");
@@ -53,22 +53,22 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task UseWhen_ShouldRenderClassWithActiveKeywordOnRegionsAnchorTag_AsControllerIsRegionAndActionIsRegion()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseStaticFiles();
-                app.UseRouting();
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}");
-                });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
                 services.AddControllersWithViews();
-            }))
+            }, app =>
+                   {
+                       app.UseStaticFiles();
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints =>
+                       {
+                           endpoints.MapControllerRoute(
+                               name: "default",
+                               pattern: "{controller=Home}/{action=Index}");
+                       });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var view = await client.GetAsync("/regions/da-dk/denmark");
@@ -85,22 +85,22 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task UseWhen_ShouldRenderClassWithActiveKeywordOnHomeAnchorTag_AsControllerIsHomeAndActionIsIndex()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseStaticFiles();
-                app.UseRouting();
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}");
-                });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
                 services.AddControllersWithViews();
-            }))
+            }, app =>
+                   {
+                       app.UseStaticFiles();
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints =>
+                       {
+                           endpoints.MapControllerRoute(
+                               name: "default",
+                               pattern: "{controller=Home}/{action=Index}");
+                       });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var view = await client.GetAsync("/");
@@ -117,15 +117,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task UseWhen_ShouldRenderClassWithActiveKeywordOnRegionsAnchorTag_AsPerPageStructure()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseStaticFiles();
-                app.UseRouting();
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapRazorPages();
-                });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
@@ -134,7 +126,15 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
                     o.Conventions.AddPageRoute("/Regions/Index", "regions");
                     o.Conventions.AddPageRoute("/Regions/CultureCollection", "regions/{regionName}/{regionDisplayName}");
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseStaticFiles();
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints =>
+                       {
+                           endpoints.MapRazorPages();
+                       });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var page = await client.GetAsync("/regions/da-dk/denmark");
@@ -151,15 +151,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         [Fact]
         public async Task UseWhen_ShouldRenderClassWithActiveKeywordOnHomeAnchorTag_AsPerPageStructure()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseStaticFiles();
-                app.UseRouting();
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapRazorPages();
-                });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
@@ -169,7 +161,15 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
                     o.Conventions.AddPageRoute("/Regions/Index", "regions");
                     o.Conventions.AddPageRoute("/Regions/CultureCollection", "/regions/{regionName}/{regionDisplayName}");
                 });
-            }))
+            }, app =>
+                   {
+                       app.UseStaticFiles();
+                       app.UseRouting();
+                       app.UseEndpoints(endpoints =>
+                       {
+                           endpoints.MapRazorPages();
+                       });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
                 var page = await client.GetAsync("/");

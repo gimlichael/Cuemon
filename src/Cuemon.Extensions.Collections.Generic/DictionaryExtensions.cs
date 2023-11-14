@@ -38,6 +38,26 @@ namespace Cuemon.Extensions.Collections.Generic
             return Decorator.Enclose(source).CopyTo(destination, copier);
         }
 
+#if NETSTANDARD2_0_OR_GREATER
+        /// <summary>
+        /// Gets the value associated with the specified <paramref name="key"/>or the <c>default</c> value for <typeparamref name="TValue"/> when the key does not exists in the <paramref name="dictionary"/>.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the keys in the <paramref name="dictionary"/>.</typeparam>
+        /// <typeparam name="TValue">The type of the values in the <paramref name="dictionary"/>.</typeparam>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
+        /// <param name="key">The key of the value to get.</param>
+        /// <returns>Either the value associated with the specified <paramref name="key"/> or the <c>default</c> value for <typeparamref name="TValue"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="dictionary"/> cannot be null -or-
+        /// <paramref name="key"/> cannot be null.
+        /// </exception>
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        {
+            Validator.ThrowIfNull(dictionary);
+            return Decorator.Enclose(dictionary).GetValueOrDefault(key);
+        }
+#endif
+
         /// <summary>
         /// Gets the value associated with the specified <paramref name="key"/> or a default value through <paramref name="defaultProvider"/> when the key does not exists in the <paramref name="dictionary"/>.
         /// </summary>
@@ -111,25 +131,6 @@ namespace Cuemon.Extensions.Collections.Generic
             Validator.ThrowIfNull(dictionary);
             return Decorator.Enclose(dictionary).TryAdd(key, value, condition);
         }
-
-        #if NETSTANDARD
-        /// <summary>
-        /// Attempts to add the specified <paramref name="key"/> and <paramref name="value"/> to the <paramref name="dictionary"/>.
-        /// </summary>
-        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> to extend.</param>
-        /// <param name="key">The key of the element to add.</param>
-        /// <param name="value">The value of the element to add.</param>
-        /// <returns><c>true</c> if the key/value pair was added to the enclosed <see cref="IDictionary{TKey,TValue}"/> of the <paramref name="dictionary"/> successfully; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="dictionary"/> cannot be null -or-
-        /// <paramref name="key"/> cannot be null.
-        /// </exception>
-        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
-        {
-            Validator.ThrowIfNull(dictionary);
-            return Decorator.Enclose(dictionary).TryAdd(key, value);
-        }
-        #endif
 
         /// <summary>
         /// Attempts to add or update an existing element with the provided <paramref name="key"/> to the <paramref name="dictionary"/> with the specified <paramref name="value"/>.

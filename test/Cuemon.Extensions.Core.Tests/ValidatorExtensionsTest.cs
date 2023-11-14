@@ -29,5 +29,48 @@ namespace Cuemon.Extensions
                 Validator.ThrowIf.NoDifference("aaabbbccc", "cccbbbbaaaa", "paramName");
             });
         }
+
+        [Fact]
+        public void ContainsReservedKeyword_ShouldThrowReservedKeywordException()
+        {
+            var sut = Assert.Throws<ReservedKeywordException>(() =>
+            {
+                var resKw = "dj bobo";
+                var resKwList = new string[]
+                {
+                    "rene",
+                    "baumann",
+                    "dj bobo"
+                };
+                Validator.ThrowIf.ContainsReservedKeyword(resKw, resKwList);
+            });
+
+            Assert.Equal("resKw", sut.ParamName);
+            Assert.Equal("dj bobo", sut.ActualValue);
+            Assert.StartsWith("Specified argument is a reserved keyword.", sut.Message);
+        }
+
+        [Fact]
+        public void ContainsReservedKeyword_WithEqualityComparer_ShouldThrowReservedKeywordException()
+        {
+            var resKw = "DJ BOBO";
+            var resKwList = new string[]
+            {
+                "rene",
+                "baumann",
+                "dj bobo"
+            };
+
+            Validator.ThrowIf.ContainsReservedKeyword(resKw, resKwList); // should not throw as we are using EqualityComparer<string>.Default
+
+            var sut = Assert.Throws<ReservedKeywordException>(() =>
+            {
+                Validator.ThrowIf.ContainsReservedKeyword(resKw, resKwList, StringComparer.OrdinalIgnoreCase);
+            });
+
+            Assert.Equal("resKw", sut.ParamName);
+            Assert.Equal("DJ BOBO", sut.ActualValue);
+            Assert.StartsWith("Specified argument is a reserved keyword.", sut.Message);
+        }
     }
 }

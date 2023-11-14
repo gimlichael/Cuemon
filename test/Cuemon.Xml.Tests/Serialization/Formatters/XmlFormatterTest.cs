@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Xml;
 using Cuemon.Diagnostics;
+using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.IO;
@@ -125,12 +127,14 @@ namespace Cuemon.Xml.Serialization.Formatters
         public void Serialize_ShouldSerializeUsingDateTimeConverter()
         {
             var sut = new XmlFormatter();
-            var result = sut.Serialize(DateTime.Parse("2021-03-14T14:33:00Z"));
+            var dt = DateTime.Parse("2021-03-14T14:33:00Z", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
+            var result = sut.Serialize(dt);
             var x = new XmlDocument();
             x.Load(result);
 
             TestOutput.WriteLine(Decorator.Enclose(result).ToEncodedString());
 
+            Assert.True(dt.Kind == DateTimeKind.Utc);
             Assert.Equal("<?xml version=\"1.0\" encoding=\"utf-8\"?>", x.FirstChild.OuterXml);
             Assert.Contains("<DateTime>2021-03-14T14:33:00.0000000Z</DateTime>", x.OuterXml);
 

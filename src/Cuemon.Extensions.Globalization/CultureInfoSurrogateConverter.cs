@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Text.Yaml.Converters;
@@ -20,11 +21,14 @@ namespace Cuemon.Extensions.Globalization
             var dfProperties = df.GetType().GetProperties().ToList();
             var nfProperties = nf.GetType().GetProperties().ToList();
 
+            string lastArrayTrimmedLine = null;
+
             while (!reader.EndOfStream)
             {
-                var trimmedLine = reader.ReadLine()?.TrimStart();
+                var trimmedLine = lastArrayTrimmedLine ?? reader.ReadLine()?.TrimStart();
                 if (trimmedLine != null)
                 {
+                    lastArrayTrimmedLine = null;
                     var indexOfFirstColon = trimmedLine.IndexOf(':');
                     if (indexOfFirstColon == -1) { continue; }
                     var key = trimmedLine.Substring(0, indexOfFirstColon);
@@ -32,7 +36,21 @@ namespace Cuemon.Extensions.Globalization
                     var dfProperty = dfProperties.FirstOrDefault(pi => pi.Name == key);
                     if (dfProperty != null)
                     {
-                        dfProperty.SetValue(df, Decorator.Enclose(value).ChangeType(dfProperty.PropertyType));
+                        var isArray = dfProperty.PropertyType.IsArray;
+                        if (isArray)
+                        {
+                            var values = new List<string>();
+                            while ((trimmedLine = reader.ReadLine()?.TrimStart()) != null && trimmedLine.StartsWith("-"))
+                            {
+                                values.Add(trimmedLine.Substring(2));
+                            }
+                            lastArrayTrimmedLine = trimmedLine;
+                            dfProperty.SetValue(df, Decorator.Enclose(values.ToArray()).ChangeType(dfProperty.PropertyType));
+                        }
+                        else
+                        {
+                            dfProperty.SetValue(df, Decorator.Enclose(value).ChangeType(dfProperty.PropertyType));
+                        }
                         continue;
                     }
                     var nfProperty = nfProperties.FirstOrDefault(pi => pi.Name == key);

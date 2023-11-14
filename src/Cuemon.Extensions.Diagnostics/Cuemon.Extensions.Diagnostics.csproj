@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
   </ItemGroup>
 
 </Project>

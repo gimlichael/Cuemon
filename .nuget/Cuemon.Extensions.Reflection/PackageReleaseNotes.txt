@@ -1,4 +1,11 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -11,25 +18,4 @@ Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
 - ADDED TFM for .NET 7
 - REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET 5.0
- 
-# New Features
-- ADDED AssemblyExtensions class in the Cuemon.Extensions.Reflection namespace that consist of extension methods for the Assembly class: GetAssemblyVersion, GetFileVersion, GetProductVersion, IsDebugBuild
-- ADDED PropertyInfoExtensions class in the Cuemon.Extensions.Reflection namespace that consist of extension methods for the PropertyInfo class: IsAutoProperty
-- ADDED TypeExtensions class in the Cuemon.Extensions.Reflection namespace that consist of extension methods for the Type class: GetEmbeddedResources, GetRuntimePropertiesExceptOf{T}, ToFullNameIncludingAssemblyName
  

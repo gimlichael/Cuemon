@@ -1,4 +1,16 @@
-﻿Version: 7.1.0
+﻿Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- REMOVED CreateGenericHostTest method from GenericHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting namespace
+ 
+# Bug Fixes
+- FIXED HostFixture class in the Cuemon.Extensions.Xunit.Hosting namespace by adding a null conditional operator to the ServiceProvider property
+ 
+Version: 7.1.0
 Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
  
 # ALM
@@ -16,28 +28,3 @@ Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
 - REMOVED TFM for .NET 5
 - CHANGED Dependencies to latest and greatest with respect to TFM
  
-Version: 6.4.1
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 6.3.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 5.0, .NET 6.0
- 
-# ALM
-- ADDED TFM for .NET 6
-- CHANGED TFM for .NET Core 3.0 to .NET Core 3.1 (LTS)
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# New Features
-- ADDED GenericHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting namespace that provides a set of static methods for IHost unit testing
-- ADDED IGenericHostTest interface in the Cuemon.Extensions.Xunit.Hosting namespace that represents the members needed for bare-bone DI testing with support for IHost
- 
-Version: 6.0.0
-Availability: .NET Standard 2.0, .NET Core 3.0, .NET 5.0
- 
-# New Features
-- ADDED HostTest class in the Cuemon.Extensions.Xunit.Hosting namespace that represents a base class from which all implementations of unit testing, that uses Microsoft Dependency Injection, should derive
-- ADDED IHostFixture interface in the Cuemon.Extensions.Xunit.Hosting namespace that provides a way to use Microsoft Dependency Injection in unit tests
-- ADDED HostFixture class in the Cuemon.Extensions.Xunit.Hosting namespace that provides a default implementation of the IHostFixture interface

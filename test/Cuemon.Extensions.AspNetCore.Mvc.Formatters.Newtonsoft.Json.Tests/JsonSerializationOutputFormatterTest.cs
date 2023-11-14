@@ -24,7 +24,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public void Ctor_VerifyThatUtf8AndUtf16_WasAdded_ToSupportedEncodings()
         {
-            var sut = new JsonSerializationOutputFormatter(new JsonFormatterOptions());
+            var sut = new JsonSerializationOutputFormatter(new NewtonsoftJsonFormatterOptions());
 
             Assert.Equal(2, sut.SupportedEncodings.Count);
             Assert.Collection(sut.SupportedEncodings, 
@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public void Ctor_VerifyThatApplicationJsonAndTextJson_WasAdded_ToSupportedMediaTypes()
         {
-            var sut = new JsonSerializationOutputFormatter(new JsonFormatterOptions());
+            var sut = new JsonSerializationOutputFormatter(new NewtonsoftJsonFormatterOptions());
 
             Assert.Equal(2, sut.SupportedMediaTypes.Count);
             Assert.Collection(sut.SupportedMediaTypes, 
@@ -46,16 +46,16 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         [Fact]
         public async Task WriteResponseBodyAsync_ShouldReturnOk()
         {
-            using (var filter = WebApplicationTestFactory.Create(app =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(routes => { routes.MapControllers(); });
-            }, services =>
+            using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => { o.Filters.Add<FaultDescriptorFilter>(); })
                     .AddApplicationPart(typeof(FakeController).Assembly)
                     .AddNewtonsoftJsonFormatters();
-            }))
+            }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
             {
                 var client = filter.Host.GetTestClient();
 

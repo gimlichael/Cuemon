@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
+using Cuemon.Reflection;
+using Cuemon.Runtime.Serialization.Formatters;
 
 namespace Cuemon.Xml.Serialization.Converters
 {
@@ -56,18 +59,86 @@ namespace Cuemon.Xml.Serialization.Converters
         /// <param name="reader">The <see cref="T:System.Xml.XmlReader" /> to read from.</param>
         /// <param name="objectType">The <seealso cref="T:System.Type" /> of the object.</param>
         /// <returns>An object of <paramref name="objectType" />.</returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override object ReadXml(XmlReader reader, Type objectType)
         {
-            throw new NotImplementedException();
+            var stack = ParseXmlReader(reader, objectType);
+            return Decorator.Enclose(stack).CreateException(true);
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this <seealso cref="XmlConverter" /> can read XML.
-        /// </summary>
-        /// <value><c>true</c> if this <seealso cref="XmlConverter" /> can read XML; otherwise, <c>false</c>.</value>
-        public override bool CanRead => false;
+        private static Stack<IList<MemberArgument>> ParseXmlReader(XmlReader reader, Type objectType)
+        {
+            var stack = new Stack<IList<MemberArgument>>();
+            var properties = new List<PropertyInfo>();
+            string exception = null;
+            string lastException = null;
+            var blueprints = new List<MemberArgument>();
+            while (reader.Read())
+            {
+                switch (reader.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        exception = reader.Name.EndsWith("Exception") ? reader.Name : lastException;
 
+                        if (blueprints.Count > 0 && blueprints.Single(ma => ma.Name == "Type") is { } typeOfException)
+                        {
+                            if (!((Type)typeOfException.Value).Name.Equals(exception, StringComparison.OrdinalIgnoreCase))
+                            {
+                                stack.Push(blueprints);
+                                blueprints = new List<MemberArgument>();
+                            }
+                        }
+
+                        var memberName = MapOrDefault(reader.Name);
+                        var property = properties.SingleOrDefault(pi => pi.Name.Equals(memberName, StringComparison.OrdinalIgnoreCase));
+                        if (property != null)
+                        {
+                            if (property.Name == nameof(Exception.InnerException) && reader.MoveToAttribute("namespace"))
+                            {
+                                objectType = Formatter.GetType($$"""{{reader.Value}}.{{exception}}""");
+                                properties = objectType.GetProperties(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
+                                blueprints.Add(new MemberArgument("Type", objectType));
+                                blueprints.Add(new MemberArgument(memberName, null));
+                            }
+                            else
+                            {
+                                reader.Read();
+                                blueprints.Add(new MemberArgument(memberName, reader.Value));
+                            }
+                        }
+                        else
+                        {
+                            if (memberName == nameof(Exception.InnerException) && reader.MoveToAttribute("namespace"))
+                            {
+                                objectType = Formatter.GetType($$"""{{reader.Value}}.{{exception}}""");
+                                properties = objectType.GetProperties(MemberReflection.CreateFlags(o => o.ExcludeStatic = true)).ToList();
+                                blueprints.Add(new MemberArgument("Type", objectType));
+                                blueprints.Add(new MemberArgument(nameof(Exception.InnerException), null));
+                            }
+                        }
+                        break;
+                }
+
+                lastException = exception;
+            }
+
+            if (blueprints.Count > 0) { stack.Push(blueprints); }
+
+            return stack;
+        }
+
+        private static string MapOrDefault(string memberName)
+        {
+            switch (memberName.ToLowerInvariant())
+            {
+                case { } when memberName.EndsWith("Exception"):
+                    return nameof(Exception.InnerException);
+                case "Stack":
+                    return nameof(Exception.StackTrace);
+                default:
+                    return memberName;
+            }
+        }
+        
         private static void WriteExceptionCore(XmlWriter writer, Exception exception, bool includeStackTrace, bool includeData)
         {
             if (!string.IsNullOrEmpty(exception.Source))
@@ -103,7 +174,7 @@ namespace Cuemon.Xml.Serialization.Converters
                 writer.WriteEndElement();
             }
 
-            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>().Where(pi => !Decorator.Enclose(pi.PropertyType).IsComplex());
+            var properties = Decorator.Enclose(exception.GetType()).GetRuntimePropertiesExceptOf<AggregateException>();
             foreach (var property in properties)
             {
                 var value = property.GetValue(exception);
