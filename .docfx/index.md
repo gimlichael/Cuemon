@@ -29,26 +29,34 @@ With that prelude, lets look at the concepts behind the work.
 The solution file is placed in the root of the Git repo.
 
 Any supporting file for the solution (such as versioning, documentation, pipeline) is allowed to be placed in the root of the Git repo.\
-However, if and when supporting files start to clutter the solution, group it (eg. `/.pipelines` folder).
+However, if and when supporting files start to clutter the solution, group them in context specific folders such as `/.azure`, `/.github`, `/.nuget` and the likes hereof.
 
 Any build properties shared between projects must be placed in `Directory.Build.props`.\
 Any special build handling of projects must be placed in `Directory.Build.targets`.
 
 All projects that is candidate for a NuGet package is placed in `src`.\
-All unit test projects is placed in `test`.
+All projects that is not candidate for a NuGet package is placed in `tooling`.\
+All unit test projects is placed in `test` and must follow these rules (as stated by Microsoft Engineering Guidelines):
+
+- The unit tests for the `Cuemon.Foo` assembly live in the `Cuemon.Foo.Tests` assembly
+- The functional tests for the `Cuemon.Foo` assembly live in the `Cuemon.Foo.FunctionalTests` assembly
+- Test class names end with `Test` and live in the **same namespace** as the class being tested, e.g., the unit tests for the `Boo` class that resides in the `Cuemon.Foo` assembly would be named `BooTest` and placed in the `Cuemon.Foo` namespace (hint: `<RootNamespace>Cuemon.Foo</RootNamespace>`) in the `Cuemon.Foo.Tests` assembly
 
 Example of structure:
 
 ```
-/Cuemon.sln
-/Directory.Build.props
-/Directory.Build.targets
 /src/Cuemon.Core/Security/HashFactory.cs
 /src/Cuemon.Core/Cuemon.Core.csproj
 /src/Cuemon.Core/Disposable.cs
 /test/Cuemon.Core.Tests/Security/HashFactoryTest.cs
 /test/Cuemon.Core.Tests/Cuemon.Core.Tests.csproj
 /test/Cuemon.Core.Tests/DisposableTest.cs
+/CHANGELOG.md
+/Cuemon.sln
+/Directory.Build.props
+/Directory.Build.targets
+/LICENSE.md
+/README.md
 ```
 
 The general naming pattern for projects is `Cuemon.AspNetCore.<area>.<subarea>`, `Cuemon.<area>.<subarea>`, and `Cuemon.Extensions.<area>.<subarea>`.\
@@ -99,10 +107,10 @@ So by adhering to this rule, we ensure that both groups is taken care of; the fo
 + [GitHub from Microsoft](https://github.com/) is used to host the source code of Cuemon for .NET
 + [Azure DevOps from Microsoft](https://azure.microsoft.com/en-us/services/devops/) is used for CI/CD integration with GitHub
 + Distributed packages are based on [NuGet](https://www.nuget.org/)
-  + Preview packages are pushed to both GitHub (https://nuget.pkg.github.com/gimlichael/index.json) and a private feed (https://nuget.cuemon.net/v3/index.json)
-  + Stable and RCs are pushed to NuGet (https://api.nuget.org/v3/index.json)
+  + Preview packages are was pushed to a private feed prior to latest release of .NET 8.0 - [for reference](https://nuget.codebelt.net/v3/index.json)
+  + Stable, RCs and select previews are pushed to NuGet (https://api.nuget.org/v3/index.json)
 + [DocFx](https://github.com/dotnet/docfx) is used to produce documentation from source code including raw Markdown files
-+ [Visual Studio 2019 from Microsoft](https://visualstudio.microsoft.com/vs/) is used as the primary tool for writing CSharp code
++ [Visual Studio 2022 from Microsoft](https://visualstudio.microsoft.com/vs/) is used as the primary tool for writing CSharp code
 + [ReSharper from JetBrains](https://www.jetbrains.com/resharper/) is an indispensable Visual Studio extension that makes development, refactoring and unit testing a bliss to work with
 + [GhostDoc Pro from SubMain Software](https://submain.com/ghostdoc/) is used to write all the source code documentation
 + [Visual Studio Code from Microsoft](https://code.visualstudio.com/) is used to anything besides writing CSharp code
@@ -122,10 +130,14 @@ Here is a non-exhausting list of literature and websites that inspires and keep 
 + [Framework Design Guidelines (3rd. edition)](https://www.amazon.com/Framework-Design-Guidelines-Conventions-Addison-Wesley/dp/0135896460)
 + [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
 + [Clean Architecture: A Craftsman's Guide to Software Structure and Design](https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164)
++ [The Clean Coder: A Code of Conduct for Professional Programmers](https://www.amazon.com/Clean-Coder-Conduct-Professional-Programmers/dp/B08X7MNTCX/)
 + [Building Maintainable Software, C# Edition: Ten Guidelines for Future-Proof Code](https://www.amazon.com/Building-Maintainable-Software-Guidelines-Future-Proof-ebook/dp/B01GSRN582)
 + [Agile Principles, Patterns, and Practices in C#](https://www.amazon.com/Agile-Principles-Patterns-Practices-C/dp/0131857258)
 + [CLR via C#](https://www.amazon.com/CLR-via-C-Developer-Reference/dp/0735627045)
 + [Microsoft .NET - Architecting Applications for the Enterprise](https://www.amazon.com/Microsoft-NET-Architecting-Applications-Enterprise/dp/0735685355)
++ [The Software Craftsman: Professionalism, Pragmatism, Pride](https://www.amazon.com/Software-Craftsman-Professionalism-Pragmatism-Robert/dp/0134052501/)
++ [The Pragmatic Programmer: 20th Anniversary Edition, 2nd Edition: Your Journey to Mastery](https://www.amazon.com/Pragmatic-Programmer-Anniversary-Journey-Mastery/dp/B0833FBNHV/)
++ [Clean Craftsmanship: Disciplines, Standards, and Ethics](https://www.amazon.com/Clean-Craftsmanship-Disciplines-Standards-Ethics/dp/013691571X/)
 
 ### Links
 
