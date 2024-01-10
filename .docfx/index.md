@@ -107,7 +107,7 @@ So by adhering to this rule, we ensure that both groups is taken care of; the fo
 + [GitHub from Microsoft](https://github.com/) is used to host the source code of Cuemon for .NET
 + [Azure DevOps from Microsoft](https://azure.microsoft.com/en-us/services/devops/) is used for CI/CD integration with GitHub
 + Distributed packages are based on [NuGet](https://www.nuget.org/)
-  + Preview packages are was pushed to a private feed prior to latest release of .NET 8.0 - [for reference](https://nuget.codebelt.net/v3/index.json)
+  + Preview packages was pushed to a private feed prior to latest release of .NET 8.0 - [for reference](https://nuget.codebelt.net/v3/index.json)
   + Stable, RCs and select previews are pushed to NuGet (https://api.nuget.org/v3/index.json)
 + [DocFx](https://github.com/dotnet/docfx) is used to produce documentation from source code including raw Markdown files
 + [Visual Studio 2022 from Microsoft](https://visualstudio.microsoft.com/vs/) is used as the primary tool for writing CSharp code
