@@ -1,4 +1,10 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
@@ -8,25 +14,4 @@ Availability: .NET 8, .NET 7 and .NET 6
  
 # Breaking Changes
 - CHANGED MiddlewareTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace received a long overdue change of signature from Action{IApplicationBuilder} pipelineSetup, Action{IServiceCollection} serviceSetup --> Action{IServiceCollection} serviceSetup, Action{IApplicationBuilder} pipelineSetup as this is more logical, intuitive and in consistency with GenericHostTestFactory
- 
-Version: 7.1.0
-Availability: .NET 6.0, .NET 7.0
- 
-# ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
- 
-# ALM
-- ADDED TFM for .NET 7
-- REMOVED TFM for .NET 5
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# Breaking Changes
-- CHANGED MiddlewareTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to have non-ambiguous overloads of CreateMiddlewareTest -> Create, CreateWithHostBuilderContext and RunMiddlewareTest -> Run, RunWithHostBuilderContext
- 
-# Bug Fixes
-- FIXED FakeHttpResponseFeature class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http.Features namespace so that the OnStarting method ensures that callback delegate is only run once per response
  

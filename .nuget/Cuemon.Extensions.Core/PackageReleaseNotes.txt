@@ -1,4 +1,10 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM
@@ -12,26 +18,4 @@ Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # Improvements
 - CHANGED ChangeType (hidden) extension method to always convert DateTime values ending with Z to an UTC DateTime kind on the ObjectDecoratorExtensions class in the Cuemon namespace
- 
-Version: 7.1.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# Bug Fixes
-- FIXED As{T} overload on ObjectExtensions class in the Cuemon.Extensions namespace due to wrongfully throw of an ArgumentNullException when argument was null
-- FIXED Adjust{T} overload on ObjectExtensions class in the Cuemon.Extensions namespace to fail fast by adding null check on argument
- 
-# New Features
-- EXTENDED ObjectExtensions class in the Cuemon.Extensions namespace with two new extension method for the type-parameter T: As{T, TResult}, Alter{T}
-- EXTENDED ObjectExtensions class in the Cuemon.Extensions namespace with a new extension method for the object class: As
- 
-Version: 7.0.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- ADDED TFM for .NET 7
-- REMOVED TFM for .NET 5
-- CHANGED Dependencies to latest and greatest with respect to TFM
  

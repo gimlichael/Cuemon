@@ -1,4 +1,10 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
@@ -6,27 +12,4 @@ Availability: .NET 8, .NET 7 and .NET 6
  
 # Quality Analysis Actions
 - CHANGED SwaggerGenOptionsExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
- 
-Version: 7.1.0
-Availability: .NET 6.0, .NET 7.0
- 
-# ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
- 
-# New Features
-- ADDED ConfigureSwaggerGenOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents something that configures the SwaggerGenOptions type
-- ADDED ConfigureSwaggerUIOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents something that configures the SwaggerUIOptions type
-- ADDED DocumentFilter class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents the base class of an IDocumentFilter implementation
-- ADDED OpenApiInfoOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents a proxy for configuring an Open API Info Object that provides metadata about an Open API endpoint
-- ADDED OperationFilter class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that represents the base class of an IOperationFilter implementation
-- ADDED RestfulSwaggerOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that provides programmatic configuration for the ServiceCollectionExtensions.AddRestfulSwagger method
-- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that consist of extension methods for the IServiceCollection interface: AddRestfulSwagger
-- ADDED SwaggerGenOptionsExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that consist of extension methods for the SwaggerGenOptions class: AddUserAgent, AddXApiKeySecurity, AddJwtBearerSecurity
-- ADDED UserAgentDocumentFilter class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that provides a User-Agent field to the generated OpenApiDocument
-- ADDED UserAgentDocumentOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that provides programmatic configuration for the UserAgentDocumentFilter class
-- ADDED XPathDocumentExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace that consist of extension methods for the XPathDocument class: AddByType, AddByAssembly, AddByFilename
  

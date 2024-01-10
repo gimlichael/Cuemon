@@ -1,4 +1,10 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM
@@ -47,57 +53,4 @@ Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # Quality Analysis Actions
 - CHANGED HierarchySerializer class in the Cuemon.Runtime.Serialization namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
- 
-Version: 7.1.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# Bug Fixes
-- FIXED ReservedKeywordException class in the Cuemon namespace so the default message is used in case of null value
- 
-# New Features
-- EXTENDED Tweaker class in the Cuemon namespace with one  new static members: Alter{T}
- 
-Version: 7.0.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- ADDED TFM for .NET 7
-- REMOVED TFM for .NET 5
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# Breaking Changes
-- REMOVED CheckParameter overloads from the Validator class in the Cuemon namespace
-- CHANGED ThrowIfNull{T} --> ThrowIfNull on the Validator class in the Cuemon namespace
-- CHANGED Configure{T}, ConfigureExchange{T} and ConfigureRevertExchange{T} on the Patterns class in the Cuemon namespace to have type conditions include IParameterObject
- 
-# New Features
-- ADDED HttpAuthenticationSchemes class in the Cuemon.Net.Http namespace that specifies options that defines constants for well-known HTTP authentication schemes
-- ADDED HttpHeaderNames class in the Cuemon.Net.Http namespace that defines constants for well-known HTTP headers
-- ADDED YamlSerializer class in the Cuemon.Runtime.Serialization namespace that provides functionality to serialize objects to YAML and to deserialize YAML into objects
-- ADDED YamlSerializerOptions class in the Cuemon.Runtime.Serialization namespace that specifies options related to YamlSerializer
-- ADDED YamlTextReader class in the Cuemon.Runtime.Serialization namespace that represents a reader that provides fast, non-cached, forward-only access to YAML data
-- ADDED YamlTextWriter class in the Cuemon.Runtime.Serialization namespace that represents a writer that provides a fast, non-cached, forward-only way to generate streams or files that contain YAML data
-- ADDED ExceptionConverter class in the Cuemon.Text.Yaml.Converters namespace that converts an Exception to or from YAML
-- ADDED YamlConverter class in the Cuemon.Text.Yaml.Converters namespace that converts an object to or from YAML (YAML ain't markup language)
-- ADDED YamlFormatter class in the Cuemon.Text.Yaml.Formatters namespace that serializes and deserializes an object, in YAML format
-- ADDED YamlFormatterOptions class in the Cuemon.Text.Yaml.Formatters namespace that specifies options related to YamlFormatter
-- ADDED YamlConverterFactory class in the Cuemon.Text.Yaml namespace that provides a factory based way to create and wrap an YamlConverter implementation
-- ADDED YamlNamingPolicy class in the Cuemon.Text.Yaml namespace that determines the naming policy used to convert a string-based name to another format
-- EXTENDED Patterns class in the Cuemon namespace with two new static members: ConfigureRevertExchange, CreateInstance{T}
-- ADDED IParameterObject interface in the Cuemon.Configuration namespace that serves as a marker interface denoting a Parameter Object
-- ADDED IValidatableParameterObject interface in the Cuemon.Configuration namespace that denotes a Parameter Object where one or more conditions can be verified that they are in a valid state
-- ADDED CallerArgumentExpressionAttribute class in the System.Runtime.CompilerServices namespace that indicates that a parameter captures the expression passed for another parameter as a string (for .NET versions <= .NET Core 3.0)
-- EXTENDED Eradicate class in the Cuemon namespace with one new static member: TrailingBytes
- 
-# Improvements
-- EXTENDED Validator class in the Cuemon namespace with several new static members: ThrowIfInvalidConfigurator, ThrowIfInvalidOptions, ThrowIfObjectInDistress
-- CHANGED ActivatorOptions class in the Cuemon.Reflection namespace to match Activator BindingFlags defaults from Microsoft
-- CHANGED ThrowIfNull, ThrowIfNullOrEmpty and ThrowIfNullOrWhitespace on the Validator class in the Cuemon namespace to embrace the new CallerArgumentExpression attribute
- 
-# Bug Fixes
-- FIXED TypeNameOptions class in the Cuemon.Reflection namespace that could throw a NullReferenceException when FullName is null; fallback to Name
-- FIXED World class in the Cuemon.Globalization namespace to exclude CultureInfo with LCID value of 127 (triggered exception on Alpine OS)
  

@@ -1,4 +1,10 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
@@ -10,30 +16,4 @@ Availability: .NET 8, .NET 7 and .NET 6
  
 # Quality Analysis Actions
 - CHANGED ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
- 
-Version: 7.1.0
-Availability: .NET 6.0, .NET 7.0
- 
-# ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
- 
-# New Features
-- ADDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddStringEnumConverter, AddStringFlagsEnumConverter, AddExceptionDescriptorConverterOf, AddExceptionConverter, AddDataPairConverter, AddDateTimeConverter
-- ADDED StringEnumConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that convert enums to and from strings
-- ADDED StringFlagsEnumConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that convert enums with FlagsAttribute to and from strings
-- ADDED JsonFormatter class in the Cuemon.Extensions.Text.Json.Formatters namespace that serializes and deserializes an object, in JSON format
-- ADDED JsonFormatterOptions class in the Cuemon.Extensions.Text.Json.Formatters namespace that specifies options that is related to JsonFormatter operations
-- ADDED DynamicJsonConverter class in the Cuemon.Extensions.Text.Json namespace that provides a factory based way to create and wrap a JsonConverter implementation
-- ADDED JsonNamingPolicyExtensions class in the Cuemon.Extensions.Text.Json namespace that consist of extension methods for the JsonNamingPolicy class: DefaultOrConvertName
-- ADDED JsonReaderExtensions class in the Cuemon.Extensions.Text.Json namespace that consist of extension methods for the Utf8JsonReader struct: ToHierarchy
-- ADDED JsonSerializerOptionsExtensions class in the Cuemon.Extensions.Text.Json namespace that consist of extension methods for the JsonSerializerOptions class: SetPropertyName
-- ADDED Utf8JsonReaderFunc delegate in the Cuemon.Extensions.Text.Json namespace that represents the Read method of JsonConverter{T}
-- ADDED Utf8JsonWriterAction delegate in the Cuemon.Extensions.Text.Json namespace that represents the Write method of JsonConverter{T}
-- ADDED Utf8JsonWriterExtensions class in the Cuemon.Extensions.Text.Json namespace that consist of extension methods for the Utf8JsonWriter class: WriteObject
-- ADDED DateTimeConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that provides a DateTime converter that can be configured like the Newtonsoft.JSON equivalent
-- ADDED ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace that converts an Exception to or from JSON
  
