@@ -1,4 +1,10 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
@@ -8,28 +14,4 @@ Availability: .NET 8, .NET 7 and .NET 6
  
 # Bug Fixes
 - FIXED AddNewtonsoftJsonResponseHandler extension method to properly propagate options to NewtonsoftJsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
- 
-Version: 7.1.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 7.0.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
- 
-# ALM
-- ADDED TFM for .NET 7
-- REMOVED TFM for .NET 5
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# Breaking Changes
-- RENAMED AddJsonSerializationFormatters --> AddNewtonsoftJsonFormatters on the MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
-- RENAMED AddJsonFormatterOptions --> AddNewtonsoftJsonFormattersOptions on the MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
-- RENAMED AddJsonSerializationFormatters --> AddNewtonsoftJsonFormatters on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
-- RENAMED AddJsonFormatterOptions --> AddNewtonsoftJsonFormattersOptions on the MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace
- 
-# New Features
-- ADDED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddNewtonsoftJsonResponseHandler
  

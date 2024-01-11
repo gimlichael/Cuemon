@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Cuemon.Extensions.Xunit;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace Cuemon.Runtime.Caching
+{
+	public class CachingManagerTest : Test
+	{
+		public CachingManagerTest(ITestOutputHelper output) : base(output)
+		{
+		}
+
+		[Fact]
+		public void CachingManager_Cache_ShouldGetFromSingleton()
+		{
+			var sut = CachingManager.Cache;
+
+			Assert.NotNull(sut);
+		}
+	}
+}

@@ -1,4 +1,10 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
@@ -13,41 +19,4 @@ Availability: .NET 8, .NET 7 and .NET 6
 - CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
 - CHANGED ServerTimingMetric class in the Cuemon.AspNetCore.Diagnostics namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
 - CHANGED HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace to be compliant with https://rules.sonarsource.com/csharp/RSPEC-6618/
- 
-Version: 7.1.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 7.0.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
- 
-# ALM
-- ADDED TFM for .NET 7
-- REMOVED TFM for .NET 5
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# Breaking Changes
-- CHANGED ThrottlingSentinelOptions class in the Cuemon.AspNetCore.Http.Throttling namespace in the context of renaming the ResponseBroker property to ResponseHandler
-- RENAMED FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace to FaultDescriptorOptions
-- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace so that it matches the recent changes to IExceptionDescriptorOptions from the Cuemon.Diagnostics namespace
-- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace so that function delegate RequestBodyParser was replaced by RequestEvidenceProvider to accommodate the changes introduced by IExceptionDescriptorOptions refactoring
- 
-# New Features
-- ADDED FaultDescriptorExceptionHandlerOptions class in the Cuemon.AspNetCore.Diagnostics namespace that specifies options that is related to ExceptionHandlerMiddleware operations
-- ADDED HttpFaultResolver class in the Cuemon.AspNetCore.Diagnostics namespace that provides a way to evaluate an exception and provide details about it in a developer friendly way, optimized for open- and otherwise public application programming interfaces (API)
-- ADDED HttpRequestEvidence class in the Cuemon.AspNetCore.Diagnostics namespace that provides detailed information about a given HttpRequest
-- ADDED HttpExceptionDescriptorResponseHandler class in the Cuemon.AspNetCore.Diagnostics namespace that provides a way to support content negotiation for HttpExceptionDescriptor
-- EXTENDED HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace with one overloaded static member: TryParse
-- ADDED InternalServerErrorException class in the Cuemon.AspNetCore.Http namespace that is the exception that is thrown when the server has encountered a situation it does not know how to handle
- 
-# Improvements
-- CHANGED HttpStatusCodeException class in the Cuemon.AspNetCore.Http namespace to include a new property where HTTP response Headers can be associated with the exception
-- CHANGED UserAgentSentinelMiddleware class in the Cuemon.AspNetCore.Http.Headers namespace to have a more lean and fault tolerant design
-- CHANGED ThrottlingSentinelMiddleware class in the Cuemon.AspNetCore.Http.Throttling namespace to have a more lean and fault tolerant design
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM and removed these dependencies for .NET Standard 2.0: Microsoft.AspNetCore.Hosting.Abstractions, Microsoft.AspNetCore.WebUtilities, Microsoft.AspNetCore.Http.Extensions, Microsoft.Extensions.Options and System.Collections.Immutable
  

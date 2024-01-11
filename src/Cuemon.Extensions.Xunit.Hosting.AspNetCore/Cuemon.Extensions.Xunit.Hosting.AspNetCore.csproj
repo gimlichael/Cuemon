@@ -16,15 +16,15 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.15" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.25" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.26" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,29 +1,13 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM
 - ADDED TFM for net8.0
 - CHANGED Dependencies to latest and greatest with respect to TFMs
- 
-Version: 7.1.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 7.0.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- ADDED TFM for .NET 7
-- REMOVED TFM for .NET 5
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# Breaking Changes
-- CHANGED ExceptionDescriptorOptions class in the Cuemon.Diagnostics namespace to exclude all sensitive details of a failure while refactoring all bool properties into one SensitivityDetails property that uses the FaultSensitivityDetails enum (with FlagsAttribute)
- 
-# New Features
-- ADDED ExceptionDescriptorConverter class in the Cuemon.Diagnostics.Text.Yaml namespace that converts an ExceptionDescriptor to or from YAML
-- ADDED IExceptionDescriptorOptions interface in the Cuemon.Diagnostics namespace that defines options that is related to ExceptionDescriptor operations
-- ADDED FaultSensitivityDetails enum in the Cuemon.Diagnostics namespace that specifies the level of sensitive details to include when serializing an ExceptionDescriptor
  
