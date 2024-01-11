@@ -1,50 +1,14 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
 - ADDED TFM for net8.0
 - REMOVED TFM for netstandard2.0
 - CHANGED Dependencies to latest and greatest with respect to TFMs
- 
-Version: 7.1.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 7.0.0
-Availability: .NET Standard 2.0, .NET Core 3.1, .NET 6.0, .NET 7.0
- 
-# ALM
-- ADDED TFM for .NET 7
-- REMOVED TFM for .NET 5
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-# Breaking Changes
-- MOVED HttpContextItemsKeyForCapturedRequestBody string constant from FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to the HttpRequestEvidence class in the Cuemon.AspNetCore.Diagnostics namespace (Cuemon.AspNetCore)
-- CHANGED FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to include a reference to HttpContext from the ExceptionCallback delegate
-- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to be named MvcFaultDescriptorOptions and inherit from FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace
-- CHANGED FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to rely on MvcFaultDescriptorOptions instead of FaultDescriptorOptions
-- MOVED HttpFaultResolver class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to a better suited namespace Cuemon.AspNetCore.Diagnostics (Cuemon.AspNetCore)
-- MOVED HttpRequestEvidence class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to a better suited namespace Cuemon.AspNetCore.Diagnostics (Cuemon.AspNetCore)
-- RENAMED CacheableObjectFactory class in the Cuemon.AspNetCore.Mvc namespace to CacheableFactory
- 
-# New Features
-- ADDED CacheableObjectResultOptions{T} class in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
-- ADDED ContentBasedObjectResultOptions{T} class in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
-- ADDED IContentBasedObjectResultOptions{T} interface in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
-- ADDED ITimeBasedObjectResultOptions{T} interface in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
-- ADDED TimeBasedObjectResultOptions{T} class in the Cuemon.AspNetCore.Mvc namespace that specifies options related to the ICacheableObjectResult interface
- 
-# Improvements
-- CHANGED UserAgentSentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Headers namespace to have a more lean and fault tolerant design
-- CHANGED ThrottlingSentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Throttling namespace to have a more lean and fault tolerant design
-- CHANGED HttpCacheableOptions class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that the age of a dynamically applied cache header is now 5 minutes instead of 24 hours
- 
-# Bug Fixes
-- FIXED HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that logic is only applied if qualified and that response has not started (lead to an unhandled exception with no response)
-- FIXED ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace that was triggered when parsing runtime parameters for time measuring and parameters exceeded what was part of route
-- FIXED StreamOutputFormatter class in the Cuemon.AspNetCore.Mvc.Formatters namespace so that only non-nullable objects are being serialized
-- FIXED HttpEntityTagHeaderFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace that was triggered when UseEntityTagResponseParser was set to true and no cacheable object was returned
  

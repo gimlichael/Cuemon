@@ -1,24 +1,14 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
 - ADDED TFM for net8.0
 - REMOVED TFM for netstandard2.0
 - CHANGED Dependencies to latest and greatest with respect to TFMs
- 
-Version: 7.1.0
-Availability: .NET Standard 2.0, .NET 6.0, .NET 7.0
- 
-# ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
- 
-# New Features
-- ADDED Aws4HmacAuthorizationHeader class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that provides a representation of a HTTP AWS4-HMAC-SHA256 Authentication header
-- ADDED Aws4HmacAuthorizationHeaderBuilder class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that provides a way to fluently represent a HTTP AWS4-HMAC-SHA256 Authentication header
-- ADDED Aws4HmacFields class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that is a collection of constants for Aws4HmacAuthorizationHeaderBuilder and related
-- ADDED DateTimeExtensions class in the Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4 namespace that consist of extension methods for the DateTime struct: ToAwsDateString, ToAwsDateTimeString
  

@@ -1,4 +1,10 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
@@ -8,23 +14,4 @@ Availability: .NET 8, .NET 7 and .NET 6
  
 # Bug Fixes
 - FIXED AddJsonResponseHandler extension method to properly propagate options to JsonFormatter serialization method in the HttpExceptionDescriptorResponseHandlerExtensions in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace
- 
-Version: 7.1.0
-Availability: .NET 6.0, .NET 7.0
- 
-# ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
- 
-Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
- 
-# New Features
-- ADDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddHttpExceptionDescriptorConverter, AddStringValuesConverter
-- ADDED JsonSerializationInputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that handles deserialization of JSON to objects using JsonFormatter class
-- ADDED JsonSerializationMvcOptionsSetup class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that is a ConfigureOptions{TOptions} implementation which will add the JSON serializer formatters to MvcOptions
-- ADDED JsonSerializationOutputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that handles serialization of objects to JSON using JsonFormatter class
-- ADDED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that consist of extension methods for the IMvcBuilder interface: AddJsonFormatters, AddJsonFormattersOptions
-- ADDED MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that consist of extension methods for the IMvcCoreBuilder interface: AddJsonFormatters, AddJsonFormattersOptions
-- ADDED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace that consist of extension methods for the HttpExceptionDescriptorResponseHandler class: AddJsonResponseHandler
  

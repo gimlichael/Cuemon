@@ -1,30 +1,13 @@
-﻿Version: 8.0.0
+﻿Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
 - ADDED TFM for net8.0
 - CHANGED Dependencies to latest and greatest with respect to TFMs
- 
-Version: 7.1.0
-Availability: .NET 6.0, .NET 7.0
- 
-# ALM
-- REMOVED TFM for .NET Core 3.1
-- CHANGED Dependencies to latest and greatest with respect to TFM
-- EXTENDED RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace with a new property (for .NET 7): UseBuiltInRfc7807
-- CHANGED RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace by removing these members (for .NET 7): ProblemDetailsFactoryType, UseProblemDetailsFactory{T}
-- CHANGED ServiceCollectionExtensions class in the Cuemon.Extensions.Asp.Versioning namespace so that AddRestfulApiVersioning now is backward compatible with recent changes mentioned here https://github.com/dotnet/aspnet-api-versioning/releases/tag/v7.0.0
- 
-# Bug Fixes
-- FIXED RestfulProblemDetailsFactory class in the Cuemon.Extensions.Asp.Versioning namespace due to changes for 6.3 release of Asp.Versioning (https://github.com/dotnet/aspnet-api-versioning/commit/0a999316aebc81fb1bf3842a2980901f9539978b)
- 
-Version: 7.0.0
-Availability: .NET Core 3.1, .NET 6.0, .NET 7.0
- 
-# New Features
-- ADDED RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace that provides programmatic configuration for the ServiceCollectionExtensions.AddRestfulApiVersioning method
-- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IServiceCollection interface: AddRestfulApiVersioning
-- ADDED ApplicationBuilderExtensions class in the Cuemon.Extensions.Asp.Versioning namespace that consist of extension methods for the IApplicationBuilder interface: UseRestfulApiVersioning
-- ADDED RestfulApiVersionReader class in the Cuemon.Extensions.Asp.Versioning namespace that represents a RESTful API version reader that reads the value from a filtered list of HTTP Accept headers in the request
-- ADDED RestfulProblemDetailsFactory class in the Cuemon.Extensions.Asp.Versioning namespace that represents a RESTful implementation of the IProblemDetailsFactory which throws variants of HttpStatusCodeException that needs to be translated accordingly
  

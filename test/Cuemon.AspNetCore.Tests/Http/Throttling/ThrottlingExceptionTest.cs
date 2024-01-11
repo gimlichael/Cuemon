@@ -45,7 +45,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                            "message": "Throttling rate limit quota violation. Quota limit exceeded.",
                            "rateLimit": 100,
                            "delta": "01:00:00",
-                           "reset": "{{reset:yyyy-MM-ddTHH:mm:ss.FFFFFFFK}}",
+                           "reset": "{{reset:O}}",
                            "headers": {},
                            "statusCode": 429,
                            "reasonPhrase": "Too Many Requests"
