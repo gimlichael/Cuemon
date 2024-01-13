@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
+using Cuemon.AspNetCore.Mvc.Filters.Headers;
 using Cuemon.Extensions.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,13 @@ namespace Cuemon.AspNetCore.Mvc.Assets
         public IActionResult GetIt()
         {
             return Ok("Unit Test");
+        }
+
+        [ApiKeySentinel]
+        [HttpGet("it-apikeysentinelattribute")]
+        public IActionResult GetItApiKeySentinelAttribute()
+        {
+	        return Ok("Unit Test");
         }
 
         [HttpGet("oneSecond")]

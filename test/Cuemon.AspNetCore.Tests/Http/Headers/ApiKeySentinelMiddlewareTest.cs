@@ -37,7 +37,7 @@ namespace Cuemon.AspNetCore.Http.Headers
 
                 var uae = await Assert.ThrowsAsync<ApiKeyException>(async () => await pipeline(context));
 
-                Assert.Equal(uae.Message, options.Value.BadRequestMessage);
+                Assert.Equal(uae.Message, options.Value.GenericClientMessage);
                 Assert.Equal(uae.StatusCode, StatusCodes.Status400BadRequest);
                 Assert.False(options.Value.AllowedKeys.Any());
             }
@@ -121,7 +121,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                 
                 Assert.False(options.Value.AllowedKeys.Any());
                 Assert.Equal(StatusCodes.Status400BadRequest, context.Response.StatusCode);
-                Assert.Contains(options.Value.BadRequestMessage, context.Response.Body.ToEncodedString());
+                Assert.Contains(options.Value.GenericClientMessage, context.Response.Body.ToEncodedString());
             }
         }
 
@@ -149,7 +149,7 @@ namespace Cuemon.AspNetCore.Http.Headers
 
                 var uae = await Assert.ThrowsAsync<ApiKeyException>(async () => await pipeline(context));
 
-                Assert.Equal(uae.Message, options.Value.BadRequestMessage);
+                Assert.Equal(uae.Message, options.Value.GenericClientMessage);
                 Assert.Equal(uae.StatusCode, StatusCodes.Status400BadRequest);
 
                 Assert.True(options.Value.UseGenericResponse);

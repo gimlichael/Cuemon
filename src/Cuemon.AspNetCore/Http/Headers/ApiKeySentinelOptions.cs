@@ -13,7 +13,7 @@ namespace Cuemon.AspNetCore.Http.Headers
     /// </summary>
     public class ApiKeySentinelOptions : IValidatableParameterObject
     {
-        /// <summary>
+	    /// <summary>
         /// Initializes a new instance of the <see cref="ApiKeySentinelOptions"/> class.
         /// </summary>
         /// <remarks>
@@ -32,8 +32,12 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///         <description><c>new List{string}();</c></description>
         ///     </item>
         ///     <item>
-        ///         <term><see cref="BadRequestMessage"/></term>
+        ///         <term><see cref="GenericClientMessage"/></term>
         ///         <description>The requirements of the request was not met.</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><see cref="GenericClientStatusCode"/></term>
+        ///         <description><see cref="HttpStatusCode.BadRequest"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="ForbiddenMessage"/></term>
@@ -41,7 +45,7 @@ namespace Cuemon.AspNetCore.Http.Headers
         ///     </item>
         ///     <item>
         ///         <term><see cref="ResponseHandler"/></term>
-        ///         <description>A <see cref="HttpResponseMessage"/> initialized to either a HTTP status code 400 or 403 and a body of either <see cref="BadRequestMessage"/> or <see cref="ForbiddenMessage"/>.</description>
+        ///         <description>A <see cref="HttpResponseMessage"/> initialized to either a HTTP status code 400 or 403 and a body of either <see cref="GenericClientMessage"/> or <see cref="ForbiddenMessage"/>.</description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="UseGenericResponse"/></term>
@@ -52,7 +56,8 @@ namespace Cuemon.AspNetCore.Http.Headers
         public ApiKeySentinelOptions()
         {
             HeaderName = HttpHeaderNames.XApiKey;
-            BadRequestMessage = "The requirements of the request was not met.";
+            GenericClientStatusCode = HttpStatusCode.BadRequest;
+            GenericClientMessage = "The requirements of the request was not met.";
             ForbiddenMessage = "The API key specified was rejected.";
             AllowedKeys = new List<string>();
             ResponseHandler = apiKey =>
@@ -62,11 +67,11 @@ namespace Cuemon.AspNetCore.Http.Headers
                                 AllowedKeys.Count > 0 &&
                                 !AllowedKeys.Any(allowedApiKey => apiKey.Equals(allowedApiKey, StringComparison.OrdinalIgnoreCase));
 
-                if (apiKeyIsNullOrWhiteSpace || forbidden && UseGenericResponse)
+                if (apiKeyIsNullOrWhiteSpace || (forbidden && UseGenericResponse))
                 {
-                    return new HttpResponseMessage(HttpStatusCode.BadRequest)
+                    return new HttpResponseMessage(GenericClientStatusCode)
                     {
-                        Content = new StringContent(BadRequestMessage)
+                        Content = new StringContent(GenericClientMessage)
                     };
                 }
 
@@ -101,16 +106,34 @@ namespace Cuemon.AspNetCore.Http.Headers
         public bool UseGenericResponse { get; set; }
 
         /// <summary>
+        /// Gets or sets the generic status code of a request without a valid key in <see cref="AllowedKeys"/>.
+        /// </summary>
+        /// <value>The generic status code of a request without a valid key in <see cref="AllowedKeys"/>.</value>
+        public HttpStatusCode GenericClientStatusCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the generic message of a request without a valid key in <see cref="AllowedKeys"/>.
+        /// </summary>
+        /// <value>The generic message of a request without a valid key in <see cref="AllowedKeys"/>.</value>
+        [Obsolete($"This property will be removed in near future; please use {nameof(GenericClientMessage)} instead.")]
+        public string BadRequestMessage
+        {
+			get => GenericClientMessage;
+	        set => GenericClientMessage = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the generic message of a request without a valid key in <see cref="AllowedKeys"/>.
+        /// </summary>
+        /// <value>The generic message of a request without a valid key in <see cref="AllowedKeys"/>.</value>
+        public string GenericClientMessage { get; set; }
+        
+
+        /// <summary>
         /// Gets or sets a list of whitelisted API keys.
         /// </summary>
         /// <value>A list of whitelisted API keys.</value>
         public IList<string> AllowedKeys { get; set; }
-
-        /// <summary>
-        /// Gets or sets the generic message of a request without a valid <see cref="HeaderName"/>.
-        /// </summary>
-        /// <value>The generic message of a request without a valid <see cref="HeaderName"/>.</value>
-        public string BadRequestMessage { get; set; }
 
         /// <summary>
         /// Gets or sets the message of a request without a valid <see cref="HeaderName"/>.
@@ -125,7 +148,8 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// <exception cref="InvalidOperationException">
         /// <see cref="HeaderName"/> cannot be null, empty or consist only of white-space characters - or -
         /// <see cref="ResponseHandler"/> cannot be null - or -
-        /// <see cref="AllowedKeys"/> cannot be null.
+        /// <see cref="AllowedKeys"/> cannot be null - or -
+        /// <see cref="GenericClientStatusCode"/> is not within the allowed range of an HTTP Client Error Status Code (400-499).
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
@@ -133,6 +157,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             Validator.ThrowIfInvalidState(Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName));
             Validator.ThrowIfInvalidState(ResponseHandler == null);
             Validator.ThrowIfInvalidState(AllowedKeys == null);
+            Validator.ThrowIfInvalidState((int)GenericClientStatusCode < 400 || (int)GenericClientStatusCode > 499);
         }
     }
 }
