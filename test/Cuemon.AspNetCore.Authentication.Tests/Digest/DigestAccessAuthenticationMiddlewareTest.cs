@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Authentication.Assets;
-using Cuemon.AspNetCore.Authentication.Digest;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions;
@@ -19,7 +17,7 @@ using Microsoft.Net.Http.Headers;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.AspNetCore.Authentication
+namespace Cuemon.AspNetCore.Authentication.Digest
 {
     public class DigestAccessAuthenticationMiddlewareTest : Test
     {
@@ -134,7 +132,7 @@ namespace Cuemon.AspNetCore.Authentication
 
                 TestOutput.WriteLine(ha1);
 
-                var ha2 = db.ComputeHash2("GET", context.Response.Body.ToEncodedString(o => o.LeaveOpen =  true));
+                var ha2 = db.ComputeHash2("GET", context.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
                 var response = db.ComputeResponse(ha1, ha2);
 
                 db.AddResponse("Test", "GET", context.Response.Body.ToEncodedString());
@@ -267,7 +265,7 @@ namespace Cuemon.AspNetCore.Authentication
                 Assert.Equal(StatusCodes.Status401Unauthorized, ue.StatusCode);
 
                 var wwwAuthenticate = context.Response.Headers[HeaderNames.WWWAuthenticate];
-                
+
                 TestOutput.WriteLine(wwwAuthenticate);
 
                 var db = new DigestAuthorizationHeaderBuilder(options.Value.Algorithm)

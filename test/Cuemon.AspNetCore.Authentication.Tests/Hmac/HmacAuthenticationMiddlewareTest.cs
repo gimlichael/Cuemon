@@ -1,13 +1,10 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Authentication.Hmac;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Authentication;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +13,7 @@ using Microsoft.Net.Http.Headers;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.AspNetCore.Authentication
+namespace Cuemon.AspNetCore.Authentication.Hmac
 {
     public class HmacAuthenticationMiddlewareTest : Test
     {

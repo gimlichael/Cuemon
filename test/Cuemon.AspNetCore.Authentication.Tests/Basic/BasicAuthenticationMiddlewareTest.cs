@@ -1,7 +1,5 @@
-using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Authentication.Basic;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Authentication;
@@ -17,7 +15,7 @@ using Microsoft.Net.Http.Headers;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.AspNetCore.Authentication
+namespace Cuemon.AspNetCore.Authentication.Basic
 {
     public class BasicAuthenticationMiddlewareTest : Test
     {
@@ -50,7 +48,7 @@ namespace Cuemon.AspNetCore.Authentication
                 Assert.Equal(StatusCodes.Status401Unauthorized, ue.StatusCode);
 
                 var wwwAuthenticate = context.Response.Headers[HeaderNames.WWWAuthenticate];
-                
+
                 TestOutput.WriteLine(wwwAuthenticate);
 
                 var bb = new BasicAuthorizationHeaderBuilder()

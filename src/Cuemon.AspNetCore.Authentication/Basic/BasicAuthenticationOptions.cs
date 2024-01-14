@@ -42,5 +42,16 @@
         /// </summary>
         /// <value>The realm that defines the protection space.</value>
         public string Realm { get; set; }
+
+		/// <summary>
+		/// Determines whether the public read-write properties of this instance are in a valid state.
+		/// </summary>
+		/// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+		public override void ValidateOptions()
+        {
+            Validator.ThrowIfInvalidState(Authenticator == null);
+            Validator.ThrowIfInvalidState(string.IsNullOrEmpty(Realm));
+	        base.ValidateOptions();
+        }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
-using Cuemon.IO;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -43,10 +41,11 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <returns>A task that represents the execution of this middleware.</returns>
         public override async Task InvokeAsync(HttpContext context)
         {
-            if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
+            if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate, out var principal))
             {
-                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, dc => Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, Options.AuthenticationScheme)).ConfigureAwait(false);
+                await Decorator.Enclose(context).InvokeUnauthorizedExceptionAsync(Options, dc => Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, Options.AuthenticationScheme)).ConfigureAwait(false);
             }
+            context.User = principal;
             await Next.Invoke(context).ConfigureAwait(false);
         }
 

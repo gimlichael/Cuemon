@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -46,9 +45,9 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         public override async Task InvokeAsync(HttpContext context, INonceTracker di)
         {
             _nonceTracker = di;
-            if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
+            if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate, out var principal))
             {
-                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, dc =>
+                await Decorator.Enclose(context).InvokeUnauthorizedExceptionAsync(Options, dc =>
                 {
                     string etag = dc.Response.Headers[HeaderNames.ETag];
                     if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
@@ -59,7 +58,8 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                     Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{ParseAlgorithm(Options.Algorithm)}\""));
                 }).ConfigureAwait(false);
             }
-            await Next.Invoke(context).ConfigureAwait(false);
+            context.User = principal;
+			await Next.Invoke(context).ConfigureAwait(false);
         }
 
         private bool TryAuthenticate(HttpContext context, DigestAuthorizationHeader header, out ClaimsPrincipal result)

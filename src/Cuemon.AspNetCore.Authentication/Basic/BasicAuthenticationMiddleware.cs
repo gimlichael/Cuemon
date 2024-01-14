@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
-using Cuemon.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -41,21 +40,31 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         /// <returns>A task that represents the execution of this middleware.</returns>
         public override async Task InvokeAsync(HttpContext context)
         {
-            if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
+	        if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} cannot be null.")); }
+	        context.Items.TryAdd(nameof(BasicAuthenticationOptions), Options);
+
+            if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate, out var principal))
             {
-                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, dc => Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{BasicAuthorizationHeader.Scheme} realm=\"{Options.Realm}\""))).ConfigureAwait(false);
+                await Decorator.Enclose(context).InvokeUnauthorizedExceptionAsync(Options, dc => Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{BasicAuthorizationHeader.Scheme} realm=\"{Options.Realm}\""))).ConfigureAwait(false);
             }
-            await Next(context).ConfigureAwait(false);
+
+            context.User = principal;
+			await Next(context).ConfigureAwait(false);
         }
 
-        private bool TryAuthenticate(HttpContext context, BasicAuthorizationHeader header, out ClaimsPrincipal result)
+        internal static bool TryAuthenticate(HttpContext context, BasicAuthorizationHeader header, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} cannot be null.")); }
-            result = Options.Authenticator(header.UserName, header.Password);
+            var options = context.Items[nameof(BasicAuthenticationOptions)] as BasicAuthenticationOptions;
+			if (options?.Authenticator == null)
+	        {
+		        result = null;
+		        return false;
+	        }
+            result = options.Authenticator(header.UserName, header.Password);
             return Condition.IsNotNull(result);
         }
 
-        private BasicAuthorizationHeader AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
+        internal static BasicAuthorizationHeader AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
         {
             return BasicAuthorizationHeader.Create(authorizationHeader);
         }

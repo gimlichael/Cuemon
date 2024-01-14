@@ -2,13 +2,15 @@
 using System.Net;
 using System.Net.Http;
 using Cuemon.Configuration;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Cuemon.AspNetCore.Authentication
 {
     /// <summary>
     /// Base options for all authentication middleware.
     /// </summary>
-    public abstract class AuthenticationOptions : IParameterObject
+    /// <seealso cref="AuthenticationSchemeOptions"/>
+    public abstract class AuthenticationOptions : AuthenticationSchemeOptions, IValidatableParameterObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationOptions"/> class.
@@ -36,9 +38,9 @@ namespace Cuemon.AspNetCore.Authentication
         /// </remarks>
         protected AuthenticationOptions()
         {
+	        UnauthorizedMessage = "The request has not been applied because it lacks valid authentication credentials for the target resource.";
             ResponseHandler = () => new HttpResponseMessage(HttpStatusCode.Unauthorized) { Content = new StringContent(UnauthorizedMessage) };
             RequireSecureConnection = true;
-            UnauthorizedMessage = "The request has not been applied because it lacks valid authentication credentials for the target resource.";
         }
 
         /// <summary>
@@ -58,5 +60,17 @@ namespace Cuemon.AspNetCore.Authentication
         /// </summary>
         /// <value>The message of an unauthorized request.</value>
         public string UnauthorizedMessage { get; set; }
+
+		/// <summary>
+		/// Determines whether the public read-write properties of this instance are in a valid state.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">
+		/// <seealso cref="UnauthorizedMessage"/> cannot be null.
+		/// </exception>
+		/// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
+		public virtual void ValidateOptions()
+        {
+	        Validator.ThrowIfInvalidState(UnauthorizedMessage == null);
+        }
     }
 }
