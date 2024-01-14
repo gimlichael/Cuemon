@@ -1,5 +1,6 @@
 ﻿using System;
 using Cuemon.AspNetCore.Authentication.Basic;
+using Cuemon.AspNetCore.Authentication.Digest;
 using Microsoft.AspNetCore.Authentication;
 
 namespace Cuemon.Extensions.AspNetCore.Authentication
@@ -26,6 +27,25 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
 			Validator.ThrowIfNull(builder);
 			Validator.ThrowIfInvalidConfigurator(setup, out _);
 			return builder.AddScheme<BasicAuthenticationOptions, BasicAuthenticationHandler>(BasicAuthorizationHeader.Scheme, setup);
+		}
+
+		/// <summary>
+		/// Adds an <see cref="DigestAuthenticationHandler"/> to the authentication middleware.
+		/// </summary>
+		/// <param name="builder">The <see cref="AuthenticationBuilder"/> to extend.</param>
+		/// <param name="setup">The <see cref="DigestAuthenticationOptions"/> which needs to be configured.</param>
+		/// <returns>A reference to <paramref name="builder" /> so that additional calls can be chained.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="builder"/> cannot be null.
+		/// </exception>
+		/// <exception cref="ArgumentException">
+		/// <paramref name="setup"/> failed to configure an instance of <see cref="DigestAuthenticationOptions"/> in a valid state.
+		/// </exception>
+		public static AuthenticationBuilder AddDigestAccess(this AuthenticationBuilder builder, Action<DigestAuthenticationOptions> setup)
+		{
+			Validator.ThrowIfNull(builder);
+			Validator.ThrowIfInvalidConfigurator(setup, out _);
+			return builder.AddScheme<DigestAuthenticationOptions, DigestAuthenticationHandler>(DigestAuthorizationHeader.Scheme, setup);
 		}
 	}
 }

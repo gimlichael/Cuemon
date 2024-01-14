@@ -132,10 +132,10 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
                 TestOutput.WriteLine(ha1);
 
-                var ha2 = db.ComputeHash2("GET", context.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
+                var ha2 = db.ComputeHash2("GET");
                 var response = db.ComputeResponse(ha1, ha2);
 
-                db.AddResponse("Test", "GET", context.Response.Body.ToEncodedString());
+                db.AddResponse("Test", "GET");
 
                 context.Response.Body = new MemoryStream();
                 context.Request.Headers.Add(HeaderNames.Authorization, db.Build().ToString());
@@ -153,6 +153,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
             {
                 services.Configure<DigestAuthenticationOptions>(o =>
                 {
+	                o.UseServerSideHa1Storage = true;
                     o.Authenticator = (string username, out string password) =>
                    {
                        if (username == "Agent")
@@ -203,14 +204,14 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                     .AddFromWwwAuthenticateHeader(context.Response.Headers);
 
 
-                var ha1 = db.ComputeHash1("a69d6da3eea4fa832dc1c0534863988e550e523f1f786c238951b7ec7abf4d57");
+                var ha1 = db.ComputeHash1("Test");
 
                 TestOutput.WriteLine(ha1);
 
-                var ha2 = db.ComputeHash2("GET", context.Response.Body.ToEncodedString(o => o.LeaveOpen = true));
+                var ha2 = db.ComputeHash2("GET");
                 var response = db.ComputeResponse(ha1, ha2);
 
-                db.AddResponse("a69d6da3eea4fa832dc1c0534863988e550e523f1f786c238951b7ec7abf4d57", "GET", context.Response.Body.ToEncodedString());
+                db.AddResponse("Test", "GET");
 
                 context.Response.Body = new MemoryStream();
                 context.Request.Headers.Add(HeaderNames.Authorization, db.Build().ToString());

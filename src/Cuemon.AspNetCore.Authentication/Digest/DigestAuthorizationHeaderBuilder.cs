@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Net.Http.Headers;
 using System.Text;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
@@ -116,25 +117,40 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <summary>
         /// Associates any Digest fields found in the HTTP WWW-Authenticate header from the specified <paramref name="headers"/>.
         /// </summary>
+        /// <param name="headers">An instance of <see cref="HttpResponseHeaders"/>.</param>
+        /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
+        public DigestAuthorizationHeaderBuilder AddFromWwwAuthenticateHeader(HttpResponseHeaders headers)
+        {
+	        Validator.ThrowIfNull(headers);
+	        return AddFromWwwAuthenticateHeader(headers.WwwAuthenticate.ToString());
+        }
+
+        /// <summary>
+        /// Associates any Digest fields found in the HTTP WWW-Authenticate header from the specified <paramref name="headers"/>.
+        /// </summary>
         /// <param name="headers">An implementation of <see cref="IHeaderDictionary"/>.</param>
         /// <returns>An <see cref="DigestAuthorizationHeaderBuilder"/> that can be used to further build the HTTP Digest Access Authentication header.</returns>
         public DigestAuthorizationHeaderBuilder AddFromWwwAuthenticateHeader(IHeaderDictionary headers)
         {
             Validator.ThrowIfNull(headers);
-            string header = headers[HeaderNames.WWWAuthenticate];
-            Validator.ThrowIfFalse(() => header.StartsWith(AuthenticationScheme), nameof(header), $"Header did not start with {AuthenticationScheme}.");
-            var headerWithoutScheme = header.Remove(0, AuthenticationScheme.Length + 1);
+            return AddFromWwwAuthenticateHeader(headers[HeaderNames.WWWAuthenticate]);
+        }
 
-            var fields = DelimitedString.Split(headerWithoutScheme);
-            foreach (var field in fields)
-            {
-                var kvp = DelimitedString.Split(field, o => o.Delimiter = "=");
-                var key = kvp[0].Trim();
-                var value = kvp[1].Trim('"');
-                if (key == DigestFields.QualityOfProtection) { continue; }
-                AddOrUpdate(key, value);
-            }
-            return this;
+        private DigestAuthorizationHeaderBuilder AddFromWwwAuthenticateHeader(string wwwAuthenticateHeader)
+        {
+	        Validator.ThrowIfNull(wwwAuthenticateHeader);
+	        Validator.ThrowIfFalse(() => wwwAuthenticateHeader.StartsWith(AuthenticationScheme), nameof(wwwAuthenticateHeader), $"Header did not start with {AuthenticationScheme}.");
+	        var headerWithoutScheme = wwwAuthenticateHeader.Remove(0, AuthenticationScheme.Length + 1);
+	        var fields = DelimitedString.Split(headerWithoutScheme);
+	        foreach (var field in fields)
+	        {
+		        var kvp = DelimitedString.Split(field, o => o.Delimiter = "=");
+		        var key = kvp[0].Trim();
+		        var value = kvp[1].Trim('"');
+		        if (key == DigestFields.QualityOfProtection) { continue; }
+		        AddOrUpdate(key, value);
+	        }
+	        return this;
         }
 
         /// <summary>
