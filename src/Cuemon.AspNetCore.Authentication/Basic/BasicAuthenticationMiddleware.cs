@@ -41,6 +41,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
         public override async Task InvokeAsync(HttpContext context)
         {
 	        if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} cannot be null.")); }
+
 	        context.Items.TryAdd(nameof(BasicAuthenticationOptions), Options);
 
             if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate, out var principal))

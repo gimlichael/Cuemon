@@ -14,7 +14,7 @@ namespace Cuemon.AspNetCore.Authentication
 		}
 
 		[Fact]
-		public void AuthenticationOptions_ShouldThrowInvalidOperationException_WhenAuthenticatorIsNull()
+		public void BasicAuthenticationOptions_ShouldThrowInvalidOperationException_WhenAuthenticatorIsNull()
 		{
 			var sut1 = new BasicAuthenticationOptions();
 
@@ -27,7 +27,7 @@ namespace Cuemon.AspNetCore.Authentication
 		}
 
 		[Fact]
-		public void AuthenticationOptions_ShouldThrowInvalidOperationException_WhenRealmIsNull()
+		public void BasicAuthenticationOptions_ShouldThrowInvalidOperationException_WhenRealmIsNull()
 		{
 			var sut1 = new BasicAuthenticationOptions
 			{
@@ -38,13 +38,13 @@ namespace Cuemon.AspNetCore.Authentication
 			var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
 			var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
-			Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'string.IsNullOrEmpty(Realm)')", sut2.Message);
+			Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'string.IsNullOrWhiteSpace(Realm)')", sut2.Message);
 			Assert.Equal("BasicAuthenticationOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
 			Assert.IsType<InvalidOperationException>(sut3.InnerException);
 		}
 
 		[Fact]
-		public void AuthenticationOptions_ShouldThrowInvalidOperationException_WhenRealmIsEmpty()
+		public void BasicAuthenticationOptions_ShouldThrowInvalidOperationException_WhenRealmIsEmpty()
 		{
 			var sut1 = new BasicAuthenticationOptions
 			{
@@ -55,13 +55,30 @@ namespace Cuemon.AspNetCore.Authentication
 			var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
 			var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
 
-			Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'string.IsNullOrEmpty(Realm)')", sut2.Message);
+			Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'string.IsNullOrWhiteSpace(Realm)')", sut2.Message);
 			Assert.Equal("BasicAuthenticationOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
 			Assert.IsType<InvalidOperationException>(sut3.InnerException);
 		}
 
 		[Fact]
-		public void AuthenticationOptions_ShouldHaveDefaultValues()
+		public void BasicAuthenticationOptions_ShouldThrowInvalidOperationException_WhenRealmHasWhitespace()
+		{
+			var sut1 = new BasicAuthenticationOptions
+			{
+				Authenticator = (username, password) => ClaimsPrincipal.Current,
+				Realm = " "
+			};
+
+			var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
+			var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+
+			Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'string.IsNullOrWhiteSpace(Realm)')", sut2.Message);
+			Assert.Equal("BasicAuthenticationOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+			Assert.IsType<InvalidOperationException>(sut3.InnerException);
+		}
+
+		[Fact]
+		public void BasicAuthenticationOptions_ShouldHaveDefaultValues()
 		{
 			var sut = new BasicAuthenticationOptions();
 

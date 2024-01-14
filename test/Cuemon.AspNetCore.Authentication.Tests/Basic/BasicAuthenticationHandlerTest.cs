@@ -92,12 +92,12 @@ namespace Cuemon.AspNetCore.Authentication.Basic
 					   app.UseEndpoints(routes => { routes.MapControllers(); });
 				   }))
 			{
-				var options = webApp.ServiceProvider.GetRequiredService<IOptions<BasicAuthenticationOptions>>();
+				var options = webApp.ServiceProvider.GetRequiredService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
 				var client = webApp.Host.GetTestClient();
 
 				var result = await client.GetAsync("/fake");
 
-				Assert.Equal(options.Value.UnauthorizedMessage, await result.Content.ReadAsStringAsync());
+				Assert.Equal(options.UnauthorizedMessage, await result.Content.ReadAsStringAsync());
 				Assert.Equal(StatusCodes.Status401Unauthorized, (int)result.StatusCode);
 
 				var wwwAuthenticate = result.Headers.WwwAuthenticate;
@@ -112,7 +112,7 @@ namespace Cuemon.AspNetCore.Authentication.Basic
 
 				result = await client.GetAsync("/fake");
 
-				Assert.Equal(options.Value.UnauthorizedMessage, await result.Content.ReadAsStringAsync());
+				Assert.Equal(options.UnauthorizedMessage, await result.Content.ReadAsStringAsync());
 				Assert.Equal(StatusCodes.Status401Unauthorized, (int)result.StatusCode);
 			}
 		}
