@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -41,17 +43,27 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <returns>A task that represents the execution of this middleware.</returns>
         public override async Task InvokeAsync(HttpContext context)
         {
+	        if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} cannot be null.")); }
+
+	        context.Items.TryAdd(nameof(HmacAuthenticationOptions), Options);
+
             if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate, out var principal))
             {
                 await Decorator.Enclose(context).InvokeUnauthorizedExceptionAsync(Options, dc => Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, Options.AuthenticationScheme)).ConfigureAwait(false);
             }
+
             context.User = principal;
             await Next.Invoke(context).ConfigureAwait(false);
         }
 
-        private bool TryAuthenticate(HttpContext context, HmacAuthorizationHeader header, out ClaimsPrincipal result)
+        internal static bool TryAuthenticate(HttpContext context, HmacAuthorizationHeader header, out ClaimsPrincipal result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} cannot be null.")); }
+	        var options = context.Items[nameof(HmacAuthenticationOptions)] as HmacAuthenticationOptions;
+	        if (options?.Authenticator == null)
+	        {
+		        result = null;
+		        return false;
+	        }
 
             if (header == null)
             {
@@ -67,7 +79,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
             }
             
             var clientId = header.ClientId;
-            result = Options.Authenticator(clientId, out var clientSecret);
+            result = options.Authenticator(clientId, out var clientSecret);
             if (clientSecret == null)
             {
                 result = null;
@@ -75,20 +87,23 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
             }
             var signature = header.Signature;
 
-            var hb = new HmacAuthorizationHeaderBuilder(Options.AuthenticationScheme)
+            var hb = new HmacAuthorizationHeaderBuilder(options.AuthenticationScheme)
                 .AddCredentialScope(header.CredentialScope)
                 .AddClientId(clientId)
                 .AddClientSecret(clientSecret)
                 .AddSignedHeaders(header.SignedHeaders)
                 .AddFromRequest(context.Request);
 
+            Debug.WriteLine(hb.ToString());
+
             var computedSignature = hb.ComputeSignature();
             return computedSignature != null && signature.Equals(computedSignature, StringComparison.Ordinal) && Condition.IsNotNull(result);
         }
 
-        private HmacAuthorizationHeader AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
+        internal static HmacAuthorizationHeader AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
         {
-            return HmacAuthorizationHeader.Create(Options.AuthenticationScheme, authorizationHeader);
+	        var options = context.Items[nameof(HmacAuthenticationOptions)] as HmacAuthenticationOptions;
+            return HmacAuthorizationHeader.Create(options!.AuthenticationScheme, authorizationHeader);
         }
     }
 }
