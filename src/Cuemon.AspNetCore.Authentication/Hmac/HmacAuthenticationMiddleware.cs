@@ -94,8 +94,6 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
                 .AddSignedHeaders(header.SignedHeaders)
                 .AddFromRequest(context.Request);
 
-            Debug.WriteLine(hb.ToString());
-
             var computedSignature = hb.ComputeSignature();
             return computedSignature != null && signature.Equals(computedSignature, StringComparison.Ordinal) && Condition.IsNotNull(result);
         }
