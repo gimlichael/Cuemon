@@ -6,6 +6,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [8.1.0] - TBD
+
+### Added
+
+- ApiKeySentinelAttribute class in the Cuemon.AspNetCore.Mvc.Filters.Headers namespace to provide a convenient way to protect your API with an ApiKeySentinelFilter
+- ConfigurableAsyncAuthorizationFilter in the Cuemon.AspNetCore.Mvc.Filters namespace that provides a base class implementation of a filter that asynchronously confirms request authorization
+- ForbiddenObjectResult in the Cuemon.AspNetCore.Mvc namespace that is an ObjectResult that when executed will produce a Forbidden (403) response
+- ForbiddenResult in the Cuemon.AspNetCore.Mvc namespace that is an ActionResult that returns a Forbidden (403) response
+- BasicAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Basic namespace to provide a HTTP Basic Authentication implementation of AuthenticationHandler{TOptions}
+- AuthenticationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Authentication namespace that consist of extension methods for the AuthenticationBuilder class: AddBasic, AddDigestAccess and AddHmac
+
+### Fixed
+
+- DigestAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Digest namespace to include UseServerSideHa1Storage that finally allows the server to bypass calculation of HA1 password representation
+
+### Changed
+
+- ApiKeySentinelOptions class in the Cuemon.AspNetCore.Http.Headers namespace to include two new properties, GenericClientStatusCode and GenericClientMessage, rendering the existing BadRequestMessage property obsolete
+- ApiKeySentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Headers namespace from an action based filter to an authorization based filter
+- BasicAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Basic namespace to be slightly more reusable in the confines of the Cuemon.AspNetCore.Authentication assembly
+- BasicAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Basic namespace to include ValidateOptions to ensure that public read-write properties are in a valid state
+- AuthenticationOptions class in the Cuemon.AspNetCore.Authentication namespace to inherit from AuthenticationSchemeOptions and implement IValidatableParameterObject (replacing earlier IParameterObject) that ensures UnauthorizedMessage property is in a valid state
+- TryAuthenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to honor the otherwise suggested Try-Parse pattern (although breaking the method was assessed to have low risk of external callers)
+- Authenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to return a ClaimsPrincipal instead of assigning this directly to the User of the HttpContext instance (although breaking the method was assessed to have low risk of external callers)
+- DigestAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Digest namespace to be slightly more reusable in the confines of the Cuemon.AspNetCore.Authentication assembly
+- DigestAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Digest namespace to include ValidateOptions to ensure that public read-write properties are in a valid state
+- DigestAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace to include an extra overload of AddFromWwwAuthenticateHeader that accepts an instance of HttpResponseHeaders
+- HmacAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Hmac namespace to be slightly more reusable in the confines of the Cuemon.AspNetCore.Authentication assembly
+- HmacAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Hmac namespace to include ValidateOptions to ensure that public read-write properties are in a valid state
+- HmacAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace to include an extra overload of AddFromRequest that accepts an instance of HttpRequestMessage
+
+## [8.0.1] - 2024-01-11
+
+### Fixed
+
+- CachingManager class in the Cuemon.Runtime.Caching namespace so that it no longer throws a MissingMethodException due to changes introduced with target-typed new from C# 9
+- NewtonsoftJsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to be consistent with general date time handling; applied DateFormatString = "O"
+
 ## [8.0.0] - 2023-11-14
 
 ### Added

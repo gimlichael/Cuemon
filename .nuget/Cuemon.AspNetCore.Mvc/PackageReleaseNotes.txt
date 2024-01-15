@@ -1,4 +1,16 @@
-﻿Version: 8.0.1
+﻿Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# Improvements
+- CHANGED ApiKeySentinelFilter class in the Cuemon.AspNetCore.Mvc.Filters.Headers namespace from an action based filter to an authorization based filter
+ 
+# New Features
+- ADDED ApiKeySentinelAttribute class in the Cuemon.AspNetCore.Mvc.Filters.Headers namespace to provide a convenient way to protect your API with an ApiKeySentinelFilter
+- ADDED ConfigurableAsyncAuthorizationFilter in the Cuemon.AspNetCore.Mvc.Filters namespace that provides a base class implementation of a filter that asynchronously confirms request authorization
+- ADDED ForbiddenObjectResult in the Cuemon.AspNetCore.Mvc namespace that is an ObjectResult that when executed will produce a Forbidden (403) response
+- ADDED ForbiddenResult in the Cuemon.AspNetCore.Mvc namespace that is an ActionResult that returns a Forbidden (403) response
+ 
+Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
