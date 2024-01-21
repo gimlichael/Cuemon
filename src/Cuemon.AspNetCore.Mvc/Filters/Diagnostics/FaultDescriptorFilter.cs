@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Reflection;
-using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Configuration;
