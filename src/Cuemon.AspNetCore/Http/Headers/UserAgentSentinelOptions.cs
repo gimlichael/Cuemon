@@ -8,7 +8,7 @@ using Cuemon.Configuration;
 namespace Cuemon.AspNetCore.Http.Headers
 {
     /// <summary>
-    /// Configuration options for <see cref="UserAgentSentinelMiddleware"/>.
+    /// Configuration options for <see cref="UserAgentSentinelMiddleware"/> and related.
     /// </summary>
     public class UserAgentSentinelOptions : IValidatableParameterObject
     {

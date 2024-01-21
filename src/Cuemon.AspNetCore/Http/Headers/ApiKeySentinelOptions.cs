@@ -9,7 +9,7 @@ using Cuemon.Net.Http;
 namespace Cuemon.AspNetCore.Http.Headers
 {
     /// <summary>
-    /// Configuration options for <see cref="ApiKeySentinelMiddleware"/>.
+    /// Configuration options for <see cref="ApiKeySentinelMiddleware"/> and related.
     /// </summary>
     public class ApiKeySentinelOptions : IValidatableParameterObject
     {
