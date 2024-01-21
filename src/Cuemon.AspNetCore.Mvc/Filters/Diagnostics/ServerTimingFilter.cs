@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 
@@ -26,12 +28,16 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// Initializes a new instance of the <see cref="ServerTimingFilter" /> class.
         /// </summary>
         /// <param name="setup">The <see cref="TimeMeasureOptions" /> which need to be configured.</param>
-        /// <param name="he">The dependency injected <see cref="IHostEnvironment"/>.</param>
-        public ServerTimingFilter(IOptions<ServerTimingOptions> setup, IHostEnvironment he) : base(setup)
+        /// <param name="environment">The dependency injected <see cref="IHostEnvironment"/>.</param>
+        /// <param name="logger">The dependency injected <see cref="ILogger{TCategoryName}"/>.</param>
+        public ServerTimingFilter(IOptions<ServerTimingOptions> setup, IHostEnvironment environment, ILogger<ServerTimingFilter> logger) : base(setup)
         {
             Profiler = new TimeMeasureProfiler();
-            Environment = he;
-        }
+            Environment = environment;
+			Logger = logger;
+		}
+
+        private ILogger<ServerTimingFilter> Logger { get; }
 
         private IHostEnvironment Environment { get; }
 
@@ -72,9 +78,19 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             {
                 TimeMeasure.CompletedCallback?.Invoke(Profiler);
             }
-            if (!Options.SuppressHeaderPredicate(Environment))
+
+            var serverTimingMetrics = serverTiming.Metrics.ToList();
+
+            if (!Options.SuppressHeaderPredicate(Environment)) { context.HttpContext.Response.Headers.Append(ServerTiming.HeaderName, serverTimingMetrics.Select(metric => metric.ToString()).ToArray()); }
+            if (Logger != null && Options.ServerTimingLogLevel != LogLevel.None)
             {
-                context.HttpContext.Response.Headers.Append(ServerTiming.HeaderName, serverTiming.Metrics.Select(metric => metric.ToString()).ToArray());
+	            foreach (var metric in serverTimingMetrics)
+	            {
+		            Logger.Log(Options.ServerTimingLogLevel, "ServerTimingMetric {{ Name: {Name}, Duration: {Duration}ms, Description: {Description} }}", 
+			            metric.Name,
+			            metric.Duration?.TotalMilliseconds.ToString("F1", CultureInfo.InvariantCulture) ?? 0.ToString("F1"),
+			            metric.Description ?? "N/A");
+	            }
             }
         }
 

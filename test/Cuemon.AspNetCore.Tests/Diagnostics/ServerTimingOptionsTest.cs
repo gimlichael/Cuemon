@@ -1,10 +1,11 @@
 ﻿using System;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xunit;
+using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
+namespace Cuemon.AspNetCore.Diagnostics
 {
     public class ServerTimingOptionsTest : Test
     {
@@ -36,6 +37,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             Assert.Null(sut.MethodDescriptor);
             Assert.Null(sut.RuntimeParameters);
             Assert.Equal(TimeMeasureOptions.DefaultTimeMeasureCompletedThreshold, sut.TimeMeasureCompletedThreshold);
+            Assert.Equal(LogLevel.None, sut.ServerTimingLogLevel);
             Assert.NotNull(sut.SuppressHeaderPredicate);
         }
     }

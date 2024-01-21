@@ -1,7 +1,9 @@
 ﻿using System;
+using Cuemon.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
@@ -44,27 +46,39 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         public TimeUnit ThresholdTimeUnit { get; set; } = TimeUnit.Ticks;
 
         /// <summary>
-        /// Creates an instance of the executable filter.
+        /// Gets or sets the <see cref="LogLevel"/> of server-timing metrics. Defaults to <see cref="LogLevel.None"/>, which means logging is disabled.
         /// </summary>
-        /// <param name="serviceProvider">The request <see cref="IServiceProvider" />.</param>
-        /// <returns>An instance of the executable filter.</returns>
-        public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
+        /// <value>The  <see cref="LogLevel"/> of server-timing metrics.</value>
+        public LogLevel ServerTimingLogLevel { get; set; } = LogLevel.None;
+
+		/// <summary>
+		/// Gets or sets the name of the environment to suppress the Server-Timing header from. Default is "Production".
+		/// </summary>
+		/// <value>The name of the environment to suppress the Server-Timing header from.</value>
+		/// <remarks>To always include the Server-Timing header, set this property to <c>null</c> or an <c>empty</c> string.</remarks>
+		public string EnvironmentName { get; set; } = "Production";
+
+		/// <summary>
+		/// Creates an instance of the executable filter.
+		/// </summary>
+		/// <param name="serviceProvider">The request <see cref="IServiceProvider" />.</param>
+		/// <returns>An instance of the executable filter.</returns>
+		public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            var he = serviceProvider.GetRequiredService<IHostEnvironment>();
-            var filter = new ServerTimingFilter(Options.Create(new ServerTimingOptions()
+            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+            var logger = serviceProvider.GetService<ILogger<ServerTimingFilter>>();
+			var filter = new ServerTimingFilter(Options.Create(new ServerTimingOptions()
             {
-                TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit)
-            }), he)
+                SuppressHeaderPredicate = string.IsNullOrEmpty(EnvironmentName)
+                ? _ => false
+                : env => env.EnvironmentName.Equals(EnvironmentName, StringComparison.OrdinalIgnoreCase),
+				ServerTimingLogLevel = ServerTimingLogLevel,
+				TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit)
+            }), environment, logger)
             {
                 Name = Name,
                 Description = Description
             };
-            var stOptions = serviceProvider.GetService<IOptions<ServerTimingOptions>>();
-            if (stOptions?.Value?.SuppressHeaderPredicate != null)
-            {
-                filter.Options.SuppressHeaderPredicate = stOptions.Value.SuppressHeaderPredicate;
-            }
-
             return filter;
         }
 

@@ -5,6 +5,7 @@ using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Filters.Headers;
 using Cuemon.Extensions.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Cuemon.AspNetCore.Mvc.Assets
 {
@@ -39,7 +40,7 @@ namespace Cuemon.AspNetCore.Mvc.Assets
             return Ok("Unit Test");
         }
 
-        [ServerTiming(Name = "action-result")]
+        [ServerTiming(Name = "action-result", ServerTimingLogLevel = LogLevel.Information)]
         [HttpGet("oneSecondAttribute")]
         public async Task<IActionResult> GetAfter1SecondDecorated()
         {
