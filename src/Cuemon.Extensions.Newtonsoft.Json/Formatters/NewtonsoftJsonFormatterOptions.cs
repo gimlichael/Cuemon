@@ -13,7 +13,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     /// <summary>
     /// Specifies options that is related to <see cref="NewtonsoftJsonFormatter"/> operations.
     /// </summary>
-    public class NewtonsoftJsonFormatterOptions : IValidatableParameterObject
+    public class NewtonsoftJsonFormatterOptions : IExceptionDescriptorOptions, IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;
@@ -45,7 +45,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         ///     </item>
         ///     <item>
         ///         <term><see cref="SynchronizeWithJsonConvert"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="SensitivityDetails"/></term>

@@ -13,7 +13,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
     /// <summary>
     /// Specifies options that is related to <see cref="JsonFormatter"/> operations.
     /// </summary>
-    public class JsonFormatterOptions : IValidatableParameterObject
+    public class JsonFormatterOptions : IExceptionDescriptorOptions, IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;

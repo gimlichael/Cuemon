@@ -10,7 +10,7 @@ namespace Cuemon.Xml.Serialization.Formatters
     /// <summary>
     /// Configuration options for <see cref="XmlFormatter"/>.
     /// </summary>
-    public class XmlFormatterOptions : IValidatableParameterObject
+    public class XmlFormatterOptions : IExceptionDescriptorOptions, IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;
