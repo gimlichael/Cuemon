@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Mvc.Assets;
+using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
@@ -11,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 				   {
 					   services.AddControllers(o =>
 					   {
-						   o.Filters.Add<ApiKeySentinelFilter>();
+						   o.Filters.AddApiKeySentinel();
 					   }).AddApplicationPart(typeof(FakeController).Assembly)
 						   .AddNewtonsoftJson()
 						   .AddNewtonsoftJsonFormatters();
@@ -55,16 +55,16 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 		{
 			using (var filter = WebApplicationTestFactory.Create(services =>
 				   {
-					   services.Configure<ApiKeySentinelOptions>(o =>
-					   {
-						   o.AllowedKeys.Add("Cuemon-Key");
-					   });
 					   services.AddControllers(o =>
 						   {
-							   o.Filters.Add<ApiKeySentinelFilter>();
+							   o.Filters.AddApiKeySentinel();
 						   }).AddApplicationPart(typeof(FakeController).Assembly)
 						   .AddNewtonsoftJson()
-						   .AddNewtonsoftJsonFormatters();
+						   .AddNewtonsoftJsonFormatters()
+						   .AddApiKeySentinelOptions(o =>
+						   {
+							   o.AllowedKeys.Add("Cuemon-Key");
+						   });
 				   }, app =>
 				   {
 					   app.UseRouting();
@@ -89,14 +89,15 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 		{
 			using (var filter = WebApplicationTestFactory.Create(services =>
 			{
-				services.Configure<ApiKeySentinelOptions>(o =>
-				{
-					o.UseGenericResponse = true;
-					o.GenericClientStatusCode = HttpStatusCode.NotFound;
-					o.GenericClientMessage = "Not Found";
-					o.AllowedKeys.Add("Cuemon-Key");
-				});
-				services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
+				services
+					.AddControllers(o => { o.Filters.AddApiKeySentinel(); }).AddApplicationPart(typeof(FakeController).Assembly)
+					.AddApiKeySentinelOptions(o =>
+					{
+						o.UseGenericResponse = true;
+						o.GenericClientStatusCode = HttpStatusCode.NotFound;
+						o.GenericClientMessage = "Not Found";
+						o.AllowedKeys.Add("Cuemon-Key");
+					});;
 			}, app =>
 				   {
 					   app.UseRouting();
@@ -124,12 +125,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 		{
 			using (var filter = WebApplicationTestFactory.Create(services =>
 				   {
-					   services.Configure<ApiKeySentinelOptions>(o =>
-					   {
-						   o.ForbiddenMessage = "Stop. Halt. Adgang nægtet!";
-						   o.AllowedKeys.Add("Cuemon-Key");
-					   });
-					   services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
+					   services
+						   .AddControllers(o => { o.Filters.AddApiKeySentinel(); }).AddApplicationPart(typeof(FakeController).Assembly)
+						   .AddApiKeySentinelOptions(o =>
+						   {
+							   o.ForbiddenMessage = "Stop. Halt. Adgang nægtet!";
+							   o.AllowedKeys.Add("Cuemon-Key");
+						   });
 				   }, app =>
 				   {
 					   app.UseRouting();
@@ -156,11 +158,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 		{
 			using (var filter = WebApplicationTestFactory.Create(services =>
 			{
-				services.Configure<ApiKeySentinelOptions>(o =>
-				{
-					o.AllowedKeys.Add("Cuemon-Key");
-				});
-				services.AddControllers(o => { o.Filters.Add<ApiKeySentinelFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
+				services
+					.AddControllers(o => { o.Filters.AddApiKeySentinel(); }).AddApplicationPart(typeof(FakeController).Assembly)
+					.AddApiKeySentinelOptions(o =>
+					{
+						o.AllowedKeys.Add("Cuemon-Key");
+					});
 			}, app =>
 				   {
 					   app.UseRouting();

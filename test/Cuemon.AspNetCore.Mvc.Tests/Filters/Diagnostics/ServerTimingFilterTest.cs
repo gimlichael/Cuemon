@@ -5,6 +5,7 @@ using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Assets;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
@@ -28,7 +29,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddServerTiming();
-                services.AddControllers(o => { o.Filters.Add<ServerTimingFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
+                services.AddControllers(o => { o.Filters.AddServerTiming(); }).AddApplicationPart(typeof(FakeController).Assembly);
             }, app =>
                    {
                        app.UseRouting();
@@ -67,7 +68,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddServerTiming();
-                services.AddControllers(o => { o.Filters.Add<ServerTimingFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
+                services.AddControllers(o => { o.Filters.AddServerTiming(); }).AddApplicationPart(typeof(FakeController).Assembly);
             }, app =>
                    {
                        app.UseRouting();
@@ -115,8 +116,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddServerTiming();
-                services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
-                services.Configure<ServerTimingOptions>(o => o.SuppressHeaderPredicate = _ => true);
+                services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly).AddServerTimingOptions(o => o.SuppressHeaderPredicate = _ => true);
             }, app =>
                    {
                        app.UseRouting();

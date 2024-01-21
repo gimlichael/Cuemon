@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Assets;
+using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
@@ -23,11 +24,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         {
             using (var filter = WebApplicationTestFactory.Create(services =>
             {
-                services.Configure<HttpCacheableOptions>(o =>
+                services.AddControllers(o => { o.Filters.AddHttpCacheable(); }).AddApplicationPart(typeof(FakeController).Assembly).AddHttpCacheableOptions(o =>
                 {
-                    o.Filters.Add(new HttpEntityTagHeaderFilter());
+	                o.Filters.Add(new HttpEntityTagHeaderFilter());
                 });
-                services.AddControllers(o => { o.Filters.Add<HttpCacheableFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
             }, app =>
                    {
                        app.UseRouting();
@@ -53,11 +53,10 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         {
             using (var filter = WebApplicationTestFactory.Create(services =>
             {
-                services.Configure<HttpCacheableOptions>(o =>
+                services.AddControllers(o => { o.Filters.AddHttpCacheable(); }).AddApplicationPart(typeof(FakeController).Assembly).AddHttpCacheableOptions(o =>
                 {
-                    o.Filters.Add(new HttpLastModifiedHeaderFilter());
+	                o.Filters.Add(new HttpLastModifiedHeaderFilter());
                 });
-                services.AddControllers(o => { o.Filters.Add<HttpCacheableFilter>(); }).AddApplicationPart(typeof(FakeController).Assembly);
             }, app =>
                    {
                        app.UseRouting();
