@@ -706,7 +706,7 @@ namespace Cuemon
             ThrowIfNull(argument);
             ThrowIfNull(types);
             ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            if (Decorator.Enclose(argument).HasInterface(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
+            if (Decorator.Enclose(argument).HasInterfaces(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
@@ -747,7 +747,7 @@ namespace Cuemon
         {
             ThrowIfNull(types);
             ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            if (Decorator.Enclose(typeof(T)).HasInterface(types)) { throw new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message); }
+            if (Decorator.Enclose(typeof(T)).HasInterfaces(types)) { throw new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
@@ -791,7 +791,7 @@ namespace Cuemon
             ThrowIfNull(argument);
             ThrowIfNull(types);
             ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            if (!Decorator.Enclose(argument).HasInterface(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
+            if (!Decorator.Enclose(argument).HasInterfaces(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>
@@ -832,7 +832,7 @@ namespace Cuemon
         {
             ThrowIfNull(types);
             ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            if (!Decorator.Enclose(typeof(T)).HasInterface(types)) { throw new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message); }
+            if (!Decorator.Enclose(typeof(T)).HasInterfaces(types)) { throw new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>

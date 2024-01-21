@@ -55,7 +55,7 @@ namespace Cuemon.Reflection
                 if (hasNamespaceFilter) { types = types.Where(type => type.Namespace != null && type.Namespace.Equals(namespaceFilter, StringComparison.OrdinalIgnoreCase)); }
                 if (hasTypeFilter)
                 {
-                    types = typeFilter.IsInterface ? types.Where(type => Decorator.Enclose(type).HasInterface(typeFilter)) : types.Where(type => Decorator.Enclose(type).HasTypes(typeFilter));
+                    types = typeFilter.IsInterface ? types.Where(type => Decorator.Enclose(type).HasInterfaces(typeFilter)) : types.Where(type => Decorator.Enclose(type).HasTypes(typeFilter));
                 }
             }
             return types;

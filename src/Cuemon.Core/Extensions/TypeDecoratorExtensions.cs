@@ -150,7 +150,7 @@ namespace Cuemon
         /// <paramref name="decorator"/> cannot be null -or-
         /// <paramref name="interfaceTypes"/> cannot be null.
         /// </exception>
-        public static bool HasInterface(this IDecorator<Type> decorator, params Type[] interfaceTypes)
+        public static bool HasInterfaces(this IDecorator<Type> decorator, params Type[] interfaceTypes)
         {
             Validator.ThrowIfNull(decorator);
             Validator.ThrowIfNull(interfaceTypes);
@@ -189,7 +189,7 @@ namespace Cuemon
         /// </exception>
         public static bool HasEqualityComparerImplementation(this IDecorator<Type> decorator)
         {
-            return HasInterface(decorator, typeof(IEqualityComparer), typeof(IEqualityComparer<>));
+            return HasInterfaces(decorator, typeof(IEqualityComparer), typeof(IEqualityComparer<>));
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Cuemon
         /// </exception>
         public static bool HasComparableImplementation(this IDecorator<Type> decorator)
         {
-            return HasInterface(decorator, typeof(IComparable), typeof(IComparable<>));
+            return HasInterfaces(decorator, typeof(IComparable), typeof(IComparable<>));
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Cuemon
         /// </exception>
         public static bool HasComparerImplementation(this IDecorator<Type> decorator)
         {
-            return HasInterface(decorator, typeof(IComparer), typeof(IComparer<>));
+            return HasInterfaces(decorator, typeof(IComparer), typeof(IComparer<>));
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Cuemon
         /// </exception>
         public static bool HasEnumerableImplementation(this IDecorator<Type> decorator)
         {
-            return HasInterface(decorator, typeof(IEnumerable), typeof(IEnumerable<>));
+            return HasInterfaces(decorator, typeof(IEnumerable), typeof(IEnumerable<>));
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace Cuemon
         /// </exception>
         public static bool HasDictionaryImplementation(this IDecorator<Type> decorator)
         {
-            return HasInterface(decorator, typeof(IDictionary), typeof(IDictionary<,>), typeof(IReadOnlyDictionary<,>));
+            return HasInterfaces(decorator, typeof(IDictionary), typeof(IDictionary<,>), typeof(IReadOnlyDictionary<,>));
         }
 
         /// <summary>
