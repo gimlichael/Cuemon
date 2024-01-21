@@ -3,7 +3,7 @@ using Cuemon.Configuration;
 
 namespace Cuemon.Assets
 {
-    public class FakeOptions : IValidatableParameterObject
+    public class ValidatableOptions : IValidatableParameterObject
     {
         public bool Proceed { get; set; }
 
