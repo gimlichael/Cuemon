@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using Cuemon.AspNetCore.Authentication.Basic;
 using Cuemon.AspNetCore.Authentication.Digest;
 using Cuemon.AspNetCore.Authentication.Hmac;
@@ -25,7 +26,8 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
 			       {
 				       app.UseBasicAuthentication(o =>
 				       {
-					       o.RequireSecureConnection = false;
+						   o.Authenticator = (username, password) => ClaimsPrincipal.Current;
+						   o.RequireSecureConnection = false;
 				       });
 			       }))
 			{
@@ -46,6 +48,11 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
 			       {
 				       app.UseDigestAccessAuthentication(o =>
 				       {
+					       o.Authenticator = (string username, out string password) =>
+					       {
+						       password = null;
+						       return ClaimsPrincipal.Current;
+					       };
 					       o.RequireSecureConnection = false;
 				       });
 			       }))
@@ -67,6 +74,11 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
 			       {
 				       app.UseHmacAuthentication(o =>
 				       {
+					       o.Authenticator = (string clientId, out string clientSecret) =>
+					       {
+						       clientSecret = null;
+						       return ClaimsPrincipal.Current;
+					       };
 					       o.RequireSecureConnection = false;
 				       });
 			       }))
