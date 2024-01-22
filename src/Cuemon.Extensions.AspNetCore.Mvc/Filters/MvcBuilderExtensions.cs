@@ -4,6 +4,8 @@ using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
+using Cuemon.Diagnostics;
+using Cuemon.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Filters
@@ -118,8 +120,9 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters
 		{
 			Validator.ThrowIfNull(builder);
 			Validator.ThrowIfNull(setup);
-			Validator.ThrowIfInvalidConfigurator(setup, out _);
+			Validator.ThrowIfInvalidConfigurator(setup, out var options);
 			builder.Services.Configure(setup);
+			builder.Services.TryConfigure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = options.SensitivityDetails);
 			return builder;
 		}
 

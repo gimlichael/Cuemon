@@ -9,6 +9,7 @@ using Cuemon.Extensions.AspNetCore.Text.Yaml.Converters;
 using Cuemon.Net.Http;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Text.Yaml.Formatters;
+using Microsoft.Extensions.Options;
 
 namespace Cuemon.Extensions.AspNetCore.Diagnostics
 {
@@ -37,13 +38,13 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the list of <paramref name="handlers"/> that uses <see cref="YamlSerializer"/> as engine of serialization.
         /// </summary>
         /// <param name="handlers">The sequence of <see cref="HttpExceptionDescriptorResponseHandler"/> to extend.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which may be configured.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which need to be configured.</param>
         /// <returns>A reference to <paramref name="handlers" /> so that additional calls can be chained.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="handlers"/> cannot be null.
         /// </exception>
         /// <remarks>This is also the fallback response handler for <see cref="M:ApplicationBuilderExtensions.UseFaultDescriptorExceptionHandler"/> found on <see cref="ApplicationBuilderExtensions"/>.</remarks>
-        public static ICollection<HttpExceptionDescriptorResponseHandler> AddYamlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, Action<ExceptionDescriptorOptions> setup = null)
+        public static ICollection<HttpExceptionDescriptorResponseHandler> AddYamlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, IOptions<ExceptionDescriptorOptions> setup)
         {
             Validator.ThrowIfNull(handlers);
             handlers.AddResponseHandler(o =>
@@ -51,9 +52,10 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                 o.ContentType = MediaTypeHeaderValue.Parse("text/plain");
                 o.ContentFactory = ed =>
                 {
-                    return new StreamContent(YamlFormatter.SerializeObject(ed, setup: yfo =>
+                    var options = setup.Value;
+					return new StreamContent(YamlFormatter.SerializeObject(ed, yfo =>
                     {
-                        yfo.Settings.Converters.AddHttpExceptionDescriptorConverter(setup);
+                        yfo.Settings.Converters.AddHttpExceptionDescriptorConverter(Patterns.ConfigureRevert(options));
                     }))
                     {
                         Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }

@@ -8,10 +8,12 @@ using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Diagnostics;
-using Cuemon.Net.Http;
+using Cuemon.Extensions.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Cuemon.Extensions.AspNetCore.Diagnostics
 {
@@ -25,27 +27,23 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseServerTiming(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseServerTiming(this IApplicationBuilder builder, Action<ServerTimingOptions> setup = null)
         {
-            return MiddlewareBuilderFactory.UseMiddleware<ServerTimingMiddleware>(builder);
+            return MiddlewareBuilderFactory.UseConfigurableMiddleware<ServerTimingMiddleware, ServerTimingOptions>(builder, setup);
         }
 
         /// <summary>
         /// Adds a middleware to the pipeline that will catch exceptions, log them, and re-execute the request in an alternate pipeline. The request will not be re-executed if the response has already started.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The <see cref="FaultDescriptorOptions"/> which may be configured.</param>
+        /// <param name="nonMvcResponseHandlers">The delegate that will allow for zero or more <see cref="HttpExceptionDescriptorResponseHandler"/> to perform content negotiation for non-MVC thrown exceptions.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <remarks>Extends the existing <see cref="ExceptionHandlerMiddleware"/> to include features similar to those provided by Cuemon.AspNetCore.Mvc.Filters.Diagnostics.FaultDescriptorFilter, except:<br/>
         /// 1. Unable to interact with controller applied attributes (outside scope; part of MVC context)<br/>
         /// 2. Unable to mark an exception as handled (outside scope; part of MVC context)
         /// </remarks>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="setup"/> failed to configure an instance of <see cref="FaultDescriptorOptions"/> in a valid state.
-        /// </exception>
-        public static IApplicationBuilder UseFaultDescriptorExceptionHandler(this IApplicationBuilder builder, Action<FaultDescriptorOptions> setup = null)
+        public static IApplicationBuilder UseFaultDescriptorExceptionHandler(this IApplicationBuilder builder, Action<ICollection<HttpExceptionDescriptorResponseHandler>> nonMvcResponseHandlers = null)
         {
-            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             var handlerOptions = new ExceptionHandlerOptions()
             {
                 ExceptionHandler = async context =>
@@ -53,7 +51,10 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                     var ehf = context.Features.Get<IExceptionHandlerFeature>();
                     if (ehf != null)
                     {
-                        var exceptionDescriptor = options.ExceptionDescriptorResolver?.Invoke(options.UseBaseException ? ehf.Error.GetBaseException() : ehf.Error);
+                        var exceptionDescriptorOptions = context.RequestServices.GetRequiredService<IOptions<ExceptionDescriptorOptions>>();
+						var faultDescriptorOptions = context.RequestServices.GetRequiredService<IOptions<FaultDescriptorOptions>>();
+                        var options = faultDescriptorOptions.Value;
+						var exceptionDescriptor = options.ExceptionDescriptorResolver?.Invoke(options.UseBaseException ? ehf.Error.GetBaseException() : ehf.Error);
                         if (exceptionDescriptor == null) { return; }
                         if (options.HasRootHelpLink && exceptionDescriptor.HelpLink == null) { exceptionDescriptor.HelpLink = options.RootHelpLink; }
                         if (context.Items.TryGetValue(RequestIdentifierMiddleware.HttpContextItemsKey, out var requestId) && requestId != null) { exceptionDescriptor.RequestId = requestId.ToString(); }
@@ -65,30 +66,23 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                             Decorator.Enclose(context.Response.Headers).AddRange(httpFault.Headers);
                         }
 
-                        var fallback = new List<HttpExceptionDescriptorResponseHandler>().AddYamlResponseHandler(Patterns.ConfigureExchange<FaultDescriptorOptions, ExceptionDescriptorOptions>(setup));
-                        var handlers = options.NonMvcResponseHandlers ?? fallback;
-                        if (handlers.Count > 0)
-                        {
-                            var accepts = context.Request.Headers[HttpHeaderNames.Accept]
-                                .OrderByDescending(accept =>
-                                {
-                                    var values = accept.Split(';').Select(raw => raw.Trim());
-                                    return values.FirstOrDefault(quality => quality.StartsWith("q=")) ?? "q=0.0";
-                                })
-                                .Select(accept => accept.Split(';').First())
-                                .ToList();
+                        var handlers = new List<HttpExceptionDescriptorResponseHandler>(options.NonMvcResponseHandlers); // backward compatible until next major version is released
+                        nonMvcResponseHandlers?.Invoke(handlers);
+                        if (handlers.Count == 0) { handlers.AddYamlResponseHandler(exceptionDescriptorOptions); }
+         
+                        var accepts = context.Request.AcceptMimeTypesOrderedByQuality();
 
-                            foreach (var accept in accepts)
+                        foreach (var accept in accepts)
+                        {
+                            var handler = handlers.FirstOrDefault(rh => rh.ContentType.MediaType != null && rh.ContentType.MediaType.Equals(accept, StringComparison.OrdinalIgnoreCase));
+                            if (handler != null)
                             {
-                                var handler = handlers.FirstOrDefault(rh => rh.ContentType.MediaType != null && rh.ContentType.MediaType.Equals(accept, StringComparison.OrdinalIgnoreCase));
-                                if (handler != null)
-                                {
-                                    await WriteResponseAsync(context, handler, exceptionDescriptor, options.CancellationToken).ConfigureAwait(false);
-                                    return;
-                                }
+                                await WriteResponseAsync(context, handler, exceptionDescriptor, options.CancellationToken).ConfigureAwait(false);
+                                return;
                             }
                         }
-                        await WriteResponseAsync(context, fallback.First(), exceptionDescriptor, options.CancellationToken).ConfigureAwait(false);
+
+                        await WriteResponseAsync(context, handlers.First(), exceptionDescriptor, options.CancellationToken).ConfigureAwait(false); // fallback in case no match from Accept header
                     }
                 }
             };
