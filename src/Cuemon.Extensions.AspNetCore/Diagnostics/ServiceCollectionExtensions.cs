@@ -42,7 +42,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
 		/// <exception cref="ArgumentException">
 		/// <paramref name="setup"/> failed to configure an instance of <see cref="FaultDescriptorOptions"/> in a valid state.
 		/// </exception>
-		public static IServiceCollection AddFaultDescriptor(this IServiceCollection services, Action<FaultDescriptorOptions> setup = null)
+		public static IServiceCollection AddNonMvcFaultDescriptor(this IServiceCollection services, Action<FaultDescriptorOptions> setup = null)
         {
             Validator.ThrowIfNull(services);
             Validator.ThrowIfInvalidConfigurator(setup, out var options);

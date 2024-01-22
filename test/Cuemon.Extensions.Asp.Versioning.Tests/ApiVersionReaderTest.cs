@@ -129,7 +129,7 @@ namespace Cuemon.Extensions.Asp.Versioning
 		{
 			using (var app = WebApplicationTestFactory.Create(services =>
 				   {
-					   services.AddFaultDescriptor();
+					   services.AddNonMvcFaultDescriptor();
 					   services.AddControllers(o => o.Filters.AddFaultDescriptor())
 						   .AddApplicationPart(typeof(FakeController).Assembly)
 						   .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
@@ -173,7 +173,7 @@ namespace Cuemon.Extensions.Asp.Versioning
 		{
 			using (var app = WebApplicationTestFactory.Create(services =>
 				   {
-					   services.AddFaultDescriptor(o => o.SensitivityDetails = FaultSensitivityDetails.Evidence);
+					   services.AddNonMvcFaultDescriptor(o => o.SensitivityDetails = FaultSensitivityDetails.Evidence);
 					   services.AddControllers(o => o.Filters.AddFaultDescriptor())
 						   .AddApplicationPart(typeof(FakeController).Assembly)
 						   .AddNewtonsoftJsonFormatters(o => o.SensitivityDetails = FaultSensitivityDetails.Evidence);
