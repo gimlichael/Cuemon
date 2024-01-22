@@ -1,4 +1,17 @@
-﻿Version: 8.0.1
+﻿Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# Breaking Changes
+- REMOVED ServerTimingOptions class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace (but added it to Cuemon.AspNetCore assembly in Cuemon.AspNetCore.Diagnostics namespace)
+ 
+# New Features
+- ADDED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace that consist of extension methods for the IMvcBuilder interface: AddApiKeySentinelOptions, AddThrottlingSentinelOptions, AddUserAgentSentinelOptions, AddServerTimingOptions, AddMvcFaultDescriptorOptions and AddHttpCacheableOptions
+ 
+# Improvements
+- CHANGED ServerTimingAttribute class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to include two new properties, ServerTimingLogLevel and EnvironmentName, while removing traces of excessive responsibility
+- CHANGED ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to match the recent changes introduced to both ServerTimingMiddleware and ServerTimingAttribute
+ 
+Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM

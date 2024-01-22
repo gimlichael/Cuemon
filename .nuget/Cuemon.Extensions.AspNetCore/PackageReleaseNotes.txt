@@ -1,4 +1,15 @@
-﻿Version: 8.0.1
+﻿Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# New Features
+- EXTENDED HttpRequestExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace with one new extension method for the HttpRequest class: AcceptMimeTypesOrderedByQuality
+- EXTENDED ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace with one new extension method for the IServiceCollection interface: AddNonMvcFaultDescriptor
+ 
+# Improvements
+- CHANGED ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace in the method UseFaultDescriptorExceptionHandler; from Action{FaultDescriptorOptions} setup --> Action{ICollection{HttpExceptionDescriptorResponseHandler}} nonMvcResponseHandlers
+- CHANGED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace in the method AddYamlResponseHandler; from Action{ExceptionDescriptorOptions} setup --> IOptions{ExceptionDescriptorOptions} setup
+ 
+Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM

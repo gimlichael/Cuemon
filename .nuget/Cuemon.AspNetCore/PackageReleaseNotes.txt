@@ -1,8 +1,15 @@
 ﻿Version: 8.1.0
 Availability: .NET 8, .NET 7 and .NET 6
  
+# New Features
+- ADDED - ServerTimingOptions class in the Cuemon.AspNetCore.Diagnostics namespace that provides configuration options for ServerTimingMiddleware and related
+ 
 # Improvements
 - CHANGED ApiKeySentinelOptions class in the Cuemon.AspNetCore.Http.Headers namespace to include two new properties, GenericClientStatusCode and GenericClientMessage, rendering the existing BadRequestMessage property obsolete
+- CHANGED HttpExceptionDescriptor class in the Cuemon.AspNetCore.Diagnostics namespace to favor default values from HttpStatusCodeException derived exceptions
+- CHANGED MiddlewareBuilderFactory class in the Cuemon.AspNetCore.Builder namespace to support validation of setup delegate when invoking UseConfigurableMiddleware{TMiddleware, TOptions}
+- CHANGED ServerTimingMiddleware class in the Cuemon.AspNetCore.Diagnostics namespace to inherit from ConfigurableMiddleware with support for ILogger{ServerTimingMiddleware}, IHostEnvironment and ServerTimingOptions
+- CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace marking the NonMvcResponseHandlers property obsolete
  
 Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6

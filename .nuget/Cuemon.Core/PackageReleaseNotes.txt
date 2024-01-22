@@ -1,4 +1,10 @@
-﻿Version: 8.0.1
+﻿Version: 8.1.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# Improvements
+- CHANGED Validator class in the Cuemon namespace to ease on constraint from IValidatableParameterObject --> IParameterObject on ThrowIfInvalidConfigurator and ThrowIfInvalidOptions; functionality remains the same but opens up for more flexibility
+ 
+Version: 8.0.1
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM
@@ -31,13 +37,13 @@ Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
 - CHANGED Validator class in the Cuemon namespace was modernized and greatly improved for both consistency and changes introduced by Microsoft for both C# 10 and recent .NET versions
 - ADDED Static method EncloseToExpose together with a new property, ArgumentName, to the Decorator class in the Cuemon namespace that can be used to re-use non-common extension methods from native extension methods without double-validating arguments
 - ADDED An overload of CheckParameter to the Validator class in the Cuemon namespace that satisfies validating when doing constructor nesting
-- DelimitedStringOptions class in the Cuemon namespace inherits from FormattingOptions
-- ObjectFormattingOptions class in the Cuemon namespace inherits from FormattingOptions
-- ObjectPortrayalOptions class in the Cuemon namespace inherits from FormattingOptions
-- ActivatorOptions class in the Cuemon.Reflection namespace inherits from FormattingOptions
-- TypeNameOptions class in the Cuemon.Reflection namespace inherits from FormattingOptions
-- StorageCapacityOptions class in the Cuemon namespace inherits from FormattingOptions
-- UnitFormatOptions class in the Cuemon namespace inherits from FormattingOptions
+- CHANGED DelimitedStringOptions class in the Cuemon namespace inherits from FormattingOptions
+- CHANGED ObjectFormattingOptions class in the Cuemon namespace inherits from FormattingOptions
+- CHANGED ObjectPortrayalOptions class in the Cuemon namespace inherits from FormattingOptions
+- CHANGED ActivatorOptions class in the Cuemon.Reflection namespace inherits from FormattingOptions
+- CHANGED TypeNameOptions class in the Cuemon.Reflection namespace inherits from FormattingOptions
+- CHANGED StorageCapacityOptions class in the Cuemon namespace inherits from FormattingOptions
+- CHANGED UnitFormatOptions class in the Cuemon namespace inherits from FormattingOptions
 - EXTENDED Validator class in the Cuemon namespace to have new static methods: ThrowIfDisposed
  
 # New Features

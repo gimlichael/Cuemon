@@ -1,4 +1,10 @@
-﻿Version: 8.0.1
+﻿Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# Improvements
+- CHANGED JsonFormatterOptions class in the Cuemon.Extensions.Text.Json.Formatters namespace to derive from IExceptionDescriptorOptions
+ 
+Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM

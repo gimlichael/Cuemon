@@ -16,6 +16,12 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ForbiddenResult in the Cuemon.AspNetCore.Mvc namespace that is an ActionResult that returns a Forbidden (403) response
 - BasicAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Basic namespace to provide a HTTP Basic Authentication implementation of AuthenticationHandler{TOptions}
 - AuthenticationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Authentication namespace that consist of extension methods for the AuthenticationBuilder class: AddBasic, AddDigestAccess and AddHmac
+- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace that consist of extension methods for the IMvcBuilder interface: AddApiKeySentinelOptions, AddThrottlingSentinelOptions, AddUserAgentSentinelOptions, AddServerTimingOptions, AddMvcFaultDescriptorOptions and AddHttpCacheableOptions
+- LoggerExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the ILogger{T} interface: GetTestStore{T}
+- ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the IServiceCollection interface: AddTestOutputLogging
+- TestLoggerEntry record in the Cuemon.Extensions.Xunit.Hosting namespace that represents a captured log-entry for testing purposes
+- ServerTimingOptions class in the Cuemon.AspNetCore.Diagnostics namespace that provides configuration options for ServerTimingMiddleware and related
+
 
 ### Fixed
 
@@ -36,6 +42,21 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - HmacAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Hmac namespace to be slightly more reusable in the confines of the Cuemon.AspNetCore.Authentication assembly
 - HmacAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Hmac namespace to include ValidateOptions to ensure that public read-write properties are in a valid state
 - HmacAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace to include an extra overload of AddFromRequest that accepts an instance of HttpRequestMessage
+- HttpExceptionDescriptor class in the Cuemon.AspNetCore.Diagnostics namespace to favor default values from HttpStatusCodeException derived exceptions
+- MiddlewareBuilderFactory class in the Cuemon.AspNetCore.Builder namespace to support validation of setup delegate when invoking UseConfigurableMiddleware{TMiddleware, TOptions}
+- ServiceCollectionExtensions class in the Cuemon.Extensions.DependencyInjection namespace was extended with two new extension methods for the IServiceCollection interface: TryConfigure{TOptions} and PostConfigureAllOf{TOptions}
+- NewtonsoftJsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to derive from IExceptionDescriptorOptions
+- JsonFormatterOptions class in the Cuemon.Extensions.Text.Json.Formatters namespace to derive from IExceptionDescriptorOptions
+- XmlFormatterOptions class in the Cuemon.Xml.Serialization.Formatters namespace to derive from IExceptionDescriptorOptions
+- Validator class in the Cuemon namespace to ease on constraint from IValidatableParameterObject --> IParameterObject on ThrowIfInvalidConfigurator and ThrowIfInvalidOptions; functionality remains the same but opens up for more flexibility
+- ServerTimingMiddleware class in the Cuemon.AspNetCore.Diagnostics namespace to inherit from ConfigurableMiddleware with support for ILogger{ServerTimingMiddleware}, IHostEnvironment and ServerTimingOptions
+- ServerTimingAttribute class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to include two new properties, ServerTimingLogLevel and EnvironmentName, while removing traces of excessive responsibility
+- ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to match the recent changes introduced to both ServerTimingMiddleware and ServerTimingAttribute
+- FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace marking the NonMvcResponseHandlers property obsolete
+- HttpRequestExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace was extended with one new extension method for the HttpRequest class: AcceptMimeTypesOrderedByQuality
+- ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace in the method UseFaultDescriptorExceptionHandler; from Action{FaultDescriptorOptions} setup --> Action{ICollection{HttpExceptionDescriptorResponseHandler}} nonMvcResponseHandlers
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace in the method AddYamlResponseHandler; from Action{ExceptionDescriptorOptions} setup --> IOptions{ExceptionDescriptorOptions} setup
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace with one new extension method for the IServiceCollection interface: AddNonMvcFaultDescriptor
 
 ## [8.0.1] - 2024-01-11
 
