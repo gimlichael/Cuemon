@@ -50,12 +50,20 @@ namespace Cuemon.AspNetCore.Mvc.Assets
             return Ok("Unit Test");
         }
 
-        [ServerTiming(Name = "action-result", ServerTimingLogLevel = LogLevel.Information)]
+        [ServerTiming(Name = "action-result", Description = "action-description", DesiredLogLevel = LogLevel.Information)]
         [HttpGet("oneSecondAttribute")]
         public async Task<IActionResult> GetAfter1SecondDecorated()
         {
             await Task.Delay(TimeSpan.FromSeconds(1));
             return Ok("Unit Test");
+        }
+
+        [ServerTiming]
+        [HttpGet("oneSecondAttributeWithDefaults")]
+        public async Task<IActionResult> GetAfter1SecondDecoratedWithDefaults()
+        {
+	        await Task.Delay(TimeSpan.FromSeconds(1));
+	        return Ok("Unit Test");
         }
 
         [HttpGet("getResponse400")]

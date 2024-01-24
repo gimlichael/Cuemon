@@ -6,53 +6,53 @@ using Microsoft.Extensions.Logging;
 
 namespace Cuemon.AspNetCore.Diagnostics
 {
-    /// <summary>
-    /// Configuration options for <see cref="ServerTimingMiddleware"/> and related.
-    /// </summary>
-    /// <seealso cref="TimeMeasureOptions" />
-    public class ServerTimingOptions : TimeMeasureOptions, IValidatableParameterObject
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ServerTimingOptions"/> class.
-        /// </summary>
-        /// <remarks>
-        /// The following table shows the initial property values for an instance of <see cref="ServerTimingOptions"/>.
-        /// <list type="table">
-        ///     <listheader>
-        ///         <term>Property</term>
-        ///         <description>Initial Value</description>
-        ///     </listheader>
-        ///     <item>
-        ///         <term><see cref="TimeMeasureOptions.TimeMeasureCompletedThreshold"/></term>
-        ///         <description><see cref="TimeSpan.Zero"/></description>
-        ///     </item>
-        ///     <item>
-        ///         <term><see cref="ServerTimingLogLevel"/></term>
-        ///         <description><see cref="LogLevel.None"/></description>
-        ///     </item>
-        ///     <item>
-        ///         <term><see cref="SuppressHeaderPredicate"/></term>
-        ///         <description><c>he => he.IsProduction()</c></description>
-        ///     </item>
-        /// </list>
-        /// </remarks>
-        public ServerTimingOptions()
-        {
-	        ServerTimingLogLevel = LogLevel.None;
-            SuppressHeaderPredicate = he => he.IsProduction();
-        }
-
-        /// <summary>
-        /// Gets or sets the predicate that can suppress the Server-Timing HTTP header(s).
-        /// </summary>
-        /// <value>The function delegate that can determine if the Server-Timing HTTP header(s) should be suppressed.</value>
-        public Func<IHostEnvironment, bool> SuppressHeaderPredicate { get; set; }
+	/// <summary>
+	/// Configuration options for <see cref="ServerTimingMiddleware"/> and related.
+	/// </summary>
+	/// <seealso cref="TimeMeasureOptions" />
+	public class ServerTimingOptions : TimeMeasureOptions, IValidatableParameterObject
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ServerTimingOptions"/> class.
+		/// </summary>
+		/// <remarks>
+		/// The following table shows the initial property values for an instance of <see cref="ServerTimingOptions"/>.
+		/// <list type="table">
+		///     <listheader>
+		///         <term>Property</term>
+		///         <description>Initial Value</description>
+		///     </listheader>
+		///     <item>
+		///         <term><see cref="TimeMeasureOptions.TimeMeasureCompletedThreshold"/></term>
+		///         <description><see cref="TimeSpan.Zero"/></description>
+		///     </item>
+		///     <item>
+		///         <term><see cref="LogLevelSelector"/></term>
+		///         <description><c>metric => metric.Duration.HasValue ? LogLevel.Debug : LogLevel.None</c></description>
+		///     </item>
+		///     <item>
+		///         <term><see cref="SuppressHeaderPredicate"/></term>
+		///         <description><c>environment => environment.IsProduction()</c></description>
+		///     </item>
+		/// </list>
+		/// </remarks>
+		public ServerTimingOptions()
+		{
+			LogLevelSelector = metric => metric.Duration.HasValue ? LogLevel.Debug : LogLevel.None;
+			SuppressHeaderPredicate = environment => environment.IsProduction();
+		}
 
 		/// <summary>
-		/// Gets or sets the <see cref="LogLevel"/> of server-timing metrics. Defaults to <see cref="LogLevel.None"/>, which means logging is disabled.
+		/// Gets or sets the predicate that can suppress the Server-Timing HTTP header(s).
 		/// </summary>
-		/// <value>The  <see cref="LogLevel"/> of server-timing metrics.</value>
-		public LogLevel ServerTimingLogLevel { get; set; }
+		/// <value>The function delegate that can determine if the Server-Timing HTTP header(s) should be suppressed.</value>
+		public Func<IHostEnvironment, bool> SuppressHeaderPredicate { get; set; }
+
+		/// <summary>
+		/// Gets or sets the function delegate that determines the <see cref="LogLevel"/> for a given <see cref="ServerTimingMetric"/>.
+		/// </summary>
+		/// <value>The function delegate that determines the <see cref="LogLevel"/> for a given <see cref="ServerTimingMetric"/>.</value>
+		public Func<ServerTimingMetric, LogLevel> LogLevelSelector { get; set; }
 
 		/// <summary>
 		/// Determines whether the public read-write properties of this instance are in a valid state.
@@ -62,8 +62,9 @@ namespace Cuemon.AspNetCore.Diagnostics
 		/// </exception>
 		/// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
 		public void ValidateOptions()
-        {
-            Validator.ThrowIfInvalidState(SuppressHeaderPredicate == null);
-        }
-    }
+		{
+			Validator.ThrowIfInvalidState(SuppressHeaderPredicate == null);
+			Validator.ThrowIfInvalidState(LogLevelSelector == null);
+		}
+	}
 }

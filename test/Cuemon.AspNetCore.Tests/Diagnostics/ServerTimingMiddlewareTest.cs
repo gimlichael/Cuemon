@@ -55,7 +55,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         }
 
         [Fact]
-        public async Task InvokeAsync_ShouldExcludeServerTimingHeaderWithMetrics_ButIncludeLogLevelInformation()
+        public async Task InvokeAsync_ShouldExcludeServerTimingHeaderWithMetrics_ButIncludeLogLevelDebug()
         {
 	        using (var middleware = MiddlewareTestFactory.Create(services =>
 	               {
@@ -75,7 +75,6 @@ namespace Cuemon.AspNetCore.Diagnostics
 		               app.UseServerTiming(o =>
 		               {
 			               o.SuppressHeaderPredicate = _ => true;
-			               o.ServerTimingLogLevel = LogLevel.Information;
 		               });
 	               }))
 	        {
@@ -90,8 +89,8 @@ namespace Cuemon.AspNetCore.Diagnostics
 
                 Assert.Empty(serverTimingHeader.ToString());
                 Assert.Collection(loggerStore.Query(),
-	                entry => Assert.Equal("Information: ServerTimingMetric { Name: redis, Duration: 22.0ms, Description: Redis Cache }", entry.ToString()),
-	                entry => Assert.Equal("Information: ServerTimingMetric { Name: restApi, Duration: 1700.0ms, Description: Some REST API integration }", entry.ToString()));
+	                entry => Assert.Equal("Debug: ServerTimingMetric { Name: redis, Duration: 22.0ms, Description: \"Redis Cache\" }", entry.ToString()),
+	                entry => Assert.Equal("Debug: ServerTimingMetric { Name: restApi, Duration: 1700.0ms, Description: \"Some REST API integration\" }", entry.ToString()));
 	        }
         }
 

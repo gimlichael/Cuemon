@@ -37,7 +37,7 @@ namespace Cuemon.AspNetCore.Diagnostics
             Assert.Null(sut.MethodDescriptor);
             Assert.Null(sut.RuntimeParameters);
             Assert.Equal(TimeMeasureOptions.DefaultTimeMeasureCompletedThreshold, sut.TimeMeasureCompletedThreshold);
-            Assert.Equal(LogLevel.None, sut.ServerTimingLogLevel);
+            Assert.NotNull(sut.LogLevelSelector);
             Assert.NotNull(sut.SuppressHeaderPredicate);
         }
     }

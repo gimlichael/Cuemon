@@ -21,17 +21,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         {
         }
 
-        /// <summary>
-        /// Gets or sets the server-specified metric name.
-        /// </summary>
-        /// <value>The server-specified metric name.</value>
-        public string Name { get; set; }
+		/// <summary>
+		/// Gets or sets the server-specified metric name. Defaults to the name of the action method.
+		/// </summary>
+		/// <value>The server-specified metric name.</value>
+		public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the server-specified metric description.
-        /// </summary>
-        /// <value>The server-specified metric description.</value>
-        public string Description { get; set; }
+		/// <summary>
+		/// Gets or sets the server-specified metric description. Defaults the request URI of the action method.
+		/// </summary>
+		/// <value>The server-specified metric description.</value>
+		public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the value that in combination with <see cref="ThresholdTimeUnit" /> specifies the threshold of the action method.
@@ -45,11 +45,11 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <value>The <see cref="TimeUnit"/> that defines the actual <see cref="Threshold"/>.</value>
         public TimeUnit ThresholdTimeUnit { get; set; } = TimeUnit.Ticks;
 
-        /// <summary>
-        /// Gets or sets the <see cref="LogLevel"/> of server-timing metrics. Defaults to <see cref="LogLevel.None"/>, which means logging is disabled.
-        /// </summary>
-        /// <value>The  <see cref="LogLevel"/> of server-timing metrics.</value>
-        public LogLevel ServerTimingLogLevel { get; set; } = LogLevel.None;
+		/// <summary>
+		/// Gets or sets the <see cref="LogLevel"/> of server-timing metrics. Defaults to <see cref="LogLevel.Debug"/>, which means logs are written with a severity level of debug.
+		/// </summary>
+		/// <value>The  <see cref="LogLevel"/> of server-timing metrics.</value>
+		public LogLevel DesiredLogLevel { get; set; } = LogLevel.Debug;
 
 		/// <summary>
 		/// Gets or sets the name of the environment to suppress the Server-Timing header from. Default is "Production".
@@ -72,7 +72,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 SuppressHeaderPredicate = string.IsNullOrEmpty(EnvironmentName)
                 ? _ => false
                 : env => env.EnvironmentName.Equals(EnvironmentName, StringComparison.OrdinalIgnoreCase),
-				ServerTimingLogLevel = ServerTimingLogLevel,
+				LogLevelSelector = metric => metric.Duration.HasValue ? DesiredLogLevel : LogLevel.None,
 				TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit)
             }), environment, logger)
             {

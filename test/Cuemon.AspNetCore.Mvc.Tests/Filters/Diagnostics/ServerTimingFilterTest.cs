@@ -115,6 +115,33 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         }
 
         [Fact]
+        public async Task ServerTimingAttribute_ShouldTimeMeasureFakeController_GetAfter1SecondDecoratedWithDefaults()
+        {
+	        using (var filter = WebApplicationTestFactory.Create(services =>
+	               {
+		               services.AddTestOutputLogging(TestOutput, LogLevel.Debug);
+		               services.AddServerTiming();
+		               services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
+	               }, app =>
+	               {
+		               app.UseRouting();
+		               app.UseEndpoints(routes => { routes.MapControllers(); });
+	               }))
+	        {
+		        var client = filter.Host.GetTestClient();
+		        var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttributeWithDefaults");
+                var serverTimingHeader = profiler.Result.Headers.GetValues(ServerTiming.HeaderName).Single();
+                var loggerStore = filter.ServiceProvider.GetRequiredService<ILogger<ServerTimingFilter>>().GetTestStore();
+
+				Assert.InRange(profiler.Elapsed, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+		        Assert.True(profiler.Result.Headers.Contains("Server-Timing"));
+		        Assert.StartsWith("GetAfter1SecondDecorated", serverTimingHeader);
+                Assert.True(loggerStore.Query(entry => entry.Message.StartsWith("Debug: ServerTimingMetric { Name: GetAfter1SecondDecoratedWithDefaults, Duration:") &&
+                                                       entry.Message.EndsWith("ms, Description: \"http://localhost/fake/onesecondattributewithdefaults\" }")).Any());
+	        }
+        }
+
+        [Fact]
         public async Task ServerTimingAttribute_ShouldSuppressTimeMeasureFakeControllerAndIncludeLogInformation_GetAfter1SecondDecorated()
         {
             using (var filter = WebApplicationTestFactory.Create(services =>
@@ -140,7 +167,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 Assert.InRange(profiler.Elapsed, TimeSpan.Zero, TimeSpan.FromSeconds(5));
                 Assert.True(options.Value.SuppressHeaderPredicate(filter.HostingEnvironment));
                 Assert.False(profiler.Result.Headers.Contains("Server-Timing"));
-                Assert.True(loggerStore.Query(entry => entry.Message.StartsWith("Information: ServerTimingMetric { Name: action-result")).Any(), "loggerStore.Query(entry => entry.Message.StartsWith('Information: ServerTimingMetric { Name: action-result')).Any()");
+                Assert.True(loggerStore.Query(entry => entry.Message.StartsWith("Information: ServerTimingMetric { Name: action-result") && entry.Message.EndsWith("Description: \"action-description\" }")).Any(), "loggerStore.Query(entry => entry.Message.StartsWith('Information: ServerTimingMetric { Name: action-result')).Any()");
 
                 TestOutput.WriteLine(profiler.Elapsed.ToString());
             }

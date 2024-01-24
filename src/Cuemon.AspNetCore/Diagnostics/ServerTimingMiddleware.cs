@@ -51,11 +51,12 @@ namespace Cuemon.AspNetCore.Diagnostics
                 {
 	                var serverTimingMetrics = serverTiming.Metrics.ToList();
 	                if (!Options.SuppressHeaderPredicate(environment)) { context.Response.Headers.Append(ServerTiming.HeaderName, serverTimingMetrics.Select(metric => metric.ToString()).ToArray()); }
-	                if (logger != null && Options.ServerTimingLogLevel != LogLevel.None)
+	                if (logger != null && Options.LogLevelSelector != null)
 	                {
 		                foreach (var metric in serverTimingMetrics)
 		                {
-                            logger.Log(Options.ServerTimingLogLevel, "ServerTimingMetric {{ Name: {Name}, Duration: {Duration}ms, Description: {Description} }}", 
+                            var logLevel = Options.LogLevelSelector(metric);
+							logger.Log(logLevel, "ServerTimingMetric {{ Name: {Name}, Duration: {Duration}ms, Description: \"{Description}\" }}", 
 	                            metric.Name,
 	                            metric.Duration?.TotalMilliseconds.ToString("F1", CultureInfo.InvariantCulture) ?? 0.ToString("F1"),
 	                            metric.Description ?? "N/A");

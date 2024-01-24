@@ -80,9 +80,9 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             var serverTiming = context.HttpContext.RequestServices.GetRequiredService<IServerTiming>();
             if (UseProfiler)
             {
-	            serverTiming.AddServerTiming(Name ?? "mvc", 
-		            Profiler.Elapsed, 
-		            Description ?? $"[{Decorator.Enclose(Profiler.Member.MethodName).ToAsciiEncodedString()}@{Decorator.Enclose(Profiler.Member.Caller.Name).ToAsciiEncodedString()}]({context.HttpContext.Request.GetEncodedUrl().ToLowerInvariant()})");
+	            serverTiming.AddServerTiming(Name ?? Decorator.Enclose(Profiler.Member.MethodName).ToAsciiEncodedString(),
+		            Profiler.Elapsed,
+		            Description ?? $"{context.HttpContext.Request.GetEncodedUrl().ToLowerInvariant()}");
 	            if (Options.TimeMeasureCompletedThreshold == TimeSpan.Zero || Profiler.Elapsed > Options.TimeMeasureCompletedThreshold)
 	            {
 		            TimeMeasure.CompletedCallback?.Invoke(Profiler);
@@ -90,13 +90,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             }
 
             var serverTimingMetrics = serverTiming.Metrics.ToList();
-
             if (!Options.SuppressHeaderPredicate(Environment)) { context.HttpContext.Response.Headers.Append(ServerTiming.HeaderName, serverTimingMetrics.Select(metric => metric.ToString()).ToArray()); }
-            if (Logger != null && Options.ServerTimingLogLevel != LogLevel.None)
+            if (Logger != null && Options.LogLevelSelector != null)
             {
 	            foreach (var metric in serverTimingMetrics)
 	            {
-		            Logger.Log(Options.ServerTimingLogLevel, "ServerTimingMetric {{ Name: {Name}, Duration: {Duration}ms, Description: {Description} }}", 
+                    var logLevel = Options.LogLevelSelector(metric);
+					Logger.Log(logLevel, "ServerTimingMetric {{ Name: {Name}, Duration: {Duration}ms, Description: \"{Description}\" }}", 
 			            metric.Name,
 			            metric.Duration?.TotalMilliseconds.ToString("F1", CultureInfo.InvariantCulture) ?? 0.ToString("F1"),
 			            metric.Description ?? "N/A");
