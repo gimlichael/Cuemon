@@ -17,12 +17,12 @@ using Microsoft.Extensions.Primitives;
 
 namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 {
-    /// <summary>
-    /// A filter that performs time measure profiling of action methods.
-    /// </summary>
-    /// <seealso cref="ConfigurableActionFilter{TOptions}"/>
-    /// <seealso cref="IActionFilter" />
-    public class ServerTimingFilter : ConfigurableActionFilter<ServerTimingOptions>
+	/// <summary>
+	/// A filter that performs time measure profiling of action methods.
+	/// </summary>
+	/// <seealso cref="ConfigurableActionFilter{TOptions}"/>
+	/// <seealso cref="IActionFilter" />
+	public class ServerTimingFilter : ConfigurableActionFilter<ServerTimingOptions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerTimingFilter" /> class.
@@ -43,6 +43,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
         private TimeMeasureProfiler Profiler { get; }
 
+        internal bool UseProfiler { get; set; } // this should only be enabled for ServerTimingAttribute
+
         internal string Name { get; set; }
 
         internal string Description { get; set; }
@@ -53,16 +55,19 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <param name="context">The <see cref="ActionExecutingContext" />.</param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            Profiler.Timer.Start();
-            if (context.ActionDescriptor is ControllerActionDescriptor descriptor)
-            {
-                var expectedObjects = ParseRuntimeParameters(context, descriptor);
-                var verifiedObjects = context.ActionArguments.Values.ToArray();
-                if (verifiedObjects.Length == expectedObjects.Length) { expectedObjects = verifiedObjects; }
-                var md = Options.MethodDescriptor?.Invoke() ?? ParseMethodDescriptor(descriptor);
-                Profiler.Member = md;
-                Profiler.Data = md.MergeParameters(Options.RuntimeParameters ?? expectedObjects);
-            }
+	        if (UseProfiler)
+	        {
+		        Profiler.Timer.Start();
+		        if (context.ActionDescriptor is ControllerActionDescriptor descriptor)
+		        {
+			        var expectedObjects = ParseRuntimeParameters(context, descriptor);
+			        var verifiedObjects = context.ActionArguments.Values.ToArray();
+			        if (verifiedObjects.Length == expectedObjects.Length) { expectedObjects = verifiedObjects; }
+			        var md = Options.MethodDescriptor?.Invoke() ?? ParseMethodDescriptor(descriptor);
+			        Profiler.Member = md;
+			        Profiler.Data = md.MergeParameters(Options.RuntimeParameters ?? expectedObjects);
+		        }
+	        }
         }
 
         /// <summary>
@@ -71,12 +76,17 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <param name="context">The <see cref="ActionExecutedContext" />.</param>
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            Profiler.Timer.Stop();
+            if (UseProfiler) { Profiler.Timer.Stop(); }
             var serverTiming = context.HttpContext.RequestServices.GetRequiredService<IServerTiming>();
-            serverTiming.AddServerTiming(Name ?? "mvc", Profiler.Elapsed, Description ?? $"[{Decorator.Enclose(Profiler.Member.MethodName).ToAsciiEncodedString()}@{Decorator.Enclose(Profiler.Member.Caller.Name).ToAsciiEncodedString()}]({context.HttpContext.Request.GetEncodedUrl().ToLowerInvariant()})");
-            if (Options.TimeMeasureCompletedThreshold == TimeSpan.Zero || Profiler.Elapsed > Options.TimeMeasureCompletedThreshold)
+            if (UseProfiler)
             {
-                TimeMeasure.CompletedCallback?.Invoke(Profiler);
+	            serverTiming.AddServerTiming(Name ?? "mvc", 
+		            Profiler.Elapsed, 
+		            Description ?? $"[{Decorator.Enclose(Profiler.Member.MethodName).ToAsciiEncodedString()}@{Decorator.Enclose(Profiler.Member.Caller.Name).ToAsciiEncodedString()}]({context.HttpContext.Request.GetEncodedUrl().ToLowerInvariant()})");
+	            if (Options.TimeMeasureCompletedThreshold == TimeSpan.Zero || Profiler.Elapsed > Options.TimeMeasureCompletedThreshold)
+	            {
+		            TimeMeasure.CompletedCallback?.Invoke(Profiler);
+	            }
             }
 
             var serverTimingMetrics = serverTiming.Metrics.ToList();

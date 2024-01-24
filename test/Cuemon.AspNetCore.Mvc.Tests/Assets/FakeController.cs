@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Filters.Headers;
 using Cuemon.Extensions.AspNetCore.Mvc;
@@ -13,6 +14,13 @@ namespace Cuemon.AspNetCore.Mvc.Assets
     [Route("[controller]")]
     public class FakeController : ControllerBase
     {
+	    private readonly IServerTiming _serverTiming;
+
+	    public FakeController(IServerTiming serverTiming = null)
+	    {
+		    _serverTiming = serverTiming;
+	    }
+
         [HttpGet]
         [BearerThrottlingSentinel(10, 5, TimeUnit.Seconds)]
         public IActionResult Get()
@@ -36,7 +44,9 @@ namespace Cuemon.AspNetCore.Mvc.Assets
         [HttpGet("oneSecond")]
         public async Task<IActionResult> GetAfter1Second()
         {
-            await Task.Delay(TimeSpan.FromSeconds(1));
+	        var delay = TimeSpan.FromSeconds(1);
+            await Task.Delay(delay);
+            _serverTiming?.AddServerTiming("sapIntegration", delay);
             return Ok("Unit Test");
         }
 

@@ -60,7 +60,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 Assert.True(profiler.Result.Headers.Contains("Server-Timing"));
                 Assert.Equal("redis", serverTimings[0].Split(';').First());
                 Assert.Equal("restApi", serverTimings[1].Split(';').First());
-                Assert.Equal("mvc", serverTimings[2].Split(';').First());
+                Assert.Equal("sapIntegration", serverTimings[2].Split(';').First());
 
                 TestOutput.WriteLine(profiler.Elapsed.ToString());
             }
@@ -84,7 +84,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
                 Assert.InRange(profiler.Elapsed, TimeSpan.Zero, TimeSpan.FromSeconds(5));
                 Assert.True(profiler.Result.Headers.Contains("Server-Timing"));
-                Assert.StartsWith("mvc", profiler.Result.Headers.GetValues(ServerTiming.HeaderName).Single());
+                Assert.StartsWith("sapIntegration", profiler.Result.Headers.GetValues(ServerTiming.HeaderName).Single());
 
                 TestOutput.WriteLine(profiler.Elapsed.ToString());
             }

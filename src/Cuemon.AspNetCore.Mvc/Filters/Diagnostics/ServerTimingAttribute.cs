@@ -77,7 +77,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             }), environment, logger)
             {
                 Name = Name,
-                Description = Description
+                Description = Description,
+                UseProfiler = true
             };
             return filter;
         }
