@@ -76,7 +76,7 @@ namespace Cuemon.AspNetCore.Http.Headers
 		{
 			using (var middleware = MiddlewareTestFactory.Create(services =>
 				   {
-					   services.AddNonMvcFaultDescriptor(o => o.SensitivityDetails = FaultSensitivityDetails.All);
+					   services.AddFaultDescriptor(o => o.SensitivityDetails = FaultSensitivityDetails.All);
 					   services.Configure<ApiKeySentinelOptions>(o =>
 					   {
 						   o.AllowedKeys.Add(Guid.NewGuid().ToString());

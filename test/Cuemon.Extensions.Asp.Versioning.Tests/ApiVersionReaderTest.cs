@@ -124,12 +124,14 @@ namespace Cuemon.Extensions.Asp.Versioning
 			}
 		}
 
-		[Fact]
-		public async Task GetRequest_ShouldFailWithBadRequestFormattedAsJsonResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnApplicationJsonAccept()
+		[Theory]
+		[InlineData("application/json")]
+		[InlineData("text/json")]
+		public async Task GetRequest_ShouldFailWithBadRequestFormattedAsJsonResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnJsonAccept(string jsonAccept)
 		{
 			using (var app = WebApplicationTestFactory.Create(services =>
 				   {
-					   services.AddNonMvcFaultDescriptor();
+					   services.AddFaultDescriptor();
 					   services.AddControllers(o => o.Filters.AddFaultDescriptor())
 						   .AddApplicationPart(typeof(FakeController).Assembly)
 						   .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
@@ -150,14 +152,14 @@ namespace Cuemon.Extensions.Asp.Versioning
 						  }))
 			{
 				var client = app.Host.GetTestClient();
-				client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;q=10.0;v=d3");
+				client.DefaultRequestHeaders.Add("Accept", $"text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,{jsonAccept};q=10.0;v=d3");
 				var sut = await client.GetAsync("/fake/throw");
 
 				TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
 
 				Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
 				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
-				Assert.EndsWith("application/json", sut.Content.Headers.ContentType.ToString());
+				Assert.EndsWith(jsonAccept, sut.Content.Headers.ContentType.ToString());
 				Assert.Equal(@"{
   ""error"": {
     ""status"": 400,
@@ -168,12 +170,54 @@ namespace Cuemon.Extensions.Asp.Versioning
 			}
 		}
 
-		[Fact]
-		public async Task GetRequest_ShouldFailWithBadRequestFormattedAsNewtonsoftJsonResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnApplicationJsonAccept()
+		[Theory]
+		[InlineData("application/xml")]
+		[InlineData("text/xml")]
+		public async Task GetRequest_ShouldFailWithBadRequestFormattedAsJsonResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnXmlAccept(string xmlAccept)
 		{
 			using (var app = WebApplicationTestFactory.Create(services =>
 				   {
-					   services.AddNonMvcFaultDescriptor(o => o.SensitivityDetails = FaultSensitivityDetails.Evidence);
+					   services.AddFaultDescriptor();
+					   services.AddControllers(o => o.Filters.AddFaultDescriptor())
+						   .AddApplicationPart(typeof(FakeController).Assembly)
+						   .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
+					   services.AddHttpContextAccessor();
+					   services.AddRestfulApiVersioning();
+				   }, app =>
+						  {
+							  app.UseFaultDescriptorExceptionHandler(handlers =>
+							  {
+								  handlers
+									  .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>())
+									  .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>());
+							  });
+							  app.UseRestfulApiVersioning();
+							  app.UseRouting();
+							  app.UseEndpoints(routes => { routes.MapControllers(); });
+
+						  }))
+			{
+				var client = app.Host.GetTestClient();
+				client.DefaultRequestHeaders.Add("Accept", $"application/json,text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,{xmlAccept};q=10.0;v=d3");
+				var sut = await client.GetAsync("/fake/throw");
+
+				TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
+
+				Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
+				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
+				Assert.EndsWith(xmlAccept, sut.Content.Headers.ContentType.ToString());
+				Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?><HttpExceptionDescriptor><Error><Status>400</Status><Code>BadRequest</Code><Message>The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'd3'.</Message></Error></HttpExceptionDescriptor>", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+			}
+		}
+
+		[Theory]
+		[InlineData("application/json")]
+		[InlineData("text/json")]
+		public async Task GetRequest_ShouldFailWithBadRequestFormattedAsNewtonsoftJsonResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnJsonAccept(string jsonAccept)
+		{
+			using (var app = WebApplicationTestFactory.Create(services =>
+				   {
+					   services.AddFaultDescriptor(o => o.SensitivityDetails = FaultSensitivityDetails.Evidence);
 					   services.AddControllers(o => o.Filters.AddFaultDescriptor())
 						   .AddApplicationPart(typeof(FakeController).Assembly)
 						   .AddNewtonsoftJsonFormatters(o => o.SensitivityDetails = FaultSensitivityDetails.Evidence);
@@ -194,15 +238,15 @@ namespace Cuemon.Extensions.Asp.Versioning
 						  }))
 			{
 				var client = app.Host.GetTestClient();
-				client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;q=10.0;v=d3");
+				client.DefaultRequestHeaders.Add("Accept", $"text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,{jsonAccept};q=10.0;v=d3");
 				var sut = await client.GetAsync("/fake/throw");
 
 				TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
 
 				Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
 				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
-				Assert.EndsWith("application/json", sut.Content.Headers.ContentType.ToString());
-				Assert.Equal("""
+				Assert.EndsWith(jsonAccept, sut.Content.Headers.ContentType.ToString());
+				Assert.Equal($$"""
                              {
                                "error": {
                                  "status": 400,
@@ -222,7 +266,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                                        "image/apng",
                                        "*/*; q=0.8",
                                        "application/signed-exchange; v=b3; q=0.9",
-                                       "application/json; q=10.0; v=d3"
+                                       "{{jsonAccept}}; q=10.0; v=d3"
                                      ],
                                      "host": "localhost"
                                    },
