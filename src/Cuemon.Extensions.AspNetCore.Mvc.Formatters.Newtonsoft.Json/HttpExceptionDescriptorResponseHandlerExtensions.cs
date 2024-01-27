@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
@@ -29,20 +28,26 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         public static ICollection<HttpExceptionDescriptorResponseHandler> AddNewtonsoftJsonResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, IOptions<NewtonsoftJsonFormatterOptions> setup)
         {
             Validator.ThrowIfNull(handlers);
-            Decorator.Enclose(handlers).AddResponseHandler(o =>
+
+            var options = setup.Value;
+
+            foreach (var mediaType in options.SupportedMediaTypes)
             {
-                o.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                o.ContentFactory = ed =>
-                {
-                    var options = setup.Value;
-                    options.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = options.SensitivityDetails);
-                    return new StreamContent(NewtonsoftJsonFormatter.SerializeObject(ed, Patterns.ConfigureRevert(options)))
-                    {
-                        Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }
-                    };
-                };
-                o.StatusCodeFactory = ed => (HttpStatusCode)ed.StatusCode;
-            });
+	            Decorator.Enclose(handlers).AddResponseHandler(o =>
+	            {
+		            o.ContentType = mediaType;
+		            o.ContentFactory = ed =>
+		            {
+			            options.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = options.SensitivityDetails);
+			            return new StreamContent(NewtonsoftJsonFormatter.SerializeObject(ed, Patterns.ConfigureRevert(options)))
+			            {
+				            Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }
+			            };
+		            };
+		            o.StatusCodeFactory = ed => (HttpStatusCode)ed.StatusCode;
+	            });
+            }
+            
             return handlers;
         }
     }

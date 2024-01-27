@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters;
 using Cuemon.Net.Http;
@@ -29,20 +28,26 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         public static ICollection<HttpExceptionDescriptorResponseHandler> AddXmlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, IOptions<XmlFormatterOptions> setup)
         {
             Validator.ThrowIfNull(handlers);
-            Decorator.Enclose(handlers).AddResponseHandler(o =>
+
+            var options = setup.Value;
+
+            foreach (var mediaType in options.SupportedMediaTypes)
             {
-                o.ContentType = MediaTypeHeaderValue.Parse("application/xml");
-                o.ContentFactory = ed =>
-                {
-                    var options = setup.Value;
-                    options.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = options.SensitivityDetails);
-                    return new StreamContent(XmlFormatter.SerializeObject(ed, Patterns.ConfigureRevert(options)))
-                    {
-                        Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }
-                    };
-                };
-                o.StatusCodeFactory = ed => (HttpStatusCode)ed.StatusCode;
-            });
+	            Decorator.Enclose(handlers).AddResponseHandler(o =>
+	            {
+		            o.ContentType = mediaType;
+		            o.ContentFactory = ed =>
+		            {
+			            options.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = options.SensitivityDetails);
+			            return new StreamContent(XmlFormatter.SerializeObject(ed, Patterns.ConfigureRevert(options)))
+			            {
+				            Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }
+			            };
+		            };
+		            o.StatusCodeFactory = ed => (HttpStatusCode)ed.StatusCode;
+	            });
+            }
+
             return handlers;
         }
     }
