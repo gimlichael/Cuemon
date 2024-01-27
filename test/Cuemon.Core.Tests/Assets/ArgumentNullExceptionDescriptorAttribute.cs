@@ -1,6 +1,7 @@
 ﻿using System;
+using Cuemon.Diagnostics;
 
-namespace Cuemon.Diagnostics.Assets
+namespace Cuemon.Assets
 {
     public sealed class ArgumentNullExceptionDescriptorAttribute : ExceptionDescriptorAttribute
     {

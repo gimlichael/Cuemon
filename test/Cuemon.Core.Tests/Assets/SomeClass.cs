@@ -1,7 +1,8 @@
 ﻿using System;
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.Collections.Generic;
 
-namespace Cuemon.Diagnostics.Assets
+namespace Cuemon.Assets
 {
     public class SomeClass
     {

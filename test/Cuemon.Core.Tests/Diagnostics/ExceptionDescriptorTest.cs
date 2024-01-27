@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Cuemon.Collections.Generic;
-using Cuemon.Diagnostics.Assets;
+using Cuemon.Assets;
 using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;

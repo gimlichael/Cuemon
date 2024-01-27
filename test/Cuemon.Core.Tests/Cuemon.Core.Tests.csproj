@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Collections.Generic\Cuemon.Extensions.Collections.Generic.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Globalization\Cuemon.Extensions.Globalization.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
@@ -36,6 +37,21 @@
   <ItemGroup>
     <Folder Include="Net\Http\" />
     <Folder Include="Text\Yaml\Formatters\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TestContext.Designer.cs">
+      <DependentUpon>TestContext.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="TestContext.resx">
+      <LastGenOutput>TestContext.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

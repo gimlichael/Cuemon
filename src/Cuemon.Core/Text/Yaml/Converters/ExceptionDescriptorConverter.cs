@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Cuemon.Diagnostics;
 using Cuemon.Runtime.Serialization;
-using Cuemon.Text.Yaml.Converters;
 
-namespace Cuemon.Diagnostics.Text.Yaml
+namespace Cuemon.Text.Yaml.Converters
 {
     /// <summary>
     /// Converts an <see cref="ExceptionDescriptor"/> to or from YAML.
@@ -31,7 +31,7 @@ namespace Cuemon.Diagnostics.Text.Yaml
         public override void WriteYaml(YamlTextWriter writer, ExceptionDescriptor value, YamlSerializerOptions so)
         {
             writer.WritePropertyName(so.SetPropertyName("Error"));
-            
+
             writer.WriteStartObject();
             writer.WriteString(so.SetPropertyName("Code"), value.Code);
             writer.WriteString(so.SetPropertyName("Message"), value.Message);
@@ -66,7 +66,7 @@ namespace Cuemon.Diagnostics.Text.Yaml
         /// <param name="typeToConvert">The type to convert.</param>
         /// <param name="so">An object that specifies serialization options to use.</param>
         /// <returns>The converted value.</returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public override ExceptionDescriptor ReadYaml(YamlTextReader reader, Type typeToConvert, YamlSerializerOptions so)
         {
             throw new NotImplementedException();
