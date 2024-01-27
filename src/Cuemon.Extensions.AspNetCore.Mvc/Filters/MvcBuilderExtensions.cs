@@ -107,21 +107,30 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters
 		/// Registers the specified <paramref name="setup" /> to configure <see cref="MvcFaultDescriptorOptions"/> in the underlying service collection of <paramref name="builder" />.
 		/// </summary>
 		/// <param name="builder">The <see cref="IMvcBuilder"/> to extend.</param>
-		/// <param name="setup">The <see cref="MvcFaultDescriptorOptions"/> which need to be configured.</param>
+		/// <param name="setup">The <see cref="MvcFaultDescriptorOptions"/> that may be configured.</param>
 		/// <returns>A reference to <paramref name="builder" /> so that additional configuration calls can be chained.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="builder"/> cannot be null.
-		/// <paramref name="setup"/> cannot be null.
 		/// </exception>
 		/// <exception cref="ArgumentException">
 		/// <paramref name="setup"/> failed to configure an instance of <see cref="MvcFaultDescriptorOptions"/> in a valid state.
 		/// </exception>
-		public static IMvcBuilder AddMvcFaultDescriptorOptions(this IMvcBuilder builder, Action<MvcFaultDescriptorOptions> setup)
+		public static IMvcBuilder AddMvcFaultDescriptorOptions(this IMvcBuilder builder, Action<MvcFaultDescriptorOptions> setup = null)
 		{
 			Validator.ThrowIfNull(builder);
-			Validator.ThrowIfNull(setup);
 			Validator.ThrowIfInvalidConfigurator(setup, out var options);
-			builder.Services.Configure(setup);
+			builder.Services.Configure(setup ?? (o =>
+			{
+				o.MarkExceptionHandled = options.MarkExceptionHandled;
+				o.SensitivityDetails = options.SensitivityDetails;
+				o.ExceptionCallback = options.ExceptionCallback;
+				o.ExceptionDescriptorResolver = options.ExceptionDescriptorResolver;
+				o.HttpFaultResolvers = options.HttpFaultResolvers;
+				o.RequestEvidenceProvider = options.RequestEvidenceProvider;
+				o.RootHelpLink = options.RootHelpLink;
+				o.UseBaseException = options.UseBaseException;
+				o.CancellationToken = options.CancellationToken;
+			}));
 			builder.Services.TryConfigure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = options.SensitivityDetails);
 			return builder;
 		}
