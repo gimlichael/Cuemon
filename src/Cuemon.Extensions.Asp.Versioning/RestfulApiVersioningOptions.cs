@@ -108,7 +108,9 @@ namespace Cuemon.Extensions.Asp.Versioning
 			{
 				"application/json",
 				"application/xml",
-				"application/vnd"
+				"application/vnd",
+				"text/json",
+				"text/xml"
 			};
 		}
 
