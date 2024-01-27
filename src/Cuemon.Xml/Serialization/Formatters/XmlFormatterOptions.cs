@@ -18,7 +18,8 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// <summary>
         /// Provides the default/fallback media type that the associated formatter should use when content negotiation either fails or is absent.
         /// </summary>
-        public static readonly MediaTypeHeaderValue DefaultMediaType = new("application/xml");
+        /// <value>The media type that the associated formatter should use when content negotiation either fails or is absent.</value>
+        public static MediaTypeHeaderValue DefaultMediaType { get; } = new("application/xml");
 
         static XmlFormatterOptions()
         {
