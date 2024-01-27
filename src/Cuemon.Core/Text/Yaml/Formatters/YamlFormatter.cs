@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Cuemon.Configuration;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Runtime.Serialization.Formatters;
 using Cuemon.Text.Yaml.Converters;
@@ -12,67 +11,31 @@ namespace Cuemon.Text.Yaml.Formatters
     /// </summary>
     /// <seealso cref="Formatter{TFormat}" />.
     /// <seealso cref="YamlConverter"/>.
-    public sealed class YamlFormatter : Formatter<Stream>, IConfigurable<YamlFormatterOptions>
+    public class YamlFormatter : StreamFormatter<YamlFormatterOptions>
     {
-        /// <summary>
-        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="source">The object to serialize to YAML format.</param>
-        /// <param name="setup">The <see cref="YamlFormatterOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
-        public static Stream SerializeObject(object source, Action<YamlFormatterOptions> setup = null)
-        {
-            return SerializeObject(source, null, setup);
-        }
+	    /// <summary>
+	    /// Initializes a new instance of the <see cref="YamlFormatter"/> class.
+	    /// </summary>
+	    public YamlFormatter() : this((Action<YamlFormatterOptions>) null)
+	    {
+	    }
 
-        /// <summary>
-        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="source">The object to serialize to YAML format.</param>
-        /// <param name="objectType">The type of the object to serialize.</param>
-        /// <param name="setup">The <see cref="YamlFormatterOptions"/> which may be configured.</param>
-        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
-        public static Stream SerializeObject(object source, Type objectType, Action<YamlFormatterOptions> setup = null)
-        {
-            Validator.ThrowIfNull(source);
-            var formatter = new YamlFormatter(setup);
-            return formatter.Serialize(source, objectType ?? source?.GetType());
-        }
+	    /// <summary>
+	    /// Initializes a new instance of the <see cref="YamlFormatter"/> class.
+	    /// </summary>
+	    /// <param name="setup">The <see cref="YamlFormatterOptions"/> which need to be configured.</param>
+	    public YamlFormatter(Action<YamlFormatterOptions> setup) : this(Patterns.Configure(setup))
+	    {
+	    }
 
-        /// <summary>
-        /// Deserializes the specified <paramref name="value"/> into an object of <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the object to return.</typeparam>
-        /// <param name="value">The object from which to deserialize the object graph.</param>
-        /// <param name="setup">The <see cref="YamlFormatterOptions"/> which may be configured.</param>
-        /// <returns>An object of <typeparamref name="T" />.</returns>
-        public static T DeserializeObject<T>(Stream value, Action<YamlFormatterOptions> setup = null)
-        {
-            return (T)DeserializeObject(value, typeof(T), setup);
-        }
-
-        /// <summary>
-        /// Deserializes the specified <paramref name="value" /> into an object of <paramref name="objectType"/>.
-        /// </summary>
-        /// <param name="value">The string from which to deserialize the object graph.</param>
-        /// <param name="objectType">The type of the deserialized object.</param>
-        /// <param name="setup">The <see cref="YamlFormatterOptions"/> which may be configured.</param>
-        /// <returns>An object of <paramref name="objectType"/>.</returns>
-        public static object DeserializeObject(Stream value, Type objectType, Action<YamlFormatterOptions> setup = null)
-        {
-            Validator.ThrowIfNull(value);
-            var formatter = new YamlFormatter(setup);
-            return formatter.Deserialize(value, objectType);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="YamlFormatter"/> class.
-        /// </summary>
-        /// <param name="setup">The <see cref="YamlFormatterOptions"/> which may be configured.</param>
-        public YamlFormatter(Action<YamlFormatterOptions> setup = null)
-        {
-            Options = Patterns.Configure(setup);
-        }
+	    /// <summary>
+	    /// Initializes a new instance of the <see cref="YamlFormatter"/> class.
+	    /// </summary>
+	    /// <param name="options">The configured <see cref="YamlFormatterOptions"/>.</param>
+	    public YamlFormatter(YamlFormatterOptions options) : base(options)
+	    {
+		    Options.RefreshWithConverterDependencies();
+	    }
 
         /// <summary>
         /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
@@ -88,7 +51,7 @@ namespace Cuemon.Text.Yaml.Formatters
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(objectType);
-            var serializer = new YamlSerializer(Patterns.ConfigureRevert(Options.Settings));
+            var serializer = new YamlSerializer(Options.Settings);
             return serializer.Serialize(source, objectType);
         }
 
@@ -106,14 +69,8 @@ namespace Cuemon.Text.Yaml.Formatters
         {
             Validator.ThrowIfNull(value);
             Validator.ThrowIfNull(objectType);
-            var serializer = new YamlSerializer(Patterns.ConfigureRevert(Options.Settings));
+            var serializer = new YamlSerializer(Options.Settings);
             return serializer.Deserialize(value, objectType);
         }
-
-        /// <summary>
-        /// Gets the configured options of this instance.
-        /// </summary>
-        /// <value>The configured options of this instance.</value>
-        public YamlFormatterOptions Options { get; }
     }
 }

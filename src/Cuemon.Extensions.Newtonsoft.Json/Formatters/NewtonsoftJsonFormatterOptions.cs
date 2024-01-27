@@ -18,6 +18,11 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         private readonly object _locker = new();
         private bool _refreshed;
 
+        /// <summary>
+        /// Provides the default/fallback media type that the associated formatter should use when content negotiation either fails or is absent.
+        /// </summary>
+        public static readonly MediaTypeHeaderValue DefaultMediaType = new("application/json");
+
         static NewtonsoftJsonFormatterOptions()
         {
             DefaultConverters = list =>
@@ -87,7 +92,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             SensitivityDetails = FaultSensitivityDetails.None;
             SupportedMediaTypes = new List<MediaTypeHeaderValue>()
             {
-                new("application/json"),
+                DefaultMediaType,
                 new("text/json")
             };
         }

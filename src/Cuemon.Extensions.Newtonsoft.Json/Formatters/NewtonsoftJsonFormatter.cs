@@ -34,7 +34,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// <param name="options">The configured <see cref="NewtonsoftJsonFormatterOptions"/>.</param>
         public NewtonsoftJsonFormatter(NewtonsoftJsonFormatterOptions options) : base(options)
         {
-            if (options.SynchronizeWithJsonConvert) { options.RefreshWithConverterDependencies().ApplyToDefaultSettings(); }
+	        Options.RefreshWithConverterDependencies();
+            if (Options.SynchronizeWithJsonConvert) { Options.Settings.ApplyToDefaultSettings(); }
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
 
             return StreamFactory.Create(writer =>
             {
-                var serializer = Options.SynchronizeWithJsonConvert ? JsonSerializer.CreateDefault() : JsonSerializer.Create(Options.RefreshWithConverterDependencies());
+                var serializer = Options.SynchronizeWithJsonConvert ? JsonSerializer.CreateDefault() : JsonSerializer.Create(Options.Settings);
                 using (var jsonWriter = new JsonTextWriter(writer))
                 {
                     jsonWriter.CloseOutput = false;
@@ -70,7 +71,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         {
             Validator.ThrowIfNull(value);
             Validator.ThrowIfNull(objectType);
-            var serializer = Options.SynchronizeWithJsonConvert ? JsonSerializer.CreateDefault() : JsonSerializer.Create(Options.RefreshWithConverterDependencies());
+            var serializer = Options.SynchronizeWithJsonConvert ? JsonSerializer.CreateDefault() : JsonSerializer.Create(Options.Settings);
             var sr = new StreamReader(value, true);
             using (var reader = new JsonTextReader(sr))
             {
