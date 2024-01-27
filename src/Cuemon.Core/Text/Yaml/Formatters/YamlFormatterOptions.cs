@@ -16,6 +16,15 @@ namespace Cuemon.Text.Yaml.Formatters
 	    private readonly object _locker = new();
 	    private bool _refreshed;
 
+		/// <summary>
+		/// Provides the default/fallback media type that the associated formatter should use when content negotiation either fails or is absent.
+		/// </summary>
+		/// <value>The media type that the associated formatter should use when content negotiation either fails or is absent.</value>
+		public static MediaTypeHeaderValue DefaultMediaType { get; } = new("text/plain")
+        {
+            CharSet = "utf-8"
+		};
+
         static YamlFormatterOptions()
         {
         }
@@ -39,13 +48,10 @@ namespace Cuemon.Text.Yaml.Formatters
             SensitivityDetails = FaultSensitivityDetails.None;
             SupportedMediaTypes = new List<MediaTypeHeaderValue>()
             {
-	            new("application/yaml"),
-	            new("text/yaml"),
+	            DefaultMediaType,
 	            new("text/plain"),
-				new("text/plain")
-				{
-                    CharSet = "utf-8"
-				}
+	            new("application/yaml"),
+	            new("text/yaml")
 			};
         }
 
