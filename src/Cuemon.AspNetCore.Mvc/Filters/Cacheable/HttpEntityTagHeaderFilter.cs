@@ -78,7 +78,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                 if (statusCodeBeforeBodyRead == StatusCodes.Status304NotModified) { context.HttpContext.Response.StatusCode = statusCodeBeforeBodyRead; }
 
                 Options.EntityTagResponseParser.Invoke(ms, context.HttpContext.Request, context.HttpContext.Response);
-                if (Decorator.Enclose(context.HttpContext.Response.StatusCode).IsSuccessStatusCode()) { await ms.CopyToAsync(body).ConfigureAwait(false); }
+                if (Decorator.Enclose(context.HttpContext.Response.StatusCode).IsSuccessStatusCode())
+                {
+                    await ms.CopyToAsync(body).ConfigureAwait(false);
+                }
+                else
+                {
+                    context.HttpContext.Response.Body = body;
+                }
             }
         }
 
