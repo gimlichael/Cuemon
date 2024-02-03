@@ -5,6 +5,7 @@ using System.Reflection;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Newtonsoft.Json.Converters;
+using Cuemon.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -13,7 +14,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     /// <summary>
     /// Specifies options that is related to <see cref="NewtonsoftJsonFormatter"/> operations.
     /// </summary>
-    public class NewtonsoftJsonFormatterOptions : IExceptionDescriptorOptions, IValidatableParameterObject
+    public class NewtonsoftJsonFormatterOptions : IExceptionDescriptorOptions, IContentNegotiation, IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;
@@ -157,7 +158,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// Gets or sets the collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="NewtonsoftJsonFormatter"/>.
         /// </summary>
         /// <returns>A collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="NewtonsoftJsonFormatter"/>.</returns>
-        public IList<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
+        public IReadOnlyCollection<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
 
         internal JsonSerializerSettings RefreshWithConverterDependencies()
         {

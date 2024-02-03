@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
+using Cuemon.Net.Http;
 using Cuemon.Runtime.Serialization;
 using Cuemon.Text.Yaml.Converters;
 
@@ -11,7 +12,7 @@ namespace Cuemon.Text.Yaml.Formatters
     /// <summary>
     /// Configuration options for <see cref="YamlFormatter"/>.
     /// </summary>
-    public sealed class YamlFormatterOptions : EncodingOptions, IExceptionDescriptorOptions, IValidatableParameterObject
+    public class YamlFormatterOptions : EncodingOptions, IExceptionDescriptorOptions, IContentNegotiation, IValidatableParameterObject
     {
 	    private readonly object _locker = new();
 	    private bool _refreshed;
@@ -24,10 +25,6 @@ namespace Cuemon.Text.Yaml.Formatters
         {
             CharSet = "utf-8"
 		};
-
-        static YamlFormatterOptions()
-        {
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="YamlFormatterOptions"/> class.
@@ -51,7 +48,8 @@ namespace Cuemon.Text.Yaml.Formatters
 	            DefaultMediaType,
 	            new("text/plain"),
 	            new("application/yaml"),
-	            new("text/yaml")
+	            new("text/yaml"),
+                new("*/*")
 			};
         }
 
@@ -77,7 +75,7 @@ namespace Cuemon.Text.Yaml.Formatters
         /// Gets or sets the collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="YamlFormatter"/>.
         /// </summary>
         /// <returns>A collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="YamlFormatter"/>.</returns>
-        public IList<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
+        public IReadOnlyCollection<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
 
         internal YamlSerializerOptions RefreshWithConverterDependencies()
         {

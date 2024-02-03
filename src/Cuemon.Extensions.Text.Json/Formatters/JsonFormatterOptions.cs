@@ -7,13 +7,14 @@ using System.Text.Json.Serialization;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Text.Json.Converters;
+using Cuemon.Net.Http;
 
 namespace Cuemon.Extensions.Text.Json.Formatters
 {
     /// <summary>
     /// Specifies options that is related to <see cref="JsonFormatter"/> operations.
     /// </summary>
-    public class JsonFormatterOptions : IExceptionDescriptorOptions, IValidatableParameterObject
+    public class JsonFormatterOptions : IContentNegotiation, IExceptionDescriptorOptions, IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;
@@ -110,7 +111,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// Gets or sets the collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="JsonFormatter"/>.
         /// </summary>
         /// <returns>A collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="JsonFormatter"/>.</returns>
-        public IList<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
+        public IReadOnlyCollection<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
 
         internal JsonSerializerOptions RefreshWithConverterDependencies()
         {

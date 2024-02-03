@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Builder;
@@ -9,6 +12,7 @@ using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Http;
+using Cuemon.Extensions.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +30,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// Adds a Server-Timing HTTP header to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
+        /// <param name="setup">The <see cref="ServerTimingOptions"/> which may be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IApplicationBuilder UseServerTiming(this IApplicationBuilder builder, Action<ServerTimingOptions> setup = null)
         {
@@ -36,13 +41,12 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// Adds a middleware to the pipeline that will catch exceptions, log them, and re-execute the request in an alternate pipeline. The request will not be re-executed if the response has already started.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="nonMvcResponseHandlers">The delegate that will allow for zero or more <see cref="HttpExceptionDescriptorResponseHandler"/> to perform content negotiation for non-MVC thrown exceptions.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <remarks>Extends the existing <see cref="ExceptionHandlerMiddleware"/> to include features similar to those provided by Cuemon.AspNetCore.Mvc.Filters.Diagnostics.FaultDescriptorFilter, except:<br/>
         /// 1. Unable to interact with controller applied attributes (outside scope; part of MVC context)<br/>
         /// 2. Unable to mark an exception as handled (outside scope; part of MVC context)
         /// </remarks>
-        public static IApplicationBuilder UseFaultDescriptorExceptionHandler(this IApplicationBuilder builder, Action<ICollection<HttpExceptionDescriptorResponseHandler>> nonMvcResponseHandlers = null)
+        public static IApplicationBuilder UseFaultDescriptorExceptionHandler(this IApplicationBuilder builder)
         {
             var handlerOptions = new ExceptionHandlerOptions()
             {
@@ -51,8 +55,8 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                     var ehf = context.Features.Get<IExceptionHandlerFeature>();
                     if (ehf != null)
                     {
-                        var exceptionDescriptorOptions = context.RequestServices.GetRequiredService<IOptions<ExceptionDescriptorOptions>>();
 						var faultDescriptorOptions = context.RequestServices.GetRequiredService<IOptions<FaultDescriptorOptions>>();
+                        var nonMvcResponseHandlers = context.RequestServices.GetExceptionResponseFormatters().SelectExceptionDescriptorHandlers();
                         var options = faultDescriptorOptions.Value;
 						var exceptionDescriptor = options.ExceptionDescriptorResolver?.Invoke(options.UseBaseException ? ehf.Error.GetBaseException() : ehf.Error);
                         if (exceptionDescriptor == null) { return; }
@@ -67,9 +71,8 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                         }
 
                         var handlers = new List<HttpExceptionDescriptorResponseHandler>(options.NonMvcResponseHandlers); // backward compatible until next major version is released
-                        nonMvcResponseHandlers?.Invoke(handlers);
-                        if (handlers.Count == 0) { handlers.AddYamlResponseHandler(exceptionDescriptorOptions); }
-         
+                        handlers = handlers.Concat(nonMvcResponseHandlers).ToList();
+
                         var accepts = context.Request.AcceptMimeTypesOrderedByQuality();
 
                         foreach (var accept in accepts)
@@ -82,11 +85,24 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                             }
                         }
 
-                        await WriteResponseAsync(context, handlers.First(), exceptionDescriptor, options.CancellationToken).ConfigureAwait(false); // fallback in case no match from Accept header
+                        var fallback = FallbackHandler(context.RequestServices.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value.SensitivityDetails);
+                        await WriteResponseAsync(context, fallback, exceptionDescriptor, options.CancellationToken).ConfigureAwait(false); // fallback in case no match from Accept header
                     }
                 }
             };
             return builder.UseExceptionHandler(handlerOptions);
+        }
+
+        private static HttpExceptionDescriptorResponseHandler FallbackHandler(FaultSensitivityDetails sensitivityDetails)
+        {
+            var contentType = new MediaTypeHeaderValue("text/plain");
+            return new HttpExceptionDescriptorResponseHandler(contentType, descriptor => new HttpResponseMessage((HttpStatusCode)descriptor.StatusCode)
+            {
+                Content = new StreamContent(sensitivityDetails == FaultSensitivityDetails.All ? descriptor.ToString().ToStream() : descriptor.Message.ToStream()) // for security reasons (and to reduce complexity) only use Exception.ToString() for FaultSensitivityDetails.All; all other cases use Message
+                {
+                    Headers = { ContentType = contentType }
+                }
+            });
         }
 
         private static async Task WriteResponseAsync(HttpContext context, HttpExceptionDescriptorResponseHandler handler, HttpExceptionDescriptor exceptionDescriptor, CancellationToken ct)

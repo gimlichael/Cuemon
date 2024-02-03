@@ -33,6 +33,30 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
             return services;
         }
 
+        /// <summary>
+        /// Registers the specified <paramref name="setup" /> to configure <see cref="ServerTimingOptions"/> in the <paramref name="services"/> collection.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to extend.</param>
+        /// <param name="setup">The <see cref="ServerTimingOptions"/> that may be configured.</param>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> failed to configure an instance of <see cref="ServerTimingOptions"/> in a valid state.
+        /// </exception>
+        public static IServiceCollection AddServerTimingOptions(this IServiceCollection services, Action<ServerTimingOptions> setup = null)
+        {
+            Validator.ThrowIfNull(services);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
+            services.TryConfigure(setup ?? (o =>
+            {
+                o.LogLevelSelector = options.LogLevelSelector;
+                o.SuppressHeaderPredicate = options.SuppressHeaderPredicate;
+                o.MethodDescriptor = options.MethodDescriptor;
+                o.RuntimeParameters = options.RuntimeParameters;
+                o.TimeMeasureCompletedThreshold = options.TimeMeasureCompletedThreshold;
+            }));
+            return services;
+        }
+
 		/// <summary>
 		/// Registers the specified <paramref name="setup" /> to configure <see cref="FaultDescriptorOptions"/> in the <paramref name="services"/> collection.
 		/// </summary>
@@ -42,11 +66,11 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
 		/// <exception cref="ArgumentException">
 		/// <paramref name="setup"/> failed to configure an instance of <see cref="FaultDescriptorOptions"/> in a valid state.
 		/// </exception>
-		public static IServiceCollection AddFaultDescriptor(this IServiceCollection services, Action<FaultDescriptorOptions> setup = null)
+		public static IServiceCollection AddFaultDescriptorOptions(this IServiceCollection services, Action<FaultDescriptorOptions> setup = null)
         {
             Validator.ThrowIfNull(services);
             Validator.ThrowIfInvalidConfigurator(setup, out var options);
-            services.Configure(setup ?? (o =>
+            services.TryConfigure(setup ?? (o =>
             {
                 o.SensitivityDetails = options.SensitivityDetails;
                 o.ExceptionCallback = options.ExceptionCallback;
@@ -58,6 +82,38 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                 o.CancellationToken = options.CancellationToken;
 			}));
             services.TryConfigure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = options.SensitivityDetails);
+            return services;
+        }
+
+        /// <summary>
+        /// Registers the specified <paramref name="setup" /> to configure <see cref="ExceptionDescriptorOptions"/> in the <paramref name="services"/> collection.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to extend.</param>
+        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> that may be configured.</param>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
+        public static IServiceCollection AddExceptionDescriptorOptions(this IServiceCollection services, Action<ExceptionDescriptorOptions> setup = null)
+        {
+            Validator.ThrowIfNull(services);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
+            services.TryConfigure(setup ?? (o =>
+            {
+                o.SensitivityDetails = options.SensitivityDetails;
+            }));
+            services.TryConfigure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = options.SensitivityDetails);
+            return services;
+        }
+
+        /// <summary>
+        /// Registers an action used to post-configure all instances of <see cref="IExceptionDescriptorOptions"/> in the <paramref name="services"/> collection.
+        /// These are run after <see cref="OptionsServiceCollectionExtensions.Configure{TOptions}(IServiceCollection,Action{TOptions})"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection" /> to extend.</param>
+        /// <param name="setup">The <see cref="IExceptionDescriptorOptions"/> which need to be configured.</param>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
+        public static IServiceCollection PostConfigureAllExceptionDescriptorOptions(this IServiceCollection services, Action<IExceptionDescriptorOptions> setup)
+        {
+            Validator.ThrowIfNull(services);
+            services.PostConfigureAllOf(setup);
             return services;
         }
     }

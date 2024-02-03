@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Extensions.AspNetCore.Text.Json.Formatters;
 using Cuemon.Extensions.Text.Json.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,40 +13,20 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
     /// </summary>
     public static class MvcBuilderExtensions
     {
-        static MvcBuilderExtensions()
-        {
-            Bootstrapper.Initialize();
-        }
-
         /// <summary>
         /// Adds the JSON serializer formatters to MVC.
         /// </summary>
         /// <param name="builder">The <see cref="IMvcBuilder"/>.</param>
-        /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="builder"/> cannot be null.
-        /// </exception>
-        public static IMvcBuilder AddJsonFormatters(this IMvcBuilder builder)
-        {
-            Validator.ThrowIfNull(builder);
-            builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
-            return builder;
-        }
-
-        /// <summary>
-        /// Adds the JSON serializer formatters to MVC.
-        /// </summary>
-        /// <param name="builder">The <see cref="IMvcBuilder"/>.</param>
-        /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="JsonFormatterOptions"/> which may be configured.</param>
         /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddJsonFormatters(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
+        public static IMvcBuilder AddJsonFormatters(this IMvcBuilder builder, Action<JsonFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(builder);
-            builder.AddJsonFormatters();
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
             builder.AddJsonFormattersOptions(setup);
             return builder;
         }
@@ -57,14 +38,16 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json
         /// <param name="setup">The <see cref="JsonFormatterOptions"/> which need to be configured.</param>
         /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="builder"/> cannot be null -or-
-        /// <paramref name="setup"/> cannot be null.
+        /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static IMvcBuilder AddJsonFormattersOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup)
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> failed to configure an instance of <see cref="JsonFormatterOptions"/> in a valid state.
+        /// </exception>
+        public static IMvcBuilder AddJsonFormattersOptions(this IMvcBuilder builder, Action<JsonFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(builder);
-            Validator.ThrowIfNull(setup);
-            builder.Services.Configure(setup);
+            builder.Services.AddJsonFormatterOptions(setup);
+            builder.Services.AddJsonExceptionResponseFormatter();
             return builder;
         }
     }

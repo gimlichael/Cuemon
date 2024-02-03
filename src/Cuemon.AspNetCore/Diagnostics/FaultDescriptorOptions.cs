@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
@@ -137,7 +136,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// Gets or sets a collection of <see cref="HttpExceptionDescriptorResponseHandler"/> that handles exception handling and content negotiation for non-MVC thrown exceptions.
         /// </summary>
         /// <value>The collection of <see cref="HttpExceptionDescriptorResponseHandler"/>.</value>
-        [Obsolete($"This property will be removed in near future; please use delegate with a signature of {nameof(ICollection)} where type is {nameof(HttpExceptionDescriptorResponseHandler)} instead.")]
+        [Obsolete($"This property will be removed in near future; feature has been moved to {nameof(IHttpExceptionDescriptorResponseFormatter)} and related.")]
         public IList<HttpExceptionDescriptorResponseHandler> NonMvcResponseHandlers { get; set; } = new List<HttpExceptionDescriptorResponseHandler>();
 
         /// <summary>

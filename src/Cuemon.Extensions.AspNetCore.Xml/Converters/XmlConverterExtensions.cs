@@ -11,7 +11,7 @@ using Cuemon.Xml.Serialization.Converters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
+namespace Cuemon.Extensions.AspNetCore.Xml.Converters
 {
     /// <summary>
     /// Extension methods for the <see cref=" XmlConverter"/> class.
@@ -65,7 +65,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static IList<XmlConverter> AddStringValuesConverter(this IList<XmlConverter> converters)
         {
-            return converters.InsertXmlConverter<StringValues>(0, (writer, values, qe) =>
+            return converters.InsertXmlConverter<StringValues>(0, (writer, values, _) =>
             {
                 if (values.Count <= 1)
                 {
@@ -85,7 +85,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static IList<XmlConverter> AddHeaderDictionaryConverter(this IList<XmlConverter> converters)
         {
-            return converters.InsertXmlConverter<IHeaderDictionary>(0, (writer, headers, qe) =>
+            return converters.InsertXmlConverter<IHeaderDictionary>(0, (writer, headers, _) =>
             {
                 foreach (var header in headers)
                 {
@@ -104,7 +104,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static IList<XmlConverter> AddQueryCollectionConverter(this IList<XmlConverter> converters)
         {
-            return converters.InsertXmlConverter<IQueryCollection>(0, (writer, collection, qe) =>
+            return converters.InsertXmlConverter<IQueryCollection>(0, (writer, collection, _) =>
             {
                 foreach (var pair in collection)
                 {
@@ -123,7 +123,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static IList<XmlConverter> AddFormCollectionConverter(this IList<XmlConverter> converters)
         {
-            return converters.InsertXmlConverter<IFormCollection>(0, (writer, collection, qe) =>
+            return converters.InsertXmlConverter<IFormCollection>(0, (writer, collection, _) =>
             {
                 foreach (var pair in collection)
                 {
@@ -142,7 +142,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static IList<XmlConverter> AddCookieCollectionConverter(this IList<XmlConverter> converters)
         {
-            return converters.InsertXmlConverter<IRequestCookieCollection>(0, (writer, collection, qe) =>
+            return converters.InsertXmlConverter<IRequestCookieCollection>(0, (writer, collection, _) =>
             {
                 foreach (var pair in collection)
                 {

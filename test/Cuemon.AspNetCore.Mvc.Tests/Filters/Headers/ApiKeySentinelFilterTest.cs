@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Mvc.Assets;
+using Cuemon.Extensions.AspNetCore.Http.Headers;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Cuemon.Extensions.Xunit;
@@ -185,7 +186,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 		{
 			using (var filter = WebApplicationTestFactory.Create(services =>
 			       {
-				       services.Configure<ApiKeySentinelOptions>(o =>
+				       services.AddApiKeySentinelOptions(o =>
 				       {
 					       o.AllowedKeys.Add("Cuemon-Key");
 				       });

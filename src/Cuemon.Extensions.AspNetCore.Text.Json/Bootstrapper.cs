@@ -1,7 +1,7 @@
-﻿using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters;
-using Cuemon.Extensions.Newtonsoft.Json.Formatters;
+﻿using Cuemon.Extensions.AspNetCore.Text.Json.Converters;
+using Cuemon.Extensions.Text.Json.Formatters;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
+namespace Cuemon.Extensions.AspNetCore.Text.Json
 {
     internal static class Bootstrapper
     {
@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
                     if (!_initialized)
                     {
                         _initialized = true;
-                        NewtonsoftJsonFormatterOptions.DefaultConverters += list =>
+                        JsonFormatterOptions.DefaultConverters += list =>
                         {
                             list.AddStringValuesConverter();
                         };

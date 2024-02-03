@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
@@ -27,6 +26,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// <paramref name="handlers"/> cannot be null - or -
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
+        [Obsolete($"This method will be removed in near future.")]
         public static ICollection<HttpExceptionDescriptorResponseHandler> AddResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, Action<HttpExceptionDescriptorResponseHandlerOptions> setup)
         {
             Validator.ThrowIfNull(handlers);
@@ -37,38 +37,23 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the list of <paramref name="handlers"/> that uses <see cref="YamlSerializer"/> as engine of serialization.
         /// </summary>
         /// <param name="handlers">The sequence of <see cref="HttpExceptionDescriptorResponseHandler"/> to extend.</param>
-        /// <param name="setup">The <see cref="ExceptionDescriptorOptions"/> which need to be configured.</param>
+        /// <param name="options">The <see cref="ExceptionDescriptorOptions"/> which need to be configured.</param>
         /// <returns>A reference to <paramref name="handlers" /> so that additional calls can be chained.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="handlers"/> cannot be null.
         /// </exception>
-        /// <remarks>This is also the fallback response handler for <see cref="M:ApplicationBuilderExtensions.UseFaultDescriptorExceptionHandler"/> found on <see cref="ApplicationBuilderExtensions"/>.</remarks>
-        public static ICollection<HttpExceptionDescriptorResponseHandler> AddYamlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, IOptions<YamlFormatterOptions> setup)
+        [Obsolete($"This method will be removed in near future; please use extension method {nameof(Text.Yaml.Formatters.ServiceCollectionExtensions.AddYamlExceptionResponseFormatter)} when configuring your services.")]
+        public static ICollection<HttpExceptionDescriptorResponseHandler> AddYamlResponseHandler(this ICollection<HttpExceptionDescriptorResponseHandler> handlers, IOptions<YamlFormatterOptions> options)
         {
             Validator.ThrowIfNull(handlers);
 
-            var options = setup.Value;
-            foreach (var mediaType in options.SupportedMediaTypes)
-            {
-	            handlers.AddResponseHandler(o =>
-	            {
-		            o.ContentType = mediaType;
-		            o.ContentFactory = ed =>
-		            {
-
-			            return new StreamContent(YamlFormatter.SerializeObject(ed, yfo =>
-			            {
-				            yfo.Settings.Converters.AddHttpExceptionDescriptorConverter(Patterns.ConfigureRevert(options));
-			            }))
-			            {
-				            Headers = { { HttpHeaderNames.ContentType, o.ContentType.MediaType } }
-			            };
-		            };
-		            o.StatusCodeFactory = ed => (HttpStatusCode)ed.StatusCode;
-	            });
-            }
-
-            return handlers;
+            return new HttpExceptionDescriptorResponseFormatter<YamlFormatterOptions>(options)
+                .Adjust(o => o.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = o.SensitivityDetails))
+                .Populate((descriptor, contentType) => new StreamContent(YamlFormatter.SerializeObject(descriptor, options.Value))
+                {
+                    Headers = { { HttpHeaderNames.ContentType, contentType.MediaType } }
+                }, handlers)
+                .ExceptionDescriptorHandlers;
         }
     }
 }

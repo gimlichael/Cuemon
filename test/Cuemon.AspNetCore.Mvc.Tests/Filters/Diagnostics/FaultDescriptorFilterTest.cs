@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.AspNetCore.Mvc.Assets;
 using Cuemon.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Http.Throttling;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
+using Cuemon.Extensions.DependencyInjection;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
@@ -30,21 +32,14 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 		{
 			using (var filter = WebApplicationTestFactory.CreateWithHostBuilderContext((context, services) =>
 			{
-				services.Configure<MvcFaultDescriptorOptions>(o =>
-				{
-
-				});
 				services
 					.AddControllers(o => { o.Filters.AddFaultDescriptor(); })
 					.AddApplicationPart(typeof(FakeController).Assembly)
 					.AddNewtonsoftJson()
-					.AddNewtonsoftJsonFormatters(o => o.SensitivityDetails = FaultSensitivityDetails.Failure)
-					.AddMvcFaultDescriptorOptions(o =>
-					{
-						o.SensitivityDetails = FaultSensitivityDetails.Failure;
-						o.UseBaseException = useBaseException;
-					});
-			}, (context, app) =>
+					.AddNewtonsoftJsonFormatters()
+					.AddMvcFaultDescriptorOptions(o => o.UseBaseException = useBaseException);
+                services.PostConfigureAllExceptionDescriptorOptions(o => o.SensitivityDetails = FaultSensitivityDetails.Failure);
+            }, (context, app) =>
 				   {
 					   app.UseRouting();
 					   app.UseEndpoints(routes => { routes.MapControllers(); });

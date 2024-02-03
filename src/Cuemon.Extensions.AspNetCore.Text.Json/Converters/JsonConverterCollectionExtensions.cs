@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions.Newtonsoft.Json;
-using Cuemon.Extensions.Newtonsoft.Json.Converters;
+using Cuemon.Extensions.Text.Json;
+using Cuemon.Extensions.Text.Json.Converters;
 using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
 
-namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
+namespace Cuemon.Extensions.AspNetCore.Text.Json.Converters
 {
     /// <summary>
     /// Extension methods for the <see cref="JsonConverter"/> class.
@@ -22,21 +22,18 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static ICollection<JsonConverter> AddHttpExceptionDescriptorConverter(this ICollection<JsonConverter> converters, Action<ExceptionDescriptorOptions> setup = null)
         {
-            converters.AddExceptionDescriptorConverterOf<HttpExceptionDescriptor>(setup, (writer, descriptor, serializer) =>
+            converters.AddExceptionDescriptorConverterOf<HttpExceptionDescriptor>(setup, (writer, descriptor, options) =>
             {
-                writer.WritePropertyName("Status", serializer);
-                writer.WriteValue(descriptor.StatusCode);
-            }, (writer, descriptor, serializer) =>
+                writer.WriteNumber(options.SetPropertyName("Status"), descriptor.StatusCode);
+            }, (writer, descriptor, options) =>
             {
                 if (!string.IsNullOrWhiteSpace(descriptor.CorrelationId))
                 {
-                    writer.WritePropertyName("CorrelationId", serializer);
-                    writer.WriteValue(descriptor.CorrelationId);
+                    writer.WriteString(options.SetPropertyName("CorrelationId"), descriptor.CorrelationId);
                 }
                 if (!string.IsNullOrWhiteSpace(descriptor.RequestId))
                 {
-                    writer.WritePropertyName("RequestId", serializer);
-                    writer.WriteValue(descriptor.RequestId);
+                    writer.WriteString(options.SetPropertyName("RequestId"), descriptor.RequestId);
                 }
             });
             return converters;
@@ -49,16 +46,16 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.Converters
         /// <returns>A reference to <paramref name="converters"/> after the operation has completed.</returns>
         public static ICollection<JsonConverter> AddStringValuesConverter(this ICollection<JsonConverter> converters)
         {
-            converters.Add(DynamicJsonConverter.Create<StringValues>((writer, values, serializer) =>
+            converters.Add(DynamicJsonConverter.Create<StringValues>((writer, values, _) =>
             {
                 if (values.Count <= 1)
                 {
-                    writer.WriteValue(values.ToString());
+                    writer.WriteStringValue(values.ToString());
                 }
                 else
                 {
                     writer.WriteStartArray();
-                    foreach (var value in values) { writer.WriteValue(value); }
+                    foreach (var value in values) { writer.WriteStringValue(value); }
                     writer.WriteEndArray();
                 }
             }));

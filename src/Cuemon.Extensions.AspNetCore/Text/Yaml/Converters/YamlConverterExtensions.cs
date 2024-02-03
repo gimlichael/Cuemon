@@ -23,7 +23,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
         public static ICollection<YamlConverter> AddExceptionDescriptorConverter(this ICollection<YamlConverter> converters, Action<YamlFormatterOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
-			converters.Add(new ExceptionDescriptorConverter(o => o.SensitivityDetails = options.SensitivityDetails));
+            converters.Add(new ExceptionDescriptorConverter(o => o.SensitivityDetails = options.SensitivityDetails));
             return converters;
         }
 

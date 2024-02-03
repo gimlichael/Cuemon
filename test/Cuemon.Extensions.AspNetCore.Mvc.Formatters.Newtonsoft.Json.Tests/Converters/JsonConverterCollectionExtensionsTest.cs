@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
-using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Collections.Generic;
 using Cuemon.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Converters;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;

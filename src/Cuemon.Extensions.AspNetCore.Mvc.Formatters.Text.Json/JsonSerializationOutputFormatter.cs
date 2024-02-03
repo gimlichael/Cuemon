@@ -1,5 +1,5 @@
 ﻿using Cuemon.AspNetCore.Mvc.Formatters;
-using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters;
+using Cuemon.Extensions.AspNetCore.Text.Json.Converters;
 using Cuemon.Extensions.Text.Json.Formatters;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json

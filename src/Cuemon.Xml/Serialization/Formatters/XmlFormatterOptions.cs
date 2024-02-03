@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
+using Cuemon.Net.Http;
 using Cuemon.Xml.Serialization.Converters;
 
 namespace Cuemon.Xml.Serialization.Formatters
@@ -10,7 +11,7 @@ namespace Cuemon.Xml.Serialization.Formatters
     /// <summary>
     /// Configuration options for <see cref="XmlFormatter"/>.
     /// </summary>
-    public class XmlFormatterOptions : IExceptionDescriptorOptions, IValidatableParameterObject
+    public class XmlFormatterOptions : IExceptionDescriptorOptions, IContentNegotiation, IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;
@@ -110,7 +111,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// Gets or sets the collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="XmlFormatter"/>.
         /// </summary>
         /// <returns>A collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="XmlFormatter"/>.</returns>
-        public IList<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
+        public IReadOnlyCollection<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
 
         internal XmlSerializerOptions RefreshWithConverterDependencies()
         {
