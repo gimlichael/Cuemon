@@ -48,7 +48,7 @@ namespace Cuemon.AspNetCore.Http.Headers
 		{
 			using (var middleware = MiddlewareTestFactory.Create(services =>
 				   {
-					   services.Configure<ApiKeySentinelOptions>(o =>
+					   services.AddApiKeySentinelOptions(o =>
 					   {
 						   o.AllowedKeys.Add(Guid.NewGuid().ToString());
 					   });
@@ -76,8 +76,8 @@ namespace Cuemon.AspNetCore.Http.Headers
 		{
 			using (var middleware = MiddlewareTestFactory.Create(services =>
 				   {
-					   services.AddFaultDescriptor(o => o.SensitivityDetails = FaultSensitivityDetails.All);
-					   services.Configure<ApiKeySentinelOptions>(o =>
+					   services.AddFaultDescriptorOptions(o => o.SensitivityDetails = FaultSensitivityDetails.All);
+					   services.AddApiKeySentinelOptions(o =>
 					   {
 						   o.AllowedKeys.Add(Guid.NewGuid().ToString());
 					   });
@@ -132,7 +132,7 @@ namespace Cuemon.AspNetCore.Http.Headers
 			var allowedKey = Generate.RandomString(24);
 			using (var middleware = MiddlewareTestFactory.Create(services =>
 			{
-				services.Configure<ApiKeySentinelOptions>(o =>
+				services.AddApiKeySentinelOptions(o =>
 				{
 					o.UseGenericResponse = true;
 					o.AllowedKeys.Add(allowedKey);
@@ -189,7 +189,7 @@ namespace Cuemon.AspNetCore.Http.Headers
 			var allowedKey = Generate.RandomString(24);
 			using (var middleware = MiddlewareTestFactory.Create(services =>
 			{
-				services.Configure<ApiKeySentinelOptions>(o =>
+				services.AddApiKeySentinelOptions(o =>
 				{
 					o.AllowedKeys.Add(allowedKey);
 				});
