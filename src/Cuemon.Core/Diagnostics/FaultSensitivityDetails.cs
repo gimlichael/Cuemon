@@ -9,7 +9,7 @@ namespace Cuemon.Diagnostics
     public enum FaultSensitivityDetails
     {
         /// <summary>
-        /// Specifies that all sensitive details are excluded.
+        /// Specifies that all sensitive details are excluded. This is the default and should always be used when in the confines of a Production environment.
         /// </summary>
         None = 0,
         /// <summary>
@@ -41,7 +41,7 @@ namespace Cuemon.Diagnostics
         /// </summary>
         FailureWithStackTraceAndData = Failure | StackTrace | Data,
         /// <summary>
-        /// Specifies that all details should be included when serializing an <see cref="ExceptionDescriptor"/>.
+        /// Specifies that all details should be included when serializing an <see cref="ExceptionDescriptor"/>. Should not be used in a Production environment.
         /// </summary>
         All = Failure | StackTrace | Data | Evidence
     }
