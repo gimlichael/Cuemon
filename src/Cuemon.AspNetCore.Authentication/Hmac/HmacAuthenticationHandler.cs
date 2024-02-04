@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Cuemon.AspNetCore.Diagnostics;
+using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -37,10 +38,12 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 
 			if (!Authenticator.TryAuthenticate(Context, Options.RequireSecureConnection, HmacAuthenticationMiddleware.AuthorizationHeaderParser, HmacAuthenticationMiddleware.TryAuthenticate, out var principal))
 			{
-				return Task.FromResult(AuthenticateResult.Fail(Options.UnauthorizedMessage));
+                var unathorized = new UnauthorizedException(Options.UnauthorizedMessage, principal.Failure);
+                Context.Items.Add(nameof(HttpExceptionDescriptor), new HttpExceptionDescriptor(unathorized)); // so annoying that Microsoft does not propagate AuthenticateResult properly - other have noticed as well: https://github.com/dotnet/aspnetcore/issues/44100
+				return Task.FromResult(AuthenticateResult.Fail(unathorized));
 			}
 
-			var ticket = new AuthenticationTicket(principal, Options.AuthenticationScheme);
+			var ticket = new AuthenticationTicket(principal.Result, Options.AuthenticationScheme);
 			return Task.FromResult(AuthenticateResult.Success(ticket));
 		}
 
@@ -49,13 +52,10 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 		/// </summary>
 		/// <param name="properties">The properties.</param>
 		/// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-		protected override async Task HandleChallengeAsync(AuthenticationProperties properties)
+		protected override Task HandleChallengeAsync(AuthenticationProperties properties)
 		{
 			Decorator.Enclose(Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, Options.AuthenticationScheme);
-			Response.StatusCode = StatusCodes.Status401Unauthorized;
-			Response.ContentType = "text/plain";
-			Response.ContentLength = Options.UnauthorizedMessage.Length;
-			await Response.Body.WriteAsync(Decorator.Enclose(Options.UnauthorizedMessage).ToByteArray()).ConfigureAwait(false);
+			return Task.CompletedTask;
 		}
 	}
 }

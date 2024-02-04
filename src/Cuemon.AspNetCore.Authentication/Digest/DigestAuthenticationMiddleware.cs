@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
@@ -52,7 +53,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 
 	        if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate, out var principal))
             {
-                await Decorator.Enclose(context).InvokeUnauthorizedExceptionAsync(Options, dc =>
+                await Decorator.Enclose(context).InvokeUnauthorizedExceptionAsync(Options, principal.Failure, dc =>
                 {
                     string etag = dc.Response.Headers[HeaderNames.ETag];
                     if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
@@ -64,32 +65,32 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                 }).ConfigureAwait(false);
             }
 
-            context.User = principal;
+            context.User = principal.Result;
 			await Next.Invoke(context).ConfigureAwait(false);
         }
 
-        internal static bool TryAuthenticate(HttpContext context, DigestAuthorizationHeader header, out ClaimsPrincipal result)
+        internal static bool TryAuthenticate(HttpContext context, DigestAuthorizationHeader header, out ConditionalValue<ClaimsPrincipal> result)
         {
 	        var options = context.Items[nameof(DigestAuthenticationOptions)] as DigestAuthenticationOptions;
             var nonceTracker = context.Items[nameof(INonceTracker)] as INonceTracker;
 			if (options?.Authenticator == null)
 	        {
-		        result = null;
+                result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException($"{nameof(options.Authenticator)} was unexpectedly set to null."));
 		        return false;
 	        }
 
             if (header == null)
             {
-                result = null;
+                result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException($"{nameof(DigestAuthorizationHeader)} was unexpectedly passed as null."));
                 return false;
             }
 
-            result = null;
             var nonceExpiredParser = options.NonceExpiredParser;
             var staleNonce = nonceExpiredParser(header.Nonce, TimeSpan.FromSeconds(30));
             if (staleNonce)
             {
                 context.Items.Add(DigestFields.Stale, "true");
+                result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException("Stale nonce detected."));
                 return false;
             }
 
@@ -101,6 +102,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                     if (previousNonce.Count == nc)
                     {
                         context.Items.Add(DigestFields.Stale, "true");
+                        result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException("Nonce replay detected."));
                         return false;
                     }
                 }
@@ -110,17 +112,26 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                 }
             }
 
-            result = options.Authenticator(header.UserName, out var password);
+            var presult = options.Authenticator(header.UserName, out var password);
+            if (presult != null)
+            {
+                context.Request.EnableBuffering();
 
-            context.Request.EnableBuffering();
+                using var body = new MemoryStream();
+                context.Request.Body.CopyToAsync(body).GetAwaiter().GetResult();
+                var db = new DigestAuthorizationHeaderBuilder().AddFromDigestAuthorizationHeader(header);
+                var ha1 = options.UseServerSideHa1Storage ? password : db.ComputeHash1(password);
+                var ha2 = db.ComputeHash2(context.Request.Method, Decorator.Enclose(body).ToEncodedString());
+                var serverResponse = db.ComputeResponse(ha1, ha2);
+                if (serverResponse != null && serverResponse.Equals(header.Response, StringComparison.OrdinalIgnoreCase))
+                {
+                    result = new SuccessfulValue<ClaimsPrincipal>(presult);
+                    return true;
+                }
+            }
 
-            using var body = new MemoryStream();
-            context.Request.Body.CopyToAsync(body).GetAwaiter().GetResult();
-            var db = new DigestAuthorizationHeaderBuilder().AddFromDigestAuthorizationHeader(header);
-            var ha1 = options.UseServerSideHa1Storage ? password : db.ComputeHash1(password);
-            var ha2 = db.ComputeHash2(context.Request.Method, Decorator.Enclose(body).ToEncodedString());
-            var serverResponse = db.ComputeResponse(ha1, ha2);
-            return serverResponse != null && serverResponse.Equals(header.Response, StringComparison.Ordinal) && Condition.IsNotNull(result);
+            result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException($"Unable to authenticate {header.UserName}."));
+            return false;
         }
 
         internal static DigestAuthorizationHeader AuthorizationHeaderParser(HttpContext context, string authorizationHeader)

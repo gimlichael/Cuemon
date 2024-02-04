@@ -73,7 +73,8 @@ namespace Cuemon.AspNetCore.Authentication.Basic
 		public async Task HandleAuthenticateAsync_ShouldReturn401WithUnauthorizedMessage_WhenAuthenticatorIsNotProbablySetup()
 		{
 			using (var webApp = WebApplicationTestFactory.Create(services =>
-				   {
+                   {
+                       services.AddAuthorizationResponseHandler();
 					   services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
 					   services
 						   .AddAuthentication(BasicAuthorizationHeader.Scheme)

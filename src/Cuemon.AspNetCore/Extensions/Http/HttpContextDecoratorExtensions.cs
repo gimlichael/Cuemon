@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.AspNetCore.Http.Throttling;
 using Cuemon.Collections.Generic;
@@ -119,6 +120,25 @@ namespace Cuemon.AspNetCore.Http
                     .AddResponseHeaders(decorator.Inner.Response.Headers)
                     .AddResponseHeaders(message.Headers).Inner;
             }
+        }
+
+        /// <summary>
+        /// Invokes and write the result from the specified <paramref name="handler"/> to the response body. Not intended to be used directly from your code.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="handler">The <see cref="HttpExceptionDescriptorResponseHandler"/> that holds the content negotiation response.</param>
+        /// <param name="exceptionDescriptor">The <see cref="HttpExceptionDescriptor"/> that provides information about an <see cref="Exception"/>.</param>
+        /// <param name="ct">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A Task representing the asynchronous operation.</returns>
+        public static async Task WriteExceptionDescriptorResponseAsync(this IDecorator<HttpContext> decorator, HttpExceptionDescriptorResponseHandler handler, HttpExceptionDescriptor exceptionDescriptor, CancellationToken ct)
+        {
+            var context = decorator.Inner;
+            var message = handler.ToHttpResponseMessage(exceptionDescriptor);
+            var buffer = await message.Content.ReadAsByteArrayAsync(ct).ConfigureAwait(false);
+            context.Response.ContentType = message.Content.Headers.ContentType!.ToString();
+            context.Response.ContentLength = buffer.Length;
+            context.Response.StatusCode = (int)message.StatusCode;
+            await context.Response.Body.WriteAsync(buffer, ct).ConfigureAwait(false);
         }
     }
 }

@@ -85,7 +85,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                             }
                         }
 
-                        var fallback = FallbackHandler(context.RequestServices.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value.SensitivityDetails);
+                        var fallback = HttpExceptionDescriptorResponseHandler.CreateDefaultFallbackHandler(context.RequestServices.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value.SensitivityDetails);
                         await WriteResponseAsync(context, fallback, exceptionDescriptor, options.CancellationToken).ConfigureAwait(false); // fallback in case no match from Accept header
                     }
                 }
@@ -93,26 +93,9 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
             return builder.UseExceptionHandler(handlerOptions);
         }
 
-        private static HttpExceptionDescriptorResponseHandler FallbackHandler(FaultSensitivityDetails sensitivityDetails)
+        private static Task WriteResponseAsync(HttpContext context, HttpExceptionDescriptorResponseHandler handler, HttpExceptionDescriptor exceptionDescriptor, CancellationToken ct)
         {
-            var contentType = new MediaTypeHeaderValue("text/plain");
-            return new HttpExceptionDescriptorResponseHandler(contentType, descriptor => new HttpResponseMessage((HttpStatusCode)descriptor.StatusCode)
-            {
-                Content = new StreamContent(sensitivityDetails == FaultSensitivityDetails.All ? descriptor.ToString().ToStream() : descriptor.Message.ToStream()) // for security reasons (and to reduce complexity) only use Exception.ToString() for FaultSensitivityDetails.All; all other cases use Message
-                {
-                    Headers = { ContentType = contentType }
-                }
-            });
-        }
-
-        private static async Task WriteResponseAsync(HttpContext context, HttpExceptionDescriptorResponseHandler handler, HttpExceptionDescriptor exceptionDescriptor, CancellationToken ct)
-        {
-            var message = handler.ToHttpResponseMessage(exceptionDescriptor);
-            var buffer = await message.Content.ReadAsByteArrayAsync(ct).ConfigureAwait(false);
-            context.Response.ContentType = message.Content.Headers.ContentType!.ToString();
-            context.Response.ContentLength = buffer.Length;
-            context.Response.StatusCode = (int)message.StatusCode;
-            await context.Response.Body.WriteAsync(buffer, ct).ConfigureAwait(false);
+            return Decorator.Enclose(context).WriteExceptionDescriptorResponseAsync(handler, exceptionDescriptor, ct);
         }
     }
 }

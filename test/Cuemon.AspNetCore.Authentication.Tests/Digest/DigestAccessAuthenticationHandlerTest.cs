@@ -80,10 +80,10 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 					.AddQopAuthentication()
 					.AddFromWwwAuthenticateHeader(result.Headers);
 
-				var ha1 = db.ComputeHash1("Test");
-				var ha2 = db.ComputeHash2("GET");
-				db.ComputeResponse(ha1, ha2);
+                var ha1 = db.ComputeHash1("Test");
+                var ha2 = db.ComputeHash2("GET");
 
+				db.ComputeResponse(ha1, ha2);
 				db.AddResponse("Test", "GET");
 
 				var token = db.Build().ToString();
@@ -266,6 +266,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 		{
 			using (var webApp = WebApplicationTestFactory.Create(services =>
 				   {
+                       services.AddAuthorizationResponseHandler();
 					   services.AddInMemoryDigestAuthenticationNonceTracker();
 					   services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
 					   services

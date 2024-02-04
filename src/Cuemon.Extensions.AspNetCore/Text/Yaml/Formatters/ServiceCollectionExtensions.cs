@@ -2,6 +2,7 @@
 using System.Net.Http;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Text.Yaml.Converters;
+using Cuemon.Extensions.DependencyInjection;
 using Cuemon.Net.Http;
 using Cuemon.Text.Yaml.Formatters;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters
         {
             Validator.ThrowIfNull(services);
             Validator.ThrowIfInvalidConfigurator(setup, out var options);
-            services.Configure(setup ?? (o =>
+            services.TryConfigure(setup ?? (o =>
             {
                 o.Settings = options.Settings;
                 o.SensitivityDetails = options.SensitivityDetails;
@@ -41,14 +42,16 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters
         /// Adds an <see cref="IHttpExceptionDescriptorResponseFormatter"/> that uses <see cref="YamlFormatter"/> as engine of serialization to the specified list of <paramref name="services"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to extend.</param>
+        /// <param name="setup">The <see cref="YamlFormatterOptions"/> which may be configured.</param>
         /// <returns>A reference to <paramref name="services" /> so that additional calls can be chained.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="services"/> cannot be null
         /// </exception>
         /// <remarks>Configuration of the <see cref="YamlFormatter"/> is done through a call to <see cref="ServiceProviderServiceExtensions.GetService{T}"/> retrieving an <see cref="IOptions{TOptions}"/> implementation of <see cref="YamlFormatterOptions"/>.</remarks>
-        public static IServiceCollection AddYamlExceptionResponseFormatter(this IServiceCollection services)
+        public static IServiceCollection AddYamlExceptionResponseFormatter(this IServiceCollection services, Action<YamlFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(services);
+            services.AddYamlFormatterOptions(setup);
             services.TryAddSingleton(provider =>
             {
                 var options = provider.GetService<IOptions<YamlFormatterOptions>>().Value;

@@ -19,7 +19,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 {
 	public class HmacAuthenticationHandlerTest : Test
 	{
-		private static string _authenticationScheme = "hmac-unit-test";
+		private static readonly string AuthenticationScheme = "hmac-unit-test";
 
 		public HmacAuthenticationHandlerTest(ITestOutputHelper output) : base(output)
 		{
@@ -32,7 +32,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 				   {
 					   services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
 					   services
-						   .AddAuthentication(_authenticationScheme)
+						   .AddAuthentication(AuthenticationScheme)
 						   .AddHmac(o =>
 						   {
 							   o.Authenticator = (string clientId, out string clientSecret) =>
@@ -42,12 +42,12 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 								   {
 									   clientSecret = "Test";
 									   var cp = new ClaimsPrincipal();
-									   cp.AddIdentity(new ClaimsIdentity(Arguments.Yield(new Claim("Name", "Test Agent")), _authenticationScheme));
+									   cp.AddIdentity(new ClaimsIdentity(Arguments.Yield(new Claim("Name", "Test Agent")), AuthenticationScheme));
 									   return cp;
 								   }
 								   return null;
 							   };
-							   o.AuthenticationScheme = _authenticationScheme;
+							   o.AuthenticationScheme = AuthenticationScheme;
 							   o.RequireSecureConnection = false;
 						   });
 				   }, app =>
@@ -74,7 +74,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 				TestOutput.WriteLine("WWW-Authenticate:");
 				TestOutput.WriteLine(wwwAuthenticate);
 
-				var hb = new HmacAuthorizationHeaderBuilder(_authenticationScheme)
+				var hb = new HmacAuthorizationHeaderBuilder(AuthenticationScheme)
 					.AddFromRequest(result.RequestMessage)
 					.AddClientId("Agent-Api")
 					.AddClientSecret("Test")
@@ -103,9 +103,10 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 		{
 			using (var webApp = WebApplicationTestFactory.Create(services =>
 				   {
+                       services.AddAuthorizationResponseHandler();
 					   services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
 					   services
-						   .AddAuthentication(_authenticationScheme)
+						   .AddAuthentication(AuthenticationScheme)
 						   .AddHmac(o =>
 						   {
 							   o.Authenticator = (string clientId, out string clientSecret) =>
@@ -113,7 +114,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 								   clientSecret = null;
 								   return ClaimsPrincipal.Current;
 							   };
-							   o.AuthenticationScheme = _authenticationScheme;
+							   o.AuthenticationScheme = AuthenticationScheme;
 						   });
 				   }, app =>
 				   {
@@ -126,7 +127,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 					   app.UseEndpoints(routes => { routes.MapControllers(); });
 				   }))
 			{
-				var options = webApp.ServiceProvider.GetRequiredService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(_authenticationScheme);
+				var options = webApp.ServiceProvider.GetRequiredService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(AuthenticationScheme);
 				var client = webApp.Host.GetTestClient();
 
 				client.DefaultRequestHeaders.Add(HeaderNames.Date, DateTime.UtcNow.ToString("R"));
@@ -141,7 +142,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 
 				TestOutput.WriteLine(wwwAuthenticate.ToString());
 
-				var hb = new HmacAuthorizationHeaderBuilder(_authenticationScheme)
+				var hb = new HmacAuthorizationHeaderBuilder(AuthenticationScheme)
 					.AddFromRequest(result.RequestMessage)
 					.AddClientId("Agent-Api")
 					.AddClientSecret("Test")
@@ -163,7 +164,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 				   {
 					   services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
 					   services
-						   .AddAuthentication(_authenticationScheme)
+						   .AddAuthentication(AuthenticationScheme)
 						   .AddHmac(o =>
 						   {
 							   o.Authenticator = (string clientId, out string clientSecret) =>
