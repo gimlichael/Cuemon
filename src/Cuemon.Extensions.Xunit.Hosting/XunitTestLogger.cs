@@ -1,23 +1,27 @@
 ﻿using System;
+using System.Text;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
-	internal class TestLogger : InMemoryTestStore<TestLoggerEntry>, ILogger, IDisposable
+	internal class XunitTestLogger : InMemoryTestStore<XunitTestLoggerEntry>, ILogger, IDisposable
 	{
 		private readonly ITestOutputHelper _output;
 
-		public TestLogger(ITestOutputHelper output)
+		public XunitTestLogger(ITestOutputHelper output)
 		{
 			_output = output;
 		}
 
 		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
 		{
-			var message = $"{logLevel}: {formatter(state, exception)}";
+			var builder = new StringBuilder($"{logLevel}: {formatter(state, exception)}");
+            if (exception != null) { builder.AppendLine().Append(exception).AppendLine(); }
+
+            var message = builder.ToString();
 			_output.WriteLine(message);
-			Add(new TestLoggerEntry(logLevel, eventId, message));
+			Add(new XunitTestLoggerEntry(logLevel, eventId, message));
 		}
 
 		public bool IsEnabled(LogLevel logLevel)

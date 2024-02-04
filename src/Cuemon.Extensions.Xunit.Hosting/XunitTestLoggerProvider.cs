@@ -4,19 +4,19 @@ using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit.Hosting
 {
-	internal class TestLoggerProvider : ILoggerProvider
+	internal class XunitTestLoggerProvider : ILoggerProvider
 	{
-		private readonly ConcurrentDictionary<string, TestLogger> _loggers = new();
+		private readonly ConcurrentDictionary<string, XunitTestLogger> _loggers = new();
 		private readonly ITestOutputHelper _output;
 
-		public TestLoggerProvider(ITestOutputHelper output)
+		public XunitTestLoggerProvider(ITestOutputHelper output)
 		{
 			_output = output;
 		}
 
 		public ILogger CreateLogger(string categoryName)
 		{
-			return _loggers.GetOrAdd(categoryName, s => new TestLogger(_output));
+			return _loggers.GetOrAdd(categoryName, s => new XunitTestLogger(_output));
 		}
 
 		public void Dispose()

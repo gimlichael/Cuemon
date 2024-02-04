@@ -119,7 +119,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         {
 	        using (var filter = WebApplicationTestFactory.Create(services =>
 	               {
-		               services.AddTestOutputLogging(TestOutput, LogLevel.Debug);
+		               services.AddXunitTestLogging(TestOutput, LogLevel.Debug);
 		               services.AddServerTiming();
 		               services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
 	               }, app =>
@@ -147,7 +147,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
             using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddServerTiming();
-                services.AddTestOutputLogging(TestOutput, LogLevel.Information);
+                services.AddXunitTestLogging(TestOutput, LogLevel.Information);
                 services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
             }, app =>
                    {

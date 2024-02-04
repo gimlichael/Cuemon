@@ -11,17 +11,17 @@ namespace Cuemon.Extensions.Xunit.Hosting
 	public static class LoggerExtensions
 	{
 		/// <summary>
-		/// Returns the associated <see cref="ITestStore{T}"/> that is provided when settings up services from <see cref="ServiceCollectionExtensions.AddTestOutputLogging"/>.
+		/// Returns the associated <see cref="ITestStore{T}"/> that is provided when settings up services from <see cref="ServiceCollectionExtensions.AddXunitTestLogging"/>.
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger{TCategoryName}"/> from which to retrieve the <see cref="ITestStore{T}"/>.</param>
-		/// <returns>Returns an implementation of <see cref="ITestStore{T}"/> with all logged entries expressed as <see cref="TestLoggerEntry"/>.</returns>
+		/// <returns>Returns an implementation of <see cref="ITestStore{T}"/> with all logged entries expressed as <see cref="XunitTestLoggerEntry"/>.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="logger"/> cannot be null.
 		/// </exception>
 		/// <exception cref="ArgumentException">
 		/// <paramref name="logger"/> does not contain a test store.
 		/// </exception>
-		public static ITestStore<TestLoggerEntry> GetTestStore<T>(this ILogger<T> logger)
+		public static ITestStore<XunitTestLoggerEntry> GetTestStore<T>(this ILogger<T> logger)
 		{
 			Validator.ThrowIfNull(logger);
 			var loggerType = logger.GetType();
@@ -36,14 +36,14 @@ namespace Cuemon.Extensions.Xunit.Hosting
 					{
 						var loggerInformationType = loggerInformation.GetType();
 						var providerType = loggerInformationType.GetProperty("ProviderType")?.GetValue(loggerInformation) as Type;
-						if (providerType == typeof(TestLoggerProvider))
+						if (providerType == typeof(XunitTestLoggerProvider))
 						{
-							return loggerInformationType.GetProperty("Logger")?.GetValue(loggerInformation) as InMemoryTestStore<TestLoggerEntry>;
+							return loggerInformationType.GetProperty("Logger")?.GetValue(loggerInformation) as InMemoryTestStore<XunitTestLoggerEntry>;
 						}
 					}
 				}
 			}
-			throw new ArgumentException($"Logger does not contain a test store; did you remember to call {nameof(ServiceCollectionExtensions.AddTestOutputLogging)} before calling this method?", nameof(logger));
+			throw new ArgumentException($"Logger does not contain a test store; did you remember to call {nameof(ServiceCollectionExtensions.AddXunitTestLogging)} before calling this method?", nameof(logger));
 		}
 	}
 }

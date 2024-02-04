@@ -16,7 +16,7 @@ namespace Cuemon.Extensions.Xunit.Hosting
 		public void AddTestOutputLogging_ShouldAddTestOutputLogging()
 		{
 			var services = new ServiceCollection();
-			services.AddTestOutputLogging(TestOutput);
+			services.AddXunitTestLogging(TestOutput);
 
 			var provider = services.BuildServiceProvider();
 

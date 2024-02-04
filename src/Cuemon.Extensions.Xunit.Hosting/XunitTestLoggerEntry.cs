@@ -5,15 +5,15 @@ namespace Cuemon.Extensions.Xunit.Hosting
 	/// <summary>
 	/// Represents a captured log-entry for testing purposes. This record encapsulates the <see cref="LogLevel"/>, <see cref="EventId"/> and message.
 	/// </summary>
-	public record TestLoggerEntry
+	public record XunitTestLoggerEntry
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TestLoggerEntry"/> class.
+		/// Initializes a new instance of the <see cref="XunitTestLoggerEntry"/> class.
 		/// </summary>
 		/// <param name="severity">The <see cref="LogLevel"/> for this entry.</param>
 		/// <param name="id">The <see cref="EventId"/> of this entry.</param>
 		/// <param name="message">The message of this entry.</param>
-		public TestLoggerEntry(LogLevel severity, EventId id, string message)
+		public XunitTestLoggerEntry(LogLevel severity, EventId id, string message)
 		{
 			Severity = severity;
 			Id = id;

@@ -60,7 +60,7 @@ namespace Cuemon.AspNetCore.Diagnostics
 	        using (var middleware = MiddlewareTestFactory.Create(services =>
 	               {
 		               services.AddServerTiming();
-		               services.AddTestOutputLogging(TestOutput);
+		               services.AddXunitTestLogging(TestOutput);
 	               }, app =>
 	               {
 		               app.Use(async (context, next) =>

@@ -21,14 +21,14 @@ namespace Cuemon.Extensions.Xunit.Hosting
 		/// <paramref name="services"/> cannot be null -or-
 		/// <paramref name="output"/> cannot be null.
 		/// </exception>
-		public static IServiceCollection AddTestOutputLogging(this IServiceCollection services, ITestOutputHelper output, LogLevel minimumLevel = LogLevel.Trace)
+		public static IServiceCollection AddXunitTestLogging(this IServiceCollection services, ITestOutputHelper output, LogLevel minimumLevel = LogLevel.Trace)
 		{
 			Validator.ThrowIfNull(services);
 			Validator.ThrowIfNull(output);
 			services.AddLogging(builder =>
 			{
 				builder.SetMinimumLevel(minimumLevel);
-				builder.AddProvider(new TestLoggerProvider(output));
+				builder.AddProvider(new XunitTestLoggerProvider(output));
 			});
 			return services;
 		}
