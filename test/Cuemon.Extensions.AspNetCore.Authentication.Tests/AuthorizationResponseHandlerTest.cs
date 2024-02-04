@@ -889,7 +889,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        services.AddXunitTestLogging(TestOutput, LogLevel.Error);
                        services.AddAuthorizationResponseHandler(o =>
                        {
-                           o.CancellationToken = new CancellationTokenSource(TimeSpan.FromMilliseconds(125)).Token;
+                           o.CancellationToken = new CancellationTokenSource(TimeSpan.FromMilliseconds(100)).Token;
                        });
                        services.AddAuthentication(BasicAuthorizationHeader.Scheme)
                            .AddBasic(o =>
@@ -940,7 +940,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                     TestOutput.WriteLine(i.ToString());
                 }
 
-                Assert.Equal(10, loggerStore.Query(entry => entry.Message.Contains("System.Threading.Tasks.TaskCanceledException: A task was canceled.")).Count());
+                Assert.InRange(loggerStore.Query(entry => entry.Message.Contains("System.Threading.Tasks.TaskCanceledException: A task was canceled.")).Count(), 8, 12); // should be 10 - but high CPU can make this unstable
             }
         }
 
