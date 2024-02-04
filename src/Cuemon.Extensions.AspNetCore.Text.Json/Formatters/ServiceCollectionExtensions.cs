@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Text.Json.Converters;
+using Cuemon.Extensions.DependencyInjection;
 using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +38,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json.Formatters
         {
             Validator.ThrowIfNull(services);
             Validator.ThrowIfInvalidConfigurator(setup, out var options);
-            services.Configure(setup ?? (o =>
+            services.TryConfigure(setup ?? (o =>
             {
                 o.Settings = options.Settings;
                 o.SensitivityDetails = options.SensitivityDetails;
@@ -50,14 +51,16 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json.Formatters
         /// Adds an <see cref="IHttpExceptionDescriptorResponseFormatter"/> that uses <see cref="JsonFormatter"/> as engine of serialization to the specified list of <paramref name="services"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to extend.</param>
+        /// <param name="setup">The <see cref="JsonFormatterOptions"/> which may be configured.</param>
         /// <returns>A reference to <paramref name="services" /> so that additional calls can be chained.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="services"/> cannot be null
         /// </exception>
         /// <remarks>Configuration of the <see cref="JsonFormatter"/> is done through a call to <see cref="ServiceProviderServiceExtensions.GetService{T}"/> retrieving an <see cref="IOptions{TOptions}"/> implementation of <see cref="JsonFormatterOptions"/>.</remarks>
-        public static IServiceCollection AddJsonExceptionResponseFormatter(this IServiceCollection services)
+        public static IServiceCollection AddJsonExceptionResponseFormatter(this IServiceCollection services, Action<JsonFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(services);
+            services.AddJsonFormatterOptions(setup);
             services.TryAddSingleton(provider =>
             {
                 var options = provider.GetService<IOptions<JsonFormatterOptions>>().Value;
