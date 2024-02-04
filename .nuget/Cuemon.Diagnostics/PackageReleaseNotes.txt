@@ -4,6 +4,15 @@ Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
  
+# Breaking Changes (soft)
+- MOVED ExceptionDescriptor from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- MOVED ExceptionDescriptorAttribute from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- MOVED ExceptionDescriptorOptions from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- MOVED FaultSensitivityDetails from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- MOVED IExceptionDescriptorOptions from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- MOVED MemberEvidence from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- MOVED ExceptionDescriptorConverter from Cuemon.Diagnostics.Text.Yaml namespace to Cuemon.Core assembly into the Cuemon.Text.Yaml.Converters namespace
+ 
 Version: 8.0.1
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  

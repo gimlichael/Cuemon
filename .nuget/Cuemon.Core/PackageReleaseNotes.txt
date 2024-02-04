@@ -1,8 +1,24 @@
 ﻿Version: 8.1.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED IContentNegotiation interface in the Cuemon.Net.Http namespace that defines a way to support content negotiation for HTTP enabled applications
+ 
 # Improvements
 - CHANGED Validator class in the Cuemon namespace to ease on constraint from IValidatableParameterObject --> IParameterObject on ThrowIfInvalidConfigurator and ThrowIfInvalidOptions; functionality remains the same but opens up for more flexibility
+- CHANGED YamlSerializer class in the Cuemon.Runtime.Serialization namespace so it is consistent with other serializers/formatters in the Cuemon family
+- CHANGED YamlFormatter class in the Cuemon.Text.Yaml.Formatters so that it inherits from StreamFormatter{T} as the remainder of the formatters in the Cuemon family
+- CHANGED YamlFormatterOptions class in the Cuemon.Text.Yaml.Formatters so that it shares common denominators with the remainder of the formatter options in the Cuemon family
+- CHANGED StreamFormatter{T} class in the Cuemon.Runtime.Serialization.Formatters namespace to include an additional four overloaded static members for SerializeObject and DeserializeObject (support for TOptions)
+- CHANGED Configurable{T} class in the Cuemon.Configuration namespace to have the constructor validated by Validator.ThrowIfInvalidOptions hereby reducing the risk of misconfigured Options
+- MOVED ConditionalValue class from the Cuemon.Threading namespace to the Cuemon namespace
+- MOVED SuccessfulValue class from the Cuemon.Threading namespace to the Cuemon namespace
+- MOVED UnsuccessfulValue class from the Cuemon.Threading namespace to the Cuemon namespace
+- CHANGED ConditionalValue class in the Cuemon namespace to include a Failure property that is of type Exception
+- EXTENDED AsyncOptions class in the Cuemon.Threading namespace to include a function delegate property, CancellationTokenProvider, that takes precedence when set, meaning that the getter of existing CancellationToken property will invoke said mentioned function delegate (edge case usage)
  
 Version: 8.0.1
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0

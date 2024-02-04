@@ -18,14 +18,42 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - AuthenticationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Authentication namespace that consist of extension methods for the AuthenticationBuilder class: AddBasic, AddDigestAccess and AddHmac
 - MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace that consist of extension methods for the IMvcBuilder interface: AddApiKeySentinelOptions, AddThrottlingSentinelOptions, AddUserAgentSentinelOptions, AddServerTimingOptions, AddMvcFaultDescriptorOptions and AddHttpCacheableOptions
 - LoggerExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the ILogger{T} interface: GetTestStore{T}
-- ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the IServiceCollection interface: AddTestOutputLogging
+- ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the IServiceCollection interface: AddXunitTestLogging
 - TestLoggerEntry record in the Cuemon.Extensions.Xunit.Hosting namespace that represents a captured log-entry for testing purposes
 - ServerTimingOptions class in the Cuemon.AspNetCore.Diagnostics namespace that provides configuration options for ServerTimingMiddleware and related
-
+- XmlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Xml.Converters namespace that consist of extension methods for the XmlConverter class: AddHttpExceptionDescriptorConverter, AddStringValuesConverter, AddHeaderDictionaryConverter, AddQueryCollectionConverter, AddFormCollectionConverter and AddCookieCollectionConverter
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Xml.Formatters namespace that consist of extension methods for the IServiceCollection interface: AddXmlFormatterOptions and AddXmlExceptionResponseFormatter
+- JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddHttpExceptionDescriptorConverter and AddStringValuesConverter
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Formatters namespace that consist of extension methods for the IServiceCollection interface: AddJsonFormatterOptions and AddJsonExceptionResponseFormatter
+- JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddHttpExceptionDescriptorConverter and AddStringValuesConverter
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Formatters namespace that consist of extension methods for the IServiceCollection interface: AddNewtonsoftJsonFormatterOptions and AddNewtonsoftJsonExceptionResponseFormatter
+- HttpExceptionDescriptorResponseFormatter{T} class in the Cuemon.AspNetCore.Diagnostics namespace that provides a generic way to support content negotiation for exceptions in the application
+- IHttpExceptionDescriptorResponseFormatter interface in the Cuemon.AspNetCore.Diagnostics namespace that defines a way to support content negotiation for exceptions in the application
+- IContentNegotiation interface in the Cuemon.Net.Http namespace that defines a way to support content negotiation for HTTP enabled applications
+- ServiceProviderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace that consist of extension methods for the IServiceProvider interface: GetExceptionResponseFormatters
+- HttpExceptionDescriptorResponseFormatterExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace that consist of extension methods for the IHttpExceptionDescriptorResponseFormatter interface: SelectExceptionDescriptorHandlers
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters namespace that consist of extension methods for the IServiceCollection interface: AddYamlFormatterOptions and AddYamlExceptionResponseFormatter
+- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace that consist of extension methods for the IMvcBuilder interface: AddYamlFormatters and AddYamlFormattersOptions
+- MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace that consist of extension methods for the IMvcCoreBuilder interface: AddYamlFormatters and AddYamlFormattersOptions
+- YamlSerializationInputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace that handles deserialization of YAML to objects using YamlFormatter
+- YamlSerializationMvcOptionsSetup class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace that is a ConfigureOptions{TOptions} implementation which will add the YAML serializer formatters to MvcOptions
+- YamlSerializationOutputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace that handles serialization of objects to YAML using YamlFormatter
+- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text namespace that consist of extension methods for the IMvcBuilder interface: AddExceptionDescriptorOptions
+- MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text namespace that consist of extension methods for the IMvcCoreBuilder interface: AddExceptionDescriptorOptions
+- ServiceProviderExtensions class in the Cuemon.Extensions.DependencyInjection namespace with extension methods for the IServiceProvider interface: GetServiceDescriptor
+- AuthorizationResponseHandler class in the Cuemon.Extensions.AspNetCore.Authentication namespace that provides an opinionated implementation of IAuthorizationMiddlewareResultHandler that is optimized to deliver meaningful responses based on HTTP content negotiation
+- AuthorizationResponseHandlerOptions class in the Cuemon.Extensions.AspNetCore.Authentication namespace that specifies options that is related to AuthorizationResponseHandler operations
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Authentication namespace that consist of extension methods for the IServiceCollection interface: AddAuthorizationResponseHandler
 
 ### Fixed
 
 - DigestAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Digest namespace to include UseServerSideHa1Storage that finally allows the server to bypass calculation of HA1 password representation
+- ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to only use embedded profiler when used in combination with ServerTimingAttribute
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace so that AddYamlResponseHandler now enumerates all supported media types in regards to content negotiation
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace so that AddXmlResponseHandler now enumerates all supported media types in regards to content negotiation
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace so that AddJsonResponseHandler now enumerates all supported media types in regards to content negotiation
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace so that AddNewtonsoftJsonResponseHandler now enumerates all supported media types in regards to content negotiation
+- HttpEntityTagHeaderFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so the new body stream is not disposed of prematurely leading to 500 errors on subsequent requests
 
 ### Changed
 
@@ -35,7 +63,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - BasicAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Basic namespace to include ValidateOptions to ensure that public read-write properties are in a valid state
 - AuthenticationOptions class in the Cuemon.AspNetCore.Authentication namespace to inherit from AuthenticationSchemeOptions and implement IValidatableParameterObject (replacing earlier IParameterObject) that ensures UnauthorizedMessage property is in a valid state
 - TryAuthenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to honor the otherwise suggested Try-Parse pattern (although breaking the method was assessed to have low risk of external callers)
-- Authenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to return a ClaimsPrincipal instead of assigning this directly to the User of the HttpContext instance (although breaking the method was assessed to have low risk of external callers)
+- Authenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to return a ClaimsPrincipal (wrapped inside a ConditionalValue) instead of assigning this directly to the User of the HttpContext instance (although breaking the method was assessed to have low risk of external callers)
 - DigestAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Digest namespace to be slightly more reusable in the confines of the Cuemon.AspNetCore.Authentication assembly
 - DigestAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Digest namespace to include ValidateOptions to ensure that public read-write properties are in a valid state
 - DigestAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace to include an extra overload of AddFromWwwAuthenticateHeader that accepts an instance of HttpResponseHeaders
@@ -54,9 +82,46 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to match the recent changes introduced to both ServerTimingMiddleware and ServerTimingAttribute
 - FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace marking the NonMvcResponseHandlers property obsolete
 - HttpRequestExtensions class in the Cuemon.Extensions.AspNetCore.Http namespace was extended with one new extension method for the HttpRequest class: AcceptMimeTypesOrderedByQuality
-- ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace in the method UseFaultDescriptorExceptionHandler; from Action{FaultDescriptorOptions} setup --> Action{ICollection{HttpExceptionDescriptorResponseHandler}} nonMvcResponseHandlers
+- ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to allow the UseFaultDescriptorExceptionHandler method to rely solely on RequestServices internally, hence the previous setup delegate has been removed as an argument to this method
 - HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace in the method AddYamlResponseHandler; from Action{ExceptionDescriptorOptions} setup --> IOptions{ExceptionDescriptorOptions} setup
-- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace with one new extension method for the IServiceCollection interface: AddNonMvcFaultDescriptor
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace with four new extension method for the IServiceCollection interface: AddFaultDescriptorOptions, AddServerTimingOptions, AddExceptionDescriptorOptions and PostConfigureAllExceptionDescriptorOptions
+- ServerTimingOptions class in the Cuemon.AspNetCore.Diagnostics namespace to include a new property, LogLevelSelector, with a function delegate signature that determines the LogLevel for a given ServerTimingMetric
+- ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to incorporate the new LogLevelSelector delegate and have less cluttered defaults in regards to Name and Description when used from ServerTimingAttribute
+- ServerTimingAttribute class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to embrace the new capabilities provided by the ServerTimingFilter (such as DesiredLogLevel)
+- HostingEnvironmentOptions class in the Cuemon.AspNetCore.Hosting namespace so that the SuppressHeaderPredicate function delegate now returns true when the environment is Production
+- YamlSerializer class in the Cuemon.Runtime.Serialization namespace so it is consistent with other serializers/formatters in the Cuemon family
+- YamlFormatter class in the Cuemon.Text.Yaml.Formatters so that it inherits from StreamFormatter{T} as the remainder of the formatters in the Cuemon family
+- YamlFormatterOptions class in the Cuemon.Text.Yaml.Formatters so that it shares common denominators with the remainder of the formatter options in the Cuemon family
+- YamlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters so the signature of methods take an argument of YamlFormatterOptions instead of ExceptionDescriptorOptions (both implement IExceptionDescriptorOptions)
+- ExceptionDescriptor was moved from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- ExceptionDescriptorAttribute was moved from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- ExceptionDescriptorOptions was moved from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- FaultSensitivityDetails was moved from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- IExceptionDescriptorOptions was moved from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- MemberEvidence was moved from Cuemon.Diagnostics namespace to Cuemon.Core assembly (retaining the namespace)
+- ExceptionDescriptorConverter was moved from Cuemon.Diagnostics.Text.Yaml namespace to Cuemon.Core assembly into the Cuemon.Text.Yaml.Converters namespace
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to allow the AddMvcFaultDescriptorOptions method to accept an optional Action{MvcFaultDescriptorOptions} delegate, as opposed to being mandatory
+- RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace to include non-official MIME-types in the ValidAcceptHeaders property
+- StreamFormatter{T} class in the Cuemon.Runtime.Serialization.Formatters namespace to include an additional four overloaded static members for SerializeObject and DeserializeObject (support for TOptions)
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics marking the two methods, AddResponseHandler and AddYamlResponseHandler, obsolete (latter should use AddYamlExceptionResponseFormatter instead)
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json marking the method, AddNewtonsoftJsonResponseHandler, obsolete (should use AddNewtonsoftJsonExceptionResponseFormatter instead)
+- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace to be more lean having only two extension methods remaining; AddNewtonsoftJsonFormatters and AddNewtonsoftJsonFormattersOptions
+- MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace to be more lean having only two extension methods remaining; AddNewtonsoftJsonFormatters and AddNewtonsoftJsonFormattersOptions
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json marking the method, AddJsonResponseHandler, obsolete (should use AddJsonExceptionResponseFormatter instead)
+- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace to be more lean having only two extension methods remaining; AddJsonFormatters and AddJsonFormattersOptions
+- MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace to be more lean having only two extension methods remaining; AddJsonFormatters and AddJsonFormattersOptions
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml marking the method, AddXmlResponseHandler, obsolete (should use AddXmlExceptionResponseFormatter instead)
+- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace to be more lean having only two extension methods remaining; AddXmlFormatters and AddXmlFormattersOptions
+- MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace to be more lean having only two extension methods remaining; AddXmlFormatters and AddXmlFormattersOptions
+- Configurable{T} class in the Cuemon.Configuration namespace to have the constructor validated by Validator.ThrowIfInvalidOptions hereby reducing the risk of misconfigured Options
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Http.Throttling namespace with one additional extension method for the IServiceCollection interface: AddThrottlingSentinelOptions
+- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace to allow all extension methods to have optional Action{TOptions} delegate
+- HttpExceptionDescriptorResponseHandler class in the Cuemon.AspNetCore.Diagnostics namespace with a new static method; CreateDefaultFallbackHandler that provides a scaled down HttpExceptionDescriptorResponseHandler suitable as fallback handler for when content negotiation fails
+- ConditionalValue class from the Cuemon.Threading namespace was moved to the Cuemon namespace
+- SuccessfulValue class from the Cuemon.Threading namespace was moved to the Cuemon namespace
+- UnsuccessfulValue class from the Cuemon.Threading namespace was moved to the Cuemon namespace
+- ConditionalValue class in the Cuemon namespace to include a Failure property that is of type Exception
+- AsyncOptions class in the Cuemon.Threading namespace to include a function delegate property, CancellationTokenProvider, that takes precedence when set, meaning that the getter of existing CancellationToken property will invoke said mentioned function delegate (edge case usage)
 
 ## [8.0.1] - 2024-01-11
 

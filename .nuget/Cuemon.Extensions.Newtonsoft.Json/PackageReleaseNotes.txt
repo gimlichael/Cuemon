@@ -1,6 +1,9 @@
 ﻿Version: 8.1.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
 # Improvements
 - CHANGED NewtonsoftJsonFormatterOptions class in the Cuemon.Extensions.Newtonsoft.Json.Formatters namespace to derive from IExceptionDescriptorOptions
  

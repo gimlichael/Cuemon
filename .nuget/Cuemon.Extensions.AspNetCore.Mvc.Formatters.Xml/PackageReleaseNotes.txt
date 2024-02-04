@@ -4,6 +4,17 @@ Availability: .NET 8, .NET 7 and .NET 6
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
  
+# Bug Fixes
+- FIXED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace so that AddXmlResponseHandler now enumerates all supported media types in regards to content negotiation
+ 
+# Improvements
+- CHANGED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml marking the method, AddXmlResponseHandler, obsolete (should use AddXmlExceptionResponseFormatter instead)
+- CHANGED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace to be more lean having only two extension methods remaining; AddXmlFormatters and AddXmlFormattersOptions
+- CHANGED MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace to be more lean having only two extension methods remaining; AddXmlFormatters and AddXmlFormattersOptions
+ 
+# Breaking Changes (soft)
+- MOVED XmlConverterExtensions from Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters namespace to Cuemon.Extensions.AspNetCore.Xml assembly into the Cuemon.Extensions.AspNetCore.Xml.Converters namespace
+ 
 Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6
  

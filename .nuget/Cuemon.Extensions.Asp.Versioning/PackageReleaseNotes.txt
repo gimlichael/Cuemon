@@ -4,6 +4,9 @@ Availability: .NET 8, .NET 7 and .NET 6
 # ALM
 - CHANGED Dependencies to latest and greatest with respect to TFMs
  
+# Improvements
+- CHANGED RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace to include non-official MIME-types in the ValidAcceptHeaders property
+ 
 Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6
  

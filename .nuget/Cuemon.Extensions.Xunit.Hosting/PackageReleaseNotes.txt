@@ -1,10 +1,13 @@
 ﻿Version: 8.1.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
 # New Features
 - ADDED LoggerExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the ILogger{T} interface: GetTestStore{T}
-- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the IServiceCollection interface: AddTestOutputLogging
-- ADDED TestLoggerEntry record in the Cuemon.Extensions.Xunit.Hosting namespace that represents a captured log-entry for testing purposes
+- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the IServiceCollection interface: AddXunitTestLogging
+- ADDED XunitTestLoggerEntry record in the Cuemon.Extensions.Xunit.Hosting namespace that represents a captured log-entry for testing purposes
  
 Version: 8.0.1
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0

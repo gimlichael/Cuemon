@@ -1,9 +1,12 @@
 ﻿Version: 8.1.0
 Availability: .NET 8, .NET 7 and .NET 6
  
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
 # Breaking Changes
 - CHANGED TryAuthenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to honor the otherwise suggested Try-Parse pattern (although breaking the method was assessed to have low risk of external callers)
-- CHANGED Authenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to return a ClaimsPrincipal instead of assigning this directly to the User of the HttpContext instance (although breaking the method was assessed to have low risk of external callers)
+- CHANGED Authenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to return a ClaimsPrincipal (wrapped inside a ConditionalValue) instead of assigning this directly to the User of the HttpContext instance (although breaking the method was assessed to have low risk of external callers)
  
 # New Features
 - ADDED BasicAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Basic namespace to provide a HTTP Basic Authentication implementation of AuthenticationHandler{TOptions}

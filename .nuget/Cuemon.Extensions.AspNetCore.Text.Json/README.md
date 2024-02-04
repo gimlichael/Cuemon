@@ -5,13 +5,14 @@ Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framew
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
-## **Cuemon.Extensions.Runtime.Caching** for .NET
+## **Cuemon.Extensions.AspNetCore.Text.Json** for .NET
 
-The `Cuemon.Extensions.Runtime.Caching` namespace contains extension methods that complements the `Cuemon.Runtime.Caching` namespace by adding support for Memoization techniques and GetOrAdd convenience; both with vast overloads and extended by the ICacheEnumerable{TKey} interface for loose coupling.
+The `Cuemon.Extensions.AspNetCore.Text.Json` namespace contains both types and extension methods that complements both the `Cuemon.AspNetCore`/`Cuemon.Extensions.Text.Json` namespace while being an addition to the `Microsoft.AspNetCore` namespace. Extends upon JSON formatters and converters in the context of ASP.NET Core for `System.Text.Json`.
 
 More documentation available at our documentation site:
 
-- [Cuemon.Extensions.Runtime.Caching](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Runtime.Caching.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Text.Json.Converters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Text.Json.Converters.html) 🔗
+- [Cuemon.Extensions.AspNetCore.Text.Json.Formatters](https://docs.cuemon.net/api/extensions/aspnet/Cuemon.Extensions.AspNetCore.Text.Json.Formatters.html) 🔗
 
 ## Related Packages
 

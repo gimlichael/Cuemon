@@ -1,8 +1,8 @@
 ﻿---
-uid: Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters
+uid: Cuemon.Extensions.AspNetCore.Xml.Converters
 summary: *content
 ---
-The `Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Converters` namespace contains extension methods that complements the `Cuemon.Extensions.Xml.Serialization.Converters` namespace.
+The `Cuemon.Extensions.AspNetCore.Xml.Converters` namespace contains extension methods that complements the `Cuemon.Extensions.Xml.Serialization.Converters` namespace.
 
 [!INCLUDE [availability-modern](../../includes/availability-modern.md)]
 

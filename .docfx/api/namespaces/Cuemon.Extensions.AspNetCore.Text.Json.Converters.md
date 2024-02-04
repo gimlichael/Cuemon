@@ -1,8 +1,8 @@
 ---
-uid: Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters
+uid: Cuemon.Extensions.AspNetCore.Text.Json.Converters
 summary: *content
 ---
-The `Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters` namespace contains extension methods that complements the `Cuemon.Extensions.Text.Json.Converters` namespace.
+The `Cuemon.Extensions.AspNetCore.Text.Json.Converters` namespace contains extension methods that complements the `Cuemon.Extensions.Text.Json.Converters` namespace.
 
 [!INCLUDE [availability-modern](../../includes/availability-modern.md)]
 
