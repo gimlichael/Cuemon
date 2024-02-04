@@ -122,7 +122,8 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters
 				o.RootHelpLink = options.RootHelpLink;
 				o.UseBaseException = options.UseBaseException;
 				o.CancellationToken = options.CancellationToken;
-			}));
+                o.CancellationTokenProvider = options.CancellationTokenProvider;
+            }));
 			builder.Services.TryConfigure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = options.SensitivityDetails);
 			return builder;
 		}

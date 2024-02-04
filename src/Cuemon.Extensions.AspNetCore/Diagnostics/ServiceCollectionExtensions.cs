@@ -80,7 +80,8 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                 o.RootHelpLink = options.RootHelpLink;
                 o.UseBaseException = options.UseBaseException;
                 o.CancellationToken = options.CancellationToken;
-			}));
+                o.CancellationTokenProvider = options.CancellationTokenProvider;
+            }));
             services.TryConfigure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = options.SensitivityDetails);
             return services;
         }
