@@ -3,7 +3,7 @@ using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Threading
+namespace Cuemon
 {
     public class UnsuccessfulValueTest : Test
     {
@@ -22,9 +22,19 @@ namespace Cuemon.Threading
         public void Ctor_SucceededShouldBeFalseWithDefaultResult()
         {
             var sut = new UnsuccessfulValue<Guid>();
-            
+
             Assert.False(sut.Succeeded);
             Assert.Equal(default, sut.Result);
+        }
+
+        [Fact]
+        public void Ctor_SucceededShouldBeFalseWithFailure()
+        {
+            var sut = new UnsuccessfulValue<Guid>(new AccessViolationException());
+
+            Assert.False(sut.Succeeded);
+            Assert.Equal(default, sut.Result);
+            Assert.IsType<AccessViolationException>(sut.Failure);
         }
 
         [Fact]
@@ -32,7 +42,7 @@ namespace Cuemon.Threading
         {
             var value = Guid.NewGuid();
             var sut = new UnsuccessfulValue<Guid>(value);
-            
+
             Assert.False(sut.Succeeded);
             Assert.Equal(value, sut.Result);
         }

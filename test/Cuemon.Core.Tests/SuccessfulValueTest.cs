@@ -3,7 +3,7 @@ using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Threading
+namespace Cuemon
 {
     public class SuccessfulValueTest : Test
     {
@@ -23,7 +23,7 @@ namespace Cuemon.Threading
         {
             var value = Guid.NewGuid();
             var sut = new SuccessfulValue<Guid>(value);
-            
+
             Assert.True(sut.Succeeded);
             Assert.Equal(value, sut.Result);
         }
