@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Filters.Cacheable;
 using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
+using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
@@ -37,7 +38,7 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
                        });
                        services.AddControllersWithViews(o =>
                        {
-                           o.Filters.Add<HttpCacheableFilter>();
+                           o.Filters.AddHttpCacheable();
                        });
                    }, app =>
                    {
@@ -53,15 +54,25 @@ namespace Cuemon.AspNetCore.Razor.TagHelpers
                 TestOutput.WriteLine(body);
 
                 Assert.Equal(StatusCodes.Status200OK, (int)result.StatusCode);
+                Assert.Equal("""
+                             <!DOCTYPE html>
+                             <html lang="en">
+                             <head>
+                             </head>
+                             <body data-spy="scroll">
+                                 Body Content
+                             </body>
+                             </html>
+                             """.ReplaceLineEndings(), body.ReplaceLineEndings());
 
                 client.DefaultRequestHeaders.Add(HeaderNames.IfNoneMatch, etag);
 
                 result = await client.GetAsync("/Index");
-
-                Assert.Equal(StatusCodes.Status304NotModified, (int)result.StatusCode);
-
                 body = await result.Content.ReadAsStringAsync();
 
+                Assert.Equal(StatusCodes.Status304NotModified, (int)result.StatusCode);
+                Assert.Equal("", body);
+                
                 TestOutput.WriteLine(body);
             }
         }
