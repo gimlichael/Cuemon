@@ -34,6 +34,10 @@ namespace Cuemon.AspNetCore.Diagnostics
 		///         <term><see cref="SuppressHeaderPredicate"/></term>
 		///         <description><c>environment => environment.IsProduction()</c></description>
 		///     </item>
+		/// 		///     <item>
+        ///         <term><see cref="UseTimeMeasureProfiler"/></term>
+        ///         <description><c>false</c></description>
+        ///     </item>
 		/// </list>
 		/// </remarks>
 		public ServerTimingOptions()
@@ -53,6 +57,13 @@ namespace Cuemon.AspNetCore.Diagnostics
 		/// </summary>
 		/// <value>The function delegate that determines the <see cref="LogLevel"/> for a given <see cref="ServerTimingMetric"/>.</value>
 		public Func<ServerTimingMetric, LogLevel> LogLevelSelector { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to apply <see cref="TimeMeasureProfiler"/> automatically on action methods in a Controller.
+        /// </summary>
+        /// <value><c>true</c> if action methods in a Controller should time measuring automatically; otherwise, <c>false</c>.</value>
+        /// <remarks>This property is only used in the context of a Global Filter for MVC.</remarks>
+        public bool UseTimeMeasureProfiler { get; set; }
 
 		/// <summary>
 		/// Determines whether the public read-write properties of this instance are in a valid state.

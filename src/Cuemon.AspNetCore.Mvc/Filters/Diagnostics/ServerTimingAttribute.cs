@@ -73,12 +73,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 ? _ => false
                 : env => env.EnvironmentName.Equals(EnvironmentName, StringComparison.OrdinalIgnoreCase),
 				LogLevelSelector = metric => metric.Duration.HasValue ? DesiredLogLevel : LogLevel.None,
-				TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit)
+				TimeMeasureCompletedThreshold = Decorator.Enclose(Threshold).ToTimeSpan(ThresholdTimeUnit),
+                UseTimeMeasureProfiler = true
             }), environment, logger)
             {
                 Name = Name,
                 Description = Description,
-                UseProfiler = true
+                FromAttributeDecoration = true
             };
             return filter;
         }

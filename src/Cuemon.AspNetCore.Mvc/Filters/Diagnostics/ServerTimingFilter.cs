@@ -43,7 +43,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
         private TimeMeasureProfiler Profiler { get; }
 
-        internal bool UseProfiler { get; set; } // this should only be enabled for ServerTimingAttribute
+        internal bool FromAttributeDecoration { get; set; }  // this should only be enabled for ServerTimingAttribute
 
         internal string Name { get; set; }
 
@@ -55,7 +55,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <param name="context">The <see cref="ActionExecutingContext" />.</param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-	        if (UseProfiler)
+	        if (Options.UseTimeMeasureProfiler)
 	        {
 		        Profiler.Timer.Start();
 		        if (context.ActionDescriptor is ControllerActionDescriptor descriptor)
@@ -76,15 +76,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         /// <param name="context">The <see cref="ActionExecutedContext" />.</param>
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            if (UseProfiler) { Profiler.Timer.Stop(); }
+            if (Options.UseTimeMeasureProfiler) { Profiler.Timer.Stop(); }
 
-            var hasGlobalFilter = context.Filters.Any(filter => filter is ServerTimingFilter serverTimingFilter && !serverTimingFilter.UseProfiler);
-            var hasServerTimingAttributeFilter = context.ActionDescriptor.EndpointMetadata.Any(o => o.GetType() == typeof(ServerTimingAttribute));
-            var skipExecutionDueToDoubleFilterRegistration = hasServerTimingAttributeFilter && hasGlobalFilter && UseProfiler;
-
+            var hasGlobalFilter = context.Filters.Any(filter => filter is ServerTimingFilter serverTimingFilter && !serverTimingFilter.FromAttributeDecoration);
+            var skipExecutionDueToDoubleFilterRegistration = hasGlobalFilter && FromAttributeDecoration;
             var serverTiming = context.HttpContext.RequestServices.GetRequiredService<IServerTiming>();
             
-            if (UseProfiler)
+            if (Options.UseTimeMeasureProfiler)
             {
 	            serverTiming.AddServerTiming(Name ?? Decorator.Enclose(Profiler.Member.MethodName).ToAsciiEncodedString(),
 		            Profiler.Elapsed,
@@ -97,7 +95,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
             if (skipExecutionDueToDoubleFilterRegistration) { return; }
 
-            var serverTimingMetrics = serverTiming.Metrics.ToList();
+            var serverTimingMetrics = serverTiming.Metrics.DistinctBy(metric => metric.Name).ToList();
             if (!Options.SuppressHeaderPredicate(Environment)) { context.HttpContext.Response.Headers.Append(ServerTiming.HeaderName, serverTimingMetrics.Select(metric => metric.ToString()).ToArray()); }
             if (Logger != null && Options.LogLevelSelector != null)
             {
