@@ -77,7 +77,13 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             if (UseProfiler) { Profiler.Timer.Stop(); }
+
+            var hasGlobalFilter = context.Filters.Any(filter => filter is ServerTimingFilter serverTimingFilter && !serverTimingFilter.UseProfiler);
+            var hasServerTimingAttributeFilter = context.ActionDescriptor.EndpointMetadata.Any(o => o.GetType() == typeof(ServerTimingAttribute));
+            var skipExecutionDueToDoubleFilterRegistration = hasServerTimingAttributeFilter && hasGlobalFilter && UseProfiler;
+
             var serverTiming = context.HttpContext.RequestServices.GetRequiredService<IServerTiming>();
+            
             if (UseProfiler)
             {
 	            serverTiming.AddServerTiming(Name ?? Decorator.Enclose(Profiler.Member.MethodName).ToAsciiEncodedString(),
@@ -88,6 +94,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 		            TimeMeasure.CompletedCallback?.Invoke(Profiler);
 	            }
             }
+
+            if (skipExecutionDueToDoubleFilterRegistration) { return; }
 
             var serverTimingMetrics = serverTiming.Metrics.ToList();
             if (!Options.SuppressHeaderPredicate(Environment)) { context.HttpContext.Response.Headers.Append(ServerTiming.HeaderName, serverTimingMetrics.Select(metric => metric.ToString()).ToArray()); }

@@ -58,7 +58,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 		/// <remarks>To always include the Server-Timing header, set this property to <c>null</c> or an <c>empty</c> string.</remarks>
 		public string EnvironmentName { get; set; } = "Production";
 
-		/// <summary>
+        /// <summary>
 		/// Creates an instance of the executable filter.
 		/// </summary>
 		/// <param name="serviceProvider">The request <see cref="IServiceProvider" />.</param>

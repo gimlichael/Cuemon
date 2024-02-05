@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Mvc.Assets;
 using Cuemon.Diagnostics;
+using Cuemon.Extensions;
 using Cuemon.Extensions.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.Xunit;
@@ -62,7 +63,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                 Assert.Equal("restApi", serverTimings[1].Split(';').First());
                 Assert.Equal("sapIntegration", serverTimings[2].Split(';').First());
 
-                TestOutput.WriteLine(profiler.Elapsed.ToString());
+                TestOutput.WriteLine(serverTimings.ToDelimitedString());
             }
         }
 
@@ -142,6 +143,38 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         }
 
         [Fact]
+        public async Task ServerTimingAttribute_ShouldTimeMeasureFakeController_GetAfter1SecondDecoratedWithDefaults_ShouldOnlyRenderOnce()
+        {
+            using (var filter = WebApplicationTestFactory.Create(services =>
+                   {
+                       services.AddXunitTestLogging(TestOutput, LogLevel.Debug);
+                       services.AddServerTiming();
+                       services
+                           .AddControllers(o =>
+                           {
+                               o.Filters.AddServerTiming();
+                           })
+                           .AddApplicationPart(typeof(FakeController).Assembly);
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                   }))
+            {
+                var client = filter.Host.GetTestClient();
+                var profiler = await TimeMeasure.WithFuncAsync(client.GetAsync, "/fake/oneSecondAttributeWithDefaults");
+                var serverTimingHeader = profiler.Result.Headers.GetValues(ServerTiming.HeaderName).Single();
+                var loggerStore = filter.ServiceProvider.GetRequiredService<ILogger<ServerTimingFilter>>().GetTestStore();
+
+                Assert.InRange(profiler.Elapsed, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+                Assert.True(profiler.Result.Headers.Contains("Server-Timing"));
+                Assert.StartsWith("GetAfter1SecondDecorated", serverTimingHeader);
+                Assert.True(loggerStore.Query(entry => entry.Message.StartsWith("Debug: ServerTimingMetric { Name: GetAfter1SecondDecoratedWithDefaults, Duration:") &&
+                                                       entry.Message.EndsWith("ms, Description: \"http://localhost/fake/onesecondattributewithdefaults\" }")).Any());
+            }
+        }
+
+        [Fact]
         public async Task ServerTimingAttribute_ShouldSuppressTimeMeasureFakeControllerAndIncludeLogInformation_GetAfter1SecondDecorated()
         {
             using (var filter = WebApplicationTestFactory.Create(services =>
@@ -178,8 +211,8 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
         {
 	        using (var filter = WebApplicationTestFactory.Create(services =>
 	               {
-		               services.AddServerTiming();
-		               services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly).AddServerTimingOptions(o => o.SuppressHeaderPredicate = _ => true);
+		               services.AddServerTiming(o => o.SuppressHeaderPredicate = _ => true);
+		               services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
 	               }, app =>
 	               {
 		               app.UseRouting();
