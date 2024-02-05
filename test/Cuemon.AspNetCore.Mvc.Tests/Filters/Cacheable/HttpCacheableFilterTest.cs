@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Cuemon.AspNetCore.Mvc.Assets;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
+using Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
@@ -19,14 +20,16 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
         {
         }
 
-        [Fact]
-        public async Task GetEtag_ShouldReturnOkWithEtagAndSubsequentlyNotModified()
+        [Theory]
+        [InlineData("/fake/getCacheByEtag")]
+        [InlineData("/fake/it")]
+        public async Task GetEtag_ShouldReturnOkWithEtagAndSubsequentlyNotModified(string relativeEndpoint)
         {
             using (var filter = WebApplicationTestFactory.Create(services =>
             {
                 services.AddControllers(o => { o.Filters.AddHttpCacheable(); }).AddApplicationPart(typeof(FakeController).Assembly).AddHttpCacheableOptions(o =>
                 {
-	                o.Filters.Add(new HttpEntityTagHeaderFilter());
+	                o.Filters.AddEntityTagHeader(io => io.UseEntityTagResponseParser = true);
                 });
             }, app =>
                    {
@@ -35,7 +38,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
                    }))
             {
                 var client = filter.Host.GetTestClient();
-                var result = await client.GetAsync("/fake/getCacheByEtag");
+                var result = await client.GetAsync(relativeEndpoint);
                 var etag = result.Headers.ETag.ToString();
 
                 Assert.Equal(StatusCodes.Status200OK, (int) result.StatusCode);
@@ -43,7 +46,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
 
                 client.DefaultRequestHeaders.Add(HeaderNames.IfNoneMatch, etag);
                 
-                result = await client.GetAsync("/fake/getCacheByEtag");
+                result = await client.GetAsync(relativeEndpoint);
                 Assert.Equal(StatusCodes.Status304NotModified, (int) result.StatusCode);
             }
         }
@@ -55,7 +58,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
             {
                 services.AddControllers(o => { o.Filters.AddHttpCacheable(); }).AddApplicationPart(typeof(FakeController).Assembly).AddHttpCacheableOptions(o =>
                 {
-	                o.Filters.Add(new HttpLastModifiedHeaderFilter());
+	                o.Filters.AddLastModifiedHeader();
                 });
             }, app =>
                    {
