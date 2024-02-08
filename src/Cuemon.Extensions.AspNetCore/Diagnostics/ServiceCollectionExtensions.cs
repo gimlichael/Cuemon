@@ -3,6 +3,7 @@ using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Cuemon.Extensions.AspNetCore.Diagnostics
 {
@@ -15,21 +16,24 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// Adds a <see cref="ServerTiming"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
+        /// <param name="setup">The <see cref="ServerTimingOptions"/> that may be configured.</param>
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
-        public static IServiceCollection AddServerTiming(this IServiceCollection services)
+        public static IServiceCollection AddServerTiming(this IServiceCollection services, Action<ServerTimingOptions> setup = null)
         {
-            return services.AddServerTiming<ServerTiming>();
+            return services.AddServerTiming<ServerTiming>(setup);
         }
 
         /// <summary>
         /// Adds an implementation of <see cref="IServerTiming"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
+        /// <param name="setup">The <see cref="ServerTimingOptions"/> that may be configured.</param>
         /// <returns>An <see cref="IServiceCollection"/> that can be used to further configure other services.</returns>
-        public static IServiceCollection AddServerTiming<T>(this IServiceCollection services) where T : class, IServerTiming
+        public static IServiceCollection AddServerTiming<T>(this IServiceCollection services, Action<ServerTimingOptions> setup = null) where T : class, IServerTiming
         {
             Validator.ThrowIfNull(services);
-            services.AddScoped<IServerTiming, T>();
+            services.TryAddScoped<IServerTiming, T>();
+            services.AddServerTimingOptions(setup);
             return services;
         }
 

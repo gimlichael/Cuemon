@@ -76,26 +76,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters
 		}
 
 		/// <summary>
-		/// Registers the specified <paramref name="setup" /> to configure <see cref="ServerTimingOptions"/> in the underlying service collection of <paramref name="builder" />.
-		/// </summary>
-		/// <param name="builder">The <see cref="IMvcBuilder"/> to extend.</param>
-		/// <param name="setup">The <see cref="ServerTimingOptions"/> which may be configured.</param>
-		/// <returns>A reference to <paramref name="builder" /> so that additional configuration calls can be chained.</returns>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="builder"/> cannot be null.
-		/// <paramref name="setup"/> cannot be null.
-		/// </exception>
-		/// <exception cref="ArgumentException">
-		/// <paramref name="setup"/> failed to configure an instance of <see cref="ServerTimingOptions"/> in a valid state.
-		/// </exception>
-		public static IMvcBuilder AddServerTimingOptions(this IMvcBuilder builder, Action<ServerTimingOptions> setup = null)
-		{
-			Validator.ThrowIfNull(builder);
-			builder.Services.AddServerTimingOptions(setup);
-			return builder;
-		}
-
-		/// <summary>
 		/// Registers the specified <paramref name="setup" /> to configure <see cref="MvcFaultDescriptorOptions"/> in the underlying service collection of <paramref name="builder" />.
 		/// </summary>
 		/// <param name="builder">The <see cref="IMvcBuilder"/> to extend.</param>
@@ -107,7 +87,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters
 		/// <exception cref="ArgumentException">
 		/// <paramref name="setup"/> failed to configure an instance of <see cref="MvcFaultDescriptorOptions"/> in a valid state.
 		/// </exception>
-		public static IMvcBuilder AddMvcFaultDescriptorOptions(this IMvcBuilder builder, Action<MvcFaultDescriptorOptions> setup = null)
+		public static IMvcBuilder AddFaultDescriptorOptions(this IMvcBuilder builder, Action<MvcFaultDescriptorOptions> setup = null)
 		{
 			Validator.ThrowIfNull(builder);
 			Validator.ThrowIfInvalidConfigurator(setup, out var options);

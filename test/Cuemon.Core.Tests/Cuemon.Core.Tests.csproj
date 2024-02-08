@@ -36,7 +36,6 @@
 
   <ItemGroup>
     <Folder Include="Net\Http\" />
-    <Folder Include="Text\Yaml\Formatters\" />
   </ItemGroup>
 
   <ItemGroup>

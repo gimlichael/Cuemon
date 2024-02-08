@@ -50,6 +50,14 @@ namespace Cuemon.AspNetCore.Mvc.Assets
             return Ok("Unit Test");
         }
 
+        [HttpGet("oneSecondNoServerTimingFilter")]
+        public async Task<IActionResult> GetAfter1SecondNoServerTimingFilter()
+        {
+            var delay = TimeSpan.FromSeconds(1);
+            await Task.Delay(delay);
+            return Ok("Unit Test");
+        }
+
         [ServerTiming(Name = "action-result", Description = "action-description", DesiredLogLevel = LogLevel.Information)]
         [HttpGet("oneSecondAttribute")]
         public async Task<IActionResult> GetAfter1SecondDecorated()

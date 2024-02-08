@@ -32,7 +32,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 					   services
 						   .AddControllers(o =>
 						   {
-							   o.Filters.Add<FaultDescriptorFilter>();
+							   o.Filters.AddFaultDescriptor();
 							   o.Filters.AddUserAgentSentinel();
 						   })
 						   .AddApplicationPart(typeof(FakeController).Assembly)
@@ -65,7 +65,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 					   services
 						   .AddControllers(o =>
 						   {
-							   o.Filters.Add<FaultDescriptorFilter>();
+							   o.Filters.AddFaultDescriptor();
 							   o.Filters.AddUserAgentSentinel();
 						   })
 						   .AddApplicationPart(typeof(FakeController).Assembly)

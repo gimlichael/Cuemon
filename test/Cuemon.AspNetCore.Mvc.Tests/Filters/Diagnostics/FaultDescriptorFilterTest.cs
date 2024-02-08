@@ -37,7 +37,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 					.AddApplicationPart(typeof(FakeController).Assembly)
 					.AddNewtonsoftJson()
 					.AddNewtonsoftJsonFormatters()
-					.AddMvcFaultDescriptorOptions(o => o.UseBaseException = useBaseException);
+					.AddFaultDescriptorOptions(o => o.UseBaseException = useBaseException);
                 services.PostConfigureAllExceptionDescriptorOptions(o => o.SensitivityDetails = FaultSensitivityDetails.Failure);
             }, (context, app) =>
 				   {
