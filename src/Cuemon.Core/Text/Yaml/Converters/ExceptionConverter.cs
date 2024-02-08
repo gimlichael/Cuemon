@@ -88,6 +88,7 @@ namespace Cuemon.Text.Yaml.Converters
             if (exception.StackTrace != null && includeStackTrace)
             {
                 writer.WritePropertyName(so.SetPropertyName("Stack"));
+                writer.WriteLine();
                 writer.WriteStartArray();
                 var lines = exception.StackTrace.Split(new[] { Alphanumeric.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)

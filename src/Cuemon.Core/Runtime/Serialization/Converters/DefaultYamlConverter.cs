@@ -14,14 +14,13 @@ namespace Cuemon.Runtime.Serialization.Converters
         private readonly List<YamlConverter> _converters = new()
         {
             {
-                YamlConverterFactory.Create(type => !Decorator.Enclose(type).IsComplex(), (writer, value, so) =>
+                YamlConverterFactory.Create(type => type == typeof(string), (writer, value, so) =>
                 {
-                    writer.Write(value);
-                    writer.WriteLine();
+                    writer.WriteStringValue(value as string);
                 })
             },
             {
-                YamlConverterFactory.Create(type => type == typeof(string), (writer, value, so) =>
+                YamlConverterFactory.Create(type => !Decorator.Enclose(type).IsComplex(), (writer, value, _) =>
                 {
                     writer.Write(value);
                     writer.WriteLine();
@@ -32,17 +31,15 @@ namespace Cuemon.Runtime.Serialization.Converters
                 {
                     var sequenceType = sequence.GetType();
                     var hasKeyValuePairType = sequenceType.GetGenericArguments().Any(gt => Decorator.Enclose(gt).HasKeyValuePairImplementation());
-                    
+
                     var hasArrayWritten = false;
                     if (Decorator.Enclose(sequenceType).HasDictionaryImplementation() || hasKeyValuePairType)
                     {
                         foreach (var element in sequence)
                         {
-                            if (!hasArrayWritten)
-                            {
-                                writer.WriteStartArray();
-                                hasArrayWritten = true;
-                            }
+                            if (!hasArrayWritten && writer.TokenType != YamlTokenType.None) { writer.WriteLine(); }
+                            hasArrayWritten = true;
+                            writer.WriteStartArray();
                             var elementType = element.GetType();
                             var keyProperty = elementType.GetProperty("Key");
                             var valueProperty = elementType.GetProperty("Value");
@@ -50,13 +47,10 @@ namespace Cuemon.Runtime.Serialization.Converters
                             var valueValue = valueProperty.GetValue(element, null);
                             writer.WritePropertyName(so.SetPropertyName(keyValue.ToString()));
                             writer.WriteObject(valueValue, so);
-                        }
-
-                        if (hasArrayWritten)
-                        {
                             writer.WriteEndArray();
                         }
-                        else
+
+                        if (!hasArrayWritten)
                         {
                             writer.WriteLine("{}");
                         }
@@ -65,20 +59,15 @@ namespace Cuemon.Runtime.Serialization.Converters
                     {
                         foreach (var item in sequence)
                         {
-                            if (!hasArrayWritten)
-                            {
-                                writer.WriteStartArray();
-                                hasArrayWritten = true;
-                            }
                             if (item == null) { continue; }
-                            writer.Write("- ");
+                            if (!hasArrayWritten && writer.TokenType != YamlTokenType.None) { writer.WriteLine(); }
+                            hasArrayWritten = true;
+                            writer.WriteStartArray();
                             writer.WriteObject(item, so);
-                        }
-                        if (hasArrayWritten)
-                        {
                             writer.WriteEndArray();
                         }
-                        else
+
+                        if (!hasArrayWritten)
                         {
                             writer.WriteLine("[]");
                         }
@@ -110,7 +99,7 @@ namespace Cuemon.Runtime.Serialization.Converters
                         {
                             // Intentionally swallow for now ..
                         }
-      
+
                     }
 
                     writer.WriteEndObject();

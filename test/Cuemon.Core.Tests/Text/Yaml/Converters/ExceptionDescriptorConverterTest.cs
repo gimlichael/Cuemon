@@ -43,7 +43,7 @@ namespace Cuemon.Text.Yaml.Converters
                                  Source: Cuemon.Core.Tests
                                  Message: The wait completed due to an abandoned mutex.
                                  Stack: 
-                                   at Cuemon.Text.Yaml.Converters.ExceptionDescriptorConverterTest.WriteYaml_ShouldSerializeToYamlFormat()
+                                 - at Cuemon.Text.Yaml.Converters.ExceptionDescriptorConverterTest.WriteYaml_ShouldSerializeToYamlFormat()
                              """.ReplaceLineEndings(), result);
                 Assert.EndsWith(@"    Data: 
       MyKey: MyValue

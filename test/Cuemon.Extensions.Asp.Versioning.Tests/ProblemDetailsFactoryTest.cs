@@ -205,17 +205,17 @@ Evidence:
     Location: http://localhost/fake/throw
     Method: GET
     Headers: 
-      Accept: 
-        - text/html
-        - application/xhtml+xml
-        - image/avif
-        - image/webp
-        - image/apng
-        - */*; q=0.8
-        - application/signed-exchange; v=b3; q=0.9
-        - application/json; q=10.0
-      Host: 
-        - localhost
+    - Accept: 
+      - text/html
+      - application/xhtml+xml
+      - image/avif
+      - image/webp
+      - image/apng
+      - ""*/*; q=0.8""
+      - application/signed-exchange; v=b3; q=0.9
+      - application/json; q=10.0
+    - Host: 
+      - localhost
     Query: []
     Cookies: []
     Body: ".ReplaceLineEndings(), await sut.Content.ReadAsStringAsync());
