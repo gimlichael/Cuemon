@@ -46,7 +46,7 @@ namespace Cuemon.Extensions.Diagnostics
     Source: Cuemon.Extensions.Diagnostics.Tests
     Message: Insufficient memory to continue the execution of the program.
     Stack: 
-      at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithAllCaptures()".ReplaceLineEndings(), sut2);
+    - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithAllCaptures()".ReplaceLineEndings(), sut2);
 
             Assert.Contains(@"    Data: 
       Name: Cuemon".ReplaceLineEndings(), sut2);
@@ -121,11 +121,11 @@ namespace Cuemon.Extensions.Diagnostics
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.FailureWithStackTrace), () =>
             {
                 Assert.Contains(@"    Stack: 
-      at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)".ReplaceLineEndings(), sut2);
+    - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)".ReplaceLineEndings(), sut2);
             }, () =>
             {
                 Assert.DoesNotContain(@"    Stack: 
-      at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)".ReplaceLineEndings(), sut2);
+    - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)".ReplaceLineEndings(), sut2);
             });
 
             

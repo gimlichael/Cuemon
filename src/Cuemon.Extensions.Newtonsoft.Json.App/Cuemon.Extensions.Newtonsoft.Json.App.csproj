@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.AspNetCore.Newtonsoft.Json\Cuemon.Extensions.AspNetCore.Newtonsoft.Json.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
   </ItemGroup>
 

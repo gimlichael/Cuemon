@@ -57,10 +57,6 @@ namespace Cuemon.AspNetCore.Diagnostics
         ///         <term><see cref="RequestEvidenceProvider"/></term>
         ///         <description><c>request => new HttpRequestEvidence(request)</c></description>
         ///     </item>
-        ///     <item>
-        ///         <term><see cref="NonMvcResponseHandlers"/></term>
-        ///         <description><c>new List&lt;HttpExceptionDescriptorResponseHandler&gt;()</c></description>
-        ///     </item>
         /// </list>
         /// </remarks>
         public FaultDescriptorOptions()
@@ -140,6 +136,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         /// Gets or sets a collection of <see cref="HttpExceptionDescriptorResponseHandler"/> that handles exception handling and content negotiation for non-MVC thrown exceptions.
         /// </summary>
         /// <value>The collection of <see cref="HttpExceptionDescriptorResponseHandler"/>.</value>
+        [Obsolete($"This property will be removed in near future; feature has been moved to {nameof(IHttpExceptionDescriptorResponseFormatter)} and related.")]
         public IList<HttpExceptionDescriptorResponseHandler> NonMvcResponseHandlers { get; set; } = new List<HttpExceptionDescriptorResponseHandler>();
 
         /// <summary>

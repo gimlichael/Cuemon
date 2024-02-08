@@ -17,7 +17,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         public void AddServerTiming_ShouldAddToServiceCollection_HavingLifetimeOfScope()
         {
             var sut1 = new ServiceCollection().AddServerTiming();
-            var sut2 = sut1.Single();
+            var sut2 = sut1.Single(sd => sd.ServiceType == typeof(IServerTiming));
 
             Assert.True(sut2.Lifetime == ServiceLifetime.Scoped);
             Assert.True(sut2.ImplementationType == typeof(ServerTiming));

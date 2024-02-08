@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading.Tasks;
-using Cuemon.AspNetCore.Authentication;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Cuemon.Net.Http;
-using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

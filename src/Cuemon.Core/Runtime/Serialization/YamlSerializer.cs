@@ -20,10 +20,25 @@ namespace Cuemon.Runtime.Serialization
         /// <exception cref="ArgumentException">
         /// <paramref name="setup"/> was unable to configure a valid state of the public read-write properties.
         /// </exception>
-        public YamlSerializer(Action<YamlSerializerOptions> setup = null)
+        public YamlSerializer(Action<YamlSerializerOptions> setup = null) : this(Validator.CheckParameter(() =>
         {
-            Validator.ThrowIfInvalidConfigurator(setup, out var options);
-            _options = options;
+	        Validator.ThrowIfInvalidConfigurator(setup, out var options);
+	        return options;
+        }))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="YamlSerializer"/> class.
+        /// </summary>
+        /// <param name="options">The configured <see cref="YamlSerializerOptions"/>.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="options"/> are not in a valid state.
+        /// </exception>
+        public YamlSerializer(YamlSerializerOptions options)
+        {
+	        Validator.ThrowIfInvalidOptions(options);
+	        _options = options;
         }
 
         /// <summary>

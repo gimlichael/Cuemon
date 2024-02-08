@@ -90,7 +90,7 @@ namespace Cuemon.Extensions.Asp.Versioning
 		///     </item>
 		///     <item>
 		///         <term><see cref="ValidAcceptHeaders"/></term>
-		///         <description><c>application/json, application/xml, application/vnd</c></description>
+		///         <description><c>application/json, application/xml, application/yaml, application/vnd, text/json, text/xml, text/plain, text/yaml, */*</c></description>
 		///     </item>
 		/// </list>
 		/// </remarks>
@@ -108,7 +108,13 @@ namespace Cuemon.Extensions.Asp.Versioning
 			{
 				"application/json",
 				"application/xml",
-				"application/vnd"
+				"application/yaml",
+				"application/vnd",
+				"text/json",
+				"text/xml",
+				"text/plain",
+				"text/yaml",
+				"*/*"
 			};
 		}
 
@@ -173,7 +179,7 @@ namespace Cuemon.Extensions.Asp.Versioning
 		public IApiVersionConventionBuilder Conventions { get; set; }
 
 		/// <summary>
-		/// Gets or sets the default API version applied to services that do not have explicit versions.
+		/// Gets or sets the default API version applied to services that d	o not have explicit versions.
 		/// </summary>
 		/// <value>The default API version applied to services that do not have explicit versions.</value>
 		public ApiVersion DefaultApiVersion { get; set; }

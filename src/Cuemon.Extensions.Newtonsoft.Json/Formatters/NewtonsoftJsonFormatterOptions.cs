@@ -5,6 +5,7 @@ using System.Reflection;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Newtonsoft.Json.Converters;
+using Cuemon.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -13,10 +14,16 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
     /// <summary>
     /// Specifies options that is related to <see cref="NewtonsoftJsonFormatter"/> operations.
     /// </summary>
-    public class NewtonsoftJsonFormatterOptions : IValidatableParameterObject
+    public class NewtonsoftJsonFormatterOptions : IExceptionDescriptorOptions, IContentNegotiation, IValidatableParameterObject
     {
         private readonly object _locker = new();
         private bool _refreshed;
+
+        /// <summary>
+        /// Provides the default/fallback media type that the associated formatter should use when content negotiation either fails or is absent.
+        /// </summary>
+        /// <value>The media type that the associated formatter should use when content negotiation either fails or is absent.</value>
+        public static MediaTypeHeaderValue DefaultMediaType { get; } = new("application/json");
 
         static NewtonsoftJsonFormatterOptions()
         {
@@ -45,7 +52,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         ///     </item>
         ///     <item>
         ///         <term><see cref="SynchronizeWithJsonConvert"/></term>
-        ///         <description><c>true</c></description>
+        ///         <description><c>false</c></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="SensitivityDetails"/></term>
@@ -87,7 +94,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             SensitivityDetails = FaultSensitivityDetails.None;
             SupportedMediaTypes = new List<MediaTypeHeaderValue>()
             {
-                new("application/json"),
+                DefaultMediaType,
                 new("text/json")
             };
         }
@@ -151,7 +158,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
         /// Gets or sets the collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="NewtonsoftJsonFormatter"/>.
         /// </summary>
         /// <returns>A collection of <see cref="MediaTypeHeaderValue"/> elements supported by the <see cref="NewtonsoftJsonFormatter"/>.</returns>
-        public IList<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
+        public IReadOnlyCollection<MediaTypeHeaderValue> SupportedMediaTypes { get; set; }
 
         internal JsonSerializerSettings RefreshWithConverterDependencies()
         {

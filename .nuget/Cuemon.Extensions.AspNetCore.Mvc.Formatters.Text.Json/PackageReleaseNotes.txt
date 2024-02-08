@@ -1,4 +1,21 @@
-﻿Version: 8.0.1
+﻿Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Bug Fixes
+- FIXED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace so that AddJsonResponseHandler now enumerates all supported media types in regards to content negotiation
+ 
+# Improvements
+- CHANGED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json marking the method, AddJsonResponseHandler, obsolete (should use AddJsonExceptionResponseFormatter instead)
+- CHANGED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace to be more lean having only two extension methods remaining; AddJsonFormatters and AddJsonFormattersOptions
+- CHANGED MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace to be more lean having only two extension methods remaining; AddJsonFormatters and AddJsonFormattersOptions
+ 
+# Breaking Changes (soft)
+- MOVED JsonConverterCollectionExtensions from Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.Converters namespace to Cuemon.Extensions.AspNetCore.Text.Json assembly into the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace
+ 
+Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM

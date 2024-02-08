@@ -7,11 +7,11 @@ using Microsoft.Extensions.Options;
 namespace Cuemon.AspNetCore.Mvc.Filters.Headers
 {
     /// <summary>
-    /// A filter that provides an API key sentinel on action methods.
+    /// A filter that confirms request authorization in the form of an API key sentinel.
     /// </summary>
-    /// <seealso cref="ConfigurableAsyncActionFilter{TOptions}"/>
-    /// <seealso cref="IAsyncActionFilter" />
-    public class ApiKeySentinelFilter : ConfigurableAsyncActionFilter<ApiKeySentinelOptions>
+    /// <seealso cref="ApiKeySentinelOptions"/>
+    /// <seealso cref="ConfigurableAsyncAuthorizationFilter{TOptions}"/>
+    public class ApiKeySentinelFilter : ConfigurableAsyncAuthorizationFilter<ApiKeySentinelOptions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiKeySentinelFilter"/> class.
@@ -21,16 +21,22 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Headers
         {
         }
 
-        /// <summary>
-        /// Called asynchronously before the action, after model binding is complete.
-        /// </summary>
-        /// <param name="context">The <see cref="ActionExecutingContext" />.</param>
-        /// <param name="next">The <see cref="ActionExecutionDelegate" />. Invoked to execute the next action filter or the action itself.</param>
-        /// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
-        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+		/// <summary>
+		/// Called early in the filter pipeline to confirm request is authorized.
+		/// </summary>
+		/// <param name="context">The <see cref="AuthorizationFilterContext" />.</param>
+		/// <returns>A <see cref="Task" /> that on completion indicates the filter has executed.</returns>
+		public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            await Decorator.Enclose(context.HttpContext).InvokeApiKeySentinelAsync(Options).ConfigureAwait(false);
-            await next().ConfigureAwait(false);
+	        try
+	        {
+		        await Decorator.Enclose(context.HttpContext).InvokeApiKeySentinelAsync(Options).ConfigureAwait(false);
+	        }
+	        catch (ApiKeyException ex)
+	        {
+		        context.Result = new ForbiddenObjectResult(ex.Message, ex.StatusCode);
+	        }
+	        
         }
     }
 }

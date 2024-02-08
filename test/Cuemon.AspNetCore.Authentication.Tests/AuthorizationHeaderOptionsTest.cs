@@ -12,7 +12,7 @@ namespace Cuemon.AspNetCore.Authentication
         }
 
         [Fact]
-        public void AuthorizationHeaderOptions_ShouldThrowArgumentNullException_ForCredentialsDelimiter()
+        public void AuthorizationHeaderOptions_ShouldThrowInvalidOperationException_ForCredentialsDelimiterBeingNull()
         {
             var sut1 = new AuthorizationHeaderOptions
             {
@@ -28,7 +28,7 @@ namespace Cuemon.AspNetCore.Authentication
         }
 
         [Fact]
-        public void AuthorizationHeaderOptions_ShouldThrowArgumentNullException_ForCredentialsKeyValueDelimiter()
+        public void AuthorizationHeaderOptions_ShouldThrowInvalidOperationException_ForCredentialsKeyValueDelimiterBeingNull()
         {
             var sut1 = new AuthorizationHeaderOptions
             {

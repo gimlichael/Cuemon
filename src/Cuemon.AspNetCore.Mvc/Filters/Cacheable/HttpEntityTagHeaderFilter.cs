@@ -68,17 +68,18 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
 
         private async Task InvokeEntityTagResponseParser(ResultExecutingContext context, ResultExecutionDelegate next, int statusCodeBeforeBodyRead)
         {
-            using (var ms = new MemoryStream())
+            var ms = new MemoryStream();
+            var body = context.HttpContext.Response.Body;
+            context.HttpContext.Response.Body = ms;
+            await next().ConfigureAwait(false);
+            ms.Seek(0, SeekOrigin.Begin);
+
+            if (statusCodeBeforeBodyRead == StatusCodes.Status304NotModified) { context.HttpContext.Response.StatusCode = statusCodeBeforeBodyRead; }
+
+            Options.EntityTagResponseParser.Invoke(ms, context.HttpContext.Request, context.HttpContext.Response);
+            if (Decorator.Enclose(context.HttpContext.Response.StatusCode).IsSuccessStatusCode())
             {
-                var body = context.HttpContext.Response.Body;
-                context.HttpContext.Response.Body = ms;
-                await next().ConfigureAwait(false);
-                ms.Seek(0, SeekOrigin.Begin);
-
-                if (statusCodeBeforeBodyRead == StatusCodes.Status304NotModified) { context.HttpContext.Response.StatusCode = statusCodeBeforeBodyRead; }
-
-                Options.EntityTagResponseParser.Invoke(ms, context.HttpContext.Request, context.HttpContext.Response);
-                if (Decorator.Enclose(context.HttpContext.Response.StatusCode).IsSuccessStatusCode()) { await ms.CopyToAsync(body).ConfigureAwait(false); }
+                await ms.CopyToAsync(body).ConfigureAwait(false);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,40 +13,20 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
     /// </summary>
     public static class MvcCoreBuilderExtensions
     {
-        static MvcCoreBuilderExtensions()
-        {
-            Bootstrapper.Initialize();
-        }
-
         /// <summary>
         /// Adds the JSON serializer formatters to MVC.
         /// </summary>
         /// <param name="builder">The <see cref="IMvcCoreBuilder"/>.</param>
-        /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="builder"/> cannot be null.
-        /// </exception>
-        public static IMvcCoreBuilder AddNewtonsoftJsonFormatters(this IMvcCoreBuilder builder)
-        {
-            Validator.ThrowIfNull(builder);
-            builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
-            return builder;
-        }
-
-        /// <summary>
-        /// Adds the JSON serializer formatters to MVC.
-        /// </summary>
-        /// <param name="builder">The <see cref="IMvcCoreBuilder"/>.</param>
-        /// <param name="setup">The <see cref="NewtonsoftJsonFormatterOptions"/> which need to be configured.</param>
+        /// <param name="setup">The <see cref="NewtonsoftJsonFormatterOptions"/> which may be configured.</param>
         /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="builder"/> cannot be null -or-
         /// <paramref name="setup"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddNewtonsoftJsonFormatters(this IMvcCoreBuilder builder, Action<NewtonsoftJsonFormatterOptions> setup)
+        public static IMvcCoreBuilder AddNewtonsoftJsonFormatters(this IMvcCoreBuilder builder, Action<NewtonsoftJsonFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(builder);
-            AddNewtonsoftJsonFormatters(builder);
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonSerializationMvcOptionsSetup>());
             AddNewtonsoftJsonFormattersOptions(builder, setup);
             return builder;
         }
@@ -57,14 +38,16 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         /// <param name="setup">The <see cref="NewtonsoftJsonFormatterOptions"/> which need to be configured.</param>
         /// <returns>A reference to <paramref name="builder"/> after the operation has completed.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="builder"/> cannot be null -or-
-        /// <paramref name="setup"/> cannot be null.
+        /// <paramref name="builder"/> cannot be null.
         /// </exception>
-        public static IMvcCoreBuilder AddNewtonsoftJsonFormattersOptions(this IMvcCoreBuilder builder, Action<NewtonsoftJsonFormatterOptions> setup)
+        /// <exception cref="ArgumentException">
+        /// <paramref name="setup"/> failed to configure an instance of <see cref="NewtonsoftJsonFormatterOptions"/> in a valid state.
+        /// </exception>
+        public static IMvcCoreBuilder AddNewtonsoftJsonFormattersOptions(this IMvcCoreBuilder builder, Action<NewtonsoftJsonFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(builder);
-            Validator.ThrowIfNull(setup);
-            builder.Services.Configure(setup);
+            builder.Services.AddNewtonsoftJsonFormatterOptions(setup);
+            builder.Services.AddNewtonsoftJsonExceptionResponseFormatter();
             return builder;
         }
     }

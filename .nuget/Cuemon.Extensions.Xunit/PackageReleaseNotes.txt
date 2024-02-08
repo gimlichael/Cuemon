@@ -1,4 +1,10 @@
-﻿Version: 8.0.1
+﻿Version: 8.1.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.1
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace Cuemon.Extensions.DependencyInjection
 {
@@ -17,7 +19,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection Add<TService, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime)
             where TService : class
             where TImplementation : class, TService
@@ -34,7 +36,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection Add<TService, TImplementation, TOptions>(this IServiceCollection services, ServiceLifetime lifetime, Action<TOptions> setup)
             where TService : class
             where TImplementation : class, TService
@@ -50,7 +52,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="service">The type of the service to register.</param>
         /// <param name="implementation">The implementation type of the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection Add(this IServiceCollection services, Type service, Type implementation, ServiceLifetime lifetime)
         {
             Validator.ThrowIfNull(services);
@@ -67,7 +69,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="implementation">The implementation type of the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection Add<TOptions>(this IServiceCollection services, Type service, Type implementation, ServiceLifetime lifetime, Action<TOptions> setup)
             where TOptions : class, new()
         {
@@ -86,7 +88,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection Add<TService, TImplementation>(this IServiceCollection services, Func<IServiceProvider, TImplementation> implementationFactory, ServiceLifetime lifetime)
             where TService : class
             where TImplementation : class, TService
@@ -104,7 +106,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection Add<TService, TImplementation, TOptions>(this IServiceCollection services, Func<IServiceProvider, TImplementation> implementationFactory, ServiceLifetime lifetime, Action<TOptions> setup)
             where TService : class
             where TImplementation : class, TService
@@ -120,7 +122,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="service">The type of the service to register.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection Add(this IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, ServiceLifetime lifetime)
         {
             Validator.ThrowIfNull(services);
@@ -137,7 +139,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection Add<TOptions>(this IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, ServiceLifetime lifetime, Action<TOptions> setup)
             where TOptions : class, new()
         {
@@ -336,7 +338,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection TryAdd<TService, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime)
             where TService : class
             where TImplementation : class, TService
@@ -354,7 +356,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection TryAdd<TService, TImplementation, TOptions>(this IServiceCollection services, ServiceLifetime lifetime, Action<TOptions> setup)
             where TService : class
             where TImplementation : class, TService
@@ -372,7 +374,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="service">The type of the service to register.</param>
         /// <param name="implementation">The implementation type of the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection TryAdd(this IServiceCollection services, Type service, Type implementation, ServiceLifetime lifetime)
         {
             Validator.ThrowIfNull(services);
@@ -389,7 +391,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="implementation">The implementation type of the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection TryAdd<TOptions>(this IServiceCollection services, Type service, Type implementation, ServiceLifetime lifetime, Action<TOptions> setup)
             where TOptions : class, new()
         {
@@ -408,7 +410,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection TryAdd<TService, TImplementation>(this IServiceCollection services, Func<IServiceProvider, TImplementation> implementationFactory, ServiceLifetime lifetime)
             where TService : class
             where TImplementation : class, TService
@@ -428,7 +430,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection TryAdd<TService, TImplementation, TOptions>(this IServiceCollection services, Func<IServiceProvider, TImplementation> implementationFactory, ServiceLifetime lifetime, Action<TOptions> setup)
             where TService : class
             where TImplementation : class, TService
@@ -447,7 +449,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="service">The type of the service to register.</param>
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection TryAdd(this IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, ServiceLifetime lifetime)
         {
             Validator.ThrowIfNull(services);
@@ -465,7 +467,7 @@ namespace Cuemon.Extensions.DependencyInjection
         /// <param name="implementationFactory">The function delegate that creates the service.</param>
         /// <param name="lifetime">The lifetime of the service.</param>
         /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
-        /// <returns>A reference to <paramref name="services"/> after the operation has completed.</returns>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
         public static IServiceCollection TryAdd<TOptions>(this IServiceCollection services, Type service, Func<IServiceProvider, object> implementationFactory, ServiceLifetime lifetime, Action<TOptions> setup)
             where TOptions : class, new()
         {
@@ -476,6 +478,75 @@ namespace Cuemon.Extensions.DependencyInjection
             services.Configure(setup);
             return services;
         }
+
+        /// <summary>
+        /// Registers the specified <paramref name="setup" /> used to configure <typeparamref name="TOptions"/> to the <paramref name="services" /> if not already registered.
+        /// </summary>
+        /// <typeparam name="TOptions">The options type to be configured.</typeparam>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add the <typeparamref name="TOptions"/> to.</param>
+        /// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
+        /// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
+        public static IServiceCollection TryConfigure<TOptions>(this IServiceCollection services, Action<TOptions> setup) where TOptions : class, new()
+        {
+	        if (services != null && !services.Any(descriptor => descriptor.ServiceType == typeof(IConfigureOptions<TOptions>)))
+	        {
+		        services.Configure(setup);
+	        }
+	        return services;
+        }
+
+	    /// <summary>
+		/// Registers an action used to post-configure all instances of a specific <typeparamref name="TOptions"/> type in the <paramref name="services"/> collection.
+		/// These are run after <see cref="OptionsServiceCollectionExtensions.Configure{TOptions}(IServiceCollection,Action{TOptions})"/>.
+		/// </summary>
+		/// <typeparam name="TOptions">The options type to be configured.</typeparam>
+		/// <param name="services">The <see cref="IServiceCollection" /> to extend.</param>
+		/// <param name="setup">The <typeparamref name="TOptions"/> which need to be configured.</param>
+		/// <returns>A reference to <paramref name="services" /> so that additional configuration calls can be chained.</returns>
+		/// <remarks>Iterates over all the services in the collection, and if the service is of type <see cref="IConfigureOptions{TOptions}"/> and its generic type argument matches the specified <typeparamref name="TOptions"/> type, it creates a new instance of <see cref="PostConfigureOptions{TOptions}"/> for that service and adds it to the <paramref name="services"/> collection.</remarks>
+		public static IServiceCollection PostConfigureAllOf<TOptions>(this IServiceCollection services, Action<TOptions> setup) where TOptions : class
+		{
+			var baseOptionsType = typeof(TOptions);
+			var configureOptionsType = typeof(IConfigureOptions<>);
+			var options = services.Where(descriptor =>
+			{
+				if (Decorator.Enclose(descriptor.ServiceType).HasInterfaces(configureOptionsType))
+				{
+					return baseOptionsType.IsInterface
+						? Decorator.Enclose(descriptor.ServiceType.GenericTypeArguments[0]).HasInterfaces(baseOptionsType)
+						: Decorator.Enclose(descriptor.ServiceType.GenericTypeArguments[0]).HasTypes(baseOptionsType);
+
+				}
+				return false;
+			}).ToList();
+
+			foreach (var option in options)
+			{
+				var instance = option.ImplementationInstance;
+				if (instance != null)
+				{
+					var instanceType = instance.GetType();
+					if (instanceType.IsGenericType)
+					{
+						var optionType = instanceType.GenericTypeArguments[0];
+						if (instanceType == typeof(ConfigureNamedOptions<>).MakeGenericType(optionType))
+						{
+							var name = instanceType.GetProperty(nameof(ConfigureNamedOptions<TOptions>.Name))!.GetValue(instance);
+							var postConfigureOptionsType = typeof(IPostConfigureOptions<>).MakeGenericType(optionType);
+							var postConfigureOptions = Activator.CreateInstance(
+								typeof(PostConfigureOptions<>).MakeGenericType(optionType),
+								BindingFlags.Instance | BindingFlags.Public,
+								binder: null,
+								args: new[] { name, setup },
+								culture: null);
+							services.AddSingleton(postConfigureOptionsType, postConfigureOptions!);
+						}
+					}
+				}
+			}
+
+			return services;
+		}
 
         private static void AddServices(this IServiceCollection services, Type service, Type implementation, ServiceLifetime lifetime, bool useTesterDoerPattern)
         {

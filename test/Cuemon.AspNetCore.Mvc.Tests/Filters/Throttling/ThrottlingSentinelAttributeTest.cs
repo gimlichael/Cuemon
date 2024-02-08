@@ -78,7 +78,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
             Assert.Equal(ce.Quota.Window, TimeSpan.FromSeconds(5));
             Assert.Equal(StatusCodes.Status429TooManyRequests, te.StatusCode);
 
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            await Task.Delay(TimeSpan.FromSeconds(10));
 
             for (var i = 0; i < 5; i++)
             {

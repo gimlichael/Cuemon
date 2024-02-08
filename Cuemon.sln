@@ -206,7 +206,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Globaliza
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tooling", "tooling", "{F704776F-F994-472B-8B61-813B200C52D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gse", "tooling\gse\gse.csproj", "{66B746F6-411B-4A73-86EB-D913EDD106D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gse", "tooling\gse\gse.csproj", "{66B746F6-411B-4A73-86EB-D913EDD106D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Authentication.Tests", "test\Cuemon.Extensions.AspNetCore.Authentication.Tests\Cuemon.Extensions.AspNetCore.Authentication.Tests.csproj", "{93564653-ABE7-413D-9C4A-A9894CEE8F97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.AspNetCore.Newtonsoft.Json", "src\Cuemon.Extensions.AspNetCore.Newtonsoft.Json\Cuemon.Extensions.AspNetCore.Newtonsoft.Json.csproj", "{F07D7DD9-7776-4010-8E2C-EDA450200F89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.AspNetCore.Xml", "src\Cuemon.Extensions.AspNetCore.Xml\Cuemon.Extensions.AspNetCore.Xml.csproj", "{3648C1D6-31A0-43EA-ACA7-151A845EAF82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.AspNetCore.Text.Json", "src\Cuemon.Extensions.AspNetCore.Text.Json\Cuemon.Extensions.AspNetCore.Text.Json.csproj", "{B737D9BE-7639-4139-9486-FD4AB015E481}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -602,6 +610,22 @@ Global
 		{66B746F6-411B-4A73-86EB-D913EDD106D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66B746F6-411B-4A73-86EB-D913EDD106D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66B746F6-411B-4A73-86EB-D913EDD106D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93564653-ABE7-413D-9C4A-A9894CEE8F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93564653-ABE7-413D-9C4A-A9894CEE8F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93564653-ABE7-413D-9C4A-A9894CEE8F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93564653-ABE7-413D-9C4A-A9894CEE8F97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F07D7DD9-7776-4010-8E2C-EDA450200F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F07D7DD9-7776-4010-8E2C-EDA450200F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F07D7DD9-7776-4010-8E2C-EDA450200F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F07D7DD9-7776-4010-8E2C-EDA450200F89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3648C1D6-31A0-43EA-ACA7-151A845EAF82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3648C1D6-31A0-43EA-ACA7-151A845EAF82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3648C1D6-31A0-43EA-ACA7-151A845EAF82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3648C1D6-31A0-43EA-ACA7-151A845EAF82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B737D9BE-7639-4139-9486-FD4AB015E481}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B737D9BE-7639-4139-9486-FD4AB015E481}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B737D9BE-7639-4139-9486-FD4AB015E481}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B737D9BE-7639-4139-9486-FD4AB015E481}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -704,6 +728,10 @@ Global
 		{270BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{3EC7ADB9-EA78-44D2-BD09-85CE6242B7BF} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{66B746F6-411B-4A73-86EB-D913EDD106D9} = {F704776F-F994-472B-8B61-813B200C52D5}
+		{93564653-ABE7-413D-9C4A-A9894CEE8F97} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
+		{F07D7DD9-7776-4010-8E2C-EDA450200F89} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{3648C1D6-31A0-43EA-ACA7-151A845EAF82} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
+		{B737D9BE-7639-4139-9486-FD4AB015E481} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A848386-B682-4F6D-8254-B5F6247C3054}

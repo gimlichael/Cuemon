@@ -9,183 +9,207 @@ using Cuemon.Extensions.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json;
+using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml;
-using Cuemon.Extensions.Newtonsoft.Json.Formatters;
-using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
-using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Asp.Versioning
 {
-    public class ApiVersionReaderTest : Test
-    {
-        public ApiVersionReaderTest(ITestOutputHelper output) : base(output)
-        {
-        }
+	public class ApiVersionReaderTest : Test
+	{
+		public ApiVersionReaderTest(ITestOutputHelper output) : base(output)
+		{
+		}
 
-        [Fact]
-        public async Task GetRequest_ShouldReturnOkay_AsWeAreFilteringAwayInvalidAcceptHeaders()
-        {
-            using (var app = WebApplicationTestFactory.Create(services =>
-            {
-                services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddJsonFormatters();
-                services.AddRestfulApiVersioning();
-            }, app =>
-                   {
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
-            {
-                var client = app.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;v=1.0");
-                var sut = await client.GetAsync("/fake/");
+		[Fact]
+		public async Task GetRequest_ShouldReturnOkay_AsWeAreFilteringAwayInvalidAcceptHeaders()
+		{
+			using (var app = WebApplicationTestFactory.Create(services =>
+			{
+				services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
+					.AddJsonFormatters();
+				services.AddRestfulApiVersioning();
+			}, app =>
+				   {
+					   app.UseRouting();
+					   app.UseEndpoints(routes => { routes.MapControllers(); });
+				   }))
+			{
+				var client = app.Host.GetTestClient();
+				client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;v=1.0");
+				var sut = await client.GetAsync("/fake/");
 
-                TestOutput.WriteLine(sut.Content.Headers.ContentType.ToString());
-                TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
+				TestOutput.WriteLine(sut.Content.Headers.ContentType.ToString());
+				TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
 
-                Assert.Equal(HttpStatusCode.OK, sut.StatusCode);
-                Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
-                Assert.EndsWith("application/json; charset=utf-8; v=1.0", sut.Content.Headers.ContentType.ToString());
-                Assert.Equal(@"""Unit Test""", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
-            }
-        }
+				Assert.Equal(HttpStatusCode.OK, sut.StatusCode);
+				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
+				Assert.EndsWith("application/json; charset=utf-8; v=1.0", sut.Content.Headers.ContentType.ToString());
+				Assert.Equal(@"""Unit Test""", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+			}
+		}
 
-        [Fact]
-        public async Task GetRequest_ShouldFailWitNotAcceptable_AsWeAreSpecifyingV2_WhenOnlyV1Exists()
-        {
-            using (var app = WebApplicationTestFactory.Create(services =>
-                   {
-                       services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters();
-                       services.AddRestfulApiVersioning();
+		[Fact]
+		public async Task GetRequest_ShouldFailWitNotAcceptable_AsWeAreSpecifyingV2_WhenOnlyV1Exists()
+		{
+			using (var app = WebApplicationTestFactory.Create(services =>
+				   {
+					   services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
+					   services.AddRestfulApiVersioning();
                    }, app =>
-                   {
-                       app.UseFaultDescriptorExceptionHandler();
-                       app.UseRestfulApiVersioning();
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
-            {
-                var client = app.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;v=2.0");
-                var sut = await client.GetAsync("/fake/");
+				   {
+					   app.UseFaultDescriptorExceptionHandler();
+					   app.UseRestfulApiVersioning();
+					   app.UseRouting();
+					   app.UseEndpoints(routes => { routes.MapControllers(); });
+				   }))
+			{
+				var client = app.Host.GetTestClient();
+				client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;v=2.0");
+				var sut = await client.GetAsync("/fake/");
 
-                var stringResult = await sut.Content.ReadAsStringAsync();
+				var stringResult = await sut.Content.ReadAsStringAsync();
 
-                TestOutput.WriteLine(stringResult);
+				TestOutput.WriteLine(stringResult);
 
-                Assert.Equal(HttpStatusCode.NotAcceptable, sut.StatusCode);
-                Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
-                Assert.Equal(@"Error: 
-  Status: 406
-  Code: NotAcceptable
-  Message: The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version '2.0'.", stringResult, ignoreLineEndingDifferences: true);
-            }
-        }
+				Assert.Equal(HttpStatusCode.NotAcceptable, sut.StatusCode);
+				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
+				Assert.Equal("The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version '2.0'.", stringResult, ignoreLineEndingDifferences: true);
+			}
+		}
 
-        [Fact]
-        public async Task PostRequest_ShouldFailWitUnsupportedMediaType_AsWeAreSpecifyingV2_WhenOnlyV1Exists()
-        {
-            using (var app = WebApplicationTestFactory.Create(services =>
-                   {
-                       services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
-                           .AddJsonFormatters();
-                       services.AddRestfulApiVersioning();
-                   }, app =>
-                   {
-                       app.UseFaultDescriptorExceptionHandler();
-                       app.UseRestfulApiVersioning();
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
-                   }))
-            {
-                var client = app.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;v=2.0");
-                var sut = await client.PostAsync("/fake/", new StringContent(Generate.RandomString(100)));
+		[Fact]
+		public async Task PostRequest_ShouldFailWitUnsupportedMediaType_AsWeAreSpecifyingV2_WhenOnlyV1Exists()
+		{
+			using (var app = WebApplicationTestFactory.Create(services =>
+				   {
+					   services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly);
+					   services.AddRestfulApiVersioning();
+				   }, app =>
+				   {
+					   app.UseFaultDescriptorExceptionHandler();
+					   app.UseRestfulApiVersioning();
+					   app.UseRouting();
+					   app.UseEndpoints(routes => { routes.MapControllers(); });
+				   }))
+			{
+				var client = app.Host.GetTestClient();
+				client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;v=2.0");
+				var sut = await client.PostAsync("/fake/", new StringContent(Generate.RandomString(100)));
 
-                var stringResult = await sut.Content.ReadAsStringAsync();
+				var stringResult = await sut.Content.ReadAsStringAsync();
 
-                TestOutput.WriteLine(stringResult);
+				TestOutput.WriteLine(stringResult);
 
-                Assert.Equal(HttpStatusCode.UnsupportedMediaType, sut.StatusCode);
-                Assert.Equal(HttpMethod.Post, sut.RequestMessage.Method);
-                Assert.Equal(@"Error: 
-  Status: 415
-  Code: UnsupportedMediaType
-  Message: The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version '2.0'.", stringResult, ignoreLineEndingDifferences: true);
-            }
-        }
+				Assert.Equal(HttpStatusCode.UnsupportedMediaType, sut.StatusCode);
+				Assert.Equal(HttpMethod.Post, sut.RequestMessage.Method);
+				Assert.Equal("The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version '2.0'.", stringResult, ignoreLineEndingDifferences: true);
+			}
+		}
 
-        [Fact]
-        public async Task GetRequest_ShouldFailWithBadRequestFormattedAsJsonResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnApplicationJsonAccept()
-        {
-            using (var app = WebApplicationTestFactory.Create(services =>
-            {
-                services.AddControllers(o => o.Filters.AddFaultDescriptor())
-                    .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
-                services.AddHttpContextAccessor();
-                services.AddRestfulApiVersioning();
-            }, app =>
-                   {
-                       app.UseFaultDescriptorExceptionHandler(o =>
-                       {
-                           o.NonMvcResponseHandlers
-                               .AddJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<JsonFormatterOptions>>())
-                               .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>());
-                       });
-                       app.UseRestfulApiVersioning();
-                       app.UseRouting();
-                       app.UseEndpoints(routes => { routes.MapControllers(); });
+		[Theory]
+		[InlineData("application/json")]
+		[InlineData("text/json")]
+		public async Task GetRequest_ShouldFailWithBadRequestFormattedAsJsonResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnJsonAccept(string jsonAccept)
+		{
+			using (var app = WebApplicationTestFactory.Create(services =>
+				   {
+					   services.AddFaultDescriptorOptions();
+					   services.AddControllers(o => o.Filters.AddFaultDescriptor())
+						   .AddApplicationPart(typeof(FakeController).Assembly)
+						   .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default);
+					   services.AddHttpContextAccessor();
+					   services.AddRestfulApiVersioning();
+				   }, app =>
+						  {
+							  app.UseFaultDescriptorExceptionHandler();
+							  app.UseRestfulApiVersioning();
+							  app.UseRouting();
+							  app.UseEndpoints(routes => { routes.MapControllers(); });
 
-                   }))
-            {
-                var client = app.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;q=10.0;v=d3");
-                var sut = await client.GetAsync("/fake/throw");
+						  }))
+			{
+				var client = app.Host.GetTestClient();
+				client.DefaultRequestHeaders.Add("Accept", $"text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,{jsonAccept};q=10.0;v=d3");
+				var sut = await client.GetAsync("/fake/throw");
 
-                TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
+				TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
 
-                Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
-                Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
-                Assert.EndsWith("application/json", sut.Content.Headers.ContentType.ToString());
-                Assert.Equal(@"{
+				Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
+				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
+				Assert.EndsWith(jsonAccept, sut.Content.Headers.ContentType.ToString());
+				Assert.Equal(@"{
   ""error"": {
     ""status"": 400,
     ""code"": ""BadRequest"",
     ""message"": ""The HTTP resource that matches the request URI \u0027http://localhost/fake/throw\u0027 does not support the API version \u0027d3\u0027.""
   }
 }", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
-            }
-        }
+			}
+		}
 
-        [Fact]
-        public async Task GetRequest_ShouldFailWithBadRequestFormattedAsNewtonsoftJsonResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnApplicationJsonAccept()
+		[Theory]
+		[InlineData("application/xml")]
+		[InlineData("text/xml")]
+		public async Task GetRequest_ShouldFailWithBadRequestFormattedAsXmlResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnXmlAccept(string xmlAccept)
+		{
+			using (var app = WebApplicationTestFactory.Create(services =>
+				   {
+					   services.AddFaultDescriptorOptions();
+					   services.AddControllers(o => o.Filters.AddFaultDescriptor())
+						   .AddApplicationPart(typeof(FakeController).Assembly)
+						   .AddJsonFormatters(o => o.Settings.Encoder = JavaScriptEncoder.Default)
+                           .AddXmlFormatters();
+					   services.AddHttpContextAccessor();
+					   services.AddRestfulApiVersioning();
+				   }, app =>
+						  {
+							  app.UseFaultDescriptorExceptionHandler();
+							  app.UseRestfulApiVersioning();
+							  app.UseRouting();
+							  app.UseEndpoints(routes => { routes.MapControllers(); });
+
+						  }))
+			{
+				var client = app.Host.GetTestClient();
+				client.DefaultRequestHeaders.Add("Accept", $"application/json,text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,{xmlAccept};q=10.0;v=d3");
+				var sut = await client.GetAsync("/fake/throw");
+
+				TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
+
+				Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
+				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
+				Assert.EndsWith(xmlAccept, sut.Content.Headers.ContentType.ToString());
+				Assert.Equal(@"<?xml version=""1.0"" encoding=""utf-8""?><HttpExceptionDescriptor><Error><Status>400</Status><Code>BadRequest</Code><Message>The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'd3'.</Message></Error></HttpExceptionDescriptor>", await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+			}
+		}
+
+        [Theory]
+        [InlineData("text/plain")]
+        [InlineData("text/yaml")]
+        [InlineData("application/yaml")]
+        [InlineData("*/*")]
+        public async Task GetRequest_ShouldFailWithBadRequestFormattedAsXmlResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnYamlAccept(string yamlAccept)
         {
             using (var app = WebApplicationTestFactory.Create(services =>
-            {
-                services.AddControllers(o => o.Filters.AddFaultDescriptor())
-                    .AddApplicationPart(typeof(FakeController).Assembly)
-                    .AddNewtonsoftJsonFormatters(o => o.SensitivityDetails = FaultSensitivityDetails.Evidence);
-                services.AddHttpContextAccessor();
-                services.AddRestfulApiVersioning();
-            }, app =>
                    {
-                       app.UseFaultDescriptorExceptionHandler(o =>
-                       {
-                           o.SensitivityDetails = FaultSensitivityDetails.Evidence;
-                           o.NonMvcResponseHandlers
-                               .AddNewtonsoftJsonResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<NewtonsoftJsonFormatterOptions>>())
-                               .AddXmlResponseHandler(app.ApplicationServices.GetRequiredService<IOptions<XmlFormatterOptions>>());
-                       });
+                       services.AddFaultDescriptorOptions();
+                       services.AddControllers(o => o.Filters.AddFaultDescriptor())
+                           .AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddJsonFormatters()
+                           .AddXmlFormatters()
+                           .AddYamlFormatters();
+                       services.AddHttpContextAccessor();
+                       services.AddRestfulApiVersioning();
+                   }, app =>
+                   {
+                       app.UseFaultDescriptorExceptionHandler();
                        app.UseRestfulApiVersioning();
                        app.UseRouting();
                        app.UseEndpoints(routes => { routes.MapControllers(); });
@@ -193,15 +217,55 @@ namespace Cuemon.Extensions.Asp.Versioning
                    }))
             {
                 var client = app.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/json;q=10.0;v=d3");
+                client.DefaultRequestHeaders.Add("Accept", $"application/json,text/html,application/xhtml+xml,image/avif,image/webp,image/apng,application/signed-exchange;v=b3;q=0.9,{yamlAccept};q=10.0;v=d3");
                 var sut = await client.GetAsync("/fake/throw");
 
                 TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
 
                 Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
                 Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
-                Assert.EndsWith("application/json", sut.Content.Headers.ContentType.ToString());
+                Assert.EndsWith(yamlAccept, sut.Content.Headers.ContentType.ToString());
                 Assert.Equal("""
+                             Error: 
+                               Status: 400
+                               Code: BadRequest
+                               Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'd3'.
+                             """, await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+            }
+        }
+
+		[Theory]
+		[InlineData("application/json")]
+		[InlineData("text/json")]
+		public async Task GetRequest_ShouldFailWithBadRequestFormattedAsNewtonsoftJsonResponse_As_d3_IsAnUnknownVersion_CorrectlySetOnJsonAccept(string jsonAccept)
+		{
+			using (var app = WebApplicationTestFactory.Create(services =>
+				   {
+					   services.AddFaultDescriptorOptions(o => o.SensitivityDetails = FaultSensitivityDetails.Evidence);
+					   services.AddControllers(o => o.Filters.AddFaultDescriptor())
+						   .AddApplicationPart(typeof(FakeController).Assembly)
+						   .AddNewtonsoftJsonFormatters(o => o.SensitivityDetails = FaultSensitivityDetails.Evidence);
+					   services.AddHttpContextAccessor();
+					   services.AddRestfulApiVersioning();
+				   }, app =>
+						  {
+							  app.UseFaultDescriptorExceptionHandler();
+							  app.UseRestfulApiVersioning();
+							  app.UseRouting();
+							  app.UseEndpoints(routes => { routes.MapControllers(); });
+
+						  }))
+			{
+				var client = app.Host.GetTestClient();
+				client.DefaultRequestHeaders.Add("Accept", $"text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,{jsonAccept};q=10.0;v=d3");
+				var sut = await client.GetAsync("/fake/throw");
+
+				TestOutput.WriteLine(await sut.Content.ReadAsStringAsync());
+
+				Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
+				Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
+				Assert.EndsWith(jsonAccept, sut.Content.Headers.ContentType.ToString());
+				Assert.Equal($$"""
                              {
                                "error": {
                                  "status": 400,
@@ -221,7 +285,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                                        "image/apng",
                                        "*/*; q=0.8",
                                        "application/signed-exchange; v=b3; q=0.9",
-                                       "application/json; q=10.0; v=d3"
+                                       "{{jsonAccept}}; q=10.0; v=d3"
                                      ],
                                      "host": "localhost"
                                    },
@@ -232,61 +296,61 @@ namespace Cuemon.Extensions.Asp.Versioning
                                }
                              }
                              """, await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
-            }
-        }
+			}
+		}
 
-        [Fact]
-        public async Task GetRequest_ShouldThrowNotAcceptableException_As_2dot0_IsAnUnknownVersion()
-        {
-            using (var app = WebApplicationTestFactory.Create(services =>
-            {
-                services.AddControllers()
-                    .AddApplicationPart(typeof(FakeController).Assembly);
-                services.AddRestfulApiVersioning();
-            }, app =>
-                   {
-                       app.UseRestfulApiVersioning();
+		[Fact]
+		public async Task GetRequest_ShouldThrowNotAcceptableException_As_2dot0_IsAnUnknownVersion()
+		{
+			using (var app = WebApplicationTestFactory.Create(services =>
+			{
+				services.AddControllers()
+					.AddApplicationPart(typeof(FakeController).Assembly);
+				services.AddRestfulApiVersioning();
+			}, app =>
+				   {
+					   app.UseRestfulApiVersioning();
 
-                       app.UseRouting();
+					   app.UseRouting();
 
-                       app.UseEndpoints(routes =>
-                       {
-                           routes.MapControllers();
-                       });
-                   }))
-            {
-                var client = app.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/xml;v=2.0");
+					   app.UseEndpoints(routes =>
+					   {
+						   routes.MapControllers();
+					   });
+				   }))
+			{
+				var client = app.Host.GetTestClient();
+				client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/xml;v=2.0");
 
-                await Assert.ThrowsAsync<NotAcceptableException>(() => client.GetAsync("/fake/"));
-            }
-        }
+				await Assert.ThrowsAsync<NotAcceptableException>(() => client.GetAsync("/fake/"));
+			}
+		}
 
-        [Fact]
-        public async Task PostRequest_ShouldThrowUnsupportedMediaTypeException_As_2dot0_IsAnUnknownVersion()
-        {
-            using (var app = WebApplicationTestFactory.Create(services =>
-                   {
-                       services.AddControllers()
-                           .AddApplicationPart(typeof(FakeController).Assembly);
-                       services.AddRestfulApiVersioning();
-                   }, app =>
-                   {
-                       app.UseRestfulApiVersioning();
+		[Fact]
+		public async Task PostRequest_ShouldThrowUnsupportedMediaTypeException_As_2dot0_IsAnUnknownVersion()
+		{
+			using (var app = WebApplicationTestFactory.Create(services =>
+				   {
+					   services.AddControllers()
+						   .AddApplicationPart(typeof(FakeController).Assembly);
+					   services.AddRestfulApiVersioning();
+				   }, app =>
+				   {
+					   app.UseRestfulApiVersioning();
 
-                       app.UseRouting();
+					   app.UseRouting();
 
-                       app.UseEndpoints(routes =>
-                       {
-                           routes.MapControllers();
-                       });
-                   }))
-            {
-                var client = app.Host.GetTestClient();
-                client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/xml;v=2.0");
+					   app.UseEndpoints(routes =>
+					   {
+						   routes.MapControllers();
+					   });
+				   }))
+			{
+				var client = app.Host.GetTestClient();
+				client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9,application/xml;v=2.0");
 
-                await Assert.ThrowsAsync<UnsupportedMediaTypeException>(() => client.PostAsync("/fake/", new StringContent(Generate.RandomString(100))));
-            }
-        }
-    }
+				await Assert.ThrowsAsync<UnsupportedMediaTypeException>(() => client.PostAsync("/fake/", new StringContent(Generate.RandomString(100))));
+			}
+		}
+	}
 }

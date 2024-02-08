@@ -6,6 +6,10 @@
     public enum YamlTokenType
     {
         /// <summary>
+        /// The token type when YAML is new.
+        /// </summary>
+        None,
+        /// <summary>
         /// The token type is the start of a YAML array.
         /// </summary>
         StartArray,

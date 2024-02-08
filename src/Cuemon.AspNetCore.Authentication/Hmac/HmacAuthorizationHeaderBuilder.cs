@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Web;
 using Cuemon.Collections.Generic;
 using Cuemon.Net;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
 namespace Cuemon.AspNetCore.Authentication.Hmac
@@ -44,7 +49,23 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
         /// <summary>
         /// Adds the necessary fields that is part of an HTTP request.
         /// </summary>
-        /// <param name="request">An instance of the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest" /> object.</param>
+        /// <param name="request">An instance of the <see cref="HttpRequestMessage" /> object.</param>
+        /// <returns>A reference to this instance so that additional calls can be chained.</returns>
+        public HmacAuthorizationHeaderBuilder AddFromRequest(HttpRequestMessage request)
+        {
+	        var queryNvc = HttpUtility.ParseQueryString(request.RequestUri?.Query ?? "");
+			return AddOrUpdate(HmacFields.HttpMethod, request.Method.Method)
+				.AddOrUpdate(HmacFields.UriPath, request.RequestUri!.AbsolutePath)
+				.AddOrUpdate(HmacFields.UriQuery, string.Concat(queryNvc.Cast<string>().Select((s, i) => new KeyValuePair<string, StringValues>(s, queryNvc[i]?.Split(','))).OrderBy(pair => pair.Key).Select(pair => $"{Decorator.Enclose(pair.Key).UrlEncode()}={Decorator.Enclose(pair.Value.ToString()).UrlEncode()}")))
+				.AddOrUpdate(HmacFields.HttpHeaders, !request.Headers.Any() ? null : string.Concat(request.Headers.OrderBy(pair => pair.Key).Select(pair => $"{pair.Key.ToLowerInvariant()}:{DelimitedString.Create(pair.Value, o => o.StringConverter = s => $"{s.Trim()}{Alphanumeric.Linefeed}")}")))
+				.AddOrUpdate(HmacFields.Payload, UnkeyedHashFactory.CreateCrypto(Algorithm).ComputeHash(request.Content?.ReadAsStream() ?? new MemoryStream()).ToHexadecimalString())
+				.AddOrUpdate(HmacFields.ServerDateTime, request.Headers.Date?.UtcDateTime.ToString("O", CultureInfo.InvariantCulture));
+		}
+	
+        /// <summary>
+        /// Adds the necessary fields that is part of an HTTP request.
+        /// </summary>
+        /// <param name="request">An instance of the <see cref="HttpRequest" /> object.</param>
         /// <returns>A reference to this instance so that additional calls can be chained.</returns>
         public override HmacAuthorizationHeaderBuilder AddFromRequest(HttpRequest request)
         {

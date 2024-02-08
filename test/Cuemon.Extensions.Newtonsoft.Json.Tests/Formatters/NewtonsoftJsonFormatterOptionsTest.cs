@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Reflection;
@@ -77,6 +78,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             Assert.Equal(2, y.Settings.Converters.Count - defaultConverters.Count);
 
             Assert.Equal(x.Settings.Converters.Count, y.Settings.Converters.Count);
+
+            Assert.Equal(NewtonsoftJsonFormatterOptions.DefaultMediaType, x.SupportedMediaTypes.First());
         }
     }
 }

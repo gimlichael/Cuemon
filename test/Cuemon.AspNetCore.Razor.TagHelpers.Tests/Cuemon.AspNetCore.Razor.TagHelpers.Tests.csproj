@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cuemon.AspNetCore.Razor.TagHelpers\Cuemon.AspNetCore.Razor.TagHelpers.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc\Cuemon.Extensions.AspNetCore.Mvc.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj" />
   </ItemGroup>

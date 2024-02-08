@@ -7,11 +7,12 @@
 
   <PropertyGroup>
     <Description>The Cuemon.Extensions.AspNetCore.Authentication namespace contains both types and extension methods that complements the Cuemon.AspNetCore.Authentication namespace while being an addition to the Microsoft.AspNetCore.Authentication namespace.</Description>
-    <PackageTags>extension-methods extensions basic-authentication digest-access-authentication hmac-authentication in-memory-digest-authentication-nonce-tracker</PackageTags>
+    <PackageTags>extension-methods extensions basic-authentication digest-access-authentication hmac-authentication in-memory-digest-authentication-nonce-tracker authorization authorization-response-handler</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore.Authentication\Cuemon.AspNetCore.Authentication.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>

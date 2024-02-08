@@ -7,7 +7,7 @@ It is, by heart, free, flexible and built to extend and boost your agile codebel
 
 ## **Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json** for .NET
 
-The `Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json` namespace contains both types and extension methods that complements the `Cuemon.Extensions.Newtonsoft.Json` namespace while being an addition to the `Microsoft.AspNetCore.Mvc` namespace. Provides JSON formatters for ASP.NET Core that is powered by Newtonsoft.Json.
+The `Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json` namespace contains both types and extension methods that complements both the `Cuemon.Extensions.Newtonsoft.Json`/`Cuemon.Extensions.AspNetCore.Newtonsoft.Json` namespace while being an addition to the `Microsoft.AspNetCore.Mvc` namespace. Provides JSON formatters for ASP.NET Core MVC that is powered by Newtonsoft.Json.
 
 More documentation available at our documentation site:
 
@@ -36,6 +36,9 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.RazorPages](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.RazorPages/) 📦
+* [Cuemon.Extensions.AspNetCore.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Newtonsoft.Json/) 📦
+* [Cuemon.Extensions.AspNetCore.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Text.Json/) 📦
+* [Cuemon.Extensions.AspNetCore.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Xml/) 📦
 * [Cuemon.Extensions.Collections.Generic](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Generic/) 📦
 * [Cuemon.Extensions.Collections.Specialized](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Specialized/) 📦
 * [Cuemon.Extensions.Core](https://www.nuget.org/packages/Cuemon.Extensions.Core/) 📦

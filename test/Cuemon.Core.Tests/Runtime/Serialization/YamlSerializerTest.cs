@@ -40,9 +40,9 @@ Calendar:
   AlgorithmType: SolarCalendar
   CalendarType: Localized
   Eras: 
-    - 1
+  - 1
   TwoDigitYearMax: {0}
-DateSeparator: -
+DateSeparator: ""-""
 FirstDayOfWeek: Monday
 CalendarWeekRule: FirstFourDayWeek
 FullDateTimePattern: d. MMMM yyyy HH:mm:ss
@@ -54,90 +54,90 @@ RFC1123Pattern: ddd, dd MMM yyyy HH':'mm':'ss 'GMT'
 ShortDatePattern: dd-MM-yyyy
 ShortTimePattern: HH:mm
 SortableDateTimePattern: yyyy'-'MM'-'dd'T'HH':'mm':'ss
-TimeSeparator: :
+TimeSeparator: "":""
 UniversalSortableDateTimePattern: yyyy'-'MM'-'dd HH':'mm':'ss'Z'
 YearMonthPattern: MMMM yyyy
 AbbreviatedDayNames: 
-  - sø
-  - ma
-  - ti
-  - on
-  - to
-  - fr
-  - lø
+- sø
+- ma
+- ti
+- on
+- to
+- fr
+- lø
 ShortestDayNames: 
-  - sø
-  - ma
-  - ti
-  - on
-  - to
-  - fr
-  - lø
+- sø
+- ma
+- ti
+- on
+- to
+- fr
+- lø
 DayNames: 
-  - søndag
-  - mandag
-  - tirsdag
-  - onsdag
-  - torsdag
-  - fredag
-  - lørdag
+- søndag
+- mandag
+- tirsdag
+- onsdag
+- torsdag
+- fredag
+- lørdag
 AbbreviatedMonthNames: 
-  - jan
-  - feb
-  - mar
-  - apr
-  - maj
-  - jun
-  - jul
-  - aug
-  - sep
-  - okt
-  - nov
-  - dec
-  - 
+- jan
+- feb
+- mar
+- apr
+- maj
+- jun
+- jul
+- aug
+- sep
+- okt
+- nov
+- dec
+- 
 MonthNames: 
-  - januar
-  - februar
-  - marts
-  - april
-  - maj
-  - juni
-  - juli
-  - august
-  - september
-  - oktober
-  - november
-  - december
-  - 
+- januar
+- februar
+- marts
+- april
+- maj
+- juni
+- juli
+- august
+- september
+- oktober
+- november
+- december
+- 
 NativeCalendarName: gregoriansk kalender
 AbbreviatedMonthGenitiveNames: 
-  - jan
-  - feb
-  - mar
-  - apr
-  - maj
-  - jun
-  - jul
-  - aug
-  - sep
-  - okt
-  - nov
-  - dec
-  - 
+- jan
+- feb
+- mar
+- apr
+- maj
+- jun
+- jul
+- aug
+- sep
+- okt
+- nov
+- dec
+- 
 MonthGenitiveNames: 
-  - januar
-  - februar
-  - marts
-  - april
-  - maj
-  - juni
-  - juli
-  - august
-  - september
-  - oktober
-  - november
-  - december
-  - ".ReplaceLineEndings();
+- januar
+- februar
+- marts
+- april
+- maj
+- juni
+- juli
+- august
+- september
+- oktober
+- november
+- december
+- ".ReplaceLineEndings();
 
 #if NET8_0
             expected = string.Format(expected, "2049");
@@ -170,44 +170,44 @@ MonthGenitiveNames:
             TestOutput.WriteLine(sut4);
 
             Assert.Equal(@"CurrencyDecimalDigits: 2
-CurrencyDecimalSeparator: ,
+CurrencyDecimalSeparator: "",""
 CurrencyGroupSizes: 
-  - 3
+- 3
 NumberGroupSizes: 
-  - 3
+- 3
 PercentGroupSizes: 
-  - 3
-CurrencyGroupSeparator: .
+- 3
+CurrencyGroupSeparator: "".""
 CurrencySymbol: kr.
 NaNSymbol: NaN
 CurrencyNegativePattern: 8
 NumberNegativePattern: 1
 PercentPositivePattern: 0
 PercentNegativePattern: 0
-NegativeInfinitySymbol: -∞
-NegativeSign: -
+NegativeInfinitySymbol: ""-∞""
+NegativeSign: ""-""
 NumberDecimalDigits: 2
-NumberDecimalSeparator: ,
-NumberGroupSeparator: .
+NumberDecimalSeparator: "",""
+NumberGroupSeparator: "".""
 CurrencyPositivePattern: 3
 PositiveInfinitySymbol: ∞
-PositiveSign: +
+PositiveSign: ""+""
 PercentDecimalDigits: 2
-PercentDecimalSeparator: ,
-PercentGroupSeparator: .
-PercentSymbol: %
+PercentDecimalSeparator: "",""
+PercentGroupSeparator: "".""
+PercentSymbol: ""%""
 PerMilleSymbol: ‰
 NativeDigits: 
-  - 0
-  - 1
-  - 2
-  - 3
-  - 4
-  - 5
-  - 6
-  - 7
-  - 8
-  - 9
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
 DigitSubstitution: None".ReplaceLineEndings(), sut4);
         }
 
@@ -244,49 +244,49 @@ TextInfo:
   EBCDICCodePage: 20277
   LCID: 1030
   CultureName: da-DK
-  ListSeparator: ;
+  ListSeparator: "";""
   IsRightToLeft: False
 IsNeutralCulture: False
 NumberFormat: 
   CurrencyDecimalDigits: 2
-  CurrencyDecimalSeparator: ,
+  CurrencyDecimalSeparator: "",""
   CurrencyGroupSizes: 
-    - 3
+  - 3
   NumberGroupSizes: 
-    - 3
+  - 3
   PercentGroupSizes: 
-    - 3
-  CurrencyGroupSeparator: .
+  - 3
+  CurrencyGroupSeparator: "".""
   CurrencySymbol: kr.
   NaNSymbol: NaN
   CurrencyNegativePattern: 8
   NumberNegativePattern: 1
   PercentPositivePattern: 0
   PercentNegativePattern: 0
-  NegativeInfinitySymbol: -∞
-  NegativeSign: -
+  NegativeInfinitySymbol: ""-∞""
+  NegativeSign: ""-""
   NumberDecimalDigits: 2
-  NumberDecimalSeparator: ,
-  NumberGroupSeparator: .
+  NumberDecimalSeparator: "",""
+  NumberGroupSeparator: "".""
   CurrencyPositivePattern: 3
   PositiveInfinitySymbol: ∞
-  PositiveSign: +
+  PositiveSign: ""+""
   PercentDecimalDigits: 2
-  PercentDecimalSeparator: ,
-  PercentGroupSeparator: .
-  PercentSymbol: %
+  PercentDecimalSeparator: "",""
+  PercentGroupSeparator: "".""
+  PercentSymbol: ""%""
   PerMilleSymbol: ‰
   NativeDigits: 
-    - 0
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-    - 7
-    - 8
-    - 9
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
   DigitSubstitution: None
 DateTimeFormat: 
   AMDesignator: 
@@ -296,9 +296,9 @@ DateTimeFormat:
     AlgorithmType: SolarCalendar
     CalendarType: Localized
     Eras: 
-      - 1
+    - 1
     TwoDigitYearMax: {0}
-  DateSeparator: -
+  DateSeparator: ""-""
   FirstDayOfWeek: Monday
   CalendarWeekRule: FirstFourDayWeek
   FullDateTimePattern: d. MMMM yyyy HH:mm:ss
@@ -310,107 +310,106 @@ DateTimeFormat:
   ShortDatePattern: dd-MM-yyyy
   ShortTimePattern: HH:mm
   SortableDateTimePattern: yyyy'-'MM'-'dd'T'HH':'mm':'ss
-  TimeSeparator: :
+  TimeSeparator: "":""
   UniversalSortableDateTimePattern: yyyy'-'MM'-'dd HH':'mm':'ss'Z'
   YearMonthPattern: MMMM yyyy
   AbbreviatedDayNames: 
-    - sø
-    - ma
-    - ti
-    - on
-    - to
-    - fr
-    - lø
+  - sø
+  - ma
+  - ti
+  - on
+  - to
+  - fr
+  - lø
   ShortestDayNames: 
-    - sø
-    - ma
-    - ti
-    - on
-    - to
-    - fr
-    - lø
+  - sø
+  - ma
+  - ti
+  - on
+  - to
+  - fr
+  - lø
   DayNames: 
-    - søndag
-    - mandag
-    - tirsdag
-    - onsdag
-    - torsdag
-    - fredag
-    - lørdag
+  - søndag
+  - mandag
+  - tirsdag
+  - onsdag
+  - torsdag
+  - fredag
+  - lørdag
   AbbreviatedMonthNames: 
-    - jan
-    - feb
-    - mar
-    - apr
-    - maj
-    - jun
-    - jul
-    - aug
-    - sep
-    - okt
-    - nov
-    - dec
-    - 
+  - jan
+  - feb
+  - mar
+  - apr
+  - maj
+  - jun
+  - jul
+  - aug
+  - sep
+  - okt
+  - nov
+  - dec
+  - 
   MonthNames: 
-    - januar
-    - februar
-    - marts
-    - april
-    - maj
-    - juni
-    - juli
-    - august
-    - september
-    - oktober
-    - november
-    - december
-    - 
+  - januar
+  - februar
+  - marts
+  - april
+  - maj
+  - juni
+  - juli
+  - august
+  - september
+  - oktober
+  - november
+  - december
+  - 
   NativeCalendarName: gregoriansk kalender
   AbbreviatedMonthGenitiveNames: 
-    - jan
-    - feb
-    - mar
-    - apr
-    - maj
-    - jun
-    - jul
-    - aug
-    - sep
-    - okt
-    - nov
-    - dec
-    - 
+  - jan
+  - feb
+  - mar
+  - apr
+  - maj
+  - jun
+  - jul
+  - aug
+  - sep
+  - okt
+  - nov
+  - dec
+  - 
   MonthGenitiveNames: 
-    - januar
-    - februar
-    - marts
-    - april
-    - maj
-    - juni
-    - juli
-    - august
-    - september
-    - oktober
-    - november
-    - december
-    - 
+  - januar
+  - februar
+  - marts
+  - april
+  - maj
+  - juni
+  - juli
+  - august
+  - september
+  - oktober
+  - november
+  - december
+  - 
 Calendar: 
   MinSupportedDateTime: 01-01-0001 00:00:00
   MaxSupportedDateTime: 31-12-9999 23:59:59
   AlgorithmType: SolarCalendar
   CalendarType: Localized
   Eras: 
-    - 1
+  - 1
   TwoDigitYearMax: {0}
 OptionalCalendars: 
-  - 
-    MinSupportedDateTime: 01-01-0001 00:00:00
-    MaxSupportedDateTime: 31-12-9999 23:59:59
-    AlgorithmType: SolarCalendar
-    CalendarType: Localized
-    Eras: 
-      - 1
-    TwoDigitYearMax: {0}
+- MinSupportedDateTime: 01-01-0001 00:00:00
+  MaxSupportedDateTime: 31-12-9999 23:59:59
+  AlgorithmType: SolarCalendar
+  CalendarType: Localized
+  Eras: 
+  - 1
+  TwoDigitYearMax: {0}
 UseUserOverride: True";
 
 #if NET8_0 || NET48_OR_GREATER
@@ -469,7 +468,7 @@ UseUserOverride: True
     NumberNegativePattern: 1
     PercentPositivePattern: 0
     PercentNegativePattern: 0
-    NegativeInfinitySymbol: -∞
+    NegativeInfinitySymbol: ""-∞""
     NegativeSign: -
     NumberDecimalDigits: 2
     NumberDecimalSeparator: ,

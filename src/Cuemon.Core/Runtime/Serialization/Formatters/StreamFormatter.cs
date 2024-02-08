@@ -19,9 +19,19 @@ namespace Cuemon.Runtime.Serialization.Formatters
         /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
         /// </summary>
         /// <param name="source">The object to serialize to <see cref="Stream"/> format.</param>
-        /// <param name="setup">The setup delegate which may be configured.</param>
         /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
-        public static Stream SerializeObject(object source, Action<TOptions> setup = null)
+        public static Stream SerializeObject(object source)
+        {
+            return SerializeObject(source, null, (Action<TOptions>)null);
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="source">The object to serialize to <see cref="Stream"/> format.</param>
+        /// <param name="setup">The <typeparamref name="TOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
+        public static Stream SerializeObject(object source, Action<TOptions> setup)
         {
             return SerializeObject(source, null, setup);
         }
@@ -31,12 +41,49 @@ namespace Cuemon.Runtime.Serialization.Formatters
         /// </summary>
         /// <param name="source">The object to serialize to <see cref="Stream"/> format.</param>
         /// <param name="objectType">The type of the object to serialize.</param>
-        /// <param name="setup">The setup delegate which may be configured.</param>
         /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
-        public static Stream SerializeObject(object source, Type objectType, Action<TOptions> setup = null)
+        public static Stream SerializeObject(object source, Type objectType)
+        {
+            return SerializeObject(source, objectType, (Action<TOptions>)null);
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="source">The object to serialize to <see cref="Stream"/> format.</param>
+        /// <param name="objectType">The type of the object to serialize.</param>
+        /// <param name="setup">The <typeparamref name="TOptions"/> which may be configured.</param>
+        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
+        public static Stream SerializeObject(object source, Type objectType, Action<TOptions> setup)
         {
             Validator.ThrowIfNull(source);
-            var formatter = GetFormatter(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
+            return SerializeObject(source, objectType, options);
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="source">The object to serialize to <see cref="Stream"/> format.</param>
+        /// <param name="options">The configured <typeparamref name="TOptions"/>.</param>
+        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
+        public static Stream SerializeObject(object source, TOptions options)
+        {
+            return SerializeObject(source, null, options);
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="source"/> to an object of <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="source">The object to serialize to <see cref="Stream"/> format.</param>
+        /// <param name="objectType">The type of the object to serialize.</param>
+        /// <param name="options">The configured <typeparamref name="TOptions"/>.</param>
+        /// <returns>A <see cref="Stream"/> of the serialized <paramref name="source"/>.</returns>
+        public static Stream SerializeObject(object source, Type objectType, TOptions options)
+        {
+            Validator.ThrowIfNull(source);
+            Validator.ThrowIfInvalidOptions(options);
+            var formatter = GetFormatter(options);
             return formatter!.Serialize(source, objectType ?? source?.GetType());
         }
 
@@ -45,9 +92,20 @@ namespace Cuemon.Runtime.Serialization.Formatters
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="value">The object from which to deserialize the object graph.</param>
-        /// <param name="setup">The setup delegate which may be configured.</param>
         /// <returns>An object of <typeparamref name="T" />.</returns>
-        public static T DeserializeObject<T>(Stream value, Action<TOptions> setup = null)
+        public static T DeserializeObject<T>(Stream value)
+        {
+            return (T)DeserializeObject(value, typeof(T), (Action<TOptions>)null);
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value"/> into an object of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to return.</typeparam>
+        /// <param name="value">The object from which to deserialize the object graph.</param>
+        /// <param name="setup">The <typeparamref name="TOptions"/> which may be configured.</param>
+        /// <returns>An object of <typeparamref name="T" />.</returns>
+        public static T DeserializeObject<T>(Stream value, Action<TOptions> setup)
         {
             return (T)DeserializeObject(value, typeof(T), setup);
         }
@@ -57,20 +115,58 @@ namespace Cuemon.Runtime.Serialization.Formatters
         /// </summary>
         /// <param name="value">The string from which to deserialize the object graph.</param>
         /// <param name="objectType">The type of the deserialized object.</param>
-        /// <param name="setup">The setup delegate which may be configured.</param>
         /// <returns>An object of <paramref name="objectType"/>.</returns>
-        public static object DeserializeObject(Stream value, Type objectType, Action<TOptions> setup = null)
+        public static object DeserializeObject(Stream value, Type objectType)
+        {
+            return DeserializeObject(value, objectType, (Action<TOptions>)null);
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value" /> into an object of <paramref name="objectType"/>.
+        /// </summary>
+        /// <param name="value">The string from which to deserialize the object graph.</param>
+        /// <param name="objectType">The type of the deserialized object.</param>
+        /// <param name="setup">The <typeparamref name="TOptions"/> which may be configured.</param>
+        /// <returns>An object of <paramref name="objectType"/>.</returns>
+        public static object DeserializeObject(Stream value, Type objectType, Action<TOptions> setup)
         {
             Validator.ThrowIfNull(value);
-            var formatter = GetFormatter(setup);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
+            return DeserializeObject(value, objectType, options);
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value"/> into an object of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to return.</typeparam>
+        /// <param name="value">The object from which to deserialize the object graph.</param>
+        /// <param name="options">The configured <typeparamref name="TOptions"/>.</param>
+        /// <returns>An object of <typeparamref name="T" />.</returns>
+        public static T DeserializeObject<T>(Stream value, TOptions options)
+        {
+            return (T)DeserializeObject(value, typeof(T), options);
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value" /> into an object of <paramref name="objectType"/>.
+        /// </summary>
+        /// <param name="value">The string from which to deserialize the object graph.</param>
+        /// <param name="objectType">The type of the deserialized object.</param>
+        /// <param name="options">The configured <typeparamref name="TOptions"/>.</param>
+        /// <returns>An object of <paramref name="objectType"/>.</returns>
+        public static object DeserializeObject(Stream value, Type objectType, TOptions options)
+        {
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfInvalidOptions(options);
+            var formatter = GetFormatter(options);
             return formatter!.Deserialize(value, objectType);
         }
 
-        private static StreamFormatter<TOptions> GetFormatter(Action<TOptions> setup)
+        private static StreamFormatter<TOptions> GetFormatter(TOptions options)
         {
-            var ft = StreamFormatterTypes.SingleOrDefault();
-            var ftCtor = ft?.GetConstructor(new[] { typeof(Action<TOptions>) });
-            return ftCtor?.Invoke(new object[] { setup }) as StreamFormatter<TOptions> ?? throw new InvalidOperationException($"Cannot resolve a StreamFormatter{nameof(TOptions)} implementation from {OptionsType.Assembly.FullName}; try a concrete instantiation.");
+            var formatter = StreamFormatterTypes.SingleOrDefault();
+            var constructor = formatter?.GetConstructor(new[] { OptionsType });
+            return constructor?.Invoke(new object[] { options }) as StreamFormatter<TOptions> ?? throw new InvalidOperationException($"Cannot resolve a StreamFormatter{nameof(TOptions)} implementation from {OptionsType.Assembly.FullName}; try a concrete instantiation.");
         }
 
         /// <summary>

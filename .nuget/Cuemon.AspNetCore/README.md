@@ -42,6 +42,9 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/) 📦
 * [Cuemon.Extensions.AspNetCore.Mvc.RazorPages](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Mvc.RazorPages/) 📦
+* [Cuemon.Extensions.AspNetCore.Newtonsoft.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Newtonsoft.Json/) 📦
+* [Cuemon.Extensions.AspNetCore.Text.Json](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Text.Json/) 📦
+* [Cuemon.Extensions.AspNetCore.Xml](https://www.nuget.org/packages/Cuemon.Extensions.AspNetCore.Xml/) 📦
 * [Cuemon.Extensions.Collections.Generic](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Generic/) 📦
 * [Cuemon.Extensions.Collections.Specialized](https://www.nuget.org/packages/Cuemon.Extensions.Collections.Specialized/) 📦
 * [Cuemon.Extensions.Core](https://www.nuget.org/packages/Cuemon.Extensions.Core/) 📦

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
-using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Extensions.Xunit;
 using Microsoft.AspNetCore.Http;
 using Xunit;
@@ -97,6 +96,56 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Filters.Diagnostics
             Assert.Equal(helpLink, sut7.HelpLink);
             Assert.Equal("TooManyRequests", sut7.Code);
             Assert.IsAssignableFrom<HttpStatusCodeException>(sut7.Failure);
+        }
+
+        [Fact]
+        public void AddHttpFaultResolver_ShouldAddHttpFaultResolver_UsingStandardValues_FromHttpStatusCodeDerivedException()
+        {
+	        var statusCode = StatusCodes.Status429TooManyRequests;
+	        var message = "The allowed number of requests has been exceeded.";
+
+	        var sut1 = new List<HttpFaultResolver>();
+	        var sut2 = new List<HttpFaultResolver>(sut1);
+	        var sut3 = sut2.AddHttpFaultResolver<TooManyRequestsException>(e => new HttpExceptionDescriptor(e), e => e is TooManyRequestsException).Single();
+	        var sut4 = sut3.TryResolveFault(new TooManyRequestsException(), out var sut7);
+	        var sut5 = sut3.TryResolveFault(new ConflictException(), out _);
+
+	        TestOutput.WriteLine(sut7.ToString());
+
+	        Assert.True(sut1.Count == 0, "sut1.Count == 0");
+	        Assert.True(sut2.Count == 1, "sut2.Count == 1");
+	        Assert.IsType<HttpFaultResolver>(sut3);
+	        Assert.True(sut4);
+	        Assert.False(sut5);
+	        Assert.Equal(statusCode, sut7.StatusCode);
+	        Assert.Equal(message, sut7.Message);
+	        Assert.Equal("TooManyRequests", sut7.Code);
+	        Assert.IsAssignableFrom<HttpStatusCodeException>(sut7.Failure);
+        }
+
+        [Fact]
+        public void AddHttpFaultResolver_ShouldAddHttpFaultResolver_UsingStandardValues_FromNonHttpStatusCodeDerivedException()
+        {
+	        var statusCode = StatusCodes.Status500InternalServerError;
+	        var message = "Insufficient memory to continue the execution of the program.";
+
+	        var sut1 = new List<HttpFaultResolver>();
+	        var sut2 = new List<HttpFaultResolver>(sut1);
+	        var sut3 = sut2.AddHttpFaultResolver<OutOfMemoryException>(e => new HttpExceptionDescriptor(e), e => e is OutOfMemoryException).Single();
+	        var sut4 = sut3.TryResolveFault(new OutOfMemoryException(), out var sut7);
+	        var sut5 = sut3.TryResolveFault(new ConflictException(), out _);
+
+	        TestOutput.WriteLine(sut7.ToString());
+
+	        Assert.True(sut1.Count == 0, "sut1.Count == 0");
+	        Assert.True(sut2.Count == 1, "sut2.Count == 1");
+	        Assert.IsType<HttpFaultResolver>(sut3);
+	        Assert.True(sut4);
+	        Assert.False(sut5);
+	        Assert.Equal(statusCode, sut7.StatusCode);
+	        Assert.Equal(message, sut7.Message);
+	        Assert.Equal("InternalServerError", sut7.Code);
+	        Assert.IsAssignableFrom<SystemException>(sut7.Failure);
         }
     }
 }

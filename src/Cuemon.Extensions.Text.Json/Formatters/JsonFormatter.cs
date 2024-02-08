@@ -33,8 +33,9 @@ namespace Cuemon.Extensions.Text.Json.Formatters
         /// Initializes a new instance of the <see cref="JsonFormatter"/> class.
         /// </summary>
         /// <param name="options">The configured <see cref="JsonFormatterOptions"/>.</param>
-        public JsonFormatter(JsonFormatterOptions options) : base(options) 
+        public JsonFormatter(JsonFormatterOptions options) : base(options)
         {
+	        Options.RefreshWithConverterDependencies();
         }
 
         /// <summary>
@@ -54,9 +55,9 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                        {
                            Indented = Options.Settings.WriteIndented,
                            Encoder = Options.Settings.Encoder
-                       }))
+				}))
                 {
-                    JsonSerializer.Serialize(jsonWriter, source, objectType, Options.RefreshWithConverterDependencies());
+                    JsonSerializer.Serialize(jsonWriter, source, objectType, Options.Settings);
                 }
             });
         }
@@ -78,7 +79,7 @@ namespace Cuemon.Extensions.Text.Json.Formatters
                 CommentHandling = Options.Settings.ReadCommentHandling,
                 MaxDepth = Options.Settings.MaxDepth
             });
-            return JsonSerializer.Deserialize(ref reader, objectType, Options.RefreshWithConverterDependencies());
+            return JsonSerializer.Deserialize(ref reader, objectType, Options.Settings);
         }
     }
 }
