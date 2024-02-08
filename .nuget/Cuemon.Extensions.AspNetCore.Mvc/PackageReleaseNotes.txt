@@ -8,7 +8,7 @@ Availability: .NET 8, .NET 7 and .NET 6
 - REMOVED ServerTimingOptions class from the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace (but added it to Cuemon.AspNetCore assembly in Cuemon.AspNetCore.Diagnostics namespace)
  
 # New Features
-- ADDED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace that consist of extension methods for the IMvcBuilder interface: AddApiKeySentinelOptions, AddThrottlingSentinelOptions, AddUserAgentSentinelOptions, AddServerTimingOptions, AddMvcFaultDescriptorOptions and AddHttpCacheableOptions
+- ADDED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace that consist of extension methods for the IMvcBuilder interface: AddApiKeySentinelOptions, AddThrottlingSentinelOptions, AddUserAgentSentinelOptions, AddFaultDescriptorOptions and AddHttpCacheableOptions
 - ADDED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace that consist of extension methods for the IMvcBuilder interface: AddYamlFormatters and AddYamlFormattersOptions
 - ADDED MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace that consist of extension methods for the IMvcCoreBuilder interface: AddYamlFormatters and AddYamlFormattersOptions
 - ADDED YamlSerializationInputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace that handles deserialization of YAML to objects using YamlFormatter
@@ -22,6 +22,9 @@ Availability: .NET 8, .NET 7 and .NET 6
 - CHANGED ServerTimingFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to match the recent changes introduced to both ServerTimingMiddleware and ServerTimingAttribute
 - CHANGED ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to allow the AddMvcFaultDescriptorOptions method to accept an optional Action{MvcFaultDescriptorOptions} delegate, as opposed to being mandatory
 - CHANGED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace to allow all extension methods to have optional Action{TOptions} delegate
+ 
+# Bug Fixes
+- FIXED HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that an odd if statement is applied in general instead of confined to the scope of ObjectResult
  
 Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6

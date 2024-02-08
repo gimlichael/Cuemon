@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
-## [8.1.0] - TBD
+## [8.1.0] - 2024-02-08
 
 ### Added
 
@@ -16,7 +16,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ForbiddenResult in the Cuemon.AspNetCore.Mvc namespace that is an ActionResult that returns a Forbidden (403) response
 - BasicAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Basic namespace to provide a HTTP Basic Authentication implementation of AuthenticationHandler{TOptions}
 - AuthenticationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Authentication namespace that consist of extension methods for the AuthenticationBuilder class: AddBasic, AddDigestAccess and AddHmac
-- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace that consist of extension methods for the IMvcBuilder interface: AddApiKeySentinelOptions, AddThrottlingSentinelOptions, AddUserAgentSentinelOptions, AddServerTimingOptions, AddMvcFaultDescriptorOptions and AddHttpCacheableOptions
+- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Filters namespace that consist of extension methods for the IMvcBuilder interface: AddApiKeySentinelOptions, AddThrottlingSentinelOptions, AddUserAgentSentinelOptions, AddFaultDescriptorOptions and AddHttpCacheableOptions
 - LoggerExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the ILogger{T} interface: GetTestStore{T}
 - ServiceCollectionExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of extension methods for the IServiceCollection interface: AddXunitTestLogging
 - TestLoggerEntry record in the Cuemon.Extensions.Xunit.Hosting namespace that represents a captured log-entry for testing purposes
@@ -54,6 +54,8 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace so that AddJsonResponseHandler now enumerates all supported media types in regards to content negotiation
 - HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace so that AddNewtonsoftJsonResponseHandler now enumerates all supported media types in regards to content negotiation
 - HttpEntityTagHeaderFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so the new body stream is not disposed of prematurely leading to 500 errors on subsequent requests
+- HttpCacheableFilter class in the Cuemon.AspNetCore.Mvc.Filters.Cacheable namespace so that an odd if statement is applied in general instead of confined to the scope of ObjectResult
+- YamlTextWriter class in the Cuemon.Runtime.Serialization namespace to be slightly more compliant with the YAML standard (next major version will opt-in for a 3rd party library that adhere to the standard in both terms of serializing and deserializing)
 
 ### Changed
 
@@ -102,7 +104,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - ExceptionDescriptorConverter was moved from Cuemon.Diagnostics.Text.Yaml namespace to Cuemon.Core assembly into the Cuemon.Text.Yaml.Converters namespace
 - ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to allow the AddMvcFaultDescriptorOptions method to accept an optional Action{MvcFaultDescriptorOptions} delegate, as opposed to being mandatory
 - RestfulApiVersioningOptions class in the Cuemon.Extensions.Asp.Versioning namespace to include non-official MIME-types in the ValidAcceptHeaders property
-- StreamFormatter{T} class in the Cuemon.Runtime.Serialization.Formatters namespace to include an additional four overloaded static members for SerializeObject and DeserializeObject (support for TOptions)
+- StreamFormatter{T} class in the Cuemon.Runtime.Serialization.Formatters namespace was extended to include an additional eight overloaded static members for SerializeObject and DeserializeObject (support for TOptions)
 - HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics marking the two methods, AddResponseHandler and AddYamlResponseHandler, obsolete (latter should use AddYamlExceptionResponseFormatter instead)
 - HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json marking the method, AddNewtonsoftJsonResponseHandler, obsolete (should use AddNewtonsoftJsonExceptionResponseFormatter instead)
 - MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace to be more lean having only two extension methods remaining; AddNewtonsoftJsonFormatters and AddNewtonsoftJsonFormattersOptions
@@ -122,6 +124,7 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - UnsuccessfulValue class from the Cuemon.Threading namespace was moved to the Cuemon namespace
 - ConditionalValue class in the Cuemon namespace to include a Failure property that is of type Exception
 - AsyncOptions class in the Cuemon.Threading namespace to include a function delegate property, CancellationTokenProvider, that takes precedence when set, meaning that the getter of existing CancellationToken property will invoke said mentioned function delegate (edge case usage)
+- ServerTimingOptions class in the Cuemon.AspNetCore.Diagnostics namespace to include a new property, UseTimeMeasureProfiler, with a boolean signature that determines if action methods in a Controller should time measuring automatically
 
 ## [8.0.1] - 2024-01-11
 

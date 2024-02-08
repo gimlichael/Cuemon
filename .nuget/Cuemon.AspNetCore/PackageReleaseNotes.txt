@@ -15,6 +15,7 @@ Availability: .NET 8, .NET 7 and .NET 6
 - CHANGED MiddlewareBuilderFactory class in the Cuemon.AspNetCore.Builder namespace to support validation of setup delegate when invoking UseConfigurableMiddleware{TMiddleware, TOptions}
 - CHANGED ServerTimingMiddleware class in the Cuemon.AspNetCore.Diagnostics namespace to inherit from ConfigurableMiddleware with support for ILogger{ServerTimingMiddleware}, IHostEnvironment and ServerTimingOptions
 - CHANGED ServerTimingOptions class in the Cuemon.AspNetCore.Diagnostics namespace to include a new property, LogLevelSelector, with a function delegate signature that determines the LogLevel for a given ServerTimingMetric
+- CHANGED ServerTimingOptions class in the Cuemon.AspNetCore.Diagnostics namespace to include a new property, UseTimeMeasureProfiler, with a boolean signature that determines if action methods in a Controller should time measuring automatically
 - CHANGED FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace marking the NonMvcResponseHandlers property obsolete
 - CHANGED HostingEnvironmentOptions class in the Cuemon.AspNetCore.Hosting namespace so that the SuppressHeaderPredicate function delegate now returns true when the environment is Production
 - EXTENDED HttpExceptionDescriptorResponseHandler class in the Cuemon.AspNetCore.Diagnostics namespace with a new static method; CreateDefaultFallbackHandler that provides a scaled down HttpExceptionDescriptorResponseHandler suitable as fallback handler for when content negotiation fails
