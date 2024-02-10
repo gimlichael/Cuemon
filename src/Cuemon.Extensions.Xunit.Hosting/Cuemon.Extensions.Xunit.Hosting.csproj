@@ -43,7 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit.extensibility.core" Version="2.6.5" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.6.6" />
   </ItemGroup>
 
   <ItemGroup>

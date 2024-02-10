@@ -244,7 +244,7 @@ namespace Cuemon.Xml.Serialization.Converters
             if (Decorator.Enclose(node).HasXmlIgnoreAttribute()) { return; }
 
             var writerMethod = node.InstanceType.GetMethod(XmlWriterMethod, new MemberReflection(excludeStatic: true));
-            var useWriterMethod = (writerMethod != null) && Decorator.Enclose(node.InstanceType).HasInterface(typeof(IXmlSerializable));
+            var useWriterMethod = (writerMethod != null) && Decorator.Enclose(node.InstanceType).HasInterfaces(typeof(IXmlSerializable));
 
             if (useWriterMethod)
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Cuemon.Diagnostics;
-using Cuemon.Diagnostics.Text.Yaml;
 using Cuemon.Extensions.IO;
+using Cuemon.Text.Yaml.Converters;
 using Cuemon.Text.Yaml.Formatters;
 
 namespace Cuemon.Extensions.Diagnostics

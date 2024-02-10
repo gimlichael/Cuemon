@@ -1,4 +1,33 @@
-﻿Version: 8.0.1
+﻿Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- CHANGED TryAuthenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to honor the otherwise suggested Try-Parse pattern (although breaking the method was assessed to have low risk of external callers)
+- CHANGED Authenticate{T} signature on the static Authenticator class in the Cuemon.AspNetCore.Authentication namespace to return a ClaimsPrincipal (wrapped inside a ConditionalValue) instead of assigning this directly to the User of the HttpContext instance (although breaking the method was assessed to have low risk of external callers)
+ 
+# New Features
+- ADDED BasicAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Basic namespace to provide a HTTP Basic Authentication implementation of AuthenticationHandler{TOptions}
+- ADDED DigestAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Digest namespace to provide a HTTP Digest Access Authentication implementation of AuthenticationHandler{TOptions}
+- ADDED HmacAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Hmac namespace to provide a HTTP HMAC Authentication implementation of AuthenticationHandler{TOptions}
+ 
+# Improvements
+- CHANGED BasicAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Basic namespace to be slightly more reusable in the confines of the Cuemon.AspNetCore.Authentication assembly
+- CHANGED BasicAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Basic namespace to include ValidateOptions to ensure that public read-write properties are in a valid state
+- CHANGED AuthenticationOptions class in the Cuemon.AspNetCore.Authentication namespace to inherit from AuthenticationSchemeOptions and implement IValidatableParameterObject (replacing earlier IParameterObject) that ensures UnauthorizedMessage property is in a valid state
+- CHANGED DigestAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Digest namespace to be slightly more reusable in the confines of the Cuemon.AspNetCore.Authentication assembly
+- CHANGED DigestAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Digest namespace to include ValidateOptions to ensure that public read-write properties are in a valid state
+- CHANGED DigestAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace to include an extra overload of AddFromWwwAuthenticateHeader that accepts an instance of HttpResponseHeaders
+- CHANGED HmacAuthenticationMiddleware class in the Cuemon.AspNetCore.Authentication.Hmac namespace to be slightly more reusable in the confines of the Cuemon.AspNetCore.Authentication assembly
+- CHANGED HmacAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Hmac namespace to include ValidateOptions to ensure that public read-write properties are in a valid state
+- CHANGED HmacAuthorizationHeaderBuilder class in the Cuemon.AspNetCore.Authentication.Digest namespace to include an extra overload of AddFromRequest that accepts an instance of HttpRequestMessage
+ 
+# Bug Fixes
+- FIXED DigestAuthenticationOptions class in the Cuemon.AspNetCore.Authentication.Digest namespace to include UseServerSideHa1Storage that finally allows the server to bypass calculation of HA1 password representation
+ 
+Version: 8.0.1
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM

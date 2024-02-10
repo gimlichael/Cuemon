@@ -194,6 +194,7 @@ namespace Cuemon.IO
                 o.BufferSize = options.BufferSize;
                 o.LeaveOpen = options.LeaveOpen;
                 o.CancellationToken = options.CancellationToken;
+                o.CancellationTokenProvider = options.CancellationTokenProvider;
             }).ConfigureAwait(false);
             return Convertible.ToString(bytes, o =>
             {

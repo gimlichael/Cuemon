@@ -25,14 +25,14 @@ namespace Cuemon.AspNetCore.Hosting
         ///     </item>
         ///     <item>
         ///         <term><see cref="SuppressHeaderPredicate"/></term>
-        ///         <description><c>_ => false</c></description>
+        ///         <description><c>environment => environment.IsProduction()</c></description>
         ///     </item>
         /// </list>
         /// </remarks>
         public HostingEnvironmentOptions()
         {
             HeaderName = "X-Hosting-Environment";
-            SuppressHeaderPredicate = _ => false;
+            SuppressHeaderPredicate = environment => environment.IsProduction();
         }
 
         /// <summary>

@@ -61,7 +61,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
 
                 var result = await client.GetAsync("/fake");
                 var model = await result.Content.ReadAsStringAsync();
-
+                
                 TestOutput.WriteLine(model);
 
                 Assert.Contains("\"date\":", model);

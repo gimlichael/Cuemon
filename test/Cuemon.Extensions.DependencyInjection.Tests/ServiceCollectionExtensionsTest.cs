@@ -1,4 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+#if NET6_0_OR_GREATER
+using Cuemon.AspNetCore.Diagnostics;
+using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
+using Cuemon.Extensions.Newtonsoft.Json.Formatters;
+using Cuemon.Extensions.Text.Json.Formatters;
+using Cuemon.Xml.Serialization.Formatters;
+#endif
+using Cuemon.Diagnostics;
 using Cuemon.Extensions.DependencyInjection.Assets;
 using Cuemon.Extensions.Xunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -377,5 +386,272 @@ namespace Cuemon.Extensions.DependencyInjection
             Assert.Null(sut8);
             Assert.Null(sut9);
         }
+
+#if NET6_0_OR_GREATER
+
+	    [Fact]
+	    public void TryConfigure_ShouldAddConfigureOptions()
+	    {
+		    var services = new ServiceCollection()
+			    .TryConfigure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.All);
+
+		    var serviceProvider = services.BuildServiceProvider();
+
+            var exceptionDescriptorOptions = serviceProvider.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value;
+
+            Assert.Equal(FaultSensitivityDetails.All, exceptionDescriptorOptions.SensitivityDetails);
+            Assert.Collection(services,
+	            sp => Assert.True(sp.ServiceType == typeof(IOptions<>), "sp.ServiceType == typeof(IOptions<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IOptionsSnapshot<>), "sp.ServiceType == typeof(IOptionsSnapshot<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IOptionsMonitor<>), "sp.ServiceType == typeof(IOptionsMonitor<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IOptionsFactory<>), "sp.ServiceType == typeof(IOptionsFactory<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IOptionsMonitorCache<>), "sp.ServiceType == typeof(IOptionsMonitorCache<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IConfigureOptions<ExceptionDescriptorOptions>), "sp.ServiceType == typeof(IConfigureOptions<ExceptionDescriptorOptions>)"));
+		}
+
+	    [Fact]
+	    public void TryConfigure_ShouldAddConfigureOptions_OnlyOnce()
+	    {
+		    var services = new ServiceCollection()
+			    .TryConfigure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.All)
+			    .TryConfigure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.None);
+
+		    var serviceProvider = services.BuildServiceProvider();
+
+		    var exceptionDescriptorOptions = serviceProvider.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value;
+
+		    Assert.Equal(FaultSensitivityDetails.All, exceptionDescriptorOptions.SensitivityDetails);
+		    Assert.Collection(services,
+			    sp => Assert.True(sp.ServiceType == typeof(IOptions<>), "sp.ServiceType == typeof(IOptions<>)"),
+			    sp => Assert.True(sp.ServiceType == typeof(IOptionsSnapshot<>), "sp.ServiceType == typeof(IOptionsSnapshot<>)"),
+			    sp => Assert.True(sp.ServiceType == typeof(IOptionsMonitor<>), "sp.ServiceType == typeof(IOptionsMonitor<>)"),
+			    sp => Assert.True(sp.ServiceType == typeof(IOptionsFactory<>), "sp.ServiceType == typeof(IOptionsFactory<>)"),
+			    sp => Assert.True(sp.ServiceType == typeof(IOptionsMonitorCache<>), "sp.ServiceType == typeof(IOptionsMonitorCache<>)"),
+			    sp => Assert.True(sp.ServiceType == typeof(IConfigureOptions<ExceptionDescriptorOptions>), "sp.ServiceType == typeof(IConfigureOptions<ExceptionDescriptorOptions>)"));
+	    }
+
+	    [Fact]
+	    public void Configure_ShouldAddConfigureOptions_Twice()
+	    {
+		    var services = new ServiceCollection()
+			    .Configure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.All)
+			    .Configure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.None);
+
+		    var serviceProvider = services.BuildServiceProvider();
+
+		    var exceptionDescriptorOptions = serviceProvider.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value;
+
+		    Assert.Equal(FaultSensitivityDetails.None, exceptionDescriptorOptions.SensitivityDetails);
+            Assert.Collection(services,
+	            sp => Assert.True(sp.ServiceType == typeof(IOptions<>), "sp.ServiceType == typeof(IOptions<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IOptionsSnapshot<>), "sp.ServiceType == typeof(IOptionsSnapshot<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IOptionsMonitor<>), "sp.ServiceType == typeof(IOptionsMonitor<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IOptionsFactory<>), "sp.ServiceType == typeof(IOptionsFactory<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IOptionsMonitorCache<>), "sp.ServiceType == typeof(IOptionsMonitorCache<>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IConfigureOptions<ExceptionDescriptorOptions>), "sp.ServiceType == typeof(IConfigureOptions<ExceptionDescriptorOptions>)"),
+	            sp => Assert.True(sp.ServiceType == typeof(IConfigureOptions<ExceptionDescriptorOptions>), "sp.ServiceType == typeof(IConfigureOptions<ExceptionDescriptorOptions>)"));
+	    }
+
+        [Fact]
+		public void SynchronizeOptions_ShouldNotChangeAnything_ValuesAreAsConfigured()
+		{
+			var invocationCount = 0;
+			var services = new ServiceCollection()
+				.Configure<JsonFormatterOptions>(o =>
+				{
+					o.Settings.DefaultBufferSize = 4096;
+					o.SensitivityDetails = FaultSensitivityDetails.Failure;
+				})
+				.Configure<NewtonsoftJsonFormatterOptions>(o =>
+				{
+					o.Settings.MaxDepth = 16;
+					o.SensitivityDetails = FaultSensitivityDetails.All;
+				})
+				.Configure<XmlFormatterOptions>(o =>
+				{
+					o.Settings.Writer.Async = true;
+					o.SensitivityDetails = FaultSensitivityDetails.Evidence;
+				})
+				.Configure<FaultDescriptorOptions>(o =>
+				{
+					o.RootHelpLink = new Uri("about:blank");
+					o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTrace;
+				})
+				.Configure<MvcFaultDescriptorOptions>(o =>
+				{
+					o.MarkExceptionHandled = true;
+					o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTraceAndData;
+				})
+				.Configure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.None);
+
+			services.PostConfigureAllOf<FakeOptions>(_ => { invocationCount++; });
+
+			var serviceProvider = services.BuildServiceProvider();
+			
+			var jsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<JsonFormatterOptions>>().Value;
+			var newtonsoftJsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<NewtonsoftJsonFormatterOptions>>().Value;
+			var xmlFormatterOptions = serviceProvider.GetRequiredService<IOptions<XmlFormatterOptions>>().Value;
+			var faultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
+			var mvcFaultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<MvcFaultDescriptorOptions>>().Value;
+			var exceptionDescriptorOptions = serviceProvider.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value;
+
+			Assert.Equal(FaultSensitivityDetails.Failure, jsonFormatterOptions.SensitivityDetails);
+			Assert.Equal(4096, jsonFormatterOptions.Settings.DefaultBufferSize);
+
+			Assert.Equal(FaultSensitivityDetails.All, newtonsoftJsonFormatterOptions.SensitivityDetails);
+			Assert.Equal(16, newtonsoftJsonFormatterOptions.Settings.MaxDepth);
+
+			Assert.Equal(FaultSensitivityDetails.Evidence, xmlFormatterOptions.SensitivityDetails);
+			Assert.True(xmlFormatterOptions.Settings.Writer.Async);
+
+			Assert.Equal(FaultSensitivityDetails.FailureWithStackTrace, faultDescriptorOptions.SensitivityDetails);
+			Assert.Equal(new Uri("about:blank"), faultDescriptorOptions.RootHelpLink);
+
+			Assert.Equal(FaultSensitivityDetails.FailureWithStackTraceAndData, mvcFaultDescriptorOptions.SensitivityDetails);
+			Assert.True(mvcFaultDescriptorOptions.MarkExceptionHandled);
+
+			Assert.Equal(FaultSensitivityDetails.None, exceptionDescriptorOptions.SensitivityDetails);
+
+			Assert.Equal(0, invocationCount);
+		}
+
+		[Fact]
+		public void SynchronizeOptions_ShouldChangeAllWithAServiceTypeHavingIExceptionDescriptorOptions_RemainingValuesAreAsConfigured()
+		{
+			var invocationCount = 0;
+			var services = new ServiceCollection()
+				.Configure<JsonFormatterOptions>(o =>
+				{
+					o.Settings.DefaultBufferSize = 4096;
+					o.SensitivityDetails = FaultSensitivityDetails.Failure;
+				})
+				.Configure<NewtonsoftJsonFormatterOptions>(o =>
+				{
+					o.Settings.MaxDepth = 16;
+					o.SensitivityDetails = FaultSensitivityDetails.All;
+				})
+				.Configure<XmlFormatterOptions>(o =>
+				{
+					o.Settings.Writer.Async = true;
+					o.SensitivityDetails = FaultSensitivityDetails.Evidence;
+				})
+				.Configure<FaultDescriptorOptions>(o =>
+				{
+					o.RootHelpLink = new Uri("about:blank");
+					o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTrace;
+				})
+				.Configure<MvcFaultDescriptorOptions>(o =>
+				{
+					o.MarkExceptionHandled = true;
+					o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTraceAndData;
+				})
+				.Configure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.None);
+
+			services.PostConfigureAllOf<IExceptionDescriptorOptions>(o =>
+			{
+				invocationCount++;
+				o.SensitivityDetails = FaultSensitivityDetails.None;
+			});
+
+			var serviceProvider = services.BuildServiceProvider();
+
+			var jsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<JsonFormatterOptions>>().Value;
+			var newtonsoftJsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<NewtonsoftJsonFormatterOptions>>().Value;
+			var xmlFormatterOptions = serviceProvider.GetRequiredService<IOptions<XmlFormatterOptions>>().Value;
+			var faultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
+			var mvcFaultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<MvcFaultDescriptorOptions>>().Value;
+			var exceptionDescriptorOptions = serviceProvider.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value;
+
+			Assert.Equal(FaultSensitivityDetails.None, jsonFormatterOptions.SensitivityDetails);
+			Assert.Equal(4096, jsonFormatterOptions.Settings.DefaultBufferSize);
+
+			Assert.Equal(FaultSensitivityDetails.None, newtonsoftJsonFormatterOptions.SensitivityDetails);
+			Assert.Equal(16, newtonsoftJsonFormatterOptions.Settings.MaxDepth);
+
+			Assert.Equal(FaultSensitivityDetails.None, xmlFormatterOptions.SensitivityDetails);
+			Assert.True(xmlFormatterOptions.Settings.Writer.Async);
+
+			Assert.Equal(FaultSensitivityDetails.None, faultDescriptorOptions.SensitivityDetails);
+			Assert.Equal(new Uri("about:blank"), faultDescriptorOptions.RootHelpLink);
+
+			Assert.Equal(FaultSensitivityDetails.None, mvcFaultDescriptorOptions.SensitivityDetails);
+			Assert.True(mvcFaultDescriptorOptions.MarkExceptionHandled);
+
+			Assert.Equal(FaultSensitivityDetails.None, exceptionDescriptorOptions.SensitivityDetails);
+
+			Assert.Equal(6, invocationCount);
+		}
+
+		[Fact]
+		public void SynchronizeOptions_ShouldChangeAllWithAServiceTypeHavingFaultDescriptorOptions_RemainingValuesAreAsConfigured()
+		{
+			var invocationCount = 0;
+			var services = new ServiceCollection()
+				.Configure<JsonFormatterOptions>(o =>
+				{
+					o.Settings.DefaultBufferSize = 4096;
+					o.SensitivityDetails = FaultSensitivityDetails.Failure;
+				})
+				.Configure<NewtonsoftJsonFormatterOptions>(o =>
+				{
+					o.Settings.MaxDepth = 16;
+					o.SensitivityDetails = FaultSensitivityDetails.All;
+				})
+				.Configure<XmlFormatterOptions>(o =>
+				{
+					o.Settings.Writer.Async = true;
+					o.SensitivityDetails = FaultSensitivityDetails.Evidence;
+				})
+				.Configure<FaultDescriptorOptions>(o =>
+				{
+					o.RootHelpLink = new Uri("about:blank");
+					o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTrace;
+				})
+				.Configure<MvcFaultDescriptorOptions>(o =>
+				{
+					o.MarkExceptionHandled = true;
+					o.SensitivityDetails = FaultSensitivityDetails.FailureWithStackTraceAndData;
+				})
+				.Configure<ExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.None);
+
+			services.PostConfigureAllOf<FaultDescriptorOptions>(o =>
+			{
+				invocationCount++;
+				o.RootHelpLink = new Uri("about:not-so-blank");
+				o.SensitivityDetails = FaultSensitivityDetails.Data;
+			});
+
+			var serviceProvider = services.BuildServiceProvider();
+
+			var jsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<JsonFormatterOptions>>().Value;
+			var newtonsoftJsonFormatterOptions = serviceProvider.GetRequiredService<IOptions<NewtonsoftJsonFormatterOptions>>().Value;
+			var xmlFormatterOptions = serviceProvider.GetRequiredService<IOptions<XmlFormatterOptions>>().Value;
+			var faultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
+			var mvcFaultDescriptorOptions = serviceProvider.GetRequiredService<IOptions<MvcFaultDescriptorOptions>>().Value;
+			var exceptionDescriptorOptions = serviceProvider.GetRequiredService<IOptions<ExceptionDescriptorOptions>>().Value;
+
+			Assert.Equal(FaultSensitivityDetails.Failure, jsonFormatterOptions.SensitivityDetails);
+			Assert.Equal(4096, jsonFormatterOptions.Settings.DefaultBufferSize);
+
+			Assert.Equal(FaultSensitivityDetails.All, newtonsoftJsonFormatterOptions.SensitivityDetails);
+			Assert.Equal(16, newtonsoftJsonFormatterOptions.Settings.MaxDepth);
+
+			Assert.Equal(FaultSensitivityDetails.Evidence, xmlFormatterOptions.SensitivityDetails);
+			Assert.True(xmlFormatterOptions.Settings.Writer.Async);
+
+			Assert.Equal(FaultSensitivityDetails.Data, faultDescriptorOptions.SensitivityDetails);
+			Assert.Equal(new Uri("about:not-so-blank"), faultDescriptorOptions.RootHelpLink);
+
+			Assert.Equal(FaultSensitivityDetails.Data, mvcFaultDescriptorOptions.SensitivityDetails);
+			Assert.Equal(new Uri("about:not-so-blank"), mvcFaultDescriptorOptions.RootHelpLink);
+			Assert.True(mvcFaultDescriptorOptions.MarkExceptionHandled);
+
+			Assert.Equal(FaultSensitivityDetails.None, exceptionDescriptorOptions.SensitivityDetails);
+
+			Assert.Equal(2, invocationCount);
+		}
+
+#endif
+
     }
 }

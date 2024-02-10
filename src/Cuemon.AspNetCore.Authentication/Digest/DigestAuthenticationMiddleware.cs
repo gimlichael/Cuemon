@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Cuemon.Collections.Generic;
@@ -17,8 +19,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
     /// </summary>
     public class DigestAuthenticationMiddleware : ConfigurableMiddleware<INonceTracker, DigestAuthenticationOptions>
     {
-        private INonceTracker _nonceTracker;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DigestAuthenticationMiddleware"/> class.
         /// </summary>
@@ -43,12 +43,17 @@ namespace Cuemon.AspNetCore.Authentication.Digest
         /// <param name="context">The context of the current request.</param>
         /// <param name="di">The dependency injected implementation of an <see cref="INonceTracker"/>.</param>
         /// <returns>A task that represents the execution of this middleware.</returns>
+        /// <remarks><c>qop</c> is included and supported to be compliant with RFC 2617 (hence, this implementation cannot revert to reduced legacy RFC 2069 mode).</remarks>
         public override async Task InvokeAsync(HttpContext context, INonceTracker di)
         {
-            _nonceTracker = di;
-            if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate))
+	        if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} delegate cannot be null.")); }
+	        
+	        context.Items.TryAdd(nameof(DigestAuthenticationOptions), Options);
+	        context.Items.TryAdd(nameof(INonceTracker), di);
+
+	        if (!Authenticator.TryAuthenticate(context, Options.RequireSecureConnection, AuthorizationHeaderParser, TryAuthenticate, out var principal))
             {
-                await Decorator.Enclose(context).InvokeAuthenticationAsync(Options, dc =>
+                await Decorator.Enclose(context).InvokeUnauthorizedExceptionAsync(Options, principal.Failure, dc =>
                 {
                     string etag = dc.Response.Headers[HeaderNames.ETag];
                     if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
@@ -59,61 +64,82 @@ namespace Cuemon.AspNetCore.Authentication.Digest
                     Decorator.Enclose(dc.Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{ParseAlgorithm(Options.Algorithm)}\""));
                 }).ConfigureAwait(false);
             }
-            await Next.Invoke(context).ConfigureAwait(false);
+
+            context.User = principal.Result;
+			await Next.Invoke(context).ConfigureAwait(false);
         }
 
-        private bool TryAuthenticate(HttpContext context, DigestAuthorizationHeader header, out ClaimsPrincipal result)
+        internal static bool TryAuthenticate(HttpContext context, DigestAuthorizationHeader header, out ConditionalValue<ClaimsPrincipal> result)
         {
-            if (Options.Authenticator == null) { throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"The {nameof(Options.Authenticator)} delegate cannot be null.")); }
+	        var options = context.Items[nameof(DigestAuthenticationOptions)] as DigestAuthenticationOptions;
+            var nonceTracker = context.Items[nameof(INonceTracker)] as INonceTracker;
+			if (options?.Authenticator == null)
+	        {
+                result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException($"{nameof(options.Authenticator)} was unexpectedly set to null."));
+		        return false;
+	        }
 
             if (header == null)
             {
-                result = null;
+                result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException($"{nameof(DigestAuthorizationHeader)} was unexpectedly passed as null."));
                 return false;
             }
 
-            result = null;
-            var nonceExpiredParser = Options.NonceExpiredParser;
+            var nonceExpiredParser = options.NonceExpiredParser;
             var staleNonce = nonceExpiredParser(header.Nonce, TimeSpan.FromSeconds(30));
             if (staleNonce)
             {
                 context.Items.Add(DigestFields.Stale, "true");
+                result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException("Stale nonce detected."));
                 return false;
             }
 
-            if (_nonceTracker != null)
+            if (nonceTracker != null)
             {
                 var nc = Convert.ToInt32(header.NC, 16);
-                if (_nonceTracker.TryGetEntry(header.Nonce, out var previousNonce))
+                if (nonceTracker.TryGetEntry(header.Nonce, out var previousNonce))
                 {
                     if (previousNonce.Count == nc)
                     {
                         context.Items.Add(DigestFields.Stale, "true");
+                        result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException("Nonce replay detected."));
                         return false;
                     }
                 }
                 else
                 {
-                    _nonceTracker.TryAddEntry(header.Nonce, nc);
+                    nonceTracker.TryAddEntry(header.Nonce, nc);
                 }
             }
 
-            result = Options.Authenticator(header.UserName, out var password);
+            var presult = options.Authenticator(header.UserName, out var password);
+            if (presult != null)
+            {
+                context.Request.EnableBuffering();
 
-            var db = new DigestAuthorizationHeaderBuilder().AddFromDigestAuthorizationHeader(header);
-            var ha1 = db.ComputeHash1(password);
-            var ha2 = db.ComputeHash2(context.Request.Method, Decorator.Enclose(context.Request.Body).ToEncodedString(o => o.LeaveOpen = true));
-            var serverResponse = db.ComputeResponse(ha1, ha2);
+                using var body = new MemoryStream();
+                context.Request.Body.CopyToAsync(body).GetAwaiter().GetResult();
+                var db = new DigestAuthorizationHeaderBuilder().AddFromDigestAuthorizationHeader(header);
+                var ha1 = options.UseServerSideHa1Storage ? password : db.ComputeHash1(password);
+                var ha2 = db.ComputeHash2(context.Request.Method, Decorator.Enclose(body).ToEncodedString());
+                var serverResponse = db.ComputeResponse(ha1, ha2);
+                if (serverResponse != null && serverResponse.Equals(header.Response, StringComparison.OrdinalIgnoreCase))
+                {
+                    result = new SuccessfulValue<ClaimsPrincipal>(presult);
+                    return true;
+                }
+            }
 
-            return serverResponse != null && serverResponse.Equals(header.Response, StringComparison.Ordinal) && Condition.IsNotNull(result);
+            result = new UnsuccessfulValue<ClaimsPrincipal>(new SecurityException($"Unable to authenticate {header.UserName}."));
+            return false;
         }
 
-        private DigestAuthorizationHeader AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
+        internal static DigestAuthorizationHeader AuthorizationHeaderParser(HttpContext context, string authorizationHeader)
         {
             return DigestAuthorizationHeader.Create(authorizationHeader);
         }
 
-        private static string ParseAlgorithm(UnkeyedCryptoAlgorithm algorithm)
+        internal static string ParseAlgorithm(UnkeyedCryptoAlgorithm algorithm)
         {
             switch (algorithm)
             {

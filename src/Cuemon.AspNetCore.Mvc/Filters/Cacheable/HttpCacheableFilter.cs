@@ -37,15 +37,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Cacheable
             {
                 result.Value = cacheableObjectResult.Value;
                 cacheableObjectResult.Value = null;
-                if (!context.HttpContext.Response.HasStarted)
-                {
-                    if (Options.UseCacheControl) { context.HttpContext.Response.GetTypedHeaders().CacheControl = Options.CacheControl; }
-                    if (context.HttpContext.Response.StatusCode != StatusCodes.Status304NotModified) { await next().ConfigureAwait(false); }
-                }
             }
-            else
+
+            if (!context.HttpContext.Response.HasStarted)
             {
-                if (!context.HttpContext.Response.HasStarted) { await next().ConfigureAwait(false); }
+                if (Options.UseCacheControl) { context.HttpContext.Response.GetTypedHeaders().CacheControl = Options.CacheControl; }
+                if (context.HttpContext.Response.StatusCode != StatusCodes.Status304NotModified) { await next().ConfigureAwait(false); }
             }
         }
     }

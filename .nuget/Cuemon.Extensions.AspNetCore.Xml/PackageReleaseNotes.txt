@@ -1,0 +1,10 @@
+﻿Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED XmlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Xml.Converters namespace that consist of extension methods for the XmlConverter class: AddHttpExceptionDescriptorConverter, AddStringValuesConverter, AddHeaderDictionaryConverter, AddQueryCollectionConverter, AddFormCollectionConverter and AddCookieCollectionConverter
+- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Xml.Formatters namespace that consist of extension methods for the IServiceCollection interface: AddXmlFormatterOptions and AddXmlExceptionResponseFormatter
+ 

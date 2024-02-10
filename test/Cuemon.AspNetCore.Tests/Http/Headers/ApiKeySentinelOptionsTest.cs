@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Net.Http;
 using Xunit;
@@ -88,12 +89,30 @@ namespace Cuemon.AspNetCore.Http.Headers
         }
 
         [Fact]
+        public void ApiKeySentinelOptions_GenericClientStatusCodeIsOutOfRange_ShouldThrowInvalidOperationException()
+        {
+	        var sut1 = new ApiKeySentinelOptions
+	        {
+		        GenericClientStatusCode = HttpStatusCode.Ambiguous
+	        };
+	        var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
+	        var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+
+            TestOutput.WriteLine(sut2.Message);
+			
+
+	        Assert.Equal("Operation is not valid due to the current state of the object. (Expression '(int)GenericClientStatusCode < 400 || (int)GenericClientStatusCode > 499')", sut2.Message);
+	        Assert.Equal("ApiKeySentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
+	        Assert.IsType<InvalidOperationException>(sut3.InnerException);
+        }
+
+        [Fact]
         public void ApiKeySentinelOptions_ShouldHaveDefaultValues()
         {
             var sut = new ApiKeySentinelOptions();
 
             Assert.NotNull(sut.AllowedKeys);
-            Assert.Equal("The requirements of the request was not met.", sut.BadRequestMessage);
+            Assert.Equal("The requirements of the request was not met.", sut.GenericClientMessage);
             Assert.Equal("The API key specified was rejected.", sut.ForbiddenMessage);
             Assert.Equal(HttpHeaderNames.XApiKey, sut.HeaderName);
             Assert.NotNull(sut.ResponseHandler);

@@ -92,6 +92,7 @@
         {
           "files": [
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Newtonsoft.Json/**.csproj",
             "Cuemon.Extensions.Newtonsoft.Json/**.csproj"
           ],
           "src": "../src"
@@ -163,7 +164,9 @@
             "Cuemon.Extensions.AspNetCore.Mvc/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/**.csproj",
             "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.csproj",
-            "Cuemon.Extensions.AspNetCore.Mvc.RazorPages/**.csproj"
+            "Cuemon.Extensions.AspNetCore.Mvc.RazorPages/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Text.Json/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Xml/**.csproj"
           ],
           "src": "../src"
         }

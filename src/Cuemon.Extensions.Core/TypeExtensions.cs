@@ -220,7 +220,7 @@ namespace Cuemon.Extensions
         {
             Validator.ThrowIfNull(type);
             Validator.ThrowIfNull(interfaceTypes);
-            return Decorator.Enclose(type).HasInterface(interfaceTypes);
+            return Decorator.Enclose(type).HasInterfaces(interfaceTypes);
         }
 
         /// <summary>

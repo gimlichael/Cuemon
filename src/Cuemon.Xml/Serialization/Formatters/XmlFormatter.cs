@@ -34,7 +34,8 @@ namespace Cuemon.Xml.Serialization.Formatters
         /// <param name="options">The configured <see cref="XmlFormatterOptions"/>.</param>
         public XmlFormatter(XmlFormatterOptions options) : base(options)
         {
-            if (options.SynchronizeWithXmlConvert) { Decorator.Enclose(options.RefreshWithConverterDependencies()).ApplyToDefaultSettings(); }
+	        Options.RefreshWithConverterDependencies();
+            if (Options.SynchronizeWithXmlConvert) { Decorator.Enclose(Options.Settings).ApplyToDefaultSettings(); }
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(objectType);
-            var serializer = XmlSerializer.Create(Options.RefreshWithConverterDependencies());
+            var serializer = XmlSerializer.Create(Options.Settings);
             return serializer.Serialize(source, objectType);
         }
 
@@ -71,7 +72,7 @@ namespace Cuemon.Xml.Serialization.Formatters
             Validator.ThrowIfNull(writer);
             Validator.ThrowIfNull(source);
             Validator.ThrowIfNull(objectType);
-            var serializer = XmlSerializer.Create(Options.RefreshWithConverterDependencies());
+            var serializer = XmlSerializer.Create(Options.Settings);
             serializer.Serialize(writer, source, objectType);
         }
 
@@ -89,7 +90,7 @@ namespace Cuemon.Xml.Serialization.Formatters
         {
             Validator.ThrowIfNull(value);
             Validator.ThrowIfNull(objectType);
-            var serializer = XmlSerializer.Create(Options.RefreshWithConverterDependencies());
+            var serializer = XmlSerializer.Create(Options.Settings);
             return serializer.Deserialize(value, objectType);
         }
     }

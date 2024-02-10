@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace contains both types and extension methods that complements the Cuemon.Extensions.Newtonsoft.Json namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides JSON formatters for ASP.NET Core that is powered by Newtonsoft.Json.</Description>
+    <Description>The Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace contains both types and extension methods that complements both the Cuemon.Extensions.Newtonsoft.Json/Cuemon.Extensions.AspNetCore.Newtonsoft.Json namespace while being an addition to the Microsoft.AspNetCore.Mvc namespace. Provides JSON formatters for ASP.NET Core MVC that is powered by Newtonsoft.Json.</Description>
     <PackageTags>extension-methods extensions json-converters add-json-serialization-formatters add-json-formatter-options</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.AspNetCore.Mvc\Cuemon.AspNetCore.Mvc.csproj" />
-    <ProjectReference Include="..\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.AspNetCore.Newtonsoft.Json\Cuemon.Extensions.AspNetCore.Newtonsoft.Json.csproj" />
   </ItemGroup>
 
 </Project>

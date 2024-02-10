@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.IO;
+using System.Linq;
 
 namespace Cuemon.Runtime.Serialization
 {
@@ -11,7 +12,7 @@ namespace Cuemon.Runtime.Serialization
     /// <seealso cref="IndentedTextWriter" />
     public class YamlTextWriter : IndentedTextWriter
     {
-        private int _writes;
+        private static readonly char[] PunctuationMarks = Alphanumeric.PunctuationMarks.ToCharArray();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="YamlTextWriter"/> class.
@@ -57,7 +58,6 @@ namespace Cuemon.Runtime.Serialization
         {
             var serializer = new YamlSerializer(Patterns.ConfigureRevert(so));
             serializer.Serialize(this, value, valueType);
-            _writes++;
         }
 
         /// <summary>
@@ -65,13 +65,13 @@ namespace Cuemon.Runtime.Serialization
         /// </summary>
         public void WriteStartObject()
         {
+            var tokenType = TokenType;
             TokenType = YamlTokenType.StartObject;
-            if (_writes > 0)
+            if (tokenType != YamlTokenType.StartArray && tokenType != YamlTokenType.None)
             {
                 WriteLine();
                 Indent++;
             }
-            _writes++;
         }
 
         /// <summary>
@@ -89,12 +89,8 @@ namespace Cuemon.Runtime.Serialization
         public void WriteStartArray()
         {
             TokenType = YamlTokenType.StartArray;
-            if (_writes > 0)
-            {
-                WriteLine();
-                Indent++;
-            }
-            _writes++;
+            Write("- ");
+            Indent++;
         }
 
         /// <summary>
@@ -113,8 +109,23 @@ namespace Cuemon.Runtime.Serialization
         /// <param name="value">The value to be written as part of the name/value pair of a YAML object.</param>
         public void WriteString(string propertyName, string value)
         {
-            WriteLine($"{propertyName}: {value}");
-            _writes++;
+            WritePropertyName(propertyName);
+            WriteStringValue(value);
+        }
+
+
+        /// <summary>
+        /// Writes a string text value as part of a name/value pair of a YAML object.
+        /// </summary>
+        /// <param name="value">The value to be written as part of the name/value pair of a YAML object.</param>
+        public void WriteStringValue(string value)
+        {
+            if (value == null) { return; }
+            if (value.Length >= 1 && PunctuationMarks.Any(c => c == char.Parse(value.Substring(0, 1))))
+            {
+                value = $"\"{value}\"";
+            }
+            WriteLine($"{value}");
         }
 
         /// <summary>
@@ -125,7 +136,6 @@ namespace Cuemon.Runtime.Serialization
         {
             TokenType = YamlTokenType.PropertyName;
             Write($"{propertyName}: ");
-            _writes++;
         }
     }
 }
