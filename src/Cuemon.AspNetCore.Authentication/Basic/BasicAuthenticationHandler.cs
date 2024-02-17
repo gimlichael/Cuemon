@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
@@ -40,23 +39,23 @@ namespace Cuemon.AspNetCore.Authentication.Basic
 			if (!Authenticator.TryAuthenticate(Context, Options.RequireSecureConnection, BasicAuthenticationMiddleware.AuthorizationHeaderParser, BasicAuthenticationMiddleware.TryAuthenticate, out var principal))
             {
                 var unathorized = new UnauthorizedException(Options.UnauthorizedMessage, principal.Failure);
-                Context.Items.Add(nameof(HttpExceptionDescriptor), new HttpExceptionDescriptor(unathorized)); // so annoying that Microsoft does not propagate AuthenticateResult properly - other have noticed as well: https://github.com/dotnet/aspnetcore/issues/44100
 				return Task.FromResult(AuthenticateResult.Fail(unathorized));
 			}
 
 			var ticket = new AuthenticationTicket(principal.Result, BasicAuthorizationHeader.Scheme);
 			return Task.FromResult(AuthenticateResult.Success(ticket));
 		}
-
-		/// <summary>
+		
+        /// <summary>
 		/// Handle challenge as an asynchronous operation.
 		/// </summary>
 		/// <param name="properties">The properties.</param>
 		/// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-		protected override Task HandleChallengeAsync(AuthenticationProperties properties)
-		{
+		protected override async Task HandleChallengeAsync(AuthenticationProperties properties)
+        {
+            AuthenticationHandlerFeature.Set(await HandleAuthenticateOnceSafeAsync().ConfigureAwait(false), Context); // so annoying that Microsoft does not propagate AuthenticateResult properly - other have noticed as well: https://github.com/dotnet/aspnetcore/issues/44100
 			Decorator.Enclose(Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{BasicAuthorizationHeader.Scheme} realm=\"{Options.Realm}\""));
-			return Task.CompletedTask;
-		}
+            await base.HandleChallengeAsync(properties).ConfigureAwait(false);
+        }
 	}
 }

@@ -3,10 +3,10 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading;
-using System.Threading.Tasks;
 using Cuemon.AspNetCore.Authentication.Basic;
 using Cuemon.AspNetCore.Authentication.Digest;
 using Cuemon.AspNetCore.Authentication.Hmac;
+using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Diagnostics;
@@ -17,7 +17,6 @@ using Cuemon.Extensions.AspNetCore.Xml.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
-using Cuemon.Threading;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -104,6 +103,160 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                 else
                 {
                     Assert.Equal("The request has not been applied because it lacks valid authentication credentials for the target resource.", content);
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData(FaultSensitivityDetails.All)]
+        [InlineData(FaultSensitivityDetails.None)]
+        public async void AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseUsingDefaultPlainTextFallbackForAuthorization_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
+        {
+            using (var startup = WebApplicationTestFactory.Create(services =>
+                   {
+                       services.AddAuthorizationResponseHandler();
+                       services.AddAuthentication(BasicAuthorizationHeader.Scheme)
+                           .AddBasic(o =>
+                           {
+                               o.RequireSecureConnection = false;
+                               o.Authenticator = (username, password) =>
+                               {
+                                   if (username == "Agent" && password == "Test")
+                                   {
+                                       return new ClaimsPrincipal(new ClaimsIdentity(Arguments.Yield(new Claim(ClaimTypes.Name, "Test Agent")), BasicAuthorizationHeader.Scheme));
+                                   }
+                                   return null;
+                               };
+                           });
+                       services.AddAuthorization(o =>
+                       {
+                           o.FallbackPolicy = new AuthorizationPolicyBuilder()
+                               .AddAuthenticationSchemes(BasicAuthorizationHeader.Scheme)
+                               .RequireAuthenticatedUser()
+                               .RequireUserName("Skywalker")
+                               .Build();
+
+                       });
+                       services.AddRouting();
+                       services.PostConfigureAllExceptionDescriptorOptions(o => o.SensitivityDetails = sensitivityDetails);
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseAuthentication();
+                       app.UseAuthorization();
+                       app.UseEndpoints(endpoints =>
+                       {
+                           endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
+                       });
+                   }))
+            {
+                var client = startup.Host.GetTestClient();
+                var bb = new BasicAuthorizationHeaderBuilder()
+                    .AddUserName("Agent")
+                    .AddPassword("Test");
+
+                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, bb.Build().ToString());
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
+
+                var result = await client.GetAsync("/");
+                var content = await result.Content.ReadAsStringAsync();
+
+                TestOutput.WriteLine(content);
+
+                Assert.Equal(HttpStatusCode.Forbidden, result.StatusCode);
+
+                if (sensitivityDetails == FaultSensitivityDetails.All)
+                {
+                    Assert.Equal("""
+                                 Cuemon.AspNetCore.Http.ForbiddenException: NameAuthorizationRequirement:Requires a user identity with Name equal to Skywalker
+                                 
+                                 Additional Information:
+                                 	Headers: Microsoft.AspNetCore.Http.HeaderDictionary
+                                 	StatusCode: 403
+                                 	ReasonPhrase: Forbidden
+                                 
+                                 """.ReplaceLineEndings(), content.ReplaceLineEndings());
+                }
+                else
+                {
+                    Assert.Equal("NameAuthorizationRequirement:Requires a user identity with Name equal to Skywalker", content);
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData(FaultSensitivityDetails.All)]
+        [InlineData(FaultSensitivityDetails.None)]
+        public async void AuthorizationResponseHandler_BasicScheme_ShouldRenderResponseUsingDefaultPlainTextFallbackForAuthorization_HideReason_UsingAspNetBootstrapping(FaultSensitivityDetails sensitivityDetails)
+        {
+            using (var startup = WebApplicationTestFactory.Create(services =>
+                   {
+                       services.AddAuthorizationResponseHandler(o => o.AuthorizationFailureHandler = failure => new NotFoundException());
+                       services.AddAuthentication(BasicAuthorizationHeader.Scheme)
+                           .AddBasic(o =>
+                           {
+                               o.RequireSecureConnection = false;
+                               o.Authenticator = (username, password) =>
+                               {
+                                   if (username == "Agent" && password == "Test")
+                                   {
+                                       return new ClaimsPrincipal(new ClaimsIdentity(Arguments.Yield(new Claim(ClaimTypes.Name, "Test Agent")), BasicAuthorizationHeader.Scheme));
+                                   }
+                                   return null;
+                               };
+                           });
+                       services.AddAuthorization(o =>
+                       {
+                           o.FallbackPolicy = new AuthorizationPolicyBuilder()
+                               .AddAuthenticationSchemes(BasicAuthorizationHeader.Scheme)
+                               .RequireAuthenticatedUser()
+                               .RequireUserName("Skywalker")
+                               .Build();
+
+                       });
+                       services.AddRouting();
+                       services.PostConfigureAllExceptionDescriptorOptions(o => o.SensitivityDetails = sensitivityDetails);
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseAuthentication();
+                       app.UseAuthorization();
+                       app.UseEndpoints(endpoints =>
+                       {
+                           endpoints.MapGet("/", context => context.Response.WriteAsync($"Hello {context.User.Identity!.Name}"));
+                       });
+                   }))
+            {
+                var client = startup.Host.GetTestClient();
+                var bb = new BasicAuthorizationHeaderBuilder()
+                    .AddUserName("Agent")
+                    .AddPassword("Test");
+
+                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, bb.Build().ToString());
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
+
+                var result = await client.GetAsync("/");
+                var content = await result.Content.ReadAsStringAsync();
+
+                TestOutput.WriteLine(content);
+
+                Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+                
+                if (sensitivityDetails == FaultSensitivityDetails.All)
+                {
+                    Assert.Equal("""
+                                 Cuemon.AspNetCore.Http.NotFoundException: The server has not found anything matching the request URI.
+                                 
+                                 Additional Information:
+                                 	Headers: Microsoft.AspNetCore.Http.HeaderDictionary
+                                 	StatusCode: 404
+                                 	ReasonPhrase: Not Found
+                                 
+                                 """.ReplaceLineEndings(), content.ReplaceLineEndings());
+                }
+                else
+                {
+                    Assert.Equal("The server has not found anything matching the request URI.", content);
                 }
             }
         }
@@ -285,6 +438,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         {
             using (var startup = WebApplicationTestFactory.Create(services =>
                    {
+                       services.AddFaultDescriptorOptions();
                        services.AddJsonExceptionResponseFormatter();
                        services.AddAuthorizationResponseHandler();
                        services.AddAuthentication(BasicAuthorizationHeader.Scheme)
@@ -305,6 +459,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                        services.PostConfigureAllExceptionDescriptorOptions(o => o.SensitivityDetails = sensitivityDetails);
                    }, app =>
                    {
+                       app.UseFaultDescriptorExceptionHandler();
                        app.UseRouting();
                        app.UseAuthentication();
                        app.UseAuthorization();
@@ -479,6 +634,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                            o.FallbackPolicy = new AuthorizationPolicyBuilder()
                                .AddAuthenticationSchemes(BasicAuthorizationHeader.Scheme)
                                .RequireAuthenticatedUser()
+                               .RequireUserName("Test Agent")
                                .Build();
 
                        });

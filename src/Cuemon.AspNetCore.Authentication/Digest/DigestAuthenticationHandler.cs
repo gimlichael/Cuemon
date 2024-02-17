@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using System.Globalization;
-using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 
@@ -46,7 +45,6 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 			if (!Authenticator.TryAuthenticate(Context, Options.RequireSecureConnection, DigestAuthenticationMiddleware.AuthorizationHeaderParser, DigestAuthenticationMiddleware.TryAuthenticate, out var principal))
 			{
                 var unathorized = new UnauthorizedException(Options.UnauthorizedMessage, principal.Failure);
-                Context.Items.Add(nameof(HttpExceptionDescriptor), new HttpExceptionDescriptor(unathorized)); // so annoying that Microsoft does not propagate AuthenticateResult properly - other have noticed as well: https://github.com/dotnet/aspnetcore/issues/44100
 				return Task.FromResult(AuthenticateResult.Fail(unathorized));
 			}
 
@@ -60,7 +58,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 		/// <param name="properties">The properties.</param>½
 		/// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
 		/// <remarks><c>qop</c> is included and supported to be compliant with RFC 2617 (hence, this implementation cannot revert to reduced legacy RFC 2069 mode).</remarks>
-		protected override Task HandleChallengeAsync(AuthenticationProperties properties)
+		protected override async Task HandleChallengeAsync(AuthenticationProperties properties)
 		{
 			string etag = Response.Headers[HeaderNames.ETag];
 			if (string.IsNullOrEmpty(etag)) { etag = "no-entity-tag"; }
@@ -68,8 +66,9 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 			var nonceSecret = Options.NonceSecret;
 			var nonceGenerator = Options.NonceGenerator;
 			var staleNonce = Context.Items[DigestFields.Stale] as string ?? "false";
+            AuthenticationHandlerFeature.Set(await HandleAuthenticateOnceSafeAsync().ConfigureAwait(false), Context); // so annoying that Microsoft does not propagate AuthenticateResult properly - other have noticed as well: https://github.com/dotnet/aspnetcore/issues/44100
 			Decorator.Enclose(Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, string.Create(CultureInfo.InvariantCulture, $"{DigestAuthorizationHeader.Scheme} realm=\"{Options.Realm}\", qop=\"auth, auth-int\", nonce=\"{nonceGenerator(DateTime.UtcNow, etag, nonceSecret())}\", opaque=\"{opaqueGenerator()}\", stale=\"{staleNonce}\", algorithm=\"{DigestAuthenticationMiddleware.ParseAlgorithm(Options.Algorithm)}\""));
-			return Task.CompletedTask;
+            await base.HandleChallengeAsync(properties).ConfigureAwait(false);
 		}
 	}
 }
