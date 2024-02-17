@@ -96,5 +96,41 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
             options.AddSecurityRequirement(jwtRequirement);
             return options;
         }
+
+        /// <summary>
+        /// Adds support for AuthN/AuthZ using the Basic security scheme.
+        /// </summary>
+        /// <param name="options">The <see cref="SwaggerGenOptions"/> to extend.</param>
+        /// <returns>A reference to <paramref name="options" /> so that additional calls can be chained.</returns>
+        public static SwaggerGenOptions AddBasicAuthenticationSecurity(this SwaggerGenOptions options)
+        {
+            options.AddSecurityDefinition(HttpAuthenticationSchemes.Basic, new OpenApiSecurityScheme
+            {
+                Description = $"Protects an API by adding an {HttpHeaderNames.Authorization} header using the {HttpAuthenticationSchemes.Basic} scheme.",
+                Name = HttpHeaderNames.Authorization,
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = HttpAuthenticationSchemes.Basic.ToLowerInvariant()
+            });
+
+            var basicRequirement = new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = HttpAuthenticationSchemes.Basic
+                        },
+                        In = ParameterLocation.Header
+                    },
+                    Array.Empty<string>()
+                }
+            };
+
+            options.AddSecurityRequirement(basicRequirement);
+            return options;
+        }
     }
 }
