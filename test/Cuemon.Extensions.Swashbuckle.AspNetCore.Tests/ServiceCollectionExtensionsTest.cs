@@ -4,11 +4,13 @@ using Asp.Versioning;
 using Cuemon.Extensions.Asp.Versioning;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json;
 using Cuemon.Extensions.Swashbuckle.AspNetCore.Assets.V1;
+using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Xunit;
 using Xunit.Abstractions;
@@ -88,6 +90,15 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         ""tags"": [
           ""Fake""
         ],
+        ""parameters"": [
+          {
+            ""name"": ""details"",
+            ""in"": ""query"",
+            ""schema"": {
+              ""$ref"": ""#/components/schemas/FaultSensitivityDetails""
+            }
+          }
+        ],
         ""responses"": {
           ""200"": {
             ""description"": ""Success""
@@ -96,7 +107,25 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
       }
     }
   },
-  ""components"": { }
+  ""components"": {
+    ""schemas"": {
+      ""FaultSensitivityDetails"": {
+        ""enum"": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7,
+          8,
+          15
+        ],
+        ""type"": ""integer"",
+        ""format"": ""int32""
+      }
+    }
+  }
 }", result, ignoreLineEndingDifferences: true);
 
             }
@@ -133,6 +162,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                            o.OpenApiInfo.TermsOfService = new Uri("https://docs.github.com/en/site-policy/github-terms/github-terms-of-service");
                            o.IncludeControllerXmlComments = true;
                            o.XmlDocumentations.AddByType(typeof(ServiceCollectionExtensionsTest));
+                           o.JsonSerializerOptionsFactory = provider => provider.GetRequiredService<IOptions<JsonFormatterOptions>>().Value.Settings;
                        });
                        services.AddSwaggerGen();
                    }, app =>
@@ -211,6 +241,15 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
           ""Fake""
         ],
         ""summary"": ""Gets an OK response with a body of Unit Test V2."",
+        ""parameters"": [
+          {
+            ""name"": ""details"",
+            ""in"": ""query"",
+            ""schema"": {
+              ""$ref"": ""#/components/schemas/FaultSensitivityDetails""
+            }
+          }
+        ],
         ""responses"": {
           ""200"": {
             ""description"": ""Success""
@@ -219,7 +258,43 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
       }
     }
   },
-  ""components"": { }
+  ""components"": {
+    ""schemas"": {
+      ""FaultSensitivityDetails"": {
+        ""enum"": [
+          [
+            ""none""
+          ],
+          [
+            ""failure""
+          ],
+          [
+            ""stackTrace""
+          ],
+          [
+            ""failureWithStackTrace""
+          ],
+          [
+            ""data""
+          ],
+          [
+            ""failureWithData""
+          ],
+          [
+            ""failureWithStackTraceAndData""
+          ],
+          [
+            ""evidence""
+          ],
+          [
+            ""all""
+          ]
+        ],
+        ""type"": ""integer"",
+        ""format"": ""int32""
+      }
+    }
+  }
 }", result, ignoreLineEndingDifferences: true);
 
             }

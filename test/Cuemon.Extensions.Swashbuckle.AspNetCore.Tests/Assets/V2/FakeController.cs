@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Cuemon.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cuemon.Extensions.Swashbuckle.AspNetCore.Assets.V2
 {
@@ -12,7 +13,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore.Assets.V2
         /// </summary>
         /// <returns>IActionResult.</returns>
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(FaultSensitivityDetails details)
         {
             return Ok("Unit Test 2");
         }
