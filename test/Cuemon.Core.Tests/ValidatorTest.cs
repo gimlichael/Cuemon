@@ -761,6 +761,32 @@ namespace Cuemon
 			Assert.Contains("value", sut.Message);
 		}
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentException_WithCustomMessage(string value)
+        {
+            var expected = "Value cannot be null, empty or consist only of white-space characters.";
+
+            if (value == null)
+            {
+                var sut = Assert.Throws<ArgumentNullException>(() =>
+                {
+                    Validator.ThrowIfNullOrWhitespace(value, message: expected);
+                });
+                Assert.StartsWith(expected, sut.Message);
+            }
+            else
+            {
+                var sut = Assert.Throws<ArgumentException>(() =>
+                {
+                    Validator.ThrowIfNullOrWhitespace(value, message: expected);
+                });
+                Assert.StartsWith(expected, sut.Message);
+            }
+        }
+
 		[Fact]
 		public void ThrowIfSame_ShouldThrowArgumentOutOfRangeException()
 		{
