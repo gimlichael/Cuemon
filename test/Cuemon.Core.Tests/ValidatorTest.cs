@@ -816,6 +816,16 @@ namespace Cuemon
 			{
 				Validator.ThrowIfUri("https://www.cuemon.net/", "paramName");
 			});
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfUri("/blog", "paramName", UriKind.Relative);
+            });
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfUri("/blog", "paramName", UriKind.RelativeOrAbsolute);
+            });
 		}
 
 		[Fact]
@@ -825,6 +835,11 @@ namespace Cuemon
 			{
 				Validator.ThrowIfNotUri("www.cuemon.net", "paramName");
 			});
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfNotUri("blog:that", "paramName", UriKind.Relative);
+            });
 		}
 
 		[Fact]
