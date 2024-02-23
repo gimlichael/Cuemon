@@ -635,8 +635,12 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="argument"/> cannot be a <see cref="Uri"/>.
         /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="uriKind"/> was set to an indeterminate value of <see cref="UriKind.RelativeOrAbsolute"/>.
+        /// </exception>
         public static void ThrowIfUri(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, UriKind uriKind = UriKind.Absolute, string message = "Value cannot be a URI.")
         {
+            if (uriKind == UriKind.RelativeOrAbsolute) { throw new ArgumentOutOfRangeException(nameof(argument), uriKind, $"{nameof(UriKind)} must be either {nameof(UriKind.Absolute)} or {nameof(UriKind.Relative)}; indeterminate value of {nameof(UriKind.RelativeOrAbsolute)} is not supported."); }
             if (Condition.IsUri(argument, o => o.Kind = uriKind)) { throw new ArgumentException(message, paramName); }
         }
 
@@ -650,8 +654,12 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="argument"/> must be a <see cref="Uri"/>.
         /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="uriKind"/> was set to an indeterminate value of <see cref="UriKind.RelativeOrAbsolute"/>.
+        /// </exception>
         public static void ThrowIfNotUri(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, UriKind uriKind = UriKind.Absolute, string message = "Value must be a URI.")
         {
+            if (uriKind == UriKind.RelativeOrAbsolute) { throw new ArgumentOutOfRangeException(nameof(argument), uriKind, $"{nameof(UriKind)} must be either {nameof(UriKind.Absolute)} or {nameof(UriKind.Relative)}; indeterminate value of {nameof(UriKind.RelativeOrAbsolute)} is not supported."); }
             if (!Condition.IsUri(argument, o => o.Kind = uriKind)) { throw new ArgumentException(message, paramName); }
         }
 

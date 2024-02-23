@@ -817,12 +817,17 @@ namespace Cuemon
 				Validator.ThrowIfUri("https://www.cuemon.net/", "paramName");
 			});
 
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfUri("https://www.cuemon.net/", "paramName", UriKind.RelativeOrAbsolute);
+            });
+
             Assert.Throws<ArgumentException>(() =>
             {
                 Validator.ThrowIfUri("/blog", "paramName", UriKind.Relative);
             });
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 Validator.ThrowIfUri("/blog", "paramName", UriKind.RelativeOrAbsolute);
             });
@@ -836,9 +841,21 @@ namespace Cuemon
 				Validator.ThrowIfNotUri("www.cuemon.net", "paramName");
 			});
 
+            var ae = Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfNotUri("www.cuemon.net", "paramName", UriKind.RelativeOrAbsolute);
+            });
+
+			TestOutput.WriteLine(ae.ToString());
+
             Assert.Throws<ArgumentException>(() =>
             {
                 Validator.ThrowIfNotUri("blog:that", "paramName", UriKind.Relative);
+            });
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfNotUri("blog:that", "paramName", UriKind.RelativeOrAbsolute);
             });
 		}
 
