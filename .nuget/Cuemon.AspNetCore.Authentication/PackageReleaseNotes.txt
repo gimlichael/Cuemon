@@ -1,4 +1,18 @@
-﻿Version: 8.1.0
+﻿Version 8.2.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED AuthenticationHandlerFeature class in the Cuemon.AspNetCore.Authentication namespace that provides a combined default implementation of IAuthenticateResultFeature and IHttpAuthenticationFeature so that AuthenticateResult and User is consistent with each other
+ 
+# Improvements
+- CHANGED BasicAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Basic namespace to propagate IAuthenticateResultFeature and IHttpAuthenticationFeature as part of HandleChallengeAsync
+- CHANGED DigestAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Digest namespace to propagate IAuthenticateResultFeature and IHttpAuthenticationFeature as part of HandleChallengeAsync
+- CHANGED HmacAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Hmac namespace to propagate IAuthenticateResultFeature and IHttpAuthenticationFeature as part of HandleChallengeAsync
+ 
+Version: 8.1.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM

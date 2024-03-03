@@ -343,31 +343,34 @@ namespace Cuemon.Text
             {
                 Validator.ThrowIfNullOrWhitespace(input);
                 Validator.ThrowIfInvalidConfigurator(setup, out var options);
-                var isValid = false;
-                foreach (var scheme in options.Schemes)
+                var isValid = options.Kind == UriKind.Relative;
+                if (!isValid)
                 {
-                    switch (scheme)
+                    foreach (var scheme in options.Schemes)
                     {
-                        case UriScheme.Undefined:
-                            break;
-                        case UriScheme.File:
-                        case UriScheme.Ftp:
-                        case UriScheme.Sftp:
-                        case UriScheme.Gopher:
-                        case UriScheme.Http:
-                        case UriScheme.Https:
-                        case UriScheme.Mailto:
-                        case UriScheme.NetPipe:
-                        case UriScheme.NetTcp:
-                        case UriScheme.News:
-                        case UriScheme.Nntp:
-                            var validUriScheme = StringFactory.CreateUriScheme(scheme);
-                            isValid = input.StartsWith(validUriScheme, StringComparison.OrdinalIgnoreCase);
-                            break;
-                        default:
-                            throw new InvalidEnumArgumentException(nameof(setup), (int)scheme, typeof(UriScheme));
+                        switch (scheme)
+                        {
+                            case UriScheme.Undefined:
+                                break;
+                            case UriScheme.File:
+                            case UriScheme.Ftp:
+                            case UriScheme.Sftp:
+                            case UriScheme.Gopher:
+                            case UriScheme.Http:
+                            case UriScheme.Https:
+                            case UriScheme.Mailto:
+                            case UriScheme.NetPipe:
+                            case UriScheme.NetTcp:
+                            case UriScheme.News:
+                            case UriScheme.Nntp:
+                                var validUriScheme = StringFactory.CreateUriScheme(scheme);
+                                isValid = input.StartsWith(validUriScheme, StringComparison.OrdinalIgnoreCase);
+                                break;
+                            default:
+                                throw new InvalidEnumArgumentException(nameof(setup), (int)scheme, typeof(UriScheme));
+                        }
+                        if (isValid) { break; }
                     }
-                    if (isValid) { break; }
                 }
                 if (!isValid || !Uri.TryCreate(input, options.Kind, out var result)) { throw new ArgumentException("The specified input is not a valid URI.", nameof(input)); }
                 return result;

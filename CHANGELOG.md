@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [8.2.0] - 2024-03-03
+
+### Added
+
+- AuthenticationHandlerFeature class in the Cuemon.AspNetCore.Authentication namespace that provides a combined default implementation of IAuthenticateResultFeature and IHttpAuthenticationFeature so that AuthenticateResult and User is consistent with each other
+- SwaggerGenOptionsExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace was extended with one new extension method for the SwaggerGenOptions class: AddBasicAuthenticationSecurity
+- GoneResult class in the Cuemon.AspNetCore.Mvc namespace that is an ActionResult that returns a Gone (410) response
+- HostBuilderExtensions class in the Cuemon.Extensions.Hosting namespace that consist of extension methods for the IHostBuilder interface: ConfigureConfigurationSources and RemoveConfigurationSource (for .NET 6, .NET 7 and .NET 8)
+
+### Changed
+
+- BasicAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Basic namespace to propagate IAuthenticateResultFeature and IHttpAuthenticationFeature as part of HandleChallengeAsync
+- DigestAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Digest namespace to propagate IAuthenticateResultFeature and IHttpAuthenticationFeature as part of HandleChallengeAsync
+- HmacAuthenticationHandler class in the Cuemon.AspNetCore.Authentication.Hmac namespace to propagate IAuthenticateResultFeature and IHttpAuthenticationFeature as part of HandleChallengeAsync
+- AuthorizationResponseHandler class in the Cuemon.Extensions.AspNetCore.Authentication namespace to rely on IAuthenticateResultFeature
+- AuthorizationResponseHandlerOptions class in the Cuemon.Extensions.AspNetCore.Authentication namespace to include a function delegate property named AuthorizationFailureHandler that provides the reason/requirement/generic message of the failed authorization
+- RestfulSwaggerOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace to include a function delegate property named JsonSerializerOptionsFactory that will resolve a JsonSerializerOptions instance in a more flexible way than provided by the Swagger team
+- ServiceCollectionExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace to support JsonSerializerOptionsFactory in the AddRestfulSwagger extension method
+- Validator class in the Cuemon namespace to throw an ArgumentOutOfRangeException when ThrowIfUri is called with uriKind set to an indeterminate value of UriKind.RelativeOrAbsolute
+
+### Fixed
+
+- Validator class in the Cuemon namespace to have one less redundant ThrowIfNullOrWhitespace method while simplifying the remainder
+- ParserFactory class in the Cuemon.Text namespace so that FromUri method now validates both Absolute and Relative URI correct (prior to this fix, only Absolute was validated correctly)
+
 ## [8.1.0] - 2024-02-11
 
 ### Added

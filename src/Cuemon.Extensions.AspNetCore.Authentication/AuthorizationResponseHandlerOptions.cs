@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Cuemon.AspNetCore.Http;
 using Cuemon.Configuration;
 using Cuemon.Diagnostics;
 using Cuemon.Threading;
@@ -30,14 +32,69 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         ///         <term><see cref="SensitivityDetails"/></term>
         ///         <description><see cref="FaultSensitivityDetails.None"/></description>
         ///     </item>
+        ///     <item>
+        ///         <term><see cref="AuthorizationFailureHandler"/></term>
+        ///         <description>
+        ///             <code>
+        ///AuthorizationFailureHandler = failure =>
+        ///{
+        ///    if (failure != null)
+        ///    {
+        ///        if (failure.FailureReasons.Any(reason => !string.IsNullOrWhiteSpace(reason.Message)))
+        ///        {
+        ///            return new ForbiddenException(failure.FailureReasons.Select(reason => reason.Message).ToDelimitedString(o => o.Delimiter = Environment.NewLine));
+        ///        }
+        ///
+        ///        if (failure.FailedRequirements.Any(requirement =>
+        ///            {
+        ///                var failureReason = requirement.ToString();
+        ///                if (string.IsNullOrWhiteSpace(failureReason)) { return false; }
+        ///                return failureReason != requirement.GetType().ToString();
+        ///            }))
+        ///        {
+        ///            return new ForbiddenException(failure.FailedRequirements.Select(requirement => requirement.ToString()).ToDelimitedString(o => o.Delimiter = Environment.NewLine));
+        ///        }
+        ///    }
+        ///    return new ForbiddenException();
+        ///};
+        ///             </code>
+        ///         </description>
+        ///     </item>
         /// </list>
         /// </remarks>
         public AuthorizationResponseHandlerOptions()
         {
             FallbackResponseHandler = new AuthorizationMiddlewareResultHandler();
             SensitivityDetails = FaultSensitivityDetails.None;
+            AuthorizationFailureHandler = failure =>
+            {
+                if (failure != null)
+                {
+                    if (failure.FailureReasons.Any(reason => !string.IsNullOrWhiteSpace(reason.Message)))
+                    {
+                        return new ForbiddenException(failure.FailureReasons.Select(reason => reason.Message).ToDelimitedString(o => o.Delimiter = Environment.NewLine));
+                    }
+
+                    if (failure.FailedRequirements.Any(requirement =>
+                        {
+                            var failureReason = requirement.ToString();
+                            if (string.IsNullOrWhiteSpace(failureReason)) { return false; }
+                            return failureReason != requirement.GetType().ToString();
+                        }))
+                    {
+                        return new ForbiddenException(failure.FailedRequirements.Select(requirement => requirement.ToString()).ToDelimitedString(o => o.Delimiter = Environment.NewLine));
+                    }
+                }
+                return new ForbiddenException();
+            };
         }
-        
+
+        /// <summary>
+        /// Gets or sets the function delegate that provides the reason/requirement/generic message of the failed authorization.
+        /// </summary>
+        /// <value>The function delegate that provides the reason/requirement/generic message of the failed authorization.</value>
+        public Func<AuthorizationFailure, HttpStatusCodeException> AuthorizationFailureHandler { get; set; }
+
         /// <summary>
         /// Gets or sets a bitwise combination of the enumeration values that specify which sensitive details to include in the serialized result.
         /// </summary>
@@ -55,12 +112,14 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
         /// Determines whether the public read-write properties of this instance are in a valid state.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// <see cref="FallbackResponseHandler"/> cannot be null.
+        /// <see cref="FallbackResponseHandler"/> cannot be null -or-
+        /// <see cref="AuthorizationFailureHandler"/> cannot be null.
         /// </exception>
         /// <remarks>This method is expected to throw exceptions when one or more conditions fails to be in a valid state.</remarks>
         public void ValidateOptions()
         {
             Validator.ThrowIfInvalidState(FallbackResponseHandler == null);
+            Validator.ThrowIfInvalidState(AuthorizationFailureHandler == null);
         }
     }
 }

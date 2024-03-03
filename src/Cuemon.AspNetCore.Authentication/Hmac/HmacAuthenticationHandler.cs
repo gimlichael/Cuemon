@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
@@ -39,7 +38,6 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 			if (!Authenticator.TryAuthenticate(Context, Options.RequireSecureConnection, HmacAuthenticationMiddleware.AuthorizationHeaderParser, HmacAuthenticationMiddleware.TryAuthenticate, out var principal))
 			{
                 var unathorized = new UnauthorizedException(Options.UnauthorizedMessage, principal.Failure);
-                Context.Items.Add(nameof(HttpExceptionDescriptor), new HttpExceptionDescriptor(unathorized)); // so annoying that Microsoft does not propagate AuthenticateResult properly - other have noticed as well: https://github.com/dotnet/aspnetcore/issues/44100
 				return Task.FromResult(AuthenticateResult.Fail(unathorized));
 			}
 
@@ -52,10 +50,11 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 		/// </summary>
 		/// <param name="properties">The properties.</param>
 		/// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-		protected override Task HandleChallengeAsync(AuthenticationProperties properties)
+		protected override async Task HandleChallengeAsync(AuthenticationProperties properties)
 		{
+            AuthenticationHandlerFeature.Set(await HandleAuthenticateOnceSafeAsync().ConfigureAwait(false), Context); // so annoying that Microsoft does not propagate AuthenticateResult properly - other have noticed as well: https://github.com/dotnet/aspnetcore/issues/44100
 			Decorator.Enclose(Response.Headers).TryAdd(HeaderNames.WWWAuthenticate, Options.AuthenticationScheme);
-			return Task.CompletedTask;
+            await base.HandleChallengeAsync(properties).ConfigureAwait(false);
 		}
 	}
 }

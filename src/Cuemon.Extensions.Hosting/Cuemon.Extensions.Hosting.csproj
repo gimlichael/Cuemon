@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Collections.Generic\Cuemon.Extensions.Collections.Generic.csproj" />
   </ItemGroup>
 
 </Project>

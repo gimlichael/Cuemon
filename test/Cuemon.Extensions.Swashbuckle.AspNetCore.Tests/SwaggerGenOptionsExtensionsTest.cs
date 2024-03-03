@@ -161,5 +161,75 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
 
             }
         }
+
+        [Fact]
+        public async Task AddBasicAuthenticationSecurity_ShouldIncludeBasicAuthenticationDefaults()
+        {
+            using (var filter = WebApplicationTestFactory.Create(services =>
+                   {
+                       services.AddControllers().AddApplicationPart(typeof(FakeController).Assembly)
+                           .AddJsonFormatters();
+                       services.AddEndpointsApiExplorer();
+                       services.AddRestfulApiVersioning(o =>
+                       {
+                           o.Conventions.Controller<FakeController>().HasApiVersion(new ApiVersion(1, 0));
+                           o.Conventions.Controller<Assets.V2.FakeController>().HasApiVersion(new ApiVersion(2, 0));
+                       });
+                       services.AddSwaggerGen(o =>
+                       {
+                           o.AddBasicAuthenticationSecurity();
+                       });
+                   }, app =>
+                   {
+                       app.UseRouting();
+                       app.UseEndpoints(routes => { routes.MapControllers(); });
+                       app.UseSwagger();
+                       app.UseSwaggerUI();
+                   }))
+            {
+                var client = filter.Host.GetTestClient();
+                var result = await client.GetStringAsync("/swagger/v1/swagger.json");
+
+                TestOutput.WriteLine(result);
+
+
+                Assert.Equal(@"{
+  ""openapi"": ""3.0.1"",
+  ""info"": {
+    ""title"": ""Cuemon.Extensions.Swashbuckle.AspNetCore.Tests"",
+    ""version"": ""1.0""
+  },
+  ""paths"": {
+    ""/Fake"": {
+      ""get"": {
+        ""tags"": [
+          ""Fake""
+        ],
+        ""responses"": {
+          ""200"": {
+            ""description"": ""Success""
+          }
+        }
+      }
+    }
+  },
+  ""components"": {
+    ""securitySchemes"": {
+      ""Basic"": {
+        ""type"": ""http"",
+        ""description"": ""Protects an API by adding an Authorization header using the Basic scheme."",
+        ""scheme"": ""basic""
+      }
+    }
+  },
+  ""security"": [
+    {
+      ""Basic"": [ ]
+    }
+  ]
+}", result, ignoreLineEndingDifferences: true);
+
+            }
+        }
     }
 }

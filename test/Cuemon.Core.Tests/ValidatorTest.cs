@@ -761,6 +761,32 @@ namespace Cuemon
 			Assert.Contains("value", sut.Message);
 		}
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void ThrowIfNullOrWhitespace_ShouldThrowArgumentException_WithCustomMessage(string value)
+        {
+            var expected = "Value cannot be null, empty or consist only of white-space characters.";
+
+            if (value == null)
+            {
+                var sut = Assert.Throws<ArgumentNullException>(() =>
+                {
+                    Validator.ThrowIfNullOrWhitespace(value, message: expected);
+                });
+                Assert.StartsWith(expected, sut.Message);
+            }
+            else
+            {
+                var sut = Assert.Throws<ArgumentException>(() =>
+                {
+                    Validator.ThrowIfNullOrWhitespace(value, message: expected);
+                });
+                Assert.StartsWith(expected, sut.Message);
+            }
+        }
+
 		[Fact]
 		public void ThrowIfSame_ShouldThrowArgumentOutOfRangeException()
 		{
@@ -790,6 +816,21 @@ namespace Cuemon
 			{
 				Validator.ThrowIfUri("https://www.cuemon.net/", "paramName");
 			});
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfUri("https://www.cuemon.net/", "paramName", UriKind.RelativeOrAbsolute);
+            });
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfUri("/blog", "paramName", UriKind.Relative);
+            });
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfUri("/blog", "paramName", UriKind.RelativeOrAbsolute);
+            });
 		}
 
 		[Fact]
@@ -799,6 +840,23 @@ namespace Cuemon
 			{
 				Validator.ThrowIfNotUri("www.cuemon.net", "paramName");
 			});
+
+            var ae = Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfNotUri("www.cuemon.net", "paramName", UriKind.RelativeOrAbsolute);
+            });
+
+			TestOutput.WriteLine(ae.ToString());
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Validator.ThrowIfNotUri("blog:that", "paramName", UriKind.Relative);
+            });
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfNotUri("blog:that", "paramName", UriKind.RelativeOrAbsolute);
+            });
 		}
 
 		[Fact]
