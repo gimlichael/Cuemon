@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET6_0_OR_GREATER
+using System;
 using System.Collections.Generic;
 using Cuemon.Extensions.Collections.Generic;
 using Microsoft.Extensions.Configuration;
@@ -48,3 +49,4 @@ namespace Cuemon.Extensions.Hosting
         }
     }
 }
+#endif
