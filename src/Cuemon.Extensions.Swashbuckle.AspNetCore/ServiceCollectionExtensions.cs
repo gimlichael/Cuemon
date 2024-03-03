@@ -19,11 +19,28 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// <returns>A reference to <paramref name="services" /> so that additional calls can be chained.</returns>
         public static IServiceCollection AddRestfulSwagger(this IServiceCollection services, Action<RestfulSwaggerOptions> setup = null)
         {
-            var options = Patterns.Configure(setup);
-            services.AddSwaggerGen(Patterns.ConfigureRevert(options.Settings));
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
+            services.AddSwaggerGen(o =>
+            {
+                o.DocumentFilterDescriptors = options.Settings.DocumentFilterDescriptors;
+                o.OperationFilterDescriptors = options.Settings.OperationFilterDescriptors;
+                o.ParameterFilterDescriptors = options.Settings.ParameterFilterDescriptors;
+                o.RequestBodyFilterDescriptors = options.Settings.RequestBodyFilterDescriptors;
+                o.SchemaFilterDescriptors = options.Settings.SchemaFilterDescriptors;
+                o.SchemaGeneratorOptions = options.Settings.SchemaGeneratorOptions;
+                o.SwaggerGeneratorOptions = options.Settings.SwaggerGeneratorOptions;
+            });
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>();
             services.AddTransient<IConfigureOptions<SwaggerUIOptions>, ConfigureSwaggerUIOptions>();
-            services.Configure(setup ?? Patterns.ConfigureRevert(options));
+            if (options.JsonSerializerOptionsFactory != null) { services.AddTransient<ISerializerDataContractResolver>(provider => new JsonSerializerDataContractResolver(options.JsonSerializerOptionsFactory(provider))); }
+            services.Configure(setup ?? (o =>
+            {
+                o.JsonSerializerOptionsFactory = options.JsonSerializerOptionsFactory;
+                o.Settings = options.Settings;
+                o.IncludeControllerXmlComments = options.IncludeControllerXmlComments;
+                o.OpenApiInfo = options.OpenApiInfo;
+                o.XmlDocumentations = options.XmlDocumentations;
+            }));
             return services;
         }
     }

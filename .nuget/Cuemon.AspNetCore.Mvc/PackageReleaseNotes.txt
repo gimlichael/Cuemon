@@ -1,4 +1,13 @@
-﻿Version: 8.1.0
+﻿Version 8.2.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED GoneResult class in the Cuemon.AspNetCore.Mvc namespace that is an ActionResult that returns a Gone (410) response
+ 
+Version: 8.1.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM

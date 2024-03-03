@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Xml.XPath;
 using Cuemon.Configuration;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -63,6 +64,13 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         /// </summary>
         /// <value><c>true</c> if controller XML comments (i.e. summary) should be used to assign Tag descriptions; otherwise, <c>false</c>.</value>
         public bool IncludeControllerXmlComments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function delegate that will resolve a <see cref="JsonSerializerOptions"/> instance.
+        /// </summary>
+        /// <value>The function delegate that will resolve a <see cref="JsonSerializerOptions"/> instance.</value>
+        /// <remarks>The Swagger team decided to opt-in full hearted to System.Text.Json using the MVC variant of JsonOption to retrieve an instance of <see cref="JsonSerializerOptions"/>. Weird design choice IMO; leave it to the implementor to decide which configured instance of <see cref="JsonSerializerOptions"/> to use and avoid redundant configuration that may or may not be a mismatch. More info: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1269</remarks>
+        public Func<IServiceProvider, JsonSerializerOptions> JsonSerializerOptionsFactory { get; set; }
 
         /// <summary>
         /// Determines whether the public read-write properties of this instance are in a valid state.

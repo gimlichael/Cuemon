@@ -1,4 +1,17 @@
-﻿Version: 8.1.0
+﻿Version 8.2.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Bug Fixes
+- FIXED Validator class in the Cuemon namespace to have one less redundant ThrowIfNullOrWhitespace method while simplifying the remainder
+- FIXED ParserFactory class in the Cuemon.Text namespace so that FromUri method now validates both Absolute and Relative URI correct (prior to this fix, only Absolute was validated correctly)
+ 
+# Improvements
+- CHANGED Validator class in the Cuemon namespace to throw an ArgumentOutOfRangeException when ThrowIfUri is called with uriKind set to an indeterminate value of UriKind.RelativeOrAbsolute
+ 
+Version: 8.1.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM

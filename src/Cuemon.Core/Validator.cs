@@ -386,24 +386,6 @@ namespace Cuemon
         /// </summary>
         /// <param name="argument">The value to be evaluated.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="argument"/> cannot be null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="argument"/> cannot be empty or consist only of white-space characters.
-        /// </exception>
-        public static void ThrowIfNullOrWhitespace(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null)
-        {
-            ThrowIfNull(argument, paramName);
-            ThrowIfEmpty(argument, paramName);
-            ThrowIfWhiteSpace(argument, paramName);
-        }
-
-        /// <summary>
-        /// Validates and throws either an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> if the specified <paramref name="argument"/> is respectively null, empty or consist only of white-space characters.
-        /// </summary>
-        /// <param name="argument">The value to be evaluated.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <param name="message">A message that describes the error.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="argument"/> cannot be null.
@@ -411,11 +393,20 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="argument"/> cannot be empty or consist only of white-space characters.
         /// </exception>
-        public static void ThrowIfNullOrWhitespace(string argument, string paramName, string message)
+        public static void ThrowIfNullOrWhitespace(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, string message = null)
         {
-            ThrowIfNull(argument, paramName, message);
-            ThrowIfEmpty(argument, paramName, message);
-            ThrowIfWhiteSpace(argument, paramName, message);
+            if (message == null)
+            {
+                ThrowIfNull(argument, paramName);
+                ThrowIfEmpty(argument, paramName);
+                ThrowIfWhiteSpace(argument, paramName);
+            }
+            else
+            {
+                ThrowIfNull(argument, paramName, message);
+                ThrowIfEmpty(argument, paramName, message);
+                ThrowIfWhiteSpace(argument, paramName, message);
+            }
         }
 
         /// <summary>
@@ -644,8 +635,12 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="argument"/> cannot be a <see cref="Uri"/>.
         /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="uriKind"/> was set to an indeterminate value of <see cref="UriKind.RelativeOrAbsolute"/>.
+        /// </exception>
         public static void ThrowIfUri(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, UriKind uriKind = UriKind.Absolute, string message = "Value cannot be a URI.")
         {
+            if (uriKind == UriKind.RelativeOrAbsolute) { throw new ArgumentOutOfRangeException(nameof(argument), uriKind, $"{nameof(UriKind)} must be either {nameof(UriKind.Absolute)} or {nameof(UriKind.Relative)}; indeterminate value of {nameof(UriKind.RelativeOrAbsolute)} is not supported."); }
             if (Condition.IsUri(argument, o => o.Kind = uriKind)) { throw new ArgumentException(message, paramName); }
         }
 
@@ -659,8 +654,12 @@ namespace Cuemon
         /// <exception cref="ArgumentException">
         /// <paramref name="argument"/> must be a <see cref="Uri"/>.
         /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="uriKind"/> was set to an indeterminate value of <see cref="UriKind.RelativeOrAbsolute"/>.
+        /// </exception>
         public static void ThrowIfNotUri(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null, UriKind uriKind = UriKind.Absolute, string message = "Value must be a URI.")
         {
+            if (uriKind == UriKind.RelativeOrAbsolute) { throw new ArgumentOutOfRangeException(nameof(argument), uriKind, $"{nameof(UriKind)} must be either {nameof(UriKind.Absolute)} or {nameof(UriKind.Relative)}; indeterminate value of {nameof(UriKind.RelativeOrAbsolute)} is not supported."); }
             if (!Condition.IsUri(argument, o => o.Kind = uriKind)) { throw new ArgumentException(message, paramName); }
         }
 

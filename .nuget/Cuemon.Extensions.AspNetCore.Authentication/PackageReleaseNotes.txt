@@ -1,4 +1,14 @@
-﻿Version: 8.1.0
+﻿Version 8.2.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Improvements
+- CHANGED AuthorizationResponseHandler class in the Cuemon.Extensions.AspNetCore.Authentication namespace to rely on IAuthenticateResultFeature
+- CHANGED AuthorizationResponseHandlerOptions class in the Cuemon.Extensions.AspNetCore.Authentication namespace to include a function delegate property named AuthorizationFailureHandler that provides the reason/requirement/generic message of the failed authorization
+ 
+Version: 8.1.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
