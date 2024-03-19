@@ -77,5 +77,49 @@ namespace Cuemon.Extensions
             message ??= FormattableString.Invariant($"Specified arguments does not have a difference between {nameof(second)} and {nameof(first)}.");
             if (!Condition.Query.HasDifference(first, second, out var _)) { throw new ArgumentOutOfRangeException(paramName, message); }
         }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if any of the <paramref name="characters"/> occurs within the <paramref name="argument"/>.
+        /// </summary>
+        /// <param name="_">The <see cref="Validator"/> to extend.</param>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="characters">The sequence of <see cref="char"/> to search within <paramref name="argument"/>.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="message">The message that describes the error.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="argument"/> has one or more <paramref name="characters"/> embedded.
+        /// </exception>
+        public static void ContainsAny(this Validator _, string argument, char[] characters, StringComparison comparison = StringComparison.OrdinalIgnoreCase, string message = "One or more character matches were found.", [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        {
+            if (argument?.ContainsAny(comparison, characters) ?? false)
+            {
+                throw new ArgumentOutOfRangeException(paramName, argument.Where(characters.Contains)
+                    .Distinct()
+                    .ToDelimitedString(o => o.StringConverter = c => $"'{c}'"), message);
+            }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if any of the <paramref name="characters"/> does not occur within the <paramref name="argument"/>.
+        /// </summary>
+        /// <param name="_">The <see cref="Validator"/> to extend.</param>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="characters">The sequence of <see cref="char"/> to search within <paramref name="argument"/>.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="message">The message that describes the error.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="argument"/> has one or more <paramref name="characters"/> embedded.
+        /// </exception>
+        public static void NotContainsAny(this Validator _, string argument, char[] characters, StringComparison comparison = StringComparison.OrdinalIgnoreCase, string message = "No matching characters were found.", [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        {
+            if (!argument?.ContainsAny(comparison, characters) ?? true)
+            {
+                throw new ArgumentOutOfRangeException(paramName, characters
+                    .Distinct()
+                    .ToDelimitedString(o => o.StringConverter = c => $"'{c}'"), message);
+            }
+        }
     }
 }
