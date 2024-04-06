@@ -88,7 +88,7 @@ namespace Cuemon.Extensions
         /// <param name="message">The message that describes the error.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="argument"/> has one or more <paramref name="characters"/> embedded.
+        /// <paramref name="argument"/> contains one or more of the specified <paramref name="characters"/>.
         /// </exception>
         public static void ContainsAny(this Validator _, string argument, char[] characters, StringComparison comparison = StringComparison.OrdinalIgnoreCase, string message = "One or more character matches were found.", [CallerArgumentExpression(nameof(argument))] string paramName = null)
         {
@@ -110,7 +110,7 @@ namespace Cuemon.Extensions
         /// <param name="message">The message that describes the error.</param>
         /// <param name="paramName">The name of the parameter that caused the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="argument"/> has one or more <paramref name="characters"/> embedded.
+        /// <paramref name="argument"/> does not contain any of the specified <paramref name="characters"/>.
         /// </exception>
         public static void NotContainsAny(this Validator _, string argument, char[] characters, StringComparison comparison = StringComparison.OrdinalIgnoreCase, string message = "No matching characters were found.", [CallerArgumentExpression(nameof(argument))] string paramName = null)
         {
