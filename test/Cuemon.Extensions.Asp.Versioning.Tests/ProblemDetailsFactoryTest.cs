@@ -189,36 +189,38 @@ namespace Cuemon.Extensions.Asp.Versioning
                 Assert.Equal(HttpStatusCode.BadRequest, sut.StatusCode);
                 Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
                 Assert.EndsWith("*/*", sut.Content.Headers.ContentType.ToString());
-                Assert.StartsWith(@"Error: 
+                Assert.StartsWith(@"Error:
   Status: 400
   Code: BadRequest
   Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'b3'.
-  Failure: 
+  Failure:
     Type: Cuemon.AspNetCore.Http.BadRequestException
     Source: Cuemon.Extensions.Asp.Versioning
     Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'b3'.
-    Stack: 
+    Stack:
 ".ReplaceLineEndings(), await sut.Content.ReadAsStringAsync());
                 Assert.EndsWith(@"
-Evidence: 
-  Request: 
+Evidence:
+  Request:
     Location: http://localhost/fake/throw
     Method: GET
-    Headers: 
-    - Accept: 
-      - text/html
-      - application/xhtml+xml
-      - image/avif
-      - image/webp
-      - image/apng
-      - ""*/*; q=0.8""
-      - application/signed-exchange; v=b3; q=0.9
-      - application/json; q=10.0
-    - Host: 
-      - localhost
+    Headers:
+      Accept:
+        - text/html
+        - application/xhtml+xml
+        - image/avif
+        - image/webp
+        - image/apng
+        - '*/*; q=0.8'
+        - application/signed-exchange; v=b3; q=0.9
+        - application/json; q=10.0
+      Host:
+        - localhost
     Query: []
+    Form: 
     Cookies: []
-    Body: ".ReplaceLineEndings(), await sut.Content.ReadAsStringAsync());
+    Body: ''
+".ReplaceLineEndings(), await sut.Content.ReadAsStringAsync());
             }
         }
 

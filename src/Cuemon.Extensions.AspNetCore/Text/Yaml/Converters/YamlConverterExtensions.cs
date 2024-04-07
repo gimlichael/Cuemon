@@ -40,19 +40,19 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
             var converter = YamlConverterFactory.Create<HttpExceptionDescriptor>(type => type == typeof(HttpExceptionDescriptor), (writer, value) =>
             {
                 writer.WriteStartObject();
-                writer.WritePropertyName("Error");
+                writer.WritePropertyName(options.SetPropertyName("Error"));
                 
                 writer.WriteStartObject();
-                writer.WriteString("Status", value.StatusCode.ToString());
-                writer.WriteString("Code", value.Code);
-                writer.WriteString("Message", value.Message, o => o.Style = value.Message.Contains(Environment.NewLine) ? ScalarStyle.Literal : ScalarStyle.Any);
+                writer.WriteString(options.SetPropertyName("Status"), value.StatusCode.ToString());
+                writer.WriteString(options.SetPropertyName("Code"), value.Code);
+                writer.WriteString(options.SetPropertyName("Message"), value.Message, o => o.Style = value.Message.Contains(Environment.NewLine) ? ScalarStyle.Literal : ScalarStyle.Any);
                 if (value.HelpLink != null)
                 {
-                    writer.WriteString("HelpLink", value.HelpLink.OriginalString);
+                    writer.WriteString(options.SetPropertyName("HelpLink"), value.HelpLink.OriginalString);
                 }
                 if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure))
                 {
-                    writer.WritePropertyName("Failure");
+                    writer.WritePropertyName(options.SetPropertyName("Failure"));
                     new ExceptionConverter(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data))
                     {
                         FormatterOptions = options
@@ -62,11 +62,11 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
 
                 if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence) && value.Evidence.Any())
                 {
-                    writer.WritePropertyName("Evidence");
+                    writer.WritePropertyName(options.SetPropertyName("Evidence"));
                     writer.WriteStartObject();
                     foreach (var evidence in value.Evidence)
                     {
-                        writer.WritePropertyName(evidence.Key);
+                        writer.WritePropertyName(options.SetPropertyName(evidence.Key));
                         writer.WriteObject(evidence.Value, options);
                     }
                     writer.WriteEndObject();
@@ -74,17 +74,17 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
 
                 if (!string.IsNullOrWhiteSpace(value.CorrelationId))
                 {
-                    writer.WriteString("CorrelationId", value.CorrelationId);
+                    writer.WriteString(options.SetPropertyName("CorrelationId"), value.CorrelationId);
                 }
                 if (!string.IsNullOrWhiteSpace(value.RequestId))
                 {
-                    writer.WriteString("RequestId", value.RequestId);
+                    writer.WriteString(options.SetPropertyName("RequestId"), value.RequestId);
                 }
 
                 writer.WriteEndObject();
             });
             converter.FormatterOptions = options;
-            converters.Add(converter);
+            if (!converters.Any(c => c.CanConvert(typeof(HttpExceptionDescriptor)))) { converters.Add(converter); }
             return converters;
         }
     }
