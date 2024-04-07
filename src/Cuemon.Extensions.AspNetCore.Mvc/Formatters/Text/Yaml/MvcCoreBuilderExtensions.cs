@@ -1,6 +1,6 @@
 ﻿using System;
 using Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters;
-using Cuemon.Text.Yaml.Formatters;
+using Cuemon.Extensions.YamlDotNet.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

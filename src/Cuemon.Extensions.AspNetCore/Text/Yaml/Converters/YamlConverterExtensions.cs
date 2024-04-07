@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
-using Cuemon.Text.Yaml;
-using Cuemon.Text.Yaml.Converters;
-using Cuemon.Text.Yaml.Formatters;
+using Cuemon.Extensions.YamlDotNet;
+using Cuemon.Extensions.YamlDotNet.Converters;
+using Cuemon.Extensions.YamlDotNet.Formatters;
+using YamlDotNet.Core;
 
 namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
 {
@@ -36,45 +37,54 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
         public static ICollection<YamlConverter> AddHttpExceptionDescriptorConverter(this ICollection<YamlConverter> converters, Action<YamlFormatterOptions> setup = null)
         {
             var options = Patterns.Configure(setup);
-            converters.Add(YamlConverterFactory.Create<HttpExceptionDescriptor>(type => type == typeof(HttpExceptionDescriptor), (writer, value, so) =>
+            var converter = YamlConverterFactory.Create<HttpExceptionDescriptor>(type => type == typeof(HttpExceptionDescriptor), (writer, value) =>
             {
-                writer.WritePropertyName(so.SetPropertyName("Error"));
                 writer.WriteStartObject();
-                writer.WriteString(so.SetPropertyName("Status"), value.StatusCode.ToString());
-                writer.WriteString(so.SetPropertyName("Code"), value.Code);
-                writer.WriteString(so.SetPropertyName("Message"), value.Message);
+                writer.WritePropertyName("Error");
+                
+                writer.WriteStartObject();
+                writer.WriteString("Status", value.StatusCode.ToString());
+                writer.WriteString("Code", value.Code);
+                writer.WriteString("Message", value.Message, o => o.Style = value.Message.Contains(Environment.NewLine) ? ScalarStyle.Literal : ScalarStyle.Any);
                 if (value.HelpLink != null)
                 {
-                    writer.WriteString(so.SetPropertyName("HelpLink"), value.HelpLink.OriginalString);
+                    writer.WriteString("HelpLink", value.HelpLink.OriginalString);
                 }
                 if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure))
                 {
-                    writer.WritePropertyName(so.SetPropertyName("Failure"));
-                    new ExceptionConverter(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data)).WriteYaml(writer, value.Failure, so);
+                    writer.WritePropertyName("Failure");
+                    new ExceptionConverter(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.StackTrace), options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Data))
+                    {
+                        FormatterOptions = options
+                    }.WriteYaml(writer, value.Failure);
                 }
                 writer.WriteEndObject();
 
                 if (options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence) && value.Evidence.Any())
                 {
-                    writer.WritePropertyName(so.SetPropertyName("Evidence"));
+                    writer.WritePropertyName("Evidence");
                     writer.WriteStartObject();
                     foreach (var evidence in value.Evidence)
                     {
-                        writer.WritePropertyName(so.SetPropertyName(evidence.Key));
-                        writer.WriteObject(evidence.Value, so);
+                        writer.WritePropertyName(evidence.Key);
+                        writer.WriteObject(evidence.Value, options);
                     }
                     writer.WriteEndObject();
                 }
 
                 if (!string.IsNullOrWhiteSpace(value.CorrelationId))
                 {
-                    writer.WriteString(so.SetPropertyName("CorrelationId"), value.CorrelationId);
+                    writer.WriteString("CorrelationId", value.CorrelationId);
                 }
                 if (!string.IsNullOrWhiteSpace(value.RequestId))
                 {
-                    writer.WriteString(so.SetPropertyName("RequestId"), value.RequestId);
+                    writer.WriteString("RequestId", value.RequestId);
                 }
-            }));
+
+                writer.WriteEndObject();
+            });
+            converter.FormatterOptions = options;
+            converters.Add(converter);
             return converters;
         }
     }

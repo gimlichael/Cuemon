@@ -1,6 +1,6 @@
 ﻿using Cuemon.AspNetCore.Mvc.Formatters;
 using Cuemon.Extensions.AspNetCore.Text.Yaml.Converters;
-using Cuemon.Text.Yaml.Formatters;
+using Cuemon.Extensions.YamlDotNet.Formatters;
 
 namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml
 {

@@ -4,9 +4,9 @@ using System.Net.Http;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Text.Yaml.Converters;
+using Cuemon.Extensions.YamlDotNet.Formatters;
 using Cuemon.Net.Http;
 using Cuemon.Runtime.Serialization;
-using Cuemon.Text.Yaml.Formatters;
 using Microsoft.Extensions.Options;
 
 namespace Cuemon.Extensions.AspNetCore.Diagnostics

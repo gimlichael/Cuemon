@@ -1,4 +1,4 @@
-﻿using Cuemon.Text.Yaml.Formatters;
+﻿using Cuemon.Extensions.YamlDotNet.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
