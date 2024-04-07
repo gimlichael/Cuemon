@@ -226,3 +226,6 @@ ModelManifest.xml
 /.docfx/**/*.manifest
 /.docfx/.vscode/docfx-assistant
 /.vscode/docfx-assistant
+
+# Tooling
+/tooling/gse/Surrogates
