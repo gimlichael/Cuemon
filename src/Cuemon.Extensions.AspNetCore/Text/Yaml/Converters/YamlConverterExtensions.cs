@@ -45,7 +45,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Yaml.Converters
                 writer.WriteStartObject();
                 writer.WriteString(options.SetPropertyName("Status"), value.StatusCode.ToString());
                 writer.WriteString(options.SetPropertyName("Code"), value.Code);
-                writer.WriteString(options.SetPropertyName("Message"), value.Message, o => o.Style = value.Message.Contains(Environment.NewLine) ? ScalarStyle.Literal : ScalarStyle.Any);
+                writer.WriteString(options.SetPropertyName("Message"), value.Message);
                 if (value.HelpLink != null)
                 {
                     writer.WriteString(options.SetPropertyName("HelpLink"), value.HelpLink.OriginalString);
