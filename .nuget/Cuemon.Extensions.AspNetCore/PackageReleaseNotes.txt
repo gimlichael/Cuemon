@@ -1,4 +1,12 @@
-﻿Version 8.2.0
+﻿Version 8.3.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# Improvements
+- CHANGED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CHANGED YamlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CHANGED ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+ 
+Version 8.2.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM

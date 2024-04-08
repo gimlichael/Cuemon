@@ -6,6 +6,60 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [8.3.0] - TBD
+
+### Added
+
+- Test class in the Cuemon.Extensions.Xunit namespace was extended with one new static method: Match
+- WildcardOptions class in the Cuemon.Extensions.Xunit namespace that provides configuration options for the Match method on the Test class
+- ExceptionConverter class in the Cuemon.Extensions.YamlDotNet.Converters namespace that converts an Exception to YAML
+- ExceptionDescriptorConverter class in the Cuemon.Extensions.YamlDotNet.Converters namespace that converts an ExceptionDescriptor to YAML
+- YamlConverter class in the Cuemon.Extensions.YamlDotNet.Converters namespace that converts an object to and from YAML (YAML ain't markup language)
+- YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace that serializes and deserializes an object, in YAML format
+- YamlFormatterOptions class in the Cuemon.Extensions.YamlDotNet.Formatters namespace that provides configuration options for YamlFormatter
+- YamlFormatterOptionsExtensions class in the Cuemon.Extensions.YamlDotNet.Formatters namespace that consist of one extension method for the YamlFormatterOptions class: SetPropertyName
+- EmitterExtensions class in the Cuemon.Extensions.YamlDotNet namespace that consist of many extension method for the IEmitter interface: WriteStartObject, WriteString, WritePropertyName, WriteValue, WriteEndObject, WriteStartArray, WriteEndArray and WriteObject
+- NodeOptions class in the Cuemon.Extensions.YamlDotNet namespace that provides configuration options for EmitterExtensions
+- ScalarOptions class in the Cuemon.Extensions.YamlDotNet namespace that provides configuration options for EmitterExtensions
+- YamlConverterFactory class in the Cuemon.Extensions.YamlDotNet namespace that provides a factory based way to create and wrap an YamlConverter implementations
+- YamlSerializerOptions class in the Cuemon.Extensions.YamlDotNet namespace that provides configuration options for SerializerBuilder and DeserializerBuilder
+
+### Changed
+
+- ValidatorExtensions class in the Cuemon.Extensions namespace was extended with two new extension methods for the Validator class: ContainsAny and NotContainsAny
+- HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- YamlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- YamlSerializationInputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- YamlSerializationMvcOptionsSetup class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- YamlSerializationOutputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CultureInfoExtensions class in the Cuemon.Extensions.Globalization namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CultureInfoSurrogate class in the Cuemon.Extensions.Globalization namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- tooling/gse to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- ExceptionDescriptorExtensions class in the Cuemon.Extensions.Diagnostics namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- DefaultYamlConverter class in the Cuemon.Runtime.Serialization.Converters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlSerializer class in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlSerializerOptions class in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlTextReader class in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlTextWriter class in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlTokenType enum in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- ExceptionDescriptorConverter class in the Cuemon.Text.Yaml.Converters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlConverter class in the Cuemon.Text.Yaml.Converters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlFormatter class in the Cuemon.Text.Yaml.Formatters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlFormatterOptions class in the Cuemon.Text.Yaml.Formatters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlConverterFactory class in the Cuemon.Text.Yaml to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- YamlNamingPolicy class in the Cuemon.Text.Yaml to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+ 
+
+### Fixed
+
+- Alphanumeric class in the Cuemon namespace so that the WhiteSpace constant field does not include the U+180E (Mongolian vowel separator) since it is no longer considered a white space as per Unicode 6.3.0
+- ExceptionConverter class in the Cuemon.Text.Yaml.Converters namespace to use Environment.NewLine instead of Alphanumeric.NewLine (vital for non-Windows operating systems)
+- ExceptionConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to use Environment.NewLine instead of Alphanumeric.NewLine (vital for non-Windows operating systems)
+- ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to use Environment.NewLine instead of Alphanumeric.NewLine (vital for non-Windows operating systems)
+
 ## [8.2.0] - 2024-03-03
 
 ### Added

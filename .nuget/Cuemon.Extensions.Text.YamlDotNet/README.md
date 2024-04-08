@@ -5,13 +5,15 @@ Your ideal companion for .NET 8, .NET 7, .NET 6, .NET Standard 2 and .NET Framew
 
 It is, by heart, free, flexible and built to extend and boost your agile codebelt.
 
-## **Cuemon.Extensions.Collections.Specialized** for .NET
+## **Cuemon.Extensions.YamlDotNet** for .NET
 
-The `Cuemon.Extensions.Collections.Specialized` namespace contains extension methods that complements the `Cuemon.Collections.Specialized` namespace while being an addition to the `System.Collections.Specialized` namespace.
+The `Cuemon.Extensions.YamlDotNet` namespace contains types and extension methods that complements the `YamlDotNet` namespace by adding new ways of working with YAML; both in terms of serialization and parsing.
 
 More documentation available at our documentation site:
 
-- [Cuemon.Extensions.Collections.Specialized](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Collections.Specialized.html) 🔗
+- [Cuemon.Extensions.Text.Json](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Text.Json.html) 🔗
+- [Cuemon.Extensions.Text.Json.Converters](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Text.Json.Converters.html) 🔗
+- [Cuemon.Extensions.Text.Json.Formatters](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Text.Json.Formatters.html) 🔗
 
 ## Related Packages
 

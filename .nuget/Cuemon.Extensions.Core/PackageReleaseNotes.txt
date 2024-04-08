@@ -1,4 +1,10 @@
-﻿Version 8.2.0
+﻿Version 8.3.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# Improvements
+- EXTENDED ValidatorExtensions class in the Cuemon.Extensions namespace with two new extension methods for the Validator class: ContainsAny and NotContainsAny
+ 
+Version 8.2.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM

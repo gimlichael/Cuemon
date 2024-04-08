@@ -1,4 +1,10 @@
-﻿Version 8.2.0
+﻿Version 8.3.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# Bug Fixes
+- FIXED ExceptionConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to use Environment.NewLine instead of Alphanumeric.NewLine (vital for non-Windows operating systems)
+ 
+Version 8.2.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM

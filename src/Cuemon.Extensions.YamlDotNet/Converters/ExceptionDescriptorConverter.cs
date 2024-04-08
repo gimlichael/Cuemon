@@ -6,7 +6,7 @@ using YamlDotNet.Core;
 namespace Cuemon.Extensions.YamlDotNet.Converters
 {
     /// <summary>
-    /// Converts an <see cref="ExceptionDescriptor"/> to or from YAML.
+    /// Converts an <see cref="ExceptionDescriptor"/> to YAML.
     /// </summary>
     /// <seealso cref="YamlConverter{Exception}" />
     public class ExceptionDescriptorConverter : YamlConverter<ExceptionDescriptor>

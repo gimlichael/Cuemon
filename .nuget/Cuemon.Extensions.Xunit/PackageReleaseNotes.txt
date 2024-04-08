@@ -1,4 +1,11 @@
-﻿Version 8.2.0
+﻿Version 8.3.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# New Features
+- EXTENDED Test class in the Cuemon.Extensions.Xunit namespace with one new static method: Match
+- ADDED WildcardOptions class in the Cuemon.Extensions.Xunit namespace that provides configuration options for the Match method on the Test class
+ 
+Version 8.2.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM

@@ -1,4 +1,10 @@
-﻿Version 8.2.0
+﻿Version 8.3.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# New Reference
+- Cuemon.Extensions.YamlDotNet
+ 
+Version 8.2.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
