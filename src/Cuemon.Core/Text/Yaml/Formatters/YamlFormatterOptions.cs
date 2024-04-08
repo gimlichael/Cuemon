@@ -12,6 +12,7 @@ namespace Cuemon.Text.Yaml.Formatters
     /// <summary>
     /// Configuration options for <see cref="YamlFormatter"/>.
     /// </summary>
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public class YamlFormatterOptions : EncodingOptions, IExceptionDescriptorOptions, IContentNegotiation, IValidatableParameterObject
     {
 	    private readonly object _locker = new();

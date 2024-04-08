@@ -9,6 +9,7 @@ namespace Cuemon.Runtime.Serialization
     /// <summary>
     /// Provides functionality to serialize objects to YAML and to deserialize YAML into objects.
     /// </summary>
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public class YamlSerializer
     {
         private readonly YamlSerializerOptions _options;

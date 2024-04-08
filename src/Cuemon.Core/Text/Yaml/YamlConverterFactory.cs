@@ -8,6 +8,7 @@ namespace Cuemon.Text.Yaml
     /// <summary>
     /// Provides a factory based way to create and wrap an <see cref="YamlConverter"/> implementation.
     /// </summary>
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public static class YamlConverterFactory
     {
         /// <summary>
@@ -60,6 +61,7 @@ namespace Cuemon.Text.Yaml
         }
     }
 
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     internal class DynamicConvertFactory : YamlConverter
     {
         internal DynamicConvertFactory(Func<Type, bool> predicate, Action<YamlTextWriter, object, YamlSerializerOptions> writer, Func<YamlTextReader, Type, YamlSerializerOptions, object> reader)
@@ -93,6 +95,7 @@ namespace Cuemon.Text.Yaml
         }
     }
 
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     internal class DynamicConvertFactory<T> : YamlConverter<T>
     {
         internal DynamicConvertFactory(Func<Type, bool> predicate, Action<YamlTextWriter, T, YamlSerializerOptions> writer, Func<YamlTextReader, Type, YamlSerializerOptions, T> reader)

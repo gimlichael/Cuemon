@@ -1,8 +1,11 @@
-﻿namespace Cuemon.Runtime.Serialization
+﻿using System;
+
+namespace Cuemon.Runtime.Serialization
 {
     /// <summary>
     /// Defines the various YAML tokens that make up a YAML document.
     /// </summary>
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public enum YamlTokenType
     {
         /// <summary>

@@ -1,8 +1,11 @@
-﻿namespace Cuemon.Text.Yaml
+﻿using System;
+
+namespace Cuemon.Text.Yaml
 {
     /// <summary>
     /// Determines the naming policy used to convert a string-based name to another format.
     /// </summary>
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public abstract class YamlNamingPolicy
     {
         /// <summary>

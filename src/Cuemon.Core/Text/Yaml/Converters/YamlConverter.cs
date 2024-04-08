@@ -6,6 +6,7 @@ namespace Cuemon.Text.Yaml.Converters
     /// <summary>
     /// Converts an object to or from YAML (YAML ain't markup language).
     /// </summary>
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public abstract class YamlConverter
     {
         internal abstract void WriteYamlCore(YamlTextWriter writer, object value, YamlSerializerOptions so);
@@ -25,6 +26,7 @@ namespace Cuemon.Text.Yaml.Converters
     /// </summary>
     /// <typeparam name="T">The type of object or value handled by the converter.</typeparam>
     /// <seealso cref="YamlConverter" />
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public abstract class YamlConverter<T> : YamlConverter
     {
         /// <summary>
@@ -68,6 +70,7 @@ namespace Cuemon.Text.Yaml.Converters
     /// <summary>
     /// Extension methods for the <see cref="YamlConverter"/> class.
     /// </summary>
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public static class YamlConverterExtensions
     {
         /// <summary>
