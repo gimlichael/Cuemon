@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.Xunit
         /// <returns><c>true</c> if <paramref name="actual" /> matches <paramref name="expected" />, <c>false</c> otherwise.</returns>
         /// <remarks>Credits for inspiration goes to this SO answer: https://stackoverflow.com/questions/30299671/matching-strings-with-wildcard/30300521#30300521</remarks>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="expected"/> cannot be matched with <paramref name="actual"/>.
+        /// <paramref name="expected"/> cannot be matched with <paramref name="actual"/>. Includes the non-matched string(s) in <see cref="ArgumentOutOfRangeException.ActualValue"/>.
         /// </exception>
         public static bool Match(string expected, string actual, Action<WildcardOptions> setup = null)
         {
