@@ -9,6 +9,7 @@ using Cuemon.Text.Yaml.Converters;
 
 namespace Cuemon.Runtime.Serialization.Converters
 {
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     internal class DefaultYamlConverter : YamlConverter
     {
         private readonly List<YamlConverter> _converters = new()

@@ -10,6 +10,7 @@ namespace Cuemon.Runtime.Serialization
     /// Implements the <see cref="IndentedTextWriter" />
     /// </summary>
     /// <seealso cref="IndentedTextWriter" />
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public class YamlTextWriter : IndentedTextWriter
     {
         private static readonly char[] PunctuationMarks = Alphanumeric.PunctuationMarks.ToCharArray();

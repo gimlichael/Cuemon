@@ -12,6 +12,7 @@ namespace Cuemon.Runtime.Serialization
     /// <summary>
     /// Configuration options for <see cref="YamlSerializer"/>.
     /// </summary>
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public class YamlSerializerOptions : EncodingOptions, IValidatableParameterObject
     {
         /// <summary>

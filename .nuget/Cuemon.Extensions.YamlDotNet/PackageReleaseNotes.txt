@@ -1,0 +1,19 @@
+﻿Version 8.3.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED ExceptionConverter class in the Cuemon.Extensions.YamlDotNet.Converters namespace that converts an Exception to YAML
+- ADDED ExceptionDescriptorConverter class in the Cuemon.Extensions.YamlDotNet.Converters namespace that converts an ExceptionDescriptor to YAML
+- ADDED YamlConverter class in the Cuemon.Extensions.YamlDotNet.Converters namespace that converts an object to and from YAML (YAML ain't markup language)
+- ADDED YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace that serializes and deserializes an object, in YAML format
+- ADDED YamlFormatterOptions class in the Cuemon.Extensions.YamlDotNet.Formatters namespace that provides configuration options for YamlFormatter
+- ADDED YamlFormatterOptionsExtensions class in the Cuemon.Extensions.YamlDotNet.Formatters namespace that consist of one extension method for the YamlFormatterOptions class: SetPropertyName
+- ADDED EmitterExtensions class in the Cuemon.Extensions.YamlDotNet namespace that consist of many extension method for the IEmitter interface: WriteStartObject, WriteString, WritePropertyName, WriteValue, WriteEndObject, WriteStartArray, WriteEndArray and WriteObject
+- ADDED NodeOptions class in the Cuemon.Extensions.YamlDotNet namespace that provides configuration options for EmitterExtensions
+- ADDED ScalarOptions class in the Cuemon.Extensions.YamlDotNet namespace that provides configuration options for EmitterExtensions
+- ADDED YamlConverterFactory class in the Cuemon.Extensions.YamlDotNet namespace that provides a factory based way to create and wrap an YamlConverter implementations
+- ADDED YamlSerializerOptions class in the Cuemon.Extensions.YamlDotNet namespace that provides configuration options for SerializerBuilder and DeserializerBuilder
+ 

@@ -38,24 +38,24 @@ namespace Cuemon.Extensions.Diagnostics
 
             TestOutput.WriteLine(sut2);
 
-            Assert.StartsWith(@"Error: 
+            Assert.StartsWith(@"Error:
   Code: UnhandledException
   Message: An unhandled exception occurred.
-  Failure: 
+  Failure:
     Type: System.InsufficientMemoryException
     Source: Cuemon.Extensions.Diagnostics.Tests
     Message: Insufficient memory to continue the execution of the program.
-    Stack: 
-    - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithAllCaptures()".ReplaceLineEndings(), sut2);
+    Stack:
+      - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithAllCaptures()".ReplaceLineEndings(), sut2);
 
-            Assert.Contains(@"    Data: 
+            Assert.Contains(@"    Data:
       Name: Cuemon".ReplaceLineEndings(), sut2);
 
             Assert.Contains("""
-                            Evidence: 
-                              Thrower: 
+                            Evidence:
+                              Thrower:
                                 MemberSignature: Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithAllCaptures()
-                                RuntimeParameters: System.Collections.Generic.Dictionary`2[System.String,System.String]
+                                RuntimeParameters: {}
                             """.ReplaceLineEndings(), sut2);
             Assert.Contains("  Thread:", sut2);
             Assert.Contains("  Process:", sut2);
@@ -85,28 +85,32 @@ namespace Cuemon.Extensions.Diagnostics
             TestOutput.WriteLine(sut2);
 
             Assert.Contains("""
-                            Error: 
+                            Error:
                               Code: UnhandledException
                               Message: An unhandled exception occurred.
                             """.ReplaceLineEndings(), sut2);
 
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence), () =>
             {
-                Assert.Contains(@"Evidence: 
-  Thrower: 
+                Assert.Contains(@$"Evidence:
+  Thrower:
     MemberSignature: Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)
-    RuntimeParameters: System.Collections.Generic.Dictionary`2[System.String,System.String]".ReplaceLineEndings(), sut2);
+    RuntimeParameters:
+      options: Cuemon.Diagnostics.ExceptionDescriptorOptions
+      snapshots: {snapshots}".ReplaceLineEndings(), sut2);
             }, () =>
             {
                 Assert.DoesNotContain(@"Evidence: 
-  Thrower: 
+  Thrower:
     MemberSignature: Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)
-    RuntimeParameters: System.Collections.Generic.Dictionary`2[System.String,System.String]".ReplaceLineEndings(), sut2);
+    RuntimeParameters: 
+      options: Cuemon.Diagnostics.ExceptionDescriptorOptions
+      snapshots: CaptureThreadInfo".ReplaceLineEndings(), sut2);
             });
 
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure), () =>
             {
-                Assert.Contains(@"  Failure: 
+                Assert.Contains(@"  Failure:
     Type: System.InsufficientMemoryException
     Source: Cuemon.Extensions.Diagnostics.Tests
     Message: Insufficient memory to continue the execution of the program.".ReplaceLineEndings(), sut2);
@@ -120,22 +124,22 @@ namespace Cuemon.Extensions.Diagnostics
 
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.FailureWithStackTrace), () =>
             {
-                Assert.Contains(@"    Stack: 
-    - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)".ReplaceLineEndings(), sut2);
+                Assert.Contains(@"    Stack:
+      - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)".ReplaceLineEndings(), sut2);
             }, () =>
             {
-                Assert.DoesNotContain(@"    Stack: 
-    - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)".ReplaceLineEndings(), sut2);
+                Assert.DoesNotContain(@"    Stack:
+      - at Cuemon.Extensions.Diagnostics.ExceptionDescriptorExtensionsTest.ToYaml_ShouldReturnDetailedExceptionString_WithCaptures_MakeUseOfIncludeOptions(ExceptionDescriptorOptions options, SystemSnapshots snapshots)".ReplaceLineEndings(), sut2);
             });
 
             
             Condition.FlipFlop(options.SensitivityDetails.HasFlag(FaultSensitivityDetails.FailureWithData), () =>
             {
-                Assert.Contains(@"    Data: 
+                Assert.Contains(@"    Data:
       Name: Cuemon".ReplaceLineEndings(), sut2);
             }, () =>
             {
-                Assert.DoesNotContain(@"    Data: 
+                Assert.DoesNotContain(@"    Data:
       Name: Cuemon".ReplaceLineEndings(), sut2);
             });
 

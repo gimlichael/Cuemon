@@ -11,6 +11,7 @@ namespace Cuemon.Text.Yaml.Formatters
     /// </summary>
     /// <seealso cref="Formatter{TFormat}" />.
     /// <seealso cref="YamlConverter"/>.
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public class YamlFormatter : StreamFormatter<YamlFormatterOptions>
     {
 	    /// <summary>

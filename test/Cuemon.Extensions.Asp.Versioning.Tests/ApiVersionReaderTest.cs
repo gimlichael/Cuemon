@@ -226,10 +226,11 @@ namespace Cuemon.Extensions.Asp.Versioning
                 Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
                 Assert.EndsWith(yamlAccept, sut.Content.Headers.ContentType.ToString());
                 Assert.Equal("""
-                             Error: 
+                             Error:
                                Status: 400
                                Code: BadRequest
                                Message: The HTTP resource that matches the request URI 'http://localhost/fake/throw' does not support the API version 'd3'.
+
                              """, await sut.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
             }
         }

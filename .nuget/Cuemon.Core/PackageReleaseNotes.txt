@@ -1,4 +1,25 @@
-﻿Version 8.2.0
+﻿Version 8.3.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED DefaultYamlConverter class in the Cuemon.Runtime.Serialization.Converters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlSerializer class in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlSerializerOptions class in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlTextReader class in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlTextWriter class in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlTokenType enum in the Cuemon.Runtime.Serialization to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED ExceptionDescriptorConverter class in the Cuemon.Text.Yaml.Converters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlConverter class in the Cuemon.Text.Yaml.Converters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlFormatter class in the Cuemon.Text.Yaml.Formatters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlFormatterOptions class in the Cuemon.Text.Yaml.Formatters to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlConverterFactory class in the Cuemon.Text.Yaml to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+- CHANGED YamlNamingPolicy class in the Cuemon.Text.Yaml to include the ObsoleteAttribute with this message: All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version
+ 
+# Bug Fixes
+- FIXED Alphanumeric class in the Cuemon namespace so that the WhiteSpace constant field does not include the U+180E (Mongolian vowel separator) since it is no longer considered a white space as per Unicode 6.3.0
+- FIXED ExceptionConverter class in the Cuemon.Text.Yaml.Converters namespace to use Environment.NewLine instead of Alphanumeric.NewLine (vital for non-Windows operating systems)
+ 
+Version 8.2.0
 Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
  
 # ALM

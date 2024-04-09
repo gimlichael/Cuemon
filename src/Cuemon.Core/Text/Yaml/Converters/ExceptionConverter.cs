@@ -10,6 +10,7 @@ namespace Cuemon.Text.Yaml.Converters
     /// Converts an <see cref="Exception"/> to or from YAML.
     /// </summary>
     /// <seealso cref="YamlConverter{Exception}" />
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public class ExceptionConverter : YamlConverter<Exception>
     {
         /// <summary>
@@ -90,7 +91,7 @@ namespace Cuemon.Text.Yaml.Converters
                 writer.WritePropertyName(so.SetPropertyName("Stack"));
                 writer.WriteLine();
                 writer.WriteStartArray();
-                var lines = exception.StackTrace.Split(new[] { Alphanumeric.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
                     writer.WriteLine(line.Trim());

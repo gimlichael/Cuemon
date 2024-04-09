@@ -315,27 +315,29 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                 if (sensitivityDetails == FaultSensitivityDetails.All)
                 {
                     Assert.Equal("""
-                                 Error: 
+                                 Error:
                                    Status: 401
                                    Code: Unauthorized
                                    Message: The request has not been applied because it lacks valid authentication credentials for the target resource.
-                                   Failure: 
+                                   Failure:
                                      Type: Cuemon.AspNetCore.Http.UnauthorizedException
                                      Message: The request has not been applied because it lacks valid authentication credentials for the target resource.
                                      StatusCode: 401
                                      ReasonPhrase: Unauthorized
-                                     Inner: 
+                                     Inner:
                                        Type: System.Security.SecurityException
                                        Message: Unable to authenticate Agent.
+
                                  """.ReplaceLineEndings(), content.ReplaceLineEndings());
                 }
                 else
                 {
                     Assert.Equal("""
-                                 Error: 
+                                 Error:
                                    Status: 401
                                    Code: Unauthorized
                                    Message: The request has not been applied because it lacks valid authentication credentials for the target resource.
+
                                  """.ReplaceLineEndings(), content.ReplaceLineEndings());
                 }
             }

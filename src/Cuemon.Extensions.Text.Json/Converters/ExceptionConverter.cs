@@ -169,7 +169,7 @@ namespace Cuemon.Extensions.Text.Json.Converters
             {
                 writer.WritePropertyName(options.SetPropertyName("Stack"));
                 writer.WriteStartArray();
-                var lines = exception.StackTrace.Split(new[] { Alphanumeric.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
                     writer.WriteStringValue(line.Trim());

@@ -63,6 +63,7 @@ More documentation available at our documentation site:
 * [Cuemon.Extensions.Xunit.Hosting](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.Hosting/) 📦
 * [Cuemon.Extensions.Xunit.Hosting.AspNetCore](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.Hosting.AspNetCore/) 📦
 * [Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc/) 📦
+* [Cuemon.Extensions.YamlDotNet](https://www.nuget.org/packages/Cuemon.Extensions.YamlDotNet/) 📦
 * [Cuemon.IO](https://www.nuget.org/packages/Cuemon.IO/) 📦
 * [Cuemon.Net](https://www.nuget.org/packages/Cuemon.Net/) 📦
 * [Cuemon.Resilience](https://www.nuget.org/packages/Cuemon.Resilience/) 📦
