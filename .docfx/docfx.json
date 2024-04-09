@@ -46,7 +46,8 @@
             "Cuemon.Extensions.Text/**.csproj",
             "Cuemon.Extensions.Text.Json/**.csproj",
             "Cuemon.Extensions.Threading/**.csproj",
-            "Cuemon.Extensions.Xml/**.csproj"
+            "Cuemon.Extensions.Xml/**.csproj",
+            "Cuemon.Extensions.YamlDotNet/**.csproj"
           ],
           "src": "../src"
         }

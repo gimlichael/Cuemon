@@ -26,11 +26,10 @@ namespace Cuemon.Extensions.Hosting
         {
             Validator.ThrowIfNull(hostBuilder);
             Validator.ThrowIfNull(configureDelegate);
-            hostBuilder.ConfigureAppConfiguration((context, builder) =>
+            return hostBuilder.ConfigureAppConfiguration((context, builder) =>
             {
                 configureDelegate(context.HostingEnvironment, builder.Sources);
             });
-            return hostBuilder;
         }
 
         /// <summary>
@@ -41,11 +40,10 @@ namespace Cuemon.Extensions.Hosting
         /// <returns>The same instance of the <see cref="IHostBuilder"/> for chaining.</returns>
         public static IHostBuilder RemoveConfigurationSource(this IHostBuilder hostBuilder, Func<IHostEnvironment, IConfigurationSource, bool> predicate)
         {
-            ConfigureConfigurationSources(hostBuilder, (environment, sources) =>
+            return ConfigureConfigurationSources(hostBuilder, (environment, sources) =>
             {
                 sources.Remove(source => predicate(environment, source));
             });
-            return hostBuilder;
         }
     }
 }

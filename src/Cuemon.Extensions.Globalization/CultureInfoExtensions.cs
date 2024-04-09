@@ -6,8 +6,9 @@ using System.Linq;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Reflection;
+using Cuemon.Extensions.YamlDotNet.Formatters;
 using Cuemon.Reflection;
-using Cuemon.Text.Yaml.Formatters;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Cuemon.Extensions.Globalization
 {
@@ -58,7 +59,12 @@ namespace Cuemon.Extensions.Globalization
                 {
                     var surrogate = typeof(CultureInfoExtensions).GetEmbeddedResources($"{culture.Name}.bin", ManifestResourceMatch.ContainsName).SingleOrDefault();
                     var ms = new MemoryStream(surrogate.Value.DecompressGZip().ToByteArray());
-                    var suggogateCulture = YamlFormatter.DeserializeObject<CultureInfoSurrogate>(ms, o => o.Settings.Converters.Add(new CultureInfoSurrogateConverter()));
+                    var suggogateCulture = YamlFormatter.DeserializeObject<CultureInfoSurrogate>(ms, o =>
+                    {
+                        o.Settings.NamingConvention = NullNamingConvention.Instance;
+                        o.Settings.ReflectionRules = new MemberReflection();
+                        o.Settings.IndentSequences = false;
+                    });
                     Enrich(culture, suggogateCulture);
                     EnrichedCultureInfos.Add(culture);
                     enrichedCultures.Add(culture);

@@ -1,8 +1,8 @@
 ﻿using System;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
-using Cuemon.Text.Yaml.Converters;
-using Cuemon.Text.Yaml.Formatters;
+using Cuemon.Extensions.YamlDotNet.Converters;
+using Cuemon.Extensions.YamlDotNet.Formatters;
 
 namespace Cuemon.Extensions.Diagnostics
 {
@@ -21,7 +21,7 @@ namespace Cuemon.Extensions.Diagnostics
         {
             Validator.ThrowIfNull(descriptor);
             var formatter = new YamlFormatter(o => o.Settings.Converters.Add(new ExceptionDescriptorConverter(setup)));
-            return formatter.Serialize(descriptor).ToEncodedString();
+             return formatter.Serialize(descriptor).ToEncodedString();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace Cuemon.Runtime.Serialization
@@ -8,6 +9,7 @@ namespace Cuemon.Runtime.Serialization
     /// Implements the <see cref="TextReader" />
     /// </summary>
     /// <seealso cref="TextReader" />
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public class YamlTextReader : StreamReader
     {
         /// <summary>

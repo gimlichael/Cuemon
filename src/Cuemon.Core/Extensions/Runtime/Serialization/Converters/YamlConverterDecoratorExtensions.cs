@@ -1,4 +1,5 @@
 ﻿using Cuemon.Text.Yaml;
+using System;
 
 namespace Cuemon.Runtime.Serialization.Converters
 {
@@ -7,6 +8,7 @@ namespace Cuemon.Runtime.Serialization.Converters
     /// </summary>
     /// <seealso cref="IDecorator{T}"/>
     /// <seealso cref="Decorator{T}"/>
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public static class YamlNamingPolicyDecoratorExtensions
     {
         /// <summary>

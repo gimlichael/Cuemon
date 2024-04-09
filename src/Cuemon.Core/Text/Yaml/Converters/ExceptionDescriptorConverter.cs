@@ -9,6 +9,7 @@ namespace Cuemon.Text.Yaml.Converters
     /// Converts an <see cref="ExceptionDescriptor"/> to or from YAML.
     /// </summary>
     /// <seealso cref="YamlConverter{Exception}" />
+    [Obsolete("All YAML marshalling has been moved to its own assembly; Cuemon.Extensions.YamlDotNet. This member will be removed with next major version.")]
     public class ExceptionDescriptorConverter : YamlConverter<ExceptionDescriptor>
     {
         private readonly ExceptionDescriptorOptions _options;

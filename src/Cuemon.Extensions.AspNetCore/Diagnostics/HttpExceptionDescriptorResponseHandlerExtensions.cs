@@ -4,9 +4,8 @@ using System.Net.Http;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Text.Yaml.Converters;
+using Cuemon.Extensions.YamlDotNet.Formatters;
 using Cuemon.Net.Http;
-using Cuemon.Runtime.Serialization;
-using Cuemon.Text.Yaml.Formatters;
 using Microsoft.Extensions.Options;
 
 namespace Cuemon.Extensions.AspNetCore.Diagnostics
@@ -34,7 +33,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         }
 
         /// <summary>
-        /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the list of <paramref name="handlers"/> that uses <see cref="YamlSerializer"/> as engine of serialization.
+        /// Adds an <see cref="HttpExceptionDescriptorResponseHandler"/> to the list of <paramref name="handlers"/> that uses <see cref="YamlFormatter"/> as engine of serialization.
         /// </summary>
         /// <param name="handlers">The sequence of <see cref="HttpExceptionDescriptorResponseHandler"/> to extend.</param>
         /// <param name="options">The <see cref="ExceptionDescriptorOptions"/> which need to be configured.</param>

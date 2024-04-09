@@ -12,15 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.17" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.27" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.28" />
   </ItemGroup>
 
   <ItemGroup>

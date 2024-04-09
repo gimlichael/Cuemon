@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Xunit.Abstractions;
 
 namespace Cuemon.Extensions.Xunit
@@ -10,6 +12,33 @@ namespace Cuemon.Extensions.Xunit
     /// <seealso cref="ITestOutputHelper"/>
     public abstract class Test : Disposable, ITest
     {
+        /// <summary>
+        /// Provides a way, with wildcard support, to determine if <paramref name="actual" /> matches <paramref name="expected" />.
+        /// </summary>
+        /// <param name="expected">The expected string value.</param>
+        /// <param name="actual">The actual string value.</param>
+        /// <param name="setup">The <see cref="WildcardOptions" /> which may be configured.</param>
+        /// <returns><c>true</c> if <paramref name="actual" /> matches <paramref name="expected" />, <c>false</c> otherwise.</returns>
+        /// <remarks>Credits for inspiration goes to this SO answer: https://stackoverflow.com/questions/30299671/matching-strings-with-wildcard/30300521#30300521</remarks>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="expected"/> cannot be matched with <paramref name="actual"/>. Includes the non-matched string(s) in <see cref="ArgumentOutOfRangeException.ActualValue"/>.
+        /// </exception>
+        public static bool Match(string expected, string actual, Action<WildcardOptions> setup = null)
+        {
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
+
+            var pattern = $"^{Regex.Escape(expected).Replace(options.SingleCharacter, ".").Replace(options.GroupOfCharacters, ".*")}$";
+
+            if (Regex.IsMatch(actual, pattern)) { return true; }
+
+            var e = expected.Split(Environment.NewLine.ToCharArray());
+            var a = actual.Split(Environment.NewLine.ToCharArray());
+            var d = e.Except(a).Where(s => s.IndexOf(options.GroupOfCharacters, StringComparison.InvariantCulture) < 0 && s.IndexOf(options.SingleCharacter, StringComparison.InvariantCulture) < 0);
+
+            if (options.ThrowOnNoMatch) { throw new ArgumentOutOfRangeException(nameof(expected), $"'{string.Join(Environment.NewLine, d)}'", "The expected value does not match the actual value."); }
+            return false;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Test" /> class.
         /// </summary>
