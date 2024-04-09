@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
-## [8.3.0] - TBD
+## [8.3.0] - 2024-04-09
 
 ### Added
 

@@ -11,9 +11,9 @@ The `Cuemon.Extensions.YamlDotNet` namespace contains types and extension method
 
 More documentation available at our documentation site:
 
-- [Cuemon.Extensions.Text.Json](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Text.Json.html) 🔗
-- [Cuemon.Extensions.Text.Json.Converters](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Text.Json.Converters.html) 🔗
-- [Cuemon.Extensions.Text.Json.Formatters](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.Text.Json.Formatters.html) 🔗
+- [Cuemon.Extensions.YamlDotNet](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.YamlDotNet.html) 🔗
+- [Cuemon.Extensions.YamlDotNet.Converters](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.YamlDotNet.Converters.html) 🔗
+- [Cuemon.Extensions.YamlDotNet.Formatters](https://docs.cuemon.net/api/extensions/dotnet/Cuemon.Extensions.YamlDotNet.Formatters.html) 🔗
 
 ## Related Packages
 

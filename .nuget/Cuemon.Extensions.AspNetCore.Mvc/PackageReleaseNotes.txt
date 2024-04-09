@@ -1,11 +1,12 @@
 ﻿Version 8.3.0
 Availability: .NET 8, .NET 7 and .NET 6
  
-# ALM
 # Improvements
-- CHANGED HttpExceptionDescriptorResponseHandlerExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
-- CHANGED YamlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Converters namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
-- CHANGED ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Yaml.Formatters namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CHANGED MvcBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CHANGED MvcCoreBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CHANGED YamlSerializationInputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CHANGED YamlSerializationMvcOptionsSetup class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CHANGED YamlSerializationOutputFormatter class in the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
  
 Version 8.2.0
 Availability: .NET 8, .NET 7 and .NET 6
