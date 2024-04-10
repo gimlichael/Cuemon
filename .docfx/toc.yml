@@ -30,5 +30,7 @@
     href: api/extensions/swagger/Cuemon.Extensions.Swashbuckle.AspNetCore.html
   - name: AWS Signature API
     href: api/extensions/awssignature4/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.html
+  - name: YamlDotNet API
+    href: api/extensions/yamldotnet/Cuemon.Extensions.YamlDotNet.html
 - name: NuGet
   href: packages

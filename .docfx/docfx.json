@@ -46,8 +46,7 @@
             "Cuemon.Extensions.Text/**.csproj",
             "Cuemon.Extensions.Text.Json/**.csproj",
             "Cuemon.Extensions.Threading/**.csproj",
-            "Cuemon.Extensions.Xml/**.csproj",
-            "Cuemon.Extensions.YamlDotNet/**.csproj"
+            "Cuemon.Extensions.Xml/**.csproj"
           ],
           "src": "../src"
         }
@@ -83,6 +82,21 @@
         }
       ],
       "dest": "api/extensions/awssignature4",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.YamlDotNet/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/yamldotnet",
       "filter": "filterConfig.yml",
       "properties": {
         "TargetFramework": "net8.0"
