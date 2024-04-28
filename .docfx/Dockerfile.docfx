@@ -1,44 +1,34 @@
-﻿# escape=`
-
-FROM nginx:1.25.4 AS base
+﻿FROM nginx:1.26.0-alpine AS base
 RUN rm -rf /usr/share/nginx/html/*
 
-FROM mono:6.12.0.182 AS build
-ARG DOCFX_VERSION=v2.76.0
+FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy AS build
 
-ENV PATH ${PATH}:/opt/docfx
-ENV DOCFX_SOURCE_BRANCH_NAME="development"
+ENV DOTNET_ROOT=/root/.dotnet
+ENV PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
-# MONO IMAGE
-RUN curl -sSL --output packages-microsoft-prod.deb https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
-RUN apt-get update `
-&& apt-get install -y powershell zip apt-transport-https dirmngr gnupg ca-certificates git `
-&& mkdir -p /opt/docfx/ `
-&& curl -sSL --output docfx.zip "https://github.com/dotnet/docfx/releases/download/${DOCFX_VERSION}/docfx-linux-x64-${DOCFX_VERSION}.zip" `
-&& unzip docfx.zip -d /opt/docfx/ `
-&& rm docfx.zip `
-&& echo '#!/bin/bash' >> /opt/docfx/docfx `
-&& echo 'exec mono /opt/docfx/docfx.exe $@' >> /opt/docfx/docfx `
-&& chmod +x /opt/docfx/docfx `
-&& apt-get -y purge unzip
+RUN apt update \
+    && apt install git
 
-SHELL ["/opt/microsoft/powershell/7/pwsh", "-Command"]
+RUN git clone https://github.com/dotnet/docfx.git \
+    && mkdir -p /opt/docfx
+
+RUN cd docfx \
+    && cp -r --parents templates/default /opt/docfx \
+    && cp -r --parents templates/modern /opt/docfx
+
+RUN curl -sSL --output dotnet-install.sh https://dot.net/v1/dotnet-install.sh \
+    && chmod +x ./dotnet-install.sh \
+    && ./dotnet-install.sh --runtime aspnetcore --channel 8.0
+
+RUN dotnet tool install --global docfx --version 2.75.3
 
 WORKDIR /build
 
 ADD [".", "docfx"]
-#ADD ["src", "src"] INCLUDE THIS WHEN DOCFX IS MATURED - SEE NOTE BELOW
+RUN cp -r /opt/docfx/templates /build/docfx/templates
 
-RUN cd docfx; `
-# docfx metadata; ` INCLUDE THIS WHEN DOCFX IS MATURED - SEE NOTE BELOW
-docfx build
-
-# After carefull considerations, I have concluded that DoxFx is not a matured product to be run entirely as part of a Docker image.
-# Reason is that for DocFx to resolve cref correctly (and assembly names) it requires the msbuild project file (csproj) and not only the source files (cs).
-# As stated by docfx team themself: Visual Studio 2019 is needed for docfx metadata msbuild projects.
-# Given that VS2019 is to hard a dependency, I have moved the docfx metadata taskto my local development environment.
-# It would have been great to have all documentation done in a container - but for now this is not an option without significant drawbacks.
+RUN cd docfx; \
+    docfx build
 
 FROM base AS final
 WORKDIR /usr/share/nginx/html
