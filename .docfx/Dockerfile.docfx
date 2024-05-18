@@ -1,31 +1,9 @@
 ﻿FROM nginx:1.26.0-alpine AS base
 RUN rm -rf /usr/share/nginx/html/*
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy AS build
-
-ENV DOTNET_ROOT=/root/.dotnet
-ENV PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
-
-RUN apt update \
-    && apt install git
-
-RUN git clone https://github.com/dotnet/docfx.git \
-    && mkdir -p /opt/docfx
-
-RUN cd docfx \
-    && cp -r --parents templates/default /opt/docfx \
-    && cp -r --parents templates/modern /opt/docfx
-
-RUN curl -sSL --output dotnet-install.sh https://dot.net/v1/dotnet-install.sh \
-    && chmod +x ./dotnet-install.sh \
-    && ./dotnet-install.sh --runtime aspnetcore --channel 8.0
-
-RUN dotnet tool install --global docfx --version 2.75.3
-
-WORKDIR /build
+FROM codebeltnet/docfx:2.75.3 AS build
 
 ADD [".", "docfx"]
-RUN cp -r /opt/docfx/templates /build/docfx/templates
 
 RUN cd docfx; \
     docfx build

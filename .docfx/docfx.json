@@ -194,6 +194,9 @@
     }
   ],
   "build": {
+    "xref": [
+      "https://docs.cuemon.net/xrefmap.yml"
+    ],
     "content": [
       {
         "files": [
