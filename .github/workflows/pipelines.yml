@@ -186,12 +186,14 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
+        framework:  [net8.0, net7.0, net6.0, netstandard2.1, netstandard2.0]
     needs: [build]
     steps:     
       - name: Pack for ${{ matrix.configuration }}
         uses: codebeltnet/dotnet-pack@v1
         with:
           configuration: ${{ matrix.configuration }}
+          framework: ${{ matrix.framework }}
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
 
