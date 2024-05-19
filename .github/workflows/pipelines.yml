@@ -1,0 +1,333 @@
+name: Shared Kernel CI/CD Pipeline
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - .codecov
+      - .docfx
+      - .github
+      - .nuget
+  pull_request:
+    branches: [development]
+  workflow_dispatch:
+    inputs:
+      configuration:
+        type: choice
+        description: The build configuration to use in the deploy stage.
+        required: true
+        default: Release
+        options:
+          - Debug
+          - Release
+
+jobs:
+  build:
+    name: 🛠️ Build
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.minver-calculate.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+
+      - name: Install MinVer
+        uses: codebeltnet/dotnet-tool-install-minver@v1
+
+      - id: minver-calculate
+        name: Calculate Version
+        uses: codebeltnet/minver-calculate@v1
+
+      - name: Download cuemon.snk file
+        uses: codebeltnet/gcp-download-file@v1
+        with: 
+          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
+          bucketName: ${{ secrets.GCP_BUCKETNAME }}
+          objectName: cuemon.snk
+
+      - name: Restore Dependencies
+        uses: codebeltnet/dotnet-restore@v1
+
+      - name: Build for Preview (.net8.0)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          configuration: Debug
+
+      - name: Build for Preview (.net7.0)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          configuration: Debug
+          framework: net7.0
+
+      - name: Build for Preview (.net6.0)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          configuration: Debug
+          framework: net6.0
+
+      - name: Build for Preview (.netstandard2.1)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          projects: |
+            src/**/Cuemon.Extensions.IO.csproj
+            src/**/Cuemon.IO.csproj
+          configuration: Debug
+          framework: netstandard2.1
+
+      - name: Build for Preview (.netstandard2.0)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          projects: |
+            src/**/*.csproj
+            !src/**/Cuemon.AspNetCore.csproj
+            !src/**/Cuemon.AspNetCore.App.csproj
+            !src/**/Cuemon.AspNetCore.Authentication.csproj
+            !src/**/Cuemon.AspNetCore.Mvc.csproj
+            !src/**/Cuemon.AspNetCore.Razor.TagHelpers.csproj
+            !src/**/Cuemon.AspNetCore.App.csproj
+            !src/**/Cuemon.Core.App.csproj
+            !src/**/Cuemon.Extensions.Asp.Versioning.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Authentication.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.RazorPages.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Newtonsoft.Json.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Text.Json.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Xml.csproj
+            !src/**/Cuemon.Extensions.Newtonsoft.Json.App.csproj
+            !src/**/Cuemon.Extensions.Swashbuckle.AspNetCore.csproj
+            !src/**/Cuemon.Extensions.Text.Json.csproj
+            !src/**/Cuemon.Extensions.Xunit.App.csproj
+            !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
+            !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
+          configuration: Debug
+          framework: netstandard2.0
+
+      - name: Build for Production (.net8.0)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          configuration: Release
+
+      - name: Build for Production (.net7.0)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          configuration: Release
+          framework: net7.0
+
+      - name: Build for Production (.net6.0)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          configuration: Release
+          framework: net6.0
+
+      - name: Build for Production (.netstandard2.1)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          projects: |
+            src/**/Cuemon.Extensions.IO.csproj
+            src/**/Cuemon.IO.csproj
+          configuration: Release
+          framework: netstandard2.1
+
+      - name: Build for Production (.netstandard2.0)
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          projects: |
+            src/**/*.csproj
+            !src/**/Cuemon.AspNetCore.csproj
+            !src/**/Cuemon.AspNetCore.App.csproj
+            !src/**/Cuemon.AspNetCore.Authentication.csproj
+            !src/**/Cuemon.AspNetCore.Mvc.csproj
+            !src/**/Cuemon.AspNetCore.Razor.TagHelpers.csproj
+            !src/**/Cuemon.AspNetCore.App.csproj
+            !src/**/Cuemon.Core.App.csproj
+            !src/**/Cuemon.Extensions.Asp.Versioning.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Authentication.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Mvc.RazorPages.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Newtonsoft.Json.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Text.Json.csproj
+            !src/**/Cuemon.Extensions.AspNetCore.Xml.csproj
+            !src/**/Cuemon.Extensions.Newtonsoft.Json.App.csproj
+            !src/**/Cuemon.Extensions.Swashbuckle.AspNetCore.csproj
+            !src/**/Cuemon.Extensions.Text.Json.csproj
+            !src/**/Cuemon.Extensions.Xunit.App.csproj
+            !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj
+            !src/**/Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj
+          configuration: Release
+          framework: netstandard2.0
+
+  pack:
+    name: 📦 Pack
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    needs: [build]
+    steps:     
+      - name: Pack for ${{ matrix.configuration }}
+        uses: codebeltnet/dotnet-pack@v1
+        with:
+          configuration: ${{ matrix.configuration }}
+          uploadPackedArtifact: true
+          version: ${{ needs.build.outputs.version }}
+
+  test:
+    name: 🧪 Test
+    needs: [build]
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, windows-2022]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+
+      - name: Install .NET Tool - Report Generator
+        uses: codebeltnet/dotnet-tool-install-reportgenerator@v1
+
+      - name: Set environment variable for build switches
+        run: |
+          if [ "${{ runner.os }}" == "Linux" ]; then
+            echo "BUILD_SWITCHES=-p:SkipSignAssembly=true" >> $GITHUB_ENV
+          else
+            echo "BUILD_SWITCHES=-p:SkipSignAssembly=true --filter FullyQualifiedName!~SqlClient" >> $GITHUB_ENV
+          fi
+
+      - name: Spin up SQL Server test dependency for Debug build
+        uses: codebeltnet/docker-compose@v1
+        with:
+          command: up
+          options: -d
+
+      - name: Test with Debug build
+        uses: codebeltnet/dotnet-test@v1
+        with:
+          configuration: Debug
+          buildSwitches: ${{ env.BUILD_SWITCHES }}
+
+      - name: Take down SQL Server test dependency for Debug build
+        uses: codebeltnet/docker-compose@v1
+        with:
+          command: down
+
+      - name: Spin up SQL Server test dependency for Release build
+        uses: codebeltnet/docker-compose@v1
+        with:
+          command: up
+          options: -d
+        env:
+          SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
+          
+
+      - name: Test with Release build
+        uses: codebeltnet/dotnet-test@v1
+        with:
+          configuration: Release
+          buildSwitches: ${{ env.BUILD_SWITCHES }}
+
+      - name: Take down SQL Server test dependency for Release build
+        uses: codebeltnet/docker-compose@v1
+        with:
+          command: down
+
+  sonarcloud:
+    name: 🔬 Code Quality Analysis
+    needs: [build,test]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+
+      - name: Install .NET Tool - Sonar Scanner
+        uses: codebeltnet/dotnet-tool-install-sonarscanner@v1
+
+      - name: Restore Dependencies
+        uses: codebeltnet/dotnet-restore@v1
+
+      - name: Run SonarCloud Analysis
+        uses: codebeltnet/sonarcloud-scan@v1
+        with:
+          token: ${{ secrets.SONAR_TOKEN }}
+          organization: geekle
+          projectKey: sharedkernel
+          version: ${{ needs.build.outputs.version }}
+
+      - name: Build
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          buildSwitches: -p:SkipSignAssembly=true
+          uploadBuildArtifact: false
+
+      - name: Finalize SonarCloud Analysis
+        uses: codebeltnet/sonarcloud-scan-finalize@v1
+        with:
+          token: ${{ secrets.SONAR_TOKEN }}
+
+  codecov:
+    name: 📊 Code Coverage Analysis
+    needs: [build,test]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Run CodeCov Analysis
+        uses: codebeltnet/codecov-scan@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          repository: gimlichael/Cuemon
+          
+  codeql:
+    name: 🛡️ Security Analysis
+    needs: [build,test]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+
+      - name: Restore Dependencies
+        uses: codebeltnet/dotnet-restore@v1
+
+      - name: Prepare CodeQL SAST Analysis
+        uses: codebeltnet/codeql-scan@v1
+
+      - name: Build
+        uses: codebeltnet/dotnet-build@v1
+        with:
+          buildSwitches: -p:SkipSignAssembly=true
+          uploadBuildArtifact: false
+
+      - name: Finalize CodeQL SAST Analysis
+        uses: codebeltnet/codeql-scan-finalize@v1
+
+  deploy:
+    name: 🚀 Deploy v${{ needs.build.outputs.version }}
+    runs-on: ubuntu-22.04
+    needs: [build,pack,test,sonarcloud,codecov,codeql]
+    environment: Production
+    steps:
+      - uses: codebeltnet/nuget-push@v1
+        with:
+          token: ${{ secrets.NUGET_TOKEN }}
+          configuration: ${{ inputs.configuration == '' && 'Release' || inputs.configuration }}
