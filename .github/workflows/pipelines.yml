@@ -203,6 +203,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04, windows-2022]
+        configuration: [Debug, Release]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -222,39 +223,21 @@ jobs:
             echo "BUILD_SWITCHES=-p:SkipSignAssembly=true --filter FullyQualifiedName!~SqlClient" >> $GITHUB_ENV
           fi
 
-      - name: Spin up SQL Server test dependency for Debug build
-        uses: codebeltnet/docker-compose@v1
-        with:
-          command: up
-          options: -d
-
-      - name: Test with Debug build
-        uses: codebeltnet/dotnet-test@v1
-        with:
-          configuration: Debug
-          buildSwitches: ${{ env.BUILD_SWITCHES }}
-
-      - name: Take down SQL Server test dependency for Debug build
-        uses: codebeltnet/docker-compose@v1
-        with:
-          command: down
-
-      - name: Spin up SQL Server test dependency for Release build
+      - name: Spin up SQL Server test dependency for ${{ matrix.configuration }} build
         uses: codebeltnet/docker-compose@v1
         with:
           command: up
           options: -d
         env:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
-          
 
-      - name: Test with Release build
+      - name: Test with ${{ matrix.configuration }} build
         uses: codebeltnet/dotnet-test@v1
         with:
-          configuration: Release
+          configuration: ${{ matrix.configuration }}
           buildSwitches: ${{ env.BUILD_SWITCHES }}
 
-      - name: Take down SQL Server test dependency for Release build
+      - name: Take down SQL Server test dependency for ${{ matrix.configuration }} build
         uses: codebeltnet/docker-compose@v1
         with:
           command: down
