@@ -1,4 +1,4 @@
-name: Shared Kernel CI/CD Pipeline
+name: Cuemon CI/CD Pipeline
 on:
   push:
     branches: [main]
