@@ -35,7 +35,7 @@ jobs:
 
       - name: Download cuemon.snk file
         uses: codebeltnet/gcp-download-file@v1
-        with: 
+        with:
           serviceAccountKey: ${{ secrets.GCP_TOKEN }}
           bucketName: ${{ secrets.GCP_BUCKETNAME }}
           objectName: cuemon.snk
@@ -45,14 +45,14 @@ jobs:
         uses: codebeltnet/dotnet-restore@v2
         with:
           useRestoreCache: true
-  
+
   build:
     name: 🛠️ Build
     runs-on: ubuntu-22.04
     strategy:
       matrix:
         configuration: [Debug, Release]
-        framework:  [net8.0, net7.0, net6.0, netstandard2.1, netstandard2.0]
+        framework: [net8.0, net7.0, net6.0, netstandard2.1, netstandard2.0]
     needs: [prepare]
     outputs:
       version: ${{ steps.minver-calculate.outputs.version }}
@@ -68,43 +68,45 @@ jobs:
         uses: codebeltnet/minver-calculate@v2
 
       - name: Set environment variable for projects
-        run: >-
+        run: |
           if [ "${{ matrix.framework }}" == "netstandard2.1" ]; then
-            echo "PROJECTS=src/**/Cuemon.Extensions.IO.csproj
-            src/**/Cuemon.IO.csproj" >> $GITHUB_ENV
+            echo "PROJECTS=src/**/Cuemon.Extensions.IO.csproj src/**/Cuemon.IO.csproj" >> $GITHUB_ENV
           elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
-            echo "PROJECTS=src/**/Cuemon.Core.csproj
-            src/**/Cuemon.Data.csproj
-            src/**/Cuemon.Data.Integrity.csproj
-            src/**/Cuemon.Data.SqlClient.csproj
-            src/**/Cuemon.Diagnostics.csproj
-            src/**/Cuemon.Extensions.Collections.Generic.csproj
-            src/**/Cuemon.Extensions.Collections.Specialized.csproj
-            src/**/Cuemon.Extensions.Core.csproj
-            src/**/Cuemon.Extensions.Data.csproj
-            src/**/Cuemon.Extensions.Data.Integrity.csproj
-            src/**/Cuemon.Extensions.DependencyInjection.csproj
-            src/**/Cuemon.Extensions.Diagnostics.csproj
-            src/**/Cuemon.Extensions.Globalization.csproj
-            src/**/Cuemon.Extensions.Hosting.csproj
-            src/**/Cuemon.Extensions.IO.csproj
-            src/**/Cuemon.Extensions.Net.csproj
-            src/**/Cuemon.Extensions.Newtonsoft.Json.csproj
-            src/**/Cuemon.Extensions.Reflection.csproj
-            src/**/Cuemon.Extensions.Runtime.Caching.csproj
-            src/**/Cuemon.Extensions.Text.csproj
-            src/**/Cuemon.Extensions.Threading.csproj
-            src/**/Cuemon.Extensions.Xml.csproj
-            src/**/Cuemon.Extensions.Xunit.csproj
-            src/**/Cuemon.Extensions.Xunit.Hosting.csproj
-            src/**/Cuemon.Extensions.YamlDotNet.csproj
-            src/**/Cuemon.IO.csproj
-            src/**/Cuemon.Net.csproj
-            src/**/Cuemon.Resilience.csproj
-            src/**/Cuemon.Runtime.Caching.csproj
-            src/**/Cuemon.Security.Cryptography.csproj
-            src/**/Cuemon.Threading.csproj
-            src/**/Cuemon.Xml.csproj" >> $GITHUB_ENV
+            echo "PROJECTS=$(cat <<EOF
+src/**/Cuemon.Core.csproj
+src/**/Cuemon.Data.csproj
+src/**/Cuemon.Data.Integrity.csproj
+src/**/Cuemon.Data.SqlClient.csproj
+src/**/Cuemon.Diagnostics.csproj
+src/**/Cuemon.Extensions.Collections.Generic.csproj
+src/**/Cuemon.Extensions.Collections.Specialized.csproj
+src/**/Cuemon.Extensions.Core.csproj
+src/**/Cuemon.Extensions.Data.csproj
+src/**/Cuemon.Extensions.Data.Integrity.csproj
+src/**/Cuemon.Extensions.DependencyInjection.csproj
+src/**/Cuemon.Extensions.Diagnostics.csproj
+src/**/Cuemon.Extensions.Globalization.csproj
+src/**/Cuemon.Extensions.Hosting.csproj
+src/**/Cuemon.Extensions.IO.csproj
+src/**/Cuemon.Extensions.Net.csproj
+src/**/Cuemon.Extensions.Newtonsoft.Json.csproj
+src/**/Cuemon.Extensions.Reflection.csproj
+src/**/Cuemon.Extensions.Runtime.Caching.csproj
+src/**/Cuemon.Extensions.Text.csproj
+src/**/Cuemon.Extensions.Threading.csproj
+src/**/Cuemon.Extensions.Xml.csproj
+src/**/Cuemon.Extensions.Xunit.csproj
+src/**/Cuemon.Extensions.Xunit.Hosting.csproj
+src/**/Cuemon.Extensions.YamlDotNet.csproj
+src/**/Cuemon.IO.csproj
+src/**/Cuemon.Net.csproj
+src/**/Cuemon.Resilience.csproj
+src/**/Cuemon.Runtime.Caching.csproj
+src/**/Cuemon.Security.Cryptography.csproj
+src/**/Cuemon.Threading.csproj
+src/**/Cuemon.Xml.csproj
+EOF
+)" >> $GITHUB_ENV
           else
             echo "PROJECTS=src/**/*.csproj" >> $GITHUB_ENV
           fi
@@ -124,7 +126,7 @@ jobs:
       matrix:
         configuration: [Debug, Release]
     needs: [build]
-    steps:     
+    steps:
       - name: Pack for ${{ matrix.configuration }}
         uses: codebeltnet/dotnet-pack@v2
         with:
@@ -179,7 +181,7 @@ jobs:
 
   sonarcloud:
     name: 🔬 Code Quality Analysis
-    needs: [build,test]
+    needs: [build, test]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -215,7 +217,7 @@ jobs:
 
   codecov:
     name: 📊 Code Coverage Analysis
-    needs: [build,test]
+    needs: [build, test]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -226,10 +228,10 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           repository: gimlichael/Cuemon
-          
+
   codeql:
     name: 🛡️ Security Analysis
-    needs: [build,test]
+    needs: [build, test]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -256,7 +258,7 @@ jobs:
   deploy:
     name: 🚀 Deploy v${{ needs.build.outputs.version }}
     runs-on: ubuntu-22.04
-    needs: [build,pack,test,sonarcloud,codecov,codeql]
+    needs: [build, pack, test, sonarcloud, codecov, codeql]
     environment: Production
     steps:
       - uses: codebeltnet/nuget-push@v1
