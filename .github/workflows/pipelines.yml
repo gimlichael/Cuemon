@@ -175,6 +175,7 @@ jobs:
           options: -d
         env:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
+          CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
       - name: Test with ${{ matrix.configuration }} build
         uses: codebeltnet/dotnet-test@v1
