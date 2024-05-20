@@ -24,6 +24,10 @@ jobs:
   build:
     name: 🛠️ Build
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        framework:  [net8.0, net7.0, net6.0, netstandard2.1, netstandard2.0]
     outputs:
       version: ${{ steps.minver-calculate.outputs.version }}
     steps:
@@ -38,7 +42,7 @@ jobs:
 
       - id: minver-calculate
         name: Calculate Version
-        uses: codebeltnet/minver-calculate@v1
+        uses: codebeltnet/minver-calculate@v2
 
       - name: Download cuemon.snk file
         uses: codebeltnet/gcp-download-file@v1
@@ -50,36 +54,15 @@ jobs:
       - name: Restore Dependencies
         uses: codebeltnet/dotnet-restore@v1
 
-      - name: Build for Preview (.net8.0)
-        uses: codebeltnet/dotnet-build@v1
-        with:
-          configuration: Debug
-
-      - name: Build for Preview (.net7.0)
-        uses: codebeltnet/dotnet-build@v1
-        with:
-          configuration: Debug
-          framework: net7.0
-
-      - name: Build for Preview (.net6.0)
-        uses: codebeltnet/dotnet-build@v1
-        with:
-          configuration: Debug
-          framework: net6.0
-
-      - name: Build for Preview (.netstandard2.1)
-        uses: codebeltnet/dotnet-build@v1
-        with:
-          projects: >-
+      - name: Set environment variable for projects
+        run: |
+          if [ "${{ matrix.framework }}" == "netstandard2.1" ]; then
+            echo "PROJECTS=$(cat <<EOF
             src/**/Cuemon.Extensions.IO.csproj
             src/**/Cuemon.IO.csproj
-          configuration: Debug
-          framework: netstandard2.1
-
-      - name: Build for Preview (.netstandard2.0)
-        uses: codebeltnet/dotnet-build@v1
-        with:
-          projects: >-
+            EOF
+          elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
+            echo "PROJECTS=$(cat <<EOF
             src/**/Cuemon.Core.csproj
             src/**/Cuemon.Data.csproj
             src/**/Cuemon.Data.Integrity.csproj
@@ -112,73 +95,16 @@ jobs:
             src/**/Cuemon.Security.Cryptography.csproj
             src/**/Cuemon.Threading.csproj
             src/**/Cuemon.Xml.csproj
-          configuration: Debug
-          framework: netstandard2.0
-
-      - name: Build for Production (.net8.0)
+            EOF
+          else
+            echo "PROJECTS=src/**/*.csproj" >> $GITHUB_ENV
+          fi
+      - name: Build for ${{ matrix.framework }} (${{ matrix.configuration }})
         uses: codebeltnet/dotnet-build@v1
         with:
-          configuration: Release
-
-      - name: Build for Production (.net7.0)
-        uses: codebeltnet/dotnet-build@v1
-        with:
-          configuration: Release
-          framework: net7.0
-
-      - name: Build for Production (.net6.0)
-        uses: codebeltnet/dotnet-build@v1
-        with:
-          configuration: Release
-          framework: net6.0
-
-      - name: Build for Production (.netstandard2.1)
-        uses: codebeltnet/dotnet-build@v1
-        with:
-          projects: >-
-            src/**/Cuemon.Extensions.IO.csproj
-            src/**/Cuemon.IO.csproj
-          configuration: Release
-          framework: netstandard2.1
-
-      - name: Build for Production (.netstandard2.0)
-        uses: codebeltnet/dotnet-build@v1
-        with:
-          projects: >-
-            src/**/Cuemon.Core.csproj
-            src/**/Cuemon.Data.csproj
-            src/**/Cuemon.Data.Integrity.csproj
-            src/**/Cuemon.Data.SqlClient.csproj
-            src/**/Cuemon.Diagnostics.csproj
-            src/**/Cuemon.Extensions.Collections.Generic.csproj
-            src/**/Cuemon.Extensions.Collections.Specialized.csproj
-            src/**/Cuemon.Extensions.Core.csproj
-            src/**/Cuemon.Extensions.Data.csproj
-            src/**/Cuemon.Extensions.Data.Integrity.csproj
-            src/**/Cuemon.Extensions.DependencyInjection.csproj
-            src/**/Cuemon.Extensions.Diagnostics.csproj
-            src/**/Cuemon.Extensions.Globalization.csproj
-            src/**/Cuemon.Extensions.Hosting.csproj
-            src/**/Cuemon.Extensions.IO.csproj
-            src/**/Cuemon.Extensions.Net.csproj
-            src/**/Cuemon.Extensions.Newtonsoft.Json.csproj
-            src/**/Cuemon.Extensions.Reflection.csproj
-            src/**/Cuemon.Extensions.Runtime.Caching.csproj
-            src/**/Cuemon.Extensions.Text.csproj
-            src/**/Cuemon.Extensions.Threading.csproj
-            src/**/Cuemon.Extensions.Xml.csproj
-            src/**/Cuemon.Extensions.Xunit.csproj
-            src/**/Cuemon.Extensions.Xunit.Hosting.csproj
-            src/**/Cuemon.Extensions.YamlDotNet.csproj
-            src/**/Cuemon.IO.csproj
-            src/**/Cuemon.Net.csproj
-            src/**/Cuemon.Resilience.csproj
-            src/**/Cuemon.Runtime.Caching.csproj
-            src/**/Cuemon.Security.Cryptography.csproj
-            src/**/Cuemon.Threading.csproj
-            src/**/Cuemon.Xml.csproj
-          configuration: Release
-          framework: netstandard2.0
+          projects: ${{ env.PROJECTS }}
+          configuration: ${{ matrix.configuration }}
+          framework: ${{ matrix.framework }}
 
   pack:
     name: 📦 Pack
@@ -186,14 +112,12 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        framework:  [net8.0, net7.0, net6.0, netstandard2.1, netstandard2.0]
     needs: [build]
     steps:     
       - name: Pack for ${{ matrix.configuration }}
-        uses: codebeltnet/dotnet-pack@v1
+        uses: codebeltnet/dotnet-pack@v2
         with:
           configuration: ${{ matrix.configuration }}
-          framework: ${{ matrix.framework }}
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
 
