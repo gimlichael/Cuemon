@@ -70,14 +70,10 @@ jobs:
       - name: Set environment variable for projects
         run: >-
           if [ "${{ matrix.framework }}" == "netstandard2.1" ]; then
-            echo "PROJECTS=$(cat <<EOF
-            src/**/Cuemon.Extensions.IO.csproj
-            src/**/Cuemon.IO.csproj
-            EOF
-            )" >> $GITHUB_ENV
+            echo "PROJECTS=src/**/Cuemon.Extensions.IO.csproj
+            src/**/Cuemon.IO.csproj" >> $GITHUB_ENV
           elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
-            echo "PROJECTS=$(cat <<EOF
-            src/**/Cuemon.Core.csproj
+            echo "PROJECTS=src/**/Cuemon.Core.csproj
             src/**/Cuemon.Data.csproj
             src/**/Cuemon.Data.Integrity.csproj
             src/**/Cuemon.Data.SqlClient.csproj
@@ -108,9 +104,7 @@ jobs:
             src/**/Cuemon.Runtime.Caching.csproj
             src/**/Cuemon.Security.Cryptography.csproj
             src/**/Cuemon.Threading.csproj
-            src/**/Cuemon.Xml.csproj
-            EOF
-            )" >> $GITHUB_ENV
+            src/**/Cuemon.Xml.csproj" >> $GITHUB_ENV
           else
             echo "PROJECTS=src/**/*.csproj" >> $GITHUB_ENV
           fi
