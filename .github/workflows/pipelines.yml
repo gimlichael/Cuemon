@@ -53,6 +53,8 @@ jobs:
 
       - name: Restore Dependencies
         uses: codebeltnet/dotnet-restore@v1
+        with:
+          useRestoreCache: true
 
       - name: Set environment variable for projects
         run: |
