@@ -116,6 +116,7 @@ jobs:
           else
             echo "PROJECTS=src/**/*.csproj" >> $GITHUB_ENV
           fi
+        shell: bash
 
       - name: Build for ${{ matrix.framework }} (${{ matrix.configuration }})
         uses: codebeltnet/dotnet-build@v2
@@ -165,6 +166,7 @@ jobs:
           else
             echo "BUILD_SWITCHES=-p:SkipSignAssembly=true --filter FullyQualifiedName!~SqlClient" >> $GITHUB_ENV
           fi
+        shell: bash
 
       - name: Spin up SQL Server test dependency for ${{ matrix.configuration }} build
         uses: codebeltnet/docker-compose@v1
