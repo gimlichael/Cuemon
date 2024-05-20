@@ -68,7 +68,7 @@ jobs:
         uses: codebeltnet/minver-calculate@v2
 
       - name: Set environment variable for projects
-        run: |
+        run: >-
           if [ "${{ matrix.framework }}" == "netstandard2.1" ]; then
             echo "PROJECTS=$(cat <<EOF
             src/**/Cuemon.Extensions.IO.csproj
