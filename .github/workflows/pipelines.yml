@@ -46,6 +46,12 @@ jobs:
         with:
           useRestoreCache: true
 
+      - name: Debug Cache
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
+          path: ${{ github.workspace }}
+
   build:
     name: 🛠️ Build
     runs-on: ubuntu-22.04
