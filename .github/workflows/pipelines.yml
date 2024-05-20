@@ -60,7 +60,7 @@ jobs:
             echo "PROJECTS=$(cat <<EOF
             src/**/Cuemon.Extensions.IO.csproj
             src/**/Cuemon.IO.csproj
-            EOF
+            EOF)
           elif [ "${{ matrix.framework }}" == "netstandard2.0" ]; then
             echo "PROJECTS=$(cat <<EOF
             src/**/Cuemon.Core.csproj
@@ -95,7 +95,7 @@ jobs:
             src/**/Cuemon.Security.Cryptography.csproj
             src/**/Cuemon.Threading.csproj
             src/**/Cuemon.Xml.csproj
-            EOF
+            EOF)
           else
             echo "PROJECTS=src/**/*.csproj" >> $GITHUB_ENV
           fi
