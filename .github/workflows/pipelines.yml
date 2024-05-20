@@ -21,6 +21,31 @@ on:
           - Release
 
 jobs:
+  prepare:
+    name: 🧰 Prepare
+    runs-on: ubuntu-22.04
+    outputs:
+      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+
+      - name: Download cuemon.snk file
+        uses: codebeltnet/gcp-download-file@v1
+        with: 
+          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
+          bucketName: ${{ secrets.GCP_BUCKETNAME }}
+          objectName: cuemon.snk
+
+      - id: dotnet-restore
+        name: Restore Dependencies
+        uses: codebeltnet/dotnet-restore@v2
+        with:
+          useRestoreCache: true
+  
   build:
     name: 🛠️ Build
     runs-on: ubuntu-22.04
@@ -28,12 +53,10 @@ jobs:
       matrix:
         configuration: [Debug, Release]
         framework:  [net8.0, net7.0, net6.0, netstandard2.1, netstandard2.0]
+    needs: [prepare]
     outputs:
       version: ${{ steps.minver-calculate.outputs.version }}
     steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
       - name: Install .NET
         uses: codebeltnet/install-dotnet@v1
 
@@ -43,18 +66,6 @@ jobs:
       - id: minver-calculate
         name: Calculate Version
         uses: codebeltnet/minver-calculate@v2
-
-      - name: Download cuemon.snk file
-        uses: codebeltnet/gcp-download-file@v1
-        with: 
-          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
-          bucketName: ${{ secrets.GCP_BUCKETNAME }}
-          objectName: cuemon.snk
-
-      - name: Restore Dependencies
-        uses: codebeltnet/dotnet-restore@v1
-        with:
-          useRestoreCache: true
 
       - name: Set environment variable for projects
         run: |
@@ -101,12 +112,14 @@ jobs:
           else
             echo "PROJECTS=src/**/*.csproj" >> $GITHUB_ENV
           fi
+
       - name: Build for ${{ matrix.framework }} (${{ matrix.configuration }})
-        uses: codebeltnet/dotnet-build@v1
+        uses: codebeltnet/dotnet-build@v2
         with:
           projects: ${{ env.PROJECTS }}
           configuration: ${{ matrix.configuration }}
           framework: ${{ matrix.framework }}
+          restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
 
   pack:
     name: 📦 Pack
