@@ -179,6 +179,7 @@ jobs:
       - name: Test with ${{ matrix.configuration }} build
         uses: codebeltnet/dotnet-test@v1
         with:
+          projects: ''
           configuration: ${{ matrix.configuration }}
           buildSwitches: ${{ env.BUILD_SWITCHES }}
         env:
