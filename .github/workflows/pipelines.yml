@@ -149,7 +149,7 @@ jobs:
       matrix:
         os: [ubuntu-22.04, windows-2022]
         configuration: [Debug, Release]
-        project: ${{ needs.prepare.outputs.testProjects }}
+        project: ${{ fromJson(needs.prepare.outputs.testProjects) }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
