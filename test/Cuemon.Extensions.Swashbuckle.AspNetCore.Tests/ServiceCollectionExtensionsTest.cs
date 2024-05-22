@@ -65,7 +65,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         ],
         ""responses"": {
           ""200"": {
-            ""description"": ""Success""
+            ""description"": ""OK""
           }
         }
       }
@@ -101,7 +101,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         ],
         ""responses"": {
           ""200"": {
-            ""description"": ""Success""
+            ""description"": ""OK""
           }
         }
       }
@@ -204,7 +204,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         ""summary"": ""Gets an OK response with a body of Unit Test V1."",
         ""responses"": {
           ""200"": {
-            ""description"": ""Success""
+            ""description"": ""OK""
           }
         }
       }
@@ -252,7 +252,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         ],
         ""responses"": {
           ""200"": {
-            ""description"": ""Success""
+            ""description"": ""OK""
           }
         }
       }

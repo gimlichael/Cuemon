@@ -69,7 +69,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         ],
         ""responses"": {
           ""200"": {
-            ""description"": ""Success""
+            ""description"": ""OK""
           }
         }
       }
@@ -136,7 +136,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         ],
         ""responses"": {
           ""200"": {
-            ""description"": ""Success""
+            ""description"": ""OK""
           }
         }
       }
@@ -207,7 +207,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
         ],
         ""responses"": {
           ""200"": {
-            ""description"": ""Success""
+            ""description"": ""OK""
           }
         }
       }
