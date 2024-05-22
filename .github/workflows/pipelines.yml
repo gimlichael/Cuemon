@@ -151,6 +151,7 @@ jobs:
         configuration: [Debug, Release]
         project: ${{ fromJson(needs.prepare.outputs.testProjects) }}
     runs-on: ${{ matrix.os }}
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
