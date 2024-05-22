@@ -162,6 +162,7 @@ jobs:
         uses: codebeltnet/dotnet-tool-install-reportgenerator@v1
 
       - name: Spin up SQL Server test dependency for ${{ matrix.configuration }} build
+        if: ${{ contains(matrix.project, 'Cuemon.Data.SqlClient.Tests') }}
         uses: codebeltnet/docker-compose@v1
         with:
           command: up
@@ -170,7 +171,7 @@ jobs:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
       - name: Test with ${{ matrix.configuration }} build
-        if: ${{ !(runner.os == 'Windows' && matrix.project == 'Cuemon.Data.SqlClient.Tests') }}
+        if: ${{ !(runner.os == 'Windows' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
         uses: codebeltnet/dotnet-test@v2
         with:
           projects: ${{ matrix.project }}
@@ -180,6 +181,7 @@ jobs:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
       - name: Take down SQL Server test dependency for ${{ matrix.configuration }} build
+        if: ${{ contains(matrix.project, 'Cuemon.Data.SqlClient.Tests') }}
         uses: codebeltnet/docker-compose@v1
         with:
           command: down
