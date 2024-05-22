@@ -26,6 +26,7 @@ jobs:
     runs-on: ubuntu-22.04
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
+      testProjects: ${{ steps.test-projects.outputs.result }}
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -46,11 +47,11 @@ jobs:
         with:
           useRestoreCache: true
 
-      - name: Debug Cache
-        uses: actions/upload-artifact@v4
+      - id: test-projects
+        name: Generate matrix for test projects
+        uses: codebeltnet/shell-globbing@v1
         with:
-          name: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
-          path: ${{ github.workspace }}
+          pattern: test/**/*.csproj
 
   build:
     name: 🛠️ Build
@@ -148,6 +149,7 @@ jobs:
       matrix:
         os: [ubuntu-22.04, windows-2022]
         configuration: [Debug, Release]
+        project: [${{ needs.prepare.outputs.testProjects }}]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -159,15 +161,6 @@ jobs:
       - name: Install .NET Tool - Report Generator
         uses: codebeltnet/dotnet-tool-install-reportgenerator@v1
 
-      - name: Set environment variable for build switches
-        run: |
-          if [ "${{ runner.os }}" == "Linux" ]; then
-            echo "BUILD_SWITCHES=-p:SkipSignAssembly=true" >> $GITHUB_ENV
-          else
-            echo "BUILD_SWITCHES=-p:SkipSignAssembly=true --filter FullyQualifiedName!~SqlClient" >> $GITHUB_ENV
-          fi
-        shell: bash
-
       - name: Spin up SQL Server test dependency for ${{ matrix.configuration }} build
         uses: codebeltnet/docker-compose@v1
         with:
@@ -177,11 +170,12 @@ jobs:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
       - name: Test with ${{ matrix.configuration }} build
+        if: ${{ !(runner.os == 'Windows' && matrix.project == 'Cuemon.Data.SqlClient.Tests') }}
         uses: codebeltnet/dotnet-test@v1
         with:
-          projects: ''
+          projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
-          buildSwitches: ${{ env.BUILD_SWITCHES }}
+          buildSwitches: -p:SkipSignAssembly=true
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
