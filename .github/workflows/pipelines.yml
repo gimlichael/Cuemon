@@ -26,7 +26,6 @@ jobs:
     runs-on: ubuntu-22.04
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
-      testProjects: ${{ steps.test-projects.outputs.result }}
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -47,12 +46,6 @@ jobs:
         with:
           useRestoreCache: true
 
-      - id: test-projects
-        name: Generate matrix for test projects
-        uses: codebeltnet/shell-globbing@v1
-        with:
-          pattern: test/**/*.csproj
-
   build:
     name: 🛠️ Build
     runs-on: ubuntu-22.04
@@ -63,6 +56,7 @@ jobs:
     needs: [prepare]
     outputs:
       version: ${{ steps.minver-calculate.outputs.version }}
+      testProjects: ${{ steps.test-projects.outputs.result }}
     steps:
       - name: Install .NET
         uses: codebeltnet/install-dotnet@v1
@@ -127,6 +121,12 @@ jobs:
           framework: ${{ matrix.framework }}
           restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
 
+      - id: test-projects
+        name: Generate matrix for test projects
+        uses: codebeltnet/shell-globbing@v1
+        with:
+          pattern: test/**/*.csproj
+
   pack:
     name: 📦 Pack
     runs-on: ubuntu-22.04
@@ -149,7 +149,7 @@ jobs:
       matrix:
         os: [ubuntu-22.04, windows-2022]
         configuration: [Debug, Release]
-        project: [${{ needs.prepare.outputs.testProjects }}]
+        project: ${{ needs.build.outputs.testProjects }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
