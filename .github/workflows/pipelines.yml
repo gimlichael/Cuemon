@@ -171,7 +171,7 @@ jobs:
 
       - name: Test with ${{ matrix.configuration }} build
         if: ${{ !(runner.os == 'Windows' && matrix.project == 'Cuemon.Data.SqlClient.Tests') }}
-        uses: codebeltnet/dotnet-test@v1
+        uses: codebeltnet/dotnet-test@v2
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
