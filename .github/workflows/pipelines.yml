@@ -153,9 +153,6 @@ jobs:
         project: ${{ fromJson(needs.prepare.outputs.testProjects) }}
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout
-        uses: codebeltnet/git-checkout@v1
-
       - name: Install .NET
         uses: codebeltnet/install-dotnet@v1
 
@@ -182,7 +179,8 @@ jobs:
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
-          buildSwitches: -p:SkipSignAssembly=true
+          buildSwitches: --no-restore -p:SkipSignAssembly=true
+          restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
