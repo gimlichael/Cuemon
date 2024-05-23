@@ -172,6 +172,7 @@ jobs:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
       - name: Sleep for 60 seconds
+        if: ${{ contains(matrix.project, 'Cuemon.Data.SqlClient.Tests') }}
         run: sleep 60s
         shell: bash
 
