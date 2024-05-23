@@ -146,12 +146,12 @@ jobs:
     name: 🧪 Test
     needs: [prepare, build]
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-22.04, windows-2022]
         configuration: [Debug, Release]
         project: ${{ fromJson(needs.prepare.outputs.testProjects) }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -167,7 +167,7 @@ jobs:
         uses: codebeltnet/docker-compose@v1
         with:
           command: up
-          options: -d
+          options: -d --wait
         env:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
 
