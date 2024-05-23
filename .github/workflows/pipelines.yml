@@ -153,6 +153,10 @@ jobs:
         project: ${{ fromJson(needs.prepare.outputs.testProjects) }}
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Checkout
+        if: ${{ contains(matrix.project, 'Cuemon.Data.SqlClient.Tests') }}
+        uses: codebeltnet/git-checkout@v1
+
       - name: Install .NET
         uses: codebeltnet/install-dotnet@v1
 
