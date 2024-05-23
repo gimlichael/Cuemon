@@ -8,7 +8,7 @@ services:
     ports:
         - "1433:1433"
     environment:
-      SA_PASSWORD:
+      SA_PASSWORD: ${SA_PASSWORD}
       ACCEPT_EULA: "Y"
       SECONDS_TO_AWAIT_SQLSERVER: "45"
       MSSQL_PID: "Express"
