@@ -167,9 +167,13 @@ jobs:
         uses: codebeltnet/docker-compose@v1
         with:
           command: up
-          options: -d --wait
+          options: --wait
         env:
           SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
+
+      - name: Sleep for 60 seconds
+        run: sleep 60s
+        shell: bash
 
       - name: Test with ${{ matrix.configuration }} build
         if: ${{ !(runner.os == 'Windows' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
