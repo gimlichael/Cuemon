@@ -9,7 +9,7 @@
         {
             "name": "Docker-Ubuntu",
             "type": "docker",
-            "dockerImage": "gimlichael/ubuntu-testrunner:net6.0.418-net7.0.405-net8.0.101"
+            "dockerImage": "gimlichael/ubuntu-testrunner:net6.0.422-net7.0.409-net8.0.300"
         }
     ]
 }
