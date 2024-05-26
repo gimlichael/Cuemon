@@ -186,6 +186,7 @@ jobs:
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
+          level: normal
           buildSwitches: --no-restore -p:SkipSignAssembly=true
           restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
         env:
