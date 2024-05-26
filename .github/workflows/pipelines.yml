@@ -23,7 +23,10 @@ on:
 jobs:
   prepare:
     name: 🧰 Prepare
-    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, windows-2022] # had to add this due to caching issue
+    runs-on: ${{ matrix.os }}
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
       testProjects: ${{ steps.test-projects.outputs.result }}
@@ -178,7 +181,7 @@ jobs:
         shell: bash
 
       - name: Test with ${{ matrix.configuration }} build
-        if: ${{ !(runner.os == 'Windows' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
+        if: ${{ contains(matrix.project, 'Cuemon.Data.SqlClient.Tests') }}
         uses: codebeltnet/dotnet-test@v2
         with:
           projects: ${{ matrix.project }}
