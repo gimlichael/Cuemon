@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+    <ProjectGuid>a00adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.AspNetCore namespace contains types focusing on providing means for easier plumber coding in the ASP.NET Core pipeline while serving some nice of the shell concrete implementation as well. The namespace is an addition to the Microsoft.AspNetCore namespace.</Description>
+    <PackageTags>configurable-middleware middleware http-exception-descriptor throttling-sentinel-middleware user-agent-sentinel-middleware request-identifier-middleware correlation-identifier-middleware hosting-environment-middleware server-timing cache-busting middleware-builder-factory</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
+    <ProjectReference Include="..\Cuemon.Data.Integrity\Cuemon.Data.Integrity.csproj" />
+    <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
+  </ItemGroup>
+
+</Project>

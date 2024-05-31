@@ -1,0 +1,15 @@
+{
+    "version": "1",
+    "environments": [
+        {
+            "name": "WSL-Ubuntu",
+            "type": "wsl",
+            "wslDistribution": "Ubuntu-22.04"
+        },
+        {
+            "name": "Docker-Ubuntu",
+            "type": "docker",
+            "dockerImage": "gimlichael/ubuntu-testrunner:net6.0.423-net7.0.410-net8.0.301"
+        }
+    ]
+}

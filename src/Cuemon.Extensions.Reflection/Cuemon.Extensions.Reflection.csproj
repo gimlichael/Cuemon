@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectGuid>090bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Extensions.Reflection namespace contains extension methods that complements the Cuemon.Reflection namespace while being an addition to the System.Reflection namespace.</Description>
+    <PackageTags>extension-methods extensions get-assembly-version get-file-version get-product-version is-debug-build has-attributes is-auto-property get-runtime-properties-except-of</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+  </ItemGroup>
+
+</Project>

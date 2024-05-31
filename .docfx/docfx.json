@@ -1,0 +1,266 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Core/**.csproj",
+            "Cuemon.Data/**.csproj",
+            "Cuemon.Data.Integrity/**.csproj",
+            "Cuemon.Data.SqlClient/**.csproj",
+            "Cuemon.Diagnostics/**.csproj",
+            "Cuemon.IO/**.csproj",
+            "Cuemon.Net/**.csproj",
+            "Cuemon.Resilience/**.csproj",
+            "Cuemon.Runtime.Caching/**.csproj",
+            "Cuemon.Security.Cryptography/**.csproj",
+            "Cuemon.Threading/**.csproj",
+            "Cuemon.Xml/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/dotnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.Collections.Generic/**.csproj",
+            "Cuemon.Extensions.Collections.Specialized/**.csproj",
+            "Cuemon.Extensions.Core/**.csproj",
+            "Cuemon.Extensions.Data/**.csproj",
+            "Cuemon.Extensions.Data.Integrity/**.csproj",
+            "Cuemon.Extensions.DependencyInjection/**.csproj",
+            "Cuemon.Extensions.Diagnostics/**.csproj",
+            "Cuemon.Extensions.Globalization/**.csproj",
+            "Cuemon.Extensions.Hosting/**.csproj",
+            "Cuemon.Extensions.IO/**.csproj",
+            "Cuemon.Extensions.Net/**.csproj",
+            "Cuemon.Extensions.Reflection/**.csproj",
+            "Cuemon.Extensions.Runtime.Caching/**.csproj",
+            "Cuemon.Extensions.Text/**.csproj",
+            "Cuemon.Extensions.Text.Json/**.csproj",
+            "Cuemon.Extensions.Threading/**.csproj",
+            "Cuemon.Extensions.Xml/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/dotnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.Asp.Versioning/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/aspversioning",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.AspNetCore.Authentication.AwsSignature4/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/awssignature4",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.YamlDotNet/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/yamldotnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Newtonsoft.Json/**.csproj",
+            "Cuemon.Extensions.Newtonsoft.Json/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/jsonnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.Swashbuckle.AspNetCore/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/swagger",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.Xunit/**.csproj",
+            "Cuemon.Extensions.Xunit.Hosting/**.csproj",
+            "Cuemon.Extensions.Xunit.Hosting.AspNetCore/**.csproj",
+            "Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/xunit",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.AspNetCore/**.csproj",
+            "Cuemon.AspNetCore.Authentication/**.csproj",
+            "Cuemon.AspNetCore.Mvc/**.csproj",
+            "Cuemon.AspNetCore.Razor.TagHelpers/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/aspnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "Cuemon.Extensions.AspNetCore/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Authentication/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Mvc/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Mvc.RazorPages/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Text.Json/**.csproj",
+            "Cuemon.Extensions.AspNetCore.Xml/**.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api/extensions/aspnet",
+      "filter": "filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    }
+  ],
+  "build": {
+    "xref": [
+      "https://docs.cuemon.net/xrefmap.yml"
+    ],
+    "content": [
+      {
+        "files": [
+          "api/**/*.yml",
+          "api/**/*.md",
+          "packages/**/*.md",
+          "toc.yml",
+          "*.md"
+        ],
+        "exclude": [
+          "bin/**",
+          "obj/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "globalMetadata": {
+      "_appTitle": "Cuemon for .NET",
+      "_appFooter": "<span>Generated by <strong>DocFX</strong>. Copyright 2008-2024 Geekle. All rights reserved. Code with passion; love your work; deploy with confidence 👨‍💻️🔥❤️🚀😎</span>",
+      "_appLogoPath": "images/50x50.png",
+      "_appFaviconPath": "images/favicon.ico",
+      "_googleAnalyticsTagId": "UA-126254455-1",
+      "_disableBreadcrumb": true,
+      "_enableSearch": true,
+      "_disableContribution": false,
+      "_gitContribute": {
+        "repo": "https://github.com/gimlichael/Cuemon",
+        "branch": "development"
+      },
+      "_gitUrlPattern": "github",
+      "_lang": "en"
+    },
+    "dest": "wwwroot",
+    "globalMetadataFiles": [],
+    "fileMetadataFiles": [],
+    "template": [
+      "default",
+      "modern",
+      "templates/cuemon"
+    ],
+    "overwrite": [
+      {
+        "files": [
+          "api/namespaces/**.md"
+        ],
+        "exclude": [
+          "obj/**",
+          "wwwroot/**"
+        ]
+      }
+    ],
+    "postProcessors": [],
+    "markdownEngineName": "markdig",
+    "noLangKeyword": false,
+    "keepFileLink": false,
+    "cleanupCacheHistory": false,
+    "disableGitFeatures": false,
+    "xrefService": [
+      "https://xref.docs.microsoft.com/query?uid={uid}" ]
+  }
+}

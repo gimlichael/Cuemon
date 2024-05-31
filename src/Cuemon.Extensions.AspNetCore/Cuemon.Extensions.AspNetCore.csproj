@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+    <ProjectGuid>a40adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Extensions.AspNetCore namespace contains both types and extension methods that complements the Cuemon.AspNetCore namespace while being an addition to the Microsoft.AspNetCore namespace. Provides an in-memory implementation of a throttling cache for ASP.NET Core.</Description>
+    <PackageTags>extension-methods extensions memory-throttling-cache use-hosting-environment-header use-correlation-identifier-header use-request-identifier-header use-user-agent-sentinel use-custom-throttling-sentinel</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.AspNetCore\Cuemon.AspNetCore.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Data.Integrity\Cuemon.Extensions.Data.Integrity.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.DependencyInjection\Cuemon.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Diagnostics\Cuemon.Extensions.Diagnostics.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.YamlDotNet\Cuemon.Extensions.YamlDotNet.csproj" />
+    <ProjectReference Include="..\Cuemon.Security.Cryptography\Cuemon.Security.Cryptography.csproj" />
+  </ItemGroup>
+
+</Project>

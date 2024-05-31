@@ -1,0 +1,16 @@
+﻿Version 8.2.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace that consist of extension methods for the JsonConverter class: AddHttpExceptionDescriptorConverter and AddStringValuesConverter
+- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Formatters namespace that consist of extension methods for the IServiceCollection interface: AddJsonFormatterOptions and AddJsonExceptionResponseFormatter
+ 

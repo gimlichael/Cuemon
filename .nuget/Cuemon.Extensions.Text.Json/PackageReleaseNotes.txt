@@ -1,0 +1,43 @@
+﻿Version 8.3.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Bug Fixes
+- FIXED ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to use Environment.NewLine instead of Alphanumeric.NewLine (vital for non-Windows operating systems)
+ 
+Version 8.2.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Improvements
+- CHANGED JsonFormatterOptions class in the Cuemon.Extensions.Text.Json.Formatters namespace to derive from IExceptionDescriptorOptions
+ 
+Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- CHANGED JsonFormatterOptions class in the Cuemon.Extensions.Text.Json.Formatters namespace to (consciously) use JavaScriptEncoder.UnsafeRelaxedJsonEscaping as the default Encoder on the JsonSerializerOptions instance
+ - Sometime you have to balance security and usability/developer experience; if you need to expose a highly secured API you can simply change this settings as part of your application startup
+ 
+# Quality Analysis Actions
+- CHANGED ExceptionConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+ 

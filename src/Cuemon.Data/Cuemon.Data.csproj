@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectGuid>110bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Data namespace contains types that provide ways to connect, build and manipulate different data sources. The namespace is an addition to the System.Data namespace.</Description>
+    <PackageTags>database db abstractions dto data-transfer row column bulk-copy dsv csv xml-data-reader dsv-data-reader concurrent-dsv-data-reader in-operator token-builder</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+  </ItemGroup>
+
+</Project>

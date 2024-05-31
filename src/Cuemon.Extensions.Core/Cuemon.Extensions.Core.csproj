@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectGuid>020bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootNamespace>Cuemon.Extensions</RootNamespace>
+    <AssemblyName>Cuemon.Extensions.Core</AssemblyName>
+    <AssemblyTitle>Cuemon.Extensions</AssemblyTitle>
+    <Title>Cuemon.Extensions</Title>
+    <Description>The Cuemon.Extensions namespace contains extension methods that complements the Cuemon namespace while being an addition to the System namespace.</Description>
+    <PackageTags>extension-methods extensions to-byte-array flatten to-encoded-string configure create-instance action-delegate options-pattern</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+  </ItemGroup>
+
+</Project>

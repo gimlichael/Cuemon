@@ -1,0 +1,34 @@
+﻿@page "regions"
+@using Cuemon.Extensions.Globalization
+@using Cuemon.Globalization
+@{ViewData["Title"] = "Regions | S13N.info";}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h1>
+            <mark>Regions</mark>
+        </h1>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 text-center">
+        @{
+            foreach (var r in World.Regions)
+            {
+                var cultures = r.GetCultures().Count();
+                var label = cultures == 1 ? "culture" : "cultures";
+                if (cultures == 1)
+                {
+                    <a href="@Url.Action("Index", "Region")/@r.Name.ToLowerInvariant()/@r.DisplayName.ToLowerInvariant()/cultures/@r.GetCultures().Single().Name.ToLowerInvariant()" class="btn btn-default">@r.EnglishName <span class="badge">@cultures @label</span></a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "Region")/@r.Name.ToLowerInvariant()/@r.DisplayName.ToLowerInvariant()" class="btn btn-default">@r.EnglishName <span class="badge">@cultures @label</span></a>
+                }
+            }
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>

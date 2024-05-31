@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectGuid>050bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Extensions.Data.Integrity namespace contains extension methods that complements the Cuemon.Data.Integrity namespace.</Description>
+    <PackageTags>extension-methods extensions get-cache-validator combine-with</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Data.Integrity\Cuemon.Data.Integrity.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,44 @@
+﻿@using Cuemon.Extensions.AspNetCore.Mvc.Rendering
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="DC.language" content="eng" scheme="ISO 639-2/B">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="application-name" content="S13N.info" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="//nblcdn.net/themes/s13n.info/img/144x144.png?v=@CacheBusting.Version" />
+    <link rel="stylesheet" href="//nblcdn.net/shared/bootstrap/3.3/css/bootstrap.min.css?v=@CacheBusting.Version">
+    <link rel="stylesheet" href="//nblcdn.net/Themes/s13n.info/css/site.css?v=@CacheBusting.Version">
+    <link rel="shortcut icon" href="//nblcdn.net/themes/s13n.info/favicon.ico?v=@CacheBusting.Version" />
+    <link rel="icon" type="image/vnd.microsoft.icon" href="//nblcdn.net/themes/s13n.info/favicon.ico?v=@CacheBusting.Version" />
+    <link rel="image_src" href="//nblcdn.net/themes/s13n.info/img/512x512.png?v=@CacheBusting.Version" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="menu-s13n">
+            <ul class="nav navbar-nav">
+                <li class="@Html.UseWhenView("Index", "Home", () => "active")"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li class="@Html.UseWhenView("Index,Region,Culture", "Region", () => "active")"><a href="@Url.Action("Index", "Region")">Regions</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+@Html.UseWhenView("Index,Region,Culture", "DayTime,Region", () => Html.Partial("_Breadcrumb"))
+<section>
+    <div id="body" class="container-fluid">
+        @RenderBody()
+        <footer class="navbar-default navbar-fixed-bottom">
+            <div id="copyright" class="container-fluid text-center">
+                <small>
+                    © 2014-@DateTime.UtcNow.Date.Year Geekle. All rights reserved.
+                    <a href="https://www.cuemon.net/" class="text-muted">Powered by Cuemon for .NET</a>
+                </small>
+            </div>
+        </footer>
+    </div>
+</section>
+</body>
+</html>

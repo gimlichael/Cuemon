@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+    <ProjectGuid>ad0adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Extensions.AspNetCore.Newtonsoft.Json namespace contains both types and extension methods that complements the Cuemon.Extensions.AspNetCore/Cuemon.Extensions.Newtonsoft.Json namespace while being an addition to the Microsoft.AspNetCore namespace. Extends upon JSON formatters and converters in the context of ASP.NET Core for Newtonsoft.Json.</Description>
+    <PackageTags>extension-methods extensions json-converters asp-net-core asp-net aspnet di depedency-injection json newtonsoft-json</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Extensions.AspNetCore\Cuemon.Extensions.AspNetCore.csproj" />
+    <ProjectReference Include="..\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />
+  </ItemGroup>
+
+</Project>

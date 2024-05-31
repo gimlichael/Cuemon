@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+    <ProjectGuid>aa0adf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+    <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Extensions.Swashbuckle.AspNetCore namespace contains types and extension methods that complements the Swashbuckle.AspNetCore namespace by adding new ways of working with Open API 3.x.</Description>
+    <PackageTags>extension-methods extensions document-filter operation-filter restful user-agent x-api-key jwt-bearer restful-swagger</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Extensions.Asp.Versioning\Cuemon.Extensions.Asp.Versioning.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+</Project>

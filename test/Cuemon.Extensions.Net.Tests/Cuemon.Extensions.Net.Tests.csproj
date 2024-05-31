@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Cuemon.Extensions.Net</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cuemon.Extensions.Net\Cuemon.Extensions.Net.csproj" />
+    <ProjectReference Include="..\..\src\Cuemon.Threading\Cuemon.Threading.csproj" />
+  </ItemGroup>
+
+</Project>

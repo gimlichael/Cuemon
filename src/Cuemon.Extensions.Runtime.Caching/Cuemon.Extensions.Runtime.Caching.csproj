@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectGuid>1f0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Extensions.Runtime.Caching namespace contains extension methods that complements the Cuemon.Runtime.Caching namespace by adding support for Memoization techniques and GetOrAdd convenience; both with vast overloads and extended by the ICacheEnumerable{TKey} interface for loose coupling.</Description>
+    <PackageTags>extension-methods extensions memoization memoize get-or-add thread-safe caching</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Runtime.Caching\Cuemon.Runtime.Caching.csproj" />
+  </ItemGroup>
+
+</Project>

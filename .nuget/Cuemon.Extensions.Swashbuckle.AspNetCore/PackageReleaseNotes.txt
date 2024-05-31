@@ -1,0 +1,34 @@
+﻿Version 8.2.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- EXTENDED SwaggerGenOptionsExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace with one new extension method for the SwaggerGenOptions class: AddBasicAuthenticationSecurity
+ 
+# Improvements
+- CHANGED RestfulSwaggerOptions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace to include a function delegate property named JsonSerializerOptionsFactory that will resolve a JsonSerializerOptions instance in a more flexible way than provided by the Swagger team
+- CHANGED ServiceCollectionExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace to support JsonSerializerOptionsFactory in the AddRestfulSwagger extension method
+ 
+Version: 8.1.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Quality Analysis Actions
+- CHANGED SwaggerGenOptionsExtensions class in the Cuemon.Extensions.Swashbuckle.AspNetCore namespace to be compliant with https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1825
+ 

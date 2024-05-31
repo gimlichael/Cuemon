@@ -1,0 +1,36 @@
+﻿Version 8.2.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Improvements
+- CHANGED AuthorizationResponseHandler class in the Cuemon.Extensions.AspNetCore.Authentication namespace to rely on IAuthenticateResultFeature
+- CHANGED AuthorizationResponseHandlerOptions class in the Cuemon.Extensions.AspNetCore.Authentication namespace to include a function delegate property named AuthorizationFailureHandler that provides the reason/requirement/generic message of the failed authorization
+ 
+Version: 8.1.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED AuthenticationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Authentication namespace that consist of extension methods for the AuthenticationBuilder class: AddBasic, AddDigestAccess and AddHmac
+- ADDED AuthorizationResponseHandler class in the Cuemon.Extensions.AspNetCore.Authentication namespace that provides an opinionated implementation of IAuthorizationMiddlewareResultHandler that is optimized to deliver meaningful responses based on HTTP content negotiation
+- ADDED AuthorizationResponseHandlerOptions class in the Cuemon.Extensions.AspNetCore.Authentication namespace that specifies options that is related to AuthorizationResponseHandler operations
+- ADDED ServiceCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Authentication namespace that consist of extension methods for the IServiceCollection interface: AddAuthorizationResponseHandler
+ 
+Version: 8.0.1
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
+Availability: .NET 8, .NET 7 and .NET 6
+ 
+# ALM
+- ADDED TFM for net8.0
+- REMOVED TFM for netstandard2.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectGuid>140bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Net namespace contains types that provides a simple programming interface for HTTP and SMTP protocols. The namespace is an addition to the System.Net namespace.</Description>
+    <PackageTags>http-manager http-get http-post http-put http-patch http-delete http-trace mail-distributor smtp-client</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+    <ProjectReference Include="..\Cuemon.IO\Cuemon.IO.csproj" />
+  </ItemGroup>
+
+</Project>

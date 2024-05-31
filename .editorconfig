@@ -1,0 +1,34 @@
+# This style rule concern the use of the range operator, which is available in C# 8.0 and later.
+# https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0057
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0057.severity = none
+
+# This style rule concerns the use of switch expressions versus switch statements.
+# https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0066
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0066.severity = none
+
+# Performance rules
+# https://docs.microsoft.com/da-dk/dotnet/fundamentals/code-analysis/quality-rules/performance-warnings
+[*.{cs,vb}]
+dotnet_analyzer_diagnostic.category-Performance.severity = none # Because many of the suggestions by performance analyzers are not compatible with .NET Standard 2.0
+
+# This style rule concerns the use of using statements without curly braces, also known as using declarations. This alternative syntax was introduced in C# 8.0.
+# https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0063
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0063.severity = none
+
+# This style rule concerns with simplification of interpolated strings to improve code readability. It recommends removal of certain explicit method calls, such as ToString(), when the same method would be implicitly invoked by the compiler if the explicit method call is removed.
+# https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0071
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0071.severity = none
+
+# S3267: Loops should be simplified with "LINQ" expressions
+# https://rules.sonarsource.com/csharp/RSPEC-3267
+dotnet_diagnostic.S3267.severity = none
+
+# CA1859: Use concrete types when possible for improved performance
+# This is a violation of Framework Design Guidelines.
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1859
+[*.{cs,vb}]
+dotnet_diagnostic.CA1859.severity = none

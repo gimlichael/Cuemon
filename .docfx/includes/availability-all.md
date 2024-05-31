@@ -1,0 +1,1 @@
+Availability: .NET 8, .NET 7, .NET 6, .NET Standard 2.1 and .NET Standard 2.0

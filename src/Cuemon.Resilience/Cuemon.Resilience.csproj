@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectGuid>0e0bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>The Cuemon.Resilience namespace contains types related to applying transient fault handling to existing code using intuitively named methods taking both Action{..} and Func{..} delegates to provide a lightweight resilience framework.</Description>
+    <PackageTags>transient-fault-handling transient-fault-evidence transient-fault-exception transient-operation async-transient-operation latency-exception</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cuemon.Core\Cuemon.Core.csproj" />
+  </ItemGroup>
+
+</Project>

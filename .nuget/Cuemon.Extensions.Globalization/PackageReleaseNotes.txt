@@ -1,0 +1,37 @@
+﻿Version 8.3.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# Improvements
+- CHANGED CultureInfoExtensions class in the Cuemon.Extensions.Globalization namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CHANGED CultureInfoSurrogate class in the Cuemon.Extensions.Globalization namespace to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+- CHANGED tooling/gse to use Cuemon.Extensions.YamlDotNet assembly instead of legacy YAML support in Cuemon.Core assembly
+ 
+Version 8.2.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.1.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.1
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+  
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+Version: 8.0.0
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+  
+# ALM
+- ADDED TFM for net8.0
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Improvements
+- ADDED tooling/gse to the solution folder that is used for extracting NLS surrogates; this was done to mitigate the original design decision that was most [unfortunate](https://github.com/gimlichael/Cuemon/commit/71ff4f9ecb95897170aab1e6ba894c320ae095bd)
+ - gse stands for globalization surrogates extractor
+ 

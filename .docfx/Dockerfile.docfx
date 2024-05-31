@@ -1,0 +1,15 @@
+﻿FROM nginx:1.26.0-alpine AS base
+RUN rm -rf /usr/share/nginx/html/*
+
+FROM codebeltnet/docfx:2.75.3 AS build
+
+ADD [".", "docfx"]
+
+RUN cd docfx; \
+    docfx build
+
+FROM base AS final
+WORKDIR /usr/share/nginx/html
+COPY --from=build /build/docfx/wwwroot /usr/share/nginx/html
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
