@@ -202,6 +202,7 @@ jobs:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
           restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
+          buildSwitches: -p:SkipSignAssembly=true
           downloadBuildArtifact: true
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
@@ -250,6 +251,7 @@ jobs:
       - name: Build
         uses: codebeltnet/dotnet-build@v1
         with:
+          buildSwitches: -p:SkipSignAssembly=true
           uploadBuildArtifact: false
 
       - name: Finalize SonarCloud Analysis
