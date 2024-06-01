@@ -37,13 +37,6 @@ jobs:
       - name: Install .NET
         uses: codebeltnet/install-dotnet@v1
 
-      - name: Download cuemon.snk file
-        uses: codebeltnet/gcp-download-file@v1
-        with:
-          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
-          bucketName: ${{ secrets.GCP_BUCKETNAME }}
-          objectName: cuemon.snk
-
       - id: dotnet-restore
         name: Restore Dependencies
         uses: codebeltnet/dotnet-restore@v2
@@ -79,6 +72,13 @@ jobs:
       - id: minver-calculate
         name: Calculate Version
         uses: codebeltnet/minver-calculate@v2
+
+      - name: Download cuemon.snk file
+        uses: codebeltnet/gcp-download-file@v1
+        with:
+          serviceAccountKey: ${{ secrets.GCP_TOKEN }}
+          bucketName: ${{ secrets.GCP_BUCKETNAME }}
+          objectName: cuemon.snk
 
       - name: Set environment variable for projects
         run: |
@@ -194,7 +194,6 @@ jobs:
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
-          buildSwitches: -p:SkipSignAssembly=true
           restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
           downloadBuildArtifact: true
         env:
@@ -244,7 +243,6 @@ jobs:
       - name: Build
         uses: codebeltnet/dotnet-build@v1
         with:
-          buildSwitches: -p:SkipSignAssembly=true
           uploadBuildArtifact: false
 
       - name: Finalize SonarCloud Analysis
