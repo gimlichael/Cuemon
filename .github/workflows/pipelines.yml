@@ -301,6 +301,7 @@ jobs:
         uses: codebeltnet/codeql-scan-finalize@v1
 
   deploy:
+    if: github.event_name != 'pull_request'
     name: 🚀 Deploy v${{ needs.build.outputs.version }}
     runs-on: ubuntu-22.04
     needs: [build, pack, test, sonarcloud, codecov, codeql]
