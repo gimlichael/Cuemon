@@ -6,6 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [TBD]
+
+### Removed
+
+- TFM net7.0 for all projects due to [EOL](https://endoflife.date/dotnet)
+
+
+## [8.3.1] - 2024-06-01
+
+This release was primarily focused on adapting a more modern way of performing CI/CD while making 3rd party tools more agnostic to the ever changing world of technology. Highlight of non-code changes:
+
+- Azure DevOps pipelines has been replaced with GitHub Actions
+- DocFX documentation now supports hosting on ARM based platforms
+- Adapted trunk based branching that is more aligned with todays DevSecOps practices
+- Added branch protection rules that ensures a linear git history and requires pull request before merging
+
+### Dependencies
+
+- Cuemon.Extensions.Swashbuckle.AspNetCore updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.Xunit updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.Xunit.Hosting updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.Xunit.Hosting.AspNetCore updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.YamlDotNet updated to latest and greatest with respect to TFMs
+
+### Added
+
+- IWebHostTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that represents the members needed for ASP.NET Core (including but not limited to MVC, Razor and related) testing
+- WebHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that provides a set of static methods for ASP.NET Core (including, but not limited to MVC, Razor and related) unit testing
+
+### Deprecated
+
+- IMiddlewareTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace; use the consolidated IWebHostTest instead
+- MiddlewareTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace; use the consolidated WebHostTestFactory instead
+- IWebApplicationTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace; use the consolidated IWebHostTest in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace instead
+- WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace; use the consolidated WebHostTestFactory in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace instead
+
 ## [8.3.0] - 2024-04-09
 
 ### Added

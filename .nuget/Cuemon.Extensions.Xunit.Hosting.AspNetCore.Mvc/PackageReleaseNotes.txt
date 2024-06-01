@@ -1,4 +1,14 @@
-﻿Version 8.3.0
+﻿Version 8.3.1
+Availability: .NET 8, .NET 7, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Improvements
+- DEPRECATED IWebApplicationTest interface in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace; use the consolidated IWebHostTest in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace instead
+- DEPRECATED WebApplicationTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc namespace; use the consolidated WebHostTestFactory in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace instead
+ 
+Version 8.3.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # ALM
