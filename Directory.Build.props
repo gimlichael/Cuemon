@@ -4,6 +4,7 @@
     <IsLinux>$([MSBuild]::IsOSPlatform('Linux'))</IsLinux>
     <IsWindows>$([MSBuild]::IsOSPlatform('Windows'))</IsWindows>
     <IsMainAuthor Condition="'$(EMAIL)' == 'michael@geekle.io'">true</IsMainAuthor>
+     <SkipSignAssembly>false</SkipSignAssembly>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -31,7 +32,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <SignAssembly Condition="'$(CI)' == 'true' OR '$(IsMainAuthor)' == 'true'">true</SignAssembly>
+    <SignAssembly Condition="('$(CI)' == 'true' OR '$(IsMainAuthor)' == 'true') AND '$(SkipSignAssembly)' == 'false'">true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)cuemon.snk</AssemblyOriginatorKeyFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
