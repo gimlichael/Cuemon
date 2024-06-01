@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 {
     /// <summary>
-    /// Provides a set of static methods for ASP.NET Core, ASP.NET Core MVC, Razor and related unit testing.
+    /// Provides a set of static methods for ASP.NET Core (including, but not limited to MVC, Razor and related) unit testing.
     /// </summary>
     /// <seealso cref="IHostTest"/>.
     public static class WebHostTestFactory
