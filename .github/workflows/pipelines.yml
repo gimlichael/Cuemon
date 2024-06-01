@@ -3,12 +3,17 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - .codecov
-      - .docfx
-      - .github
-      - .nuget
+      - .codecov/**
+      - .docfx/**
+      - .github/**
+      - .nuget/**
   pull_request:
     branches: [main]
+    paths-ignore:
+      - .codecov/**
+      - .docfx/**
+      - .github/**
+      - .nuget/**
   workflow_dispatch:
     inputs:
       configuration:
