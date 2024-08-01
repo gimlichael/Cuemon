@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
     <ProjectGuid>210bdf91-e7c7-4cb4-a39d-e1a5374c5602</ProjectGuid>
     <SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
@@ -12,15 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.6" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.31" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.32" />
   </ItemGroup>
 
   <ItemGroup>
