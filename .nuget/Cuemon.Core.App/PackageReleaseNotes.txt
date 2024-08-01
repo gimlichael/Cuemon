@@ -1,4 +1,10 @@
-﻿Version 8.3.0
+﻿Version 8.3.2
+Availability: .NET 8 and .NET 6
+ 
+# ALM
+- REMOVED Support for TFM .NET 7 (STS)
+ 
+Version 8.3.0
 Availability: .NET 8, .NET 7 and .NET 6
  
 # New Reference
