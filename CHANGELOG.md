@@ -6,7 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
-## [TBD]
+## [8.3.2] - 2024-08-02
+
+### Dependencies
+
+- Cuemon.Extensions.Swashbuckle.AspNetCore updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.Text.Json updated to latest and greatest with respect to TFMs (fixes [CVE-2024-30105](https://github.com/advisories/GHSA-hh2w-p6rv-4g7w))
+- Cuemon.Extensions.Xunit updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.Xunit.Hosting updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.Xunit.Hosting.AspNetCore updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc updated to latest and greatest with respect to TFMs
+- Cuemon.Extensions.YamlDotNet updated to latest and greatest with respect to TFMs
 
 ### Removed
 

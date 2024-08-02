@@ -26,19 +26,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.6" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.7" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net7'))">
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.20" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.31" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.31" />
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6')) Or $(TargetFramework.StartsWith('net4'))">
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.32" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2'))">
