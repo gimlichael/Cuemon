@@ -1,1 +1,1 @@
-Availability: .NET 8, .NET 7 and .NET 6
+Availability: .NET 8 and .NET 6
