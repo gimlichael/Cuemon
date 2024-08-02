@@ -1,7 +1,7 @@
-﻿FROM nginx:1.26.0-alpine AS base
+﻿FROM nginx:1.27.0-alpine AS base
 RUN rm -rf /usr/share/nginx/html/*
 
-FROM codebeltnet/docfx:2.75.3 AS build
+FROM codebeltnet/docfx:2.77.0 AS build
 
 ADD [".", "docfx"]
 
