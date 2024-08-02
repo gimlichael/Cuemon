@@ -197,7 +197,7 @@ jobs:
 
       - name: Test with ${{ matrix.configuration }} build
         if: ${{ !(runner.os == 'Windows' && contains(matrix.project, 'Cuemon.Data.SqlClient.Tests')) }}
-        uses: codebeltnet/dotnet-test@v2
+        uses: codebeltnet/dotnet-test@v3
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
@@ -249,7 +249,7 @@ jobs:
           version: ${{ needs.build.outputs.version }}
 
       - name: Build
-        uses: codebeltnet/dotnet-build@v1
+        uses: codebeltnet/dotnet-build@v2
         with:
           buildSwitches: -p:SkipSignAssembly=true
           uploadBuildArtifact: false
@@ -301,7 +301,7 @@ jobs:
         uses: codebeltnet/codeql-scan@v1
 
       - name: Build
-        uses: codebeltnet/dotnet-build@v1
+        uses: codebeltnet/dotnet-build@v2
         with:
           buildSwitches: -p:SkipSignAssembly=true
           uploadBuildArtifact: false
