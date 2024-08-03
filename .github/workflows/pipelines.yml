@@ -203,7 +203,7 @@ jobs:
           configuration: ${{ matrix.configuration }}
           restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
           buildSwitches: -p:SkipSignAssembly=true
-          downloadBuildArtifact: true
+          level: normal
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
