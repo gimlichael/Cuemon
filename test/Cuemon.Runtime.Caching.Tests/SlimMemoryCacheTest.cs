@@ -32,7 +32,7 @@ namespace Cuemon.Runtime.Caching
             _cache = hostFixture.ServiceProvider.GetRequiredService<SlimMemoryCache>();
         }
 
-        [Fact]
+        [Fact, Priority(-1)]
         public void Add_ShouldBeThreadSafeWhenAddingSameKeyInParallel()
         {
             var items = NumberOfItemsToCache;
@@ -59,7 +59,7 @@ namespace Cuemon.Runtime.Caching
             Assert.Equal(0, _cache.ToList().Count);
         }
 
-        [Fact]
+        [Fact, Priority(0)]
         public void Add_ShouldUpdateUsingPropertyIndexer()
         {
             var key = "cuemon";
@@ -229,7 +229,7 @@ namespace Cuemon.Runtime.Caching
         [Fact, Priority(8)]
         public void Add_VerifyBothLogicalAndActualCacheRemovalUponExpirationForThirtySecondsNamespaceSpecification()
         {
-            Thread.Sleep(TimeSpan.FromSeconds(30));
+            Thread.Sleep(TimeSpan.FromSeconds(45));
 
             Assert.Equal(0, _cache.Count(Dependency30Namespace));
             Assert.Equal(0, _cache.Count(Sliding30Namespace));

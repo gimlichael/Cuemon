@@ -37,7 +37,7 @@ namespace Cuemon.Data.SqlClient
                 command.CommandText = "SELECT * FROM [Person].[ContactType]";
                 return command.ExecuteReader();
 
-            }, o => o.Period = TimeSpan.FromMilliseconds(500)));
+            }, o => o.Period = TimeSpan.FromMilliseconds(750)));
             var sut3 = new DatabaseDependency(sut2);
             var sut4 = DateTime.UtcNow;
             var sut5 = new List<DateTime>();
@@ -85,7 +85,7 @@ namespace Cuemon.Data.SqlClient
                 command.CommandText = "SELECT * FROM [Person].[ContactType]";
                 return command.ExecuteReader();
 
-            }, o => o.Period = TimeSpan.FromMilliseconds(500)));
+            }, o => o.Period = TimeSpan.FromMilliseconds(550)));
             var sut3 = new DatabaseDependency(sut2, true);
             var sut4 = DateTime.UtcNow;
             var sut5 = new List<DateTime>();
