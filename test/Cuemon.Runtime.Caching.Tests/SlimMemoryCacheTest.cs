@@ -229,7 +229,7 @@ namespace Cuemon.Runtime.Caching
         [Fact, Priority(8)]
         public void Add_VerifyBothLogicalAndActualCacheRemovalUponExpirationForThirtySecondsNamespaceSpecification()
         {
-            Thread.Sleep(TimeSpan.FromSeconds(45));
+            Thread.Sleep(TimeSpan.FromSeconds(30));
 
             Assert.Equal(0, _cache.Count(Dependency30Namespace));
             Assert.Equal(0, _cache.Count(Sliding30Namespace));
