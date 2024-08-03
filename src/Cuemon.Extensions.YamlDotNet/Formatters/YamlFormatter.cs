@@ -127,7 +127,8 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
             var builder = new DeserializerBuilder()
                 .WithNamingConvention(Options.Settings.NamingConvention)
                 .WithEnumNamingConvention(Options.Settings.EnumNamingConvention)
-                .WithYamlFormatter(Options.Settings.Formatter);
+                .WithYamlFormatter(Options.Settings.Formatter)
+                .WithCaseInsensitivePropertyMatching();
             if (Options.Settings.ReflectionRules.Flags.HasFlag(BindingFlags.NonPublic))
             {
                 builder.IncludeNonPublicProperties();

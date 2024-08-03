@@ -1,6 +1,7 @@
 ﻿using System;
 using Cuemon.Extensions.YamlDotNet.Converters;
 using YamlDotNet.Core;
+using YamlDotNet.Serialization;
 
 namespace Cuemon.Extensions.YamlDotNet
 {
@@ -74,13 +75,13 @@ namespace Cuemon.Extensions.YamlDotNet
 
         private Func<IParser, Type, object> Reader { get; }
 
-        internal override void WriteYamlCore(IEmitter writer, object value)
+        internal override void WriteYamlCore(IEmitter writer, object value, ObjectSerializer serializer)
         {
             if (Writer == null) { throw new NotImplementedException("Delegate writer is null."); }
             Writer.Invoke(writer, value);
         }
 
-        internal override object ReadYamlCore(IParser reader, Type typeToConvert)
+        internal override object ReadYamlCore(IParser reader, Type typeToConvert, ObjectDeserializer deserializer)
         {
             if (Reader == null) { throw new NotImplementedException("Function delegate reader is null."); }
             return Reader.Invoke(reader, typeToConvert);

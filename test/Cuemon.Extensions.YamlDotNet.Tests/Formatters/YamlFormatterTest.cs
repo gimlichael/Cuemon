@@ -83,6 +83,20 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
         }
 
         [Fact]
+        public void YamlFormatter_ShouldDeserializeFromYamlToBook()
+        {
+
+
+            var book = YamlFormatter.DeserializeObject<Book>("""
+                                                             title: A
+                                                             summary: 0
+                                                             """.ToStream());
+
+            Assert.Equal("A", book.Title);
+            Assert.Equal("0", book.Summary);
+        }
+
+        [Fact]
         public void YamlFormatter_ShouldSerializeArgumentOutOfRangeExceptionToYaml()
         {
             var sut = Assert.Throws<ArgumentOutOfRangeException>(() => Validator.ThrowIfGreaterThan(5, 1, "argument"));
@@ -110,7 +124,7 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
                                          Actual value was 5 > 1.
                                      stack:
                                      - at Cuemon.Validator.ThrowIfGreaterThan[T](T x, T y, String paramName, String message) *
-                                     - at Cuemon.Extensions.YamlDotNet.Formatters.YamlFormatterTest.<>c.<YamlFormatter_ShouldSerializeArgumentOutOfRangeExceptionToYaml>b__3_0() *
+                                     - at Cuemon.Extensions.YamlDotNet.Formatters.YamlFormatterTest.<>c.<YamlFormatter_ShouldSerializeArgumentOutOfRangeExceptionToYaml>*
                                      - at Xunit.Assert.RecordException(Action testCode) *
                                      rangeMessage: Specified argument was out of the range of valid values.
                                      paramName: argument
@@ -141,7 +155,7 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
                              Actual value was 5 > 1.
                          stack:
                          - at Cuemon.Validator.ThrowIfGreaterThan[T](T x, T y, String paramName, String message) *
-                         - at Cuemon.Extensions.YamlDotNet.Formatters.YamlFormatterTest.<>c.<YamlFormatter_ShouldSerializeArgumentOutOfRangeExceptionToYaml>b__3_0() *
+                         - at Cuemon.Extensions.YamlDotNet.Formatters.YamlFormatterTest.<>c.<YamlFormatter_ShouldSerializeArgumentOutOfRangeExceptionToYaml>*
                          - at Xunit.Assert.RecordException(Action testCode) *
                          paramName: argument
                          
