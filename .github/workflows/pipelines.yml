@@ -29,7 +29,7 @@ on:
 
 jobs:
   prepare_linux:
-    name: ✨ Prepare Linux Runner
+    name: 🐧 Prepare Linux
     runs-on: ubuntu-22.04
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
@@ -47,7 +47,7 @@ jobs:
           useRestoreCache: true
 
   prepare_windows:
-    name: ✨ Prepare Windows Runner
+    name: 🪟 Prepare Windows
     runs-on: windows-2022
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
