@@ -133,13 +133,6 @@ namespace Cuemon.AspNetCore.Diagnostics
         public Action<HttpContext, Exception, HttpExceptionDescriptor> ExceptionCallback { get; set; }
 
         /// <summary>
-        /// Gets or sets a collection of <see cref="HttpExceptionDescriptorResponseHandler"/> that handles exception handling and content negotiation for non-MVC thrown exceptions.
-        /// </summary>
-        /// <value>The collection of <see cref="HttpExceptionDescriptorResponseHandler"/>.</value>
-        [Obsolete($"This property will be removed in near future; feature has been moved to {nameof(IHttpExceptionDescriptorResponseFormatter)} and related.")]
-        public IList<HttpExceptionDescriptorResponseHandler> NonMvcResponseHandlers { get; set; } = new List<HttpExceptionDescriptorResponseHandler>();
-
-        /// <summary>
         /// Gets or sets the function delegate that, when <see cref="SensitivityDetails"/> includes <see cref="FaultSensitivityDetails.Evidence"/>, provides a default <see cref="HttpRequestEvidence"/> as part of the serialized result.
         /// </summary>
         /// <value>The function delegate that provides a default <see cref="HttpRequestEvidence"/> as part of the serialized result.</value>
@@ -158,7 +151,6 @@ namespace Cuemon.AspNetCore.Diagnostics
         public void ValidateOptions()
         {
             Validator.ThrowIfInvalidState(HttpFaultResolvers == null);
-            Validator.ThrowIfInvalidState(NonMvcResponseHandlers == null);
         }
     }
 }

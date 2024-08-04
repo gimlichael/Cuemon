@@ -70,7 +70,7 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                             Decorator.Enclose(context.Response.Headers).AddRange(httpFault.Headers);
                         }
 
-                        var handlers = new List<HttpExceptionDescriptorResponseHandler>(options.NonMvcResponseHandlers); // backward compatible until next major version is released
+                        var handlers = new List<HttpExceptionDescriptorResponseHandler>();
                         handlers = handlers.Concat(nonMvcResponseHandlers).ToList();
 
                         var accepts = context.Request.AcceptMimeTypesOrderedByQuality();
