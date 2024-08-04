@@ -173,6 +173,11 @@ jobs:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
 
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+        with:
+          includePreview: true
+
       - name: Pack for ${{ matrix.configuration }}
         uses: codebeltnet/dotnet-pack@v2
         with:
@@ -180,7 +185,6 @@ jobs:
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
           restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
-          downloadBuildArtifact: true
 
   test:
     name: 🧪 Test
