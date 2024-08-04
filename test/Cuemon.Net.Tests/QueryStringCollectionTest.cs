@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using Cuemon.Extensions.Xunit;
+﻿using Cuemon.Extensions.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -26,21 +23,6 @@ namespace Cuemon.Net
             Assert.Contains("c=3", queryString);
 
             TestOutput.WriteLine(query.ToString());
-
-            Assert.Throws<SerializationException>(() =>
-            {
-                var bf = new BinaryFormatter();
-                using (var ms = new MemoryStream())
-                {
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                    bf.Serialize(ms, query);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                    ms.Position = 0;
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                    bf.Deserialize(ms);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-                }
-            });
 
         }
     }

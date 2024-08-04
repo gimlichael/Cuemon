@@ -9,6 +9,10 @@
     <PackageTags>extension-methods extensions local-development non-production host hosting</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net9'))">
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.6.24327.7" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>

@@ -25,6 +25,10 @@
     <EmbeddedResource Include="Assets\Professional.xml" />
   </ItemGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net9'))">
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0-preview.6.24327.4" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.7" />
   </ItemGroup>

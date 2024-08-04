@@ -139,7 +139,7 @@ MonthGenitiveNames:
 - december
 - ".ReplaceLineEndings();
 
-#if NET8_0
+#if NET8_0_OR_GREATER
             expected = string.Format(expected, "2049");
 #elif NET6_0_OR_GREATER
             expected = string.Format(expected, "2029");
@@ -412,7 +412,7 @@ OptionalCalendars:
   TwoDigitYearMax: {0}
 UseUserOverride: True";
 
-#if NET8_0 || NET48_OR_GREATER
+#if NET8_0_OR_GREATER || NET48_OR_GREATER
             expected = string.Format(expected, "2049");
 #else
             expected = string.Format(expected, "2029");

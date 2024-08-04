@@ -9,6 +9,10 @@
     <PackageTags>extension-methods extensions to-signed-uri validate-signed-uri http-manager-factory slim-http-client-factory i-http-client-factory</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net9'))">
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0-preview.6.24327.7" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
   </ItemGroup>

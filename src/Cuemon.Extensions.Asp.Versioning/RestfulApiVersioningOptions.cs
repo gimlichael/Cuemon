@@ -131,7 +131,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         }
 #endif
 
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
 		/// <summary>
 		/// Gets or sets a value indicating whether responses will be based on the built in support for RFC 7807.
 		/// </summary>

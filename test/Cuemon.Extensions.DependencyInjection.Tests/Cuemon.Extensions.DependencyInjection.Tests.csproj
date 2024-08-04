@@ -10,7 +10,7 @@
   </ItemGroup>
 
   
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net6')) or $(TargetFramework.StartsWith('net7')) or $(TargetFramework.StartsWith('net8'))">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6')) or $(TargetFramework.StartsWith('net8')) or $(TargetFramework.StartsWith('net9'))">
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml\Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.csproj" />
