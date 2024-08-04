@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
-## [8.3.2] - 2024-08-02
+## [8.3.2] - 2024-08-04
 
 ### Dependencies
 
@@ -17,6 +17,11 @@ For more details, please refer to `PackageReleaseNotes.txt` on a per assembly ba
 - Cuemon.Extensions.Xunit.Hosting.AspNetCore updated to latest and greatest with respect to TFMs
 - Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc updated to latest and greatest with respect to TFMs
 - Cuemon.Extensions.YamlDotNet updated to latest and greatest with respect to TFMs
+
+### Fixed
+
+- YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace to use WithCaseInsensitivePropertyMatching (https://github.com/aaubry/YamlDotNet/discussions/946)
+  - Although v16.0.0 of YamlDotNet has breaking changes, this is not reflected in the API from Cuemon.Extensions.YamlDotNet until next major release
 
 ### Removed
 
@@ -40,11 +45,6 @@ This release was primarily focused on adapting a more modern way of performing C
 - Cuemon.Extensions.Xunit.Hosting.AspNetCore updated to latest and greatest with respect to TFMs
 - Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc updated to latest and greatest with respect to TFMs
 - Cuemon.Extensions.YamlDotNet updated to latest and greatest with respect to TFMs
-
-### Fixed
-
-- YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace to use WithCaseInsensitivePropertyMatching (https://github.com/aaubry/YamlDotNet/discussions/946)
-  - Although v16.0.0 of YamlDotNet has breaking changes, this is not reflected in the API from Cuemon.Extensions.YamlDotNet until next major release
 
 ### Added
 
