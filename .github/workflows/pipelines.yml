@@ -28,15 +28,11 @@ on:
           - Release
 
 jobs:
-  prepare:
-    name: 🧰 Prepare
-    strategy:
-      matrix:
-        os: [ubuntu-22.04, windows-2022] # had to add this due to caching issue
-    runs-on: ${{ matrix.os }}
+  prepare_linux:
+    name: ✨ Prepare Linux Runner
+    runs-on: ubuntu-22.04
     outputs:
       restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
-      testProjects: ${{ steps.test-projects.outputs.result }}
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -50,11 +46,23 @@ jobs:
         with:
           useRestoreCache: true
 
-      - id: test-projects
-        name: Generate matrix for test projects
-        uses: codebeltnet/shell-globbing@v1
+  prepare_windows:
+    name: ✨ Prepare Windows Runner
+    runs-on: windows-2022
+    outputs:
+      restoreCacheKey: ${{ steps.dotnet-restore.outputs.restoreCacheKey }}
+    steps:
+      - name: Checkout
+        uses: codebeltnet/git-checkout@v1
+
+      - name: Install .NET
+        uses: codebeltnet/install-dotnet@v1
+
+      - id: dotnet-restore
+        name: Restore Dependencies
+        uses: codebeltnet/dotnet-restore@v2
         with:
-          pattern: test/**/*.csproj
+          useRestoreCache: true
 
   build:
     name: 🛠️ Build
@@ -63,9 +71,10 @@ jobs:
       matrix:
         configuration: [Debug, Release]
         framework: [net8.0, net6.0, netstandard2.1, netstandard2.0]
-    needs: [prepare]
+    needs: [prepare_linux]
     outputs:
       version: ${{ steps.minver-calculate.outputs.version }}
+      testProjects: ${{ steps.test-projects.outputs.result }}
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -139,7 +148,13 @@ jobs:
           projects: ${{ env.PROJECTS }}
           configuration: ${{ matrix.configuration }}
           framework: ${{ matrix.framework }}
-          restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
+          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
+
+      - id: test-projects
+        name: Generate matrix for test projects
+        uses: codebeltnet/shell-globbing@v1
+        with:
+          pattern: test/**/*.csproj
 
   pack:
     name: 📦 Pack
@@ -147,7 +162,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-    needs: [prepare, build]
+    needs: [prepare_linux, build]
     steps:
       - name: Checkout
         uses: codebeltnet/git-checkout@v1
@@ -158,18 +173,18 @@ jobs:
           configuration: ${{ matrix.configuration }}
           uploadPackedArtifact: true
           version: ${{ needs.build.outputs.version }}
-          restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
+          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
           downloadBuildArtifact: true
 
   test:
     name: 🧪 Test
-    needs: [prepare, build]
+    needs: [build, prepare_linux, prepare_windows]
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04, windows-2022]
         configuration: [Debug, Release]
-        project: ${{ fromJson(needs.prepare.outputs.testProjects) }}
+        project: ${{ fromJson(needs.build.outputs.testProjects) }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -201,9 +216,9 @@ jobs:
         with:
           projects: ${{ matrix.project }}
           configuration: ${{ matrix.configuration }}
-          restoreCacheKey: ${{ needs.prepare.outputs.restoreCacheKey }}
+          restoreCacheKey: ${{ runner.os == 'Linux' && needs.prepare_linux.outputs.restoreCacheKey || needs.prepare_windows.outputs.restoreCacheKey }}
           buildSwitches: -p:SkipSignAssembly=true
-          downloadBuildArtifact: true
+          level: normal
         env:
           CONNECTIONSTRINGS__ADVENTUREWORKS: ${{ secrets.DB_ADVENTUREWORKS }}
 
@@ -215,7 +230,7 @@ jobs:
 
   sonarcloud:
     name: 🔬 Code Quality Analysis
-    needs: [prepare, build, test]
+    needs: [prepare_linux, build, test]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -228,17 +243,10 @@ jobs:
         uses: codebeltnet/dotnet-tool-install-sonarscanner@v1
 
       - name: Restore Dependencies
-        uses: actions/cache/restore@v4
+        uses: codebeltnet/dotnet-restore@v2
         with:
-          path: |
-            ${{ github.workspace }}/src
-            ${{ github.workspace }}/test
-            ~/.nuget/packages
-          key: ${{ needs.prepare.outputs.restoreCacheKey }}
-          restore-keys: |
-            dotnet-restore-
-          enableCrossOsArchive: true
-          fail-on-cache-miss: true
+          useRestoreCache: true
+          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
       - name: Run SonarCloud Analysis
         uses: codebeltnet/sonarcloud-scan@v1
@@ -275,7 +283,7 @@ jobs:
 
   codeql:
     name: 🛡️ Security Analysis
-    needs: [prepare, build, test]
+    needs: [prepare_linux, build, test]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -285,17 +293,10 @@ jobs:
         uses: codebeltnet/install-dotnet@v1
 
       - name: Restore Dependencies
-        uses: actions/cache/restore@v4
+        uses: codebeltnet/dotnet-restore@v2
         with:
-          path: |
-            ${{ github.workspace }}/src
-            ${{ github.workspace }}/test
-            ~/.nuget/packages
-          key: ${{ needs.prepare.outputs.restoreCacheKey }}
-          restore-keys: |
-            dotnet-restore-
-          enableCrossOsArchive: true
-          fail-on-cache-miss: true
+          useRestoreCache: true
+          restoreCacheKey: ${{ needs.prepare_linux.outputs.restoreCacheKey }}
 
       - name: Prepare CodeQL SAST Analysis
         uses: codebeltnet/codeql-scan@v1

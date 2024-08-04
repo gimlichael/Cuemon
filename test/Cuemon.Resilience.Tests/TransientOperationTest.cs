@@ -18,7 +18,7 @@ namespace Cuemon.Resilience
 
         private const string ExpectedResult = "OK";
         private const int ExpectedRetryAttempts = 2;
-        private static readonly TimeSpan Jitter = TimeSpan.FromMilliseconds(1000);
+        private static readonly TimeSpan Jitter = TimeSpan.FromSeconds(Generate.RandomNumber(7, 15));
         private const int NormalRunIncrement = 1;
         private const int DescriptiveExceptionCauseIncrement = 1;
         private static readonly TimeSpan ExpectedRecoveryWaitTime = TimeSpan.FromSeconds(1);

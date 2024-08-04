@@ -10,9 +10,9 @@ namespace Cuemon.Extensions.YamlDotNet.Converters
     /// </summary>
     public abstract class YamlConverter : IYamlTypeConverter
     {
-        internal abstract void WriteYamlCore(IEmitter writer, object value);
+        internal abstract void WriteYamlCore(IEmitter writer, object value, ObjectSerializer serializer);
 
-        internal abstract object ReadYamlCore(IParser reader, Type typeToConvert);
+        internal abstract object ReadYamlCore(IParser reader, Type typeToConvert, ObjectDeserializer deserializer);
 
         /// <summary>
         /// Determines whether this instance can convert the specified object type.
@@ -43,14 +43,14 @@ namespace Cuemon.Extensions.YamlDotNet.Converters
             return CanConvert(type);
         }
 
-        object IYamlTypeConverter.ReadYaml(IParser parser, Type type)
+        object IYamlTypeConverter.ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
         {
-            return ReadYamlCore(parser, type);
+            return ReadYamlCore(parser, type, rootDeserializer);
         }
 
-        void IYamlTypeConverter.WriteYaml(IEmitter emitter, object value, Type type) // odd decision with type parameter
+        void IYamlTypeConverter.WriteYaml(IEmitter emitter, object value, Type type, ObjectSerializer serializer)
         {
-            WriteYamlCore(emitter, value);
+            WriteYamlCore(emitter, value, serializer);
         }
     }
 
@@ -76,12 +76,12 @@ namespace Cuemon.Extensions.YamlDotNet.Converters
         /// <returns>The converted value.</returns>
         public abstract T ReadYaml(IParser reader, Type typeToConvert);
 
-        internal override object ReadYamlCore(IParser reader, Type typeToConvert)
+        internal override object ReadYamlCore(IParser reader, Type typeToConvert, ObjectDeserializer deserializer)
         {
             return ReadYaml(reader, typeToConvert);
         }
 
-        internal override void WriteYamlCore(IEmitter writer, object value)
+        internal override void WriteYamlCore(IEmitter writer, object value, ObjectSerializer serializer)
         {
             WriteYaml(writer, (T)value);
         }

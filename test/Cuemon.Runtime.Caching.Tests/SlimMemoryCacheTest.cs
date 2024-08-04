@@ -32,7 +32,7 @@ namespace Cuemon.Runtime.Caching
             _cache = hostFixture.ServiceProvider.GetRequiredService<SlimMemoryCache>();
         }
 
-        [Fact]
+        [Fact, Priority(-1)]
         public void Add_ShouldBeThreadSafeWhenAddingSameKeyInParallel()
         {
             var items = NumberOfItemsToCache;
@@ -59,7 +59,7 @@ namespace Cuemon.Runtime.Caching
             Assert.Equal(0, _cache.ToList().Count);
         }
 
-        [Fact]
+        [Fact, Priority(0)]
         public void Add_ShouldUpdateUsingPropertyIndexer()
         {
             var key = "cuemon";

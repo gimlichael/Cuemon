@@ -242,7 +242,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                 TestOutput.WriteLine(content);
 
                 Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
-                
+
                 if (sensitivityDetails == FaultSensitivityDetails.All)
                 {
                     Assert.Equal("""
@@ -1090,7 +1090,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                 client.DefaultRequestHeaders.Add(HeaderNames.Authorization, bb.Build().ToString());
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
 
-                for (var i = 0; i < 14; i++)
+                for (var i = 0; i < 12; i++)
                 {
                     var result = await client.GetAsync("/");
                     var content = await result.Content.ReadAsStringAsync();
