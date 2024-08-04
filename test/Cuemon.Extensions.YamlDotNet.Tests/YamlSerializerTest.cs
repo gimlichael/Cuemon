@@ -2,15 +2,15 @@
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Cuemon.Extensions;
 using Cuemon.Extensions.Globalization;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
-using Cuemon.Text.Yaml;
+using Cuemon.Extensions.YamlDotNet.Formatters;
 using Xunit;
 using Xunit.Abstractions;
+using YamlDotNet.Core;
 
-namespace Cuemon.Runtime.Serialization
+namespace Cuemon.Extensions.YamlDotNet
 {
     public class YamlSerializerTest : Test
     {
@@ -23,41 +23,43 @@ namespace Cuemon.Runtime.Serialization
         [Fact]
         public void Serialize_ShouldSerializeDateFormatInfo()
         {
-            var sut1 = new YamlSerializer(o => o.Converters.Add(YamlConverterFactory.Create<DateTime>((writer, dt, so) =>
-            {
-                writer.WriteLine(dt.ToString(_cultureInfo));
-            })));
             var sut2 = _cultureInfo;
-            var sut3 = sut1.Serialize(sut2.DateTimeFormat);
+            var sut3 = YamlFormatter.SerializeObject(sut2.DateTimeFormat, o =>
+            {
+                o.Settings.ScalarStyle = ScalarStyle.Plain;
+                o.Settings.IndentSequences = false;
+                o.Settings.FormatProvider = _cultureInfo;
+                o.Settings.Converters.Add(YamlConverterFactory.Create<DateTime>((writer, dt) => writer.WriteValue(dt.ToString(_cultureInfo))));
+            });
             var sut4 = sut3.ToEncodedString();
 
             TestOutput.WriteLine(sut4);
 
-            var expected = @"AMDesignator: 
-Calendar: 
+            var expected = @"AMDesignator: ''
+Calendar:
   MinSupportedDateTime: 01-01-0001 00:00:00
   MaxSupportedDateTime: 31-12-9999 23:59:59
   AlgorithmType: SolarCalendar
   CalendarType: Localized
-  Eras: 
+  Eras:
   - 1
   TwoDigitYearMax: {0}
-DateSeparator: ""-""
+DateSeparator: '-'
 FirstDayOfWeek: Monday
 CalendarWeekRule: FirstFourDayWeek
 FullDateTimePattern: d. MMMM yyyy HH:mm:ss
 LongDatePattern: d. MMMM yyyy
 LongTimePattern: HH:mm:ss
 MonthDayPattern: d. MMMM
-PMDesignator: 
+PMDesignator: ''
 RFC1123Pattern: ddd, dd MMM yyyy HH':'mm':'ss 'GMT'
 ShortDatePattern: dd-MM-yyyy
 ShortTimePattern: HH:mm
 SortableDateTimePattern: yyyy'-'MM'-'dd'T'HH':'mm':'ss
-TimeSeparator: "":""
+TimeSeparator: ':'
 UniversalSortableDateTimePattern: yyyy'-'MM'-'dd HH':'mm':'ss'Z'
 YearMonthPattern: MMMM yyyy
-AbbreviatedDayNames: 
+AbbreviatedDayNames:
 - sø
 - ma
 - ti
@@ -65,7 +67,7 @@ AbbreviatedDayNames:
 - to
 - fr
 - lø
-ShortestDayNames: 
+ShortestDayNames:
 - sø
 - ma
 - ti
@@ -73,7 +75,7 @@ ShortestDayNames:
 - to
 - fr
 - lø
-DayNames: 
+DayNames:
 - søndag
 - mandag
 - tirsdag
@@ -81,7 +83,7 @@ DayNames:
 - torsdag
 - fredag
 - lørdag
-AbbreviatedMonthNames: 
+AbbreviatedMonthNames:
 - jan
 - feb
 - mar
@@ -94,8 +96,8 @@ AbbreviatedMonthNames:
 - okt
 - nov
 - dec
-- 
-MonthNames: 
+- ''
+MonthNames:
 - januar
 - februar
 - marts
@@ -108,9 +110,9 @@ MonthNames:
 - oktober
 - november
 - december
-- 
+- ''
 NativeCalendarName: gregoriansk kalender
-AbbreviatedMonthGenitiveNames: 
+AbbreviatedMonthGenitiveNames:
 - jan
 - feb
 - mar
@@ -123,8 +125,8 @@ AbbreviatedMonthGenitiveNames:
 - okt
 - nov
 - dec
-- 
-MonthGenitiveNames: 
+- ''
+MonthGenitiveNames:
 - januar
 - februar
 - marts
@@ -137,7 +139,8 @@ MonthGenitiveNames:
 - oktober
 - november
 - december
-- ".ReplaceLineEndings();
+- ''
+".ReplaceLineEndings();
 
 #if NET8_0_OR_GREATER
             expected = string.Format(expected, "2049");
@@ -162,24 +165,28 @@ MonthGenitiveNames:
         [Fact]
         public void Serialize_ShouldSerializeNumberFormatInfo()
         {
-            var sut1 = new YamlSerializer();
             var sut2 = _cultureInfo;
-            var sut3 = sut1.Serialize(sut2.NumberFormat);
+            var sut3 = YamlFormatter.SerializeObject(sut2.NumberFormat, o =>
+            {
+                o.Settings.ScalarStyle = ScalarStyle.DoubleQuoted;
+                o.Settings.IndentSequences = false;
+                o.Settings.FormatProvider = _cultureInfo;
+            });
             var sut4 = sut3.ToEncodedString();
 
             TestOutput.WriteLine(sut4);
 
             Assert.Equal(@"CurrencyDecimalDigits: 2
 CurrencyDecimalSeparator: "",""
-CurrencyGroupSizes: 
+CurrencyGroupSizes:
 - 3
-NumberGroupSizes: 
+NumberGroupSizes:
 - 3
-PercentGroupSizes: 
+PercentGroupSizes:
 - 3
 CurrencyGroupSeparator: "".""
-CurrencySymbol: kr.
-NaNSymbol: NaN
+CurrencySymbol: ""kr.""
+NaNSymbol: ""NaN""
 CurrencyNegativePattern: 8
 NumberNegativePattern: 1
 PercentPositivePattern: 0
@@ -190,38 +197,38 @@ NumberDecimalDigits: 2
 NumberDecimalSeparator: "",""
 NumberGroupSeparator: "".""
 CurrencyPositivePattern: 3
-PositiveInfinitySymbol: ∞
+PositiveInfinitySymbol: ""∞""
 PositiveSign: ""+""
 PercentDecimalDigits: 2
 PercentDecimalSeparator: "",""
 PercentGroupSeparator: "".""
 PercentSymbol: ""%""
-PerMilleSymbol: ‰
-NativeDigits: 
-- 0
-- 1
-- 2
-- 3
-- 4
-- 5
-- 6
-- 7
-- 8
-- 9
-DigitSubstitution: None".ReplaceLineEndings(), sut4);
+PerMilleSymbol: ""‰""
+NativeDigits:
+- ""0""
+- ""1""
+- ""2""
+- ""3""
+- ""4""
+- ""5""
+- ""6""
+- ""7""
+- ""8""
+- ""9""
+DigitSubstitution: ""None""
+".ReplaceLineEndings(), sut4);
         }
 
 
         [Fact]
         public void Serialize_ShouldSerializeCultureInfo()
         {
-            var sut1 = new YamlSerializer(o => o.Converters.Add(YamlConverterFactory.Create<DateTime>((writer, dt, so) =>
-            {
-                writer.WriteLine(dt.ToString(_cultureInfo));
-            })));
-
             var sut2 = _cultureInfo;
-            var sut3 = sut1.Serialize(sut2);
+            var sut3 = YamlFormatter.SerializeObject(sut2, o =>
+            {
+                o.Settings.IndentSequences = false;
+                o.Settings.Converters.Add(YamlConverterFactory.Create<DateTime>((writer, dt) => writer.WriteValue(dt.ToString(_cultureInfo))));
+            });
             var sut4 = sut3.ToEncodedString().ReplaceLineEndings().Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
 
             sut4.RemoveRange(sut4.FindIndex(s => s.StartsWith("CompareInfo")), 6);
@@ -237,46 +244,46 @@ EnglishName: Danish (Denmark)
 TwoLetterISOLanguageName: da
 ThreeLetterISOLanguageName: dan
 ThreeLetterWindowsLanguageName: DAN
-TextInfo: 
+TextInfo:
   ANSICodePage: 1252
   OEMCodePage: 850
   MacCodePage: 10000
   EBCDICCodePage: 20277
   LCID: 1030
   CultureName: da-DK
-  ListSeparator: "";""
-  IsRightToLeft: False
-IsNeutralCulture: False
-NumberFormat: 
+  ListSeparator: ;
+  IsRightToLeft: false
+IsNeutralCulture: false
+NumberFormat:
   CurrencyDecimalDigits: 2
-  CurrencyDecimalSeparator: "",""
-  CurrencyGroupSizes: 
+  CurrencyDecimalSeparator: ','
+  CurrencyGroupSizes:
   - 3
-  NumberGroupSizes: 
+  NumberGroupSizes:
   - 3
-  PercentGroupSizes: 
+  PercentGroupSizes:
   - 3
-  CurrencyGroupSeparator: "".""
+  CurrencyGroupSeparator: .
   CurrencySymbol: kr.
   NaNSymbol: NaN
   CurrencyNegativePattern: 8
   NumberNegativePattern: 1
   PercentPositivePattern: 0
   PercentNegativePattern: 0
-  NegativeInfinitySymbol: ""-∞""
-  NegativeSign: ""-""
+  NegativeInfinitySymbol: -∞
+  NegativeSign: '-'
   NumberDecimalDigits: 2
-  NumberDecimalSeparator: "",""
-  NumberGroupSeparator: "".""
+  NumberDecimalSeparator: ','
+  NumberGroupSeparator: .
   CurrencyPositivePattern: 3
   PositiveInfinitySymbol: ∞
-  PositiveSign: ""+""
+  PositiveSign: +
   PercentDecimalDigits: 2
-  PercentDecimalSeparator: "",""
-  PercentGroupSeparator: "".""
-  PercentSymbol: ""%""
+  PercentDecimalSeparator: ','
+  PercentGroupSeparator: .
+  PercentSymbol: '%'
   PerMilleSymbol: ‰
-  NativeDigits: 
+  NativeDigits:
   - 0
   - 1
   - 2
@@ -288,32 +295,32 @@ NumberFormat:
   - 8
   - 9
   DigitSubstitution: None
-DateTimeFormat: 
-  AMDesignator: 
-  Calendar: 
+DateTimeFormat:
+  AMDesignator: ''
+  Calendar:
     MinSupportedDateTime: 01-01-0001 00:00:00
     MaxSupportedDateTime: 31-12-9999 23:59:59
     AlgorithmType: SolarCalendar
     CalendarType: Localized
-    Eras: 
+    Eras:
     - 1
     TwoDigitYearMax: {0}
-  DateSeparator: ""-""
+  DateSeparator: '-'
   FirstDayOfWeek: Monday
   CalendarWeekRule: FirstFourDayWeek
   FullDateTimePattern: d. MMMM yyyy HH:mm:ss
   LongDatePattern: d. MMMM yyyy
   LongTimePattern: HH:mm:ss
   MonthDayPattern: d. MMMM
-  PMDesignator: 
+  PMDesignator: ''
   RFC1123Pattern: ddd, dd MMM yyyy HH':'mm':'ss 'GMT'
   ShortDatePattern: dd-MM-yyyy
   ShortTimePattern: HH:mm
   SortableDateTimePattern: yyyy'-'MM'-'dd'T'HH':'mm':'ss
-  TimeSeparator: "":""
+  TimeSeparator: ':'
   UniversalSortableDateTimePattern: yyyy'-'MM'-'dd HH':'mm':'ss'Z'
   YearMonthPattern: MMMM yyyy
-  AbbreviatedDayNames: 
+  AbbreviatedDayNames:
   - sø
   - ma
   - ti
@@ -321,7 +328,7 @@ DateTimeFormat:
   - to
   - fr
   - lø
-  ShortestDayNames: 
+  ShortestDayNames:
   - sø
   - ma
   - ti
@@ -329,7 +336,7 @@ DateTimeFormat:
   - to
   - fr
   - lø
-  DayNames: 
+  DayNames:
   - søndag
   - mandag
   - tirsdag
@@ -337,7 +344,7 @@ DateTimeFormat:
   - torsdag
   - fredag
   - lørdag
-  AbbreviatedMonthNames: 
+  AbbreviatedMonthNames:
   - jan
   - feb
   - mar
@@ -350,8 +357,8 @@ DateTimeFormat:
   - okt
   - nov
   - dec
-  - 
-  MonthNames: 
+  - ''
+  MonthNames:
   - januar
   - februar
   - marts
@@ -364,9 +371,9 @@ DateTimeFormat:
   - oktober
   - november
   - december
-  - 
+  - ''
   NativeCalendarName: gregoriansk kalender
-  AbbreviatedMonthGenitiveNames: 
+  AbbreviatedMonthGenitiveNames:
   - jan
   - feb
   - mar
@@ -379,8 +386,8 @@ DateTimeFormat:
   - okt
   - nov
   - dec
-  - 
-  MonthGenitiveNames: 
+  - ''
+  MonthGenitiveNames:
   - januar
   - februar
   - marts
@@ -393,24 +400,25 @@ DateTimeFormat:
   - oktober
   - november
   - december
-  - 
-Calendar: 
+  - ''
+Calendar:
   MinSupportedDateTime: 01-01-0001 00:00:00
   MaxSupportedDateTime: 31-12-9999 23:59:59
   AlgorithmType: SolarCalendar
   CalendarType: Localized
-  Eras: 
+  Eras:
   - 1
   TwoDigitYearMax: {0}
-OptionalCalendars: 
+OptionalCalendars:
 - MinSupportedDateTime: 01-01-0001 00:00:00
   MaxSupportedDateTime: 31-12-9999 23:59:59
   AlgorithmType: SolarCalendar
   CalendarType: Localized
-  Eras: 
+  Eras:
   - 1
   TwoDigitYearMax: {0}
-UseUserOverride: True";
+UseUserOverride: true
+";
 
 #if NET8_0_OR_GREATER || NET48_OR_GREATER
             expected = string.Format(expected, "2049");
@@ -419,193 +427,7 @@ UseUserOverride: True";
 #endif
 
 #if NET48_OR_GREATER
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                expected = @"IetfLanguageTag: da-DK
-KeyboardLayoutId: 1030
-LCID: 1030
-Name: da-DK
-NativeName: dansk (Danmark)
-Calendar: 
-  MinSupportedDateTime: 01-01-0001 00:00:00
-  MaxSupportedDateTime: 31-12-9999 23:59:59
-  AlgorithmType: SolarCalendar
-  CalendarType: Localized
-  Eras: 
-    - 1
-  TwoDigitYearMax: 2029
-OptionalCalendars: 
-  - 
-    MinSupportedDateTime: 01-01-0001 00:00:00
-    MaxSupportedDateTime: 31-12-9999 23:59:59
-    AlgorithmType: SolarCalendar
-    CalendarType: Localized
-    Eras: 
-      - 1
-    TwoDigitYearMax: 2029
-TextInfo: 
-  ANSICodePage: 1252
-  OEMCodePage: 850
-  MacCodePage: 10000
-  EBCDICCodePage: 20277
-  LCID: 1030
-  CultureName: da-DK
-  ListSeparator: ;
-  IsRightToLeft: False
-ThreeLetterISOLanguageName: dan
-ThreeLetterWindowsLanguageName: DAN
-TwoLetterISOLanguageName: da
-UseUserOverride: True
-      - 3
-    NumberGroupSizes: 
-      - 3
-    PercentGroupSizes: 
-      - 3
-    CurrencyGroupSeparator: .
-    CurrencySymbol: kr.
-    NaNSymbol: NaN
-    CurrencyNegativePattern: 8
-    NumberNegativePattern: 1
-    PercentPositivePattern: 0
-    PercentNegativePattern: 0
-    NegativeInfinitySymbol: ""-∞""
-    NegativeSign: -
-    NumberDecimalDigits: 2
-    NumberDecimalSeparator: ,
-    NumberGroupSeparator: .
-    CurrencyPositivePattern: 3
-    PositiveInfinitySymbol: ∞
-    PositiveSign: +
-    PercentDecimalDigits: 2
-    PercentDecimalSeparator: ,
-    PercentGroupSeparator: .
-    PercentSymbol: %
-    PerMilleSymbol: ‰
-    NativeDigits: 
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-    DigitSubstitution: None
-  DateTimeFormat: 
-    AMDesignator: 
-    Calendar: 
-      MinSupportedDateTime: 01-01-0001 00:00:00
-      MaxSupportedDateTime: 31-12-9999 23:59:59
-      AlgorithmType: SolarCalendar
-      CalendarType: Localized
-      Eras: 
-        - 1
-      TwoDigitYearMax: 2029
-    DateSeparator: -
-    FirstDayOfWeek: Monday
-    CalendarWeekRule: FirstFourDayWeek
-    FullDateTimePattern: d. MMMM yyyy HH:mm:ss
-    LongDatePattern: d. MMMM yyyy
-    LongTimePattern: HH:mm:ss
-    MonthDayPattern: d. MMMM
-    PMDesignator: 
-    RFC1123Pattern: ddd, dd MMM yyyy HH':'mm':'ss 'GMT'
-    ShortDatePattern: dd-MM-yyyy
-    ShortTimePattern: HH:mm
-    SortableDateTimePattern: yyyy'-'MM'-'dd'T'HH':'mm':'ss
-    TimeSeparator: :
-    UniversalSortableDateTimePattern: yyyy'-'MM'-'dd HH':'mm':'ss'Z'
-    YearMonthPattern: MMMM yyyy
-    AbbreviatedDayNames: 
-      - sø
-      - ma
-      - ti
-      - on
-      - to
-      - fr
-      - lø
-    ShortestDayNames: 
-      - sø
-      - ma
-      - ti
-      - on
-      - to
-      - fr
-      - lø
-    DayNames: 
-      - søndag
-      - mandag
-      - tirsdag
-      - onsdag
-      - torsdag
-      - fredag
-      - lørdag
-    AbbreviatedMonthNames: 
-      - jan
-      - feb
-      - mar
-      - apr
-      - maj
-      - jun
-      - jul
-      - aug
-      - sep
-      - okt
-      - nov
-      - dec
-      - 
-    MonthNames: 
-      - januar
-      - februar
-      - marts
-      - april
-      - maj
-      - juni
-      - juli
-      - august
-      - september
-      - oktober
-      - november
-      - december
-      - 
-    NativeCalendarName: dansk (Danmark)
-    AbbreviatedMonthGenitiveNames: 
-      - jan
-      - feb
-      - mar
-      - apr
-      - maj
-      - jun
-      - jul
-      - aug
-      - sep
-      - okt
-      - nov
-      - dec
-      - 
-    MonthGenitiveNames: 
-      - januar
-      - februar
-      - marts
-      - april
-      - maj
-      - juni
-      - juli
-      - august
-      - september
-      - oktober
-      - november
-      - december
-      - 
-  DisplayName: Danish (Denmark)
-  EnglishName: Danish (Denmark)";
-            }
-            else
-            {
-                expected = expected.ReplaceAll("gregoriansk", "Gregoriansk", StringComparison.Ordinal);
-            }
+            expected = expected.ReplaceAll("gregoriansk", "Gregoriansk", StringComparison.Ordinal);
 #endif
 
             TestOutput.WriteLines(sut4);

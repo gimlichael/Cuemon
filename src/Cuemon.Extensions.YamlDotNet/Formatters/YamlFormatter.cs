@@ -85,7 +85,8 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
                 .WithMaximumRecursion(Options.Settings.MaximumRecursion)
                 .WithNewLine(Options.Settings.NewLine)
                 .WithEnumNamingConvention(Options.Settings.EnumNamingConvention)
-                .WithYamlFormatter(Options.Settings.Formatter);
+                .WithYamlFormatter(Options.Settings.Formatter)
+                .WithTypeInspector(inspector => new PropertyTypeInspector(inspector)); // backward compatible - skip platform related properties
             if (!Options.Settings.UseAliases) { builder.DisableAliases(); }
             if (Options.Settings.EnsureRoundtrip) { builder.EnsureRoundtrip(); }
             if (Options.Settings.ReflectionRules.Flags.HasFlag(BindingFlags.NonPublic))

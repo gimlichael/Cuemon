@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading;
 using Cuemon.Diagnostics;
-using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
-using Cuemon.Text.Yaml.Formatters;
+using Cuemon.Extensions.YamlDotNet.Formatters;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cuemon.Text.Yaml.Converters
+namespace Cuemon.Extensions.YamlDotNet.Converters
 {
     public class ExceptionDescriptorConverterTest : Test
     {
@@ -35,19 +34,20 @@ namespace Cuemon.Text.Yaml.Converters
                 TestOutput.WriteLine(result);
 
                 Assert.StartsWith("""
-                             Error: 
+                             Error:
                                Code: X900
                                Message: Critical Error.
-                               Failure: 
+                               Failure:
                                  Type: System.Threading.AbandonedMutexException
-                                 Source: Cuemon.Core.Tests
+                                 Source: Cuemon.Extensions.YamlDotNet.Tests
                                  Message: The wait completed due to an abandoned mutex.
-                                 Stack: 
-                                 - at Cuemon.Text.Yaml.Converters.ExceptionDescriptorConverterTest.WriteYaml_ShouldSerializeToYamlFormat()
+                                 Stack:
+                                   - at Cuemon.Extensions.YamlDotNet.Converters.ExceptionDescriptorConverterTest.WriteYaml_ShouldSerializeToYamlFormat()
                              """.ReplaceLineEndings(), result);
-                Assert.EndsWith(@"    Data: 
+                Assert.EndsWith(@"    Data:
       MyKey: MyValue
-    MutexIndex: -1".ReplaceLineEndings(), result);
+    MutexIndex: -1
+".ReplaceLineEndings(), result);
             }
 
         }
