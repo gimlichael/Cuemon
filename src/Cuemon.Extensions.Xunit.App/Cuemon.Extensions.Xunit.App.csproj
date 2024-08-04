@@ -12,7 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Xunit.Hosting.AspNetCore\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Xunit.Hosting\Cuemon.Extensions.Xunit.Hosting.csproj" />
     <ProjectReference Include="..\Cuemon.Extensions.Xunit\Cuemon.Extensions.Xunit.csproj" />

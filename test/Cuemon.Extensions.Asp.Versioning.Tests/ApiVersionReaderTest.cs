@@ -13,7 +13,6 @@ using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;

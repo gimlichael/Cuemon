@@ -17,7 +17,6 @@ using Cuemon.Extensions.AspNetCore.Xml.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

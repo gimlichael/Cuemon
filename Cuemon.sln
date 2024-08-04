@@ -131,8 +131,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.Hos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.Hosting.AspNetCore.Tests", "test\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Tests\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Tests.csproj", "{72422689-CDC3-4AD6-89D7-25F85545B0FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc", "src\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.csproj", "{210BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.AspNetCore.Authentication.Tests", "test\Cuemon.AspNetCore.Authentication.Tests\Cuemon.AspNetCore.Authentication.Tests.csproj", "{D29D6F7E-8A76-48AD-A042-EFC83CD474A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Authentication", "src\Cuemon.Extensions.AspNetCore.Authentication\Cuemon.Extensions.AspNetCore.Authentication.csproj", "{220BDF91-E7C7-4CB4-A39D-E1A5374C5602}"
@@ -156,8 +154,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Collections.Generic.Tests", "test\Cuemon.Extensions.Collections.Generic.Tests\Cuemon.Extensions.Collections.Generic.Tests.csproj", "{D4F63068-CCB8-4C9C-AA81-FAF031DCA5D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Mvc.Tests", "test\Cuemon.Extensions.AspNetCore.Mvc.Tests\Cuemon.Extensions.AspNetCore.Mvc.Tests.csproj", "{C6867EE8-73F9-435D-90CF-8546CF693903}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.Tests", "test\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.Tests\Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc.Tests.csproj", "{BF02BDC4-AD9D-4B39-B2C5-3E8EC7DE851A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.IO.Tests", "test\Cuemon.Extensions.IO.Tests\Cuemon.Extensions.IO.Tests.csproj", "{D80027A4-509D-4F08-9AC5-49133EAD57B2}"
 EndProject
@@ -216,9 +212,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.AspNetCore.Text.Json", "src\Cuemon.Extensions.AspNetCore.Text.Json\Cuemon.Extensions.AspNetCore.Text.Json.csproj", "{AE0ADF91-E7C7-4CB4-A39D-E1A5374C5602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.YamlDotNet", "src\Cuemon.Extensions.YamlDotNet\Cuemon.Extensions.YamlDotNet.csproj", "{58AF8B74-2A85-4B41-838E-95181FCA5E91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.YamlDotNet", "src\Cuemon.Extensions.YamlDotNet\Cuemon.Extensions.YamlDotNet.csproj", "{58AF8B74-2A85-4B41-838E-95181FCA5E91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuemon.Extensions.YamlDotNet.Tests", "test\Cuemon.Extensions.YamlDotNet.Tests\Cuemon.Extensions.YamlDotNet.Tests.csproj", "{4D99ECDB-D40D-40EC-B5DC-2356F8668753}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cuemon.Extensions.YamlDotNet.Tests", "test\Cuemon.Extensions.YamlDotNet.Tests\Cuemon.Extensions.YamlDotNet.Tests.csproj", "{4D99ECDB-D40D-40EC-B5DC-2356F8668753}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -474,10 +470,6 @@ Global
 		{72422689-CDC3-4AD6-89D7-25F85545B0FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72422689-CDC3-4AD6-89D7-25F85545B0FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72422689-CDC3-4AD6-89D7-25F85545B0FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{210BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{210BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{210BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{210BDF91-E7C7-4CB4-A39D-E1A5374C5602}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D29D6F7E-8A76-48AD-A042-EFC83CD474A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D29D6F7E-8A76-48AD-A042-EFC83CD474A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D29D6F7E-8A76-48AD-A042-EFC83CD474A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -526,10 +518,6 @@ Global
 		{C6867EE8-73F9-435D-90CF-8546CF693903}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6867EE8-73F9-435D-90CF-8546CF693903}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6867EE8-73F9-435D-90CF-8546CF693903}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF02BDC4-AD9D-4B39-B2C5-3E8EC7DE851A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF02BDC4-AD9D-4B39-B2C5-3E8EC7DE851A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF02BDC4-AD9D-4B39-B2C5-3E8EC7DE851A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF02BDC4-AD9D-4B39-B2C5-3E8EC7DE851A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D80027A4-509D-4F08-9AC5-49133EAD57B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D80027A4-509D-4F08-9AC5-49133EAD57B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D80027A4-509D-4F08-9AC5-49133EAD57B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -705,7 +693,6 @@ Global
 		{A9610C9E-1944-4771-A5E1-CE47ADA243D5} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{200BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{72422689-CDC3-4AD6-89D7-25F85545B0FE} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
-		{210BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{D29D6F7E-8A76-48AD-A042-EFC83CD474A5} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{220BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
 		{230BDF91-E7C7-4CB4-A39D-E1A5374C5602} = {B59C8DF7-7DEC-46AF-A165-CC9E3AD01EA8}
@@ -718,7 +705,6 @@ Global
 		{63C49907-BD5B-400A-B135-22D8BE639298} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{D4F63068-CCB8-4C9C-AA81-FAF031DCA5D9} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{C6867EE8-73F9-435D-90CF-8546CF693903} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
-		{BF02BDC4-AD9D-4B39-B2C5-3E8EC7DE851A} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{D80027A4-509D-4F08-9AC5-49133EAD57B2} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{6FA157C8-D254-4333-8C91-C9694D8AD599} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}
 		{C5C7510A-E4E6-4C1A-A98F-67DA4218DDFD} = {31707D2B-843E-4D4F-B9C7-3E74EF8DA338}

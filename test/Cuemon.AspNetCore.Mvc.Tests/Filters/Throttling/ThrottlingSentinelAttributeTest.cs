@@ -8,7 +8,6 @@ using Cuemon.AspNetCore.Mvc.Assets;
 using Cuemon.Extensions;
 using Cuemon.Extensions.AspNetCore.Http.Throttling;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;

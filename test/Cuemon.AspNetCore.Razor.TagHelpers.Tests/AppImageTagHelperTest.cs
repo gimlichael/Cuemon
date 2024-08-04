@@ -3,7 +3,6 @@ using Cuemon.AspNetCore.Razor.TagHelpers.Assets;
 using Cuemon.Extensions.AspNetCore.Configuration;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;

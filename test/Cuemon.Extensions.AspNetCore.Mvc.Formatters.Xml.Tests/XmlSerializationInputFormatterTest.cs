@@ -8,7 +8,6 @@ using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml.Assets;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
