@@ -16,18 +16,6 @@
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Xunit.Hosting.AspNetCore\Cuemon.Extensions.Xunit.Hosting.AspNetCore.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net9'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.0-preview.6.24328.4" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.32" />
-  </ItemGroup>
-
   <ItemGroup>
     <Content Update="xunit.runner.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

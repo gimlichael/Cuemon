@@ -16,6 +16,10 @@
     <ProjectReference Include="..\Cuemon.Diagnostics\Cuemon.Diagnostics.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net9'))">
+    <PackageReference Include="System.Text.Json" Version="9.0.0-preview.7.24405.7" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework.StartsWith('net8'))">
     <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>
