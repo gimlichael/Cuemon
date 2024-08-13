@@ -33,7 +33,7 @@ namespace Cuemon.Extensions
         [Fact]
         public void ContainsReservedKeyword_ShouldThrowReservedKeywordException()
         {
-            var sut = Assert.Throws<ReservedKeywordException>(() =>
+            var sut = Assert.Throws<ArgumentReservedKeywordException>(() =>
             {
                 var resKw = "dj bobo";
                 var resKwList = new string[]
@@ -63,7 +63,7 @@ namespace Cuemon.Extensions
 
             Validator.ThrowIf.ContainsReservedKeyword(resKw, resKwList); // should not throw as we are using EqualityComparer<string>.Default
 
-            var sut = Assert.Throws<ReservedKeywordException>(() =>
+            var sut = Assert.Throws<ArgumentReservedKeywordException>(() =>
             {
                 Validator.ThrowIf.ContainsReservedKeyword(resKw, resKwList, StringComparer.OrdinalIgnoreCase);
             });

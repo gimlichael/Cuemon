@@ -94,7 +94,7 @@ namespace Cuemon
         [Fact]
         public void TypeArgumentException_WithInnerException_ShouldBeSerializable_Json()
         {
-            var sut1 = new TypeArgumentException("Should have IE.", new ReservedKeywordException("Test", new AbandonedMutexException(20, null)));
+            var sut1 = new TypeArgumentException("Should have IE.", new ArgumentReservedKeywordException("Test", new AbandonedMutexException(20, null)));
             var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
@@ -168,7 +168,7 @@ namespace Cuemon
         [Fact]
         public void TypeArgumentException_WithInnerException_ShouldBeSerializable_Xml()
         {
-            var sut1 = new TypeArgumentException("Should have IE.", new ReservedKeywordException("Test", new AbandonedMutexException(20, null)));
+            var sut1 = new TypeArgumentException("Should have IE.", new ArgumentReservedKeywordException("Test", new AbandonedMutexException(20, null)));
             var sut2 = new XmlFormatter(o => o.Settings.Writer.Indent = true);
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
