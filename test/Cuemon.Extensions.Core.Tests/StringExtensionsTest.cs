@@ -436,6 +436,17 @@ namespace Cuemon.Extensions
             Assert.True(sut2);
         }
 
+        [Theory]
+        [InlineData(null)]
+        public void ContainsAny_ShouldThrowArgumentNullException(string value)
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() => value.ContainsAny('a'));
+            Assert.Equal(nameof(value), ex.ParamName);
+
+            ex = Assert.Throws<ArgumentNullException>(() => value.ContainsAny(StringComparison.OrdinalIgnoreCase, 'a'));
+            Assert.Equal(nameof(value), ex.ParamName);
+        }
+        
         [Fact]
         public void ContainsAny_Char_ShouldFindOneMatch()
         {

@@ -799,6 +799,21 @@ namespace Cuemon
             return condition ? firstExpression(arg1, arg2, arg3, arg4, arg5) : secondExpression(arg1, arg2, arg3, arg4, arg5);
         }
 
+        /// <summary>
+        /// Determines whether there is a set difference between <paramref name="second"/> and <paramref name="first"/>.
+        /// </summary>
+        /// <param name="first">The value where characters that are not also in <paramref name="second"/> will be returned.</param>
+        /// <param name="second">The value to compare with <paramref name="first"/>.</param>
+        /// <param name="difference">The set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.</param>
+        /// <returns>
+        /// 	<c>true</c> if there is a set difference between <paramref name="second"/> and <paramref name="first"/>; otherwise <c>false</c>.
+        /// </returns>
+        public static bool HasDifference(string first, string second, out string difference)
+        {
+            difference = Decorator.Enclose(first, false).Difference(second);
+            return difference.Length != 0;
+        }
+
         private static bool IsHexDigit(char character)
         {
             if (character >= 48 && character <= 57 || character >= 65 && character <= 70)

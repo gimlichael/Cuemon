@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cuemon.Text;
@@ -55,9 +54,7 @@ namespace Cuemon.Extensions
         /// <returns>>A <see cref="string"/> that contains the set difference between <paramref name="second"/> and <paramref name="first"/> or <see cref="string.Empty"/> if no difference.</returns>
         public static string Difference(this string first, string second)
         {
-            first ??= string.Empty;
-            second ??= string.Empty;
-            return string.Concat(second.Except(first));
+            return Decorator.Enclose(first, false).Difference(second);
         }
 
         /// <summary>
@@ -540,12 +537,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool ContainsAny(this string value, StringComparison comparison, params char[] values)
         {
-            Validator.ThrowIfNull(values);
-            foreach (var find in values)
-            {
-                if (ContainsAny(value, find, comparison)) { return true; }
-            }
-            return false;
+            return Decorator.EncloseToExpose(value).ContainsAny(comparison, values);
         }
 
         /// <summary>
@@ -563,9 +555,7 @@ namespace Cuemon.Extensions
         /// </exception>
         public static bool ContainsAny(this string value, char find, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            Validator.ThrowIfNull(value);
-            Validator.ThrowIfNull(find);
-            return (value.IndexOf(new string(find, 1), 0, value.Length, comparison) >= 0);
+            return Decorator.EncloseToExpose(value, false).ContainsAny(find, comparison);
         }
 
         /// <summary>
