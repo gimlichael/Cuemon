@@ -80,7 +80,7 @@ namespace Cuemon
         /// </exception>
         internal Decorator(T inner, bool throwIfNull, string argumentName = null)
         {
-            if (throwIfNull) { Validator.ThrowIfNull(inner, argumentName ?? nameof(inner)); }
+            if (throwIfNull) { Validator.ThrowIfNull(inner, paramName: argumentName ?? nameof(inner)); }
             Inner = inner;
             ArgumentName = argumentName;
         }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Cuemon.Assets;
+using Cuemon.Extensions.Collections.Generic;
 #if NET48_OR_GREATER
 using Cuemon.Extensions;
 #endif
@@ -107,18 +109,17 @@ namespace Cuemon
 		{
 			var sut = Decorator.Enclose(new ValidatableOptions());
 
-			Validator.ThrowIfNull(sut, out var options, "paramName");
+			Validator.ThrowIfNull(sut, out var options);
 			Assert.Equal(sut.Inner, options);
 		}
 
-		[Fact]
-		public void ThrowIfNull_Decorator_ShouldThrowArgumentNullException()
+		[Theory]
+        [InlineData(null)]
+        public void ThrowIfNull_Decorator_ShouldThrowArgumentNullException(Decorator<ValidatableOptions> sut)
 		{
-			var sut = (Decorator<ValidatableOptions>)null;
-
 			var result = Assert.Throws<ArgumentNullException>(() =>
 			{
-				Validator.ThrowIfNull(sut, out var options, "paramName");
+				Validator.ThrowIfNull(sut, out var options, paramName: "paramName");
 				Assert.Null(options);
 			});
 
@@ -166,7 +167,7 @@ namespace Cuemon
 		[Fact]
 		public void ThrowIfInvalidOptions_ShouldNotThrow_SinceNonValidatable()
 		{
-			Validator.ThrowIfInvalidOptions(new EssentialOptions(), "paramName");
+			Validator.ThrowIfInvalidOptions(new EssentialOptions());
 		}
 
 		[Fact]
@@ -174,27 +175,33 @@ namespace Cuemon
 		{
 			Assert.Throws<ArgumentNullException>(() =>
 			{
-				Validator.ThrowIfInvalidOptions((ValidatableOptions)null, "paramName");
+				Validator.ThrowIfInvalidOptions((ValidatableOptions)null);
 			});
 
 			Assert.Throws<ArgumentNullException>(() =>
 			{
-				Validator.ThrowIfInvalidOptions((EssentialOptions)null, "paramName");
+				Validator.ThrowIfInvalidOptions((EssentialOptions)null);
 			});
 		}
 
-		[Fact]
-		public void ThrowIfInvalidOptions_ShouldThrowArgumentException_WithInnerNotImplementedException()
+		[Theory]
+		[MemberData(nameof(GetValidatableOptions))]
+		public void ThrowIfInvalidOptions_ShouldThrowArgumentException_WithInnerNotImplementedException(ValidatableOptions paramName)
 		{
 			var result = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfInvalidOptions(new ValidatableOptions(), "paramName");
+				Validator.ThrowIfInvalidOptions(paramName);
 			});
 
 			Assert.StartsWith($"{nameof(ValidatableOptions)} are not in a valid state.", result.Message);
-			Assert.Contains("paramName", result.Message);
+			Assert.Contains(nameof(paramName), result.Message);
 			Assert.IsType<NotImplementedException>(result.InnerException);
 		}
+
+        public static IEnumerable<object[]> GetValidatableOptions()
+        {
+			yield return [ new ValidatableOptions() ];
+        }
 
 		[Theory]
 		[InlineData(null)]
@@ -203,13 +210,14 @@ namespace Cuemon
 		{
 			if (value == null)
 			{
-				Assert.Throws<ArgumentNullException>(() =>
+				var ex = Assert.Throws<ArgumentNullException>(() =>
 				{
 					Validator.CheckParameter(value, () =>
 					{
 						Validator.ThrowIfNull(value);
 					});
 				});
+				Assert.Equal(ex.ParamName, nameof(value));
 			}
 			else
 			{
@@ -223,15 +231,19 @@ namespace Cuemon
 		[Fact]
 		public void ThrowIfContainsType_ShouldThrowArgumentOutOfRangeException()
 		{
-			Assert.Throws<ArgumentOutOfRangeException>(() =>
+			var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
 			{
-				Validator.ThrowIfContainsType(typeof(ArgumentNullException), "paramName", typeof(ArgumentException));
+				Validator.ThrowIfContainsType(typeof(ArgumentNullException), typeof(ArgumentException).Yield().ToArray());
 			});
 
-			Assert.Throws<ArgumentOutOfRangeException>(() =>
+			Assert.Equal(ex.ParamName, "typeof(ArgumentNullException)");
+
+			ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
 			{
-				Validator.ThrowIfContainsType(new ArgumentNullException(), "paramName", typeof(ArgumentException));
+				Validator.ThrowIfContainsType(new ArgumentNullException(), typeof(ArgumentException).Yield().ToArray());
 			});
+
+            Assert.Equal(ex.ParamName, "new ArgumentNullException()");
 		}
 
 		[Fact]
@@ -248,12 +260,12 @@ namespace Cuemon
 		{
 			Assert.Throws<ArgumentOutOfRangeException>(() =>
 			{
-				Validator.ThrowIfNotContainsType(typeof(ArgumentNullException), "paramName", typeof(OutOfMemoryException));
+				Validator.ThrowIfNotContainsType(typeof(ArgumentNullException), typeof(OutOfMemoryException).Yield().ToArray());
 			});
 
 			Assert.Throws<ArgumentOutOfRangeException>(() =>
 			{
-				Validator.ThrowIfNotContainsType(new ArgumentNullException(), "paramName", typeof(OutOfMemoryException));
+				Validator.ThrowIfNotContainsType(new ArgumentNullException(), typeof(OutOfMemoryException).Yield().ToArray());
 			});
 		}
 
@@ -262,7 +274,7 @@ namespace Cuemon
 		{
 			Assert.Throws<ArgumentOutOfRangeException>(() =>
 			{
-				Validator.ThrowIfNotContainsInterface(typeof(Stream), "paramName", typeof(IConvertible));
+				Validator.ThrowIfNotContainsInterface(typeof(Stream), typeof(IConvertible).Yield().ToArray());
 			});
 		}
 
@@ -280,120 +292,141 @@ namespace Cuemon
 		{
 			Assert.Throws<ArgumentOutOfRangeException>(() =>
 			{
-				Validator.ThrowIfContainsInterface(typeof(string), "paramName", typeof(IConvertible));
+				Validator.ThrowIfContainsInterface(typeof(string), typeof(IConvertible).Yield().ToArray());
 			});
 		}
 
-		[Fact]
-		public void ThrowIfContainsInterface_ShouldThrowTypeArgumentOutOfRangeException()
-		{
-			Assert.Throws<TypeArgumentOutOfRangeException>(() =>
+		[Theory]
+		[InlineData(true)]
+        public void ThrowIfContainsInterface_ShouldThrowTypeArgumentOutOfRangeException<TBool>(TBool value) where TBool : struct, IConvertible
+        {
+			var ex = Assert.Throws<TypeArgumentOutOfRangeException>(() =>
 			{
-				Validator.ThrowIfContainsInterface<bool>("paramName", typeof(IConvertible));
+				Validator.ThrowIfContainsInterface<TBool>(nameof(TBool), typeof(IConvertible));
 			});
+			Assert.Equal(nameof(TBool), ex.ParamName);
 		}
 
 		[Fact]
 		public void ThrowIfNotContainsType_ShouldThrowTypeArgumentOutOfRangeException()
 		{
-			Assert.Throws<TypeArgumentOutOfRangeException>(() =>
+			var ex = Assert.Throws<TypeArgumentOutOfRangeException>(() =>
 			{
 				Validator.ThrowIfNotContainsType<ArgumentNullException>("typeParamName", typeof(OutOfMemoryException));
 			});
+			Assert.Equal("typeParamName", ex.ParamName);
 		}
 
-		[Fact]
-		public void ThrowIfEmailAddress_ShouldThrowArgumentException()
+		[Theory]
+		[InlineData("michael@wbpa.dk")]
+		public void ThrowIfEmailAddress_ShouldThrowArgumentException(string emailAddress)
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfEmailAddress("michael@wbpa.dk", "paramName");
+				Validator.ThrowIfEmailAddress(emailAddress);
 			});
+			Assert.Equal(nameof(emailAddress), ex.ParamName);
 		}
 
 		[Fact]
 		public void ThrowIfNotEmailAddress_ShouldThrowArgumentException()
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNotEmailAddress("michael", "paramName");
+				Validator.ThrowIfNotEmailAddress("michael", paramName: "paramName");
 			});
+			Assert.Equal("paramName", ex.ParamName);
 		}
 
-		[Fact]
-		public void ThrowIfEmpty_ShouldThrowArgumentException()
+		[Theory]
+		[InlineData("")]
+		public void ThrowIfEmpty_ShouldThrowArgumentException(string paramName)
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfEmpty("", "paramName");
+				Validator.ThrowIfEmpty(paramName);
 			});
-		}
+			Assert.Equal(nameof(paramName), ex.ParamName);
+        }
 
-		[Fact]
-		public void ThrowIfSequenceEmpty_ShouldThrowArgumentException()
+		[Theory]
+		[MemberData(nameof(GetEmptySequence))]
+        public void ThrowIfSequenceEmpty_ShouldThrowArgumentException(IEnumerable<string> sequence)
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				var list = new List<string>();
-				Validator.ThrowIfSequenceEmpty(list, "paramName");
+				Validator.ThrowIfSequenceEmpty(sequence);
 			});
-		}
+			Assert.Equal(nameof(sequence), ex.ParamName);
+        }
 
-		[Fact]
-		public void ThrowIfSequenceNullOrEmpty_ShouldThrowArgumentNullException()
+        public static IEnumerable<object[]> GetEmptySequence()
+        {
+            yield return [ Enumerable.Empty<string>() ];
+        }
+
+		[Theory]
+		[InlineData(null)]
+		public void ThrowIfSequenceNullOrEmpty_ShouldThrowArgumentNullException(IEnumerable<string> nullSequence)
 		{
-			Assert.Throws<ArgumentNullException>(() =>
+			var ex = Assert.Throws<ArgumentNullException>(() =>
 			{
-				List<string> list = null;
-				Validator.ThrowIfSequenceNullOrEmpty(list, "paramName");
+				Validator.ThrowIfSequenceNullOrEmpty(nullSequence);
 			});
-		}
+			Assert.Equal(nameof(nullSequence), ex.ParamName);
+        }
 
 		[Fact]
 		public void ThrowIfSequenceNullOrEmpty_ShouldThrowArgumentException()
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
 				var list = new List<string>();
-				Validator.ThrowIfSequenceNullOrEmpty(list, "paramName");
+				Validator.ThrowIfSequenceNullOrEmpty(list, paramName: "paramName");
 			});
-		}
+            Assert.Equal("paramName", ex.ParamName);
+        }
 
-		[Fact]
-		public void ThrowIfEnum_ShouldThrowArgumentException()
+		[Theory]
+        [InlineData("Up")]
+        public void ThrowIfEnum_ShouldThrowArgumentException(string enumAsString)
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfEnum<VerticalDirection>("Up", "paramName");
+				Validator.ThrowIfEnum<VerticalDirection>(enumAsString);
 			});
-		}
+			Assert.Equal(nameof(enumAsString), ex.ParamName);
+        }
 
 		[Fact]
 		public void ThrowIfEnumType_ShouldThrowArgumentException()
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfEnumType(typeof(VerticalDirection), "paramName");
+				Validator.ThrowIfEnumType(typeof(VerticalDirection));
 			});
-		}
+            Assert.Equal("typeof(VerticalDirection)", ex.ParamName);
+        }
 
 		[Fact]
 		public void ThrowIfNotEnumType_ShouldThrowArgumentException()
 		{
 			Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNotEnumType(typeof(Stream), "paramName");
+				Validator.ThrowIfNotEnumType(typeof(Stream));
 			});
 		}
 
-		[Fact]
-		public void ThrowIfNotEnum_ShouldThrowArgumentException()
+        [Theory]
+        [InlineData("Ups")]
+		public void ThrowIfNotEnum_ShouldThrowArgumentException(string paramName)
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNotEnum<VerticalDirection>("Ups", "paramName");
+				Validator.ThrowIfNotEnum<VerticalDirection>(paramName);
 			});
-		}
+            Assert.Equal(nameof(paramName), ex.ParamName);
+        }
 
 		[Fact]
 		public void ThrowIfEnumType_ShouldThrowTypeArgumentException()
@@ -541,30 +574,34 @@ namespace Cuemon
 			});
 		}
 
-		[Fact]
-		public void ThrowIfGuid_ShouldThrowArgumentException()
+		[Theory]
+		[InlineData("eccdb302-f94b-4df8-8ef4-f46794e1dcbd")]
+		public void ThrowIfGuid_ShouldThrowArgumentException(string guidString)
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfGuid(Guid.Empty.ToString(), "paramName");
+				Validator.ThrowIfGuid(guidString);
 			});
-		}
+			Assert.Equal(nameof(guidString), ex.ParamName);
+        }
 
-		[Fact]
-		public void ThrowIfNotGuid_ShouldThrowArgumentException()
+		[Theory]
+		[InlineData("not-a-guid")]
+		public void ThrowIfNotGuid_ShouldThrowArgumentException(string value)
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNotGuid("not-a-guid", "paramName");
+				Validator.ThrowIfNotGuid(value);
 			});
-		}
+			Assert.Equal(nameof(value), ex.ParamName);
+        }
 
 		[Fact]
 		public void ThrowIfHex_ShouldThrowArgumentException()
 		{
 			Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfHex("AAB0F3C1", "paramName");
+				Validator.ThrowIfHex("AAB0F3C1");
 			});
 		}
 
@@ -573,7 +610,7 @@ namespace Cuemon
 		{
 			Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNotHex("olkiujhy", "paramName");
+				Validator.ThrowIfNotHex("olkiujhy");
 			});
 		}
 
@@ -595,13 +632,15 @@ namespace Cuemon
 			});
 		}
 
-		[Fact]
-		public void ThrowIfNumber_ShouldThrowArgumentException()
+		[Theory]
+		[InlineData("22")]
+        public void ThrowIfNumber_ShouldThrowArgumentException(string number)
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNumber("22", "paramName");
+				Validator.ThrowIfNumber(number);
 			});
+			Assert.Equal(nameof(number), ex.ParamName);
 		}
 
 		[Fact]
@@ -609,7 +648,7 @@ namespace Cuemon
 		{
 			var sut = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNotNumber("22cads", "paramName");
+				Validator.ThrowIfNotNumber("22cads", paramName: "paramName");
 			});
 
 			Assert.StartsWith("Value must be a number.", sut.Message);
@@ -621,7 +660,7 @@ namespace Cuemon
 		{
 			var sut = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNotNumber("22cads", "marapName", message: "customMessage");
+				Validator.ThrowIfNotNumber("22cads", message: "customMessage", paramName: "marapName");
 			});
 
 			Assert.StartsWith("customMessage", sut.Message);
@@ -644,7 +683,7 @@ namespace Cuemon
 
 			sut = Assert.Throws<ArgumentNullException>(() =>
 			{
-				Validator.ThrowIfNull(value, "paramName");
+				Validator.ThrowIfNull(value, paramName: "paramName");
 			});
 
 			Assert.StartsWith("Value cannot be null.", sut.Message);
@@ -673,7 +712,7 @@ namespace Cuemon
 
 			sut = Assert.Throws<ArgumentNullException>(() =>
 			{
-				Validator.ThrowIfNullOrEmpty(value, nameof(value), "message");
+				Validator.ThrowIfNullOrEmpty(value, "message");
 			});
 
 			Assert.StartsWith("message", sut.Message);
@@ -694,7 +733,7 @@ namespace Cuemon
 
 			sut = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNullOrEmpty("", nameof(value));
+				Validator.ThrowIfNullOrEmpty("", paramName: nameof(value));
 			});
 
 
@@ -703,7 +742,7 @@ namespace Cuemon
 
 			sut = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNullOrEmpty("", nameof(value), "message");
+				Validator.ThrowIfNullOrEmpty(value, "message");
 			});
 
 			Assert.StartsWith("message", sut.Message);
@@ -722,13 +761,13 @@ namespace Cuemon
 			Assert.StartsWith("Value cannot be null.", sut.Message);
 			Assert.Contains("value", sut.Message);
 
-			sut = Assert.Throws<ArgumentNullException>(() =>
+			var sut2 = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNullOrWhitespace(value);
+				Validator.ThrowIfNullOrWhitespace(" ", paramName: nameof(value));
 			});
 
-			Assert.StartsWith("Value cannot be null.", sut.Message);
-			Assert.Contains("value", sut.Message);
+            Assert.StartsWith("Value cannot consist only of white-space characters", sut2.Message);
+			Assert.Contains("value", sut2.Message);
 		}
 
 		[Theory]
@@ -754,7 +793,7 @@ namespace Cuemon
 
 			sut = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNullOrWhitespace(value, nameof(value), "message");
+				Validator.ThrowIfNullOrWhitespace(value, "message");
 			});
 
 			Assert.StartsWith("message", sut.Message);
@@ -814,48 +853,53 @@ namespace Cuemon
 		{
 			Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfUri("https://www.cuemon.net/", "paramName");
+				Validator.ThrowIfUri("https://www.cuemon.net/");
 			});
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Validator.ThrowIfUri("https://www.cuemon.net/", "paramName", UriKind.RelativeOrAbsolute);
+                Validator.ThrowIfUri("https://www.cuemon.net/", UriKind.RelativeOrAbsolute);
             });
 
             Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfUri("/blog", "paramName", UriKind.Relative);
+                Validator.ThrowIfUri("/blog", UriKind.Relative);
             });
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Validator.ThrowIfUri("/blog", "paramName", UriKind.RelativeOrAbsolute);
+                Validator.ThrowIfUri("/blog", UriKind.RelativeOrAbsolute);
             });
 		}
 
-		[Fact]
-		public void ThrowIfNotUri_ShouldThrowArgumentException()
+		[Theory]
+		[InlineData("www.cuemon.net")]
+        public void ThrowIfNotUri_ShouldThrowArgumentException(string cuemonUrl)
 		{
-			Assert.Throws<ArgumentException>(() =>
+			var ex = Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfNotUri("www.cuemon.net", "paramName");
+				Validator.ThrowIfNotUri(cuemonUrl);
 			});
+
+			Assert.Equal(nameof(cuemonUrl), ex.ParamName);
 
             var ae = Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Validator.ThrowIfNotUri("www.cuemon.net", "paramName", UriKind.RelativeOrAbsolute);
+                Validator.ThrowIfNotUri("www.cuemon.net", UriKind.RelativeOrAbsolute, paramName: "paramName");
             });
 
 			TestOutput.WriteLine(ae.ToString());
 
+			Assert.Equal("paramName", ae.ParamName);
+
             Assert.Throws<ArgumentException>(() =>
             {
-                Validator.ThrowIfNotUri("blog:that", "paramName", UriKind.Relative);
+                Validator.ThrowIfNotUri("blog:that", UriKind.Relative);
             });
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Validator.ThrowIfNotUri("blog:that", "paramName", UriKind.RelativeOrAbsolute);
+                Validator.ThrowIfNotUri("blog:that", UriKind.RelativeOrAbsolute);
             });
 		}
 
@@ -864,17 +908,18 @@ namespace Cuemon
 		{
 			Assert.Throws<ArgumentException>(() =>
 			{
-				Validator.ThrowIfWhiteSpace(" ", "paramName");
+				Validator.ThrowIfWhiteSpace(" ");
 			});
 		}
 
 		[Fact]
 		public void ThrowIfNotBinaryDigits_ShouldThrowArgumentOutOfRangeException()
 		{
-			Assert.Throws<ArgumentOutOfRangeException>(() =>
+			var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
 			{
-				Validator.ThrowIfNotBinaryDigits("12345678", "paramName");
+				Validator.ThrowIfNotBinaryDigits("12345678");
 			});
+			Assert.StartsWith("Value must consist only of binary digits", ex.Message);
 		}
 
 		[Fact]
@@ -882,7 +927,7 @@ namespace Cuemon
 		{
 			var sut = Assert.Throws<ArgumentOutOfRangeException>(() =>
 			{
-				Validator.ThrowIfNotBase64String("DJ BOBO", "paramName");
+				Validator.ThrowIfNotBase64String("DJ BOBO", paramName: "paramName");
 			});
 
 			Assert.Equal("paramName", sut.ParamName);
@@ -898,5 +943,112 @@ namespace Cuemon
 			Assert.Equal("paramName", sut.ActualValue);
 			Assert.StartsWith("Value must consist only of base-64 digits.", sut.Message);
 		}
+
+        [Fact]
+        public void ThrowIfContainsReservedKeyword_ShouldThrowReservedKeywordException()
+        {
+            var sut = Assert.Throws<ArgumentReservedKeywordException>(() =>
+            {
+                var resKw = "dj bobo";
+                var resKwList = new string[]
+                {
+                    "rene",
+                    "baumann",
+                    "dj bobo"
+                };
+                Validator.ThrowIfContainsReservedKeyword(resKw, resKwList);
+            });
+
+            Assert.Equal("resKw", sut.ParamName);
+            Assert.Equal("dj bobo", sut.ActualValue);
+            Assert.StartsWith("Specified argument is a reserved keyword.", sut.Message);
+        }
+
+        [Fact]
+        public void ThrowIfContainsReservedKeyword_WithEqualityComparer_ShouldThrowReservedKeywordException()
+        {
+            var resKw = "DJ BOBO";
+            var resKwList = new string[]
+            {
+                "rene",
+                "baumann",
+                "dj bobo"
+            };
+
+            Validator.ThrowIfContainsReservedKeyword(resKw, resKwList); // should not throw as we are using EqualityComparer<string>.Default
+
+            var sut = Assert.Throws<ArgumentReservedKeywordException>(() =>
+            {
+                Validator.ThrowIfContainsReservedKeyword(resKw, resKwList, StringComparer.OrdinalIgnoreCase);
+            });
+
+            Assert.Equal("resKw", sut.ParamName);
+            Assert.Equal("DJ BOBO", sut.ActualValue);
+            Assert.StartsWith("Specified argument is a reserved keyword.", sut.Message);
+        }
+
+        [Fact]
+        public void ThrowIfNotDifferent_ShouldThrowArgumentOutOfRangeException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfNotDifferent("aaabbbccc", "dddeeefff", "paramName");
+            });
+        }
+
+        [Fact]
+        public void ThrowIfDifferent_ShouldThrowArgumentOutOfRangeException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Validator.ThrowIfDifferent("aaabbbccc", "cccbbbbaaaa", "paramName");
+            });
+        }
+
+        [Fact]
+        public void ThrowIfContainsAny_ShouldThrowArgumentOutOfRangeException()
+        {
+            var sut = Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                var argument = "dj bobo\tis the best 90ies artist!";
+                var characters = new[] { ' ', Alphanumeric.TabChar };
+                Validator.ThrowIfContainsAny(argument, characters);
+            });
+
+            Assert.Equal("argument", sut.ParamName);
+            Assert.Equal("' ','\t'", sut.ActualValue);
+            Assert.StartsWith("One or more character matches were found.", sut.Message);
+        }
+
+        [Fact]
+        public void ThrowIfNotContainsAny_ShouldThrowArgumentOutOfRangeException()
+        {
+            var sut = Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                var argument = "dj bobo\tis the best 90ies artist!";
+                var characters = new[] { Alphanumeric.LinefeedChar, Alphanumeric.CaretChar };
+                Validator.ThrowIfNotContainsAny(argument, characters);
+            });
+
+            Assert.Equal("argument", sut.ParamName);
+            Assert.Equal("'\n','^'", sut.ActualValue);
+            Assert.StartsWith("No matching characters were found.", sut.Message);
+        }
+
+        [Fact]
+        public void ThrowIfContainsAny_ShouldNotThrowAnyException()
+        {
+            var argument = "dj bobo\tis the best 90ies artist!";
+            var characters = new[] { Alphanumeric.LinefeedChar, Alphanumeric.CaretChar };
+            Validator.ThrowIfContainsAny(argument, characters);
+        }
+
+        [Fact]
+        public void ThrowIfNotContainsAny_ShouldNotThrowAnyException()
+        {
+            var argument = "dj bobo\tis the best 90ies artist!";
+            var characters = new[] { Alphanumeric.TabChar, ' ' };
+            Validator.ThrowIfNotContainsAny(argument, characters);
+        }
 	}
 }

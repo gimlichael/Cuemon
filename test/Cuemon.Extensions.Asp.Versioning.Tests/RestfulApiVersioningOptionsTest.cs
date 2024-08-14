@@ -20,7 +20,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                 ParameterName = " "
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(ParameterName) || Condition.IsEmpty(ParameterName) || Condition.IsWhiteSpace(ParameterName)')", sut2.Message);
             Assert.Equal("RestfulApiVersioningOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -35,7 +35,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                 ParameterName = string.Empty
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(ParameterName) || Condition.IsEmpty(ParameterName) || Condition.IsWhiteSpace(ParameterName)')", sut2.Message);
             Assert.Equal("RestfulApiVersioningOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -50,7 +50,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                 ParameterName = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(ParameterName) || Condition.IsEmpty(ParameterName) || Condition.IsWhiteSpace(ParameterName)')", sut2.Message);
             Assert.Equal("RestfulApiVersioningOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -65,7 +65,7 @@ namespace Cuemon.Extensions.Asp.Versioning
                 ValidAcceptHeaders = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'ValidAcceptHeaders == null')", sut2.Message);
             Assert.Equal("RestfulApiVersioningOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);

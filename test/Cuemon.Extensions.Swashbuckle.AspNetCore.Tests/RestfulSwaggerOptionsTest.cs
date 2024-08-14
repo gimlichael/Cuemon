@@ -19,7 +19,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                 OpenApiInfo = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'OpenApiInfo == null')", sut2.Message);
             Assert.Equal("RestfulSwaggerOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -34,7 +34,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                 XmlDocumentations = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'XmlDocumentations == null')", sut2.Message);
             Assert.Equal("RestfulSwaggerOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -49,7 +49,7 @@ namespace Cuemon.Extensions.Swashbuckle.AspNetCore
                 Settings = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Settings == null')", sut2.Message);
             Assert.Equal("RestfulSwaggerOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);

@@ -364,7 +364,7 @@ namespace Cuemon.Data
         private static void OpenConnection(IDbCommand command)
         {
             Validator.ThrowIfNull(command);
-            Validator.ThrowIfNull(command.Connection, nameof(command), $"The connection of the {nameof(command)} was not set.");
+            Validator.ThrowIfNull(command.Connection, $"The connection of the {nameof(command)} was not set.", nameof(command));
             if (command.Connection!.State != ConnectionState.Open) { command.Connection.Open(); }
         }
 

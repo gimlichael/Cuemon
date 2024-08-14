@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using Cuemon.Extensions;
 using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Newtonsoft.Json.Formatters;
 using Cuemon.Extensions.Xunit;
@@ -115,7 +114,7 @@ namespace Cuemon
   ""type"": ""Cuemon.TypeArgumentException"",
   ""message"": ""Should have IE."",
   ""inner"": {
-    ""type"": ""Cuemon.ReservedKeywordException"",
+    ""type"": ""Cuemon.ArgumentReservedKeywordException"",
     ""message"": ""Test"",
     ""inner"": {
       ""type"": ""System.Threading.AbandonedMutexException"",
@@ -187,13 +186,13 @@ namespace Cuemon
                          <?xml version="1.0" encoding="utf-8"?>
                          <TypeArgumentException namespace="Cuemon">
                          	<Message>Should have IE.</Message>
-                         	<ReservedKeywordException namespace="Cuemon">
+                         	<ArgumentReservedKeywordException namespace="Cuemon">
                          		<Message>Test</Message>
                          		<AbandonedMutexException namespace="System.Threading">
                          			<Message>The wait completed due to an abandoned mutex.</Message>
                          			<MutexIndex>20</MutexIndex>
                          		</AbandonedMutexException>
-                         	</ReservedKeywordException>
+                         	</ArgumentReservedKeywordException>
                          </TypeArgumentException>
                          """.ReplaceLineEndings(), sut4);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Cuemon.Collections.Generic;
 using Cuemon.Globalization;
 
 namespace Cuemon.Diagnostics
@@ -20,7 +21,7 @@ namespace Cuemon.Diagnostics
         public ExceptionDescriptorAttribute(Type failureType)
         {
             Validator.ThrowIfNull(failureType);
-            Validator.ThrowIfNotContainsType(failureType, nameof(failureType), "The specified type is not an Exception.", typeof(Exception));
+            Validator.ThrowIfNotContainsType(failureType, Arguments.ToArrayOf(typeof(Exception)), "The specified type is not an Exception.");
             FailureType = failureType;
         }
 

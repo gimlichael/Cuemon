@@ -20,7 +20,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 RateLimitHeaderName = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(RateLimitHeaderName) || Condition.IsEmpty(RateLimitHeaderName) || Condition.IsWhiteSpace(RateLimitHeaderName)')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 RateLimitHeaderName = string.Empty
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(RateLimitHeaderName) || Condition.IsEmpty(RateLimitHeaderName) || Condition.IsWhiteSpace(RateLimitHeaderName)')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -50,7 +50,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 RateLimitHeaderName = " "
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(RateLimitHeaderName) || Condition.IsEmpty(RateLimitHeaderName) || Condition.IsWhiteSpace(RateLimitHeaderName)')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -65,7 +65,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 RateLimitRemainingHeaderName = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(RateLimitRemainingHeaderName) || Condition.IsEmpty(RateLimitRemainingHeaderName) || Condition.IsWhiteSpace(RateLimitRemainingHeaderName)')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -80,7 +80,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 RateLimitRemainingHeaderName = string.Empty
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(RateLimitRemainingHeaderName) || Condition.IsEmpty(RateLimitRemainingHeaderName) || Condition.IsWhiteSpace(RateLimitRemainingHeaderName)')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -95,7 +95,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 RateLimitRemainingHeaderName = " "
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(RateLimitRemainingHeaderName) || Condition.IsEmpty(RateLimitRemainingHeaderName) || Condition.IsWhiteSpace(RateLimitRemainingHeaderName)')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -110,7 +110,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 RateLimitResetHeaderName = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(RateLimitResetHeaderName) || Condition.IsEmpty(RateLimitResetHeaderName) || Condition.IsWhiteSpace(RateLimitResetHeaderName)')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -125,7 +125,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 RateLimitResetHeaderName = string.Empty
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(RateLimitResetHeaderName) || Condition.IsEmpty(RateLimitResetHeaderName) || Condition.IsWhiteSpace(RateLimitResetHeaderName)')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -140,7 +140,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 RateLimitResetHeaderName = " "
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(RateLimitResetHeaderName) || Condition.IsEmpty(RateLimitResetHeaderName) || Condition.IsWhiteSpace(RateLimitResetHeaderName)')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -155,7 +155,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 ContextResolver = context => "FAKECONTEXT"
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'ContextResolver != null && Quota == null')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -170,7 +170,7 @@ namespace Cuemon.AspNetCore.Http.Throttling
                 ResponseHandler = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'ResponseHandler == null')", sut2.Message);
             Assert.Equal("ThrottlingSentinelOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);

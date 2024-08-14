@@ -27,7 +27,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 	    /// <param name="setup">The <see cref="MvcFaultDescriptorOptions"/> which need to be configured.</param>
 	    public FaultDescriptorFilter(IOptions<MvcFaultDescriptorOptions> setup) : base(Validator.CheckParameter(() =>
 	    {
-			Validator.ThrowIfInvalidOptions(setup.Value, nameof(setup));
+			Validator.ThrowIfInvalidOptions(setup.Value, paramName: nameof(setup));
 		    return setup.Value;
 	    }))
         {
