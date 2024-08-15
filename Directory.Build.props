@@ -4,7 +4,7 @@
     <IsLinux>$([MSBuild]::IsOSPlatform('Linux'))</IsLinux>
     <IsWindows>$([MSBuild]::IsOSPlatform('Windows'))</IsWindows>
     <IsMainAuthor Condition="'$(EMAIL)' == 'michael@geekle.io'">true</IsMainAuthor>
-     <SkipSignAssembly>false</SkipSignAssembly>
+    <SkipSignAssembly>false</SkipSignAssembly>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -68,7 +68,7 @@
     <SonarQubeExclude>true</SonarQubeExclude>
     <WarningLevel>0</WarningLevel>
     <AnalysisLevel>none</AnalysisLevel>
-    <NoWarn>NU1701</NoWarn>
+    <NoWarn>NU1701,NU1903</NoWarn>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
 
