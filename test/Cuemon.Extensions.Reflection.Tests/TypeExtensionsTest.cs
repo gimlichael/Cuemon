@@ -67,7 +67,7 @@ namespace Cuemon.Extensions.Reflection
         {
             Type type = null;
             var sut = Assert.Throws<ArgumentNullException>(() => type.GetAllProperties());
-            
+
             TestOutput.WriteLine(sut.ToString());
 
             Assert.Equal("source", sut.ParamName);
@@ -95,7 +95,7 @@ namespace Cuemon.Extensions.Reflection
         {
             Type type = null;
             var sut = Assert.Throws<ArgumentNullException>(() => type.GetAllEvents());
-            
+
             TestOutput.WriteLine(sut.ToString());
 
             Assert.Equal("source", sut.ParamName);
@@ -119,7 +119,7 @@ namespace Cuemon.Extensions.Reflection
         {
             Type type = null;
             var sut = Assert.Throws<ArgumentNullException>(() => type.GetAllMethods());
-            
+
             TestOutput.WriteLine(sut.ToString());
 
             Assert.Equal("source", sut.ParamName);
@@ -147,7 +147,7 @@ namespace Cuemon.Extensions.Reflection
         {
             Type type = null;
             var sut = Assert.Throws<ArgumentNullException>(() => type.GetAllFields());
-            
+
             TestOutput.WriteLine(sut.ToString());
 
             Assert.Equal("source", sut.ParamName);
@@ -165,6 +165,9 @@ namespace Cuemon.Extensions.Reflection
 #if NET48_OR_GREATER
             expected = 21;
             actualValueName = "m_actualValue";
+#endif
+#if NET9_0_OR_GREATER
+            expected = 16;
 #endif
 
             TestOutput.WriteLines(members);
@@ -277,7 +280,7 @@ namespace Cuemon.Extensions.Reflection
                 pi => Assert.Equal("InnerExceptionCount", pi.Name),
                 pi => Assert.Equal("InternalInnerExceptions", pi.Name));
 
-            Assert.Collection(sut3, 
+            Assert.Collection(sut3,
                 pi => Assert.Equal("Code", pi.Name),
                 pi => Assert.Equal("CodePhrase", pi.Name));
 
