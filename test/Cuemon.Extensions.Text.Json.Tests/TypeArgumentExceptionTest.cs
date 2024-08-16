@@ -113,7 +113,7 @@ namespace Cuemon
   ""type"": ""Cuemon.TypeArgumentException"",
   ""message"": ""Should have IE."",
   ""inner"": {
-    ""type"": ""Cuemon.ReservedKeywordException"",
+    ""type"": ""Cuemon.ArgumentReservedKeywordException"",
     ""message"": ""Test"",
     ""inner"": {
       ""type"": ""System.Threading.AbandonedMutexException"",
