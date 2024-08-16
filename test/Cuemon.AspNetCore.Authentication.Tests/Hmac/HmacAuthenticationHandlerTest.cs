@@ -5,6 +5,7 @@ using Cuemon.AspNetCore.Authentication.Assets;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Authentication;
 using Cuemon.Extensions.Xunit;
+using Cuemon.Extensions.Xunit.Hosting;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -127,7 +128,7 @@ namespace Cuemon.AspNetCore.Authentication.Hmac
 					   app.UseEndpoints(routes => { routes.MapControllers(); });
 				   }))
 			{
-				var options = webApp.ServiceProvider.GetRequiredService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(AuthenticationScheme);
+				var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(AuthenticationScheme);
 				var client = webApp.Host.GetTestClient();
 
 				client.DefaultRequestHeaders.Add(HeaderNames.Date, DateTime.UtcNow.ToString("R"));

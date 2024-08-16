@@ -29,7 +29,6 @@ namespace Cuemon.AspNetCore.Http.Headers
             using (var middleware = WebHostTestFactory.Create(services =>
             {
                 services.Configure<UserAgentSentinelOptions>(o => { o.RequireUserAgentHeader = true; });
-                services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
             }, app =>
                    {
                        app.UseUserAgentSentinel();
@@ -60,7 +59,6 @@ namespace Cuemon.AspNetCore.Http.Headers
                            o.ValidateUserAgentHeader = true;
                            o.AllowedUserAgents.Add("Cuemon-Agent");
                        });
-                       services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
                    }, app =>
                    {
                        app.UseUserAgentSentinel();
@@ -93,7 +91,6 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.ValidateUserAgentHeader = true;
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
-                services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
             }, app =>
                    {
                        app.UseFaultDescriptorExceptionHandler();
@@ -126,7 +123,6 @@ namespace Cuemon.AspNetCore.Http.Headers
                        {
                            o.RequireUserAgentHeader = true;
                        });
-                       services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
                    }, app =>
                    {
                        app.UseFaultDescriptorExceptionHandler();
@@ -160,7 +156,6 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.UseGenericResponse = true;
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
-                services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
             }, app =>
                    {
                        app.UseUserAgentSentinel();
@@ -219,7 +214,6 @@ namespace Cuemon.AspNetCore.Http.Headers
                     o.ValidateUserAgentHeader = true;
                     o.AllowedUserAgents.Add("Cuemon-Agent");
                 });
-                services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
             }, app =>
                    {
                        app.UseUserAgentSentinel();

@@ -57,7 +57,11 @@ namespace Cuemon.Extensions.Xunit.Hosting
                 });
 
             ConfigureHostCallback(hb);
-            
+
+#if NET9_0_OR_GREATER
+            hb.UseDefaultServiceProvider(o => o.ValidateScopes = false); // this is by intent
+#endif
+
             Host = hb.Build();
         }
 

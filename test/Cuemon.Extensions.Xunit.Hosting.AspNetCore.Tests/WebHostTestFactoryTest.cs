@@ -31,7 +31,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         [Fact]
         public Task RunMiddlewareTest_ShouldHaveApplicationNameEqualToThisAssembly()
         {
-            return WebHostTestFactory.Run(Assert.NotNull, Assert.NotNull, host =>
+            return WebHostTestFactory.RunAsync(Assert.NotNull, Assert.NotNull, host =>
               {
                   host.ConfigureAppConfiguration((context, configuration) =>
                   {
@@ -44,7 +44,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         [Fact]
         public Task RunMiddlewareTest_ShouldHaveApplicationNameEqualToThisAssembly_WithHostBuilderContext()
         {
-            return WebHostTestFactory.RunWithHostBuilderContext((context, app) =>
+            return WebHostTestFactory.RunWithHostBuilderContextAsync((context, app) =>
                 {
                     Assert.NotNull(context);
                     Assert.NotNull(context.HostingEnvironment);

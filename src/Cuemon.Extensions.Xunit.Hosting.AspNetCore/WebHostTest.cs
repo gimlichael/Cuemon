@@ -82,7 +82,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 hbc.HostingEnvironment = HostingEnvironment;
                 return hbc;
             }), services);
-            services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
+            services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
         }
     }
 }

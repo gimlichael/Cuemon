@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -38,23 +39,17 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         }
 
         /// <summary>
-        /// Runs a filter/middleware test.
+        /// Runs a middleware and returns an <see cref="HttpClient"/> for making HTTP requests to the test server.
         /// </summary>
-        /// <param name="serviceSetup">The <see cref="IServiceCollection" /> which may be configured.</param>
-        /// <param name="pipelineSetup">The <see cref="IApplicationBuilder" /> which may be configured.</param>
-        /// <param name="hostSetup">The <see cref="IHostBuilder" /> which may be configured.</param>
-        /// <returns>A task that represents the execution of the middleware.</returns>
-        /// <exception cref="InvalidOperationException">
-        /// <paramref name="serviceSetup"/> did not have a registered service of <see cref="IHttpContextAccessor"/>.
-        /// </exception>
-        public static async Task Run(Action<IServiceCollection> serviceSetup = null, Action<IApplicationBuilder> pipelineSetup = null, Action<IHostBuilder> hostSetup = null)
+        /// <param name="serviceSetup">The <see cref="IServiceCollection"/> which may be configured.</param>
+        /// <param name="pipelineSetup">The <see cref="IApplicationBuilder"/> which may be configured.</param>
+        /// <param name="hostSetup">The <see cref="IHostBuilder"/> which may be configured.</param>
+        /// <param name="responseFactory">The function delegate that creates a <see cref="HttpResponseMessage"/> from the <see cref="HttpClient"/>. Default is a GET request to the root URL ("/").</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation. The task result contains the <see cref="HttpResponseMessage"/> for the test server.</returns>
+        public static async Task<HttpResponseMessage> RunAsync(Action<IServiceCollection> serviceSetup = null, Action<IApplicationBuilder> pipelineSetup = null, Action<IHostBuilder> hostSetup = null, Func<HttpClient, Task<HttpResponseMessage>> responseFactory = null)
         {
-            using (var middleware = Create(serviceSetup, pipelineSetup, hostSetup))
-            {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var pipeline = middleware.Application.Build();
-                await pipeline(context!).ConfigureAwait(false);
-            }
+            using var client = Create(serviceSetup, pipelineSetup, hostSetup).Host.GetTestClient();
+            return await client.ToHttpResponseMessageAsync(responseFactory).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -63,18 +58,12 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         /// <param name="serviceSetup">The <see cref="IServiceCollection" /> which may be configured.</param>
         /// <param name="pipelineSetup">The <see cref="IApplicationBuilder" /> which may be configured.</param>
         /// <param name="hostSetup">The <see cref="IHostBuilder" /> which may be configured.</param>
-        /// <returns>A task that represents the execution of the middleware.</returns>
-        /// <exception cref="InvalidOperationException">
-        /// <paramref name="serviceSetup"/> did not have a registered service of <see cref="IHttpContextAccessor"/>.
-        /// </exception>
-        public static async Task RunWithHostBuilderContext(Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<IHostBuilder> hostSetup = null)
+        /// <param name="responseFactory">The function delegate that creates a <see cref="HttpResponseMessage"/> from the <see cref="HttpClient"/>. Default is a GET request to the root URL ("/").</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation. The task result contains the <see cref="HttpResponseMessage"/> for the test server.</returns>
+        public static async Task<HttpResponseMessage> RunWithHostBuilderContextAsync(Action<HostBuilderContext, IServiceCollection> serviceSetup = null, Action<HostBuilderContext, IApplicationBuilder> pipelineSetup = null, Action<IHostBuilder> hostSetup = null, Func<HttpClient, Task<HttpResponseMessage>> responseFactory = null)
         {
-            using (var middleware = CreateWithHostBuilderContext(serviceSetup, pipelineSetup, hostSetup))
-            {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var pipeline = middleware.Application.Build();
-                await pipeline(context!).ConfigureAwait(false);
-            }
+            using var client = CreateWithHostBuilderContext(serviceSetup, pipelineSetup, hostSetup).Host.GetTestClient();
+            return await client.ToHttpResponseMessageAsync().ConfigureAwait(false);
         }
     }
 }

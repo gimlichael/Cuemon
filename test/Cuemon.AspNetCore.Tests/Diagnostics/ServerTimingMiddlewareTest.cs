@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Extensions.AspNetCore.Diagnostics;
 using Cuemon.Extensions.Xunit;
@@ -7,6 +9,7 @@ using Cuemon.Extensions.Xunit.Hosting;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -21,107 +24,126 @@ namespace Cuemon.AspNetCore.Diagnostics
         }
 
         [Fact]
+        public async Task InvokeAsync_ShouldMimicSimpleAspNetProject()
+        {
+            using var response = await WebHostTestFactory.RunAsync(
+                services =>
+                {
+                    services.AddServerTiming(o => o.SuppressHeaderPredicate = _ => false);
+                }
+                , app =>
+                {
+                    app.UseServerTiming();
+                    app.Use(async (context, next) =>
+                    {
+                        var sw = Stopwatch.StartNew();
+                        context.Response.OnStarting(() =>
+                        {
+                            sw.Stop();
+                            context.RequestServices.GetRequiredService<IServerTiming>().AddServerTiming("use-middleware", sw.Elapsed);
+                            return Task.CompletedTask;
+                        });
+                        await next(context).ConfigureAwait(false);
+                    });
+                    app.Run(context =>
+                    {
+                        Thread.Sleep(400);
+                        return context.Response.WriteAsync("Hello World!");
+                    });
+                }).ConfigureAwait(false);
+
+            Assert.StartsWith("use-middleware;dur=", response.Headers.Single(kvp => kvp.Key == ServerTiming.HeaderName).Value.FirstOrDefault());
+        }
+
+        [Fact]
         public async Task InvokeAsync_ShouldProviderServerTimingHeaderWithMetrics()
         {
-            using (var middleware = WebHostTestFactory.Create(services =>
+            using var response = await WebHostTestFactory.RunAsync(services =>
             {
                 services.AddServerTiming();
             }, app =>
-                   {
-                       app.Use(async (context, next) =>
-                       {
-                           var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
-
-                           serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
-                           serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
-
-                           await next();
-                       });
-                       app.UseServerTiming();
-                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var pipeline = middleware.Application.Build();
-                var sut0 = context.Response.Headers[ServerTiming.HeaderName];
-                await pipeline(context);
-                var sut1 = context.Response.Headers[ServerTiming.HeaderName];
+                app.Use(async (context, next) =>
+                {
+                    var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
 
-                TestOutput.WriteLine(sut1);
+                    serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
+                    serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
 
-                Assert.Empty(sut0.ToString());
-                Assert.Equal("redis", sut1[0].Split(';').First());
-                Assert.Equal("restApi", sut1[1].Split(';').First());
-            }
+                    await next(context);
+                });
+
+                app.UseServerTiming();
+            }).ConfigureAwait(false);
+
+            var header = response.Headers.GetValues(ServerTiming.HeaderName).ToArray();
+
+            TestOutput.WriteLines(header);
+
+            Assert.Equal("redis", header[0].Split(';').First());
+            Assert.Equal("restApi", header[1].Split(';').First());
         }
 
         [Fact]
         public async Task InvokeAsync_ShouldExcludeServerTimingHeaderWithMetrics_ButIncludeLogLevelDebug()
         {
-	        using (var middleware = WebHostTestFactory.Create(services =>
-	               {
-		               services.AddServerTiming();
-		               services.AddXunitTestLogging(TestOutput);
-	               }, app =>
-	               {
-		               app.Use(async (context, next) =>
-		               {
-			               var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
+            using var webApp = WebHostTestFactory.Create(services =>
+            {
+                services.AddServerTiming(o => o.SuppressHeaderPredicate = _ => true);
+                services.AddXunitTestLogging(TestOutput);
+            }, app =>
+            {
+                app.Use(async (context, next) =>
+                {
+                    var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
 
-			               serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
-			               serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
+                    serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
+                    serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
 
-			               await next();
-		               });
-		               app.UseServerTiming(o =>
-		               {
-			               o.SuppressHeaderPredicate = _ => true;
-		               });
-	               }))
-	        {
-		        var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var logger = middleware.ServiceProvider.GetRequiredService<ILogger<ServerTimingMiddleware>>();
+                    await next(context);
+                });
+                app.UseServerTiming();
+            });
+            {
+                var logger = webApp.ServiceProvider.GetRequiredService<ILogger<ServerTimingMiddleware>>();
                 var loggerStore = logger.GetTestStore();
-				var pipeline = middleware.Application.Build();
 
-		        await pipeline(context);
+                var client = webApp.Host.GetTestClient();
+                var response = await client.GetAsync("/").ConfigureAwait(false);
 
-		        var serverTimingHeader = context.Response.Headers[ServerTiming.HeaderName];
+                response.Headers.TryGetValues(ServerTiming.HeaderName, out var serverTimingHeader);
 
-                Assert.Empty(serverTimingHeader.ToString());
+                Assert.Null(serverTimingHeader);
+
                 Assert.Collection(loggerStore.Query(),
-	                entry => Assert.Equal("Debug: ServerTimingMetric { Name: redis, Duration: 22.0ms, Description: \"Redis Cache\" }", entry.ToString()),
-	                entry => Assert.Equal("Debug: ServerTimingMetric { Name: restApi, Duration: 1700.0ms, Description: \"Some REST API integration\" }", entry.ToString()));
-	        }
+                    entry => Assert.Equal("Debug: ServerTimingMetric { Name: redis, Duration: 22.0ms, Description: \"Redis Cache\" }", entry.ToString()),
+                    entry => Assert.Equal("Debug: ServerTimingMetric { Name: restApi, Duration: 1700.0ms, Description: \"Some REST API integration\" }", entry.ToString()));
+            }
         }
 
         [Fact]
         public async Task InvokeAsync_ShouldNotProviderServerTimingHeaderWithMetrics()
         {
-            using (var middleware = WebHostTestFactory.Create(services =>
+            using var response = await WebHostTestFactory.RunAsync(services =>
             {
                 services.AddServerTiming();
             }, app =>
-                   {
-                       app.Use(async (context, next) =>
-                       {
-                           var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
-
-                           serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
-                           serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
-
-                           await next();
-                       });
-                   }))
             {
-                var context = middleware.ServiceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
-                var pipeline = middleware.Application.Build();
-                var sut0 = context.Response.Headers[ServerTiming.HeaderName];
-                await pipeline(context);
-                var sut1 = context.Response.Headers[ServerTiming.HeaderName];
+                app.Use(async (context, next) =>
+                {
+                    var serverTiming = context.RequestServices.GetRequiredService<IServerTiming>();
 
-                Assert.Empty(sut0.ToString());
-                Assert.Empty(sut1.ToString());
-            }
+                    serverTiming.AddServerTiming("redis", TimeSpan.FromMilliseconds(22), "Redis Cache");
+                    serverTiming.AddServerTiming("restApi", TimeSpan.FromSeconds(1.7), "Some REST API integration");
+
+                    await next(context);
+                });
+                //app.UseServerTiming();
+            }).ConfigureAwait(false);
+
+            response.Headers.TryGetValues(ServerTiming.HeaderName, out var serverTimingHeader);
+
+            Assert.Null(serverTimingHeader);
         }
     }
 }

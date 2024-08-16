@@ -82,6 +82,12 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 
             ConfigureHostCallback(hb);
 
+            hb.UseDefaultServiceProvider(o =>
+            {
+                o.ValidateOnBuild = true;
+                o.ValidateScopes = true;
+            });
+
             Host = hb.Start();
         }
 

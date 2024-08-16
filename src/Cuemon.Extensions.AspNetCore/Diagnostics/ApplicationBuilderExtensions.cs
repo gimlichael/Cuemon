@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Cuemon.AspNetCore.Builder;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
 using Cuemon.AspNetCore.Http.Headers;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Http;
-using Cuemon.Extensions.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -30,11 +25,10 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
         /// Adds a Server-Timing HTTP header to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
         /// <param name="builder">The type that provides the mechanisms to configure an application’s request pipeline.</param>
-        /// <param name="setup">The <see cref="ServerTimingOptions"/> which may be configured.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public static IApplicationBuilder UseServerTiming(this IApplicationBuilder builder, Action<ServerTimingOptions> setup = null)
+        public static IApplicationBuilder UseServerTiming(this IApplicationBuilder builder)
         {
-            return MiddlewareBuilderFactory.UseConfigurableMiddleware<ServerTimingMiddleware, ServerTimingOptions>(builder, setup);
+            return builder.UseMiddleware<ServerTimingMiddleware>();
         }
 
         /// <summary>

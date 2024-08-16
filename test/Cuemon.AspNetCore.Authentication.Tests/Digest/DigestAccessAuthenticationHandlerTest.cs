@@ -5,6 +5,7 @@ using Cuemon.AspNetCore.Authentication.Assets;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Authentication;
 using Cuemon.Extensions.Xunit;
+using Cuemon.Extensions.Xunit.Hosting;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Cuemon.Security.Cryptography;
 using Microsoft.AspNetCore.Builder;
@@ -61,7 +62,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 				   }))
 			{
 
-				var options = webApp.ServiceProvider.GetRequiredService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+				var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
 				var client = webApp.Host.GetTestClient();
 
 				var result = await client.GetAsync("/fake");
@@ -137,7 +138,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 				   }))
 			{
 
-				var options = webApp.ServiceProvider.GetRequiredService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+				var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
 				var client = webApp.Host.GetTestClient();
 
 				var result = await client.GetAsync("/fake");
@@ -216,7 +217,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 				   }))
 			{
 
-				var options = webApp.ServiceProvider.GetRequiredService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+				var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
 				var client = webApp.Host.GetTestClient();
 
 				var result = await client.GetAsync("/fake");
@@ -290,7 +291,7 @@ namespace Cuemon.AspNetCore.Authentication.Digest
 					   app.UseEndpoints(routes => { routes.MapControllers(); });
 				   }))
 			{
-				var options = webApp.ServiceProvider.GetRequiredService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+				var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
 				var client = webApp.Host.GetTestClient();
 
 				var result = await client.GetAsync("/fake");

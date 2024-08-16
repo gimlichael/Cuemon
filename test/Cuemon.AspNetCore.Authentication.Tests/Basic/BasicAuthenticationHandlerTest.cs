@@ -4,6 +4,7 @@ using Cuemon.AspNetCore.Authentication.Assets;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions.AspNetCore.Authentication;
 using Cuemon.Extensions.Xunit;
+using Cuemon.Extensions.Xunit.Hosting;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -92,8 +93,8 @@ namespace Cuemon.AspNetCore.Authentication.Basic
 
 					   app.UseEndpoints(routes => { routes.MapControllers(); });
 				   }))
-			{
-				var options = webApp.ServiceProvider.GetRequiredService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
+            {
+                var options = webApp.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
 				var client = webApp.Host.GetTestClient();
 
 				var result = await client.GetAsync("/fake");
