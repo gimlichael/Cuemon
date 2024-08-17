@@ -650,56 +650,6 @@ namespace Cuemon
         }
 
         /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </summary>
-        /// <param name="argument">The value to be evaluated.</param>
-        /// <param name="types">A <see cref="Type"/> array that contains zero or more types (that each must be an interface) to match with the type of <paramref name="argument"/>.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="types"/> does not satisfy the condition of being an interface.
-        /// </exception>
-        /// <remarks>Use <see cref="Arguments.ToArrayOf{T}"/> to substitute earlier signature of <c>params Type[] types</c>.</remarks>
-        public static void ThrowIfContainsInterface(Type argument, Type[] types, string message = "Specified argument is contained within at least one of the specified types.", [CallerArgumentExpression(nameof(argument))] string paramName = null)
-        {
-            ThrowIfNull(argument);
-            ThrowIfNull(types);
-            ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            if (Decorator.Enclose(argument).HasInterfaces(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
-        }
-
-        /// <summary>
-        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
-        /// </summary>
-        /// <param name="argument">The value to be evaluated.</param>
-        /// <param name="types">A <see cref="Type"/> array that contains zero or more types (that each must be an interface) to match with the type of <paramref name="argument"/>.</param>
-        /// <param name="message">A message that describes the error.</param>
-        /// <param name="paramName">The name of the parameter that caused the exception.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="types"/> does not satisfy the condition of being an interface.
-        /// </exception>
-        /// <remarks>Use <see cref="Arguments.ToArrayOf{T}"/> to substitute earlier signature of <c>params Type[] types</c>.</remarks>
-        public static void ThrowIfNotContainsInterface(Type argument, Type[] types, string message = "Specified argument is not contained within at least one of the specified types.", [CallerArgumentExpression(nameof(argument))] string paramName = null)
-        {
-            ThrowIfNull(argument);
-            ThrowIfNull(types);
-            ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
-            if (!Decorator.Enclose(argument).HasInterfaces(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
-        }
-
-        /// <summary>
         /// Validates and throws a <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
@@ -741,6 +691,31 @@ namespace Cuemon
         }
 
         /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="types">A <see cref="Type"/> array that contains zero or more types (that each must be an interface) to match with the type of <paramref name="argument"/>.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="argument"/> is contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        /// <remarks>Use <see cref="Arguments.ToArrayOf{T}"/> to substitute earlier signature of <c>params Type[] types</c>.</remarks>
+        public static void ThrowIfContainsInterface(Type argument, Type[] types, string message = "Specified argument is contained within at least one of the specified types.", [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        {
+            ThrowIfNull(argument);
+            ThrowIfNull(types);
+            ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
+            if (Decorator.Enclose(argument).HasInterfaces(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
+        }
+
+        /// <summary>
         /// Validates and throws a <see cref="TypeArgumentOutOfRangeException"/> if the specified <typeparamref name="T"/> is not contained within at least one of the specified <paramref name="types"/>.
         /// </summary>
         /// <param name="typeParamName">The name of the type parameter that caused the exception.</param>
@@ -779,6 +754,31 @@ namespace Cuemon
             ThrowIfNull(types);
             ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
             if (!Decorator.Enclose(typeof(T)).HasInterfaces(types)) { throw new TypeArgumentOutOfRangeException(typeParamName, DelimitedString.Create(types), message); }
+        }
+
+        /// <summary>
+        /// Validates and throws an <see cref="ArgumentOutOfRangeException"/> if the specified <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </summary>
+        /// <param name="argument">The value to be evaluated.</param>
+        /// <param name="types">A <see cref="Type"/> array that contains zero or more types (that each must be an interface) to match with the type of <paramref name="argument"/>.</param>
+        /// <param name="message">A message that describes the error.</param>
+        /// <param name="paramName">The name of the parameter that caused the exception.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="argument"/> is null - or - <paramref name="types"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="argument"/> is not contained within at least one of the specified <paramref name="types"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="types"/> does not satisfy the condition of being an interface.
+        /// </exception>
+        /// <remarks>Use <see cref="Arguments.ToArrayOf{T}"/> to substitute earlier signature of <c>params Type[] types</c>.</remarks>
+        public static void ThrowIfNotContainsInterface(Type argument, Type[] types, string message = "Specified argument is not contained within at least one of the specified types.", [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        {
+            ThrowIfNull(argument);
+            ThrowIfNull(types);
+            ThrowIfFalse(types.All(type => type.IsInterface), nameof(types), $"At least one of the specified {nameof(types)} is not an interface.");
+            if (!Decorator.Enclose(argument).HasInterfaces(types)) { throw new ArgumentOutOfRangeException(paramName, DelimitedString.Create(types), message); }
         }
 
         /// <summary>

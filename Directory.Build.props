@@ -37,7 +37,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>Minimum</AnalysisMode>
-    <NoWarn>7035,IDE0305</NoWarn>
+    <NoWarn>7035,IDE0305,S6618</NoWarn>
     <MinVerTagPrefix>v</MinVerTagPrefix>
   </PropertyGroup>
 
