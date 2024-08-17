@@ -1,4 +1,13 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET 9, .NET 8, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED ServiceProviderExtensions class in the Cuemon.Extensions.Xunit.Hosting namespace that consist of one extension method for the IServiceProvider interface: GetRequiredScopedService
+ 
+Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
  
 # ALM

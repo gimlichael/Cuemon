@@ -1,4 +1,31 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET9, .NET 8, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+
+# Breaking Changes
+- REMOVED DefaultYamlConverter class from the Cuemon.Runtime.Serialization.Converters namespace
+- REMOVED YamlSerializer class from the Cuemon.Runtime.Serialization namespace
+- REMOVED YamlSerializerOptions class from the Cuemon.Runtime.Serialization namespace
+- REMOVED YamlTextReader class from the Cuemon.Runtime.Serialization namespace
+- REMOVED YamlTextWriter class from the Cuemon.Runtime.Serialization namespace
+- REMOVED YamlTokenType class from the Cuemon.Runtime.Serialization namespace
+- REMOVED ExceptionConverter class from the Cuemon.Text.Yaml.Converters namespace
+- REMOVED ExceptionDescriptorConverter class from the Cuemon.Text.Yaml.Converters namespace
+- REMOVED YamlConverter class from the Cuemon.Text.Yaml.Converters namespace
+- REMOVED YamlFormatter class from the Cuemon.Text.Yaml.Converters namespace
+- REMOVED YamlFormatterOptions class from the Cuemon.Text.Yaml.Converters namespace
+- REMOVED YamlConverterFactory class from the Cuemon.Text.Yaml namespace
+- REMOVED YamlNamingPolicy class from the Cuemon.Text.Yaml namespace
+- RENAMED ReservedKeywordException class in the Cuemon namespace to ArgumentReservedKeywordException
+ 
+# Improvements
+- EXTENDED Condition class in the Cuemon namespace with an additional method: HasDifference
+- EXTENDED Validator class in the Cuemon namespace with five new methods: ThrowIfContainsReservedKeyword, ThrowIfNotDifferent, ThrowIfDifferent, ThrowIfContainsAny and ThrowIfNotContainsAny
+- CHANGED Validator class in the Cuemon namespace to comply with RSPEC-3343
+ 
+Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
  
 # ALM

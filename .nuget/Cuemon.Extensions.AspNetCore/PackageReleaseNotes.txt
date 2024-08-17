@@ -1,4 +1,13 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET9, .NET 8 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+
+# Breaking Changes
+- REMOVED HttpExceptionDescriptorResponseHandlerExtensions class from the Cuemon.Extensions.AspNetCore.Diagnostics namespace
+ 
+Version 8.3.2
 Availability: .NET 8 and .NET 6
  
 # ALM
