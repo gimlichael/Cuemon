@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Cuemon.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
@@ -37,9 +38,8 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
         /// </exception>
         public override void ConfigureHost(Test hostTest)
         {
-            var hostTestType = hostTest?.GetType();
             Validator.ThrowIfNull(hostTest);
-            Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from AspNetCoreHostTest<T>.", typeof(AspNetCoreHostTest<>));
+            Validator.ThrowIfNotContainsType(hostTest, Arguments.ToArrayOf(typeof(AspNetCoreHostTest<>)), $"{nameof(hostTest)} is not assignable from AspNetCoreHostTest<T>.");
 
             var hb = new HostBuilder()
                 .ConfigureWebHost(webBuilder =>
@@ -81,6 +81,12 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 });
 
             ConfigureHostCallback(hb);
+
+            hb.UseDefaultServiceProvider(o =>
+            {
+                o.ValidateOnBuild = true;
+                o.ValidateScopes = true;
+            });
 
             Host = hb.Start();
         }

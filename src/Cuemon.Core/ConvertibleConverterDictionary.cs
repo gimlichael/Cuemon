@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cuemon.Collections.Generic;
 
 namespace Cuemon
 {
@@ -41,7 +42,7 @@ namespace Cuemon
         /// </exception>
         public ConvertibleConverterDictionary Add(Type type, Func<IConvertible, byte[]> converter)
         {
-            Validator.ThrowIfNotContainsInterface(type, nameof(type), typeof(IConvertible));
+            Validator.ThrowIfNotContainsInterface(type, Arguments.ToArrayOf(typeof(IConvertible)));
             _converters.Add(type, converter);
             return this;
         }

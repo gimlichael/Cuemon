@@ -20,7 +20,7 @@ namespace Cuemon.Net.Http
             };
 
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'ClientFactory == null')", sut2.Message);
             Assert.StartsWith("HttpWatcherOptions are not in a valid state.", sut3.Message);
@@ -37,7 +37,7 @@ namespace Cuemon.Net.Http
             };
 
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'HashFactory == null')", sut2.Message);
             Assert.StartsWith("HttpWatcherOptions are not in a valid state.", sut3.Message);

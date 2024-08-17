@@ -30,7 +30,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             var calculatedExpires = utcNow;
             var expiresAsDateTime = utcNow;
 
-            await WebHostTestFactory.Run(pipelineSetup: app =>
+            await WebHostTestFactory.RunAsync(pipelineSetup: app =>
             {
                 app.UseCacheControl();
 
@@ -71,7 +71,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             var expiresHeaderValue = string.Empty;
             var etagHeaderValue = string.Empty;
 
-            await WebHostTestFactory.Run(pipelineSetup: app =>
+            await WebHostTestFactory.RunAsync(pipelineSetup: app =>
             {
                 app.UseCacheControl(o => o.Expires = null);
 
@@ -109,7 +109,7 @@ namespace Cuemon.AspNetCore.Http.Headers
             var etagHeaderValue = string.Empty;
             var expiresAsDateTime = utcNow;
 
-            await WebHostTestFactory.Run(pipelineSetup: app =>
+            await WebHostTestFactory.RunAsync(pipelineSetup: app =>
             {
                 app.UseCacheControl(o => o.CacheControl = null);
 

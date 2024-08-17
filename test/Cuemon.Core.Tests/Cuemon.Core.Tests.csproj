@@ -27,7 +27,6 @@
     <ProjectReference Include="..\..\src\Cuemon.Core\Cuemon.Core.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Collections.Generic\Cuemon.Extensions.Collections.Generic.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Core\Cuemon.Extensions.Core.csproj" />
-    <ProjectReference Include="..\..\src\Cuemon.Extensions.Globalization\Cuemon.Extensions.Globalization.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.IO\Cuemon.Extensions.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.IO\Cuemon.IO.csproj" />
     <ProjectReference Include="..\..\src\Cuemon.Extensions.Newtonsoft.Json\Cuemon.Extensions.Newtonsoft.Json.csproj" />

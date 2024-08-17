@@ -19,7 +19,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         {
             var sut1 = new HttpExceptionDescriptorResponseHandlerOptions();
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'ContentFactory == null')", sut2.Message);
             Assert.Equal("HttpExceptionDescriptorResponseHandlerOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 StatusCodeFactory = descriptor => HttpStatusCode.Continue
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'ContentType == null')", sut2.Message);
             Assert.Equal("HttpExceptionDescriptorResponseHandlerOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -51,7 +51,7 @@ namespace Cuemon.AspNetCore.Diagnostics
                 ContentFactory = descriptor => new StringContent("text/plain")
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'StatusCodeFactory == null')", sut2.Message);
             Assert.Equal("HttpExceptionDescriptorResponseHandlerOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);

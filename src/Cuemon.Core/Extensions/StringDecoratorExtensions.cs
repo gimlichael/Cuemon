@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cuemon.Text;
@@ -253,6 +254,63 @@ namespace Cuemon
         public static bool StartsWith(this IDecorator<string> decorator, StringComparison comparison, params string[] strings)
         {
             return StartsWith(decorator, comparison, (IEnumerable<string>)strings);
+        }
+
+        /// <summary>
+        /// Returns the set difference between <paramref name="second"/> and the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>  or <see cref="string.Empty"/> if no difference.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="second">The value to compare with the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>.</param>
+        /// <returns>>A <see cref="string"/> that contains the set difference between <paramref name="second"/> and the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> or <see cref="string.Empty"/> if no difference.</returns>
+        public static string Difference(this IDecorator<string> decorator, string second)
+        {
+            var first = decorator?.Inner;
+            first ??= string.Empty;
+            second ??= string.Empty;
+            return string.Concat(second.Except(first));
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether the specified <paramref name="values"/> occurs within the enclosed <see cref="string"/> of the specified <paramref name="decorator"/> object.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison.</param>
+        /// <param name="values">The <see cref="char"/> sequence to search within the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>.</param>
+        /// <returns>
+        /// 	<c>true</c> if the <paramref name="values"/> parameter occurs within the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> is null -or-
+        /// <paramref name="values"/> is null.
+        /// </exception>
+        public static bool ContainsAny(this IDecorator<string> decorator, StringComparison comparison, params char[] values)
+        {
+            Validator.ThrowIfNull(values);
+            foreach (var find in values)
+            {
+                if (ContainsAny(decorator, find, comparison)) { return true; }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether the specified <paramref name="find"/> occurs within the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="IDecorator{T}"/> to extend.</param>
+        /// <param name="find">The <see cref="char"/> to search within enclosed <see cref="string"/> of the specified <paramref name="decorator"/>.</param>
+        /// <param name="comparison">One of the enumeration values that specifies the rules to use in the comparison. Default is <see cref="StringComparison.OrdinalIgnoreCase"/>.</param>
+        /// <returns>
+        /// 	<c>true</c> if the <paramref name="find"/> parameter occurs within the enclosed <see cref="string"/> of the specified <paramref name="decorator"/>; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> is null -or-
+        /// <paramref name="find"/> is null.
+        /// </exception>
+        public static bool ContainsAny(this IDecorator<string> decorator, char find, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        {
+            Validator.ThrowIfNull(decorator, out var value);
+            Validator.ThrowIfNull(find);
+            return (value.IndexOf(new string(find, 1), 0, value.Length, comparison) >= 0);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Cuemon.AspNetCore.Http.Headers
                 Validators = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Validators == null')", sut2.Message);
             Assert.Equal("CacheableOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);

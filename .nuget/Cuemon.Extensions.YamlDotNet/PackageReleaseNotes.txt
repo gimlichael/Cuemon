@@ -1,4 +1,14 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET 9, .NET 8, .NET 6 and .NET Standard 2.0
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- EXTENDED YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace to support excluding non-essential properties from serialization
+- EXTENDED YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace to provide full control of YAML deserialization using an action delegate factory (IDeserializer, Parser)
+ 
+Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
  
 # ALM

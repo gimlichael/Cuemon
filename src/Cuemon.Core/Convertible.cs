@@ -278,7 +278,7 @@ namespace Cuemon
         /// <returns>A <see cref="T:byte[]"/> that is equivalent to <paramref name="input"/>.</returns>
         public static byte[] GetBytes(sbyte input, Action<EndianOptions> setup = null)
         {
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
             return GetBytesCore(input, x => BitConverter.GetBytes((short)x), setup);
 #else
             return GetBytesCore(input, x => BitConverter.GetBytes(x), setup);

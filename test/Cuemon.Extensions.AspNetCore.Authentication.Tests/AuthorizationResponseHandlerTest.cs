@@ -17,7 +17,6 @@ using Cuemon.Extensions.AspNetCore.Xml.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -712,7 +711,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                    }))
             {
                 var client = startup.Host.GetTestClient();
-                var options = startup.ServiceProvider.GetRequiredService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+                var options = startup.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
 
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "text/plain");
 
@@ -796,7 +795,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
 
                 var result = await client.GetAsync("/");
-                var options = startup.ServiceProvider.GetRequiredService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+                var options = startup.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
 
                 var db = new DigestAuthorizationHeaderBuilder(options.Algorithm)
                     .AddRealm(options.Realm)

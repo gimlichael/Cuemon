@@ -6,6 +6,83 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 For more details, please refer to `PackageReleaseNotes.txt` on a per assembly basis in the `.nuget` folder.
 
+## [9.0.0] - TBD (sometime in November 2024)
+
+This major release is first and foremost focused on ironing out any wrinkles that have been introduced with .NET 9 preview releases so the final release is production ready together with the official launch from Microsoft.
+Next focus point will be ensuring a consistent developer experience while ironing out some of the more stale legacy code in the project.
+Expect breaking changes with this major release.
+
+### Added
+
+- HttpClientExtensions class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that consist of one extension method for the HttpClient class: ToHttpResponseMessageAsync
+
+### Changed
+
+- YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace to now supports excluding non-essential properties from serialization
+- YamlFormatter class in the Cuemon.Extensions.YamlDotNet.Formatters namespace now provides full control of YAML deserialization using an action delegate factory (IDeserializer, Parser)
+- ReservedKeywordException class in the Cuemon namespace was renamed to ArgumentReservedKeywordException (breaking change)
+- Condition class in the Cuemon namespace was extended with an additional method: HasDifference
+- Validator class in the Cuemon namespace was extended with five new methods: ThrowIfContainsReservedKeyword, ThrowIfNotDifferent, ThrowIfDifferent, ThrowIfContainsAny and ThrowIfNotContainsAny
+- Validator class in the Cuemon namespace to comply with [RSPEC-3343](https://rules.sonarsource.com/csharp/type/Bug/RSPEC-3343/)
+  - ThrowIfInvalidConfigurator (breaking change)
+  - ThrowIfInvalidOptions (breaking change)
+  - ThrowIfNumber (breaking change)
+  - ThrowIfNotNumber (breaking change)
+  - ThrowIfNull (breaking change)
+  - ThrowIfSequenceEmpty (breaking change)
+  - ThrowIfSequenceNullOrEmpty (breaking change)
+  - ThrowIfEmpty (breaking change)
+  - ThrowIfWhiteSpace (breaking change)
+  - ThrowIfNullOrEmpty (breaking change)
+  - ThrowIfNullOrWhitespace (breaking change)
+  - ThrowIfHex (breaking change)
+  - ThrowIfNotHex (breaking change)
+  - ThrowIfEmailAddress (breaking change)
+  - ThrowIfNotEmailAddress (breaking change)
+  - ThrowIfGuid (breaking change)
+  - ThrowIfNotGuid (breaking change)
+  - ThrowIfUri (breaking change)
+  - ThrowIfNotUri (breaking change)
+  - ThrowIfContainsInterface (breaking change)
+  - ThrowIfNotContainsInterface (breaking change)
+  - ThrowIfContainsType (breaking change)
+  - ThrowIfNotContainsType (breaking change)
+  - ThrowIfEnum (breaking change)
+  - ThrowIfNotEnum (breaking change)
+  - ThrowIfNotEnumType (breaking change)
+  - ThrowIfNotBinaryDigits (breaking change)
+  - ThrowIfNotBase64String (breaking change)
+- AspNetCoreHostFixture class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to use same [hostbuilder validation](https://learn.microsoft.com/en-us/dotnet/core/compatibility/aspnet-core/9.0/hostbuilder-validation) as introduced with .NET preview 7
+- Run method on the WebHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore was renamed to RunAsync (breaking change)
+- RunWithHostBuilderContext method on the WebHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore was renamed to RunWithHostBuilderContextAsync (breaking change)
+
+### Removed
+
+- Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc project due to redundancies with Cuemon.Extensions.Xunit.Hosting.AspNetCore (breaking change)
+- IMiddlewareTest interface from the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace (breaking change)
+- MiddlewareTestFactory static class from the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace (breaking change)
+- HttpExceptionDescriptorResponseHandlerExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json namespace (breaking change)
+- HttpExceptionDescriptorResponseHandlerExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json namespace (breaking change)
+- HttpExceptionDescriptorResponseHandlerExtensions class from the Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml namespace (breaking change)
+- HttpExceptionDescriptorResponseHandlerExtensions class from the Cuemon.Extensions.AspNetCore.Diagnostics namespace (breaking change)
+- BadRequestMessage property from the class from the ApiKeySentinelOptions class in the Cuemon.AspNetCore.Http.Headers namespace (breaking change)
+- DefaultYamlConverter class from the Cuemon.Runtime.Serialization.Converters namespace (breaking change)
+- YamlSerializer class from the Cuemon.Runtime.Serialization namespace (breaking change)
+- YamlSerializerOptions class from the Cuemon.Runtime.Serialization namespace (breaking change)
+- YamlTextReader class from the Cuemon.Runtime.Serialization namespace (breaking change)
+- YamlTextWriter class from the Cuemon.Runtime.Serialization namespace (breaking change)
+- YamlTokenType class from the Cuemon.Runtime.Serialization namespace (breaking change)
+- ExceptionConverter class from the Cuemon.Text.Yaml.Converters namespace (breaking change)
+- ExceptionDescriptorConverter class from the Cuemon.Text.Yaml.Converters namespace (breaking change)
+- YamlConverter class from the Cuemon.Text.Yaml.Converters namespace (breaking change)
+- YamlFormatter class from the Cuemon.Text.Yaml.Converters namespace (breaking change)
+- YamlFormatterOptions class from the Cuemon.Text.Yaml.Converters namespace (breaking change)
+- YamlConverterFactory class from the Cuemon.Text.Yaml namespace (breaking change)
+- YamlNamingPolicy class from the Cuemon.Text.Yaml namespace (breaking change)
+- ConditionExtensions class from the Cuemon.Extensions namespace and moved members to Condition class in the Cuemon.Core assembly (Cuemon namespace)
+- ValidatorExtensions class from the Cuemon.Extensions namespace and moved members to Validator class in the Cuemon.Core assembly (Cuemon namespace)
+
+
 ## [8.3.2] - 2024-08-04
 
 ### Dependencies

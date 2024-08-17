@@ -6,7 +6,6 @@ using Cuemon.AspNetCore.Http;
 using Cuemon.Collections.Generic;
 using Cuemon.Extensions;
 using Cuemon.Extensions.AspNetCore.Authentication;
-using Cuemon.Extensions.IO;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;

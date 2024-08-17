@@ -1,4 +1,13 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET9, .NET 8 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+
+# Breaking Changes
+- REMOVED BadRequestMessage property from the class from the ApiKeySentinelOptions class in the Cuemon.AspNetCore.Http.Headers namespace
+ 
+Version 8.3.2
 Availability: .NET 8 and .NET 6
  
 # ALM

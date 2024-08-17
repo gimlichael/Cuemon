@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 #if NET6_0
 using Microsoft.Extensions.DependencyInjection.Extensions;
 #endif
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
 using Cuemon.AspNetCore.Http;
 #endif
 
@@ -48,7 +48,7 @@ namespace Cuemon.Extensions.Asp.Versioning
             if (options.ProblemDetailsFactoryType != null && options.ProblemDetailsFactoryType != typeof(DefaultProblemDetailsFactory)) { services.Replace(ServiceDescriptor.Singleton(_ => Activator.CreateInstance(options.ProblemDetailsFactoryType) as IProblemDetailsFactory)); }
 #endif
 
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
 			if (options.UseBuiltInRfc7807)
 			{
 				services.AddProblemDetails();

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Cuemon.Collections.Generic;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,9 +11,8 @@ namespace Cuemon.Data.SqlClient.Assets
     {
         public override void ConfigureHost(Test hostTest)
         {
-            var hostTestType = hostTest?.GetType();
             Validator.ThrowIfNull(hostTest);
-            Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from HostTest<T>.", typeof(HostTest<>));
+            Validator.ThrowIfNotContainsType(hostTest, Arguments.ToArrayOf(typeof(HostTest<>)), $"{nameof(hostTest)} is not assignable from HostTest<T>.");
 
             Host = new HostBuilder()
                 .ConfigureHostConfiguration(config => config.AddEnvironmentVariables("DOTNET_"))

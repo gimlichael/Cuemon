@@ -4,7 +4,6 @@ using Cuemon.Extensions.AspNetCore.Configuration;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Http;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
@@ -25,7 +24,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         {
             using (var filter = WebHostTestFactory.Create(services =>
             {
-                services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
                 services.AddControllersWithViews();
                 services.AddRazorPages(o => o.Conventions.AddPageRoute("/", "/"));
@@ -56,7 +54,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         {
             using (var filter = WebHostTestFactory.Create(services =>
             {
-                services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
                 services.AddControllersWithViews();
             }, app =>
@@ -88,7 +85,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         {
             using (var filter = WebHostTestFactory.Create(services =>
             {
-                services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
                 services.AddControllersWithViews();
             }, app =>
@@ -120,7 +116,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         {
             using (var filter = WebHostTestFactory.Create(services =>
             {
-                services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
                 services.AddRazorPages(o =>
                 {
@@ -154,7 +149,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Rendering
         {
             using (var filter = WebHostTestFactory.Create(services =>
             {
-                services.AddScoped<IHttpContextAccessor, FakeHttpContextAccessor>();
                 services.AddAssemblyCacheBusting();
                 services.AddRazorPages(o =>
                 {

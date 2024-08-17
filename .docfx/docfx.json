@@ -140,8 +140,7 @@
           "files": [
             "Cuemon.Extensions.Xunit/**.csproj",
             "Cuemon.Extensions.Xunit.Hosting/**.csproj",
-            "Cuemon.Extensions.Xunit.Hosting.AspNetCore/**.csproj",
-            "Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc/**.csproj"
+            "Cuemon.Extensions.Xunit.Hosting.AspNetCore/**.csproj"
           ],
           "src": "../src"
         }

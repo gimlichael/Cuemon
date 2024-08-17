@@ -3,6 +3,7 @@ using Cuemon.AspNetCore.Authentication.Basic;
 using Cuemon.AspNetCore.Authentication.Digest;
 using Cuemon.AspNetCore.Authentication.Hmac;
 using Cuemon.Extensions.Xunit;
+using Cuemon.Extensions.Xunit.Hosting;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -29,7 +30,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
 						   });
 				   }))
 			{
-				var options = host.ServiceProvider.GetRequiredService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
+				var options = host.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<BasicAuthenticationOptions>>().Get(BasicAuthorizationHeader.Scheme);
 				var handler = host.ServiceProvider.GetRequiredService<BasicAuthenticationHandler>();
 
 				Assert.NotNull(options);
@@ -56,7 +57,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
 						   });
 				   }))
 			{
-				var options = host.ServiceProvider.GetRequiredService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
+				var options = host.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<DigestAuthenticationOptions>>().Get(DigestAuthorizationHeader.Scheme);
 				var handler = host.ServiceProvider.GetRequiredService<DigestAuthenticationHandler>();
 
 				Assert.NotNull(options);
@@ -82,7 +83,7 @@ namespace Cuemon.Extensions.AspNetCore.Authentication
 					       });
 			       }))
 			{
-				var options = host.ServiceProvider.GetRequiredService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(HmacFields.Scheme);
+				var options = host.ServiceProvider.GetRequiredScopedService<IOptionsSnapshot<HmacAuthenticationOptions>>().Get(HmacFields.Scheme);
 				var handler = host.ServiceProvider.GetRequiredService<HmacAuthenticationHandler>();
 
 				Assert.NotNull(options);

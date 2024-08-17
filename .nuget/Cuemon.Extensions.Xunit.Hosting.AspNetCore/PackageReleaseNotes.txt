@@ -1,4 +1,22 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET 9, .NET 8 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# Breaking Changes
+- REMOVED IMiddlewareTest interface from the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace
+- REMOVED MiddlewareTestFactory static class from the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace
+- RENAMED Run method on the WebHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore to RunAsync
+- RENAMED RunWithHostBuilderContext method on the WebHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore to RunWithHostBuilderContextAsync
+ 
+# Improvements
+- CHANGED AspNetCoreHostFixture class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to use same hostbuilder validation as introduced with .NET preview 7
+ 
+# New Features
+- ADDED HttpClientExtensions class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that consist of one extension method for the HttpClient class: ToHttpResponseMessageAsync
+ 
+Version 8.3.2
 Availability: .NET 8 and .NET 6
  
 # ALM

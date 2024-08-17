@@ -273,7 +273,7 @@ namespace Cuemon
         public static bool HasAnonymousCharacteristics(this IDecorator<Type> decorator)
         {
             Validator.ThrowIfNull(decorator);
-            return decorator.Inner.GetCustomAttribute(typeof(CompilerGeneratedAttribute)) != null && decorator.Inner.IsClass && decorator.Inner.IsSealed && decorator.Inner.BaseType == typeof(object);
+            return decorator.Inner.GetCustomAttribute<CompilerGeneratedAttribute>() != null && decorator.Inner.IsClass && decorator.Inner.IsSealed && decorator.Inner.BaseType == typeof(object);
         }
 
         /// <summary>

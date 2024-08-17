@@ -25,8 +25,7 @@ namespace Cuemon.Net.Http
         /// </exception>
         public HttpManager(Action<HttpManagerOptions> setup = null) : this(() =>
         {
-            var options = Patterns.Configure(setup);
-            Validator.ThrowIfNull(options.HandlerFactory, nameof(options.HandlerFactory), FormattableString.Invariant($"{nameof(options.HandlerFactory)} cannot be null - make sure you assign a HttpMessageHandler by calling {nameof(options.HandlerFactory)}."));
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
             var client = new HttpClient(options.HandlerFactory.Invoke(), options.DisposeHandler);
             foreach (var header in options.DefaultRequestHeaders)
             {

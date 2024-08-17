@@ -19,7 +19,7 @@ namespace Cuemon.AspNetCore.Hosting
                 HeaderName = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName)')", sut2.Message);
             Assert.Equal("HostingEnvironmentOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -34,7 +34,7 @@ namespace Cuemon.AspNetCore.Hosting
                 HeaderName = string.Empty
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName)')", sut2.Message);
             Assert.Equal("HostingEnvironmentOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -49,7 +49,7 @@ namespace Cuemon.AspNetCore.Hosting
                 HeaderName = " "
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'Condition.IsNull(HeaderName) || Condition.IsEmpty(HeaderName) || Condition.IsWhiteSpace(HeaderName)')", sut2.Message);
             Assert.Equal("HostingEnvironmentOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
@@ -64,7 +64,7 @@ namespace Cuemon.AspNetCore.Hosting
                 SuppressHeaderPredicate = null
             };
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'SuppressHeaderPredicate == null')", sut2.Message);
             Assert.Equal("HostingEnvironmentOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);

@@ -94,7 +94,7 @@ namespace Cuemon
         [Fact]
         public void TypeArgumentException_WithInnerException_ShouldBeSerializable_Json()
         {
-            var sut1 = new TypeArgumentException("Should have IE.", new ReservedKeywordException("Test", new AbandonedMutexException(20, null)));
+            var sut1 = new TypeArgumentException("Should have IE.", new ArgumentReservedKeywordException("Test", new AbandonedMutexException(20, null)));
             var sut2 = new NewtonsoftJsonFormatter();
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
@@ -115,7 +115,7 @@ namespace Cuemon
   ""type"": ""Cuemon.TypeArgumentException"",
   ""message"": ""Should have IE."",
   ""inner"": {
-    ""type"": ""Cuemon.ReservedKeywordException"",
+    ""type"": ""Cuemon.ArgumentReservedKeywordException"",
     ""message"": ""Test"",
     ""inner"": {
       ""type"": ""System.Threading.AbandonedMutexException"",
@@ -168,7 +168,7 @@ namespace Cuemon
         [Fact]
         public void TypeArgumentException_WithInnerException_ShouldBeSerializable_Xml()
         {
-            var sut1 = new TypeArgumentException("Should have IE.", new ReservedKeywordException("Test", new AbandonedMutexException(20, null)));
+            var sut1 = new TypeArgumentException("Should have IE.", new ArgumentReservedKeywordException("Test", new AbandonedMutexException(20, null)));
             var sut2 = new XmlFormatter(o => o.Settings.Writer.Indent = true);
             var sut3 = sut2.Serialize(sut1);
             var sut4 = sut3.ToEncodedString(o => o.LeaveOpen = true);
@@ -187,13 +187,13 @@ namespace Cuemon
                          <?xml version="1.0" encoding="utf-8"?>
                          <TypeArgumentException namespace="Cuemon">
                          	<Message>Should have IE.</Message>
-                         	<ReservedKeywordException namespace="Cuemon">
+                         	<ArgumentReservedKeywordException namespace="Cuemon">
                          		<Message>Test</Message>
                          		<AbandonedMutexException namespace="System.Threading">
                          			<Message>The wait completed due to an abandoned mutex.</Message>
                          			<MutexIndex>20</MutexIndex>
                          		</AbandonedMutexException>
-                         	</ReservedKeywordException>
+                         	</ArgumentReservedKeywordException>
                          </TypeArgumentException>
                          """.ReplaceLineEndings(), sut4);
         }

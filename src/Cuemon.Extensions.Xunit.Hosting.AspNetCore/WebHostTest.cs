@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
 {
-    internal sealed class WebHostTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IMiddlewareTest, IWebHostTest
+    internal sealed class WebHostTest : AspNetCoreHostTest<AspNetCoreHostFixture>, IWebHostTest
     {
         private readonly Action<IApplicationBuilder> _pipelineConfigurator;
         private readonly Action<IServiceCollection> _serviceConfigurator;
@@ -82,7 +82,7 @@ namespace Cuemon.Extensions.Xunit.Hosting.AspNetCore
                 hbc.HostingEnvironment = HostingEnvironment;
                 return hbc;
             }), services);
-            services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
+            services.AddFakeHttpContextAccessor(ServiceLifetime.Singleton);
         }
     }
 }

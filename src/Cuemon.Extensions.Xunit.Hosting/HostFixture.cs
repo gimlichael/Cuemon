@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Cuemon.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,9 +34,8 @@ namespace Cuemon.Extensions.Xunit.Hosting
         /// </exception>
         public virtual void ConfigureHost(Test hostTest)
         {
-            var hostTestType = hostTest?.GetType();
             Validator.ThrowIfNull(hostTest);
-            Validator.ThrowIfNotContainsType(hostTestType, nameof(hostTestType), $"{nameof(hostTest)} is not assignable from HostTest<T>.", typeof(HostTest<>));
+            Validator.ThrowIfNotContainsType(hostTest, Arguments.ToArrayOf(typeof(HostTest<>)), $"{nameof(hostTest)} is not assignable from HostTest<T>.");
 
             var hb = new HostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -57,7 +57,11 @@ namespace Cuemon.Extensions.Xunit.Hosting
                 });
 
             ConfigureHostCallback(hb);
-            
+
+#if NET9_0_OR_GREATER
+            hb.UseDefaultServiceProvider(o => o.ValidateScopes = false); // this is by intent
+#endif
+
             Host = hb.Build();
         }
 

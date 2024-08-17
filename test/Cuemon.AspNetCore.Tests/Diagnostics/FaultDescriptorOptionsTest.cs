@@ -25,25 +25,9 @@ namespace Cuemon.AspNetCore.Diagnostics
             };
 
             var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
+            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1));
 
             Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'HttpFaultResolvers == null')", sut2.Message);
-            Assert.Equal("FaultDescriptorOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
-            Assert.IsType<InvalidOperationException>(sut3.InnerException);
-        }
-
-        [Fact]
-        public void FaultDescriptorOptions_ShouldThrowArgumentNullExceptionForNonMvcResponseHandlers()
-        {
-            var sut1 = new FaultDescriptorOptions
-            {
-                NonMvcResponseHandlers = null
-            };
-
-            var sut2 = Assert.Throws<InvalidOperationException>(() => sut1.ValidateOptions());
-            var sut3 = Assert.Throws<ArgumentException>(() => Validator.ThrowIfInvalidOptions(sut1, nameof(sut1)));
-
-            Assert.Equal("Operation is not valid due to the current state of the object. (Expression 'NonMvcResponseHandlers == null')", sut2.Message);
             Assert.Equal("FaultDescriptorOptions are not in a valid state. (Parameter 'sut1')", sut3.Message);
             Assert.IsType<InvalidOperationException>(sut3.InnerException);
         }
@@ -78,7 +62,6 @@ namespace Cuemon.AspNetCore.Diagnostics
                 resolver => Assert.True(resolver.TryResolveFault(new ArgumentException(), out _)));
             Assert.NotNull(sut.ExceptionDescriptorResolver);
             Assert.Null(sut.ExceptionCallback);
-            Assert.NotNull(sut.NonMvcResponseHandlers);
             Assert.NotNull(sut.RequestEvidenceProvider);
             Assert.False(sut.SensitivityDetails.HasFlag(FaultSensitivityDetails.Evidence));
             Assert.False(sut.SensitivityDetails.HasFlag(FaultSensitivityDetails.Failure));

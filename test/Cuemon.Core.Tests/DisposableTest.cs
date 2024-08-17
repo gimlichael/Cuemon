@@ -173,7 +173,7 @@ namespace Cuemon
                 GC.WaitForPendingFinalizers();
             }
 
-            Thread.Sleep(7000); // await GC
+            Thread.Sleep(TimeSpan.FromSeconds(30)); // await GC
 
             if (unmanaged.TryGetTarget(out var ud2))
             {

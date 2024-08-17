@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <RootNamespace>Cuemon.Net</RootNamespace>
-    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
@@ -10,11 +9,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Cuemon.Net\Cuemon.Net.csproj" />
+    <Compile Remove="Assets\**" />
+    <EmbeddedResource Remove="Assets\**" />
+    <None Remove="Assets\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\" />
+    <ProjectReference Include="..\..\src\Cuemon.Net\Cuemon.Net.csproj" />
   </ItemGroup>
 
 </Project>

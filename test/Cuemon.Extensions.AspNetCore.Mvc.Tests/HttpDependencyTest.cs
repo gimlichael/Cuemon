@@ -7,7 +7,6 @@ using Cuemon.Extensions.AspNetCore.Mvc.Assets;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters.Cacheable;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
 using Cuemon.Net.Http;
 using Cuemon.Runtime;
 using Microsoft.AspNetCore.Builder;

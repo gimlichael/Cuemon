@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.IO;
@@ -6,6 +7,8 @@ using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.YamlDotNet.Assets;
 using Xunit;
 using Xunit.Abstractions;
+using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization.NamingConventions;
 
 namespace Cuemon.Extensions.YamlDotNet.Formatters
@@ -14,6 +17,48 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
     {
         public YamlFormatterTest(ITestOutputHelper output) : base(output)
         {
+        }
+
+        [Fact]
+        public void YamlFormatter_ShouldDeserializeUsingFactory()
+        {
+            var yaml = """
+                       ---
+                       title: Title A
+                       summary: Summary A
+                       ---
+                       title: Title B
+                       summary: Summary B
+                       ---
+                       title: Title C
+                       summary: Summary C
+                       """;
+
+            List<Book> books = new List<Book>();
+            
+            YamlFormatter.DeserializeObject(yaml.ToStream(), (serializer, parser) =>
+            {
+                parser.Consume<StreamStart>();
+
+                while (parser.Accept<DocumentStart>(out _))
+                {
+                    books.Add(serializer.Deserialize<Book>(parser));
+                }
+            });
+
+            Assert.Equal(3, books.Count);
+            Assert.Collection(books, book =>
+            {
+                Assert.Equal("Title A", book.Title);
+                Assert.Equal("Summary A", book.Summary);
+            }, book => {
+                Assert.Equal("Title B", book.Title);
+                Assert.Equal("Summary B", book.Summary);
+            }, book =>
+            {
+                Assert.Equal("Title C", book.Title);
+                Assert.Equal("Summary C", book.Summary);
+            });
         }
 
         [Fact]

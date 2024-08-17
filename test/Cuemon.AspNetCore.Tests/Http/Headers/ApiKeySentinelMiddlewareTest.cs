@@ -193,7 +193,6 @@ namespace Cuemon.AspNetCore.Http.Headers
 				{
 					o.AllowedKeys.Add(allowedKey);
 				});
-				services.AddFakeHttpContextAccessor(ServiceLifetime.Scoped);
 			}, app =>
 				   {
 					   app.UseApiKeySentinel();

@@ -115,17 +115,6 @@ namespace Cuemon.AspNetCore.Http.Headers
         /// Gets or sets the generic message of a request without a valid key in <see cref="AllowedKeys"/>.
         /// </summary>
         /// <value>The generic message of a request without a valid key in <see cref="AllowedKeys"/>.</value>
-        [Obsolete($"This property will be removed in near future; please use {nameof(GenericClientMessage)} instead.")]
-        public string BadRequestMessage
-        {
-			get => GenericClientMessage;
-	        set => GenericClientMessage = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the generic message of a request without a valid key in <see cref="AllowedKeys"/>.
-        /// </summary>
-        /// <value>The generic message of a request without a valid key in <see cref="AllowedKeys"/>.</value>
         public string GenericClientMessage { get; set; }
         
 

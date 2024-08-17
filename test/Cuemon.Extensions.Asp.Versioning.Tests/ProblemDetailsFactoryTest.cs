@@ -1,30 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Asp.Versioning;
-using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.AspNetCore.Http;
-using Cuemon.AspNetCore.Mvc.Filters.Diagnostics;
 using Cuemon.Diagnostics;
 using Cuemon.Extensions.Asp.Versioning.Assets;
 using Cuemon.Extensions.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Mvc.Filters;
-using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Json;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Text.Yaml;
 using Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml;
 using Cuemon.Extensions.DependencyInjection;
-using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Extensions.Xunit;
 using Cuemon.Extensions.Xunit.Hosting.AspNetCore;
-using Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc;
-using Cuemon.Xml.Serialization.Formatters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -36,7 +27,7 @@ namespace Cuemon.Extensions.Asp.Versioning
         {
         }
 
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
         [Fact]
         public async Task GetRequest_ShouldFailWithBadRequest_FormattedAsRfc7807_As_b3_IsAnUnknownVersion()
         {
@@ -66,14 +57,15 @@ namespace Cuemon.Extensions.Asp.Versioning
                 Assert.Equal(HttpMethod.Get, sut.RequestMessage.Method);
                 Assert.EndsWith("application/problem+json", sut.Content.Headers.ContentType.ToString());
 
-
-#if NET7_0
-                var expected = @"{""type"":""https://docs.api-versioning.org/problems#invalid"",""title"":""Invalid API version"",""status"":400,""detail"":""The HTTP resource that matches the request URI \u0027http://localhost/fake/\u0027 does not support the API version \u0027b3\u0027.""}";
+#if NET9_0
+                var expected = """{"type":"https://docs.api-versioning.org/problems#invalid","title":"Invalid API version","status":400,"detail":"The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version 'b3'.","traceId":"*"}""";
+                Assert.True(Match(expected, await sut.Content.ReadAsStringAsync()));
+#else
+                var expected = @"{""type"":""https://docs.api-versioning.org/problems#invalid"",""title"":""Invalid API version"",""status"":400,""detail"":""The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version 'b3'.""}";
                 Assert.Equal(expected, await sut.Content.ReadAsStringAsync());
-#elif NET8_0
-				var expected = @"{""type"":""https://docs.api-versioning.org/problems#invalid"",""title"":""Invalid API version"",""status"":400,""detail"":""The HTTP resource that matches the request URI 'http://localhost/fake/' does not support the API version 'b3'.""}";
-				Assert.Equal(expected, await sut.Content.ReadAsStringAsync());
 #endif
+
+
 
                 // sadly Microsoft does not use the formatter we feed into the pipeline .. they use their own horrid WriteJsonAsync implementation .. 
             }

@@ -17,6 +17,34 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
     public class YamlFormatter : StreamFormatter<YamlFormatterOptions>
     {
         /// <summary>
+        /// Deserializes the specified <paramref name="value" /> using delegate <paramref name="deserializerFactory"/>.
+        /// </summary>
+        /// <param name="value">The string from which to deserialize the object graph.</param>
+        /// <param name="deserializerFactory">The delegate that performs the deserialization.</param>
+        /// <param name="setup">The <see cref="YamlFormatterOptions"/> which may be configured.</param>
+        public static void DeserializeObject(Stream value, Action<IDeserializer, Parser> deserializerFactory, Action<YamlFormatterOptions> setup = null)
+        {
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfInvalidConfigurator(setup, out var options);
+            DeserializeObject(value, deserializerFactory, options);
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value" /> using delegate <paramref name="deserializerFactory"/>.
+        /// </summary>
+        /// <param name="value">The string from which to deserialize the object graph.</param>
+        /// <param name="deserializerFactory">The delegate that performs the deserialization.</param>
+        /// <param name="options">The configured <see cref="YamlFormatterOptions"/>.</param>
+        public static void DeserializeObject(Stream value, Action<IDeserializer, Parser> deserializerFactory, YamlFormatterOptions options)
+        {
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfInvalidOptions(options);
+            Validator.ThrowIfNull(deserializerFactory);
+            var formatter = new YamlFormatter(options);
+            formatter.Deserialize(value, deserializerFactory);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="YamlFormatter"/> class.
         /// </summary>
         public YamlFormatter() : this((Action<YamlFormatterOptions>)null)
@@ -57,14 +85,15 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
 
             return StreamFactory.Create(writer =>
             {
-                var settings = new EmitterSettings(Options.Settings.WhiteSpaceIndentation, 
-                    Options.Settings.TextWidth, 
-                    Options.Settings.IsCanonical, 
-                    1024, 
-                    indentSequences: Options.Settings.IndentSequences, 
+                var settings = new EmitterSettings(Options.Settings.WhiteSpaceIndentation,
+                    Options.Settings.TextWidth,
+                    Options.Settings.IsCanonical,
+                    1024,
+                    indentSequences: Options.Settings.IndentSequences,
                     newLine: Options.Settings.NewLine);
+
                 var emitter = new Emitter(writer, settings);
-                UseBuilder()
+                UseSerializerBuilder()
                     .Build()
                     .Serialize(emitter, source, objectType);
             }, o =>
@@ -76,7 +105,7 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
             });
         }
 
-        private SerializerBuilder UseBuilder()
+        private SerializerBuilder UseSerializerBuilder()
         {
             var builder = new SerializerBuilder()
                 .ConfigureDefaultValuesHandling(Options.Settings.ValuesHandling)
@@ -85,7 +114,8 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
                 .WithMaximumRecursion(Options.Settings.MaximumRecursion)
                 .WithNewLine(Options.Settings.NewLine)
                 .WithEnumNamingConvention(Options.Settings.EnumNamingConvention)
-                .WithYamlFormatter(Options.Settings.Formatter);
+                .WithYamlFormatter(Options.Settings.Formatter)
+                .WithTypeInspector(inspector => new PropertyTypeInspector(inspector)); // backward compatible - skip platform related properties
             if (!Options.Settings.UseAliases) { builder.DisableAliases(); }
             if (Options.Settings.EnsureRoundtrip) { builder.EnsureRoundtrip(); }
             if (Options.Settings.ReflectionRules.Flags.HasFlag(BindingFlags.NonPublic))
@@ -105,7 +135,7 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
 
         internal void Serialize(IEmitter emitter, object source, Type objectType)
         {
-            UseBuilder()
+            UseSerializerBuilder()
                 .BuildValueSerializer()
                 .SerializeValue(emitter, source, objectType);
         }
@@ -124,6 +154,34 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
         {
             Validator.ThrowIfNull(value);
             Validator.ThrowIfNull(objectType);
+            var parser = new Parser(new StreamReader(value, Options.Encoding));
+            return UseDeserializerBuilder()
+                .Build()
+                .Deserialize(parser, objectType);
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="value" /> using delegate <paramref name="deserializerFactory"/>.
+        /// </summary>
+        /// <param name="value">The object from which to deserialize the object graph.</param>
+        /// <param name="deserializerFactory">The delegate that performs the deserialization.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null -or-
+        /// <paramref name="deserializerFactory"/> is null.
+        /// </exception>
+        public void Deserialize(Stream value, Action<IDeserializer, Parser> deserializerFactory)
+        {
+            Validator.ThrowIfNull(value);
+            Validator.ThrowIfNull(deserializerFactory);
+
+            var parser = new Parser(new StreamReader(value, Options.Encoding));
+            var deserializer = UseDeserializerBuilder().Build();
+
+            deserializerFactory.Invoke(deserializer, parser);
+        }
+
+        private DeserializerBuilder UseDeserializerBuilder()
+        {
             var builder = new DeserializerBuilder()
                 .WithNamingConvention(Options.Settings.NamingConvention)
                 .WithEnumNamingConvention(Options.Settings.EnumNamingConvention)
@@ -134,16 +192,14 @@ namespace Cuemon.Extensions.YamlDotNet.Formatters
                 builder.IncludeNonPublicProperties();
                 builder.EnablePrivateConstructors();
             }
-            
+
             foreach (var converter in Options.Settings.Converters)
             {
                 if (converter is YamlConverter yamlConverter) { yamlConverter.FormatterOptions = Options; }
                 builder.WithTypeConverter(converter);
             }
 
-            var serializer = builder.Build();
-            var parser = new Parser(new StreamReader(value, Options.Encoding));
-            return serializer.Deserialize(parser, objectType);
+            return builder;
         }
     }
 }
