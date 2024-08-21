@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Runtime;
 using Cuemon.Security;
@@ -14,7 +15,7 @@ namespace Cuemon.Data
     /// <seealso cref="Watcher" />
     public class DatabaseWatcher : Watcher
     {
-        private readonly object _locker = new();
+        private readonly Lock _locker = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseWatcher"/> class.

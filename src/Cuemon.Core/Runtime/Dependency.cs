@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cuemon.Runtime
@@ -12,7 +13,7 @@ namespace Cuemon.Runtime
     {
         private IEnumerable<IWatcher> _watchers;
         private readonly Func<EventHandler<WatcherEventArgs>, IEnumerable<IWatcher>> _watchersHandler;
-        private readonly object _locker = new();
+        private readonly Lock _locker = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Dependency" /> class.

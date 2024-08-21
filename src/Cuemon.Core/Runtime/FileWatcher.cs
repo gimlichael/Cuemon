@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Cuemon.Security;
 
@@ -11,7 +12,7 @@ namespace Cuemon.Runtime
     /// <seealso cref="Watcher" />
     public class FileWatcher : Watcher
     {
-        private readonly object _locker = new();
+        private readonly Lock _locker = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileWatcher"/> class.
