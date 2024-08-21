@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Text.Json;
 using Cuemon.AspNetCore.Diagnostics;
 using Cuemon.Extensions.AspNetCore.Text.Json.Converters;
-using Cuemon.Extensions.DependencyInjection;
 using Cuemon.Extensions.Text.Json.Formatters;
 using Cuemon.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +37,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json.Formatters
         {
             Validator.ThrowIfNull(services);
             Validator.ThrowIfInvalidConfigurator(setup, out var options);
-            services.TryConfigure(setup ?? (o =>
+            services.Configure(setup ?? (o =>
             {
                 o.Settings = options.Settings;
                 o.SensitivityDetails = options.SensitivityDetails;
@@ -60,17 +59,18 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json.Formatters
         public static IServiceCollection AddJsonExceptionResponseFormatter(this IServiceCollection services, Action<JsonFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(services);
-            services.AddJsonFormatterOptions(setup);
+            AddJsonFormatterOptions(services, setup);
             services.TryAddSingleton(provider =>
             {
                 var options = provider.GetService<IOptions<JsonFormatterOptions>>().Value;
+                var faultDescriptorOptions = provider.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
                 return new HttpExceptionDescriptorResponseFormatter<JsonFormatterOptions>(options)
                     .Adjust(o =>
                     {
                         o.Settings = new JsonSerializerOptions(o.Settings);
                         o.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = o.SensitivityDetails);
                     })
-                    .Populate((descriptor, contentType) => new StreamContent(JsonFormatter.SerializeObject(descriptor, options))
+                    .Populate((descriptor, contentType) => new StreamContent(JsonFormatter.SerializeObject(faultDescriptorOptions.FaultDescriptor == PreferredFaultDescriptor.Default ? descriptor : Decorator.Enclose(descriptor).ToProblemDetails(options.SensitivityDetails), options))
                     {
                         Headers = { { HttpHeaderNames.ContentType, contentType.MediaType } }
                     });

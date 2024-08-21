@@ -33,6 +33,7 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
                 list.AddStringFlagsEnumConverter();
                 list.AddStringEnumConverter();
                 list.AddTransientFaultExceptionConverter();
+                list.AddFailureConverter();
             };
         }
 

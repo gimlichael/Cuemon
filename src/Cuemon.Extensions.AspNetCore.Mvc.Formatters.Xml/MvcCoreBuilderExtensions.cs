@@ -46,8 +46,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         public static IMvcCoreBuilder AddXmlFormattersOptions(this IMvcCoreBuilder builder, Action<XmlFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(builder);
-            builder.Services.AddXmlFormatterOptions(setup);
-            builder.Services.AddXmlExceptionResponseFormatter();
+            builder.Services.AddXmlExceptionResponseFormatter(setup);
             return builder;
         }
     }

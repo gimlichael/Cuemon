@@ -27,6 +27,7 @@ namespace Cuemon.Xml.Serialization.Formatters
             DefaultConverters = list =>
             {
                 Decorator.Enclose(list)
+                    .AddFailureConverter()
                     .AddEnumerableConverter()
                     .AddUriConverter()
                     .AddDateTimeConverter()

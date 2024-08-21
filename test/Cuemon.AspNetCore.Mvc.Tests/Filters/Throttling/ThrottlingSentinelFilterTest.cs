@@ -65,9 +65,12 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
 
 				var retryAfter = result.Headers.RetryAfter.Delta.Value.TotalSeconds;
 				var ratelimitReset = result.Headers.GetValues("RateLimit-Reset").Single().As<int>();
+                var actual = await result.Content.ReadAsStringAsync();
+
+				TestOutput.WriteLine(actual);
 
 				Assert.Equal(StatusCodes.Status429TooManyRequests, (int)result.StatusCode);
-				Assert.Equal("{\r\n  \"error\": {\r\n    \"status\": 429,\r\n    \"code\": \"TooManyRequests\",\r\n    \"message\": \"Throttling rate limit quota violation. Quota limit exceeded.\"\r\n  }\r\n}", await result.Content.ReadAsStringAsync(), ignoreLineEndingDifferences: true);
+				Assert.StartsWith("{\r\n  \"error\": {\r\n    \"instance\": \"http://localhost/fake/it\",\r\n    \"status\": 429,\r\n    \"code\": \"TooManyRequests\",\r\n    \"message\": \"Throttling rate limit quota violation. Quota limit exceeded.\"\r\n  }", actual);
 				Assert.Contains("Retry-After", result.Headers.Select(pair => pair.Key));
 				Assert.Contains("RateLimit-Limit", result.Headers.Select(pair => pair.Key));
 				Assert.Contains("RateLimit-Remaining", result.Headers.Select(pair => pair.Key));

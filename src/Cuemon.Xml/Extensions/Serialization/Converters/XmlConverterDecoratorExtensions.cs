@@ -311,5 +311,20 @@ namespace Cuemon.Xml.Serialization.Converters
             decorator.Inner.Add(new ExceptionConverter(includeStackTrace, includeData));
             return decorator;
         }
+
+        /// <summary>
+        /// Adds an <see cref="Failure" /> XML converter to the enclosed <see cref="T:IList{XmlConverter}"/> of the specified <paramref name="decorator"/>.
+        /// </summary>
+        /// <param name="decorator">The <see cref="T:IDecorator{IList{XmlConverter}}" /> to extend.</param>
+        /// <returns>A reference to <paramref name="decorator"/> after the operation has completed.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decorator"/> cannot be null.
+        /// </exception>
+        public static IDecorator<IList<XmlConverter>> AddFailureConverter(this IDecorator<IList<XmlConverter>> decorator)
+        {
+            Validator.ThrowIfNull(decorator);
+            decorator.Inner.Add(new FailureConverter());
+            return decorator;
+        }
     }
 }

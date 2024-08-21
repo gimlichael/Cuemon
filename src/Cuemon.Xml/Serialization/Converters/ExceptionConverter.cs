@@ -44,12 +44,12 @@ namespace Cuemon.Xml.Serialization.Converters
         /// <param name="writer">The <see cref="T:System.Xml.XmlWriter" /> to write to.</param>
         /// <param name="value">The object to serialize.</param>
         /// <param name="elementName">The element name to encapsulate around <paramref name="value" />.</param>
-        public override void WriteXml(XmlWriter writer, object value, XmlQualifiedEntity elementName = null)
+        public override void WriteXml(XmlWriter writer, Exception value, XmlQualifiedEntity elementName = null)
         {
             var exceptionType = value.GetType();
             writer.WriteStartElement(Decorator.Enclose(exceptionType.Name).SanitizeXmlElementName());
             if (exceptionType.Namespace != null) { writer.WriteAttributeString("namespace", exceptionType.Namespace); }
-            WriteExceptionCore(writer, (Exception)value, IncludeStackTrace, IncludeData);
+            WriteExceptionCore(writer, value, IncludeStackTrace, IncludeData);
             writer.WriteEndElement();
         }
 
@@ -59,7 +59,7 @@ namespace Cuemon.Xml.Serialization.Converters
         /// <param name="reader">The <see cref="T:System.Xml.XmlReader" /> to read from.</param>
         /// <param name="objectType">The <seealso cref="T:System.Type" /> of the object.</param>
         /// <returns>An object of <paramref name="objectType" />.</returns>
-        public override object ReadXml(XmlReader reader, Type objectType)
+        public override Exception ReadXml(Type objectType, XmlReader reader)
         {
             var stack = ParseXmlReader(reader, objectType);
             return Decorator.Enclose(stack).CreateException(true);

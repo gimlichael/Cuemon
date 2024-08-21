@@ -31,7 +31,6 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
             return builder;
         }
 
-
         /// <summary>
         /// Adds configuration of <see cref="XmlFormatterOptions"/> for the application.
         /// </summary>
@@ -47,8 +46,7 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Xml
         public static IMvcBuilder AddXmlFormattersOptions(this IMvcBuilder builder, Action<XmlFormatterOptions> setup = null)
         {
             Validator.ThrowIfNull(builder);
-            builder.Services.AddXmlFormatterOptions(setup);
-            builder.Services.AddXmlExceptionResponseFormatter();
+            builder.Services.AddXmlExceptionResponseFormatter(setup);
             return builder;
         }
     }
