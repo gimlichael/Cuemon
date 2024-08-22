@@ -70,7 +70,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Throttling
 				TestOutput.WriteLine(actual);
 
 				Assert.Equal(StatusCodes.Status429TooManyRequests, (int)result.StatusCode);
-				Assert.StartsWith("{\r\n  \"error\": {\r\n    \"instance\": \"http://localhost/fake/it\",\r\n    \"status\": 429,\r\n    \"code\": \"TooManyRequests\",\r\n    \"message\": \"Throttling rate limit quota violation. Quota limit exceeded.\"\r\n  }", actual);
+				Assert.StartsWith("{\r\n  \"error\": {\r\n    \"instance\": \"http://localhost/fake/it\",\r\n    \"status\": 429,\r\n    \"code\": \"TooManyRequests\",\r\n    \"message\": \"Throttling rate limit quota violation. Quota limit exceeded.\"\r\n  }".ReplaceLineEndings(), actual.ReplaceLineEndings());
 				Assert.Contains("Retry-After", result.Headers.Select(pair => pair.Key));
 				Assert.Contains("RateLimit-Limit", result.Headers.Select(pair => pair.Key));
 				Assert.Contains("RateLimit-Remaining", result.Headers.Select(pair => pair.Key));

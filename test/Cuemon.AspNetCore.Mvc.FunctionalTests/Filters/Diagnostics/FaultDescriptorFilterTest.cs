@@ -326,7 +326,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -383,7 +383,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner."
+                                          "message": "An unhandled exception was raised by *."
                                         },
                                         "evidence": {
                                           "request": {
@@ -409,7 +409,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -453,7 +453,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -480,7 +480,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -521,7 +521,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -545,7 +545,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner."
+                                          "message": "An unhandled exception was raised by *."
                                         },
                                         "traceId": "*"
                                       }
@@ -857,7 +857,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -914,7 +914,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner."
+                                          "message": "An unhandled exception was raised by *."
                                         },
                                         "evidence": {
                                           "request": {
@@ -940,7 +940,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -984,7 +984,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -1011,7 +1011,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -1052,7 +1052,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner.",
+                                          "message": "An unhandled exception was raised by *.",
                                           "failure": {
                                             "type": "System.NotSupportedException",
                                             "source": "Cuemon.AspNetCore.Mvc.FunctionalTests",
@@ -1076,7 +1076,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                           "instance": "http://localhost/statuscodes/XXX/serverError",
                                           "status": 500,
                                           "code": "InternalServerError",
-                                          "message": "An unhandled exception was raised by ReSharperTestRunner."
+                                          "message": "An unhandled exception was raised by *."
                                         },
                                         "traceId": "*"
                                       }
@@ -1376,7 +1376,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       		<Instance>http://localhost/statuscodes/XXX/serverError</Instance>
                                       		<Status>500</Status>
                                       		<Code>InternalServerError</Code>
-                                      		<Message>An unhandled exception was raised by ReSharperTestRunner.</Message>
+                                      		<Message>An unhandled exception was raised by *.</Message>
                                       		<Failure>
                                       			<NotSupportedException namespace="System">
                                       				<Source>Cuemon.AspNetCore.Mvc.FunctionalTests</Source>
@@ -1429,7 +1429,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       		<Instance>http://localhost/statuscodes/XXX/serverError</Instance>
                                       		<Status>500</Status>
                                       		<Code>InternalServerError</Code>
-                                      		<Message>An unhandled exception was raised by ReSharperTestRunner.</Message>
+                                      		<Message>An unhandled exception was raised by *.</Message>
                                       	</Error>
                                       	<Evidence>
                                       		<Request>
@@ -1451,7 +1451,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       		<Instance>http://localhost/statuscodes/XXX/serverError</Instance>
                                       		<Status>500</Status>
                                       		<Code>InternalServerError</Code>
-                                      		<Message>An unhandled exception was raised by ReSharperTestRunner.</Message>
+                                      		<Message>An unhandled exception was raised by *.</Message>
                                       		<Failure>
                                       			<NotSupportedException namespace="System">
                                       				<Source>Cuemon.AspNetCore.Mvc.FunctionalTests</Source>
@@ -1496,7 +1496,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       		<Instance>http://localhost/statuscodes/XXX/serverError</Instance>
                                       		<Status>500</Status>
                                       		<Code>InternalServerError</Code>
-                                      		<Message>An unhandled exception was raised by ReSharperTestRunner.</Message>
+                                      		<Message>An unhandled exception was raised by *.</Message>
                                       		<Failure>
                                       			<NotSupportedException namespace="System">
                                       				<Source>Cuemon.AspNetCore.Mvc.FunctionalTests</Source>
@@ -1524,7 +1524,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       		<Instance>http://localhost/statuscodes/XXX/serverError</Instance>
                                       		<Status>500</Status>
                                       		<Code>InternalServerError</Code>
-                                      		<Message>An unhandled exception was raised by ReSharperTestRunner.</Message>
+                                      		<Message>An unhandled exception was raised by *.</Message>
                                       		<Failure>
                                       			<NotSupportedException namespace="System">
                                       				<Source>Cuemon.AspNetCore.Mvc.FunctionalTests</Source>
@@ -1566,7 +1566,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       		<Instance>http://localhost/statuscodes/XXX/serverError</Instance>
                                       		<Status>500</Status>
                                       		<Code>InternalServerError</Code>
-                                      		<Message>An unhandled exception was raised by ReSharperTestRunner.</Message>
+                                      		<Message>An unhandled exception was raised by *.</Message>
                                       		<Failure>
                                       			<NotSupportedException namespace="System">
                                       				<Source>Cuemon.AspNetCore.Mvc.FunctionalTests</Source>
@@ -1591,7 +1591,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       		<Instance>http://localhost/statuscodes/XXX/serverError</Instance>
                                       		<Status>500</Status>
                                       		<Code>InternalServerError</Code>
-                                      		<Message>An unhandled exception was raised by ReSharperTestRunner.</Message>
+                                      		<Message>An unhandled exception was raised by *.</Message>
                                       	</Error>
                                       	<TraceId>*</TraceId>
                                       </HttpExceptionDescriptor>

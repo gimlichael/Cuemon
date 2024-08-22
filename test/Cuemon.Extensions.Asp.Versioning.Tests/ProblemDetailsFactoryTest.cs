@@ -148,7 +148,7 @@ namespace Cuemon.Extensions.Asp.Versioning
     ""message"": ""The HTTP resource that matches the request URI \u0027http://localhost/fake/throw\u0027 does not support the API version \u0027b3\u0027.""
   },
   ""traceId"": ""*""
-}", await sut.Content.ReadAsStringAsync()));
+}".ReplaceLineEndings(), (await sut.Content.ReadAsStringAsync()).ReplaceLineEndings()));
             }
         }
 
