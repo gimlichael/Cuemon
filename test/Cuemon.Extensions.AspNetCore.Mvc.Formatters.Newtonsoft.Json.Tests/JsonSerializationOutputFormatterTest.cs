@@ -37,10 +37,11 @@ namespace Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json
         {
             var sut = new JsonSerializationOutputFormatter(new NewtonsoftJsonFormatterOptions());
 
-            Assert.Equal(2, sut.SupportedMediaTypes.Count);
+            Assert.Equal(3, sut.SupportedMediaTypes.Count);
             Assert.Collection(sut.SupportedMediaTypes, 
                 s => Assert.Contains("application/json", s), 
-                s => Assert.Contains("text/json", s));
+                s => Assert.Contains("text/json", s),
+                s => Assert.Contains("application/problem+json", s));
         }
 
         [Fact]
