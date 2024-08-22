@@ -77,6 +77,10 @@ New features:
 - XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace was extended to include one new extension method: AddFailureConverter
 - XmlConverter{T} class in the Cuemon.Xml.Serialization.Converters namespace to use generic type T with two new abstract methods: WriteXml and ReadXml
 
+### Fixed
+
+- ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace to use Environment.NewLine instead of Alphanumeric.NewLine (vital for non-Windows operating systems)
+
 ### Removed
 
 - Cuemon.Extensions.Xunit.Hosting.AspNetCore.Mvc project due to redundancies with Cuemon.Extensions.Xunit.Hosting.AspNetCore (breaking change)

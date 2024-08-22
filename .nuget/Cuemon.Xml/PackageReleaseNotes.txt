@@ -8,7 +8,10 @@ Availability: .NET9, .NET 8, .NET 6 and .NET Standard 2.0
 - ADDED FailureConverter class in the Cuemon.Xml.Serialization.Converters namespace to convert FailureConverter to XML
  
 # Improvements
-- EXTENDED XmlConverter{T} class in the Cuemon.Xml.Serialization.Converters namespace to use generic type T with two new abstract methods: WriteXml and ReadXml 
+- EXTENDED XmlConverter{T} class in the Cuemon.Xml.Serialization.Converters namespace to use generic type T with two new abstract methods: WriteXml and ReadXml
+ 
+# Bug Fixes
+- FIXED ExceptionConverter class in the Cuemon.Xml.Serialization.Converters namespace to use Environment.NewLine instead of Alphanumeric.NewLine (vital for non-Windows operating systems)
  
 Version 8.3.2
 Availability: .NET 8, .NET 6 and .NET Standard 2.0
