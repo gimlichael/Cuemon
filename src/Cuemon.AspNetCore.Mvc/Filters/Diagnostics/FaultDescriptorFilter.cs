@@ -49,7 +49,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
 
                     switch (Options.FaultDescriptor)
                     {
-                        case PreferredFaultDescriptor.Default:
+                        case PreferredFaultDescriptor.FaultDetails:
                             context.Result = new ExceptionDescriptorResult(descriptor);
                             break;
                         default:

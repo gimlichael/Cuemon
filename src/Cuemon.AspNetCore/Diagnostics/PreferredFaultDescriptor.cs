@@ -8,9 +8,9 @@ namespace Cuemon.AspNetCore.Diagnostics
     public enum PreferredFaultDescriptor
     {
         /// <summary>
-        /// Produces the default format based on <see cref="HttpExceptionDescriptor"/>.
+        /// Produces the original format based on <see cref="HttpExceptionDescriptor"/>.
         /// </summary>
-        Default,
+        FaultDetails,
 
         /// <summary>
         /// Produces machine-readable format for specifying errors in HTTP API responses based on https://tools.ietf.org/html/rfc7807.

@@ -48,14 +48,14 @@ namespace Cuemon.Extensions.AspNetCore.Diagnostics
                     var ehf = context.Features.Get<IExceptionHandlerFeature>();
                     if (ehf != null)
                     {
-						var options = context.RequestServices.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
+                        var options = context.RequestServices.GetRequiredService<IOptions<FaultDescriptorOptions>>().Value;
                         var nonMvcResponseHandlers = context.RequestServices.GetExceptionResponseFormatters().SelectExceptionDescriptorHandlers();
 
                         if (Decorator.Enclose(options).TryResolveHttpExceptionDescriptor(ehf.Error, context, null, out var descriptor))
                         {
                             context.Response.StatusCode = descriptor.StatusCode;
                         }
-                        
+
                         var handlers = new List<HttpExceptionDescriptorResponseHandler>();
                         handlers = handlers.Concat(nonMvcResponseHandlers).ToList();
 

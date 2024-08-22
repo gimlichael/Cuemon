@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Cuemon.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -105,6 +106,12 @@ namespace Cuemon.AspNetCore.Mvc.Assets
             {
                 throw new NotSupportedException("Main exception - look out for inner!", e);
             }
+        }
+
+        [HttpPost("/")]
+        public IActionResult Post(SampleModel model)
+        {
+            return Ok(model);
         }
     }
 }

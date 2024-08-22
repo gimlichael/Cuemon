@@ -300,7 +300,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                         .AddControllers(o => o.Filters.AddFaultDescriptor())
                         .AddApplicationPart(typeof(StatusCodesController).Assembly)
                         .AddJsonFormatters()
-                        .AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.Default);
+                        .AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.FaultDetails);
                     services.PostConfigureAllOf<IExceptionDescriptorOptions>(o => o.SensitivityDetails = sensitivity);
                 },
                 app =>
@@ -831,7 +831,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                         .AddControllers(o => o.Filters.AddFaultDescriptor())
                         .AddApplicationPart(typeof(StatusCodesController).Assembly)
                         .AddNewtonsoftJsonFormatters()
-                        .AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.Default);
+                        .AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.FaultDetails);
                     services.PostConfigureAllOf<IExceptionDescriptorOptions>(o => o.SensitivityDetails = sensitivity);
                 },
                 app =>
@@ -1152,7 +1152,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       			<Source>Cuemon.AspNetCore.Mvc.FunctionalTests</Source>
                                       			<Message>This is an inner exception message ... (Parameter 'app')</Message>
                                       			<Stack>
-                                      				<Frame>at Cuemon.AspNetCore.Mvc.Assets.StatusCodesController.Get_XXX(String app) in C:\Source\Github\Cuemon\test\Cuemon.AspNetCore.Mvc.FunctionalTests\Assets\StatusCodesController.cs:line 95</Frame>
+                                      				<Frame>at Cuemon.AspNetCore.Mvc.Assets.StatusCodesController.Get_XXX(String app)*</Frame>
                                       			</Stack>
                                       			<Data>
                                       				<app>serverError</app>
@@ -1219,7 +1219,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       			<Source>Cuemon.AspNetCore.Mvc.FunctionalTests</Source>
                                       			<Message>This is an inner exception message ... (Parameter 'app')</Message>
                                       			<Stack>
-                                      				<Frame>at Cuemon.AspNetCore.Mvc.Assets.StatusCodesController.Get_XXX(String app) in C:\Source\Github\Cuemon\test\Cuemon.AspNetCore.Mvc.FunctionalTests\Assets\StatusCodesController.cs:line 95</Frame>
+                                      				<Frame>at Cuemon.AspNetCore.Mvc.Assets.StatusCodesController.Get_XXX(String app)*</Frame>
                                       			</Stack>
                                       			<Data>
                                       				<app>serverError</app>
@@ -1286,7 +1286,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                                       			<Source>Cuemon.AspNetCore.Mvc.FunctionalTests</Source>
                                       			<Message>This is an inner exception message ... (Parameter 'app')</Message>
                                       			<Stack>
-                                      				<Frame>at Cuemon.AspNetCore.Mvc.Assets.StatusCodesController.Get_XXX(String app) in C:\Source\Github\Cuemon\test\Cuemon.AspNetCore.Mvc.FunctionalTests\Assets\StatusCodesController.cs:line 95</Frame>
+                                      				<Frame>at Cuemon.AspNetCore.Mvc.Assets.StatusCodesController.Get_XXX(String app)*</Frame>
                                       			</Stack>
                                       			<ParamName>app</ParamName>
                                       		</System.ArgumentException>
@@ -1349,7 +1349,7 @@ namespace Cuemon.AspNetCore.Mvc.Filters.Diagnostics
                         .AddControllers(o => o.Filters.AddFaultDescriptor())
                         .AddApplicationPart(typeof(StatusCodesController).Assembly)
                         .AddXmlFormatters(o => o.Settings.Writer.Indent = true)
-                        .AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.Default);
+                        .AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.FaultDetails);
                     services.PostConfigureAllOf<IExceptionDescriptorOptions>(o => o.SensitivityDetails = sensitivity);
                 },
                 app =>

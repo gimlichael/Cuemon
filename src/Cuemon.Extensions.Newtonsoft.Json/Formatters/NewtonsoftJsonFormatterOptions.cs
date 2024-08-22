@@ -96,7 +96,8 @@ namespace Cuemon.Extensions.Newtonsoft.Json.Formatters
             SupportedMediaTypes = new List<MediaTypeHeaderValue>()
             {
                 DefaultMediaType,
-                new("text/json")
+                new("text/json"),
+                new("application/problem+json")
             };
         }
 

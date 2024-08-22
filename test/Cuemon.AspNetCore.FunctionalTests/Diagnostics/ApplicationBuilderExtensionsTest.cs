@@ -35,7 +35,7 @@ namespace Cuemon.AspNetCore.Diagnostics
             using var response = await WebHostTestFactory.RunAsync(
                 services =>
                 {
-                    services.AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.Default);
+                    services.AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.FaultDetails);
                     services.AddJsonExceptionResponseFormatter();
                     services.PostConfigureAllOf<IExceptionDescriptorOptions>(o => o.SensitivityDetails = sensitivity);
                 },
@@ -569,7 +569,7 @@ namespace Cuemon.AspNetCore.Diagnostics
             using var response = await WebHostTestFactory.RunAsync(
                 services =>
                 {
-                    services.AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.Default);
+                    services.AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.FaultDetails);
                     services.AddNewtonsoftJsonExceptionResponseFormatter();
                     services.PostConfigureAllOf<IExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.All);
                 },
@@ -756,7 +756,7 @@ namespace Cuemon.AspNetCore.Diagnostics
             using var response = await WebHostTestFactory.RunAsync(
                 services =>
                 {
-                    services.AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.Default);
+                    services.AddFaultDescriptorOptions(o => o.FaultDescriptor = PreferredFaultDescriptor.FaultDetails);
                     services.AddXmlExceptionResponseFormatter(o => o.Settings.Writer.Indent = true);
                     services.PostConfigureAllOf<IExceptionDescriptorOptions>(o => o.SensitivityDetails = FaultSensitivityDetails.All);
                 },

@@ -80,7 +80,8 @@ namespace Cuemon.Xml.Serialization.Formatters
             SupportedMediaTypes = new List<MediaTypeHeaderValue>()
             {
                 DefaultMediaType,
-                new("text/xml")
+                new("text/xml"),
+                new("application/problem+xml")
             };
         }
 

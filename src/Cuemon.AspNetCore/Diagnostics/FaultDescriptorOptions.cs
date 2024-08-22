@@ -55,7 +55,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         ///     </item>
         ///     <item>
         ///         <term><see cref="FaultDescriptor"/></term>
-        ///         <description><see cref="PreferredFaultDescriptor.Default"/></description>
+        ///         <description><see cref="PreferredFaultDescriptor.FaultDetails"/></description>
         ///     </item>
         ///     <item>
         ///         <term><see cref="RequestEvidenceProvider"/></term>
@@ -98,7 +98,7 @@ namespace Cuemon.AspNetCore.Diagnostics
             };
             RequestEvidenceProvider = request => new HttpRequestEvidence(request);
             SensitivityDetails = FaultSensitivityDetails.None;
-            FaultDescriptor = PreferredFaultDescriptor.Default;
+            FaultDescriptor = PreferredFaultDescriptor.FaultDetails;
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Cuemon.AspNetCore.Diagnostics
         public FaultSensitivityDetails SensitivityDetails { get; set; }
 
         /// <summary>
-        /// Gets or sets the preferred fault descriptor to use when serializing exceptions. Default is <see cref="PreferredFaultDescriptor.Default"/>, e.g., <see cref="HttpExceptionDescriptor"/>.
+        /// Gets or sets the preferred fault descriptor to use when serializing exceptions. Default is <see cref="PreferredFaultDescriptor.FaultDetails"/>, e.g., <see cref="HttpExceptionDescriptor"/>.
         /// </summary>
         /// <value>The preferred fault descriptor to use when serializing exceptions.</value>
         public PreferredFaultDescriptor FaultDescriptor { get; set; }

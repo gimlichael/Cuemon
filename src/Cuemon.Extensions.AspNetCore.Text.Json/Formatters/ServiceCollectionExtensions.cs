@@ -70,7 +70,7 @@ namespace Cuemon.Extensions.AspNetCore.Text.Json.Formatters
                         o.Settings = new JsonSerializerOptions(o.Settings);
                         o.Settings.Converters.AddHttpExceptionDescriptorConverter(edo => edo.SensitivityDetails = o.SensitivityDetails);
                     })
-                    .Populate((descriptor, contentType) => new StreamContent(JsonFormatter.SerializeObject(faultDescriptorOptions.FaultDescriptor == PreferredFaultDescriptor.Default ? descriptor : Decorator.Enclose(descriptor).ToProblemDetails(options.SensitivityDetails), options))
+                    .Populate((descriptor, contentType) => new StreamContent(JsonFormatter.SerializeObject(faultDescriptorOptions.FaultDescriptor == PreferredFaultDescriptor.FaultDetails ? descriptor : Decorator.Enclose(descriptor).ToProblemDetails(options.SensitivityDetails), options))
                     {
                         Headers = { { HttpHeaderNames.ContentType, contentType.MediaType } }
                     });
