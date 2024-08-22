@@ -154,7 +154,7 @@ namespace Cuemon.Xml.Serialization.Converters
             if (exception.StackTrace != null && includeStackTrace)
             {
                 writer.WriteStartElement("Stack");
-                var lines = exception.StackTrace.Split(new[] { Alphanumeric.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
                     writer.WriteElementString("Frame", line.Trim());
