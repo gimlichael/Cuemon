@@ -1,4 +1,16 @@
-﻿Version 8.3.2
+﻿Version 9.0.0
+Availability: .NET9, .NET 8 and .NET 6
+ 
+# ALM
+- CHANGED Dependencies to latest and greatest with respect to TFMs
+ 
+# New Features
+- ADDED FailureConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to convert FailureConverter to JSON
+ 
+# Improvements
+- EXTENDED JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace to include one new extension method: AddFailureConverter
+ 
+Version 8.3.2
 Availability: .NET 8 and .NET 6
  
 # ALM

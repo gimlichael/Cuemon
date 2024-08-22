@@ -12,9 +12,18 @@ This major release is first and foremost focused on ironing out any wrinkles tha
 Next focus point will be ensuring a consistent developer experience while ironing out some of the more stale legacy code in the project.
 Expect breaking changes with this major release.
 
+New features:
+
+- Support for both FaultDetails (HttpExceptionDescriptor) and ProblemDetails in the context of ASP.NET (both vanilla and MVC)
+
 ### Added
 
 - HttpClientExtensions class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace that consist of one extension method for the HttpClient class: ToHttpResponseMessageAsync
+- PreferredFaultDescriptor enum in the Cuemon.AspNetCore.Diagnostics namespace that specifies the preferred output format of an Exception raised in the context of either vanilla ASP.NET or ASP.NET MVC
+- Failure record in the Cuemon.Diagnostics namespace that represents a failure model with detailed information about an exception
+- FailureConverter class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace to convert FailureConverter to JSON
+- FailureConverter class in the Cuemon.Extensions.Text.Json.Converters namespace to convert FailureConverter to JSON
+- FailureConverter class in the Cuemon.Xml.Serialization.Converters namespace to convert FailureConverter to XML
 
 ### Changed
 
@@ -55,6 +64,18 @@ Expect breaking changes with this major release.
 - AspNetCoreHostFixture class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore namespace to use same [hostbuilder validation](https://learn.microsoft.com/en-us/dotnet/core/compatibility/aspnet-core/9.0/hostbuilder-validation) as introduced with .NET preview 7
 - Run method on the WebHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore was renamed to RunAsync (breaking change)
 - RunWithHostBuilderContext method on the WebHostTestFactory class in the Cuemon.Extensions.Xunit.Hosting.AspNetCore was renamed to RunWithHostBuilderContextAsync (breaking change)
+- ExceptionDescriptorResult class in the Cuemon.AspNetCore.Mvc namespace to have an extra overload that accepts ProblemDetails
+- FaultDescriptorFilter class in the Cuemon.AspNetCore.Mvc.Filters.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails)
+- FaultDescriptorOptions class in the Cuemon.AspNetCore.Diagnostics namespace to include a property named FaultDescriptor (PreferredFaultDescriptor); default is PreferredFaultDescriptor.FaultDetails
+- HttpExceptionDescriptor class in the Cuemon.AspNetCore.Diagnostics namespace to include two new properties; Instance (Uri) and TraceId (string)
+- JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Newtonsoft.Json.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
+- JsonConverterCollectionExtensions class in the Cuemon.Extensions.AspNetCore.Text.Json.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
+- XmlConverterExtensions class in the Cuemon.Extensions.AspNetCore.Xml.Converters namespace was extended to include one new extension method: AddProblemDetailsConverter
+- ApplicationBuilderExtensions class in the Cuemon.Extensions.AspNetCore.Diagnostics namespace to support preferred fault descriptor (e.g., FaultDetails or ProblemDetails) in the UseFaultDescriptorExceptionHandler extension method
+- JsonConverterCollectionExtensions class in the Cuemon.Extensions.Newtonsoft.Json.Converters namespace was extended to include one new extension method: AddFailureConverter
+- JsonConverterCollectionExtensions class in the Cuemon.Extensions.Text.Json.Converters namespace was extended to include one new extension method: AddFailureConverter
+- XmlConverterExtensions class in the Cuemon.Extensions.Xml.Serialization.Converters namespace was extended to include one new extension method: AddFailureConverter
+- XmlConverter{T} class in the Cuemon.Xml.Serialization.Converters namespace to use generic type T with two new abstract methods: WriteXml and ReadXml
 
 ### Removed
 
