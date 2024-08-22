@@ -127,3 +127,17 @@ Provides a convenient set of default API additions for building various types of
 | [Cuemon.Core.App](https://www.nuget.org/packages/Cuemon.Core.App/) | ![vNext](https://img.shields.io/nuget/vpre/Cuemon.Core.App?logo=nuget) | ![Stable](https://img.shields.io/nuget/v/Cuemon.Core.App?logo=nuget) | ![Downloads](https://img.shields.io/nuget/dt/Cuemon.Core.App?color=blueviolet&logo=nuget) |
 | [Cuemon.Extensions.Newtonsoft.Json.App](https://www.nuget.org/packages/Cuemon.Extensions.Newtonsoft.Json.App/) | ![vNext](https://img.shields.io/nuget/vpre/Cuemon.Extensions.Newtonsoft.Json.App?logo=nuget) | ![Stable](https://img.shields.io/nuget/v/Cuemon.Extensions.Newtonsoft.Json.App?logo=nuget) | ![Downloads](https://img.shields.io/nuget/dt/Cuemon.Extensions.Newtonsoft.Json.App?color=blueviolet&logo=nuget) |
 | [Cuemon.Extensions.Xunit.App](https://www.nuget.org/packages/Cuemon.Extensions.Xunit.App/) | ![vNext](https://img.shields.io/nuget/vpre/Cuemon.Extensions.Xunit.App?logo=nuget) | ![Stable](https://img.shields.io/nuget/v/Cuemon.Extensions.Xunit.App?logo=nuget) | ![Downloads](https://img.shields.io/nuget/dt/Cuemon.Extensions.Xunit.App?color=blueviolet&logo=nuget) |
+
+# Credits & Appreciation
+
+Building a sort-of sidecar for .NET is not an easy task; a lot of time, effort and refactoring is needed.
+
+We are incredibly grateful to all of our sponsors.
+
+## JetBrains
+
+[ReSharper](https://www.jetbrains.com/resharper/) from [JetBrains](https://www.jetbrains.com/) is an indispensable Visual Studio extension that makes development, refactoring and unit testing a bliss to work with.
+
+## Submain
+
+[GhostDoc Pro](https://submain.com/GhostDoc/editions/) from [SubMain](https://submain.com) is used to write the majority of source code documentation.
